@@ -1,0 +1,18 @@
+jpylyzer
+
+Prototype JP2 (JPEG 2000 Part 1) validator and properties extractor
+Author: Johan van der Knijff, KB / National Library of the Netherlands
+
+Command line synopsis:
+
+usage: jpylyzer.py [-h] [-v] jp2In
+
+positional arguments:
+
+ jp2In: input JP2 image(s)
+
+optional arguments:
+
+ -h, --help: show this help message and exit
+
+ -v, --version: show program's version number and exit
