@@ -820,8 +820,27 @@ def getBox(bytesData, byteStart, noBytes):
     
     return(boxLengthValue,boxType,byteEnd,boxContents)
 
-# Validator functions for top-level boxes
+class BoxValidator:
+	typeMap = {
+		b'\x6a\x70\x32\x69': "intellectualPropertyBox", 
+		b'\x78\x6d\x6c\x20': "xmlBox",
+		b'\x75\x75\x69\x64': "UUIDBox",
+		b'\x75\x69\x6e\x66': "UUIDInfoBox"
+	}
+	def __init__(self, bType, boxContents):
+		if bType in self.typeMap:
+			self.boxType = self.typeMap[bType]
+		else:
+			self.boxType = 'unknownBox'
+		self.characteristics = ET.Element(self.boxType)
+		self.tests = ET.Element(self.boxType)
+		self.boxContents = boxContents
 
+	def validate(self):
+		return (self.tests, self.characteristics)
+
+
+# Validator functions for top-level boxes
 def validateSignatureBox(boxContents):
 
     # This box contains a 4-byte signature (ISO/IEC 15444-1 Section I.5.1)
@@ -1204,55 +1223,14 @@ def validateContiguousCodestreamBox(boxContents):
    
     return(tests,characteristics)
 
-def validateIntellectualPropertyBox(boxContents):
+
+
     
-    # Test results to elementtree element
-    tests=ET.Element('intellectualPropertyBox')
 
-    # Characteristics to elementtree element
-    characteristics=ET.Element('intellectualPropertyBox')
+
     
-    return(tests,characteristics)
     
-def validateXMLBox(boxContents):
 
-    # Test results to elementtree element
-    tests=ET.Element('xmlBox')
-
-    # Characteristics to elementtree element
-    characteristics=ET.Element('xmlBox')
-
-    return(tests,characteristics)
-    
-def validateUUIDBox(boxContents):
-
-    # Test results to elementtree element
-    tests=ET.Element('UUIDBox')
-
-    # Characteristics to elementtree element
-    characteristics=ET.Element('UUIDBox')
-    
-    return(tests,characteristics)
-    
-def validateUUIDInfoBox(boxContents):
-
-    # Test results to elementtree element
-    tests=ET.Element('UUIDInfoBox')
-
-    # Characteristics to elementtree element
-    characteristics=ET.Element('UUIDInfoBox')
-    
-    return(tests,characteristics)
-    
-def validateUnknownBox(boxContents):
-
-    # Test results to elementtree element
-    tests=ET.Element('unknownBox')
-
-    # Characteristics to elementtree element
-    characteristics=ET.Element('unknownBox')
-    
-    return(tests,characteristics)
 
 # Validator functions for boxes in JP2 Header superbox
 
@@ -1598,7 +1576,7 @@ def validateResolutionBox(boxContents):
             resultBox,characteristicsBox=validateDisplayResolutionBox(subBoxContents)
         else:
             # Unknown box (nothing to validate)
-            resultBox,characteristicsBox=validateUnknownBox(subBoxContents)
+            resultBox,characteristicsBox=BoxValidator(boxType, subBoxContents).validate()
         
         byteStart = byteEnd
                 
@@ -2430,7 +2408,6 @@ def validateTilePart(data,offsetStart):
            
     return(tests,characteristics,offsetNextTilePart)
     
-
 def getMarkerSegment(data,offset):
     
     # Read marker segment that starts at offset and return marker, size,
@@ -2478,10 +2455,6 @@ def validateJP2(jp2Data):
     tagFileTypeBox=b'\x66\x74\x79\x70'
     tagJP2HeaderBox=b'\x6a\x70\x32\x68'
     tagContiguousCodestreamBox=b'\x6a\x70\x32\x63'
-    tagIntellectualPropertyBox=b'\x6a\x70\x32\x69'
-    tagXMLBox=b'\x78\x6d\x6c\x20'
-    tagUUIDBox=b'\x75\x75\x69\x64'
-    tagUUIDInfoBox=b'\x75\x69\x6e\x66'
        
     # List for storing box type identifiers
     boxTypes=[]
@@ -2510,21 +2483,9 @@ def validateJP2(jp2Data):
         elif boxType == tagContiguousCodestreamBox:
             # Contiguous Codestream box
             resultBox,characteristicsBox=validateContiguousCodestreamBox(boxContents)
-        elif boxType == tagIntellectualPropertyBox:
-            # Intellectual Property box
-            resultBox,characteristicsBox=validateIntellectualPropertyBox(boxContents)
-        elif boxType == tagXMLBox:
-            # XML box
-            resultBox,characteristicsBox=validateXMLBox(boxContents)
-        elif boxType == tagUUIDBox:
-            # UUID box
-            resultBox,characteristicsBox=validateUUIDBox(boxContents)
-        elif boxType == tagUUIDInfoBox:
-            # UUID Info box
-            resultBox,characteristicsBox=validateUUIDInfoBox(boxContents)
         else:
             # Unknown box (nothing to validate)
-            resultBox,characteristicsBox=validateUnknownBox(boxContents)
+            resultBox,characteristicsBox=BoxValidator(boxType, boxContents).validate()
         
         byteStart = byteEnd
         
@@ -2714,28 +2675,25 @@ def validateJP2(jp2Data):
     return(isValid,tests,characteristics)
     
 def checkFiles(images):
-    noFiles=len(images)
-    
-    if noFiles==0:
+    if len(images) == 0:
         printWarning("no images to check!")
         
-    for i in range(noFiles):
-        thisFile=images[i]
+    for image in images:
+        thisFile = image
                
-        isFile=os.path.isfile(thisFile)
+        isFile = os.path.isfile(thisFile)
         
-        if isFile==True:
-           
+        if isFile:          
             # Read and analyse one file
-            fileData=readFileBytes(thisFile)
-            isValidJP2,tests,characteristics=validateJP2(fileData)
+            fileData = readFileBytes(thisFile)
+            isValidJP2, tests, characteristics = validateJP2(fileData)
             
             # Generate property values remap table
-            remapTable=generatePropertiesRemapTable()
+            remapTable = generatePropertiesRemapTable()
             
             # Create printable version of tests and characteristics tree
-            testsPrintable=elementTreeToPrintable(tests,{})
-            characteristicsPrintable=elementTreeToPrintable(characteristics,remapTable)
+            testsPrintable = elementTreeToPrintable(tests,{})
+            characteristicsPrintable = elementTreeToPrintable(characteristics,remapTable)
             
             # Create output elementtree object
             root=ET.Element('jpylyzer')
