@@ -27,12 +27,7 @@
 #  jpylyzer.py *  -- only processes 1st encountered file!
 #  jpylyzer.py "*" -- results in correct behaviour 
 #
-# TODO:
-#
-# Things like this are risky: sign=characteristics.find('imageHeaderBox/bPCSign').text
-#
-# If element doesn't exist this raises an exception. So maybe better to replace this
-# by function that returns some default value in this case (like findtext function)
+
 
 import sys
 import os
@@ -47,7 +42,7 @@ from xml.dom import minidom
 
 scriptPath,scriptName=os.path.split(sys.argv[0])
 
-__version__= "13 December 2011"
+__version__= "14 December 2011"
 
   
 def main_is_frozen():
@@ -120,8 +115,6 @@ def elementTreeToPrintableOld(tree):
     # non-printable 'text' fields (which may contain numeric data or binary strings)
     # are replaced by printable strings
     #
-    # TODO: treePrintable may still contain null characters which results in
-    # invalid xml. To sort out later ...
     
     treePrintable=tree
     
@@ -143,7 +136,6 @@ def elementTreeToPrintableOld(tree):
             # Update output tree
             elt.text=textOut
             
-    
     return(treePrintable)        
 
 
@@ -2353,21 +2345,18 @@ def validateTilePart(data,offsetStart):
     characteristics.append(characteristicsSOT)
     
     offset=offsetNext
-
-    # SOT should be followed directly by start of data (SOD) marker segment
-    marker,segLength,segContents,offsetNext=getMarkerSegment(data,offset)
-    foundSODMarker=isRequiredValue(marker,b'\xff\x93')
-    addElement(tests,"foundSODMarker",foundSODMarker)
     
-    offset=offsetNext
+    # Last marker in every tile-part should be a start of data marker
+    foundSODMarker=False
     
     # Loop through remaining tile part marker segments; extract properties of
-    # and validate COD, QCD and COM marker segments
+    # and validate COD, QCD and COM marker segments. Also test for presence of
+    # SOD marker
     # NOTE: not tested yet because of unavailability of test images with these
     # markers at tile-part level!! 
     
     while marker != b'\xff\x93':
-        marker,segLength,segContents,offsetNext=getMarkerSegment(boxContents,offset)
+        marker,segLength,segContents,offsetNext=getMarkerSegment(data,offset)
         
         if marker==b'\xff\x52':
             # COD (coding style default) marker segment
@@ -2416,6 +2405,11 @@ def validateTilePart(data,offsetStart):
             characteristics.append(characteristicsCOM)
             
             offset=offsetNext
+            
+        elif marker==b'\xff\x93':
+            # SOT (start of data) marker segment: last tile-part marker
+            foundSODMarker=True
+            addElement(tests,"foundSODMarker",foundSODMarker)
                
         else:
             # Any other marker segment: ignore and move on to next one
