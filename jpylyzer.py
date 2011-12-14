@@ -1689,10 +1689,10 @@ def validateCaptureResolutionBox(boxContents):
     
     # Include vertical and horizontal resolution values in pixels per meter
     # and pixels per inch in output
-    vRescInPixelsPerMeter=(vRcN/vRcD)*10**(vRcE)
+    vRescInPixelsPerMeter=(vRcN/vRcD)*(10**(vRcE))
     addElement(characteristics,"vRescInPixelsPerMeter",round(vRescInPixelsPerMeter,2))
     
-    hRescInPixelsPerMeter=(hRcN/hRcD)*10**(hRcE)
+    hRescInPixelsPerMeter=(hRcN/hRcD)*(10**(hRcE))
     addElement(characteristics,"hRescInPixelsPerMeter",round(hRescInPixelsPerMeter,2))
     
     vRescInPixelsPerInch=vRescInPixelsPerMeter*25.4e-3
@@ -1761,10 +1761,10 @@ def validateDisplayResolutionBox(boxContents):
 
     # Include vertical and horizontal resolution values in pixels per meter
     # and pixels per inch in output
-    vResdInPixelsPerMeter=(vRdN/vRdD)*10**(vRdE)
+    vResdInPixelsPerMeter=(vRdN/vRdD)*(10**(vRdE))
     addElement(characteristics,"vResdInPixelsPerMeter",round(vResdInPixelsPerMeter,2))
     
-    hResdInPixelsPerMeter=(hRdN/hRdD)*10**(hRdE)
+    hResdInPixelsPerMeter=(hRdN/hRdD)*(10**(hRdE))
     addElement(characteristics,"hResdInPixelsPerMeter",round(hResdInPixelsPerMeter,2))
     
     vResdInPixelsPerInch=vResdInPixelsPerMeter*25.4e-3
