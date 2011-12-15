@@ -36,6 +36,7 @@ import imp
 import glob
 import struct
 import argparse
+import warnings
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 
@@ -820,6 +821,7 @@ def getBox(bytesData, byteStart, noBytes):
     
     return(boxLengthValue,boxType,byteEnd,boxContents)
 
+
 class BoxValidator:
 	typeMap = {
 		b'\x6a\x70\x32\x69': "intellectualPropertyBox", 
@@ -827,6 +829,8 @@ class BoxValidator:
 		b'\x75\x75\x69\x64': "UUIDBox",
 		b'\x75\x69\x6e\x66': "UUIDInfoBox"
 	}
+
+
 	def __init__(self, bType, boxContents):
 		if bType in self.typeMap:
 			self.boxType = self.typeMap[bType]
@@ -837,8 +841,16 @@ class BoxValidator:
 		self.boxContents = boxContents
 
 	def validate(self):
+		try:
+			to_call = getattr(self, "validate_" + self.boxType)
+		except AttributeError:
+			warnings.warn("Method 'validate_" + self.boxType + "' not implemented")
+		else:
+			to_call()
 		return (self.tests, self.characteristics)
-
+		
+	def validate_unknownBox(self):
+		warnings.warn("No validation for unknown box")		
 
 # Validator functions for top-level boxes
 def validateSignatureBox(boxContents):
