@@ -823,13 +823,35 @@ def getBox(bytesData, byteStart, noBytes):
 
 
 class BoxValidator:
+	# Marker tags/codes that identify all sub-boxes as hexadecimal strings
+	#(Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
 	typeMap = {
 		b'\x6a\x70\x32\x69': "intellectualPropertyBox", 
 		b'\x78\x6d\x6c\x20': "xmlBox",
 		b'\x75\x75\x69\x64': "UUIDBox",
-		b'\x75\x69\x6e\x66': "UUIDInfoBox"
+		b'\x75\x69\x6e\x66': "UUIDInfoBox",
+		b'\x6a\x50\x20\x20': "signatureBox",
+		b'\x66\x74\x79\x70': "fileTypeBox",
+		b'\x6a\x70\x32\x68': "jp2HeaderBox",
+		b'\x69\x68\x64\x72': "imageHeaderBox",
+		b'\x62\x70\x63\x63': "bitsPerComponentBox",
+		b'\x63\x6f\x6c\x72': "colourSpecificationBox",
+		b'\x70\x63\x6c\x72': "paletteBox",
+		b'\x63\x6d\x61\x70': "componentMappingBox",
+		b'\x63\x64\x65\x66': "channelDefinitionBox",
+		b'\x72\x65\x73\x20': "resolutionBox",
+		b'\x6a\x70\x32\x63': "contiguousCodestreamBox"
 	}
 
+	# Reverse access of typemap for quick lookup
+	boxTagMap = dict((v,k) for k,v in typeMap.iteritems())
+
+	# Map for byte values to be tested against
+	controlledByteMap = {
+		"validSignature": b'\x0d\x0a\x87\x0a',
+		"validBrandValue": b'\x6a\x70\x32\x20',
+		"requiredInCompatibilityList": b'\x6a\x70\x32\x20'
+	}
 
 	def __init__(self, bType, boxContents):
 		if bType in self.typeMap:
@@ -848,404 +870,300 @@ class BoxValidator:
 		else:
 			to_call()
 		return (self.tests, self.characteristics)
+
+	# Add an element of value to element tree
+	def addElement(self, parent,tag,text):
+		element = ET.SubElement(parent, tag)
+		element.text = text
 		
+	# Add testresult node to tests element tree
+	def testFor(self, testType, testResult):
+		self.addElement(self.tests, testType, testResult)
+
+	# Add characteristic node to characteristics element tree
+	def addCharacteristic(self, characteristic, charValue):
+		self.addElement(self.characteristics, characteristic, charValue)
+
+	# Validations for boxes
 	def validate_unknownBox(self):
-		warnings.warn("No validation for unknown box")		
+		warnings.warn("No validation for unknown box")
 
-# Validator functions for top-level boxes
-def validateSignatureBox(boxContents):
+	def validate_signatureBox(self):
+		# Check box size, which should be 4 bytes
+		self.testFor("boxLengthIsValid", len(self.boxContents) == 4)
+		# Signature (*not* added to characteristics output, because it contains non-printable characters)
+		self.testFor("signatureIsValid", self.boxContents[0:4] == self.controlledByteMap['validSignature'])
 
-    # This box contains a 4-byte signature (ISO/IEC 15444-1 Section I.5.1)
+	def validate_fileTypeBox(self):
+		# Determine number of compatibility fields from box length
+		numberOfCompatibilityFields=(len(self.boxContents)-8)/4
+		# This should never produce a decimal number (would indicate missing data)
+		self.testFor("boxLengthIsValid", numberOfCompatibilityFields == int(numberOfCompatibilityFields))
 
-    # Test results to elementtree element
-    tests=ET.Element('signatureBox')
-    
-    # Characteristics to elementtree element
-    characteristics=ET.Element('signatureBox')
+		# This box contains (ISO/IEC 15444-1 Section I.5.2):
+		# 1. Brand (4 bytes)
+		br = self.boxContents[0:4]
+		self.addCharacteristic( "br", br) 
 
-    # Check box size, which should be 4 bytes
-    boxLengthIsValid=isRequiredValue(len(boxContents),4)
-    addElement(tests,"boxLengthIsValid",boxLengthIsValid)
-    
-    # Signature (*not* added to characteristics output, because it contains
-    # non-printable characters)
-    signature=boxContents[0:4]
-       
-    # Is signature valid?
-    signatureIsValid=isRequiredValue(signature,b'\x0d\x0a\x87\x0a')  
-    addElement(tests,"signatureIsValid",signatureIsValid)
-            
-    return(tests,characteristics)
-
-def validateFileTypeBox(boxContents):
-    
-    # This box contains (ISO/IEC 15444-1 Section I.5.2):
-    # 1. Brand (4 bytes)
-    # 2. Minor version (4 bytes)
-    # 3. Compatibility list (one or more 4-byte fields)
-
-    # Test results to elementtree element
-    tests=ET.Element('fileTypeBox')
-    
-    # Characteristics to elementtree element
-    characteristics=ET.Element('fileTypeBox')
-    
-    # Determine number of compatibility fields from box length
-    numberOfCompatibilityFields=(len(boxContents)-8)/4
-       
-    # This should never produce a decimal number (would indicate missing data)
-    boxLengthIsValid=isRequiredValue(numberOfCompatibilityFields,int(numberOfCompatibilityFields))
-    addElement(tests,"boxLengthIsValid",boxLengthIsValid)
-    
-    # Brand value
-    br=boxContents[0:4]
-    addElement(characteristics,"br",br)
-    
     # Is brand value valid?
-    brandIsValid=isRequiredValue(br,b'\x6a\x70\x32\x20')
-    addElement(tests,"brandIsValid",brandIsValid)
+		self.testFor("brandIsValid", br == self.controlledByteMap['validBrandValue'])
+
+		# 2. Minor version (4 bytes)
+		minV = strToUInt(self.boxContents[4:8])
+		self.addCharacteristic("minV", minV)
     
-    # Minor version
-    minV=strToUInt(boxContents[4:8])
-    addElement(characteristics,"minV",minV)
-    
-    # Value should be 0
+		# Value should be 0
     # Note that conforming readers should continue to process the file
     # even if this field contains siome other value
-    minorVersionIsValid=isRequiredValue(minV,0)
-    addElement(tests,"minorVersionIsValid",minorVersionIsValid)
-    
-    # Compatibility list
-    
-    # Create list object and store all entries as separate list elements
-    cLList=[]
-    offset=8
-    for i in range(int(numberOfCompatibilityFields)):
-        cL=boxContents[offset:offset+4]
-        addElement(characteristics,"cL",cL)
-        cLList.append(cL)
-        offset += 4
-        
-    # Compatibility list should contain at least one field with mandatory value.
-    # List is considered valid if this value is found.
-    compatibilityListIsValid=valueInList(b'\x6a\x70\x32\x20',cLList)
-    addElement(tests,"compatibilityListIsValid",compatibilityListIsValid)
-        
-    return(tests,characteristics)
+		self.testFor("minorVersionIsValid", minV == 0)
 
-def validateJP2HeaderBox(boxContents):
+		# 3. Compatibility list (one or more 4-byte fields)
+		# Create list object and store all entries as separate list elements
+		cLList = []
+		offset = 8
+		for i in range(int(numberOfCompatibilityFields)):
+				cL = self.boxContents[offset:offset+4]
+				self.addCharacteristic("cL", cL)
+				cLList.append(cL)
+				offset += 4
 
-    # This is a superbox (ISO/IEC 15444-1 Section I.5.3)
-    
-    # Test results to elementtree element
-    tests=ET.Element('jp2HeaderBox')
+		# Compatibility list should contain at least one field with mandatory value.
+		# List is considered valid if this value is found.
+		self.testFor("compatibilityListIsValid", self.controlledByteMap['requiredInCompatibilityList'] in cLList)
 
-    # Characteristics to elementtree element
-    characteristics=ET.Element('jp2HeaderBox')
-        
-    # Marker tags/codes that identify all sub-boxes as hexadecimal strings
-    #(Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
-    tagImageHeaderBox=b'\x69\x68\x64\x72'
-    tagBitsPerComponentBox=b'\x62\x70\x63\x63'
-    tagColourSpecificationBox=b'\x63\x6f\x6c\x72'
-    tagPaletteBox=b'\x70\x63\x6c\x72'
-    tagComponentMappingBox=b'\x63\x6d\x61\x70'
-    tagChannelDefinitionBox=b'\x63\x64\x65\x66'
-    tagResolutionBox=b'\x72\x65\x73\x20'
-             
-    # List for storing box type identifiers
-    subBoxTypes=[]
+
+	# This is a superbox (ISO/IEC 15444-1 Section I.5.3)
+	def validate_jp2HeaderBox(self):
+		# List for storing box type identifiers
+		subBoxTypes = []
+		noBytes = len(self.boxContents)
+		byteStart = 0
+		bytesTotal = 0
     
-    noBytes=len(boxContents)
-    byteStart = 0
-    bytesTotal=0
-    
-    # Dummy value 
-    boxLengthValue=10
-    
-    while byteStart < noBytes and boxLengthValue != 0:
- 
-        boxLengthValue, boxType, byteEnd, subBoxContents = getBox(boxContents,byteStart, noBytes)
+		# Dummy value 
+		boxLengthValue = 10
+		while byteStart < noBytes and boxLengthValue != 0:
+			boxLengthValue, boxType, byteEnd, subBoxContents = getBox(self.boxContents,byteStart, noBytes)       
+			# Call functions for sub-boxes
+			if boxType == self.boxTagMap['imageHeaderBox']:
+				# Image Header box
+				resultBox,characteristicsBox=validateImageHeaderBox(subBoxContents)
+			elif boxType == self.boxTagMap['bitsPerComponentBox']:
+				# Bits Per Component box
+				resultBox,characteristicsBox=validateBitsPerComponentBox(subBoxContents)
+			elif boxType == self.boxTagMap['colourSpecificationBox']:
+				# Colour Specification box
+				resultBox,characteristicsBox=validateColourSpecificationBox(subBoxContents)
+			elif boxType == self.boxTagMap['paletteBox']:
+				# Palette box
+				resultBox,characteristicsBox=validatePaletteBox(subBoxContents)
+			elif boxType == self.boxTagMap['componentMappingBox']:
+				# Component Mapping box
+				resultBox,characteristicsBox=validateComponentMappingBox(subBoxContents)
+			elif boxType == self.boxTagMap['channelDefinitionBox']:
+				# Channel Definition box
+				resultBox,characteristicsBox=validateChannelDefinitionBox(subBoxContents)
+			elif boxType == self.boxTagMap['resolutionBox']:
+				# Resolution box
+				resultBox,characteristicsBox=validateResolutionBox(subBoxContents)
+			else:
+				# Unknown box (nothing to validate)
+				resultBox,characteristicsBox=BoxValidator(boxType, subBoxContents).validate()
         
-        # Call functions for sub-boxes
-        if boxType == tagImageHeaderBox:
-            # Image Header box
-            resultBox,characteristicsBox=validateImageHeaderBox(subBoxContents)
-        elif boxType == tagBitsPerComponentBox:
-            # Bits Per Component box
-            resultBox,characteristicsBox=validateBitsPerComponentBox(subBoxContents)
-        elif boxType == tagColourSpecificationBox:
-            # Colour Specification box
-            resultBox,characteristicsBox=validateColourSpecificationBox(subBoxContents)
-        elif boxType == tagPaletteBox:
-            # Palette box
-            resultBox,characteristicsBox=validatePaletteBox(subBoxContents)
-        elif boxType == tagComponentMappingBox:
-            # Component Mapping box
-            resultBox,characteristicsBox=validateComponentMappingBox(subBoxContents)
-        elif boxType == tagChannelDefinitionBox:
-            # Channel Definition box
-            resultBox,characteristicsBox=validateChannelDefinitionBox(subBoxContents)
-        elif boxType == tagResolutionBox:
-            # Resolution box
-            resultBox,characteristicsBox=validateResolutionBox(subBoxContents)
-        else:
-            # Unknown box (nothing to validate)
-            resultBox,characteristicsBox=validateUnknownBox(subBoxContents)    
+			byteStart = byteEnd
         
-        byteStart = byteEnd
+			# Add to list of box types            
+			subBoxTypes.append(boxType)
         
-        # Add to list of box types            
-        subBoxTypes.append(boxType)
+			# Add analysis results to test results tree
+			self.tests.append(resultBox)
         
-        # Add analysis results to test results tree
-        tests.append(resultBox)
-        
-        # Add extracted characteristics to characteristics tree
-        characteristics.append(characteristicsBox)
+			# Add extracted characteristics to characteristics tree
+			self.characteristics.append(characteristicsBox)
             
-    # Do all required header boxes exist?
-    containsImageHeaderBox=valueInList(tagImageHeaderBox, subBoxTypes)
-    containsColourSpecificationBox=valueInList(tagColourSpecificationBox, subBoxTypes)
-
-    addElement(tests,"containsImageHeaderBox",containsImageHeaderBox)
-    addElement(tests,"containsColourSpecificationBox",containsColourSpecificationBox)
+		# Do all required header boxes exist?
+		self.testFor("containsImageHeaderBox", self.boxTagMap['imageHeaderBox'] in subBoxTypes)
+		self.testFor("containsColourSpecificationBox", self.boxTagMap['colourSpecificationBox'] in subBoxTypes)
     
-    # If bPCSign equals 1 and bPCDepth equals 128 (equivalent to bPC field being
-    # 255), this box should contain a Bits Per Components box 
-    sign=findElementText(characteristics,'imageHeaderBox/bPCSign')
-    depth=findElementText(characteristics,'imageHeaderBox/bPCDepth')
+		# If bPCSign equals 1 and bPCDepth equals 128 (equivalent to bPC field being
+		# 255), this box should contain a Bits Per Components box 
+		sign = findElementText(self.characteristics,'imageHeaderBox/bPCSign')
+		depth = findElementText(self.characteristics,'imageHeaderBox/bPCDepth')
     
-    if sign == 1 and depth == 128:
-        containsBitsPerComponentBox=valueInList(tagBitsPerComponentBox, subBoxTypes)
-        addElement(tests,"containsBitsPerComponentBox",containsBitsPerComponentBox)
+		if sign == 1 and depth == 128:
+			self.testFor("containsBitsPerComponentBox", self.boxTagMap['bitsPerComponentBox'] in subBoxTypes)
 
     # Is the first box an Image Header Box?
-    try:
-        firstJP2HeaderBoxIsImageHeaderBox=listItemAtPosition(subBoxTypes,tagImageHeaderBox,0)
-    except:
-        firstJP2HeaderBoxIsImageHeaderBox=False
+		try:
+			firstJP2HeaderBoxIsImageHeaderBox=listItemAtPosition(subBoxTypes,self.boxTagMap['imageHeaderBox'],0)
+		except:
+			firstJP2HeaderBoxIsImageHeaderBox=False
     
-    addElement(tests,"firstJP2HeaderBoxIsImageHeaderBox",firstJP2HeaderBoxIsImageHeaderBox)
+		self.testFor("firstJP2HeaderBoxIsImageHeaderBox",firstJP2HeaderBoxIsImageHeaderBox)
     
-    # Some boxes can have multiple instances, whereas for others only one
-    # is allowed
-    noMoreThanOneImageHeaderBox=listItemUniqueOrNonExistent(subBoxTypes,tagImageHeaderBox)
-    noMoreThanOneBitsPerComponentBox=listItemUniqueOrNonExistent(subBoxTypes,tagBitsPerComponentBox)
-    noMoreThanOnePaletteBox=listItemUniqueOrNonExistent(subBoxTypes,tagPaletteBox)
-    noMoreThanOneComponentMappingBox=listItemUniqueOrNonExistent(subBoxTypes,tagComponentMappingBox)
-    noMoreThanOneChannelDefinitionBox=listItemUniqueOrNonExistent(subBoxTypes,tagChannelDefinitionBox)
-    noMoreThanOneResolutionBox=listItemUniqueOrNonExistent(subBoxTypes,tagResolutionBox)
+		# Some boxes can have multiple instances, whereas for others only one
+		# is allowed
+		self.testFor("noMoreThanOneImageHeaderBox",  subBoxTypes.count(self.boxTagMap['imageHeaderBox']) <= 1)
+		self.testFor("noMoreThanOneBitsPerComponentBox", subBoxTypes.count(self.boxTagMap['bitsPerComponentBox']) <= 1)
+		self.testFor("noMoreThanOnePaletteBox", subBoxTypes.count(self.boxTagMap['paletteBox']) <= 1)    
+		self.testFor("noMoreThanOneComponentMappingBox", subBoxTypes.count(self.boxTagMap['componentMappingBox']) <= 1)    
+		self.testFor("noMoreThanOneChannelDefinitionBox", subBoxTypes.count(self.boxTagMap['channelDefinitionBox']) <= 1)
+		self.testFor("noMoreThanOneResolutionBox", subBoxTypes.count(self.boxTagMap['resolutionBox']) <= 1)
+    
+		# In case of multiple colour specification boxes, they should appear contiguously
+		# within the header box
+		colourSpecificationBoxesAreContiguous=listOccurrencesAreContiguous(subBoxTypes, self.boxTagMap['colourSpecificationBox'])
+		self.testFor("colourSpecificationBoxesAreContiguous",colourSpecificationBoxesAreContiguous)
+    
+		# If JP2 Header box contains a Palette Box, it should also contain a component
+		# mapping box, and vice versa   
+		if (self.boxTagMap['paletteBox'] in subBoxTypes and self.boxTagMap['componentMappingBox'] not in subBoxTypes) \
+		or (self.boxTagMap['componentMappingBox'] in subBoxTypes and self.boxTagMap['paletteBox'] not in subBoxTypes):
+			paletteAndComponentMappingBoxesOnlyTogether=False
+		else:
+			paletteAndComponentMappingBoxesOnlyTogether=True
+    
+		self.testFor("paletteAndComponentMappingBoxesOnlyTogether",paletteAndComponentMappingBoxesOnlyTogether)
 
-    addElement(tests,"noMoreThanOneImageHeaderBox",noMoreThanOneImageHeaderBox)
-    addElement(tests,"noMoreThanOneBitsPerComponentBox",noMoreThanOneBitsPerComponentBox)
-    addElement(tests,"noMoreThanOnePaletteBox",noMoreThanOnePaletteBox)    
-    addElement(tests,"noMoreThanOneComponentMappingBox",noMoreThanOneComponentMappingBox)    
-    addElement(tests,"noMoreThanOneChannelDefinitionBox",noMoreThanOneChannelDefinitionBox)
-    addElement(tests,"noMoreThanOneResolutionBox",noMoreThanOneResolutionBox)
-    
-    # In case of multiple colour specification boxes, they should appear contiguously
-    # within the header box
-    colourSpecificationBoxesAreContiguous=listOccurrencesAreContiguous(subBoxTypes, \
-                                            tagColourSpecificationBox)
-    addElement(tests,"colourSpecificationBoxesAreContiguous",colourSpecificationBoxesAreContiguous)
-    
-    # If JP2 Header box contains a Palette Box, it should also contain a component
-    # mapping box, and vice versa
-    
-    if (tagPaletteBox in subBoxTypes and tagComponentMappingBox not in subBoxTypes) \
-    or (tagComponentMappingBox in subBoxTypes and tagPaletteBox not in subBoxTypes):
-        paletteAndComponentMappingBoxesOnlyTogether=False
-    else:
-        paletteAndComponentMappingBoxesOnlyTogether=True
-    
-    addElement(tests,"paletteAndComponentMappingBoxesOnlyTogether",paletteAndComponentMappingBoxesOnlyTogether)
-        
-    return(tests,characteristics)
-    
-def validateContiguousCodestreamBox(boxContents):
-    
-    # Test results to elementtree element
-    tests=ET.Element('contiguousCodestreamBox')
 
-    # Characteristics to elementtree element
-    characteristics=ET.Element('contiguousCodestreamBox')
+	def validate_contiguousCodestreamBox(self):
+		# Codestream length
+		length = len(self.boxContents)
     
-    # Codestream length
-    length=len(boxContents)
+		# Keep track of byte offsets 
+		offset = 0
     
-    # Keep track of byte offsets 
-    offset=0
-    
-    # Read first marker segment. This should be the start-of-codestream marker
-    marker,segLength,segContents,offsetNext=getMarkerSegment(boxContents,offset)
+		# Read first marker segment. This should be the start-of-codestream marker
+		marker,segLength,segContents,offsetNext=getMarkerSegment(self.boxContents,offset)
      
-    # Marker should be start-of-codestream marker    
-    codestreamStartsWithSOCMarker=isRequiredValue(marker,b'\xff\x4f')
-    addElement(tests,"codestreamStartsWithSOCMarker",codestreamStartsWithSOCMarker)
-    
-    offset=offsetNext
+		# Marker should be start-of-codestream marker    
+		self.testFor("codestreamStartsWithSOCMarker", marker == b'\xff\x4f')   
+		offset = offsetNext
         
-    # Read next marker segment. This should be the SIZ (image and tile size) marker
-    marker,segLength,segContents,offsetNext=getMarkerSegment(boxContents,offset)
-    
-    foundSIZMarker=isRequiredValue(marker,b'\xff\x51')
-    addElement(tests,"foundSIZMarker",foundSIZMarker)
+		# Read next marker segment. This should be the SIZ (image and tile size) marker
+		marker,segLength,segContents,offsetNext=getMarkerSegment(self.boxContents,offset)
+		foundSIZMarker = (marker == b'\xff\x51')
+		self.testFor("foundSIZMarker", foundSIZMarker)
        
-    if foundSIZMarker ==True:
-        # Validate SIZ segment
-        resultSIZ, characteristicsSIZ=validateSIZ(segContents)
+		if foundSIZMarker:
+			# Validate SIZ segment
+			resultSIZ, characteristicsSIZ=validateSIZ(segContents)
         
-        # Add analysis results to test results tree
-        tests.append(resultSIZ)
+			# Add analysis results to test results tree
+			self.tests.append(resultSIZ)
     
-        # Add extracted characteristics to characteristics tree
-        characteristics.append(characteristicsSIZ)
+			# Add extracted characteristics to characteristics tree
+			self.characteristics.append(characteristicsSIZ)
         
-    offset=offsetNext
+		offset = offsetNext
         
-    # Loop through remaining marker segments in main header; first SOT (start of
-    # tile-part marker) indicates end of main header. For now only validate
-    # COD and QCD segments (which are both required) and extract contents of
-    # COM segments. Any other marker segments are ignored.
+		# Loop through remaining marker segments in main header; first SOT (start of
+		# tile-part marker) indicates end of main header. For now only validate
+		# COD and QCD segments (which are both required) and extract contents of
+		# COM segments. Any other marker segments are ignored.
     
-    # Initial values for foundCODMarker and foundQCDMarker
+		# Initial values for foundCODMarker and foundQCDMarker
+		foundCODMarker=False
+		foundQCDMarker=False
     
-    foundCODMarker=False
-    foundQCDMarker=False
-    
-    while marker != b'\xff\x90':
-        marker,segLength,segContents,offsetNext=getMarkerSegment(boxContents,offset)
-        
-        if marker==b'\xff\x52':
-            # COD (coding style default) marker segment
+		while marker != b'\xff\x90':
+			marker,segLength,segContents,offsetNext=getMarkerSegment(self.boxContents,offset)
+
+			if marker == b'\xff\x52':
+				# COD (coding style default) marker segment
+				# COD is required
+				foundCODMarker=True
             
-            # COD is required
-            foundCODMarker=True
-            
-            # Validate COD segment
-            resultCOD, characteristicsCOD=validateCOD(segContents)
-        
-            # Add analysis results to test results tree
-            tests.append(resultCOD)
+				# Validate COD segment
+				resultCOD, characteristicsCOD=validateCOD(segContents)
+				# Add analysis results to test results tree
+				self.tests.append(resultCOD)
+				# Add extracted characteristics to characteristics tree
+				self.characteristics.append(characteristicsCOD)
+				offset = offsetNext
+			elif marker == b'\xff\x5c':
+				# QCD (quantization default) marker segment
+				# QCD is required
+				foundQCDMarker=True
+				# Validate QCD segment
+				resultQCD, characteristicsQCD=validateQCD(segContents)
+				# Add analysis results to test results tree
+				self.tests.append(resultQCD)
+				# Add extracted characteristics to characteristics tree
+				self.characteristics.append(characteristicsQCD)
+				offset=offsetNext
+			elif marker == b'\xff\x64':
+				# COM (codestream comment) marker segment
+				# Validate QCD segment
+				resultCOM, characteristicsCOM=validateCOM(segContents)           
+				# Add analysis results to test results tree
+				self.tests.append(resultCOM)
+				# Add extracted characteristics to characteristics tree
+				self.characteristics.append(characteristicsCOM)
+				offset = offsetNext       
+			elif marker==b'\xff\x90':
+				# Start of tile (SOT) marker segment; don't update offset as this
+				# will get of out of this loop (for functional readability):
+				offset = offset        
+			else:
+				# Any other marker segment: ignore and move on to next one
+				offset=offsetNext
     
-            # Add extracted characteristics to characteristics tree
-            characteristics.append(characteristicsCOD)
-            
-            offset=offsetNext
-        
-        elif marker==b'\xff\x5c':
-            # QCD (quantization default) marker segment
-            
-            # QCD is required
-            foundQCDMarker=True
-            
-            # Validate QCD segment
-            resultQCD, characteristicsQCD=validateQCD(segContents)
-                   
-            # Add analysis results to test results tree
-            tests.append(resultQCD)
+		# Add foundCODMarker / foundQCDMarker outcome to tests
+		self.testFor("foundCODMarker",foundCODMarker)
+		self.testFor("foundQCDMarker",foundQCDMarker)
     
-            # Add extracted characteristics to characteristics tree
-            characteristics.append(characteristicsQCD)
-            
-            offset=offsetNext
-        
-        elif marker==b'\xff\x64':
-            # COM (codestream comment) marker segment
-            
-            # Validate QCD segment
-            resultCOM, characteristicsCOM=validateCOM(segContents)
-                   
-            # Add analysis results to test results tree
-            tests.append(resultCOM)
-    
-            # Add extracted characteristics to characteristics tree
-            characteristics.append(characteristicsCOM)
-            
-            offset=offsetNext
-        
-        elif marker==b'\xff\x90':
-            # Start of tile (SOT) marker segment; don't update offset as this
-            # will get of out of this loop!
-            offset=offset
-        
-        else:
-            # Any other marker segment: ignore and move on to next one
-            offset=offsetNext
-    
-    # Add foundCODMarker / foundQCDMarker outcome to tests
-    addElement(tests,"foundCODMarker",foundCODMarker)
-    addElement(tests,"foundQCDMarker",foundQCDMarker)
-    
-    # Check if quantization parameters are consistent with levels (section A.6.4, eq A-4)
-    #
-    # Note: this check may be performed at tile-part level as well (not included now)
-    
-    if foundCODMarker==True:
-    
-        lqcd=findElementText(characteristics,'qcd/lqcd')
-        qStyle=findElementText(characteristics,'qcd/qStyle')
-        levels=findElementText(characteristics,'cod/levels')  
+		# Check if quantization parameters are consistent with levels (section A.6.4, eq A-4)
+		# Note: this check may be performed at tile-part level as well (not included now)
+		if foundCODMarker:
+			lqcd = findElementText(self.characteristics,'qcd/lqcd')
+			qStyle = findElementText(self.characteristics,'qcd/qStyle')
+			levels = findElementText(self.characteristics,'cod/levels')  
                 
-        # Expected lqcd as a function of qStyle and levels 
-        if qStyle ==0:
-            lqcdExpected=4 + 3*levels
-        elif qStyle==1:
-            lqcdExpected=5
-        elif qStyle==2:
-            lqcdExpected=5+6*levels
-        else:
-            # Dummy value in case of non-legal value of qStyle
-            lqcdExpected=-9999
+		# Expected lqcd as a function of qStyle and levels 
+		if qStyle == 0:
+			lqcdExpected = 4 + 3*levels
+		elif qStyle == 1:
+			lqcdExpected = 5
+		elif qStyle == 2:
+			lqcdExpected= 5 + 6*levels
+		else:
+			# Dummy value in case of non-legal value of qStyle
+			lqcdExpected = -9999
         
-        # lqcd should equal expected value
-        quantizationConsistentWithLevels=isRequiredValue(lqcd,lqcdExpected)
-        addElement(tests,"quantizationConsistentWithLevels",quantizationConsistentWithLevels)
+		# lqcd should equal expected value
+		self.testFor("quantizationConsistentWithLevels", lqcd == lqcdExpected)
         
     # Remainder of codestream is a sequence of tile parts, followed by one
     # end-of-codestream marker
     
-    # Create sub-elements to store tile-part characteristics and tests
-    tilePartCharacteristics=ET.Element('tileParts')
-    tilePartTests=ET.Element('tileParts')
+		# Create sub-elements to store tile-part characteristics and tests
+		tilePartCharacteristics=ET.Element('tileParts')
+		tilePartTests=ET.Element('tileParts')
     
-    while  marker==b'\xff\x90':
+		while marker == b'\xff\x90':        
+			marker = self.boxContents[offset:offset+2]
         
-        marker=boxContents[offset:offset+2]
+			if marker == b'\xff\x90':
+				resultTilePart, characteristicsTilePart,offsetNext = validateTilePart(self.boxContents,offset)
+				# Add analysis results to test results tree
+				tilePartTests.append(resultTilePart)
         
-        if marker==b'\xff\x90':
-            resultTilePart, characteristicsTilePart,offsetNext=validateTilePart(boxContents,offset)
-            # Add analysis results to test results tree
-            tilePartTests.append(resultTilePart)
-        
-            # Add extracted characteristics to characteristics tree
-            tilePartCharacteristics.append(characteristicsTilePart)
+				# Add extracted characteristics to characteristics tree
+				tilePartCharacteristics.append(characteristicsTilePart)
             
-            if offsetNext != offset:
-                offset=offsetNext
+				if offsetNext != offset:
+					offset = offsetNext
     
-    # Add tile-part characteristics and tests to characteristics / tests
-    characteristics.append(tilePartCharacteristics)
-    tests.append(tilePartTests)
+		# Add tile-part characteristics and tests to characteristics / tests
+		self.characteristics.append(tilePartCharacteristics)
+		self.tests.append(tilePartTests)
     
-    # Last 2 bytes should be end-of-codestream marker    
-    foundEOCMarker=isRequiredValue(boxContents[length-2:length],b'\xff\xd9')
-    addElement(tests,"foundEOCMarker",foundEOCMarker)
+		# Last 2 bytes should be end-of-codestream marker    
+		self.testFor("foundEOCMarker", self.boxContents[length-2:length] == b'\xff\xd9')
    
-    return(tests,characteristics)
-
-
-
-    
-
-
-    
-    
-
 
 # Validator functions for boxes in JP2 Header superbox
-
 def validateImageHeaderBox(boxContents):
 
     # This is a fixed-length box that contains generic image info.
@@ -2483,21 +2401,15 @@ def validateJP2(jp2Data):
         boxLengthValue, boxType, byteEnd, boxContents = getBox(jp2Data,byteStart, noBytes)
               
         # Call functions for top-level boxes
-        if boxType == tagSignatureBox:
-            # Signature box
-            resultBox,characteristicsBox=validateSignatureBox(boxContents)
-        elif boxType == tagFileTypeBox:
-            # File Type box
-            resultBox,characteristicsBox=validateFileTypeBox(boxContents)
-        elif boxType == tagJP2HeaderBox:
+#        if boxType == tagJP2HeaderBox:
             # JP2 Header box
-            resultBox,characteristicsBox=validateJP2HeaderBox(boxContents)
-        elif boxType == tagContiguousCodestreamBox:
-            # Contiguous Codestream box
-            resultBox,characteristicsBox=validateContiguousCodestreamBox(boxContents)
-        else:
+ #           resultBox,characteristicsBox=validateJP2HeaderBox(boxContents)
+#        if boxType == tagContiguousCodestreamBox:
+#            # Contiguous Codestream box
+ #           resultBox,characteristicsBox=validateContiguousCodestreamBox(boxContents)
+#        else:
             # Unknown box (nothing to validate)
-            resultBox,characteristicsBox=BoxValidator(boxType, boxContents).validate()
+        resultBox,characteristicsBox=BoxValidator(boxType, boxContents).validate()
         
         byteStart = byteEnd
         
