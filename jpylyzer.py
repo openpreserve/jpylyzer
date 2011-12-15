@@ -853,6 +853,9 @@ class BoxValidator:
 		"requiredInCompatibilityList": b'\x6a\x70\x32\x20'
 	}
 
+	# consts
+	MAX_DIM = (2**32)-1
+	
 	def __init__(self, bType, boxContents):
 		if bType in self.typeMap:
 			self.boxType = self.typeMap[bType]
@@ -1180,22 +1183,16 @@ class BoxValidator:
 		self.addCharacteristic("width", width)
        
     # Height and width should be within range 1 - (2**32)-1
-		heightIsValid=isWithinRange(height,1,(2**32)-1)
-		widthIsValid=isWithinRange(width,1,(2**32)-1)
-		self.testFor("heightIsValid", heightIsValid)
-		self.testFor("widthIsValid", widthIsValid)
-    
+		self.testFor("heightIsValid", 1 <= height <= self.MAX_DIM)
+		self.testFor("widthIsValid", 1 <= width <= self.MAX_DIM)
 		# Number of components (unsigned short integer)
 		nC = strToUShortInt(self.boxContents[8:10])
 		self.addCharacteristic("nC", nC)
-          
     # Number of components should be in range 1 - 16384 (including limits)
-		nCIsValid=isWithinRange(nC, 1, 16384)
-		self.testFor("nCIsValid", nCIsValid)
+		self.testFor("nCIsValid", 1 <= nC <= 16384)
 
 		# Bits per component (unsigned character)
 		bPC = strToUnsignedChar(self.boxContents[10:11])
-        
     # Most significant bit indicates whether components are signed (1)
     # or unsigned (0).
 		bPCSign = getBitValue(bPC, 1)
@@ -1209,8 +1206,8 @@ class BoxValidator:
     # Bits per component field is valid if:
     # 1. bPCDepth in range 1-38 (including limits)
     # 2. OR bPC equal 255 (indicating that components vary in bit depth)   
-		bPCDepthIsWithinAllowedRange = isWithinRange(bPCDepth,1,38)
-		bitDepthIsVariable = isRequiredValue(bPC,255)
+		bPCDepthIsWithinAllowedRange = 1 <= bPCDepth <= 38
+		bitDepthIsVariable = 1 <= bPC <= 255
     
 		if bPCDepthIsWithinAllowedRange == True or bitDepthIsVariable == True:
 			bPCIsValid=True
@@ -1218,29 +1215,21 @@ class BoxValidator:
 			bPCIsValid=False
     
 		self.testFor("bPCIsValid",bPCIsValid)
-    
     # Compression type (unsigned character)
 		c = strToUnsignedChar(self.boxContents[11:12])
 		self.addCharacteristic("c", c)
-    
 		# Value should always be 7
 		self.testFor("cIsValid", c == 7)
-    
     # Colourspace unknown field (unsigned character)
 		unkC = strToUnsignedChar(self.boxContents[12:13])
 		self.addCharacteristic("unkC", unkC)
-    
     # Value should be 0 or 1
-		unkCIsValid = isWithinRange(unkC,0,1)
-		self.testFor("unkCIsValid",unkCIsValid)
-    
+		self.testFor("unkCIsValid", 0 <= unkC <= 1)
     # Intellectual Property field (unsigned character)
 		iPR = strToUnsignedChar(self.boxContents[13:14])
 		self.addCharacteristic("iPR",iPR)
-
     # Value should be 0 or 1
-		iPRIsValid=isWithinRange(iPR,0,1)
-		self.testFor("iPRIsValid", iPRIsValid)
+		self.testFor("iPRIsValid", 0 <= iPR <= 1)
     
 def validateBitsPerComponentBox(boxContents):
     
