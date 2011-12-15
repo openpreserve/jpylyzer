@@ -849,25 +849,7 @@ class BoxValidator:
 		while byteStart < noBytes and boxLengthValue != 0:
 			boxLengthValue, boxType, byteEnd, subBoxContents = getBox(self.boxContents,byteStart, noBytes)       
 			# Call functions for sub-boxes
-#			if boxType == self.boxTagMap['imageHeaderBox']:
-				# Image Header box
-#				resultBox,characteristicsBox=validateImageHeaderBox(subBoxContents)
-#			if boxType == self.boxTagMap['bitsPerComponentBox']:
-				# Bits Per Component box
-#				resultBox,characteristicsBox=validateBitsPerComponentBox(subBoxContents)
-#			if boxType == self.boxTagMap['colourSpecificationBox']:
-				# Colour Specification box
-#				resultBox,characteristicsBox=validateColourSpecificationBox(subBoxContents)
-			if boxType == self.boxTagMap['paletteBox']:
-				# Palette box
-				resultBox,characteristicsBox=validatePaletteBox(subBoxContents)
-			elif boxType == self.boxTagMap['componentMappingBox']:
-				# Component Mapping box
-				resultBox,characteristicsBox=validateComponentMappingBox(subBoxContents)
-			elif boxType == self.boxTagMap['channelDefinitionBox']:
-				# Channel Definition box
-				resultBox,characteristicsBox=validateChannelDefinitionBox(subBoxContents)
-			elif boxType == self.boxTagMap['resolutionBox']:
+			if boxType == self.boxTagMap['resolutionBox']:
 				# Resolution box
 				resultBox,characteristicsBox=validateResolutionBox(subBoxContents)
 			else:
@@ -1244,83 +1226,48 @@ class BoxValidator:
 			self.characteristics.append(iccCharacteristics)
                 
 
-def validatePaletteBox(boxContents):
+	def validate_channelDefinitionBox(self):
+		# This box specifies the meaning of the samples in each channel in the image
+		# (ISO/IEC 15444-1 Section I.5.3.6)
+		# NOT TESTED YET BECAUSE OF UNAVAILABILITY OF SUITABLE TEST DATA!!
     
-    # Test results to elementtree element
-    tests=ET.Element('paletteBox')
-
-    # Characteristics to elementtree element
-    characteristics=ET.Element('paletteBox')
+		# Number of channel descriptions (short integer)
+		n = strToShortInt(self.boxContents[0:2])
+		self.addCharacteristic("n",n)
+    
+		# Allowed range: 1 - 65535
+		self.testFor("nIsValid", 1 <= n <= 65535)
+    
+		# Each channel description is made up of three 2-byte fields, so check
+		# if size of box contents matches n
+		boxLengthIsValid = len(self.boxContents) - 2 == n * 6
+		addElement(tests,"boxLengthIsValid",boxLengthIsValid)
+    
+		# Loop through box contents and validate fields
+		offset = 2
+		for i in range(n):
+			# Channel index
+			cN=strToShortInt(self.boxContents[offset:offset+2])
+			self.addCharacteristic("cN",cN)
         
-    return(tests,characteristics)
-
-def validateComponentMappingBox(boxContents):
-    
-    # Test results to elementtree element
-    tests=ET.Element('componentMappingBox')
-
-    # Characteristics to elementtree element
-    characteristics=ET.Element('componentMappingBox')
+			# Allowed range: 0 - 65535
+			self.testFor("cNIsValid", 0 <= cN <= 65535)
         
-    return(tests,characteristics)
-
-def validateChannelDefinitionBox(boxContents):
-    
-    # This box specifies the meaning of the samples in each channel in the image
-    # (ISO/IEC 15444-1 Section I.5.3.6)
-    
-    # NOT TESTED YET BECAUSE OF UNAVAILABILITY OF SUITABLE TEST DATA!!
-    
-    # Test results to elementtree element
-    tests=ET.Element('channelDefinitionBox')
-
-    # Characteristics to elementtree element
-    characteristics=ET.Element('channelDefinitionBox')
-    
-    # Number of channel descriptions (short integer)
-    n=strToShortInt(boxContents[0:2])
-    addElement(characteristics,"n",n)
-    
-    # Allowed range: 1 - 65535
-    nIsValid=1 <= n <= 65535
-    addElement(tests,"nIsValid",nIsValid)
-    
-    # Each channel description is made up of three 2-byte fields, so check
-    # if size of box contents matches n
-    boxLengthIsValid=len(boxContents)-2 == n*6
-    addElement(tests,"boxLengthIsValid",boxLengthIsValid)
-    
-    # Loop through box contents and validate fields
-    offset=2
-    for i in range(n):
+			# Channel type
+			cTyp = strToShortInt(self.boxContents[offset+2:offset+4])
+			self.addCharacteristic("cTyp",cTyp)
         
-        # Channel index
-        cN=strToShortInt(boxContents[offset:offset+2])
-        addElement(characteristics,"cN",cN)
-        
-        # Allowed range: 0 - 65535
-        cNIsValid=0 <= cN <= 65535
-        addElement(tests,"cNIsValid",cNIsValid)
-        
-        # Channel type
-        cTyp=strToShortInt(boxContents[offset+2:offset+4])
-        addElement(characteristics,"cTyp",cTyp)
-        
-        # Allowed range: 0 - 65535
-        cTypIsValid=0 <= cTyp <= 65535
-        addElement(tests,"cTypIsValid",cTypIsValid)
+			# Allowed range: 0 - 65535
+			self.testFor("cTypIsValid", 0 <= cTyp <= 65535)
            
-        # Channel Association
-        cAssoc=strToShortInt(boxContents[offset+4:offset+6])
-        addElement(characteristics,"cAssoc",cAssoc)
+			# Channel Association
+			cAssoc = strToShortInt(self.boxContents[offset+4:offset+6])
+			self.addCharacteristic("cAssoc",cAssoc)
         
-        # Allowed range: 0 - 65535
-        cAssocIsValid=0 <= cTyp <= 65535
-        addElement(tests,"cAssocIsValid",cAssocIsValid)
+			# Allowed range: 0 - 65535
+			self.testFor("cAssocIsValid", 0 <= cTyp <= 65535)
         
-        offset += 6
-    
-    return(tests,characteristics)
+			offset += 6
 
 def validateResolutionBox(boxContents):
     
@@ -2254,16 +2201,8 @@ def validateJP2(jp2Data):
  
         boxLengthValue, boxType, byteEnd, boxContents = getBox(jp2Data,byteStart, noBytes)
               
-        # Call functions for top-level boxes
-#        if boxType == tagJP2HeaderBox:
-            # JP2 Header box
- #           resultBox,characteristicsBox=validateJP2HeaderBox(boxContents)
-#        if boxType == tagContiguousCodestreamBox:
-#            # Contiguous Codestream box
- #           resultBox,characteristicsBox=validateContiguousCodestreamBox(boxContents)
-#        else:
-            # Unknown box (nothing to validate)
-        resultBox,characteristicsBox=BoxValidator(boxType, boxContents).validate()
+        # Validate current top level box 
+        resultBox,characteristicsBox = BoxValidator(boxType, boxContents).validate()
         
         byteStart = byteEnd
         
