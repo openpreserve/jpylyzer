@@ -945,10 +945,10 @@ class BoxValidator:
 		while byteStart < noBytes and boxLengthValue != 0:
 			boxLengthValue, boxType, byteEnd, subBoxContents = getBox(self.boxContents,byteStart, noBytes)       
 			# Call functions for sub-boxes
-			if boxType == self.boxTagMap['imageHeaderBox']:
+#			if boxType == self.boxTagMap['imageHeaderBox']:
 				# Image Header box
-				resultBox,characteristicsBox=validateImageHeaderBox(subBoxContents)
-			elif boxType == self.boxTagMap['bitsPerComponentBox']:
+#				resultBox,characteristicsBox=validateImageHeaderBox(subBoxContents)
+			if boxType == self.boxTagMap['bitsPerComponentBox']:
 				# Bits Per Component box
 				resultBox,characteristicsBox=validateBitsPerComponentBox(subBoxContents)
 			elif boxType == self.boxTagMap['colourSpecificationBox']:
@@ -1163,95 +1163,84 @@ class BoxValidator:
 		self.testFor("foundEOCMarker", self.boxContents[length-2:length] == b'\xff\xd9')
    
 
-# Validator functions for boxes in JP2 Header superbox
-def validateImageHeaderBox(boxContents):
-
+	# Validator functions for boxes in JP2 Header superbox
+	def validate_imageHeaderBox(self):
     # This is a fixed-length box that contains generic image info.
     # (ISO/IEC 15444-1 Section I.5.3.1)
     # IMPORTANT: many of these parameters are redundant with header info
     # in codestream, so there should be a consistency check between these two!
-
-    # Test results to elementtree element
-    tests=ET.Element('imageHeaderBox')
-
-    # Characteristics to elementtree element
-    characteristics=ET.Element('imageHeaderBox')
     
     # Check box length (14 bytes, excluding box length/type fields)
-    boxLengthIsValid=hasRequiredLength(boxContents,14)
-    addElement(tests,"boxLengthIsValid",boxLengthIsValid)
+		self.testFor("boxLengthIsValid", len(self.boxContents) == 14)
     
     # Image height and width (both as unsigned integers)
-    height=strToUInt(boxContents[0:4])
-    addElement(characteristics,"height",height)
-    width=strToUInt(boxContents[4:8])
-    addElement(characteristics,"width",width)
+		height = strToUInt(self.boxContents[0:4])
+		self.addCharacteristic("height", height)
+		width = strToUInt(self.boxContents[4:8])
+		self.addCharacteristic("width", width)
        
     # Height and width should be within range 1 - (2**32)-1
-    heightIsValid=isWithinRange(height,1,(2**32)-1)
-    widthIsValid=isWithinRange(width,1,(2**32)-1)
-    addElement(tests,"heightIsValid",heightIsValid)
-    addElement(tests,"widthIsValid",widthIsValid)
+		heightIsValid=isWithinRange(height,1,(2**32)-1)
+		widthIsValid=isWithinRange(width,1,(2**32)-1)
+		self.testFor("heightIsValid", heightIsValid)
+		self.testFor("widthIsValid", widthIsValid)
     
-    # Number of components (unsigned short integer)
-    nC=strToUShortInt(boxContents[8:10])
-    addElement(characteristics,"nC",nC)
+		# Number of components (unsigned short integer)
+		nC = strToUShortInt(self.boxContents[8:10])
+		self.addCharacteristic("nC", nC)
           
     # Number of components should be in range 1 - 16384 (including limits)
-    nCIsValid=isWithinRange(nC,1,16384)
-    addElement(tests,"nCIsValid",nCIsValid)
+		nCIsValid=isWithinRange(nC, 1, 16384)
+		self.testFor("nCIsValid", nCIsValid)
 
-    # Bits per component (unsigned character)
-    bPC=strToUnsignedChar(boxContents[10:11])
+		# Bits per component (unsigned character)
+		bPC = strToUnsignedChar(self.boxContents[10:11])
         
     # Most significant bit indicates whether components are signed (1)
     # or unsigned (0).
-    bPCSign=getBitValue(bPC, 1)
-    addElement(characteristics,"bPCSign",bPCSign)
+		bPCSign = getBitValue(bPC, 1)
+		self.addCharacteristic("bPCSign", bPCSign)
     
-    # Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
-    # 01111111 (=127)
-    bPCDepth=(bPC & 127) + 1
-    addElement(characteristics,"bPCDepth",bPCDepth)
+		# Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
+		# 01111111 (=127)
+		bPCDepth = (bPC & 127) + 1
+		self.addCharacteristic("bPCDepth", bPCDepth)
     
     # Bits per component field is valid if:
     # 1. bPCDepth in range 1-38 (including limits)
     # 2. OR bPC equal 255 (indicating that components vary in bit depth)   
-    bPCDepthIsWithinAllowedRange=isWithinRange(bPCDepth,1,38)
-    bitDepthIsVariable=isRequiredValue(bPC,255)
+		bPCDepthIsWithinAllowedRange = isWithinRange(bPCDepth,1,38)
+		bitDepthIsVariable = isRequiredValue(bPC,255)
     
-    if bPCDepthIsWithinAllowedRange == True or bitDepthIsVariable == True:
-        bPCIsValid=True
-    else:
-        bPCIsValid=False
+		if bPCDepthIsWithinAllowedRange == True or bitDepthIsVariable == True:
+			bPCIsValid=True
+		else:
+			bPCIsValid=False
     
-    addElement(tests,"bPCIsValid",bPCIsValid)
+		self.testFor("bPCIsValid",bPCIsValid)
     
     # Compression type (unsigned character)
-    c=strToUnsignedChar(boxContents[11:12])
-    addElement(characteristics,"c",c)
+		c = strToUnsignedChar(self.boxContents[11:12])
+		self.addCharacteristic("c", c)
     
-    # Value should always be 7
-    cIsValid=isRequiredValue(c,7)
-    addElement(tests,"cIsValid",cIsValid)
+		# Value should always be 7
+		self.testFor("cIsValid", c == 7)
     
     # Colourspace unknown field (unsigned character)
-    unkC=strToUnsignedChar(boxContents[12:13])
-    addElement(characteristics,"unkC",unkC)
+		unkC = strToUnsignedChar(self.boxContents[12:13])
+		self.addCharacteristic("unkC", unkC)
     
     # Value should be 0 or 1
-    unkCIsValid=isWithinRange(unkC,0,1)
-    addElement(tests,"unkCIsValid",unkCIsValid)
+		unkCIsValid = isWithinRange(unkC,0,1)
+		self.testFor("unkCIsValid",unkCIsValid)
     
     # Intellectual Property field (unsigned character)
-    iPR=strToUnsignedChar(boxContents[13:14])
-    addElement(characteristics,"iPR",iPR)
+		iPR = strToUnsignedChar(self.boxContents[13:14])
+		self.addCharacteristic("iPR",iPR)
 
     # Value should be 0 or 1
-    iPRIsValid=isWithinRange(iPR,0,1)
-    addElement(tests,"iPRIsValid",iPRIsValid)
-       
-    return(tests,characteristics)
+		iPRIsValid=isWithinRange(iPR,0,1)
+		self.testFor("iPRIsValid", iPRIsValid)
     
 def validateBitsPerComponentBox(boxContents):
     
