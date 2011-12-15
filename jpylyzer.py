@@ -852,13 +852,13 @@ class BoxValidator:
 #			if boxType == self.boxTagMap['imageHeaderBox']:
 				# Image Header box
 #				resultBox,characteristicsBox=validateImageHeaderBox(subBoxContents)
-			if boxType == self.boxTagMap['bitsPerComponentBox']:
+#			if boxType == self.boxTagMap['bitsPerComponentBox']:
 				# Bits Per Component box
-				resultBox,characteristicsBox=validateBitsPerComponentBox(subBoxContents)
-			elif boxType == self.boxTagMap['colourSpecificationBox']:
+#				resultBox,characteristicsBox=validateBitsPerComponentBox(subBoxContents)
+#			if boxType == self.boxTagMap['colourSpecificationBox']:
 				# Colour Specification box
-				resultBox,characteristicsBox=validateColourSpecificationBox(subBoxContents)
-			elif boxType == self.boxTagMap['paletteBox']:
+#				resultBox,characteristicsBox=validateColourSpecificationBox(subBoxContents)
+			if boxType == self.boxTagMap['paletteBox']:
 				# Palette box
 				resultBox,characteristicsBox=validatePaletteBox(subBoxContents)
 			elif boxType == self.boxTagMap['componentMappingBox']:
@@ -1132,142 +1132,117 @@ class BoxValidator:
     # Value should be 0 or 1
 		self.testFor("iPRIsValid", 0 <= iPR <= 1)
     
-def validateBitsPerComponentBox(boxContents):
-    
-    # Optional box that specifies bit depth of each component
-    # (ISO/IEC 15444-1 Section I.5.3.2)
 
-    # Test results to elementtree element
-    tests=ET.Element('bitsPerComponentBox')
-
-    # Characteristics to elementtree element
-    characteristics=ET.Element('bitsPerComponentBox')
+	def validate_bitsPerComponentBox(self):
+		# Optional box that specifies bit depth of each component
+		# (ISO/IEC 15444-1 Section I.5.3.2)
     
-    # Number of bPC field (each field is 1 byte)
-    numberOfBPFields=len(boxContents)
+		# Number of bPC field (each field is 1 byte)
+		numberOfBPFields = len(self.boxContents)
     
-    # Validate all entries
+		# Validate all entries
+		for i in range(numberOfBPFields):
     
-    for i in range(numberOfBPFields):
+			# Bits per component (unsigned character)
+			bPC = strToUnsignedChar(self.boxContents[i:i+1])
     
-        # Bits per component (unsigned character)
-        bPC=strToUnsignedChar(boxContents[i:i+1])
+			# Most significant bit indicates whether components are signed (1)
+			# or unsigned (0). Extracted by applying bit mask of 10000000 (=128)
+			bPCSign = getBitValue(bPC, 1)
+			self.addCharacteristic("bPCSign",bPCSign)
     
-        # Most significant bit indicates whether components are signed (1)
-        # or unsigned (0). Extracted by applying bit mask of 10000000 (=128)
-        bPCSign=getBitValue(bPC, 1)
-        addElement(characteristics,"bPCSign",bPCSign)
+			# Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
+			# 01111111 (=127)
+			bPCDepth=(bPC & 127) + 1
+			self.addCharacteristic("bPCDepth",bPCDepth)
     
-        # Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
-        # 01111111 (=127)
-        bPCDepth=(bPC & 127) + 1
-        addElement(characteristics,"bPCDepth",bPCDepth)
-    
-        # Bits per component field is valid if bPCDepth in range 1-38 (including limits)
-        bPCIsValid=1 <= bPCDepth <= 38 
-        addElement(tests,"bPCIsValid",bPCIsValid)
-    
-    return(tests,characteristics)
-    
-def validateColourSpecificationBox(boxContents):
-
-    # This box defines one method for interpreting colourspace of decompressed
-    # image data
-    # (ISO/IEC 15444-1 Section I.5.3.3)
-    
-    # Test results to elementtree element
-    tests=ET.Element('colourSpecificationBox')
-
-    # Characteristics to elementtree element
-    characteristics=ET.Element('colourSpecificationBox')
-    
-    # Length of this box
-    length=len(boxContents)
+			# Bits per component field is valid if bPCDepth in range 1-38 (including limits)
+			self.testFor("bPCIsValid", 1 <= bPCDepth <= 38)
         
-    # Specification method (unsigned character)
-    meth=strToUnsignedChar(boxContents[0:1])
-    addElement(characteristics,"meth",meth)
+
+	def validate_colourSpecificationBox(self):
+		# This box defines one method for interpreting colourspace of decompressed
+		# image data
+		# (ISO/IEC 15444-1 Section I.5.3.3)
     
-    # Value should be 1 (enumerated colourspace) or 2 (restricted ICC profile)
-    methIsValid=1 <= meth <= 2
-    addElement(tests,"methIsValid",methIsValid)
+		# Length of this box
+		length = len(self.boxContents)
+        
+		# Specification method (unsigned character)
+		meth = strToUnsignedChar(self.boxContents[0:1])
+		self.addCharacteristic("meth",meth)
+    
+		# Value should be 1 (enumerated colourspace) or 2 (restricted ICC profile)
+		self.testFor("methIsValid", 1 <= meth <= 2)
     
     # Precedence (unsigned character)
-    prec=strToUnsignedChar(boxContents[1:2])
-    addElement(characteristics,"prec",prec)
+		prec = strToUnsignedChar(self.boxContents[1:2])
+		self.addCharacteristic("prec",prec)
     
     # Value shall be 0 (but conforming readers should ignore it)
-    precIsValid=prec == 0
-    addElement(tests,"precIsValid",precIsValid)
+		self.testFor("precIsValid", prec == 0)
     
     # Colourspace approximation (unsigned character)
-    approx=strToUnsignedChar(boxContents[2:3])
-    addElement(characteristics,"approx",approx)
+		approx = strToUnsignedChar(self.boxContents[2:3])
+		self.addCharacteristic("approx",approx)
     
     # Value shall be 0 (but conforming readers should ignore it)
-    approxIsValid=approx == 0
-    addElement(tests,"approxIsValid",approxIsValid)
+		self.testFor("approxIsValid",approx == 0)
     
-    # Colour space info: enumerated CS or embedded ICC profile,
-    # depending on value of meth
+		# Colour space info: enumerated CS or embedded ICC profile,
+		# depending on value of meth
+		if meth == 1:
+			# Enumerated colour space field (long integer)
+			enumCS = strToUInt(self.boxContents[3:length])
+			self.addCharacteristic("enumCS",enumCS)
+        
+			# (Note: this will also trap any cases where enumCS is more/less than 4
+			# bytes, as strToUInt will return bogus negative value, which in turn is 
+			# handled by statement below)
+        
+			# Legal values: 16,17, 18
+			self.testFor("enumCSIsValid", enumCS in [16,17,18])
+        
+		elif meth == 2:
+			# Restricted ICC profile
+			profile = self.boxContents[3:length]
+        
+			# Extract ICC profile properties as element object
+			iccCharacteristics=getICCCharacteristics(profile)
+			self.characteristics.append(iccCharacteristics)
+        
+			# Profile size property should equal actual profile size
+			profileSize = findElementText(iccCharacteristics,'profileSize')
+			self.testFor("iccSizeIsValid", profileSize == len(profile))
+        
+			# Profile class must be 'input' or 'display'
+			profileClass = findElementText(iccCharacteristics,'profileClass')
+			self.testFor("iccPermittedProfileClass", profileClass in [b'scnr',b'mntr'])
+        
+			# List of tag signatures may not contain "AToB0Tag", which indicates
+			# an N-component LUT based profile, which is not allowed in JP2
+        
+			# Step 1: create list of all "tag" elements
+			tagSignatureElements = iccCharacteristics.findall("tag")
+        
+			# Step 2: create list of all tag signatures and fill it 
+			tagSignatures=[]
+        
+			for i in range(len(tagSignatureElements)):
+				tagSignatures.append(tagSignatureElements[i].text)
+        
+			# Step 3: verify non-existence of "AToB0Tag"
+			self.testFor("iccNoLUTBasedProfile", b'AToB0Tag' not in tagSignatures)
     
-    if meth==1:
-        # Enumerated colour space field (long integer)
-        enumCS=strToUInt(boxContents[3:length])
-        addElement(characteristics,"enumCS",enumCS)
+		elif meth == 3:
+			# ICC profile embedded using "Any ICC" method. Belongs to Part 2 of the
+			# standard (JPX), so if we get here by definition this is not valid JP2!
+			profile = self.boxContents[3:length]
         
-        # (Note: this will also trap any cases where enumCS is more/less than 4
-        # bytes, as strToUInt will return bogus negative value, which in turn is 
-        # handled by statement below)
-        
-        # Legal values: 16,17, 18
-        enumCSIsValid=enumCS in [16,17,18]
-        addElement(tests,"enumCSIsValid",enumCSIsValid)
-        
-    elif meth==2:
-        # Restricted ICC profile
-        profile=boxContents[3:length]
-        
-        # Extract ICC profile properties as element object
-        iccCharacteristics=getICCCharacteristics(profile)
-        characteristics.append(iccCharacteristics)
-        
-        # Profile size property should equal actual profile size
-        profileSize=findElementText(iccCharacteristics,'profileSize')
-        iccSizeIsValid=profileSize == len(profile)
-        addElement(tests,"iccSizeIsValid",iccSizeIsValid)
-        
-        # Profile class must be 'input' or 'display'
-        profileClass=findElementText(iccCharacteristics,'profileClass')
-        iccPermittedProfileClass=profileClass in [b'scnr',b'mntr']
-        addElement(tests,"iccPermittedProfileClass",iccPermittedProfileClass)
-        
-        # List of tag signatures may not contain "AToB0Tag", which indicates
-        # an N-component LUT based profile, which is not allowed in JP2
-        
-        # Step 1: create list of all "tag" elements
-        tagSignatureElements=iccCharacteristics.findall("tag")
-        
-        # Step 2: create list of all tag signatures and fill it 
-        tagSignatures=[]
-        
-        for i in range(len(tagSignatureElements)):
-            tagSignatures.append(tagSignatureElements[i].text)
-        
-        # Step 3: verify non-existence of "AToB0Tag"
-        iccNoLUTBasedProfile=b'AToB0Tag' not in tagSignatures
-        addElement(tests,"iccNoLUTBasedProfile",iccNoLUTBasedProfile)
-    
-    elif meth==3:
-        # ICC profile embedded using "Any ICC" method. Belongs to Part 2 of the
-        # standard (JPX), so if we get here by definition this is not valid JP2!
-        profile=boxContents[3:length]
-        
-        # Extract ICC profile properties as element object
-        iccCharacteristics=getICCCharacteristics(profile)
-        characteristics.append(iccCharacteristics)
+			# Extract ICC profile properties as element object
+			iccCharacteristics = getICCCharacteristics(profile)
+			self.characteristics.append(iccCharacteristics)
                 
-    return(tests,characteristics)
 
 def validatePaletteBox(boxContents):
     
