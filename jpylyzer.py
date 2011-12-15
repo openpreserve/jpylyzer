@@ -464,106 +464,7 @@ def getBitValue(n, p):
     
     return (n >> shift) & 1
     
-def isRequiredValue(variable,requiredValue):
-    # Returns True if variable equals required value, and False otherwise
-    
-    if variable == requiredValue:
-        result=True
-    else:
-        result=False
-    return(result)
 
-def isGreaterThanOrEqual(number,value):
-    # Returns True if number is greater than or equal to value, and False otherwise
-    
-    if number >= value:
-        result=True
-    else:
-        result=False
-    return(result)
-
-def isLessThanOrEqual(number,value):
-    # Returns True if number is less than or equal to lowerLimit, and False otherwise
-    
-    if number <= value:
-        result=True
-    else:
-        result=False
-    return(result)
-
-def isWithinRange(number,lowerLimit,upperLimit):
-    # Returns True if number is within user-defined range, and False otherwise
-    # Note that both upper and lower limit are included in range
-    
-    if lowerLimit <= number <= upperLimit:
-        result=True
-    else:
-        result=False
-    return(result)
-
-def isNotWithinRange(number,lowerLimit,upperLimit):
-    # Returns True if number is not within user-defined range, and False otherwise
-    # Note that both upper and lower limit are included in range
-    
-    if lowerLimit <= number <= upperLimit:
-        result=False
-    else:
-        result=True
-    return(result)
-
-def hasRequiredLength(variable,requiredLength):
-    # Returns True if variable has required length, and False otherwise
-    length=len(variable)
-    
-    if length == requiredLength:
-        result=True
-    else:
-        result=False
-    return(result)
-
-def valueInList(value,list):
-    # Returns True if list contains at least one entry that is equal to value,
-    # and False otherwise
-    
-    if value in list:
-        valueInList=True
-    else:
-        valueInList=False
-    
-    return(valueInList)
-
-def valueNotInList(value,list):
-    # Returns True if list does not contain entry that is equal to value,
-    # and False otherwise
-    
-    if value in list:
-        valueNotInList=False
-    else:
-        valueNotInList=True
-    
-    return(valueNotInList)
-
-def listItemAtPosition(list,value,position):
-    # Returns True if 'value' is found at 'position' in list,
-    # and False otherwise
-
-    if list[position] == value:
-        itemAtPosition=True
-    else:
-        itemAtPosition=False
-    
-    return(itemAtPosition)
-
-def listItemUniqueOrNonExistent(list,value):
-    # Returns True if list contains either a single occurrence of 'value',
-    # or no occurrence at all. Returns False otherwise.
-    
-    if list.count(value) <= 1:
-        itemUniqueOrNonExistent=True
-    else:
-        itemUniqueOrNonExistent=False
-    
-    return(itemUniqueOrNonExistent)
 
 def indexMultiMatch(list, value):   
     # Search list for occurrences of 'value', and return list
@@ -998,7 +899,7 @@ class BoxValidator:
 
     # Is the first box an Image Header Box?
 		try:
-			firstJP2HeaderBoxIsImageHeaderBox=listItemAtPosition(subBoxTypes,self.boxTagMap['imageHeaderBox'],0)
+			firstJP2HeaderBoxIsImageHeaderBox=subBoxTypes[0] == self.boxTagMap['imageHeaderBox']
 		except:
 			firstJP2HeaderBoxIsImageHeaderBox=False
     
@@ -1263,7 +1164,7 @@ def validateBitsPerComponentBox(boxContents):
         addElement(characteristics,"bPCDepth",bPCDepth)
     
         # Bits per component field is valid if bPCDepth in range 1-38 (including limits)
-        bPCIsValid=isWithinRange(bPCDepth,1,38) 
+        bPCIsValid=1 <= bPCDepth <= 38 
         addElement(tests,"bPCIsValid",bPCIsValid)
     
     return(tests,characteristics)
@@ -1288,7 +1189,7 @@ def validateColourSpecificationBox(boxContents):
     addElement(characteristics,"meth",meth)
     
     # Value should be 1 (enumerated colourspace) or 2 (restricted ICC profile)
-    methIsValid=isWithinRange(meth,1,2)
+    methIsValid=1 <= meth <= 2
     addElement(tests,"methIsValid",methIsValid)
     
     # Precedence (unsigned character)
@@ -1296,7 +1197,7 @@ def validateColourSpecificationBox(boxContents):
     addElement(characteristics,"prec",prec)
     
     # Value shall be 0 (but conforming readers should ignore it)
-    precIsValid=isRequiredValue(prec,0)
+    precIsValid=prec == 0
     addElement(tests,"precIsValid",precIsValid)
     
     # Colourspace approximation (unsigned character)
@@ -1304,7 +1205,7 @@ def validateColourSpecificationBox(boxContents):
     addElement(characteristics,"approx",approx)
     
     # Value shall be 0 (but conforming readers should ignore it)
-    approxIsValid=isRequiredValue(approx,0)
+    approxIsValid=approx == 0
     addElement(tests,"approxIsValid",approxIsValid)
     
     # Colour space info: enumerated CS or embedded ICC profile,
@@ -1320,7 +1221,7 @@ def validateColourSpecificationBox(boxContents):
         # handled by statement below)
         
         # Legal values: 16,17, 18
-        enumCSIsValid=valueInList(enumCS,[16,17,18])
+        enumCSIsValid=enumCS in [16,17,18]
         addElement(tests,"enumCSIsValid",enumCSIsValid)
         
     elif meth==2:
@@ -1333,12 +1234,12 @@ def validateColourSpecificationBox(boxContents):
         
         # Profile size property should equal actual profile size
         profileSize=findElementText(iccCharacteristics,'profileSize')
-        iccSizeIsValid=isRequiredValue(profileSize,len(profile))
+        iccSizeIsValid=profileSize == len(profile)
         addElement(tests,"iccSizeIsValid",iccSizeIsValid)
         
         # Profile class must be 'input' or 'display'
         profileClass=findElementText(iccCharacteristics,'profileClass')
-        iccPermittedProfileClass=valueInList(profileClass,[b'scnr',b'mntr'])
+        iccPermittedProfileClass=profileClass in [b'scnr',b'mntr']
         addElement(tests,"iccPermittedProfileClass",iccPermittedProfileClass)
         
         # List of tag signatures may not contain "AToB0Tag", which indicates
@@ -1354,7 +1255,7 @@ def validateColourSpecificationBox(boxContents):
             tagSignatures.append(tagSignatureElements[i].text)
         
         # Step 3: verify non-existence of "AToB0Tag"
-        iccNoLUTBasedProfile=valueNotInList(b'AToB0Tag',tagSignatures)
+        iccNoLUTBasedProfile=b'AToB0Tag' not in tagSignatures
         addElement(tests,"iccNoLUTBasedProfile",iccNoLUTBasedProfile)
     
     elif meth==3:
@@ -1406,12 +1307,12 @@ def validateChannelDefinitionBox(boxContents):
     addElement(characteristics,"n",n)
     
     # Allowed range: 1 - 65535
-    nIsValid=isWithinRange(n,1,65535)
+    nIsValid=1 <= n <= 65535
     addElement(tests,"nIsValid",nIsValid)
     
     # Each channel description is made up of three 2-byte fields, so check
     # if size of box contents matches n
-    boxLengthIsValid=isRequiredValue(len(boxContents)-2,n*6)
+    boxLengthIsValid=len(boxContents)-2 == n*6
     addElement(tests,"boxLengthIsValid",boxLengthIsValid)
     
     # Loop through box contents and validate fields
@@ -1423,7 +1324,7 @@ def validateChannelDefinitionBox(boxContents):
         addElement(characteristics,"cN",cN)
         
         # Allowed range: 0 - 65535
-        cNIsValid=isWithinRange(cN,0,65535)
+        cNIsValid=0 <= cN <= 65535
         addElement(tests,"cNIsValid",cNIsValid)
         
         # Channel type
@@ -1431,7 +1332,7 @@ def validateChannelDefinitionBox(boxContents):
         addElement(characteristics,"cTyp",cTyp)
         
         # Allowed range: 0 - 65535
-        cTypIsValid=isWithinRange(cTyp,0,65535)
+        cTypIsValid=0 <= cTyp <= 65535
         addElement(tests,"cTypIsValid",cTypIsValid)
            
         # Channel Association
@@ -1439,7 +1340,7 @@ def validateChannelDefinitionBox(boxContents):
         addElement(characteristics,"cAssoc",cAssoc)
         
         # Allowed range: 0 - 65535
-        cAssocIsValid=isWithinRange(cTyp,0,65535)
+        cAssocIsValid=0 <= cTyp <= 65535
         addElement(tests,"cAssocIsValid",cAssocIsValid)
         
         offset += 6
@@ -1507,8 +1408,8 @@ def validateResolutionBox(boxContents):
             
     addElement(tests,"containsCaptureOrDisplayResolutionBox",containsCaptureOrDisplayResolutionBox)
 
-    noMoreThanOneCaptureResolutionBox=listItemUniqueOrNonExistent(subBoxTypes,tagCaptureResolutionBox)
-    noMoreThanOneDisplayResolutionBox=listItemUniqueOrNonExistent(subBoxTypes,tagDisplayResolutionBox)
+    noMoreThanOneCaptureResolutionBox=subBoxTypes.count(tagCaptureResolutionBox) <= 1
+    noMoreThanOneDisplayResolutionBox=subBoxTypes.count(tagDisplayResolutionBox) <= 1
     
     addElement(tests,"noMoreThanOneCaptureResolutionBox",noMoreThanOneCaptureResolutionBox)
     addElement(tests,"noMoreThanOneDisplayResolutionBox",noMoreThanOneDisplayResolutionBox)
@@ -1528,7 +1429,7 @@ def validateCaptureResolutionBox(boxContents):
     characteristics=ET.Element('captureResolutionBox')
     
     # Check box size, which should be 10 bytes
-    boxLengthIsValid=isRequiredValue(len(boxContents),10)
+    boxLengthIsValid=len(boxContents) == 10
     addElement(tests,"boxLengthIsValid",boxLengthIsValid)
     
     # Vertical / horizontal grid resolution numerators and denominators:
@@ -1537,25 +1438,25 @@ def validateCaptureResolutionBox(boxContents):
     # Vertical grid resolution numerator (2 byte integer)
     vRcN=strToUShortInt(boxContents[0:2])
     addElement(characteristics,"vRcN",vRcN)
-    vRcNIsValid=isWithinRange(vRcN,1,65535)
+    vRcNIsValid=1 <= vRcN <= 65535
     addElement(tests,"vRcNIsValid",vRcNIsValid)
 
     # Vertical grid resolution denominator (2 byte integer)
     vRcD=strToUShortInt(boxContents[2:4])
     addElement(characteristics,"vRcD",vRcD)
-    vRcDIsValid=isWithinRange(vRcD,1,65535)
+    vRcDIsValid=1 <= vRcD <= 65535
     addElement(tests,"vRcDIsValid",vRcDIsValid)
     
     # Horizontal grid resolution numerator (2 byte integer)
     hRcN=strToUShortInt(boxContents[4:6])
     addElement(characteristics,"hRcN",hRcN)
-    hRcNIsValid=isWithinRange(hRcN,1,65535)
+    hRcNIsValid=1 <= hRcN <= 65535
     addElement(tests,"hRcNIsValid",hRcNIsValid)
 
     # Horizontal grid resolution denominator (2 byte integer)
     hRcD=strToUShortInt(boxContents[6:8])
     addElement(characteristics,"hRcD",hRcD)
-    hRcDIsValid=isWithinRange(hRcD,1,65535)
+    hRcDIsValid=1 <= hRcD <= 65535
     addElement(tests,"hRcDIsValid",hRcDIsValid)
 
     # Vertical / horizontal grid resolution exponents:
@@ -1564,13 +1465,13 @@ def validateCaptureResolutionBox(boxContents):
     # Vertical grid resolution exponent (1 byte signed integer)
     vRcE=strToSignedChar(boxContents[8:9])
     addElement(characteristics,"vRcE",vRcE)
-    vRcEIsValid=isWithinRange(vRcE,-128,127)
+    vRcEIsValid=-128 <= vRcE <= 127
     addElement(tests,"vRcEIsValid",vRcEIsValid)
     
     # Horizontal grid resolution exponent (1 byte signed integer)
     hRcE=strToSignedChar(boxContents[9:10])    
     addElement(characteristics,"hRcE",hRcE)
-    hRcEIsValid=isWithinRange(hRcE,-128,127)
+    hRcEIsValid=-128 <= hRcE <= 127
     addElement(tests,"hRcEIsValid",hRcEIsValid)
     
     # Include vertical and horizontal resolution values in pixels per meter
@@ -1600,7 +1501,7 @@ def validateDisplayResolutionBox(boxContents):
     characteristics=ET.Element('displayResolutionBox')
     
     # Check box size, which should be 10 bytes
-    boxLengthIsValid=isRequiredValue(len(boxContents),10)
+    boxLengthIsValid=len(boxContents) == 10
     addElement(tests,"boxLengthIsValid",boxLengthIsValid)
     
     # Vertical / horizontal grid resolution numerators and denominators:
@@ -1609,25 +1510,25 @@ def validateDisplayResolutionBox(boxContents):
     # Vertical grid resolution numerator (2 byte integer)
     vRdN=strToUShortInt(boxContents[0:2])
     addElement(characteristics,"vRdN",vRdN)
-    vRdNIsValid=isWithinRange(vRdN,1,65535)
+    vRdNIsValid=1 <= vRdN <= 65535
     addElement(tests,"vRdNIsValid",vRdNIsValid)
 
     # Vertical grid resolution denominator (2 byte integer)
     vRdD=strToUShortInt(boxContents[2:4])
     addElement(characteristics,"vRdD",vRdD)
-    vRdDIsValid=isWithinRange(vRdD,1,65535)
+    vRdDIsValid=1 <= vRdD <= 65535
     addElement(tests,"vRdDIsValid",vRdDIsValid)
     
     # Horizontal grid resolution numerator (2 byte integer)
     hRdN=strToUShortInt(boxContents[4:6])
     addElement(characteristics,"hRdN",hRdN)
-    hRdNIsValid=isWithinRange(hRdN,1,65535)
+    hRdNIsValid=1 <= hRdN <= 65535
     addElement(tests,"hRdNIsValid",hRdNIsValid)
 
     # Horizontal grid resolution denominator (2 byte integer)
     hRdD=strToUShortInt(boxContents[6:8])
     addElement(characteristics,"hRdD",hRdD)
-    hRdDIsValid=isWithinRange(hRdD,1,65535)
+    hRdDIsValid=1 <= hRdD <= 65535
     addElement(tests,"hRdDIsValid",hRdDIsValid)
 
     # Vertical / horizontal grid resolution exponents:
@@ -1636,13 +1537,13 @@ def validateDisplayResolutionBox(boxContents):
     # Vertical grid resolution exponent (1 byte signed integer)
     vRdE=strToSignedChar(boxContents[8:9])
     addElement(characteristics,"vRdE",vRdE)
-    vRdEIsValid=isWithinRange(vRdE,-128,127)
+    vRdEIsValid=-128 <= vRdE <= 127
     addElement(tests,"vRdEIsValid",vRdEIsValid)
     
     # Horizontal grid resolution exponent (1 byte signed integer)
     hRdE=strToSignedChar(boxContents[9:10])    
     addElement(characteristics,"hRdE",hRdE)
-    hRdEIsValid=isWithinRange(hRdE,-128,127)
+    hRdEIsValid=-128 <= hRdE <= 127
     addElement(tests,"hRdEIsValid",hRdEIsValid)
 
     # Include vertical and horizontal resolution values in pixels per meter
@@ -1701,7 +1602,7 @@ def validateSIZ(data):
     addElement(characteristics,"lsiz",lsiz)
     
     # lsiz should be within range 41-49190
-    lsizIsValid=isWithinRange(lsiz,41,49190)
+    lsizIsValid=41 <= lsiz <= 49190
     addElement(tests,"lsizIsValid",lsizIsValid)
     
     # Decoder capabilities
@@ -1709,7 +1610,7 @@ def validateSIZ(data):
     addElement(characteristics,"rsiz",rsiz)
     
     # rsiz should be either 0, 1 or 2
-    rsizIsValid=valueInList(rsiz,[0,1,2])
+    rsizIsValid=rsiz in [0,1,2]
     addElement(tests,"rsizIsValid",rsizIsValid)
         
     # Width of reference grid
@@ -1717,7 +1618,7 @@ def validateSIZ(data):
     addElement(characteristics,"xsiz",xsiz)
     
     # xsiz should be within range 1 - (2**32)-1
-    xsizIsValid=isWithinRange(xsiz,1,(2**32)-1)
+    xsizIsValid=1 <= xsiz <= (2**32)-1
     addElement(tests,"xsizIsValid",xsizIsValid)
     
     # Heigth of reference grid
@@ -1725,7 +1626,7 @@ def validateSIZ(data):
     addElement(characteristics,"ysiz",ysiz)
     
     # ysiz should be within range 1 - (2**32)-1
-    ysizIsValid=isWithinRange(ysiz,1,(2**32)-1)
+    ysizIsValid=1 <= ysiz <= (2**32)-1
     addElement(tests,"ysizIsValid",ysizIsValid)
     
     # Horizontal offset from origin of reference grid to left of image area
@@ -1733,7 +1634,7 @@ def validateSIZ(data):
     addElement(characteristics,"xOsiz",xOsiz)
     
     # xOsiz should be within range 0 - (2**32)-2
-    xOsizIsValid=isWithinRange(xOsiz,0,(2**32)-2)
+    xOsizIsValid=0 <= xOsiz <= (2**32)-2
     addElement(tests,"xOsizIsValid",xOsizIsValid)
     
     # Vertical offset from origin of reference grid to top of image area
@@ -1741,7 +1642,7 @@ def validateSIZ(data):
     addElement(characteristics,"yOsiz",yOsiz)
     
     # yOsiz should be within range 0 - (2**32)-2
-    yOsizIsValid=isWithinRange(yOsiz,0,(2**32)-2)
+    yOsizIsValid=0 <= yOsiz <= (2**32)-2
     addElement(tests,"yOsizIsValid",yOsizIsValid)
 
     # Width of one reference tile with respect to the reference grid
@@ -1749,7 +1650,7 @@ def validateSIZ(data):
     addElement(characteristics,"xTsiz",xTsiz)
     
     # xTsiz should be within range 1 - (2**32)- 1
-    xTsizIsValid=isWithinRange(xTsiz,1,(2**32)-1)
+    xTsizIsValid=1 <= xTsiz <= (2**32)-1
     addElement(tests,"xTsizIsValid",xTsizIsValid)
 
     # Height of one reference tile with respect to the reference grid
@@ -1757,7 +1658,7 @@ def validateSIZ(data):
     addElement(characteristics,"yTsiz",yTsiz)
     
     # yTsiz should be within range 1 - (2**32)- 1
-    yTsizIsValid=isWithinRange(yTsiz,1,(2**32)-1)
+    yTsizIsValid=1 <= yTsiz <= (2**32)-1
     addElement(tests,"yTsizIsValid",yTsizIsValid)
 
     # Horizontal offset from origin of reference grid to left side of first tile
@@ -1765,7 +1666,7 @@ def validateSIZ(data):
     addElement(characteristics,"xTOsiz",xTOsiz)
     
     # xTOsiz should be within range 0 - (2**32)-2
-    xTOsizIsValid=isWithinRange(xTOsiz,0,(2**32)-2)
+    xTOsizIsValid=0 <= xTOsiz <= (2**32)-2
     addElement(tests,"xTOsizIsValid",xTOsizIsValid)
 
     # Vertical offset from origin of reference grid to top side of first tile
@@ -1773,7 +1674,7 @@ def validateSIZ(data):
     addElement(characteristics,"yTOsiz",yTOsiz)
     
     # yTOsiz should be within range 0 - (2**32)-2
-    yTOsizIsValid=isWithinRange(yTOsiz,0,(2**32)-2)
+    yTOsizIsValid=0 <= yTOsiz <= (2**32)-2
     addElement(tests,"yTOsizIsValid",yTOsizIsValid)
 
     # Number of components 
@@ -1781,11 +1682,11 @@ def validateSIZ(data):
     addElement(characteristics,"csiz",csiz)
           
     # Number of components should be in range 1 - 16384 (including limits)
-    csizIsValid=isWithinRange(csiz,1,16384)
+    csizIsValid=1 <= csiz <= 16384
     addElement(tests,"csizIsValid",csizIsValid)
     
     # Check if codestream header size is consistent with csiz
-    lsizConsistentWithCsiz=isRequiredValue(lsiz,38+(3*csiz))
+    lsizConsistentWithCsiz=lsiz == 38+(3*csiz)
     addElement(tests,"lsizConsistentWithCsiz",lsizConsistentWithCsiz)
     
     # Precision, depth horizontal/verical separation repeated for each component
@@ -1811,7 +1712,7 @@ def validateSIZ(data):
         addElement(characteristics,"ssizDepth",ssizDepth)
         
         # ssiz field is valid if ssizDepth in range 1-38   
-        ssizIsValid=isWithinRange(ssizDepth,1,38)
+        ssizIsValid=1 <= ssizDepth <= 38
         addElement(tests,"ssizIsValid",ssizIsValid)
         
         # Horizontal separation of sample of this component with respect
@@ -1820,7 +1721,7 @@ def validateSIZ(data):
         addElement(characteristics,"xRsiz",xRsiz)
         
         # xRSiz valid if range 1-255   
-        xRsizIsValid=isWithinRange(xRsiz,1,255)
+        xRsizIsValid=1 <= xRsiz <= 255
         addElement(tests,"xRsizIsValid",xRsizIsValid)
 
         # Vertical separation of sample of this component with respect
@@ -1829,7 +1730,7 @@ def validateSIZ(data):
         addElement(characteristics,"yRsiz",yRsiz)
         
         # yRSiz valid if range 1-255   
-        yRsizIsValid=isWithinRange(yRsiz,1,255)
+        yRsizIsValid=1 <= yRsiz <= 255
         addElement(tests,"yRsizIsValid",yRsizIsValid)
         
         offset += 3
@@ -1852,7 +1753,7 @@ def validateCOD(data):
     addElement(characteristics,"lcod",lcod)
 
     # lcod should be in range 12-45
-    lcodIsValid=isWithinRange(lcod ,12,45)
+    lcodIsValid=12 <= lcod  <= 45
     addElement(tests,"lcodIsValid",lcodIsValid)
         
     # Coding style
@@ -1886,7 +1787,7 @@ def validateCOD(data):
     addElement(characteristics,"order",order)
     
     # Allowed values: 0 (LRCP), 1 (RLCP), 2 (RPCL), 3 (PCRL), 4(CPRL)
-    orderIsValid=valueInList(order,[0,1,2,3,4])
+    orderIsValid=order in [0,1,2,3,4]
     addElement(tests,"orderIsValid",orderIsValid)
     
     # Number of layers
@@ -1894,7 +1795,7 @@ def validateCOD(data):
     addElement(characteristics,"layers",layers)
 
     # layers should be in range 1-65535
-    layersIsValid=isWithinRange(layers ,1,65535)
+    layersIsValid=1 <= layers  <= 65535
     addElement(tests,"layersIsValid",layersIsValid)
     
     # Multiple component transformation
@@ -1903,7 +1804,7 @@ def validateCOD(data):
     
     # Value should be 0 (no transformation) or 1 (transformation on components
     # 0,1 and 2)
-    multipleComponentTransformationIsValid=valueInList(multipleComponentTransformation,[0,1])
+    multipleComponentTransformationIsValid=multipleComponentTransformation in [0,1]
     addElement(tests,"multipleComponentTransformationIsValid",multipleComponentTransformationIsValid)    
 
     # Coding parameters that are component-specific (grouped as sPCod)
@@ -1914,7 +1815,7 @@ def validateCOD(data):
     addElement(characteristics,"levels",levels)
     
     # levels should be within range 0-32
-    levelsIsValid=isWithinRange(levels ,0,32)
+    levelsIsValid=0 <= levels  <= 32
     addElement(tests,"levelsIsValid",levelsIsValid)
     
     # Check lcod is consistent with levels and precincts (eq A-2 ) 
@@ -1923,7 +1824,7 @@ def validateCOD(data):
     else:
         lcodExpected=13 + levels
     
-    lcodConsistentWithLevelsPrecincts=isRequiredValue(lcod,lcodExpected)
+    lcodConsistentWithLevelsPrecincts=lcod == lcodExpected
     addElement(tests,"lcodConsistentWithLevelsPrecincts",lcodConsistentWithLevelsPrecincts)
     
     # Code block width exponent (stored as offsets, add 2 to get actual value)
@@ -1931,7 +1832,7 @@ def validateCOD(data):
     addElement(characteristics,"codeBlockWidth",2**codeBlockWidthExponent)
     
     # Value within range 2-10
-    codeBlockWidthExponentIsValid=isWithinRange(codeBlockWidthExponent,2,10)  
+    codeBlockWidthExponentIsValid=2 <= codeBlockWidthExponent <= 10  
     addElement(tests,"codeBlockWidthExponentIsValid",codeBlockWidthExponentIsValid)
     
     # Code block height exponent (stored as offsets, add 2 to get actual value)
@@ -1939,11 +1840,11 @@ def validateCOD(data):
     addElement(characteristics,"codeBlockHeight",2**codeBlockHeightExponent)
     
     # Value within range 2-10
-    codeBlockHeightExponentIsValid=isWithinRange(codeBlockHeightExponent,2,10)  
+    codeBlockHeightExponentIsValid=2 <= codeBlockHeightExponent <= 10  
     addElement(tests,"codeBlockHeightExponentIsValid",codeBlockHeightExponentIsValid)
     
     # Sum of width + height exponents shouldn't exceed 12
-    sumHeightWidthExponentIsValid=isLessThanOrEqual(codeBlockWidthExponent+codeBlockHeightExponent,12)
+    sumHeightWidthExponentIsValid=codeBlockWidthExponent+codeBlockHeightExponent <= 12
     addElement(tests,"sumHeightWidthExponentIsValid",sumHeightWidthExponentIsValid)
     
     # Code block style, contains 6 boolean switches
@@ -1977,7 +1878,7 @@ def validateCOD(data):
     transformation=strToUnsignedChar(data[11:12])
     addElement(characteristics,"transformation",transformation)
     
-    transformationIsValid=valueInList(transformation,[0,1])
+    transformationIsValid=transformation in [0,1]
     addElement(tests,"transformationIsValid",transformationIsValid)
     
     if precincts ==1:
@@ -1998,7 +1899,7 @@ def validateCOD(data):
             
             # Precinct size of 1 (exponent 0) only allowed for lowest resolution level
             if i !=0:
-                precinctSizeXIsValid=isGreaterThanOrEqual(precinctSizeX,2)
+                precinctSizeXIsValid=precinctSizeX >= 2
             else:
                 precinctSizeXIsValid=True
     
@@ -2012,7 +1913,7 @@ def validateCOD(data):
             
             # Precinct size of 1 (exponent 0) only allowed for lowest resolution level
             if i !=0:
-                precinctSizeYIsValid=isGreaterThanOrEqual(precinctSizeY,2)
+                precinctSizeYIsValid=precinctSizeY >= 2
             else:
                 precinctSizeYIsValid=True
     
@@ -2038,7 +1939,7 @@ def validateQCD(data):
     addElement(characteristics,"lqcd",lqcd)
 
     # lqcd should be in range 4-197
-    lqcdIsValid=isWithinRange(lqcd ,4,197)
+    lqcdIsValid=4 <= lqcd  <= 197
     addElement(tests,"lqcdIsValid",lqcdIsValid)
     
     # Note: lqcd should also be consistent with no. decomp.levels and sqcd!
@@ -2053,7 +1954,7 @@ def validateQCD(data):
     addElement(characteristics,"qStyle",qStyle)
     
     # Allowed values: 0 (no quantization), 1 (scalar derived), 2 (scalar expounded)
-    qStyleIsValid=valueInList(qStyle,[0,1,2])
+    qStyleIsValid=qStyle in [0,1,2]
     addElement(tests,"qStyleIsValid",qStyleIsValid)
     
     # Number of guard bits (3 most significant bits, shift + bit mask)
@@ -2123,7 +2024,7 @@ def validateCOM(data):
     addElement(characteristics,"lcom",lcom)
 
     # lcom should be in range 5-65535
-    lcomIsValid=isWithinRange(lcom ,5,65535)
+    lcomIsValid=5 <= lcom  <= 65535
     addElement(tests,"lcomIsValid",lcomIsValid)
     
     # Registration value of marker segment
@@ -2131,7 +2032,7 @@ def validateCOM(data):
     addElement(characteristics,"rcom",rcom)
 
     # rcom should be either 0 (binary values) or 1 (ISO/IEC 8859-15 (Latin) values)
-    rcomIsValid=isWithinRange(rcom ,0,1)
+    rcomIsValid=0 <= rcom  <= 1
     addElement(tests,"rcomIsValid",rcomIsValid)
     
     # Contents (multiples of Ccom)
@@ -2163,7 +2064,7 @@ def validateSOT(data):
     addElement(characteristics,"lsot",lsot)
 
     # lcom should be 10
-    lsotIsValid=isRequiredValue(lsot ,10)
+    lsotIsValid=lsot  == 10
     addElement(tests,"lsotIsValid",lsotIsValid)
     
     # Tile index
@@ -2171,7 +2072,7 @@ def validateSOT(data):
     addElement(characteristics,"isot",isot)
     
     # Tile index should be in range 0-65534
-    isotIsValid=isWithinRange(isot,0,65534)
+    isotIsValid=0 <= isot <= 65534
     addElement(tests,"isotIsValid",isotIsValid)
     
     # Length of tile part (including this SOT)
@@ -2179,7 +2080,7 @@ def validateSOT(data):
     addElement(characteristics,"psot",psot)
     
     # psot equals 0 (for last tile part) or greater than 14 (so range 1-13 is illegal)
-    psotIsValid=isNotWithinRange(psot,1,13)
+    psotIsValid=not(1 <= psot <= 13)
     addElement(tests,"psotIsValid",psotIsValid)
     
     # Tile part index
@@ -2187,7 +2088,7 @@ def validateSOT(data):
     addElement(characteristics,"tpsot",tpsot)
     
     # Should be in range 0-254
-    tpsotIsValid=isWithinRange(tpsot,0,254)
+    tpsotIsValid=0 <= tpsot <= 254
     addElement(tests,"tpsotIsValid",tpsotIsValid)
     
     # Number of tile-parts of a tile in the codestream
@@ -2311,7 +2212,7 @@ def validateTilePart(data,offsetStart):
         # This will skip this test if tilePartLength equals 0, but that doesn't
         # matter since check for EOC is included elsewhere
         markerNextTilePart=data[offsetNextTilePart:offsetNextTilePart+2]
-        foundNextTilePartOrEOC=valueInList(markerNextTilePart,[b'\xff\x90',b'\xff\xd9'])
+        foundNextTilePartOrEOC=markerNextTilePart in [b'\xff\x90',b'\xff\xd9']
         addElement(tests,"foundNextTilePartOrEOC",foundNextTilePartOrEOC)
            
     return(tests,characteristics,offsetNextTilePart)
@@ -2401,10 +2302,10 @@ def validateJP2(jp2Data):
         characteristics.append(characteristicsBox)
                    
     # Do all required top level boxes exist (ISO/IEC 15444-1 Section I.4)?
-    containsSignatureBox=valueInList(tagSignatureBox, boxTypes)
-    containsFileTypeBox=valueInList(tagFileTypeBox, boxTypes)
-    containsJP2HeaderBox=valueInList(tagJP2HeaderBox, boxTypes)
-    containsContiguousCodestreamBox=valueInList(tagContiguousCodestreamBox, boxTypes)
+    containsSignatureBox=tagSignatureBox in  boxTypes
+    containsFileTypeBox=tagFileTypeBox in  boxTypes
+    containsJP2HeaderBox=tagJP2HeaderBox in  boxTypes
+    containsContiguousCodestreamBox=tagContiguousCodestreamBox in  boxTypes
 
     addElement(tests,"containsSignatureBox",containsSignatureBox)
     addElement(tests,"containsFileTypeBox",containsFileTypeBox)
@@ -2416,18 +2317,18 @@ def validateJP2(jp2Data):
     iPR=findElementText(characteristics,'jp2HeaderBox/imageHeaderBox/iPR')
 
     if iPR == 1:
-        containsIntellectualPropertyBox=valueInList(tagIntellectualPropertyBox, boxTypes)
+        containsIntellectualPropertyBox=tagIntellectualPropertyBox in  boxTypes
         addElement(tests,"containsIntellectualPropertyBox",containsIntellectualPropertyBox)
       
     # Is the first box a Signature Box (ISO/IEC 15444-1 Section I.5.1)?
     try:
-        firstBoxIsSignatureBox=listItemAtPosition(boxTypes,tagSignatureBox,0)
+        firstBoxIsSignatureBox=boxTypes[0] == tagSignatureBox
     except:
         firstBoxIsSignatureBox=False
     
     # Is the second box a File Type Box (ISO/IEC 15444-1 Section I.5.2)?
     try:
-        secondBoxIsFileTypeBox=listItemAtPosition(boxTypes,tagFileTypeBox,1)
+        secondBoxIsFileTypeBox=boxTypes[1] == tagFileTypeBox
     except:
         secondBoxIsFileTypeBox=False
         
@@ -2453,9 +2354,9 @@ def validateJP2(jp2Data):
     # --> Note: multiple Contiguous Codestream boxes are allowed, although conforming
     # readers only read first one. So maybe include a warning in case of multiple
     # codestreams?
-    noMoreThanOneSignatureBox=listItemUniqueOrNonExistent(boxTypes,tagSignatureBox)
-    noMoreThanOneFileTypeBox=listItemUniqueOrNonExistent(boxTypes,tagFileTypeBox)
-    noMoreThanOneJP2HeaderBox=listItemUniqueOrNonExistent(boxTypes,tagJP2HeaderBox)
+    noMoreThanOneSignatureBox=boxTypes.count(tagSignatureBox) <= 1
+    noMoreThanOneFileTypeBox=boxTypes.count(tagFileTypeBox) <= 1
+    noMoreThanOneJP2HeaderBox=boxTypes.count(tagJP2HeaderBox) <= 1
     
     addElement(tests,"noMoreThanOneSignatureBox",noMoreThanOneSignatureBox)
     addElement(tests,"noMoreThanOneFileTypeBox",noMoreThanOneFileTypeBox)
@@ -2484,7 +2385,7 @@ def validateJP2(jp2Data):
         ysiz=findElementText(sizHeader,'ysiz')
         yOsiz=findElementText(sizHeader,'yOsiz')  
                  
-        heightConsistentWithSIZ=isRequiredValue(height,(ysiz-yOsiz))
+        heightConsistentWithSIZ=height == (ysiz-yOsiz)
         addElement(tests,"heightConsistentWithSIZ", heightConsistentWithSIZ) 
         
         # Width should be equal to xsiz - xOsiz
@@ -2492,14 +2393,14 @@ def validateJP2(jp2Data):
         xsiz=findElementText(sizHeader,'xsiz')
         xOsiz=findElementText(sizHeader,'xOsiz')
         
-        widthConsistentWithSIZ=isRequiredValue(width,(xsiz-xOsiz))
+        widthConsistentWithSIZ=width == (xsiz-xOsiz)
         addElement(tests,"widthConsistentWithSIZ", widthConsistentWithSIZ)
         
         # nC should be equal to csiz
         nC=findElementText(jp2ImageHeader,'nC')
         csiz=findElementText(sizHeader,'csiz')
         
-        nCConsistentWithSIZ=isRequiredValue(nC,csiz)
+        nCConsistentWithSIZ=nC == csiz
         addElement(tests,"nCConsistentWithSIZ", nCConsistentWithSIZ)
         
         # Bits per component: bPCSign should be equal to ssizSign,
@@ -2559,11 +2460,11 @@ def validateJP2(jp2Data):
         ssizDepthValues=findAllText(sizHeader,'ssizDepth')
         
         # bPCSignValues should be equal to ssizSignValues
-        bPCSignConsistentWithSIZ=isRequiredValue(bPCSignValues,ssizSignValues)
+        bPCSignConsistentWithSIZ=bPCSignValues == ssizSignValues
         addElement(tests,"bPCSignConsistentWithSIZ", bPCSignConsistentWithSIZ)
 
         # bPCDepthValues should be equal to ssizDepthValues
-        bPCDepthConsistentWithSIZ=isRequiredValue(bPCDepthValues,ssizDepthValues)
+        bPCDepthConsistentWithSIZ=bPCDepthValues == ssizDepthValues
         addElement(tests,"bPCDepthConsistentWithSIZ", bPCDepthConsistentWithSIZ)
               
         # Calculate compression ratio of this image
