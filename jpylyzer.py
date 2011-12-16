@@ -38,18 +38,12 @@ import struct
 import argparse
 import warnings
 import etpatch as ET
-from xml.dom import minidom
 from boxvalidator import BoxValidator
-from byteconv import strToULongLong
-from byteconv import strToUInt
-from byteconv import strToUShortInt
-from byteconv import strToUnsignedChar
-from byteconv import strToSignedChar
 from byteconv import strToText
 
-scriptPath,scriptName=os.path.split(sys.argv[0])
+scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "14 December 2011"
+__version__= "16 December 2011"
 
 
 def main_is_frozen():
@@ -62,38 +56,15 @@ def get_main_dir():
 		return os.path.dirname(sys.executable)
 	return os.path.dirname(sys.argv[0])
 
+# Read file, return contents as a byte object
 def readFileBytes(file):
-	# Read file, return contents as a byte object
-
 	# Open file
-	f=open(file,"rb")
-
+	f = open(file,"rb")
 	# Put contents of file into a byte object.
 	fileData=f.read()
 	f.close()
-
 	return(fileData)
 
-def writeOutput(tree):
-	# Write element tree with analysis results to stdout
-
-	# Create pretty-printed version of tree
-	treePrettified=prettify(tree)
-
-	# Write to stdout
-	sys.stdout.write(treePrettified)
-
-def prettify(elem):
-	# Return a pretty-printed XML string for the Element
-	# Source: http://www.doughellmann.com/PyMOTW/xml/etree/ElementTree/create.html
-	rough_string = ET.tostring(elem, 'ascii')
-	reparsed = minidom.parseString(rough_string)
-	return reparsed.toprettyxml(indent="  ")
-
-def addElement(parent,tag,text):
-	# Add child element to parent
-	element=ET.SubElement(parent, tag)
-	element.text=text
 
 def generatePropertiesRemapTable():
 
@@ -178,60 +149,7 @@ def generatePropertiesRemapTable():
 
 	return(enumerationsMap)
 
-def elementTreeToPrintable(tree,remapTable):
 
-	# Takes element tree object, and returns a modified version in which all
-	# non-printable 'text' fields (which may contain numeric data or binary strings)
-	# are replaced by printable strings
-	#
-	# Property values in original tree may be mapped to alternative (more user-friendly)
-	# reportable values using a rempapTable, which is a nested dictionary.
-
-	# Destination tree: copy of source
-	treePrintable=tree
-
-	for  elt in treePrintable.iter():
-
-		# Text field of this element
-		textIn=elt.text
-
-		# Tag name
-		tag=elt.tag
-
-		# Step 1: replace property values by values defined in enumerationsMap,
-		# if applicable
-
-		try:
-			# If tag is in enumerationsMap, replace property values
-			parameterMap=remapTable[tag]
-
-			try:
-				# Map original property values to values in dictionary
-				remappedValue=parameterMap[textIn]
-			except KeyError:
-				# If value doesn't match any key: use original value instead
-				remappedValue=textIn
-
-		except KeyError:
-			# If tag doesn't match any key in enumerationsMap, use original value
-			remappedValue=textIn
-
-		# Step 2: convert all values to text strings
-
-		if remappedValue != None:
-			# Data type
-			textType=type(remappedValue)
-
-			# Convert text field, depending on type
-			if textType == bytes:
-				textOut=strToText(remappedValue)
-			else:
-				textOut=str(remappedValue)
-
-			# Update output tree
-			elt.text=textOut
-
-	return(treePrintable)
 
 def checkFiles(images):
 	if len(images) == 0:
@@ -251,8 +169,8 @@ def checkFiles(images):
 			remapTable = generatePropertiesRemapTable()
 
 			# Create printable version of tests and characteristics tree
-			testsPrintable = elementTreeToPrintable(tests,{})
-			characteristicsPrintable = elementTreeToPrintable(characteristics,remapTable)
+			tests.makeHumanReadable()
+			characteristics.makeHumanReadable(remapTable)
 
 			# Create output elementtree object
 			root=ET.Element('jpylyzer')
@@ -262,27 +180,26 @@ def checkFiles(images):
 			fileInfo=ET.Element('fileInfo')
 
 			# Produce some general tool and file meta info
-			addElement(toolInfo,"toolName",scriptName)
-			addElement(toolInfo,"toolVersion",__version__)
-			addElement(fileInfo,"fileName",thisFile)
-			addElement(fileInfo,"filePath",os.path.abspath(thisFile))
-			addElement(fileInfo,"fileSizeInBytes",str(os.path.getsize(thisFile)))
-			addElement(fileInfo,"fileLastModified",time.ctime(os.path.getmtime(thisFile)))
+			toolInfo.appendChildTagWithText("toolName", scriptName)
+			toolInfo.appendChildTagWithText("toolVersion", __version__)
+			fileInfo.appendChildTagWithText("fileName", thisFile)
+			fileInfo.appendChildTagWithText("filePath", os.path.abspath(thisFile))
+			fileInfo.appendChildTagWithText("fileSizeInBytes", str(os.path.getsize(thisFile)))
+			fileInfo.appendChildTagWithText("fileLastModified", time.ctime(os.path.getmtime(thisFile)))
 
 			# Append to root
 			root.append(toolInfo)
 			root.append(fileInfo)
 
 			# Add validation outcome
-			addElement(root,"isValidJP2",str(isValidJP2))
+			root.appendChildTagWithText("isValidJP2", str(isValidJP2))
 
 			# Append test results and characteristics to root
-			root.append(testsPrintable)
-			root.append(characteristicsPrintable)
+			root.append(tests)
+			root.append(characteristics)
 
 			# Write output
-			writeOutput(root)
-
+			sys.stdout.write(root.toxml())
 
 def parseCommandLine():
 	# Create parser
@@ -309,5 +226,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
-

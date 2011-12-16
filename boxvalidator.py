@@ -78,11 +78,6 @@ class BoxValidator:
 		else:
 			return (self.tests, self.characteristics, self.returnOffset)
 
-	# Add an element of value to element tree
-	def __addElement__(self, parent,tag,text):
-		element = ET.SubElement(parent, tag)
-		element.text = text
-
 	def __isValid__(self):
 		for elt in self.tests.iter():
 			if elt.text == False:
@@ -166,13 +161,13 @@ class BoxValidator:
 
 	# Add testresult node to tests element tree
 	def testFor(self, testType, testResult):
-		self.__addElement__(self.tests, testType, testResult)
+		self.tests.appendChildTagWithText(testType, testResult)
 
 	# Add characteristic node to characteristics element tree
 	def addCharacteristic(self, characteristic, charValue):
-		self.__addElement__(self.characteristics, characteristic, charValue)
+		self.characteristics.appendChildTagWithText(characteristic, charValue)
 
-	# Validations for boxes
+	# Validations for boxes -- Read warnings for missing!!
 	def validate_unknownBox(self):
 		warnings.warn("No validation for unknown box")
 
