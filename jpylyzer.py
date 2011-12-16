@@ -690,8 +690,25 @@ def getBox(bytesData, byteStart, noBytes):
 	# Contents of this box as a byte object (i.e. 'DBox' in ISO/IEC 15444-1 Section I.4)
 	boxContents=bytesData[byteStart+contentsStartOffset:byteEnd]
 
-
 	return(boxLengthValue,boxType,byteEnd,boxContents)
+
+def getMarkerSegment(data,offset):
+	# Read marker segment that starts at offset and return marker, size,
+	# contents and start offset of next marker
+	# First 2 bytes: 16 bit marker
+	marker=data[offset:offset+2]
+	# Check if this is a delimiting marker segment
+	if marker in [b'\xff\x4f',b'\xff\x93',b'\xff\xd9',b'\xff\x92']:
+		# Zero-length markers: SOC, SOD, EOC, EPH
+		length=0
+	else:
+		# Not a delimiting marker, so remainder contains some data
+		length=strToUShortInt(data[offset+2:offset+4])
+	# Contents of marker segment (excluding marker) to binary string
+	contents=data[offset+2:offset + 2 +length]
+	# Offset value start of next marker segment
+	offsetNext=offset+length+2
+	return(marker,length,contents,offsetNext)
 
 
 class BoxValidator:
@@ -714,7 +731,8 @@ class BoxValidator:
 		b'\x72\x65\x73\x20': "resolutionBox",
 		b'\x6a\x70\x32\x63': "contiguousCodestreamBox",
 		b'\x72\x65\x73\x63': "captureResolutionBox",
-		b'\x72\x65\x73\x64': "displayResolutionBox"
+		b'\x72\x65\x73\x64': "displayResolutionBox",
+		b'\xff\x51': "siz"
 	}
 
 	# Reverse access of typemap for quick lookup
@@ -726,9 +744,6 @@ class BoxValidator:
 		"validBrandValue": b'\x6a\x70\x32\x20',
 		"requiredInCompatibilityList": b'\x6a\x70\x32\x20'
 	}
-
-	# consts
-	MAX_DIM = (2**32)-1
 
 	def __init__(self, bType, boxContents):
 		if bType in self.typeMap:
@@ -902,7 +917,7 @@ class BoxValidator:
 
 		if foundSIZMarker:
 			# Validate SIZ segment
-			resultSIZ, characteristicsSIZ=validateSIZ(segContents)
+			resultSIZ, characteristicsSIZ = BoxValidator(marker, segContents).validate() # validateSIZ(segContents)
 
 			# Add analysis results to test results tree
 			self.tests.append(resultSIZ)
@@ -1035,8 +1050,8 @@ class BoxValidator:
 		self.addCharacteristic("width", width)
 
 	# Height and width should be within range 1 - (2**32)-1
-		self.testFor("heightIsValid", 1 <= height <= self.MAX_DIM)
-		self.testFor("widthIsValid", 1 <= width <= self.MAX_DIM)
+		self.testFor("heightIsValid", 1 <= height <= (2**32)-1)
+		self.testFor("widthIsValid", 1 <= width <= (2**32)-1)
 		# Number of components (unsigned short integer)
 		nC = strToUShortInt(self.boxContents[8:10])
 		self.addCharacteristic("nC", nC)
@@ -1396,180 +1411,132 @@ class BoxValidator:
 		self.addCharacteristic("hResdInPixelsPerInch", round(hResdInPixelsPerInch,2))
 
 
-# Validator functions for boxes in UUID Info superbox
+	# Validator functions for codestream elements
+	def validate_siz(self):
+		# Analyse SIZ segment of codestream header and validate it
+		# (ISO/IEC 15444-1 Section A.5.1)
 
-def validateUUIDListBox(boxContents):
+		# Length of main image header
+		lsiz = strToUShortInt(self.boxContents[0:2])
+		self.addCharacteristic("lsiz", lsiz)
 
-	# Test results to elementtree element
-	tests=ET.Element('uuidListBox')
+		# lsiz should be within range 41-49190
+		self.testFor("lsizIsValid", 41 <= lsiz <= 49190)
 
-	# Characteristics to elementtree element
-	characteristics=ET.Element('uuidListBox')
+		# Decoder capabilities
+		rsiz = strToUShortInt(self.boxContents[2:4])
+		self.addCharacteristic("rsiz", rsiz)
 
-	return(tests,characteristics)
+		# rsiz should be either 0, 1 or 2
+		self.testFor("rsizIsValid", rsiz in [0,1,2])
 
-def validateURLBox(boxContents):
+		# Width of reference grid
+		xsiz = strToUInt(self.boxContents[4:8])
+		self.addCharacteristic("xsiz", xsiz)
 
-	# Test results to elementtree element
-	tests=ET.Element('urlBox')
+		# xsiz should be within range 1 - (2**32)-1
+		self.testFor("xsizIsValid", 1 <= xsiz <= (2**32)-1)
 
-	# Characteristics to elementtree element
-	characteristics=ET.Element('urlBox')
+		# Heigth of reference grid
+		ysiz = strToUInt(self.boxContents[8:12])
+		self.addCharacteristic("ysiz", ysiz)
 
-	return(tests,characteristics)
+		# ysiz should be within range 1 - (2**32)-1
+		self.testFor("ysizIsValid", 1 <= ysiz <= (2**32)-1)
 
-# Validator functions for codestream elements
+		# Horizontal offset from origin of reference grid to left of image area
+		xOsiz = strToUInt(self.boxContents[12:16])
+		self.addCharacteristic("xOsiz", xOsiz)
 
-def validateSIZ(data):
+		# xOsiz should be within range 0 - (2**32)-2
+		self.testFor("xOsizIsValid", 0 <= xOsiz <= (2**32)-2)
 
-	# Analyse SIZ segment of codestream header and validate it
-	# (ISO/IEC 15444-1 Section A.5.1)
+		# Vertical offset from origin of reference grid to top of image area
+		yOsiz = strToUInt(self.boxContents[16:20])
+		self.addCharacteristic("yOsiz", yOsiz)
 
-	# Test results to elementtree element
-	tests=ET.Element('siz')
+		# yOsiz should be within range 0 - (2**32)-2
+		self.testFor("yOsizIsValid", 0 <= yOsiz <= (2**32)-2)
 
-	# Characteristics to elementtree element
-	characteristics=ET.Element('siz')
+		# Width of one reference tile with respect to the reference grid
+		xTsiz = strToUInt(self.boxContents[20:24])
+		self.addCharacteristic("xTsiz", xTsiz)
 
-	# Length of main image header
-	lsiz=strToUShortInt(data[0:2])
-	addElement(characteristics,"lsiz",lsiz)
+		# xTsiz should be within range 1 - (2**32)- 1
+		self.testFor("xTsizIsValid", 1 <= xTsiz <= (2**32)-1)
 
-	# lsiz should be within range 41-49190
-	lsizIsValid=41 <= lsiz <= 49190
-	addElement(tests,"lsizIsValid",lsizIsValid)
+		# Height of one reference tile with respect to the reference grid
+		yTsiz = strToUInt(self.boxContents[24:28])
+		self.addCharacteristic("yTsiz", yTsiz)
 
-	# Decoder capabilities
-	rsiz=strToUShortInt(data[2:4])
-	addElement(characteristics,"rsiz",rsiz)
+		# yTsiz should be within range 1 - (2**32)- 1
+		self.testFor("yTsizIsValid", 1 <= yTsiz <= (2**32)-1)
 
-	# rsiz should be either 0, 1 or 2
-	rsizIsValid=rsiz in [0,1,2]
-	addElement(tests,"rsizIsValid",rsizIsValid)
+		# Horizontal offset from origin of reference grid to left side of first tile
+		xTOsiz = strToUInt(self.boxContents[28:32])
+		self.addCharacteristic("xTOsiz", xTOsiz)
 
-	# Width of reference grid
-	xsiz=strToUInt(data[4:8])
-	addElement(characteristics,"xsiz",xsiz)
+		# xTOsiz should be within range 0 - (2**32)-2
+		self.testFor("xTOsizIsValid", 0 <= xTOsiz <= (2**32)-2)
 
-	# xsiz should be within range 1 - (2**32)-1
-	xsizIsValid=1 <= xsiz <= (2**32)-1
-	addElement(tests,"xsizIsValid",xsizIsValid)
+		# Vertical offset from origin of reference grid to top side of first tile
+		yTOsiz = strToUInt(self.boxContents[32:36])
+		self.addCharacteristic("yTOsiz", yTOsiz)
 
-	# Heigth of reference grid
-	ysiz=strToUInt(data[8:12])
-	addElement(characteristics,"ysiz",ysiz)
+		# yTOsiz should be within range 0 - (2**32)-2
+		self.testFor("yTOsizIsValid", 0 <= yTOsiz <= (2**32)-2)
 
-	# ysiz should be within range 1 - (2**32)-1
-	ysizIsValid=1 <= ysiz <= (2**32)-1
-	addElement(tests,"ysizIsValid",ysizIsValid)
+		# Number of components
+		csiz = strToUShortInt(self.boxContents[36:38])
+		self.addCharacteristic("csiz", csiz)
 
-	# Horizontal offset from origin of reference grid to left of image area
-	xOsiz=strToUInt(data[12:16])
-	addElement(characteristics,"xOsiz",xOsiz)
+		# Number of components should be in range 1 - 16384 (including limits)
+		self.testFor("csizIsValid", 1 <= csiz <= 16384)
 
-	# xOsiz should be within range 0 - (2**32)-2
-	xOsizIsValid=0 <= xOsiz <= (2**32)-2
-	addElement(tests,"xOsizIsValid",xOsizIsValid)
+		# Check if codestream header size is consistent with csiz
+		self.testFor("lsizConsistentWithCsiz", lsiz == 38 + (3*csiz))
 
-	# Vertical offset from origin of reference grid to top of image area
-	yOsiz=strToUInt(data[16:20])
-	addElement(characteristics,"yOsiz",yOsiz)
+		# Precision, depth horizontal/verical separation repeated for each component
 
-	# yOsiz should be within range 0 - (2**32)-2
-	yOsizIsValid=0 <= yOsiz <= (2**32)-2
-	addElement(tests,"yOsizIsValid",yOsizIsValid)
+		# NOTE: for clarity maybe assign each component its own element (with properties
+		# as sub elements)
+		offset = 38
 
-	# Width of one reference tile with respect to the reference grid
-	xTsiz=strToUInt(data[20:24])
-	addElement(characteristics,"xTsiz",xTsiz)
+		for i in range(csiz):
+			# ssiz (=bits per component)
+			ssiz = strToUnsignedChar(self.boxContents[offset:offset+1])
 
-	# xTsiz should be within range 1 - (2**32)- 1
-	xTsizIsValid=1 <= xTsiz <= (2**32)-1
-	addElement(tests,"xTsizIsValid",xTsizIsValid)
+			# Most significant bit indicates whether components are signed (1)
+			# or unsigned (0). Extracted by applying bit mask of 10000000 (=128)
+			ssizSign = getBitValue(ssiz, 1)
+			self.addCharacteristic("ssizSign", ssizSign)
 
-	# Height of one reference tile with respect to the reference grid
-	yTsiz=strToUInt(data[24:28])
-	addElement(characteristics,"yTsiz",yTsiz)
+			# Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
+			# 01111111 (=127)
+			ssizDepth = (ssiz & 127) + 1
+			self.addCharacteristic("ssizDepth", ssizDepth)
 
-	# yTsiz should be within range 1 - (2**32)- 1
-	yTsizIsValid=1 <= yTsiz <= (2**32)-1
-	addElement(tests,"yTsizIsValid",yTsizIsValid)
+			# ssiz field is valid if ssizDepth in range 1-38
+			self.testFor("ssizIsValid", 1 <= ssizDepth <= 38)
 
-	# Horizontal offset from origin of reference grid to left side of first tile
-	xTOsiz=strToUInt(data[28:32])
-	addElement(characteristics,"xTOsiz",xTOsiz)
+			# Horizontal separation of sample of this component with respect
+			# to reference grid
+			xRsiz = strToUnsignedChar(self.boxContents[offset+1:offset+2])
+			self.addCharacteristic("xRsiz", xRsiz)
 
-	# xTOsiz should be within range 0 - (2**32)-2
-	xTOsizIsValid=0 <= xTOsiz <= (2**32)-2
-	addElement(tests,"xTOsizIsValid",xTOsizIsValid)
+			# xRSiz valid if range 1-255
+			self.testFor("xRsizIsValid", 1 <= xRsiz <= 255)
 
-	# Vertical offset from origin of reference grid to top side of first tile
-	yTOsiz=strToUInt(data[32:36])
-	addElement(characteristics,"yTOsiz",yTOsiz)
+			# Vertical separation of sample of this component with respect
+			# to reference grid
+			yRsiz = strToUnsignedChar(self.boxContents[offset+2:offset+3])
+			self.addCharacteristic("yRsiz", yRsiz)
 
-	# yTOsiz should be within range 0 - (2**32)-2
-	yTOsizIsValid=0 <= yTOsiz <= (2**32)-2
-	addElement(tests,"yTOsizIsValid",yTOsizIsValid)
+			# yRSiz valid if range 1-255
+			self.testFor("yRsizIsValid", 1 <= yRsiz <= 255)
 
-	# Number of components
-	csiz=strToUShortInt(data[36:38])
-	addElement(characteristics,"csiz",csiz)
+			offset += 3
 
-	# Number of components should be in range 1 - 16384 (including limits)
-	csizIsValid=1 <= csiz <= 16384
-	addElement(tests,"csizIsValid",csizIsValid)
-
-	# Check if codestream header size is consistent with csiz
-	lsizConsistentWithCsiz=lsiz == 38+(3*csiz)
-	addElement(tests,"lsizConsistentWithCsiz",lsizConsistentWithCsiz)
-
-	# Precision, depth horizontal/verical separation repeated for each component
-
-	# NOTE: for clarity maybe assign each component its own element (with properties
-	# as sub elements)
-
-	offset=38
-
-	for i in range(csiz):
-
-		# ssiz (=bits per component)
-		ssiz=strToUnsignedChar(data[offset:offset+1])
-
-		# Most significant bit indicates whether components are signed (1)
-		# or unsigned (0). Extracted by applying bit mask of 10000000 (=128)
-		ssizSign=getBitValue(ssiz, 1)
-		addElement(characteristics,"ssizSign",ssizSign)
-
-		# Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
-		# 01111111 (=127)
-		ssizDepth=(ssiz & 127) + 1
-		addElement(characteristics,"ssizDepth",ssizDepth)
-
-		# ssiz field is valid if ssizDepth in range 1-38
-		ssizIsValid=1 <= ssizDepth <= 38
-		addElement(tests,"ssizIsValid",ssizIsValid)
-
-		# Horizontal separation of sample of this component with respect
-		# to reference grid
-		xRsiz=strToUnsignedChar(data[offset+1:offset+2])
-		addElement(characteristics,"xRsiz",xRsiz)
-
-		# xRSiz valid if range 1-255
-		xRsizIsValid=1 <= xRsiz <= 255
-		addElement(tests,"xRsizIsValid",xRsizIsValid)
-
-		# Vertical separation of sample of this component with respect
-		# to reference grid
-		yRsiz=strToUnsignedChar(data[offset+2:offset+3])
-		addElement(characteristics,"yRsiz",yRsiz)
-
-		# yRSiz valid if range 1-255
-		yRsizIsValid=1 <= yRsiz <= 255
-		addElement(tests,"yRsizIsValid",yRsizIsValid)
-
-		offset += 3
-
-	return(tests,characteristics)
 
 def validateCOD(data):
 
@@ -2051,31 +2018,6 @@ def validateTilePart(data,offsetStart):
 
 	return(tests,characteristics,offsetNextTilePart)
 
-def getMarkerSegment(data,offset):
-
-	# Read marker segment that starts at offset and return marker, size,
-	# contents and start offset of next marker
-
-	# First 2 bytes: 16 bit marker
-	marker=data[offset:offset+2]
-
-	# Check if this is a delimiting marker segment
-
-	if marker in [b'\xff\x4f',b'\xff\x93',b'\xff\xd9',b'\xff\x92']:
-		# Zero-length markers: SOC, SOD, EOC, EPH
-		length=0
-	else:
-		# Not a delimiting marker, so remainder contains some data
-		length=strToUShortInt(data[offset+2:offset+4])
-
-	# Contents of marker segment (excluding marker) to binary string
-	contents=data[offset+2:offset + 2 +length]
-
-	# Offset value start of next marker segment
-	offsetNext=offset+length+2
-
-	return(marker,length,contents,offsetNext)
-
 def validateJP2(jp2Data):
 	# Top-level function for JP2 validation:
 	#
@@ -2211,7 +2153,7 @@ def validateJP2(jp2Data):
 		ysiz=findElementText(sizHeader,'ysiz')
 		yOsiz=findElementText(sizHeader,'yOsiz')
 
-		heightConsistentWithSIZ=height == (ysiz-yOsiz)
+		heightConsistentWithSIZ = height == (ysiz-yOsiz)
 		addElement(tests,"heightConsistentWithSIZ", heightConsistentWithSIZ)
 
 		# Width should be equal to xsiz - xOsiz
