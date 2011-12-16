@@ -819,13 +819,9 @@ class BoxValidator:
 		boxLengthValue = 10
 		while byteStart < noBytes and boxLengthValue != 0:
 			boxLengthValue, boxType, byteEnd, subBoxContents = getBox(self.boxContents,byteStart, noBytes)
-			# Call functions for sub-boxes
-			if boxType == self.boxTagMap['resolutionBox']:
-				# Resolution box
-				resultBox,characteristicsBox=validateResolutionBox(subBoxContents)
-			else:
-				# Unknown box (nothing to validate)
-				resultBox,characteristicsBox=BoxValidator(boxType, subBoxContents).validate()
+
+			# Validate sub-boxes
+			resultBox, characteristicsBox = BoxValidator(boxType, subBoxContents).validate()
 
 			byteStart = byteEnd
 
@@ -1240,73 +1236,57 @@ class BoxValidator:
 
 			offset += 6
 
-def validateResolutionBox(boxContents):
-	# Superbox that specifies the capture and default display grid resolutions of
-	# the image. (ISO/IEC 15444-1 Section I.5.3.7
+	def validate_resolutionBox(self):
+		# Superbox that specifies the capture and default display grid resolutions of
+		# the image. (ISO/IEC 15444-1 Section I.5.3.7
 
-	# Test results to elementtree element
-	tests=ET.Element('resolutionBox')
+		# Marker tags/codes that identify all sub-boxes as hexadecimal strings
+		tagCaptureResolutionBox=b'\x72\x65\x73\x63'
+		tagDisplayResolutionBox=b'\x72\x65\x73\x64'
 
-	# Characteristics to elementtree element
-	characteristics=ET.Element('resolutionBox')
+		# List for storing box type identifiers
+		subBoxTypes=[]
 
-	# Marker tags/codes that identify all sub-boxes as hexadecimal strings
-	tagCaptureResolutionBox=b'\x72\x65\x73\x63'
-	tagDisplayResolutionBox=b'\x72\x65\x73\x64'
+		noBytes = len(self.boxContents)
+		byteStart = 0
+		bytesTotal = 0
 
-	# List for storing box type identifiers
-	subBoxTypes=[]
+		# Dummy value
+		boxLengthValue = 10
 
-	noBytes=len(boxContents)
-	byteStart = 0
-	bytesTotal=0
+		while byteStart < noBytes and boxLengthValue != 0:
 
-	# Dummy value
-	boxLengthValue=10
+			boxLengthValue, boxType, byteEnd, subBoxContents = getBox(self.boxContents, byteStart, noBytes)
 
-	while byteStart < noBytes and boxLengthValue != 0:
+			# Call functions sub-boxes
+			if boxType == tagCaptureResolutionBox:
+				# Capture Resolution Box
+				resultBox, characteristicsBox = validateCaptureResolutionBox(subBoxContents)
+			elif boxType == tagDisplayResolutionBox:
+				# Default Display Resolution Box
+				resultBox,characteristicsBox = validateDisplayResolutionBox(subBoxContents)
+			else:
+				# Unknown box (nothing to validate)
+				resultBox,characteristicsBox = BoxValidator(boxType, subBoxContents).validate()
 
-		boxLengthValue, boxType, byteEnd, subBoxContents = getBox(boxContents,byteStart, noBytes)
+			byteStart = byteEnd
 
-		# Call functions sub-boxes
-		if boxType == tagCaptureResolutionBox:
-			# Capture Resolution Box
-			resultBox,characteristicsBox=validateCaptureResolutionBox(subBoxContents)
-		elif boxType == tagDisplayResolutionBox:
-			# Default Display Resolution Box
-			resultBox,characteristicsBox=validateDisplayResolutionBox(subBoxContents)
-		else:
-			# Unknown box (nothing to validate)
-			resultBox,characteristicsBox=BoxValidator(boxType, subBoxContents).validate()
+			# Add to list of box types
+			subBoxTypes.append(boxType)
 
-		byteStart = byteEnd
+			# Add analysis results to test results tree
+			self.tests.append(resultBox)
 
-		# Add to list of box types
-		subBoxTypes.append(boxType)
+			# Add extracted characteristics to characteristics tree
+			self.characteristics.append(characteristicsBox)
 
-		# Add analysis results to test results tree
-		tests.append(resultBox)
+		# This box contains either one Capture Resolution box, one Default Display
+		# resolution box, or one of both
+		self.testFor("containsCaptureOrDisplayResolutionBox", tagCaptureResolutionBox in subBoxTypes or tagDisplayResolutionBox in subBoxTypes)
 
-		# Add extracted characteristics to characteristics tree
-		characteristics.append(characteristicsBox)
+		self.testFor("noMoreThanOneCaptureResolutionBox", subBoxTypes.count(tagCaptureResolutionBox) <= 1)
+		self.testFor("noMoreThanOneDisplayResolutionBox", subBoxTypes.count(tagDisplayResolutionBox) <= 1)
 
-	# This box contains either one Capture Resolution box, one Default Display
-	# resolution box, or one of both
-
-	if tagCaptureResolutionBox in subBoxTypes or tagDisplayResolutionBox in subBoxTypes:
-		containsCaptureOrDisplayResolutionBox=True
-	else:
-		containsCaptureOrDisplayResolutionBox=False
-
-	addElement(tests,"containsCaptureOrDisplayResolutionBox",containsCaptureOrDisplayResolutionBox)
-
-	noMoreThanOneCaptureResolutionBox=subBoxTypes.count(tagCaptureResolutionBox) <= 1
-	noMoreThanOneDisplayResolutionBox=subBoxTypes.count(tagDisplayResolutionBox) <= 1
-
-	addElement(tests,"noMoreThanOneCaptureResolutionBox",noMoreThanOneCaptureResolutionBox)
-	addElement(tests,"noMoreThanOneDisplayResolutionBox",noMoreThanOneDisplayResolutionBox)
-
-	return(tests,characteristics)
 
 # Validator functions for boxes in Resolution box
 
