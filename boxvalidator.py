@@ -1,45 +1,6 @@
 import warnings
-import xml.etree.ElementTree as ET
-from byteconv import strToULongLong
-from byteconv import strToUInt
-from byteconv import strToUShortInt
-from byteconv import strToUnsignedChar
-from byteconv import strToSignedChar
-from byteconv import strToText
-
-def findElementText(element,match):
-
-	# Replacement for ET's 'findtext' function, which has a bug
-	# that will return empty string if text field contains integer with
-	# value of zero (0)
-	#
-	# If there is no match, return None
-
-	elt=element.find(match)
-
-	if elt != None:
-		result=elt.text
-	else:
-		result=None
-
-	return(result)
-
-
-def findAllText(element,match):
-
-	# Searches element and returns list that contains 'Text' attribute
-	# of all matching sub-elements. Returns empty list if element
-	# does not exist
-
-	try:
-		tmp=element.findall(match)
-	except:
-		tmp=[]
-	result=[]
-	for i in range(len(tmp)):
-		result.append(tmp[i].text)
-
-	return(result)
+import etpatch as ET
+import byteconv as bc
 
 def getBitValue(n, p):
 
@@ -137,7 +98,7 @@ def getBox(bytesData, byteStart, noBytes):
 	# Box headers
 
 	# Box length (4 byte unsigned integer)
-	boxLengthValue=strToUInt(bytesData[byteStart:byteStart+4])
+	boxLengthValue=bc.strToUInt(bytesData[byteStart:byteStart+4])
 
 	# Box type
 	boxType=bytesData[byteStart+4:byteStart+8]
@@ -149,7 +110,7 @@ def getBox(bytesData, byteStart, noBytes):
 	# In that case contentsStartOffset should also be 16 (not 8!)
 	# (See ISO/IEC 15444-1 Section I.4)
 	if boxLengthValue == 1:
-		boxLengthValue=strToULongLong(bytesData[byteStart+8:byteStart+16])
+		boxLengthValue=bc.bc.strToULongLong(bytesData[byteStart+8:byteStart+16])
 
 		contentsStartOffset=16
 
@@ -177,17 +138,12 @@ def getMarkerSegment(data,offset):
 		length=0
 	else:
 		# Not a delimiting marker, so remainder contains some data
-		length=strToUShortInt(data[offset+2:offset+4])
+		length=bc.strToUShortInt(data[offset+2:offset+4])
 	# Contents of marker segment (excluding marker) to binary string
 	contents=data[offset+2:offset + 2 +length]
 	# Offset value start of next marker segment
 	offsetNext=offset+length+2
 	return(marker,length,contents,offsetNext)
-
-def addElement(parent,tag,text):
-	# Add child element to parent
-	element=ET.SubElement(parent, tag)
-	element.text=text
 
 class BoxValidator:
 	# Marker tags/codes that identify all sub-boxes as hexadecimal strings
@@ -232,13 +188,21 @@ class BoxValidator:
 	def __init__(self, bType, boxContents, startOffset = None):
 		if bType in self.typeMap:
 			self.boxType = self.typeMap[bType]
+		elif bType == "JP2":
+			self.characteristics = ET.Element("properties")
+			self.tests = ET.Element("tests")
+			self.boxType = "JP2"
 		else:
 			self.boxType = 'unknownBox'
-		self.characteristics = ET.Element(self.boxType)
-		self.tests = ET.Element(self.boxType)
+
+		if self.boxType != "JP2":
+			self.characteristics = ET.Element(self.boxType)
+			self.tests = ET.Element(self.boxType)
+
 		self.boxContents = boxContents
 		self.startOffset = startOffset
 		self.returnOffset = None
+		self.isValid = None
 
 	def validate(self):
 		try:
@@ -247,23 +211,33 @@ class BoxValidator:
 			warnings.warn("Method 'validate_" + self.boxType + "' not implemented")
 		else:
 			to_call()
-		if self.returnOffset is None:
+
+		if self.isValid is not None:
+			return (self.isValid, self.tests, self.characteristics)
+		elif self.returnOffset is None:
 			return (self.tests, self.characteristics)
 		else:
 			return (self.tests, self.characteristics, self.returnOffset)
 
 	# Add an element of value to element tree
-	def addElement(self, parent,tag,text):
+	def __addElement__(self, parent,tag,text):
 		element = ET.SubElement(parent, tag)
 		element.text = text
 
+	def __isValid__(self):
+		for elt in self.tests.iter():
+			if elt.text == False:
+				# File didn't pass this test, so not valid
+				return False
+		return True
+
 	# Add testresult node to tests element tree
 	def testFor(self, testType, testResult):
-		self.addElement(self.tests, testType, testResult)
+		self.__addElement__(self.tests, testType, testResult)
 
 	# Add characteristic node to characteristics element tree
 	def addCharacteristic(self, characteristic, charValue):
-		self.addElement(self.characteristics, characteristic, charValue)
+		self.__addElement__(self.characteristics, characteristic, charValue)
 
 	# Validations for boxes
 	def validate_unknownBox(self):
@@ -290,7 +264,7 @@ class BoxValidator:
 		self.testFor("brandIsValid", br == self.controlledByteMap['validBrandValue'])
 
 		# 2. Minor version (4 bytes)
-		minV = strToUInt(self.boxContents[4:8])
+		minV = bc.strToUInt(self.boxContents[4:8])
 		self.addCharacteristic("minV", minV)
 
 		# Value should be 0
@@ -346,8 +320,8 @@ class BoxValidator:
 
 		# If bPCSign equals 1 and bPCDepth equals 128 (equivalent to bPC field being
 		# 255), this box should contain a Bits Per Components box
-		sign = findElementText(self.characteristics,'imageHeaderBox/bPCSign')
-		depth = findElementText(self.characteristics,'imageHeaderBox/bPCDepth')
+		sign = self.characteristics.findElementText('imageHeaderBox/bPCSign')
+		depth = self.characteristics.findElementText('imageHeaderBox/bPCDepth')
 
 		if sign == 1 and depth == 128:
 			self.testFor("containsBitsPerComponentBox", self.boxTagMap['bitsPerComponentBox'] in subBoxTypes)
@@ -475,9 +449,9 @@ class BoxValidator:
 		# Check if quantization parameters are consistent with levels (section A.6.4, eq A-4)
 		# Note: this check may be performed at tile-part level as well (not included now)
 		if foundCODMarker:
-			lqcd = findElementText(self.characteristics,'qcd/lqcd')
-			qStyle = findElementText(self.characteristics,'qcd/qStyle')
-			levels = findElementText(self.characteristics,'cod/levels')
+			lqcd = self.characteristics.findElementText('qcd/lqcd')
+			qStyle = self.characteristics.findElementText('qcd/qStyle')
+			levels = self.characteristics.findElementText('cod/levels')
 
 		# Expected lqcd as a function of qStyle and levels
 		if qStyle == 0:
@@ -533,22 +507,22 @@ class BoxValidator:
 		self.testFor("boxLengthIsValid", len(self.boxContents) == 14)
 
 	# Image height and width (both as unsigned integers)
-		height = strToUInt(self.boxContents[0:4])
+		height = bc.strToUInt(self.boxContents[0:4])
 		self.addCharacteristic("height", height)
-		width = strToUInt(self.boxContents[4:8])
+		width = bc.strToUInt(self.boxContents[4:8])
 		self.addCharacteristic("width", width)
 
 	# Height and width should be within range 1 - (2**32)-1
 		self.testFor("heightIsValid", 1 <= height <= (2**32)-1)
 		self.testFor("widthIsValid", 1 <= width <= (2**32)-1)
 		# Number of components (unsigned short integer)
-		nC = strToUShortInt(self.boxContents[8:10])
+		nC = bc.strToUShortInt(self.boxContents[8:10])
 		self.addCharacteristic("nC", nC)
 	# Number of components should be in range 1 - 16384 (including limits)
 		self.testFor("nCIsValid", 1 <= nC <= 16384)
 
 		# Bits per component (unsigned character)
-		bPC = strToUnsignedChar(self.boxContents[10:11])
+		bPC = bc.strToUnsignedChar(self.boxContents[10:11])
 	# Most significant bit indicates whether components are signed (1)
 	# or unsigned (0).
 		bPCSign = getBitValue(bPC, 1)
@@ -572,17 +546,17 @@ class BoxValidator:
 
 		self.testFor("bPCIsValid",bPCIsValid)
 	# Compression type (unsigned character)
-		c = strToUnsignedChar(self.boxContents[11:12])
+		c = bc.strToUnsignedChar(self.boxContents[11:12])
 		self.addCharacteristic("c", c)
 		# Value should always be 7
 		self.testFor("cIsValid", c == 7)
 	# Colourspace unknown field (unsigned character)
-		unkC = strToUnsignedChar(self.boxContents[12:13])
+		unkC = bc.strToUnsignedChar(self.boxContents[12:13])
 		self.addCharacteristic("unkC", unkC)
 	# Value should be 0 or 1
 		self.testFor("unkCIsValid", 0 <= unkC <= 1)
 	# Intellectual Property field (unsigned character)
-		iPR = strToUnsignedChar(self.boxContents[13:14])
+		iPR = bc.strToUnsignedChar(self.boxContents[13:14])
 		self.addCharacteristic("iPR",iPR)
 	# Value should be 0 or 1
 		self.testFor("iPRIsValid", 0 <= iPR <= 1)
@@ -599,7 +573,7 @@ class BoxValidator:
 		for i in range(numberOfBPFields):
 
 			# Bits per component (unsigned character)
-			bPC = strToUnsignedChar(self.boxContents[i:i+1])
+			bPC = bc.strToUnsignedChar(self.boxContents[i:i+1])
 
 			# Most significant bit indicates whether components are signed (1)
 			# or unsigned (0). Extracted by applying bit mask of 10000000 (=128)
@@ -624,21 +598,21 @@ class BoxValidator:
 		length = len(self.boxContents)
 
 		# Specification method (unsigned character)
-		meth = strToUnsignedChar(self.boxContents[0:1])
+		meth = bc.strToUnsignedChar(self.boxContents[0:1])
 		self.addCharacteristic("meth",meth)
 
 		# Value should be 1 (enumerated colourspace) or 2 (restricted ICC profile)
 		self.testFor("methIsValid", 1 <= meth <= 2)
 
 	# Precedence (unsigned character)
-		prec = strToUnsignedChar(self.boxContents[1:2])
+		prec = bc.strToUnsignedChar(self.boxContents[1:2])
 		self.addCharacteristic("prec",prec)
 
 	# Value shall be 0 (but conforming readers should ignore it)
 		self.testFor("precIsValid", prec == 0)
 
 	# Colourspace approximation (unsigned character)
-		approx = strToUnsignedChar(self.boxContents[2:3])
+		approx = bc.strToUnsignedChar(self.boxContents[2:3])
 		self.addCharacteristic("approx",approx)
 
 	# Value shall be 0 (but conforming readers should ignore it)
@@ -648,11 +622,11 @@ class BoxValidator:
 		# depending on value of meth
 		if meth == 1:
 			# Enumerated colour space field (long integer)
-			enumCS = strToUInt(self.boxContents[3:length])
+			enumCS = bc.strToUInt(self.boxContents[3:length])
 			self.addCharacteristic("enumCS",enumCS)
 
 			# (Note: this will also trap any cases where enumCS is more/less than 4
-			# bytes, as strToUInt will return bogus negative value, which in turn is
+			# bytes, as bc.strToUInt will return bogus negative value, which in turn is
 			# handled by statement below)
 
 			# Legal values: 16,17, 18
@@ -667,11 +641,11 @@ class BoxValidator:
 			self.characteristics.append(iccCharacteristics)
 
 			# Profile size property should equal actual profile size
-			profileSize = findElementText(iccCharacteristics,'profileSize')
+			profileSize = iccCharacteristics.findElementText('profileSize')
 			self.testFor("iccSizeIsValid", profileSize == len(profile))
 
 			# Profile class must be 'input' or 'display'
-			profileClass = findElementText(iccCharacteristics,'profileClass')
+			profileClass = iccCharacteristics.findElementText('profileClass')
 			self.testFor("iccPermittedProfileClass", profileClass in [b'scnr',b'mntr'])
 
 			# List of tag signatures may not contain "AToB0Tag", which indicates
@@ -705,7 +679,7 @@ class BoxValidator:
 		# NOT TESTED YET BECAUSE OF UNAVAILABILITY OF SUITABLE TEST DATA!!
 
 		# Number of channel descriptions (short integer)
-		n = strToShortInt(self.boxContents[0:2])
+		n = bc.strToShortInt(self.boxContents[0:2])
 		self.addCharacteristic("n",n)
 
 		# Allowed range: 1 - 65535
@@ -720,21 +694,21 @@ class BoxValidator:
 		offset = 2
 		for i in range(n):
 			# Channel index
-			cN=strToShortInt(self.boxContents[offset:offset+2])
+			cN=bc.strToShortInt(self.boxContents[offset:offset+2])
 			self.addCharacteristic("cN",cN)
 
 			# Allowed range: 0 - 65535
 			self.testFor("cNIsValid", 0 <= cN <= 65535)
 
 			# Channel type
-			cTyp = strToShortInt(self.boxContents[offset+2:offset+4])
+			cTyp = bc.strToShortInt(self.boxContents[offset+2:offset+4])
 			self.addCharacteristic("cTyp",cTyp)
 
 			# Allowed range: 0 - 65535
 			self.testFor("cTypIsValid", 0 <= cTyp <= 65535)
 
 			# Channel Association
-			cAssoc = strToShortInt(self.boxContents[offset+4:offset+6])
+			cAssoc = bc.strToShortInt(self.boxContents[offset+4:offset+6])
 			self.addCharacteristic("cAssoc",cAssoc)
 
 			# Allowed range: 0 - 65535
@@ -797,22 +771,22 @@ class BoxValidator:
 		# all values within range 1-65535
 
 		# Vertical grid resolution numerator (2 byte integer)
-		vRcN = strToUShortInt(self.boxContents[0:2])
+		vRcN = bc.strToUShortInt(self.boxContents[0:2])
 		self.addCharacteristic("vRcN", vRcN)
 		self.testFor("vRcNIsValid", 1 <= vRcN <= 65535)
 
 		# Vertical grid resolution denominator (2 byte integer)
-		vRcD = strToUShortInt(self.boxContents[2:4])
+		vRcD = bc.strToUShortInt(self.boxContents[2:4])
 		self.addCharacteristic("vRcD", vRcD)
 		self.testFor("vRcDIsValid", 1 <= vRcD <= 65535)
 
 		# Horizontal grid resolution numerator (2 byte integer)
-		hRcN = strToUShortInt(self.boxContents[4:6])
+		hRcN = bc.strToUShortInt(self.boxContents[4:6])
 		self.addCharacteristic("hRcN", hRcN)
 		self.testFor("hRcNIsValid", 1 <= hRcN <= 65535)
 
 		# Horizontal grid resolution denominator (2 byte integer)
-		hRcD = strToUShortInt(self.boxContents[6:8])
+		hRcD = bc.strToUShortInt(self.boxContents[6:8])
 		self.addCharacteristic("hRcD", hRcD)
 		self.testFor("hRcDIsValid", 1 <= hRcD <= 65535)
 
@@ -820,12 +794,12 @@ class BoxValidator:
 		# values within range -128-127
 
 		# Vertical grid resolution exponent (1 byte signed integer)
-		vRcE = strToSignedChar(self.boxContents[8:9])
+		vRcE = bc.strToSignedChar(self.boxContents[8:9])
 		self.addCharacteristic("vRcE", vRcE)
 		self.testFor("vRcEIsValid", -128 <= vRcE <= 127)
 
 		# Horizontal grid resolution exponent (1 byte signed integer)
-		hRcE = strToSignedChar(self.boxContents[9:10])
+		hRcE = bc.strToSignedChar(self.boxContents[9:10])
 		self.addCharacteristic("hRcE", hRcE)
 		self.testFor("hRcEIsValid", -128 <= hRcE <= 127)
 
@@ -853,22 +827,22 @@ class BoxValidator:
 		# all values within range 1-65535
 
 		# Vertical grid resolution numerator (2 byte integer)
-		vRdN = strToUShortInt(self.boxContents[0:2])
+		vRdN = bc.strToUShortInt(self.boxContents[0:2])
 		self.addCharacteristic("vRdN", vRdN)
 		self.testFor("vRdNIsValid", 1 <= vRdN <= 65535)
 
 		# Vertical grid resolution denominator (2 byte integer)
-		vRdD = strToUShortInt(self.boxContents[2:4])
+		vRdD = bc.strToUShortInt(self.boxContents[2:4])
 		self.addCharacteristic("vRdD", vRdD)
 		self.testFor("vRdDIsValid", 1 <= vRdD <= 65535)
 
 		# Horizontal grid resolution numerator (2 byte integer)
-		hRdN = strToUShortInt(self.boxContents[4:6])
+		hRdN = bc.strToUShortInt(self.boxContents[4:6])
 		self.addCharacteristic("hRdN", hRdN)
 		self.testFor("hRdNIsValid", 1 <= hRdN <= 65535)
 
 		# Horizontal grid resolution denominator (2 byte integer)
-		hRdD = strToUShortInt(self.boxContents[6:8])
+		hRdD = bc.strToUShortInt(self.boxContents[6:8])
 		self.addCharacteristic("hRdD",hRdD)
 		self.testFor("hRdDIsValid", 1 <= hRdD <= 65535)
 
@@ -876,12 +850,12 @@ class BoxValidator:
 		# values within range -128-127
 
 		# Vertical grid resolution exponent (1 byte signed integer)
-		vRdE = strToSignedChar(self.boxContents[8:9])
+		vRdE = bc.strToSignedChar(self.boxContents[8:9])
 		self.addCharacteristic("vRdE", vRdE)
 		self.testFor("vRdEIsValid", -128 <= vRdE <= 127)
 
 		# Horizontal grid resolution exponent (1 byte signed integer)
-		hRdE = strToSignedChar(self.boxContents[9:10])
+		hRdE = bc.strToSignedChar(self.boxContents[9:10])
 		self.addCharacteristic("hRdE", hRdE)
 		self.testFor("hRdEIsValid", -128 <= hRdE <= 127)
 
@@ -906,77 +880,77 @@ class BoxValidator:
 		# (ISO/IEC 15444-1 Section A.5.1)
 
 		# Length of main image header
-		lsiz = strToUShortInt(self.boxContents[0:2])
+		lsiz = bc.strToUShortInt(self.boxContents[0:2])
 		self.addCharacteristic("lsiz", lsiz)
 
 		# lsiz should be within range 41-49190
 		self.testFor("lsizIsValid", 41 <= lsiz <= 49190)
 
 		# Decoder capabilities
-		rsiz = strToUShortInt(self.boxContents[2:4])
+		rsiz = bc.strToUShortInt(self.boxContents[2:4])
 		self.addCharacteristic("rsiz", rsiz)
 
 		# rsiz should be either 0, 1 or 2
 		self.testFor("rsizIsValid", rsiz in [0,1,2])
 
 		# Width of reference grid
-		xsiz = strToUInt(self.boxContents[4:8])
+		xsiz = bc.strToUInt(self.boxContents[4:8])
 		self.addCharacteristic("xsiz", xsiz)
 
 		# xsiz should be within range 1 - (2**32)-1
 		self.testFor("xsizIsValid", 1 <= xsiz <= (2**32)-1)
 
 		# Heigth of reference grid
-		ysiz = strToUInt(self.boxContents[8:12])
+		ysiz = bc.strToUInt(self.boxContents[8:12])
 		self.addCharacteristic("ysiz", ysiz)
 
 		# ysiz should be within range 1 - (2**32)-1
 		self.testFor("ysizIsValid", 1 <= ysiz <= (2**32)-1)
 
 		# Horizontal offset from origin of reference grid to left of image area
-		xOsiz = strToUInt(self.boxContents[12:16])
+		xOsiz = bc.strToUInt(self.boxContents[12:16])
 		self.addCharacteristic("xOsiz", xOsiz)
 
 		# xOsiz should be within range 0 - (2**32)-2
 		self.testFor("xOsizIsValid", 0 <= xOsiz <= (2**32)-2)
 
 		# Vertical offset from origin of reference grid to top of image area
-		yOsiz = strToUInt(self.boxContents[16:20])
+		yOsiz = bc.strToUInt(self.boxContents[16:20])
 		self.addCharacteristic("yOsiz", yOsiz)
 
 		# yOsiz should be within range 0 - (2**32)-2
 		self.testFor("yOsizIsValid", 0 <= yOsiz <= (2**32)-2)
 
 		# Width of one reference tile with respect to the reference grid
-		xTsiz = strToUInt(self.boxContents[20:24])
+		xTsiz = bc.strToUInt(self.boxContents[20:24])
 		self.addCharacteristic("xTsiz", xTsiz)
 
 		# xTsiz should be within range 1 - (2**32)- 1
 		self.testFor("xTsizIsValid", 1 <= xTsiz <= (2**32)-1)
 
 		# Height of one reference tile with respect to the reference grid
-		yTsiz = strToUInt(self.boxContents[24:28])
+		yTsiz = bc.strToUInt(self.boxContents[24:28])
 		self.addCharacteristic("yTsiz", yTsiz)
 
 		# yTsiz should be within range 1 - (2**32)- 1
 		self.testFor("yTsizIsValid", 1 <= yTsiz <= (2**32)-1)
 
 		# Horizontal offset from origin of reference grid to left side of first tile
-		xTOsiz = strToUInt(self.boxContents[28:32])
+		xTOsiz = bc.strToUInt(self.boxContents[28:32])
 		self.addCharacteristic("xTOsiz", xTOsiz)
 
 		# xTOsiz should be within range 0 - (2**32)-2
 		self.testFor("xTOsizIsValid", 0 <= xTOsiz <= (2**32)-2)
 
 		# Vertical offset from origin of reference grid to top side of first tile
-		yTOsiz = strToUInt(self.boxContents[32:36])
+		yTOsiz = bc.strToUInt(self.boxContents[32:36])
 		self.addCharacteristic("yTOsiz", yTOsiz)
 
 		# yTOsiz should be within range 0 - (2**32)-2
 		self.testFor("yTOsizIsValid", 0 <= yTOsiz <= (2**32)-2)
 
 		# Number of components
-		csiz = strToUShortInt(self.boxContents[36:38])
+		csiz = bc.strToUShortInt(self.boxContents[36:38])
 		self.addCharacteristic("csiz", csiz)
 
 		# Number of components should be in range 1 - 16384 (including limits)
@@ -993,7 +967,7 @@ class BoxValidator:
 
 		for i in range(csiz):
 			# ssiz (=bits per component)
-			ssiz = strToUnsignedChar(self.boxContents[offset:offset+1])
+			ssiz = bc.strToUnsignedChar(self.boxContents[offset:offset+1])
 
 			# Most significant bit indicates whether components are signed (1)
 			# or unsigned (0). Extracted by applying bit mask of 10000000 (=128)
@@ -1010,7 +984,7 @@ class BoxValidator:
 
 			# Horizontal separation of sample of this component with respect
 			# to reference grid
-			xRsiz = strToUnsignedChar(self.boxContents[offset+1:offset+2])
+			xRsiz = bc.strToUnsignedChar(self.boxContents[offset+1:offset+2])
 			self.addCharacteristic("xRsiz", xRsiz)
 
 			# xRSiz valid if range 1-255
@@ -1018,7 +992,7 @@ class BoxValidator:
 
 			# Vertical separation of sample of this component with respect
 			# to reference grid
-			yRsiz = strToUnsignedChar(self.boxContents[offset+2:offset+3])
+			yRsiz = bc.strToUnsignedChar(self.boxContents[offset+2:offset+3])
 			self.addCharacteristic("yRsiz", yRsiz)
 
 			# yRSiz valid if range 1-255
@@ -1032,7 +1006,7 @@ class BoxValidator:
 		# (ISO/IEC 15444-1 Section A.6.1)
 
 		# Length of COD marker
-		lcod=strToUShortInt(self.boxContents[0:2])
+		lcod=bc.strToUShortInt(self.boxContents[0:2])
 		self.addCharacteristic("lcod",lcod)
 
 		# lcod should be in range 12-45
@@ -1040,7 +1014,7 @@ class BoxValidator:
 		self.testFor("lcodIsValid",lcodIsValid)
 
 		# Coding style
-		scod=strToUnsignedChar(self.boxContents[2:3])
+		scod=bc.strToUnsignedChar(self.boxContents[2:3])
 
 		# scod contains 3 coding style parameters that follow from  its 3 least
 		# significant bits
@@ -1066,7 +1040,7 @@ class BoxValidator:
 		sGcod=self.boxContents[3:7]
 
 		# Progression order
-		order=strToUnsignedChar(sGcod[0:1])
+		order=bc.strToUnsignedChar(sGcod[0:1])
 		self.addCharacteristic("order",order)
 
 		# Allowed values: 0 (LRCP), 1 (RLCP), 2 (RPCL), 3 (PCRL), 4(CPRL)
@@ -1074,7 +1048,7 @@ class BoxValidator:
 		self.testFor("orderIsValid",orderIsValid)
 
 		# Number of layers
-		layers=strToUShortInt(sGcod[1:3])
+		layers=bc.strToUShortInt(sGcod[1:3])
 		self.addCharacteristic("layers",layers)
 
 		# layers should be in range 1-65535
@@ -1082,7 +1056,7 @@ class BoxValidator:
 		self.testFor("layersIsValid",layersIsValid)
 
 		# Multiple component transformation
-		multipleComponentTransformation=strToUnsignedChar(sGcod[3:4])
+		multipleComponentTransformation=bc.strToUnsignedChar(sGcod[3:4])
 		self.addCharacteristic("multipleComponentTransformation",multipleComponentTransformation)
 
 		# Value should be 0 (no transformation) or 1 (transformation on components
@@ -1094,7 +1068,7 @@ class BoxValidator:
 		# in standard)
 
 		# Number of decomposition levels
-		levels=strToUnsignedChar(self.boxContents[7:8])
+		levels=bc.strToUnsignedChar(self.boxContents[7:8])
 		self.addCharacteristic("levels",levels)
 
 		# levels should be within range 0-32
@@ -1111,7 +1085,7 @@ class BoxValidator:
 		self.testFor("lcodConsistentWithLevelsPrecincts",lcodConsistentWithLevelsPrecincts)
 
 		# Code block width exponent (stored as offsets, add 2 to get actual value)
-		codeBlockWidthExponent=strToUnsignedChar(self.boxContents[8:9]) + 2
+		codeBlockWidthExponent=bc.strToUnsignedChar(self.boxContents[8:9]) + 2
 		self.addCharacteristic("codeBlockWidth",2**codeBlockWidthExponent)
 
 		# Value within range 2-10
@@ -1119,7 +1093,7 @@ class BoxValidator:
 		self.testFor("codeBlockWidthExponentIsValid",codeBlockWidthExponentIsValid)
 
 		# Code block height exponent (stored as offsets, add 2 to get actual value)
-		codeBlockHeightExponent=strToUnsignedChar(self.boxContents[9:10]) + 2
+		codeBlockHeightExponent=bc.strToUnsignedChar(self.boxContents[9:10]) + 2
 		self.addCharacteristic("codeBlockHeight",2**codeBlockHeightExponent)
 
 		# Value within range 2-10
@@ -1131,7 +1105,7 @@ class BoxValidator:
 		self.testFor("sumHeightWidthExponentIsValid",sumHeightWidthExponentIsValid)
 
 		# Code block style, contains 6 boolean switches
-		codeBlockStyle=strToUnsignedChar(self.boxContents[10:11])
+		codeBlockStyle=bc.strToUnsignedChar(self.boxContents[10:11])
 
 		# Bit 8: selective arithmetic coding bypass
 		codingBypass=getBitValue(codeBlockStyle,8)
@@ -1158,7 +1132,7 @@ class BoxValidator:
 		self.addCharacteristic("segmentationSymbols",segmentationSymbols)
 
 		# Wavelet transformation: 9-7 irreversible (0) or 5-3 reversible (1)
-		transformation=strToUnsignedChar(self.boxContents[11:12])
+		transformation=bc.strToUnsignedChar(self.boxContents[11:12])
 		self.addCharacteristic("transformation",transformation)
 
 		transformationIsValid=transformation in [0,1]
@@ -1173,7 +1147,7 @@ class BoxValidator:
 
 			for i in range(levels+1):
 				# Precinct byte
-				precinctByte=strToUnsignedChar(self.boxContents[offset:offset+1])
+				precinctByte=bc.strToUnsignedChar(self.boxContents[offset:offset+1])
 
 				# Precinct width exponent: least significant 4 bytes (apply bit mask)
 				ppx=precinctByte & 15
@@ -1209,7 +1183,7 @@ class BoxValidator:
 		# (ISO/IEC 15444-1 Section A.6.4)
 
 		# Length of QCD marker
-		lqcd=strToUShortInt(self.boxContents[0:2])
+		lqcd=bc.strToUShortInt(self.boxContents[0:2])
 		self.addCharacteristic("lqcd",lqcd)
 
 		# lqcd should be in range 4-197
@@ -1219,7 +1193,7 @@ class BoxValidator:
 		# Note: lqcd should also be consistent with no. decomp.levels and sqcd!
 
 		# Quantization style for all components
-		sqcd=strToUnsignedChar(self.boxContents[2:3])
+		sqcd=bc.strToUnsignedChar(self.boxContents[2:3])
 
 		# sqcd contains 2 quantization parameters: style + no of guard bits
 
@@ -1245,7 +1219,7 @@ class BoxValidator:
 
 		if qStyle==0:
 			for i in range(levels):
-				spqcd=strToUnsignedChar(self.boxContents[offset:offset+1])
+				spqcd=bc.strToUnsignedChar(self.boxContents[offset:offset+1])
 
 				# 5 most significant bits -> exponent epsilon in Eq E-5
 				epsilon=(spqcd >>3) &31
@@ -1255,7 +1229,7 @@ class BoxValidator:
 
 		elif qStyle==2:
 			for i in range(levels):
-				spqcd=strToUShortInt(self.boxContents[offset:offset+2])
+				spqcd=bc.strToUShortInt(self.boxContents[offset:offset+2])
 
 				# 11 least significant bits: mu in Eq E-3
 				mu=spqcd & 2047
@@ -1268,7 +1242,7 @@ class BoxValidator:
 				offset +=2
 
 		else:
-			spqcd=strToUShortInt(self.boxContents[offset:offset+2])
+			spqcd=bc.strToUShortInt(self.boxContents[offset:offset+2])
 			# 11 least significant bits: mu in Eq E-3
 			mu=spqcd & 2047
 			self.addCharacteristic("mu",mu)
@@ -1286,7 +1260,7 @@ class BoxValidator:
 		# (ISO/IEC 15444-1 Section A.6.4)
 
 		# Length of COM marker
-		lcom=strToUShortInt(self.boxContents[0:2])
+		lcom=bc.strToUShortInt(self.boxContents[0:2])
 		self.addCharacteristic("lcom",lcom)
 
 		# lcom should be in range 5-65535
@@ -1294,7 +1268,7 @@ class BoxValidator:
 		self.testFor("lcomIsValid",lcomIsValid)
 
 		# Registration value of marker segment
-		rcom=strToUShortInt(self.boxContents[2:4])
+		rcom=bc.strToUShortInt(self.boxContents[2:4])
 		self.addCharacteristic("rcom",rcom)
 
 		# rcom should be either 0 (binary values) or 1 (ISO/IEC 8859-15 (Latin) values)
@@ -1308,8 +1282,6 @@ class BoxValidator:
 		if rcom == 1:
 			self.addCharacteristic("comment",comment)
 
-
-	# TODO refactor as validator
 	def validate_icc(self):
 		# Extracts characteristics (property-value pairs) of ICC profile
 		# Note that although values are stored in  'text' property of sub-elements,
@@ -1319,15 +1291,15 @@ class BoxValidator:
 
 		# Profile header properties (note: incomplete at this stage!)
 		# Size in bytes
-		profileSize=strToUInt(self.boxContents[0:4])
+		profileSize=bc.strToUInt(self.boxContents[0:4])
 		self.addCharacteristic("profileSize",profileSize)
 		# Preferred CMM type
-		preferredCMMType=strToUInt(self.boxContents[4:8])
+		preferredCMMType=bc.strToUInt(self.boxContents[4:8])
 		self.addCharacteristic("preferredCMMType",preferredCMMType)
 		# Profile version: major revision
-		profileMajorRevision=strToUnsignedChar(self.boxContents[8:9])
+		profileMajorRevision=bc.strToUnsignedChar(self.boxContents[8:9])
 		# Profile version: minor revision
-		profileMinorRevisionByte=strToUnsignedChar(self.boxContents[9:10])
+		profileMinorRevisionByte=bc.strToUnsignedChar(self.boxContents[9:10])
 		# Minor revision: first 4 bits of profileMinorRevisionByte
 		# (Shift bits 4 positions to right, logical shift not arithemetic shift!)
 		profileMinorRevision=profileMinorRevisionByte >> 4
@@ -1348,12 +1320,12 @@ class BoxValidator:
 		profileConnectionSpace=self.boxContents[20:24]
 		self.addCharacteristic("profileConnectionSpace",profileConnectionSpace)
 		# Date and time fields
-		year=strToUShortInt(self.boxContents[24:26])
-		month=strToUnsignedChar(self.boxContents[27:28])
-		day=strToUnsignedChar(self.boxContents[29:30])
-		hour=strToUnsignedChar(self.boxContents[31:32])
-		minute=strToUnsignedChar(self.boxContents[33:34])
-		second=strToUnsignedChar(self.boxContents[35:36])
+		year=bc.strToUShortInt(self.boxContents[24:26])
+		month=bc.strToUnsignedChar(self.boxContents[27:28])
+		day=bc.strToUnsignedChar(self.boxContents[29:30])
+		hour=bc.strToUnsignedChar(self.boxContents[31:32])
+		minute=bc.strToUnsignedChar(self.boxContents[33:34])
+		second=bc.strToUnsignedChar(self.boxContents[35:36])
 		dateString="%d/%02d/%02d" % (year, month, day)
 		timeString="%02d:%02d:%02d" % (hour, minute, second)
 		dateTimeString="%s, %s" % (dateString, timeString)
@@ -1368,7 +1340,7 @@ class BoxValidator:
 		# field (MD5 checksum) to test integrity of profile.
 		# Parse tag table
 		# Number of tags (tag count)
-		tagCount=strToUInt(self.boxContents[128:132])
+		tagCount=bc.strToUInt(self.boxContents[128:132])
 		# List of tag signatures, offsets and sizes
 		# All local to this function; all property exports through "characteristics"
 		# element object!
@@ -1380,8 +1352,8 @@ class BoxValidator:
 		for i in range(tagCount):
 			# Extract tag signature (as binary string) for each entry
 			tagSignature=self.boxContents[tagStart:tagStart+4]
-			tagOffset=strToUInt(self.boxContents[tagStart+4:tagStart+8])
-			tagSize=strToUInt(self.boxContents[tagStart+8:tagStart+12])
+			tagOffset=bc.strToUInt(self.boxContents[tagStart+4:tagStart+8])
+			tagSize=bc.strToUInt(self.boxContents[tagStart+8:tagStart+12])
 			self.addCharacteristic("tag",tagSignature)
 			# Add to list
 			tagSignatures.append(tagSignature)
@@ -1402,7 +1374,7 @@ class BoxValidator:
 			# standard; following code based on older version:
 			# ICC.1:2001-04 File Format for Color Profiles [REVISION of ICC.1:1998-09]
 			# Length of description (including terminating null character)
-			descriptionLength=strToUInt(descTag[8:12])
+			descriptionLength=bc.strToUInt(descTag[8:12])
 			# Description as binary string (excluding terminating null char)
 			description=descTag[12:12+descriptionLength-1]
 		except:
@@ -1417,7 +1389,7 @@ class BoxValidator:
 		# third result, which is the total tile-part length (psot)!
 
 		# Length of SOT marker
-		lsot=strToUShortInt(self.boxContents[0:2])
+		lsot=bc.strToUShortInt(self.boxContents[0:2])
 		self.addCharacteristic("lsot",lsot)
 
 		# lcom should be 10
@@ -1425,7 +1397,7 @@ class BoxValidator:
 		self.testFor("lsotIsValid",lsotIsValid)
 
 		# Tile index
-		isot=strToUShortInt(self.boxContents[2:4])
+		isot=bc.strToUShortInt(self.boxContents[2:4])
 		self.addCharacteristic("isot",isot)
 
 		# Tile index should be in range 0-65534
@@ -1433,7 +1405,7 @@ class BoxValidator:
 		self.testFor("isotIsValid",isotIsValid)
 
 		# Length of tile part (including this SOT)
-		psot=strToUInt(self.boxContents[4:8])
+		psot=bc.strToUInt(self.boxContents[4:8])
 		self.addCharacteristic("psot",psot)
 
 		# psot equals 0 (for last tile part) or greater than 14 (so range 1-13 is illegal)
@@ -1441,7 +1413,7 @@ class BoxValidator:
 		self.testFor("psotIsValid",psotIsValid)
 
 		# Tile part index
-		tpsot=strToUnsignedChar(self.boxContents[8:9])
+		tpsot=bc.strToUnsignedChar(self.boxContents[8:9])
 		self.addCharacteristic("tpsot",tpsot)
 
 		# Should be in range 0-254
@@ -1451,7 +1423,7 @@ class BoxValidator:
 		# Number of tile-parts of a tile in the codestream
 		# Value of 0 indicates that number of tile-parts of tile in the codestream
 		# is not defined in this header; otherwise value in range 1-255
-		tnsot=strToUnsignedChar(self.boxContents[9:10])
+		tnsot=bc.strToUnsignedChar(self.boxContents[9:10])
 		self.addCharacteristic("tnsot",tnsot)
 		self.returnOffset = psot
 
@@ -1564,3 +1536,222 @@ class BoxValidator:
 			self.testFor("foundNextTilePartOrEOC",foundNextTilePartOrEOC)
 
 		self.returnOffset = offsetNextTilePart
+
+	def validate_JP2(self):
+		# Top-level function for JP2 validation:
+		#
+		# 1. Parses all top-level boxes in JP2 byte object, and calls separate validator
+		#	function for each of these
+		# 2. Checks for presence of all required top-level boxes
+		# 3. Checks if JP2 header properties are consistent with corresponding properties
+		#	in codestream header
+
+		# Marker tags/codes that identify all top level boxes as hexadecimal strings
+		#(Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
+		tagSignatureBox=b'\x6a\x50\x20\x20'
+		tagFileTypeBox=b'\x66\x74\x79\x70'
+		tagJP2HeaderBox=b'\x6a\x70\x32\x68'
+		tagContiguousCodestreamBox=b'\x6a\x70\x32\x63'
+
+		# List for storing box type identifiers
+		boxTypes=[]
+
+		noBytes=len(self.boxContents)
+		byteStart = 0
+		bytesTotal=0
+
+		# Dummy value
+		boxLengthValue=10
+
+		while byteStart < noBytes and boxLengthValue != 0:
+
+			boxLengthValue, boxType, byteEnd, boxContents = getBox(self.boxContents,byteStart, noBytes)
+
+			# Validate current top level box
+			resultBox,characteristicsBox = BoxValidator(boxType, boxContents).validate()
+
+			byteStart = byteEnd
+
+			# Add to list of box types
+			boxTypes.append(boxType)
+
+			# Add analysis results to test results tree
+			self.tests.append(resultBox)
+
+			# Add extracted characteristics to characteristics tree
+			self.characteristics.append(characteristicsBox)
+
+		# Do all required top level boxes exist (ISO/IEC 15444-1 Section I.4)?
+		containsSignatureBox=tagSignatureBox in  boxTypes
+		containsFileTypeBox=tagFileTypeBox in  boxTypes
+		containsJP2HeaderBox=tagJP2HeaderBox in  boxTypes
+		containsContiguousCodestreamBox=tagContiguousCodestreamBox in  boxTypes
+
+		self.testFor("containsSignatureBox",containsSignatureBox)
+		self.testFor("containsFileTypeBox",containsFileTypeBox)
+		self.testFor("containsJP2HeaderBox",containsJP2HeaderBox)
+		self.testFor("containsContiguousCodestreamBox",containsContiguousCodestreamBox)
+
+		# If iPR field in image header box equals 1, intellectual property box
+		# should exist as well
+		iPR = self.characteristics.findElementText('jp2HeaderBox/imageHeaderBox/iPR')
+
+		if iPR == 1:
+			containsIntellectualPropertyBox=tagIntellectualPropertyBox in  boxTypes
+			self.testFor("containsIntellectualPropertyBox",containsIntellectualPropertyBox)
+
+		# Is the first box a Signature Box (ISO/IEC 15444-1 Section I.5.1)?
+		try:
+			firstBoxIsSignatureBox=boxTypes[0] == tagSignatureBox
+		except:
+			firstBoxIsSignatureBox=False
+
+		# Is the second box a File Type Box (ISO/IEC 15444-1 Section I.5.2)?
+		try:
+			secondBoxIsFileTypeBox=boxTypes[1] == tagFileTypeBox
+		except:
+			secondBoxIsFileTypeBox=False
+
+		# JP2 Header Box: after File Type box, before (first) contiguous codestream box
+		#(ISO/IEC 15444-1 Section I.5.3)?
+		try:
+			positionJP2HeaderBox=boxTypes.index(tagJP2HeaderBox)
+			positionFirstContiguousCodestreamBox=boxTypes.index(tagContiguousCodestreamBox)
+
+			if positionFirstContiguousCodestreamBox> positionJP2HeaderBox > 1:
+				locationJP2HeaderBoxIsValid=True
+			else:
+				locationJP2HeaderBoxIsValid=False
+		except:
+			locationJP2HeaderBoxIsValid=False
+
+		self.testFor("firstBoxIsSignatureBox",firstBoxIsSignatureBox)
+		self.testFor("secondBoxIsFileTypeBox",secondBoxIsFileTypeBox)
+		self.testFor("locationJP2HeaderBoxIsValid",locationJP2HeaderBoxIsValid)
+
+		# Some boxes can have multiple instances, whereas for others only one
+		# is allowed
+		# --> Note: multiple Contiguous Codestream boxes are allowed, although conforming
+		# readers only read first one. So maybe include a warning in case of multiple
+		# codestreams?
+		noMoreThanOneSignatureBox=boxTypes.count(tagSignatureBox) <= 1
+		noMoreThanOneFileTypeBox=boxTypes.count(tagFileTypeBox) <= 1
+		noMoreThanOneJP2HeaderBox=boxTypes.count(tagJP2HeaderBox) <= 1
+
+		self.testFor("noMoreThanOneSignatureBox",noMoreThanOneSignatureBox)
+		self.testFor("noMoreThanOneFileTypeBox",noMoreThanOneFileTypeBox)
+		self.testFor("noMoreThanOneJP2HeaderBox",noMoreThanOneJP2HeaderBox)
+
+		# Check if general image properties in Image Header Box are consistent with
+		# corresponding values in codestream header.
+
+		# JP2 image header and codestream SIZ header as element objects
+		jp2ImageHeader=self.characteristics.find('jp2HeaderBox/imageHeaderBox')
+		sizHeader=self.characteristics.find('contiguousCodestreamBox/siz')
+
+		# Only proceed with tests if the above really exist (if this is not the case
+		# the preceding tests will have already identified this file as not valid)
+
+		# Note: do *NOT* use 'findtext' function to get values: if value equals 0
+		# this returns an empty string, even though 'text' field really contains an
+		# integer. Probably a bug in ET. Using 'find' + text property does work
+		# as expected
+
+		if jp2ImageHeader != None and sizHeader != None:
+
+			# Height should be equal to ysiz -yOsiz
+
+			height=jp2ImageHeader.findElementText('height')
+			ysiz=sizHeader.findElementText('ysiz')
+			yOsiz=sizHeader.findElementText('yOsiz')
+
+			heightConsistentWithSIZ = height == (ysiz-yOsiz)
+			self.testFor("heightConsistentWithSIZ", heightConsistentWithSIZ)
+
+			# Width should be equal to xsiz - xOsiz
+			width=jp2ImageHeader.findElementText('width')
+			xsiz=sizHeader.findElementText('xsiz')
+			xOsiz=sizHeader.findElementText('xOsiz')
+
+			widthConsistentWithSIZ=width == (xsiz-xOsiz)
+			self.testFor("widthConsistentWithSIZ", widthConsistentWithSIZ)
+
+			# nC should be equal to csiz
+			nC=jp2ImageHeader.findElementText('nC')
+			csiz=sizHeader.findElementText('csiz')
+
+			nCConsistentWithSIZ=nC == csiz
+			self.testFor("nCConsistentWithSIZ", nCConsistentWithSIZ)
+
+			# Bits per component: bPCSign should be equal to ssizSign,
+			# and bPCDepth to ssizDepth
+			#
+			# There can be 2 situations here:
+			#
+			# 1. bPCSign and bPCDepth same for all components --> use values from image header
+			# 2. bPCSign and bPCDepth vary across components --> use values from Bits Per
+			#	Components box
+			#
+			# Situation 1 is the most common one. Situation 2 can be identified by a value
+			# of 255 of bPC in the image header, which corresponds to  bPCSign = 1
+			# and bPCDepth = 128 (these are both derived from bPC, which is not included
+			# as a reportable here!)
+			#
+			# TO DO: test situation 2 using images with BPC box (cannot find any right now)
+
+			bPCSign=jp2ImageHeader.findElementText('bPCSign')
+			bPCDepth=jp2ImageHeader.findElementText('bPCDepth')
+
+			if bPCSign == 1 and bPCDepth == 128:
+				# Actual bPCSign / bPCDepth in Bits Per Components box
+				# (situation 2 above)
+
+				bpcBox=self.characteristics.find('jp2HeaderBox/bitsPerComponentBox')
+
+				# All occurrences of bPCSign box to list. If bpcBox is 'noneType'
+				# (e.g. due to some weird corruption of the file) this will result in
+				# an empty list, so nothing really bad will happen ..
+				bPCSignValues=bpcBox.findAllText('bPCSign')
+
+				# All occurrences of bPCDepth to list
+				bPCDepthValues=bpcBox.findAllText('bPCDepth')
+
+			else:
+				# These are the actual values (situation 1 above)
+
+				# Create list of bPCSign values (i.e. duplicate fixed
+				# value for each component)
+				bPCSignValues=[]
+
+				for i in range(nC):
+					bPCSignValues.append(bPCSign)
+
+				# Create list of bPCDepth values(i.e. duplicate fixed
+				# value for each component)
+				bPCDepthValues=[]
+
+				for i in range(nC):
+					bPCDepthValues.append(bPCDepth)
+
+			# All occurrences of ssizSign to list
+			ssizSignValues=sizHeader.findAllText('ssizSign')
+
+			# All occurrences of ssizDepth to list
+			ssizDepthValues=sizHeader.findAllText('ssizDepth')
+
+			# bPCSignValues should be equal to ssizSignValues
+			bPCSignConsistentWithSIZ=bPCSignValues == ssizSignValues
+			self.testFor("bPCSignConsistentWithSIZ", bPCSignConsistentWithSIZ)
+
+			# bPCDepthValues should be equal to ssizDepthValues
+			bPCDepthConsistentWithSIZ=bPCDepthValues == ssizDepthValues
+			self.testFor("bPCDepthConsistentWithSIZ", bPCDepthConsistentWithSIZ)
+
+			# Calculate compression ratio of this image
+			compressionRatio=calculateCompressionRatio(noBytes,bPCDepthValues,height,width)
+			compressionRatio=round(compressionRatio,2)
+			self.addCharacteristic("compressionRatio",compressionRatio)
+
+		# Valid JP2 only if all tests returned True
+		self.isValid = self.__isValid__()
+
