@@ -339,127 +339,6 @@ def addElement(parent,tag,text):
 	element=ET.SubElement(parent, tag)
 	element.text=text
 
-
-
-def validateTilePart(data,offsetStart):
-
-	# Analyse tile part that starts at offsetStart and perform cursory validation
-	# Precondition: offsetStart points to SOT marker
-	#
-	# Limitations:
-	# - COD, COC, QCD, QCC and RGN are markers only allowed in first tile-part
-	#   of a tile; there is currently no check on this (may be added later)
-
-	# Test results to elementtree element
-	tests=ET.Element('tilePart')
-
-	# Characteristics to elementtree element
-	characteristics=ET.Element('tilePart')
-
-	offset=offsetStart
-
-	# Read first marker segment, which is a  start of tile (SOT) marker segment
-	marker,segLength,segContents,offsetNext=getMarkerSegment(data,offset)
-
-	# Validate start of tile (SOT) marker segment
-	# tilePartLength is value of psot, which is the total length of this tile
-	# including the SOT marker. Note that psot may be 0 for last tile!
-	resultSOT, characteristicsSOT, tilePartLength = BoxValidator('startOfTile', segContents).validate() #validateSOT(segContents)
-
-	# Add analysis results to test results tree
-	tests.append(resultSOT)
-
-	# Add extracted characteristics to characteristics tree
-	characteristics.append(characteristicsSOT)
-
-	offset=offsetNext
-
-	# Last marker in every tile-part should be a start of data marker
-	foundSODMarker=False
-
-	# Loop through remaining tile part marker segments; extract properties of
-	# and validate COD, QCD and COM marker segments. Also test for presence of
-	# SOD marker
-	# NOTE: not tested yet because of unavailability of test images with these
-	# markers at tile-part level!!
-
-	while marker != b'\xff\x93':
-		marker,segLength,segContents,offsetNext=getMarkerSegment(data,offset)
-
-		if marker==b'\xff\x52':
-			# COD (coding style default) marker segment
-
-			# COD is required
-			foundCODMarker=True
-
-			# Validate COD segment
-			resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() # validateCOD(segContents)
-
-			# Add analysis results to test results tree
-			tests.append(resultCOD)
-
-			# Add extracted characteristics to characteristics tree
-			characteristics.append(characteristicsCOD)
-
-			offset=offsetNext
-
-		elif marker==b'\xff\x5c':
-			# QCD (quantization default) marker segment
-
-			# QCD is required
-			foundQCDMarker=True
-
-			# Validate QCD segment
-			resultQCD, characteristicsQCD = BoxValidator(marker, segContents).validate() #validateQCD(segContents)
-
-			# Add analysis results to test results tree
-			tests.append(resultQCD)
-
-			# Add extracted characteristics to characteristics tree
-			characteristics.append(characteristicsQCD)
-
-			offset=offsetNext
-
-		elif marker==b'\xff\x64':
-			# COM (codestream comment) marker segment
-
-			# Validate QCD segment
-			resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate() #b'\xff\x64'validateCOM(segContents)
-
-			# Add analysis results to test results tree
-			tests.append(resultCOM)
-
-			# Add extracted characteristics to characteristics tree
-			characteristics.append(characteristicsCOM)
-
-			offset=offsetNext
-
-		elif marker==b'\xff\x93':
-			# SOT (start of data) marker segment: last tile-part marker
-			foundSODMarker=True
-			addElement(tests,"foundSODMarker",foundSODMarker)
-
-		else:
-			# Any other marker segment: ignore and move on to next one
-			offset=offsetNext
-
-
-	# Position of first byte in next tile
-	offsetNextTilePart=offsetStart + tilePartLength
-
-	# Check if offsetNextTile really points to start of new tile or otherwise
-	# EOC (useful for detecting within-codestream byte corruption)
-	if tilePartLength != 0:
-		# This will skip this test if tilePartLength equals 0, but that doesn't
-		# matter since check for EOC is included elsewhere
-		markerNextTilePart=data[offsetNextTilePart:offsetNextTilePart+2]
-		foundNextTilePartOrEOC=markerNextTilePart in [b'\xff\x90',b'\xff\xd9']
-		addElement(tests,"foundNextTilePartOrEOC",foundNextTilePartOrEOC)
-
-	return(tests,characteristics,offsetNextTilePart)
-
-
-
 class BoxValidator:
 	# Marker tags/codes that identify all sub-boxes as hexadecimal strings
 	#(Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
@@ -485,6 +364,7 @@ class BoxValidator:
 		b'\xff\x52': "cod",
 		b'\xff\x5c': "qcd",
 		b'\xff\x64': "com",
+		b'\xff\x90': "tilePart",
 		'icc': 'icc',
 		'startOfTile': 'sot'
 	}
@@ -499,7 +379,7 @@ class BoxValidator:
 		"requiredInCompatibilityList": b'\x6a\x70\x32\x20'
 	}
 
-	def __init__(self, bType, boxContents):
+	def __init__(self, bType, boxContents, startOffset = None):
 		if bType in self.typeMap:
 			self.boxType = self.typeMap[bType]
 		else:
@@ -507,6 +387,7 @@ class BoxValidator:
 		self.characteristics = ET.Element(self.boxType)
 		self.tests = ET.Element(self.boxType)
 		self.boxContents = boxContents
+		self.startOffset = startOffset
 		self.returnOffset = None
 
 	def validate(self):
@@ -773,7 +654,7 @@ class BoxValidator:
 			marker = self.boxContents[offset:offset+2]
 
 			if marker == b'\xff\x90':
-				resultTilePart, characteristicsTilePart,offsetNext = validateTilePart(self.boxContents,offset)
+				resultTilePart, characteristicsTilePart,offsetNext = BoxValidator(marker, self.boxContents, offset).validate() #validateTilePart(self.boxContents,offset)
 				# Add analysis results to test results tree
 				tilePartTests.append(resultTilePart)
 
@@ -1723,3 +1604,113 @@ class BoxValidator:
 		tnsot=strToUnsignedChar(self.boxContents[9:10])
 		self.addCharacteristic("tnsot",tnsot)
 		self.returnOffset = psot
+
+	def validate_tilePart(self):
+		# Analyse tile part that starts at offsetStart and perform cursory validation
+		# Precondition: offsetStart points to SOT marker
+		#
+		# Limitations:
+		# - COD, COC, QCD, QCC and RGN are markers only allowed in first tile-part
+		#   of a tile; there is currently no check on this (may be added later)
+
+		offset = self.startOffset
+
+		# Read first marker segment, which is a  start of tile (SOT) marker segment
+		marker,segLength,segContents,offsetNext=getMarkerSegment(self.boxContents,offset)
+
+		# Validate start of tile (SOT) marker segment
+		# tilePartLength is value of psot, which is the total length of this tile
+		# including the SOT marker. Note that psot may be 0 for last tile!
+		resultSOT, characteristicsSOT, tilePartLength = BoxValidator('startOfTile', segContents).validate() #validateSOT(segContents)
+
+		# Add analysis results to test results tree
+		self.tests.append(resultSOT)
+
+		# Add extracted characteristics to characteristics tree
+		self.characteristics.append(characteristicsSOT)
+
+		offset=offsetNext
+
+		# Last marker in every tile-part should be a start of data marker
+		foundSODMarker=False
+
+		# Loop through remaining tile part marker segments; extract properties of
+		# and validate COD, QCD and COM marker segments. Also test for presence of
+		# SOD marker
+		# NOTE: not tested yet because of unavailability of test images with these
+		# markers at tile-part level!!
+
+		while marker != b'\xff\x93':
+			marker,segLength,segContents,offsetNext=getMarkerSegment(self.boxContents,offset)
+
+			if marker==b'\xff\x52':
+				# COD (coding style default) marker segment
+
+				# COD is required
+				foundCODMarker=True
+
+				# Validate COD segment
+				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() # validateCOD(segContents)
+
+				# Add analysis results to test results tree
+				self.tests.append(resultCOD)
+
+				# Add extracted characteristics to characteristics tree
+				self.characteristics.append(characteristicsCOD)
+
+				offset=offsetNext
+
+			elif marker==b'\xff\x5c':
+				# QCD (quantization default) marker segment
+
+				# QCD is required
+				foundQCDMarker=True
+
+				# Validate QCD segment
+				resultQCD, characteristicsQCD = BoxValidator(marker, segContents).validate() #validateQCD(segContents)
+
+				# Add analysis results to test results tree
+				self.tests.append(resultQCD)
+
+				# Add extracted characteristics to characteristics tree
+				self.characteristics.append(characteristicsQCD)
+
+				offset=offsetNext
+
+			elif marker==b'\xff\x64':
+				# COM (codestream comment) marker segment
+
+				# Validate QCD segment
+				resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate() #b'\xff\x64'validateCOM(segContents)
+
+				# Add analysis results to test results tree
+				self.tests.append(resultCOM)
+
+				# Add extracted characteristics to characteristics tree
+				self.characteristics.append(characteristicsCOM)
+
+				offset=offsetNext
+
+			elif marker==b'\xff\x93':
+				# SOT (start of data) marker segment: last tile-part marker
+				foundSODMarker=True
+				self.testFor("foundSODMarker",foundSODMarker)
+
+			else:
+				# Any other marker segment: ignore and move on to next one
+				offset=offsetNext
+
+
+		# Position of first byte in next tile
+		offsetNextTilePart = self.startOffset + tilePartLength
+
+		# Check if offsetNextTile really points to start of new tile or otherwise
+		# EOC (useful for detecting within-codestream byte corruption)
+		if tilePartLength != 0:
+			# This will skip this test if tilePartLength equals 0, but that doesn't
+			# matter since check for EOC is included elsewhere
+			markerNextTilePart=self.boxContents[offsetNextTilePart:offsetNextTilePart+2]
+			foundNextTilePartOrEOC=markerNextTilePart in [b'\xff\x90',b'\xff\xd9']
+			self.testFor("foundNextTilePartOrEOC",foundNextTilePartOrEOC)
+
+		self.returnOffset = offsetNextTilePart
