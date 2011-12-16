@@ -47,651 +47,651 @@ __version__= "14 December 2011"
 
 
 def main_is_frozen():
-    return (hasattr(sys, "frozen") or # new py2exe
-            hasattr(sys, "importers") # old py2exe
-            or imp.is_frozen("__main__")) # tools/freeze
+	return (hasattr(sys, "frozen") or # new py2exe
+			hasattr(sys, "importers") # old py2exe
+			or imp.is_frozen("__main__")) # tools/freeze
 
 def get_main_dir():
-    if main_is_frozen():
-        return os.path.dirname(sys.executable)
-    return os.path.dirname(sys.argv[0])
+	if main_is_frozen():
+		return os.path.dirname(sys.executable)
+	return os.path.dirname(sys.argv[0])
 
 def printWarning(msg):
-    msgString=("WARNING (%s):  %s\n") % (scriptName,msg)
-    sys.stderr.write(msgString)
+	msgString=("WARNING (%s):  %s\n") % (scriptName,msg)
+	sys.stderr.write(msgString)
 
 def readFileBytes(file):
-    # Read file, return contents as a byte object
+	# Read file, return contents as a byte object
 
-    # Open file
-    f=open(file,"rb")
+	# Open file
+	f=open(file,"rb")
 
-    # Put contents of file into a byte object.
-    fileData=f.read()
-    f.close()
+	# Put contents of file into a byte object.
+	fileData=f.read()
+	f.close()
 
-    return(fileData)
+	return(fileData)
 
 def writeOutput(tree):
-    # Write element tree with analysis results to stdout
+	# Write element tree with analysis results to stdout
 
-    # Create pretty-printed version of tree
-    treePrettified=prettify(tree)
+	# Create pretty-printed version of tree
+	treePrettified=prettify(tree)
 
-    # Write to stdout
-    sys.stdout.write(treePrettified)
+	# Write to stdout
+	sys.stdout.write(treePrettified)
 
 def prettify(elem):
-    # Return a pretty-printed XML string for the Element
-    # Source: http://www.doughellmann.com/PyMOTW/xml/etree/ElementTree/create.html
-    rough_string = ET.tostring(elem, 'ascii')
-    reparsed = minidom.parseString(rough_string)
-    return reparsed.toprettyxml(indent="  ")
+	# Return a pretty-printed XML string for the Element
+	# Source: http://www.doughellmann.com/PyMOTW/xml/etree/ElementTree/create.html
+	rough_string = ET.tostring(elem, 'ascii')
+	reparsed = minidom.parseString(rough_string)
+	return reparsed.toprettyxml(indent="  ")
 
 def addElement(parent,tag,text):
-    # Add child element to parent
-    element=ET.SubElement(parent, tag)
-    element.text=text
+	# Add child element to parent
+	element=ET.SubElement(parent, tag)
+	element.text=text
 
 def findElementText(element,match):
 
-    # Replacement for ET's 'findtext' function, which has a bug
-    # that will return empty string if text field contains integer with
-    # value of zero (0)
-    #
-    # If there is no match, return None
+	# Replacement for ET's 'findtext' function, which has a bug
+	# that will return empty string if text field contains integer with
+	# value of zero (0)
+	#
+	# If there is no match, return None
 
-    elt=element.find(match)
+	elt=element.find(match)
 
-    if elt != None:
-        result=elt.text
-    else:
-        result=None
+	if elt != None:
+		result=elt.text
+	else:
+		result=None
 
-    return(result)
+	return(result)
 
 
 def generatePropertiesRemapTable():
 
-    # Generates nested dictionary which is used to map 'raw' property values
-    # (mostly integer values) to corresponding text descriptions
+	# Generates nested dictionary which is used to map 'raw' property values
+	# (mostly integer values) to corresponding text descriptions
 
-    # Master dictionary for mapping of text descriptions to enumerated values
-    # Key: corresponds to parameter tag name
-    # Value: sub-dictionary with mappings for all property values
-    enumerationsMap={}
+	# Master dictionary for mapping of text descriptions to enumerated values
+	# Key: corresponds to parameter tag name
+	# Value: sub-dictionary with mappings for all property values
+	enumerationsMap={}
 
-    # Sub-dictionaries for individual properties
+	# Sub-dictionaries for individual properties
 
-    # Generic 0 = no, 1=yes mapping (used for various properties)
-    yesNoMap={}
-    yesNoMap[0]="no"
-    yesNoMap[1]="yes"
+	# Generic 0 = no, 1=yes mapping (used for various properties)
+	yesNoMap={}
+	yesNoMap[0]="no"
+	yesNoMap[1]="yes"
 
-    # Bits per component: sign (Image HeaderBox, Bits Per Component Box, SIZ header
-    # in codestream)
-    signMap={}
-    signMap[0]="unsigned"
-    signMap[1]="signed"
+	# Bits per component: sign (Image HeaderBox, Bits Per Component Box, SIZ header
+	# in codestream)
+	signMap={}
+	signMap[0]="unsigned"
+	signMap[1]="signed"
 
-    # Compression type (Image Header Box)
-    cMap={}
-    cMap[7]="jpeg2000"
+	# Compression type (Image Header Box)
+	cMap={}
+	cMap[7]="jpeg2000"
 
-    # meth (Colour Specification Box)
-    methMap={}
-    methMap[1]="Enumerated"
-    methMap[2]="Restricted ICC"
-    methMap[3]="Any ICC"  # JPX only
-    methMap[4]="Vendor Colour" # JPX only
+	# meth (Colour Specification Box)
+	methMap={}
+	methMap[1]="Enumerated"
+	methMap[2]="Restricted ICC"
+	methMap[3]="Any ICC"  # JPX only
+	methMap[4]="Vendor Colour" # JPX only
 
-    # enumCS (Colour Specification Box)
-    enumCSMap={}
-    enumCSMap[16]="sRGB"
-    enumCSMap[17]="greyscale"
-    enumCSMap[18]="sYCC"
+	# enumCS (Colour Specification Box)
+	enumCSMap={}
+	enumCSMap[16]="sRGB"
+	enumCSMap[17]="greyscale"
+	enumCSMap[18]="sYCC"
 
-    # Decoder capabilities, rsiz (Codestream, SIZ)
-    rsizMap={}
-    rsizMap[0]="ISO/IEC 15444-1" # Does this correspiond to Profile 2??
-    rsizMap[1]="Profile 0"
-    rsizMap[2]="Profile 1"
+	# Decoder capabilities, rsiz (Codestream, SIZ)
+	rsizMap={}
+	rsizMap[0]="ISO/IEC 15444-1" # Does this correspiond to Profile 2??
+	rsizMap[1]="Profile 0"
+	rsizMap[2]="Profile 1"
 
-    # Progression order (Codestream, COD)
-    orderMap={}
-    orderMap[0]="LRCP"
-    orderMap[1]="RLCP"
-    orderMap[2]="RPCL"
-    orderMap[3]="PCRL"
-    orderMap[4]="CPRL"
+	# Progression order (Codestream, COD)
+	orderMap={}
+	orderMap[0]="LRCP"
+	orderMap[1]="RLCP"
+	orderMap[2]="RPCL"
+	orderMap[3]="PCRL"
+	orderMap[4]="CPRL"
 
-    # Transformation type (Codestream, COD)
-    transformationMap={}
-    transformationMap[0]="9-7 irreversible"
-    transformationMap[1]="5-3 reversible"
+	# Transformation type (Codestream, COD)
+	transformationMap={}
+	transformationMap[0]="9-7 irreversible"
+	transformationMap[1]="5-3 reversible"
 
-    # Add sub-dictionaries to master dictionary, using tag name as key
-    enumerationsMap['unkC']=yesNoMap
-    enumerationsMap['iPR']=yesNoMap
-    enumerationsMap['precincts']=yesNoMap
-    enumerationsMap['sop']=yesNoMap
-    enumerationsMap['eph']=yesNoMap
-    enumerationsMap['multipleComponentTransformation']=yesNoMap
-    enumerationsMap['codingBypass']=yesNoMap
-    enumerationsMap['resetOnBoundaries']=yesNoMap
-    enumerationsMap['termOnEachPass']=yesNoMap
-    enumerationsMap['vertCausalContext']=yesNoMap
-    enumerationsMap['predTermination']=yesNoMap
-    enumerationsMap['segmentationSymbols']=yesNoMap
-    enumerationsMap['bPCSign']=signMap
-    enumerationsMap['ssizSign']=signMap
-    enumerationsMap['c']=cMap
-    enumerationsMap['meth']=methMap
-    enumerationsMap['enumCS']=enumCSMap
-    enumerationsMap['order']=orderMap
-    enumerationsMap['transformation']=transformationMap
-    enumerationsMap['rsiz']=rsizMap
+	# Add sub-dictionaries to master dictionary, using tag name as key
+	enumerationsMap['unkC']=yesNoMap
+	enumerationsMap['iPR']=yesNoMap
+	enumerationsMap['precincts']=yesNoMap
+	enumerationsMap['sop']=yesNoMap
+	enumerationsMap['eph']=yesNoMap
+	enumerationsMap['multipleComponentTransformation']=yesNoMap
+	enumerationsMap['codingBypass']=yesNoMap
+	enumerationsMap['resetOnBoundaries']=yesNoMap
+	enumerationsMap['termOnEachPass']=yesNoMap
+	enumerationsMap['vertCausalContext']=yesNoMap
+	enumerationsMap['predTermination']=yesNoMap
+	enumerationsMap['segmentationSymbols']=yesNoMap
+	enumerationsMap['bPCSign']=signMap
+	enumerationsMap['ssizSign']=signMap
+	enumerationsMap['c']=cMap
+	enumerationsMap['meth']=methMap
+	enumerationsMap['enumCS']=enumCSMap
+	enumerationsMap['order']=orderMap
+	enumerationsMap['transformation']=transformationMap
+	enumerationsMap['rsiz']=rsizMap
 
-    return(enumerationsMap)
+	return(enumerationsMap)
 
 def elementTreeToPrintable(tree,remapTable):
 
-    # Takes element tree object, and returns a modified version in which all
-    # non-printable 'text' fields (which may contain numeric data or binary strings)
-    # are replaced by printable strings
-    #
-    # Property values in original tree may be mapped to alternative (more user-friendly)
-    # reportable values using a rempapTable, which is a nested dictionary.
+	# Takes element tree object, and returns a modified version in which all
+	# non-printable 'text' fields (which may contain numeric data or binary strings)
+	# are replaced by printable strings
+	#
+	# Property values in original tree may be mapped to alternative (more user-friendly)
+	# reportable values using a rempapTable, which is a nested dictionary.
 
-    # Destination tree: copy of source
-    treePrintable=tree
+	# Destination tree: copy of source
+	treePrintable=tree
 
-    for  elt in treePrintable.iter():
+	for  elt in treePrintable.iter():
 
-        # Text field of this element
-        textIn=elt.text
+		# Text field of this element
+		textIn=elt.text
 
-        # Tag name
-        tag=elt.tag
+		# Tag name
+		tag=elt.tag
 
-        # Step 1: replace property values by values defined in enumerationsMap,
-        # if applicable
+		# Step 1: replace property values by values defined in enumerationsMap,
+		# if applicable
 
-        try:
-            # If tag is in enumerationsMap, replace property values
-            parameterMap=remapTable[tag]
+		try:
+			# If tag is in enumerationsMap, replace property values
+			parameterMap=remapTable[tag]
 
-            try:
-                # Map original property values to values in dictionary
-                remappedValue=parameterMap[textIn]
-            except KeyError:
-                # If value doesn't match any key: use original value instead
-                remappedValue=textIn
+			try:
+				# Map original property values to values in dictionary
+				remappedValue=parameterMap[textIn]
+			except KeyError:
+				# If value doesn't match any key: use original value instead
+				remappedValue=textIn
 
-        except KeyError:
-            # If tag doesn't match any key in enumerationsMap, use original value
-            remappedValue=textIn
+		except KeyError:
+			# If tag doesn't match any key in enumerationsMap, use original value
+			remappedValue=textIn
 
-        # Step 2: convert all values to text strings
+		# Step 2: convert all values to text strings
 
-        if remappedValue != None:
-            # Data type
-            textType=type(remappedValue)
+		if remappedValue != None:
+			# Data type
+			textType=type(remappedValue)
 
-            # Convert text field, depending on type
-            if textType == bytes:
-                textOut=strToText(remappedValue)
-            else:
-                textOut=str(remappedValue)
+			# Convert text field, depending on type
+			if textType == bytes:
+				textOut=strToText(remappedValue)
+			else:
+				textOut=str(remappedValue)
 
-            # Update output tree
-            elt.text=textOut
+			# Update output tree
+			elt.text=textOut
 
-    return(treePrintable)
+	return(treePrintable)
 
 def strToULongLong(str):
-    # Unpack  8 byte string to unsigned long long integer, assuming big-endian
-    # byte order. Return -9999 if unpack raised an error
-    # (e.g. due to zero-length input string)
+	# Unpack  8 byte string to unsigned long long integer, assuming big-endian
+	# byte order. Return -9999 if unpack raised an error
+	# (e.g. due to zero-length input string)
 
-    # Set byte order to big-endian
-    bOrder=">"
+	# Set byte order to big-endian
+	bOrder=">"
 
-    # Format character for unsigned long long integer
-    formatCharacter="Q"
+	# Format character for unsigned long long integer
+	formatCharacter="Q"
 
-    # Format string for unpack
-    formatStr=bOrder+formatCharacter
+	# Format string for unpack
+	formatStr=bOrder+formatCharacter
 
-    try:
-        result=struct.unpack(formatStr,str)[0]
-    except:
-        result=-9999
+	try:
+		result=struct.unpack(formatStr,str)[0]
+	except:
+		result=-9999
 
-    return(result)
+	return(result)
 
 def strToUInt(str):
-    # Unpack  4 byte string to unsigned integer, assuming big-endian
-    # byte order. Return -9999 if unpack raised an error
-    # (e.g. due to zero-length input string)
+	# Unpack  4 byte string to unsigned integer, assuming big-endian
+	# byte order. Return -9999 if unpack raised an error
+	# (e.g. due to zero-length input string)
 
-    # Set byte order to big-endian
-    bOrder=">"
+	# Set byte order to big-endian
+	bOrder=">"
 
-    # Format character for unsigned integer
-    formatCharacter="I"
+	# Format character for unsigned integer
+	formatCharacter="I"
 
-    # Format string for unpack
-    formatStr=bOrder+formatCharacter
+	# Format string for unpack
+	formatStr=bOrder+formatCharacter
 
-    try:
-        result=struct.unpack(formatStr,str)[0]
-    except:
-        result=-9999
+	try:
+		result=struct.unpack(formatStr,str)[0]
+	except:
+		result=-9999
 
-    return(result)
+	return(result)
 
 def strToUShortInt(str):
-    # Unpack 2 byte string to unsigned short integer, assuming big-endian
-    # byte order. Return -9999 if unpack raised an error
-    # (e.g. due to zero-length input string)
+	# Unpack 2 byte string to unsigned short integer, assuming big-endian
+	# byte order. Return -9999 if unpack raised an error
+	# (e.g. due to zero-length input string)
 
-    # Set byte order to big-endian
-    bOrder=">"
+	# Set byte order to big-endian
+	bOrder=">"
 
-    # Format character for unsigned short integer
-    formatCharacter="H"
+	# Format character for unsigned short integer
+	formatCharacter="H"
 
-    # Format string for unpack
-    formatStr=bOrder+formatCharacter
+	# Format string for unpack
+	formatStr=bOrder+formatCharacter
 
-    try:
-        result=struct.unpack(formatStr,str)[0]
-    except:
-        result=-9999
+	try:
+		result=struct.unpack(formatStr,str)[0]
+	except:
+		result=-9999
 
-    return(result)
+	return(result)
 
 def strToUnsignedChar(str):
-    # Unpack 1 byte string to unsigned character/integer, assuming big-endian
-    # byte order. Return -9999 if unpack raised an error
-    # (e.g. due to zero-length input string)
+	# Unpack 1 byte string to unsigned character/integer, assuming big-endian
+	# byte order. Return -9999 if unpack raised an error
+	# (e.g. due to zero-length input string)
 
-    # Set byte order to big-endian
-    bOrder=">"
+	# Set byte order to big-endian
+	bOrder=">"
 
-    # Format character for unsigned short integer
-    formatCharacter="B"
+	# Format character for unsigned short integer
+	formatCharacter="B"
 
-    # Format string for unpack
-    formatStr=bOrder+formatCharacter
+	# Format string for unpack
+	formatStr=bOrder+formatCharacter
 
-    try:
-        result=struct.unpack(formatStr,str)[0]
-    except:
-        result=-9999
+	try:
+		result=struct.unpack(formatStr,str)[0]
+	except:
+		result=-9999
 
-    return(result)
+	return(result)
 
 def strToSignedChar(str):
-    # Unpack 1 byte string to signed character/integer, assuming big-endian
-    # byte order. Return -9999 if unpack raised an error
-    # (e.g. due to zero-length input string)
+	# Unpack 1 byte string to signed character/integer, assuming big-endian
+	# byte order. Return -9999 if unpack raised an error
+	# (e.g. due to zero-length input string)
 
-    # Set byte order to big-endian
-    bOrder=">"
+	# Set byte order to big-endian
+	bOrder=">"
 
-    # Format character for signed short integer
-    formatCharacter="b"
+	# Format character for signed short integer
+	formatCharacter="b"
 
-    # Format string for unpack
-    formatStr=bOrder+formatCharacter
+	# Format string for unpack
+	formatStr=bOrder+formatCharacter
 
-    try:
-        result=struct.unpack(formatStr,str)[0]
-    except:
-        result=-9999
+	try:
+		result=struct.unpack(formatStr,str)[0]
+	except:
+		result=-9999
 
-    return(result)
+	return(result)
 
 def strToText(str):
-    # Unpack byte string to text string, assuming big-endian
-    # byte order.
+	# Unpack byte string to text string, assuming big-endian
+	# byte order.
 
-    # Using ASCII may be too restrictive for representing some codestream comments,
-    # which use ISO/IES 8859-15 (Latin)
-    # However using ASCII here at least keeps the detection of control characters relatively
-    # simple. Maybe extend this later to UTF-8
-    #
-    # Possible improvement: include detection of char 129-255 in control character check
-    # (using regular expressions). In that case try / except block can be dropped
-    # Already spent way too much time on this now so do this later ...
+	# Using ASCII may be too restrictive for representing some codestream comments,
+	# which use ISO/IES 8859-15 (Latin)
+	# However using ASCII here at least keeps the detection of control characters relatively
+	# simple. Maybe extend this later to UTF-8
+	#
+	# Possible improvement: include detection of char 129-255 in control character check
+	# (using regular expressions). In that case try / except block can be dropped
+	# Already spent way too much time on this now so do this later ...
 
-    # Set encoding
-    enc="ascii"
+	# Set encoding
+	enc="ascii"
 
-    # Set error mode
-    errorMode="strict"
+	# Set error mode
+	errorMode="strict"
 
-    # Check if string contain control characters, which are not allowed in XML
-    # (Note: entities are no problem, as minidom will deal with those by itself)
-    if containsControlCharacters(str)==True:
-        # Return empty string
-        result=""
-    else:
-        try:
-            result=str.decode(encoding=enc,errors=errorMode)
-        except:
-            # We end up here if str is part of extended ASCII (or Latin) set (char 129-255)
-            # Return empty string
-            result=""
+	# Check if string contain control characters, which are not allowed in XML
+	# (Note: entities are no problem, as minidom will deal with those by itself)
+	if containsControlCharacters(str)==True:
+		# Return empty string
+		result=""
+	else:
+		try:
+			result=str.decode(encoding=enc,errors=errorMode)
+		except:
+			# We end up here if str is part of extended ASCII (or Latin) set (char 129-255)
+			# Return empty string
+			result=""
 
-    return(result)
+	return(result)
 
 def containsControlCharacters(str):
-    # Returns True if str contains control characters
-    # Maybe rewrite using reg expressions
+	# Returns True if str contains control characters
+	# Maybe rewrite using reg expressions
 
-    controlChars={b'\x00',b'\x01',b'\x02',b'\x03',b'\x04',b'\x05',b'\x06',b'\x07', \
-        b'\x08',b'\x0b',b'\x0c',b'\x0e',b'\x0f',b'\x10',b'\x11',b'\x12',b'\x13',b'\x14', \
-        b'\x15',b'\x16',b'\x17',b'\x18',b'\x19',b'\x1a',b'\x1b',b'\x1c',b'\x1d',b'\x1e', \
-        b'\x1f'}
+	controlChars={b'\x00',b'\x01',b'\x02',b'\x03',b'\x04',b'\x05',b'\x06',b'\x07', \
+		b'\x08',b'\x0b',b'\x0c',b'\x0e',b'\x0f',b'\x10',b'\x11',b'\x12',b'\x13',b'\x14', \
+		b'\x15',b'\x16',b'\x17',b'\x18',b'\x19',b'\x1a',b'\x1b',b'\x1c',b'\x1d',b'\x1e', \
+		b'\x1f'}
 
-    containsControlCharacters=False
+	containsControlCharacters=False
 
-    for c in controlChars:
-        if c in str:
-            containsControlCharacters=True
+	for c in controlChars:
+		if c in str:
+			containsControlCharacters=True
 
-    return(containsControlCharacters)
+	return(containsControlCharacters)
 
 def findAllText(element,match):
 
-    # Searches element and returns list that contains 'Text' attribute
-    # of all matching sub-elements. Returns empty list if element
-    # does not exist
+	# Searches element and returns list that contains 'Text' attribute
+	# of all matching sub-elements. Returns empty list if element
+	# does not exist
 
-    try:
-        tmp=element.findall(match)
-    except:
-        tmp=[]
-    result=[]
-    for i in range(len(tmp)):
-        result.append(tmp[i].text)
+	try:
+		tmp=element.findall(match)
+	except:
+		tmp=[]
+	result=[]
+	for i in range(len(tmp)):
+		result.append(tmp[i].text)
 
-    return(result)
+	return(result)
 
 def getBitValue(n, p):
 
-    # get the bitvalue of denary (base 10) number n at the equivalent binary
-    # position p (binary count starts at position 1 from the left)
-    # Only works if n can be expressed as 8 bits !!!
+	# get the bitvalue of denary (base 10) number n at the equivalent binary
+	# position p (binary count starts at position 1 from the left)
+	# Only works if n can be expressed as 8 bits !!!
 
-    # Word length in bits
-    wordLength=8
+	# Word length in bits
+	wordLength=8
 
-    # Shift = word length - p
-    shift=wordLength-p
+	# Shift = word length - p
+	shift=wordLength-p
 
-    return (n >> shift) & 1
+	return (n >> shift) & 1
 
 
 
 def indexMultiMatch(list, value):
-    # Search list for occurrences of 'value', and return list
-    # of matching index positions in souurce list
+	# Search list for occurrences of 'value', and return list
+	# of matching index positions in souurce list
 
-    matchIndices=[]
-    numberOfElements=len(list)
+	matchIndices=[]
+	numberOfElements=len(list)
 
-    for i in range(numberOfElements):
+	for i in range(numberOfElements):
 
-        if list[i]==value:
-            matchIndices.append(i)
+		if list[i]==value:
+			matchIndices.append(i)
 
-    return(matchIndices)
+	return(matchIndices)
 
 def listContainsConsecutiveNumbers(list):
-    # Takes list and returns True if items are consecutive numbers,
-    # and False otherwise
+	# Takes list and returns True if items are consecutive numbers,
+	# and False otherwise
 
-    containsConsecutiveNumbers=True
+	containsConsecutiveNumbers=True
 
-    numberOfElements=len(list)
+	numberOfElements=len(list)
 
-    try:
-        for i in range(1,numberOfElements):
-            if list[i] - list[i-1] != 1:
-                containsConsecutiveNumbers=False
-    except:
-        containsConsecutiveNumbers=False
+	try:
+		for i in range(1,numberOfElements):
+			if list[i] - list[i-1] != 1:
+				containsConsecutiveNumbers=False
+	except:
+		containsConsecutiveNumbers=False
 
-    return(containsConsecutiveNumbers)
+	return(containsConsecutiveNumbers)
 
 def listOccurrencesAreContiguous(list,value):
-    # Returns True if occurrences of 'value' in list are contiguous, and
-    # "False otherwise"
+	# Returns True if occurrences of 'value' in list are contiguous, and
+	# "False otherwise"
 
-    # Create list with index values of all occurrences of 'value'
-    indexValues=indexMultiMatch(list,value)
+	# Create list with index values of all occurrences of 'value'
+	indexValues=indexMultiMatch(list,value)
 
-    # If index values are a sequence of consecutive numbers this means that
-    # all occurrences of 'value' are contiguous
-    occurrencesAreContiguous=listContainsConsecutiveNumbers(indexValues)
+	# If index values are a sequence of consecutive numbers this means that
+	# all occurrences of 'value' are contiguous
+	occurrencesAreContiguous=listContainsConsecutiveNumbers(indexValues)
 
-    return(occurrencesAreContiguous)
+	return(occurrencesAreContiguous)
 
 def calculateCompressionRatio(noBytes,bPCDepthValues,height,width):
 
-    # Computes compression ratio
-    # noBytes: size of compressed image in bytes
-    # bPCDepthValues: list with bits per component for each component
-    # height, width: image height, width
+	# Computes compression ratio
+	# noBytes: size of compressed image in bytes
+	# bPCDepthValues: list with bits per component for each component
+	# height, width: image height, width
 
-    # Total bits per pixel
+	# Total bits per pixel
 
-    bitsPerPixel=0
+	bitsPerPixel=0
 
-    for i in range(len(bPCDepthValues)):
-        bitsPerPixel += bPCDepthValues[i]
+	for i in range(len(bPCDepthValues)):
+		bitsPerPixel += bPCDepthValues[i]
 
-    bytesPerPixel=bitsPerPixel/8
-    # Uncompressed image size
-    sizeUncompressed=bytesPerPixel*height*width
+	bytesPerPixel=bitsPerPixel/8
+	# Uncompressed image size
+	sizeUncompressed=bytesPerPixel*height*width
 
-    # Compression ratio
-    if noBytes !=0:
-        compressionRatio=sizeUncompressed/noBytes
-    else:
-        # Obviously something going wrong here ...
-        compressionRatio=-9999
+	# Compression ratio
+	if noBytes !=0:
+		compressionRatio=sizeUncompressed/noBytes
+	else:
+		# Obviously something going wrong here ...
+		compressionRatio=-9999
 
-    return(compressionRatio)
+	return(compressionRatio)
 
 def isValidJP2(tests):
-    for  elt in tests.iter():
+	for  elt in tests.iter():
 
-        if elt.text == False:
-            # File didn't pass this test, so not valid
-            return(False)
-    return(True)
+		if elt.text == False:
+			# File didn't pass this test, so not valid
+			return(False)
+	return(True)
 
 def getICCCharacteristics(profile):
 
-    # Extracts characteristics (property-value pairs) of ICC profile
-    # Note that although values are stored in  'text' property of sub-elements,
-    # they may have a type other than 'text' (binary string, integers, lists)
-    # This means that some post-processing (conversion to text) is needed to
-    # write these property-value pairs to XML
+	# Extracts characteristics (property-value pairs) of ICC profile
+	# Note that although values are stored in  'text' property of sub-elements,
+	# they may have a type other than 'text' (binary string, integers, lists)
+	# This means that some post-processing (conversion to text) is needed to
+	# write these property-value pairs to XML
 
-    characteristics=ET.Element('icc')
+	characteristics=ET.Element('icc')
 
-    # Profile header properties (note: incomplete at this stage!)
+	# Profile header properties (note: incomplete at this stage!)
 
-    # Size in bytes
-    profileSize=strToUInt(profile[0:4])
-    addElement(characteristics,"profileSize",profileSize)
+	# Size in bytes
+	profileSize=strToUInt(profile[0:4])
+	addElement(characteristics,"profileSize",profileSize)
 
-    # Preferred CMM type
-    preferredCMMType=strToUInt(profile[4:8])
-    addElement(characteristics,"preferredCMMType",preferredCMMType)
+	# Preferred CMM type
+	preferredCMMType=strToUInt(profile[4:8])
+	addElement(characteristics,"preferredCMMType",preferredCMMType)
 
-    # Profile version: major revision
-    profileMajorRevision=strToUnsignedChar(profile[8:9])
+	# Profile version: major revision
+	profileMajorRevision=strToUnsignedChar(profile[8:9])
 
-    # Profile version: minor revision
-    profileMinorRevisionByte=strToUnsignedChar(profile[9:10])
+	# Profile version: minor revision
+	profileMinorRevisionByte=strToUnsignedChar(profile[9:10])
 
-    # Minor revision: first 4 bits of profileMinorRevisionByte
-    # (Shift bits 4 positions to right, logical shift not arithemetic shift!)
-    profileMinorRevision=profileMinorRevisionByte >> 4
+	# Minor revision: first 4 bits of profileMinorRevisionByte
+	# (Shift bits 4 positions to right, logical shift not arithemetic shift!)
+	profileMinorRevision=profileMinorRevisionByte >> 4
 
-    # Bug fix revision: last 4 bits of profileMinorRevisionByte
-    # (apply bit mask of 00001111 = 15)
-    profileBugFixRevision=profileMinorRevisionByte & 15
+	# Bug fix revision: last 4 bits of profileMinorRevisionByte
+	# (apply bit mask of 00001111 = 15)
+	profileBugFixRevision=profileMinorRevisionByte & 15
 
-    # Construct text string with profile version
-    profileVersion="%s.%s.%s" % (profileMajorRevision, profileMinorRevision, profileBugFixRevision)
-    addElement(characteristics,"profileVersion",profileVersion)
+	# Construct text string with profile version
+	profileVersion="%s.%s.%s" % (profileMajorRevision, profileMinorRevision, profileBugFixRevision)
+	addElement(characteristics,"profileVersion",profileVersion)
 
-    # Bytes 10 and 11 are reserved an set to zero(ignored here)
+	# Bytes 10 and 11 are reserved an set to zero(ignored here)
 
-    # Profile class (or device class) (binary string)
-    profileClass=profile[12:16]
-    addElement(characteristics,"profileClass",profileClass)
+	# Profile class (or device class) (binary string)
+	profileClass=profile[12:16]
+	addElement(characteristics,"profileClass",profileClass)
 
-    # Colour space (binary string)
-    colourSpace=profile[16:20]
-    addElement(characteristics,"colourSpace",colourSpace)
+	# Colour space (binary string)
+	colourSpace=profile[16:20]
+	addElement(characteristics,"colourSpace",colourSpace)
 
-    # Profile connection space (binary string)
-    profileConnectionSpace=profile[20:24]
-    addElement(characteristics,"profileConnectionSpace",profileConnectionSpace)
+	# Profile connection space (binary string)
+	profileConnectionSpace=profile[20:24]
+	addElement(characteristics,"profileConnectionSpace",profileConnectionSpace)
 
-    # Date and time fields
+	# Date and time fields
 
-    year=strToUShortInt(profile[24:26])
-    month=strToUnsignedChar(profile[27:28])
-    day=strToUnsignedChar(profile[29:30])
-    hour=strToUnsignedChar(profile[31:32])
-    minute=strToUnsignedChar(profile[33:34])
-    second=strToUnsignedChar(profile[35:36])
+	year=strToUShortInt(profile[24:26])
+	month=strToUnsignedChar(profile[27:28])
+	day=strToUnsignedChar(profile[29:30])
+	hour=strToUnsignedChar(profile[31:32])
+	minute=strToUnsignedChar(profile[33:34])
+	second=strToUnsignedChar(profile[35:36])
 
-    dateString="%d/%02d/%02d" % (year, month, day)
-    timeString="%02d:%02d:%02d" % (hour, minute, second)
-    dateTimeString="%s, %s" % (dateString, timeString)
-    addElement(characteristics,"dateTimeString",dateTimeString)
+	dateString="%d/%02d/%02d" % (year, month, day)
+	timeString="%02d:%02d:%02d" % (hour, minute, second)
+	dateTimeString="%s, %s" % (dateString, timeString)
+	addElement(characteristics,"dateTimeString",dateTimeString)
 
-    # Profile signature (binary string)
-    profileSignature=profile[36:40]
-    addElement(characteristics,"profileSignature",profileSignature)
+	# Profile signature (binary string)
+	profileSignature=profile[36:40]
+	addElement(characteristics,"profileSignature",profileSignature)
 
-    # Primary platform (binary string)
-    primaryPlatform=profile[40:44]
+	# Primary platform (binary string)
+	primaryPlatform=profile[40:44]
 
-    addElement(characteristics,"primaryPlatform",primaryPlatform)
+	addElement(characteristics,"primaryPlatform",primaryPlatform)
 
-    # To do: add remaining header fields; maybe include check on Profile ID
-    # field (MD5 checksum) to test integrity of profile.
+	# To do: add remaining header fields; maybe include check on Profile ID
+	# field (MD5 checksum) to test integrity of profile.
 
-    # Parse tag table
+	# Parse tag table
 
-    # Number of tags (tag count)
-    tagCount=strToUInt(profile[128:132])
+	# Number of tags (tag count)
+	tagCount=strToUInt(profile[128:132])
 
-    # List of tag signatures, offsets and sizes
-    # All local to this function; all property exports through "characteristics"
-    # element object!
-    tagSignatures=[]
-    tagOffsets=[]
-    tagSizes=[]
+	# List of tag signatures, offsets and sizes
+	# All local to this function; all property exports through "characteristics"
+	# element object!
+	tagSignatures=[]
+	tagOffsets=[]
+	tagSizes=[]
 
-    # Offset of start of first tag
-    tagStart=132
+	# Offset of start of first tag
+	tagStart=132
 
-    for i in range(tagCount):
-        # Extract tag signature (as binary string) for each entry
-        tagSignature=profile[tagStart:tagStart+4]
-        tagOffset=strToUInt(profile[tagStart+4:tagStart+8])
-        tagSize=strToUInt(profile[tagStart+8:tagStart+12])
+	for i in range(tagCount):
+		# Extract tag signature (as binary string) for each entry
+		tagSignature=profile[tagStart:tagStart+4]
+		tagOffset=strToUInt(profile[tagStart+4:tagStart+8])
+		tagSize=strToUInt(profile[tagStart+8:tagStart+12])
 
-        addElement(characteristics,"tag",tagSignature)
+		addElement(characteristics,"tag",tagSignature)
 
-        # Add to list
-        tagSignatures.append(tagSignature)
-        tagOffsets.append(tagOffset)
-        tagSizes.append(tagSize)
+		# Add to list
+		tagSignatures.append(tagSignature)
+		tagOffsets.append(tagOffset)
+		tagSizes.append(tagSize)
 
-        # Start offset of next tag
-        tagStart +=12
+		# Start offset of next tag
+		tagStart +=12
 
-    # Get profile description from profile description tag
+	# Get profile description from profile description tag
 
-    # The following code could go wrong in case tagSignatures doesn't
-    # contain description fields (e.g. if profile is corrupted); try block
-    # will capture any such errors.
-    try:
-        i = tagSignatures.index(b'desc')
-        descStartOffset=tagOffsets[i]
-        descSize=tagSizes[i]
+	# The following code could go wrong in case tagSignatures doesn't
+	# contain description fields (e.g. if profile is corrupted); try block
+	# will capture any such errors.
+	try:
+		i = tagSignatures.index(b'desc')
+		descStartOffset=tagOffsets[i]
+		descSize=tagSizes[i]
 
-        descTag=profile[descStartOffset:descStartOffset+descSize]
+		descTag=profile[descStartOffset:descStartOffset+descSize]
 
-        # Note that description of this tag is missing from recent versions of
-        # standard; following code based on older version:
-        # ICC.1:2001-04 File Format for Color Profiles [REVISION of ICC.1:1998-09]
+		# Note that description of this tag is missing from recent versions of
+		# standard; following code based on older version:
+		# ICC.1:2001-04 File Format for Color Profiles [REVISION of ICC.1:1998-09]
 
-        # Length of description (including terminating null character)
-        descriptionLength=strToUInt(descTag[8:12])
+		# Length of description (including terminating null character)
+		descriptionLength=strToUInt(descTag[8:12])
 
-        # Description as binary string (excluding terminating null char)
-        description=descTag[12:12+descriptionLength-1]
+		# Description as binary string (excluding terminating null char)
+		description=descTag[12:12+descriptionLength-1]
 
-    except:
-        description=""
+	except:
+		description=""
 
-    addElement(characteristics,"description",description)
+	addElement(characteristics,"description",description)
 
-    return(characteristics)
+	return(characteristics)
 
 
 def getBox(bytesData, byteStart, noBytes):
 
-    # Parse JP2 box and return information on its
-    # size, type and contents
+	# Parse JP2 box and return information on its
+	# size, type and contents
 
-    # Box headers
+	# Box headers
 
-    # Box length (4 byte unsigned integer)
-    boxLengthValue=strToUInt(bytesData[byteStart:byteStart+4])
+	# Box length (4 byte unsigned integer)
+	boxLengthValue=strToUInt(bytesData[byteStart:byteStart+4])
 
-    # Box type
-    boxType=bytesData[byteStart+4:byteStart+8]
+	# Box type
+	boxType=bytesData[byteStart+4:byteStart+8]
 
-    # Start byte of box contents
-    contentsStartOffset=8
+	# Start byte of box contents
+	contentsStartOffset=8
 
-    # Read extended box length if box length value equals 1
-    # In that case contentsStartOffset should also be 16 (not 8!)
-    # (See ISO/IEC 15444-1 Section I.4)
-    if boxLengthValue == 1:
-        boxLengthValue=strToULongLong(bytesData[byteStart+8:byteStart+16])
+	# Read extended box length if box length value equals 1
+	# In that case contentsStartOffset should also be 16 (not 8!)
+	# (See ISO/IEC 15444-1 Section I.4)
+	if boxLengthValue == 1:
+		boxLengthValue=strToULongLong(bytesData[byteStart+8:byteStart+16])
 
-        contentsStartOffset=16
+		contentsStartOffset=16
 
-    # For the very last box in a file boxLengthValue may equal 0, so we need
-    # to calculate actual value
-    if boxLengthValue == 0:
-        boxLengthValue=noBytes-byteStart
+	# For the very last box in a file boxLengthValue may equal 0, so we need
+	# to calculate actual value
+	if boxLengthValue == 0:
+		boxLengthValue=noBytes-byteStart
 
-    # End byte for current box
-    byteEnd=byteStart + boxLengthValue
+	# End byte for current box
+	byteEnd=byteStart + boxLengthValue
 
-    # Contents of this box as a byte object (i.e. 'DBox' in ISO/IEC 15444-1 Section I.4)
-    boxContents=bytesData[byteStart+contentsStartOffset:byteEnd]
+	# Contents of this box as a byte object (i.e. 'DBox' in ISO/IEC 15444-1 Section I.4)
+	boxContents=bytesData[byteStart+contentsStartOffset:byteEnd]
 
 
-    return(boxLengthValue,boxType,byteEnd,boxContents)
+	return(boxLengthValue,boxType,byteEnd,boxContents)
 
 
 class BoxValidator:
@@ -780,7 +780,7 @@ class BoxValidator:
 		br = self.boxContents[0:4]
 		self.addCharacteristic( "br", br)
 
-    # Is brand value valid?
+	# Is brand value valid?
 		self.testFor("brandIsValid", br == self.controlledByteMap['validBrandValue'])
 
 		# 2. Minor version (4 bytes)
@@ -850,7 +850,7 @@ class BoxValidator:
 		if sign == 1 and depth == 128:
 			self.testFor("containsBitsPerComponentBox", self.boxTagMap['bitsPerComponentBox'] in subBoxTypes)
 
-    # Is the first box an Image Header Box?
+	# Is the first box an Image Header Box?
 		try:
 			firstJP2HeaderBoxIsImageHeaderBox=subBoxTypes[0] == self.boxTagMap['imageHeaderBox']
 		except:
@@ -991,8 +991,8 @@ class BoxValidator:
 		# lqcd should equal expected value
 		self.testFor("quantizationConsistentWithLevels", lqcd == lqcdExpected)
 
-    # Remainder of codestream is a sequence of tile parts, followed by one
-    # end-of-codestream marker
+	# Remainder of codestream is a sequence of tile parts, followed by one
+	# end-of-codestream marker
 
 		# Create sub-elements to store tile-part characteristics and tests
 		tilePartCharacteristics=ET.Element('tileParts')
@@ -1022,33 +1022,33 @@ class BoxValidator:
 
 	# Validator functions for boxes in JP2 Header superbox
 	def validate_imageHeaderBox(self):
-    # This is a fixed-length box that contains generic image info.
-    # (ISO/IEC 15444-1 Section I.5.3.1)
-    # IMPORTANT: many of these parameters are redundant with header info
-    # in codestream, so there should be a consistency check between these two!
+	# This is a fixed-length box that contains generic image info.
+	# (ISO/IEC 15444-1 Section I.5.3.1)
+	# IMPORTANT: many of these parameters are redundant with header info
+	# in codestream, so there should be a consistency check between these two!
 
-    # Check box length (14 bytes, excluding box length/type fields)
+	# Check box length (14 bytes, excluding box length/type fields)
 		self.testFor("boxLengthIsValid", len(self.boxContents) == 14)
 
-    # Image height and width (both as unsigned integers)
+	# Image height and width (both as unsigned integers)
 		height = strToUInt(self.boxContents[0:4])
 		self.addCharacteristic("height", height)
 		width = strToUInt(self.boxContents[4:8])
 		self.addCharacteristic("width", width)
 
-    # Height and width should be within range 1 - (2**32)-1
+	# Height and width should be within range 1 - (2**32)-1
 		self.testFor("heightIsValid", 1 <= height <= self.MAX_DIM)
 		self.testFor("widthIsValid", 1 <= width <= self.MAX_DIM)
 		# Number of components (unsigned short integer)
 		nC = strToUShortInt(self.boxContents[8:10])
 		self.addCharacteristic("nC", nC)
-    # Number of components should be in range 1 - 16384 (including limits)
+	# Number of components should be in range 1 - 16384 (including limits)
 		self.testFor("nCIsValid", 1 <= nC <= 16384)
 
 		# Bits per component (unsigned character)
 		bPC = strToUnsignedChar(self.boxContents[10:11])
-    # Most significant bit indicates whether components are signed (1)
-    # or unsigned (0).
+	# Most significant bit indicates whether components are signed (1)
+	# or unsigned (0).
 		bPCSign = getBitValue(bPC, 1)
 		self.addCharacteristic("bPCSign", bPCSign)
 
@@ -1057,9 +1057,9 @@ class BoxValidator:
 		bPCDepth = (bPC & 127) + 1
 		self.addCharacteristic("bPCDepth", bPCDepth)
 
-    # Bits per component field is valid if:
-    # 1. bPCDepth in range 1-38 (including limits)
-    # 2. OR bPC equal 255 (indicating that components vary in bit depth)
+	# Bits per component field is valid if:
+	# 1. bPCDepth in range 1-38 (including limits)
+	# 2. OR bPC equal 255 (indicating that components vary in bit depth)
 		bPCDepthIsWithinAllowedRange = 1 <= bPCDepth <= 38
 		bitDepthIsVariable = 1 <= bPC <= 255
 
@@ -1069,20 +1069,20 @@ class BoxValidator:
 			bPCIsValid=False
 
 		self.testFor("bPCIsValid",bPCIsValid)
-    # Compression type (unsigned character)
+	# Compression type (unsigned character)
 		c = strToUnsignedChar(self.boxContents[11:12])
 		self.addCharacteristic("c", c)
 		# Value should always be 7
 		self.testFor("cIsValid", c == 7)
-    # Colourspace unknown field (unsigned character)
+	# Colourspace unknown field (unsigned character)
 		unkC = strToUnsignedChar(self.boxContents[12:13])
 		self.addCharacteristic("unkC", unkC)
-    # Value should be 0 or 1
+	# Value should be 0 or 1
 		self.testFor("unkCIsValid", 0 <= unkC <= 1)
-    # Intellectual Property field (unsigned character)
+	# Intellectual Property field (unsigned character)
 		iPR = strToUnsignedChar(self.boxContents[13:14])
 		self.addCharacteristic("iPR",iPR)
-    # Value should be 0 or 1
+	# Value should be 0 or 1
 		self.testFor("iPRIsValid", 0 <= iPR <= 1)
 
 
@@ -1128,18 +1128,18 @@ class BoxValidator:
 		# Value should be 1 (enumerated colourspace) or 2 (restricted ICC profile)
 		self.testFor("methIsValid", 1 <= meth <= 2)
 
-    # Precedence (unsigned character)
+	# Precedence (unsigned character)
 		prec = strToUnsignedChar(self.boxContents[1:2])
 		self.addCharacteristic("prec",prec)
 
-    # Value shall be 0 (but conforming readers should ignore it)
+	# Value shall be 0 (but conforming readers should ignore it)
 		self.testFor("precIsValid", prec == 0)
 
-    # Colourspace approximation (unsigned character)
+	# Colourspace approximation (unsigned character)
 		approx = strToUnsignedChar(self.boxContents[2:3])
 		self.addCharacteristic("approx",approx)
 
-    # Value shall be 0 (but conforming readers should ignore it)
+	# Value shall be 0 (but conforming readers should ignore it)
 		self.testFor("approxIsValid",approx == 0)
 
 		# Colour space info: enumerated CS or embedded ICC profile,
@@ -1241,1202 +1241,1201 @@ class BoxValidator:
 			offset += 6
 
 def validateResolutionBox(boxContents):
+	# Superbox that specifies the capture and default display grid resolutions of
+	# the image. (ISO/IEC 15444-1 Section I.5.3.7
 
-    # Superbox that specifies the capture and default display grid resolutions of
-    # the image. (ISO/IEC 15444-1 Section I.5.3.7
+	# Test results to elementtree element
+	tests=ET.Element('resolutionBox')
 
-    # Test results to elementtree element
-    tests=ET.Element('resolutionBox')
+	# Characteristics to elementtree element
+	characteristics=ET.Element('resolutionBox')
 
-    # Characteristics to elementtree element
-    characteristics=ET.Element('resolutionBox')
+	# Marker tags/codes that identify all sub-boxes as hexadecimal strings
+	tagCaptureResolutionBox=b'\x72\x65\x73\x63'
+	tagDisplayResolutionBox=b'\x72\x65\x73\x64'
 
-    # Marker tags/codes that identify all sub-boxes as hexadecimal strings
-    tagCaptureResolutionBox=b'\x72\x65\x73\x63'
-    tagDisplayResolutionBox=b'\x72\x65\x73\x64'
+	# List for storing box type identifiers
+	subBoxTypes=[]
 
-    # List for storing box type identifiers
-    subBoxTypes=[]
+	noBytes=len(boxContents)
+	byteStart = 0
+	bytesTotal=0
 
-    noBytes=len(boxContents)
-    byteStart = 0
-    bytesTotal=0
+	# Dummy value
+	boxLengthValue=10
 
-    # Dummy value
-    boxLengthValue=10
+	while byteStart < noBytes and boxLengthValue != 0:
 
-    while byteStart < noBytes and boxLengthValue != 0:
+		boxLengthValue, boxType, byteEnd, subBoxContents = getBox(boxContents,byteStart, noBytes)
 
-        boxLengthValue, boxType, byteEnd, subBoxContents = getBox(boxContents,byteStart, noBytes)
+		# Call functions sub-boxes
+		if boxType == tagCaptureResolutionBox:
+			# Capture Resolution Box
+			resultBox,characteristicsBox=validateCaptureResolutionBox(subBoxContents)
+		elif boxType == tagDisplayResolutionBox:
+			# Default Display Resolution Box
+			resultBox,characteristicsBox=validateDisplayResolutionBox(subBoxContents)
+		else:
+			# Unknown box (nothing to validate)
+			resultBox,characteristicsBox=BoxValidator(boxType, subBoxContents).validate()
 
-        # Call functions sub-boxes
-        if boxType == tagCaptureResolutionBox:
-            # Capture Resolution Box
-            resultBox,characteristicsBox=validateCaptureResolutionBox(subBoxContents)
-        elif boxType == tagDisplayResolutionBox:
-            # Default Display Resolution Box
-            resultBox,characteristicsBox=validateDisplayResolutionBox(subBoxContents)
-        else:
-            # Unknown box (nothing to validate)
-            resultBox,characteristicsBox=BoxValidator(boxType, subBoxContents).validate()
+		byteStart = byteEnd
 
-        byteStart = byteEnd
+		# Add to list of box types
+		subBoxTypes.append(boxType)
 
-        # Add to list of box types
-        subBoxTypes.append(boxType)
+		# Add analysis results to test results tree
+		tests.append(resultBox)
 
-        # Add analysis results to test results tree
-        tests.append(resultBox)
+		# Add extracted characteristics to characteristics tree
+		characteristics.append(characteristicsBox)
 
-        # Add extracted characteristics to characteristics tree
-        characteristics.append(characteristicsBox)
+	# This box contains either one Capture Resolution box, one Default Display
+	# resolution box, or one of both
 
-    # This box contains either one Capture Resolution box, one Default Display
-    # resolution box, or one of both
+	if tagCaptureResolutionBox in subBoxTypes or tagDisplayResolutionBox in subBoxTypes:
+		containsCaptureOrDisplayResolutionBox=True
+	else:
+		containsCaptureOrDisplayResolutionBox=False
 
-    if tagCaptureResolutionBox in subBoxTypes or tagDisplayResolutionBox in subBoxTypes:
-        containsCaptureOrDisplayResolutionBox=True
-    else:
-        containsCaptureOrDisplayResolutionBox=False
+	addElement(tests,"containsCaptureOrDisplayResolutionBox",containsCaptureOrDisplayResolutionBox)
 
-    addElement(tests,"containsCaptureOrDisplayResolutionBox",containsCaptureOrDisplayResolutionBox)
+	noMoreThanOneCaptureResolutionBox=subBoxTypes.count(tagCaptureResolutionBox) <= 1
+	noMoreThanOneDisplayResolutionBox=subBoxTypes.count(tagDisplayResolutionBox) <= 1
 
-    noMoreThanOneCaptureResolutionBox=subBoxTypes.count(tagCaptureResolutionBox) <= 1
-    noMoreThanOneDisplayResolutionBox=subBoxTypes.count(tagDisplayResolutionBox) <= 1
+	addElement(tests,"noMoreThanOneCaptureResolutionBox",noMoreThanOneCaptureResolutionBox)
+	addElement(tests,"noMoreThanOneDisplayResolutionBox",noMoreThanOneDisplayResolutionBox)
 
-    addElement(tests,"noMoreThanOneCaptureResolutionBox",noMoreThanOneCaptureResolutionBox)
-    addElement(tests,"noMoreThanOneDisplayResolutionBox",noMoreThanOneDisplayResolutionBox)
-
-    return(tests,characteristics)
+	return(tests,characteristics)
 
 # Validator functions for boxes in Resolution box
 
 def validateCaptureResolutionBox(boxContents):
 
-    # Capture  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.1)
+	# Capture  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.1)
 
-    # Test results to elementtree element
-    tests=ET.Element('captureResolutionBox')
+	# Test results to elementtree element
+	tests=ET.Element('captureResolutionBox')
 
-    # Characteristics to elementtree element
-    characteristics=ET.Element('captureResolutionBox')
+	# Characteristics to elementtree element
+	characteristics=ET.Element('captureResolutionBox')
 
-    # Check box size, which should be 10 bytes
-    boxLengthIsValid=len(boxContents) == 10
-    addElement(tests,"boxLengthIsValid",boxLengthIsValid)
+	# Check box size, which should be 10 bytes
+	boxLengthIsValid=len(boxContents) == 10
+	addElement(tests,"boxLengthIsValid",boxLengthIsValid)
 
-    # Vertical / horizontal grid resolution numerators and denominators:
-    # all values within range 1-65535
+	# Vertical / horizontal grid resolution numerators and denominators:
+	# all values within range 1-65535
 
-    # Vertical grid resolution numerator (2 byte integer)
-    vRcN=strToUShortInt(boxContents[0:2])
-    addElement(characteristics,"vRcN",vRcN)
-    vRcNIsValid=1 <= vRcN <= 65535
-    addElement(tests,"vRcNIsValid",vRcNIsValid)
+	# Vertical grid resolution numerator (2 byte integer)
+	vRcN=strToUShortInt(boxContents[0:2])
+	addElement(characteristics,"vRcN",vRcN)
+	vRcNIsValid=1 <= vRcN <= 65535
+	addElement(tests,"vRcNIsValid",vRcNIsValid)
 
-    # Vertical grid resolution denominator (2 byte integer)
-    vRcD=strToUShortInt(boxContents[2:4])
-    addElement(characteristics,"vRcD",vRcD)
-    vRcDIsValid=1 <= vRcD <= 65535
-    addElement(tests,"vRcDIsValid",vRcDIsValid)
+	# Vertical grid resolution denominator (2 byte integer)
+	vRcD=strToUShortInt(boxContents[2:4])
+	addElement(characteristics,"vRcD",vRcD)
+	vRcDIsValid=1 <= vRcD <= 65535
+	addElement(tests,"vRcDIsValid",vRcDIsValid)
 
-    # Horizontal grid resolution numerator (2 byte integer)
-    hRcN=strToUShortInt(boxContents[4:6])
-    addElement(characteristics,"hRcN",hRcN)
-    hRcNIsValid=1 <= hRcN <= 65535
-    addElement(tests,"hRcNIsValid",hRcNIsValid)
+	# Horizontal grid resolution numerator (2 byte integer)
+	hRcN=strToUShortInt(boxContents[4:6])
+	addElement(characteristics,"hRcN",hRcN)
+	hRcNIsValid=1 <= hRcN <= 65535
+	addElement(tests,"hRcNIsValid",hRcNIsValid)
 
-    # Horizontal grid resolution denominator (2 byte integer)
-    hRcD=strToUShortInt(boxContents[6:8])
-    addElement(characteristics,"hRcD",hRcD)
-    hRcDIsValid=1 <= hRcD <= 65535
-    addElement(tests,"hRcDIsValid",hRcDIsValid)
+	# Horizontal grid resolution denominator (2 byte integer)
+	hRcD=strToUShortInt(boxContents[6:8])
+	addElement(characteristics,"hRcD",hRcD)
+	hRcDIsValid=1 <= hRcD <= 65535
+	addElement(tests,"hRcDIsValid",hRcDIsValid)
 
-    # Vertical / horizontal grid resolution exponents:
-    # values within range -128-127
+	# Vertical / horizontal grid resolution exponents:
+	# values within range -128-127
 
-    # Vertical grid resolution exponent (1 byte signed integer)
-    vRcE=strToSignedChar(boxContents[8:9])
-    addElement(characteristics,"vRcE",vRcE)
-    vRcEIsValid=-128 <= vRcE <= 127
-    addElement(tests,"vRcEIsValid",vRcEIsValid)
+	# Vertical grid resolution exponent (1 byte signed integer)
+	vRcE=strToSignedChar(boxContents[8:9])
+	addElement(characteristics,"vRcE",vRcE)
+	vRcEIsValid=-128 <= vRcE <= 127
+	addElement(tests,"vRcEIsValid",vRcEIsValid)
 
-    # Horizontal grid resolution exponent (1 byte signed integer)
-    hRcE=strToSignedChar(boxContents[9:10])
-    addElement(characteristics,"hRcE",hRcE)
-    hRcEIsValid=-128 <= hRcE <= 127
-    addElement(tests,"hRcEIsValid",hRcEIsValid)
+	# Horizontal grid resolution exponent (1 byte signed integer)
+	hRcE=strToSignedChar(boxContents[9:10])
+	addElement(characteristics,"hRcE",hRcE)
+	hRcEIsValid=-128 <= hRcE <= 127
+	addElement(tests,"hRcEIsValid",hRcEIsValid)
 
-    # Include vertical and horizontal resolution values in pixels per meter
-    # and pixels per inch in output
-    vRescInPixelsPerMeter=(vRcN/vRcD)*(10**(vRcE))
-    addElement(characteristics,"vRescInPixelsPerMeter",round(vRescInPixelsPerMeter,2))
+	# Include vertical and horizontal resolution values in pixels per meter
+	# and pixels per inch in output
+	vRescInPixelsPerMeter=(vRcN/vRcD)*(10**(vRcE))
+	addElement(characteristics,"vRescInPixelsPerMeter",round(vRescInPixelsPerMeter,2))
 
-    hRescInPixelsPerMeter=(hRcN/hRcD)*(10**(hRcE))
-    addElement(characteristics,"hRescInPixelsPerMeter",round(hRescInPixelsPerMeter,2))
+	hRescInPixelsPerMeter=(hRcN/hRcD)*(10**(hRcE))
+	addElement(characteristics,"hRescInPixelsPerMeter",round(hRescInPixelsPerMeter,2))
 
-    vRescInPixelsPerInch=vRescInPixelsPerMeter*25.4e-3
-    addElement(characteristics,"vRescInPixelsPerInch",round(vRescInPixelsPerInch,2))
+	vRescInPixelsPerInch=vRescInPixelsPerMeter*25.4e-3
+	addElement(characteristics,"vRescInPixelsPerInch",round(vRescInPixelsPerInch,2))
 
-    hRescInPixelsPerInch=hRescInPixelsPerMeter*25.4e-3
-    addElement(characteristics,"hRescInPixelsPerInch",round(hRescInPixelsPerInch,2))
+	hRescInPixelsPerInch=hRescInPixelsPerMeter*25.4e-3
+	addElement(characteristics,"hRescInPixelsPerInch",round(hRescInPixelsPerInch,2))
 
-    return(tests,characteristics)
+	return(tests,characteristics)
 
 def validateDisplayResolutionBox(boxContents):
 
-    # Default Display  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.2)
+	# Default Display  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.2)
 
-    # Test results to elementtree element
-    tests=ET.Element('displayResolutionBox')
+	# Test results to elementtree element
+	tests=ET.Element('displayResolutionBox')
 
-    # Characteristics to elementtree element
-    characteristics=ET.Element('displayResolutionBox')
+	# Characteristics to elementtree element
+	characteristics=ET.Element('displayResolutionBox')
 
-    # Check box size, which should be 10 bytes
-    boxLengthIsValid=len(boxContents) == 10
-    addElement(tests,"boxLengthIsValid",boxLengthIsValid)
+	# Check box size, which should be 10 bytes
+	boxLengthIsValid=len(boxContents) == 10
+	addElement(tests,"boxLengthIsValid",boxLengthIsValid)
 
-    # Vertical / horizontal grid resolution numerators and denominators:
-    # all values within range 1-65535
+	# Vertical / horizontal grid resolution numerators and denominators:
+	# all values within range 1-65535
 
-    # Vertical grid resolution numerator (2 byte integer)
-    vRdN=strToUShortInt(boxContents[0:2])
-    addElement(characteristics,"vRdN",vRdN)
-    vRdNIsValid=1 <= vRdN <= 65535
-    addElement(tests,"vRdNIsValid",vRdNIsValid)
+	# Vertical grid resolution numerator (2 byte integer)
+	vRdN=strToUShortInt(boxContents[0:2])
+	addElement(characteristics,"vRdN",vRdN)
+	vRdNIsValid=1 <= vRdN <= 65535
+	addElement(tests,"vRdNIsValid",vRdNIsValid)
 
-    # Vertical grid resolution denominator (2 byte integer)
-    vRdD=strToUShortInt(boxContents[2:4])
-    addElement(characteristics,"vRdD",vRdD)
-    vRdDIsValid=1 <= vRdD <= 65535
-    addElement(tests,"vRdDIsValid",vRdDIsValid)
+	# Vertical grid resolution denominator (2 byte integer)
+	vRdD=strToUShortInt(boxContents[2:4])
+	addElement(characteristics,"vRdD",vRdD)
+	vRdDIsValid=1 <= vRdD <= 65535
+	addElement(tests,"vRdDIsValid",vRdDIsValid)
 
-    # Horizontal grid resolution numerator (2 byte integer)
-    hRdN=strToUShortInt(boxContents[4:6])
-    addElement(characteristics,"hRdN",hRdN)
-    hRdNIsValid=1 <= hRdN <= 65535
-    addElement(tests,"hRdNIsValid",hRdNIsValid)
+	# Horizontal grid resolution numerator (2 byte integer)
+	hRdN=strToUShortInt(boxContents[4:6])
+	addElement(characteristics,"hRdN",hRdN)
+	hRdNIsValid=1 <= hRdN <= 65535
+	addElement(tests,"hRdNIsValid",hRdNIsValid)
 
-    # Horizontal grid resolution denominator (2 byte integer)
-    hRdD=strToUShortInt(boxContents[6:8])
-    addElement(characteristics,"hRdD",hRdD)
-    hRdDIsValid=1 <= hRdD <= 65535
-    addElement(tests,"hRdDIsValid",hRdDIsValid)
+	# Horizontal grid resolution denominator (2 byte integer)
+	hRdD=strToUShortInt(boxContents[6:8])
+	addElement(characteristics,"hRdD",hRdD)
+	hRdDIsValid=1 <= hRdD <= 65535
+	addElement(tests,"hRdDIsValid",hRdDIsValid)
 
-    # Vertical / horizontal grid resolution exponents:
-    # values within range -128-127
+	# Vertical / horizontal grid resolution exponents:
+	# values within range -128-127
 
-    # Vertical grid resolution exponent (1 byte signed integer)
-    vRdE=strToSignedChar(boxContents[8:9])
-    addElement(characteristics,"vRdE",vRdE)
-    vRdEIsValid=-128 <= vRdE <= 127
-    addElement(tests,"vRdEIsValid",vRdEIsValid)
+	# Vertical grid resolution exponent (1 byte signed integer)
+	vRdE=strToSignedChar(boxContents[8:9])
+	addElement(characteristics,"vRdE",vRdE)
+	vRdEIsValid=-128 <= vRdE <= 127
+	addElement(tests,"vRdEIsValid",vRdEIsValid)
 
-    # Horizontal grid resolution exponent (1 byte signed integer)
-    hRdE=strToSignedChar(boxContents[9:10])
-    addElement(characteristics,"hRdE",hRdE)
-    hRdEIsValid=-128 <= hRdE <= 127
-    addElement(tests,"hRdEIsValid",hRdEIsValid)
+	# Horizontal grid resolution exponent (1 byte signed integer)
+	hRdE=strToSignedChar(boxContents[9:10])
+	addElement(characteristics,"hRdE",hRdE)
+	hRdEIsValid=-128 <= hRdE <= 127
+	addElement(tests,"hRdEIsValid",hRdEIsValid)
 
-    # Include vertical and horizontal resolution values in pixels per meter
-    # and pixels per inch in output
-    vResdInPixelsPerMeter=(vRdN/vRdD)*(10**(vRdE))
-    addElement(characteristics,"vResdInPixelsPerMeter",round(vResdInPixelsPerMeter,2))
+	# Include vertical and horizontal resolution values in pixels per meter
+	# and pixels per inch in output
+	vResdInPixelsPerMeter=(vRdN/vRdD)*(10**(vRdE))
+	addElement(characteristics,"vResdInPixelsPerMeter",round(vResdInPixelsPerMeter,2))
 
-    hResdInPixelsPerMeter=(hRdN/hRdD)*(10**(hRdE))
-    addElement(characteristics,"hResdInPixelsPerMeter",round(hResdInPixelsPerMeter,2))
+	hResdInPixelsPerMeter=(hRdN/hRdD)*(10**(hRdE))
+	addElement(characteristics,"hResdInPixelsPerMeter",round(hResdInPixelsPerMeter,2))
 
-    vResdInPixelsPerInch=vResdInPixelsPerMeter*25.4e-3
-    addElement(characteristics,"vResdInPixelsPerInch",round(vResdInPixelsPerInch,2))
+	vResdInPixelsPerInch=vResdInPixelsPerMeter*25.4e-3
+	addElement(characteristics,"vResdInPixelsPerInch",round(vResdInPixelsPerInch,2))
 
-    hResdInPixelsPerInch=hResdInPixelsPerMeter*25.4e-3
-    addElement(characteristics,"hResdInPixelsPerInch",round(hResdInPixelsPerInch,2))
+	hResdInPixelsPerInch=hResdInPixelsPerMeter*25.4e-3
+	addElement(characteristics,"hResdInPixelsPerInch",round(hResdInPixelsPerInch,2))
 
-    return(tests,characteristics)
+	return(tests,characteristics)
 
 # Validator functions for boxes in UUID Info superbox
 
 def validateUUIDListBox(boxContents):
 
-    # Test results to elementtree element
-    tests=ET.Element('uuidListBox')
+	# Test results to elementtree element
+	tests=ET.Element('uuidListBox')
 
-    # Characteristics to elementtree element
-    characteristics=ET.Element('uuidListBox')
+	# Characteristics to elementtree element
+	characteristics=ET.Element('uuidListBox')
 
-    return(tests,characteristics)
+	return(tests,characteristics)
 
 def validateURLBox(boxContents):
 
-    # Test results to elementtree element
-    tests=ET.Element('urlBox')
+	# Test results to elementtree element
+	tests=ET.Element('urlBox')
 
-    # Characteristics to elementtree element
-    characteristics=ET.Element('urlBox')
+	# Characteristics to elementtree element
+	characteristics=ET.Element('urlBox')
 
-    return(tests,characteristics)
+	return(tests,characteristics)
 
 # Validator functions for codestream elements
 
 def validateSIZ(data):
 
-    # Analyse SIZ segment of codestream header and validate it
-    # (ISO/IEC 15444-1 Section A.5.1)
+	# Analyse SIZ segment of codestream header and validate it
+	# (ISO/IEC 15444-1 Section A.5.1)
 
-    # Test results to elementtree element
-    tests=ET.Element('siz')
+	# Test results to elementtree element
+	tests=ET.Element('siz')
 
-    # Characteristics to elementtree element
-    characteristics=ET.Element('siz')
+	# Characteristics to elementtree element
+	characteristics=ET.Element('siz')
 
-    # Length of main image header
-    lsiz=strToUShortInt(data[0:2])
-    addElement(characteristics,"lsiz",lsiz)
+	# Length of main image header
+	lsiz=strToUShortInt(data[0:2])
+	addElement(characteristics,"lsiz",lsiz)
 
-    # lsiz should be within range 41-49190
-    lsizIsValid=41 <= lsiz <= 49190
-    addElement(tests,"lsizIsValid",lsizIsValid)
+	# lsiz should be within range 41-49190
+	lsizIsValid=41 <= lsiz <= 49190
+	addElement(tests,"lsizIsValid",lsizIsValid)
 
-    # Decoder capabilities
-    rsiz=strToUShortInt(data[2:4])
-    addElement(characteristics,"rsiz",rsiz)
+	# Decoder capabilities
+	rsiz=strToUShortInt(data[2:4])
+	addElement(characteristics,"rsiz",rsiz)
 
-    # rsiz should be either 0, 1 or 2
-    rsizIsValid=rsiz in [0,1,2]
-    addElement(tests,"rsizIsValid",rsizIsValid)
+	# rsiz should be either 0, 1 or 2
+	rsizIsValid=rsiz in [0,1,2]
+	addElement(tests,"rsizIsValid",rsizIsValid)
 
-    # Width of reference grid
-    xsiz=strToUInt(data[4:8])
-    addElement(characteristics,"xsiz",xsiz)
+	# Width of reference grid
+	xsiz=strToUInt(data[4:8])
+	addElement(characteristics,"xsiz",xsiz)
 
-    # xsiz should be within range 1 - (2**32)-1
-    xsizIsValid=1 <= xsiz <= (2**32)-1
-    addElement(tests,"xsizIsValid",xsizIsValid)
+	# xsiz should be within range 1 - (2**32)-1
+	xsizIsValid=1 <= xsiz <= (2**32)-1
+	addElement(tests,"xsizIsValid",xsizIsValid)
 
-    # Heigth of reference grid
-    ysiz=strToUInt(data[8:12])
-    addElement(characteristics,"ysiz",ysiz)
+	# Heigth of reference grid
+	ysiz=strToUInt(data[8:12])
+	addElement(characteristics,"ysiz",ysiz)
 
-    # ysiz should be within range 1 - (2**32)-1
-    ysizIsValid=1 <= ysiz <= (2**32)-1
-    addElement(tests,"ysizIsValid",ysizIsValid)
+	# ysiz should be within range 1 - (2**32)-1
+	ysizIsValid=1 <= ysiz <= (2**32)-1
+	addElement(tests,"ysizIsValid",ysizIsValid)
 
-    # Horizontal offset from origin of reference grid to left of image area
-    xOsiz=strToUInt(data[12:16])
-    addElement(characteristics,"xOsiz",xOsiz)
+	# Horizontal offset from origin of reference grid to left of image area
+	xOsiz=strToUInt(data[12:16])
+	addElement(characteristics,"xOsiz",xOsiz)
 
-    # xOsiz should be within range 0 - (2**32)-2
-    xOsizIsValid=0 <= xOsiz <= (2**32)-2
-    addElement(tests,"xOsizIsValid",xOsizIsValid)
+	# xOsiz should be within range 0 - (2**32)-2
+	xOsizIsValid=0 <= xOsiz <= (2**32)-2
+	addElement(tests,"xOsizIsValid",xOsizIsValid)
 
-    # Vertical offset from origin of reference grid to top of image area
-    yOsiz=strToUInt(data[16:20])
-    addElement(characteristics,"yOsiz",yOsiz)
+	# Vertical offset from origin of reference grid to top of image area
+	yOsiz=strToUInt(data[16:20])
+	addElement(characteristics,"yOsiz",yOsiz)
 
-    # yOsiz should be within range 0 - (2**32)-2
-    yOsizIsValid=0 <= yOsiz <= (2**32)-2
-    addElement(tests,"yOsizIsValid",yOsizIsValid)
+	# yOsiz should be within range 0 - (2**32)-2
+	yOsizIsValid=0 <= yOsiz <= (2**32)-2
+	addElement(tests,"yOsizIsValid",yOsizIsValid)
 
-    # Width of one reference tile with respect to the reference grid
-    xTsiz=strToUInt(data[20:24])
-    addElement(characteristics,"xTsiz",xTsiz)
+	# Width of one reference tile with respect to the reference grid
+	xTsiz=strToUInt(data[20:24])
+	addElement(characteristics,"xTsiz",xTsiz)
 
-    # xTsiz should be within range 1 - (2**32)- 1
-    xTsizIsValid=1 <= xTsiz <= (2**32)-1
-    addElement(tests,"xTsizIsValid",xTsizIsValid)
+	# xTsiz should be within range 1 - (2**32)- 1
+	xTsizIsValid=1 <= xTsiz <= (2**32)-1
+	addElement(tests,"xTsizIsValid",xTsizIsValid)
 
-    # Height of one reference tile with respect to the reference grid
-    yTsiz=strToUInt(data[24:28])
-    addElement(characteristics,"yTsiz",yTsiz)
+	# Height of one reference tile with respect to the reference grid
+	yTsiz=strToUInt(data[24:28])
+	addElement(characteristics,"yTsiz",yTsiz)
 
-    # yTsiz should be within range 1 - (2**32)- 1
-    yTsizIsValid=1 <= yTsiz <= (2**32)-1
-    addElement(tests,"yTsizIsValid",yTsizIsValid)
+	# yTsiz should be within range 1 - (2**32)- 1
+	yTsizIsValid=1 <= yTsiz <= (2**32)-1
+	addElement(tests,"yTsizIsValid",yTsizIsValid)
 
-    # Horizontal offset from origin of reference grid to left side of first tile
-    xTOsiz=strToUInt(data[28:32])
-    addElement(characteristics,"xTOsiz",xTOsiz)
+	# Horizontal offset from origin of reference grid to left side of first tile
+	xTOsiz=strToUInt(data[28:32])
+	addElement(characteristics,"xTOsiz",xTOsiz)
 
-    # xTOsiz should be within range 0 - (2**32)-2
-    xTOsizIsValid=0 <= xTOsiz <= (2**32)-2
-    addElement(tests,"xTOsizIsValid",xTOsizIsValid)
+	# xTOsiz should be within range 0 - (2**32)-2
+	xTOsizIsValid=0 <= xTOsiz <= (2**32)-2
+	addElement(tests,"xTOsizIsValid",xTOsizIsValid)
 
-    # Vertical offset from origin of reference grid to top side of first tile
-    yTOsiz=strToUInt(data[32:36])
-    addElement(characteristics,"yTOsiz",yTOsiz)
+	# Vertical offset from origin of reference grid to top side of first tile
+	yTOsiz=strToUInt(data[32:36])
+	addElement(characteristics,"yTOsiz",yTOsiz)
 
-    # yTOsiz should be within range 0 - (2**32)-2
-    yTOsizIsValid=0 <= yTOsiz <= (2**32)-2
-    addElement(tests,"yTOsizIsValid",yTOsizIsValid)
+	# yTOsiz should be within range 0 - (2**32)-2
+	yTOsizIsValid=0 <= yTOsiz <= (2**32)-2
+	addElement(tests,"yTOsizIsValid",yTOsizIsValid)
 
-    # Number of components
-    csiz=strToUShortInt(data[36:38])
-    addElement(characteristics,"csiz",csiz)
+	# Number of components
+	csiz=strToUShortInt(data[36:38])
+	addElement(characteristics,"csiz",csiz)
 
-    # Number of components should be in range 1 - 16384 (including limits)
-    csizIsValid=1 <= csiz <= 16384
-    addElement(tests,"csizIsValid",csizIsValid)
+	# Number of components should be in range 1 - 16384 (including limits)
+	csizIsValid=1 <= csiz <= 16384
+	addElement(tests,"csizIsValid",csizIsValid)
 
-    # Check if codestream header size is consistent with csiz
-    lsizConsistentWithCsiz=lsiz == 38+(3*csiz)
-    addElement(tests,"lsizConsistentWithCsiz",lsizConsistentWithCsiz)
+	# Check if codestream header size is consistent with csiz
+	lsizConsistentWithCsiz=lsiz == 38+(3*csiz)
+	addElement(tests,"lsizConsistentWithCsiz",lsizConsistentWithCsiz)
 
-    # Precision, depth horizontal/verical separation repeated for each component
+	# Precision, depth horizontal/verical separation repeated for each component
 
-    # NOTE: for clarity maybe assign each component its own element (with properties
-    # as sub elements)
+	# NOTE: for clarity maybe assign each component its own element (with properties
+	# as sub elements)
 
-    offset=38
+	offset=38
 
-    for i in range(csiz):
+	for i in range(csiz):
 
-        # ssiz (=bits per component)
-        ssiz=strToUnsignedChar(data[offset:offset+1])
+		# ssiz (=bits per component)
+		ssiz=strToUnsignedChar(data[offset:offset+1])
 
-        # Most significant bit indicates whether components are signed (1)
-        # or unsigned (0). Extracted by applying bit mask of 10000000 (=128)
-        ssizSign=getBitValue(ssiz, 1)
-        addElement(characteristics,"ssizSign",ssizSign)
+		# Most significant bit indicates whether components are signed (1)
+		# or unsigned (0). Extracted by applying bit mask of 10000000 (=128)
+		ssizSign=getBitValue(ssiz, 1)
+		addElement(characteristics,"ssizSign",ssizSign)
 
-        # Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
-        # 01111111 (=127)
-        ssizDepth=(ssiz & 127) + 1
-        addElement(characteristics,"ssizDepth",ssizDepth)
+		# Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
+		# 01111111 (=127)
+		ssizDepth=(ssiz & 127) + 1
+		addElement(characteristics,"ssizDepth",ssizDepth)
 
-        # ssiz field is valid if ssizDepth in range 1-38
-        ssizIsValid=1 <= ssizDepth <= 38
-        addElement(tests,"ssizIsValid",ssizIsValid)
+		# ssiz field is valid if ssizDepth in range 1-38
+		ssizIsValid=1 <= ssizDepth <= 38
+		addElement(tests,"ssizIsValid",ssizIsValid)
 
-        # Horizontal separation of sample of this component with respect
-        # to reference grid
-        xRsiz=strToUnsignedChar(data[offset+1:offset+2])
-        addElement(characteristics,"xRsiz",xRsiz)
+		# Horizontal separation of sample of this component with respect
+		# to reference grid
+		xRsiz=strToUnsignedChar(data[offset+1:offset+2])
+		addElement(characteristics,"xRsiz",xRsiz)
 
-        # xRSiz valid if range 1-255
-        xRsizIsValid=1 <= xRsiz <= 255
-        addElement(tests,"xRsizIsValid",xRsizIsValid)
+		# xRSiz valid if range 1-255
+		xRsizIsValid=1 <= xRsiz <= 255
+		addElement(tests,"xRsizIsValid",xRsizIsValid)
 
-        # Vertical separation of sample of this component with respect
-        # to reference grid
-        yRsiz=strToUnsignedChar(data[offset+2:offset+3])
-        addElement(characteristics,"yRsiz",yRsiz)
+		# Vertical separation of sample of this component with respect
+		# to reference grid
+		yRsiz=strToUnsignedChar(data[offset+2:offset+3])
+		addElement(characteristics,"yRsiz",yRsiz)
 
-        # yRSiz valid if range 1-255
-        yRsizIsValid=1 <= yRsiz <= 255
-        addElement(tests,"yRsizIsValid",yRsizIsValid)
+		# yRSiz valid if range 1-255
+		yRsizIsValid=1 <= yRsiz <= 255
+		addElement(tests,"yRsizIsValid",yRsizIsValid)
 
-        offset += 3
+		offset += 3
 
-    return(tests,characteristics)
+	return(tests,characteristics)
 
 def validateCOD(data):
 
-    # Analyse coding style default header fields (COD) and validate
-    # (ISO/IEC 15444-1 Section A.6.1)
+	# Analyse coding style default header fields (COD) and validate
+	# (ISO/IEC 15444-1 Section A.6.1)
 
-    # Test results to elementtree element
-    tests=ET.Element('cod')
+	# Test results to elementtree element
+	tests=ET.Element('cod')
 
-    # Characteristics to elementtree element
-    characteristics=ET.Element('cod')
+	# Characteristics to elementtree element
+	characteristics=ET.Element('cod')
 
-    # Length of COD marker
-    lcod=strToUShortInt(data[0:2])
-    addElement(characteristics,"lcod",lcod)
+	# Length of COD marker
+	lcod=strToUShortInt(data[0:2])
+	addElement(characteristics,"lcod",lcod)
 
-    # lcod should be in range 12-45
-    lcodIsValid=12 <= lcod  <= 45
-    addElement(tests,"lcodIsValid",lcodIsValid)
+	# lcod should be in range 12-45
+	lcodIsValid=12 <= lcod  <= 45
+	addElement(tests,"lcodIsValid",lcodIsValid)
 
-    # Coding style
-    scod=strToUnsignedChar(data[2:3])
+	# Coding style
+	scod=strToUnsignedChar(data[2:3])
 
-    # scod contains 3 coding style parameters that follow from  its 3 least
-    # significant bits
+	# scod contains 3 coding style parameters that follow from  its 3 least
+	# significant bits
 
-    # Last bit: 0 in case of default precincts (ppx/ppy=15), 1 in case precincts
-    # are defined in sPcod parameter
-    precincts=getBitValue(scod,8)
-    addElement(characteristics,"precincts",precincts)
+	# Last bit: 0 in case of default precincts (ppx/ppy=15), 1 in case precincts
+	# are defined in sPcod parameter
+	precincts=getBitValue(scod,8)
+	addElement(characteristics,"precincts",precincts)
 
-    # 7th bit: 0: no start of packet marker segments; 1: start of packet marker
-    # segments may be used
-    sop=getBitValue(scod,7)
-    addElement(characteristics,"sop",sop)
+	# 7th bit: 0: no start of packet marker segments; 1: start of packet marker
+	# segments may be used
+	sop=getBitValue(scod,7)
+	addElement(characteristics,"sop",sop)
 
-    # 6th bit: 0: no end of packet marker segments; 1: end of packet marker
-    # segments shall be used
-    eph=getBitValue(scod, 6)
-    addElement(characteristics,"eph",eph)
+	# 6th bit: 0: no end of packet marker segments; 1: end of packet marker
+	# segments shall be used
+	eph=getBitValue(scod, 6)
+	addElement(characteristics,"eph",eph)
 
-    # Coding parameters that are independent of components (grouped as sGCod)
-    # in standard)
+	# Coding parameters that are independent of components (grouped as sGCod)
+	# in standard)
 
-    sGcod=data[3:7]
+	sGcod=data[3:7]
 
-    # Progression order
-    order=strToUnsignedChar(sGcod[0:1])
-    addElement(characteristics,"order",order)
+	# Progression order
+	order=strToUnsignedChar(sGcod[0:1])
+	addElement(characteristics,"order",order)
 
-    # Allowed values: 0 (LRCP), 1 (RLCP), 2 (RPCL), 3 (PCRL), 4(CPRL)
-    orderIsValid=order in [0,1,2,3,4]
-    addElement(tests,"orderIsValid",orderIsValid)
+	# Allowed values: 0 (LRCP), 1 (RLCP), 2 (RPCL), 3 (PCRL), 4(CPRL)
+	orderIsValid=order in [0,1,2,3,4]
+	addElement(tests,"orderIsValid",orderIsValid)
 
-    # Number of layers
-    layers=strToUShortInt(sGcod[1:3])
-    addElement(characteristics,"layers",layers)
+	# Number of layers
+	layers=strToUShortInt(sGcod[1:3])
+	addElement(characteristics,"layers",layers)
 
-    # layers should be in range 1-65535
-    layersIsValid=1 <= layers  <= 65535
-    addElement(tests,"layersIsValid",layersIsValid)
+	# layers should be in range 1-65535
+	layersIsValid=1 <= layers  <= 65535
+	addElement(tests,"layersIsValid",layersIsValid)
 
-    # Multiple component transformation
-    multipleComponentTransformation=strToUnsignedChar(sGcod[3:4])
-    addElement(characteristics,"multipleComponentTransformation",multipleComponentTransformation)
+	# Multiple component transformation
+	multipleComponentTransformation=strToUnsignedChar(sGcod[3:4])
+	addElement(characteristics,"multipleComponentTransformation",multipleComponentTransformation)
 
-    # Value should be 0 (no transformation) or 1 (transformation on components
-    # 0,1 and 2)
-    multipleComponentTransformationIsValid=multipleComponentTransformation in [0,1]
-    addElement(tests,"multipleComponentTransformationIsValid",multipleComponentTransformationIsValid)
+	# Value should be 0 (no transformation) or 1 (transformation on components
+	# 0,1 and 2)
+	multipleComponentTransformationIsValid=multipleComponentTransformation in [0,1]
+	addElement(tests,"multipleComponentTransformationIsValid",multipleComponentTransformationIsValid)
 
-    # Coding parameters that are component-specific (grouped as sPCod)
-    # in standard)
+	# Coding parameters that are component-specific (grouped as sPCod)
+	# in standard)
 
-    # Number of decomposition levels
-    levels=strToUnsignedChar(data[7:8])
-    addElement(characteristics,"levels",levels)
+	# Number of decomposition levels
+	levels=strToUnsignedChar(data[7:8])
+	addElement(characteristics,"levels",levels)
 
-    # levels should be within range 0-32
-    levelsIsValid=0 <= levels  <= 32
-    addElement(tests,"levelsIsValid",levelsIsValid)
+	# levels should be within range 0-32
+	levelsIsValid=0 <= levels  <= 32
+	addElement(tests,"levelsIsValid",levelsIsValid)
 
-    # Check lcod is consistent with levels and precincts (eq A-2 )
-    if precincts ==0:
-        lcodExpected=12
-    else:
-        lcodExpected=13 + levels
+	# Check lcod is consistent with levels and precincts (eq A-2 )
+	if precincts ==0:
+		lcodExpected=12
+	else:
+		lcodExpected=13 + levels
 
-    lcodConsistentWithLevelsPrecincts=lcod == lcodExpected
-    addElement(tests,"lcodConsistentWithLevelsPrecincts",lcodConsistentWithLevelsPrecincts)
+	lcodConsistentWithLevelsPrecincts=lcod == lcodExpected
+	addElement(tests,"lcodConsistentWithLevelsPrecincts",lcodConsistentWithLevelsPrecincts)
 
-    # Code block width exponent (stored as offsets, add 2 to get actual value)
-    codeBlockWidthExponent=strToUnsignedChar(data[8:9]) + 2
-    addElement(characteristics,"codeBlockWidth",2**codeBlockWidthExponent)
+	# Code block width exponent (stored as offsets, add 2 to get actual value)
+	codeBlockWidthExponent=strToUnsignedChar(data[8:9]) + 2
+	addElement(characteristics,"codeBlockWidth",2**codeBlockWidthExponent)
 
-    # Value within range 2-10
-    codeBlockWidthExponentIsValid=2 <= codeBlockWidthExponent <= 10
-    addElement(tests,"codeBlockWidthExponentIsValid",codeBlockWidthExponentIsValid)
+	# Value within range 2-10
+	codeBlockWidthExponentIsValid=2 <= codeBlockWidthExponent <= 10
+	addElement(tests,"codeBlockWidthExponentIsValid",codeBlockWidthExponentIsValid)
 
-    # Code block height exponent (stored as offsets, add 2 to get actual value)
-    codeBlockHeightExponent=strToUnsignedChar(data[9:10]) + 2
-    addElement(characteristics,"codeBlockHeight",2**codeBlockHeightExponent)
+	# Code block height exponent (stored as offsets, add 2 to get actual value)
+	codeBlockHeightExponent=strToUnsignedChar(data[9:10]) + 2
+	addElement(characteristics,"codeBlockHeight",2**codeBlockHeightExponent)
 
-    # Value within range 2-10
-    codeBlockHeightExponentIsValid=2 <= codeBlockHeightExponent <= 10
-    addElement(tests,"codeBlockHeightExponentIsValid",codeBlockHeightExponentIsValid)
+	# Value within range 2-10
+	codeBlockHeightExponentIsValid=2 <= codeBlockHeightExponent <= 10
+	addElement(tests,"codeBlockHeightExponentIsValid",codeBlockHeightExponentIsValid)
 
-    # Sum of width + height exponents shouldn't exceed 12
-    sumHeightWidthExponentIsValid=codeBlockWidthExponent+codeBlockHeightExponent <= 12
-    addElement(tests,"sumHeightWidthExponentIsValid",sumHeightWidthExponentIsValid)
+	# Sum of width + height exponents shouldn't exceed 12
+	sumHeightWidthExponentIsValid=codeBlockWidthExponent+codeBlockHeightExponent <= 12
+	addElement(tests,"sumHeightWidthExponentIsValid",sumHeightWidthExponentIsValid)
 
-    # Code block style, contains 6 boolean switches
-    codeBlockStyle=strToUnsignedChar(data[10:11])
+	# Code block style, contains 6 boolean switches
+	codeBlockStyle=strToUnsignedChar(data[10:11])
 
-    # Bit 8: selective arithmetic coding bypass
-    codingBypass=getBitValue(codeBlockStyle,8)
-    addElement(characteristics,"codingBypass",codingBypass)
+	# Bit 8: selective arithmetic coding bypass
+	codingBypass=getBitValue(codeBlockStyle,8)
+	addElement(characteristics,"codingBypass",codingBypass)
 
-    # Bit 7: reset of context probabilities on coding pass boundaries
-    resetOnBoundaries=getBitValue(codeBlockStyle,7)
-    addElement(characteristics,"resetOnBoundaries",resetOnBoundaries)
+	# Bit 7: reset of context probabilities on coding pass boundaries
+	resetOnBoundaries=getBitValue(codeBlockStyle,7)
+	addElement(characteristics,"resetOnBoundaries",resetOnBoundaries)
 
-    # Bit 6: termination on each coding pass
-    termOnEachPass=getBitValue(codeBlockStyle,6)
-    addElement(characteristics,"termOnEachPass",termOnEachPass)
+	# Bit 6: termination on each coding pass
+	termOnEachPass=getBitValue(codeBlockStyle,6)
+	addElement(characteristics,"termOnEachPass",termOnEachPass)
 
-    # Bit 5: vertically causal context
-    vertCausalContext=getBitValue(codeBlockStyle,5)
-    addElement(characteristics,"vertCausalContext",vertCausalContext)
+	# Bit 5: vertically causal context
+	vertCausalContext=getBitValue(codeBlockStyle,5)
+	addElement(characteristics,"vertCausalContext",vertCausalContext)
 
-    # Bit 4: predictable termination
-    predTermination=getBitValue(codeBlockStyle,4)
-    addElement(characteristics,"predTermination",predTermination)
+	# Bit 4: predictable termination
+	predTermination=getBitValue(codeBlockStyle,4)
+	addElement(characteristics,"predTermination",predTermination)
 
-    # Bit 3: segmentation symbols are used
-    segmentationSymbols=getBitValue(codeBlockStyle,3)
-    addElement(characteristics,"segmentationSymbols",segmentationSymbols)
+	# Bit 3: segmentation symbols are used
+	segmentationSymbols=getBitValue(codeBlockStyle,3)
+	addElement(characteristics,"segmentationSymbols",segmentationSymbols)
 
-    # Wavelet transformation: 9-7 irreversible (0) or 5-3 reversible (1)
-    transformation=strToUnsignedChar(data[11:12])
-    addElement(characteristics,"transformation",transformation)
+	# Wavelet transformation: 9-7 irreversible (0) or 5-3 reversible (1)
+	transformation=strToUnsignedChar(data[11:12])
+	addElement(characteristics,"transformation",transformation)
 
-    transformationIsValid=transformation in [0,1]
-    addElement(tests,"transformationIsValid",transformationIsValid)
+	transformationIsValid=transformation in [0,1]
+	addElement(tests,"transformationIsValid",transformationIsValid)
 
-    if precincts ==1:
+	if precincts ==1:
 
-        # Precinct size for each resolution level (=decomposition levels +1)
-        # Order: low to high (lowest first)
+		# Precinct size for each resolution level (=decomposition levels +1)
+		# Order: low to high (lowest first)
 
-        offset=12
+		offset=12
 
-        for i in range(levels+1):
-            # Precinct byte
-            precinctByte=strToUnsignedChar(data[offset:offset+1])
+		for i in range(levels+1):
+			# Precinct byte
+			precinctByte=strToUnsignedChar(data[offset:offset+1])
 
-            # Precinct width exponent: least significant 4 bytes (apply bit mask)
-            ppx=precinctByte & 15
-            precinctSizeX=2**ppx
-            addElement(characteristics,"precinctSizeX",precinctSizeX)
+			# Precinct width exponent: least significant 4 bytes (apply bit mask)
+			ppx=precinctByte & 15
+			precinctSizeX=2**ppx
+			addElement(characteristics,"precinctSizeX",precinctSizeX)
 
-            # Precinct size of 1 (exponent 0) only allowed for lowest resolution level
-            if i !=0:
-                precinctSizeXIsValid=precinctSizeX >= 2
-            else:
-                precinctSizeXIsValid=True
+			# Precinct size of 1 (exponent 0) only allowed for lowest resolution level
+			if i !=0:
+				precinctSizeXIsValid=precinctSizeX >= 2
+			else:
+				precinctSizeXIsValid=True
 
-            addElement(tests,"precinctSizeXIsValid",precinctSizeXIsValid)
+			addElement(tests,"precinctSizeXIsValid",precinctSizeXIsValid)
 
-            # Precinct height exponent: most significant 4 bytes (shift 4
-            # to right and apply bit mask)
-            ppy=(precinctByte >>4) & 15
-            precinctSizeY=2**ppy
-            addElement(characteristics,"precinctSizeY",precinctSizeY)
+			# Precinct height exponent: most significant 4 bytes (shift 4
+			# to right and apply bit mask)
+			ppy=(precinctByte >>4) & 15
+			precinctSizeY=2**ppy
+			addElement(characteristics,"precinctSizeY",precinctSizeY)
 
-            # Precinct size of 1 (exponent 0) only allowed for lowest resolution level
-            if i !=0:
-                precinctSizeYIsValid=precinctSizeY >= 2
-            else:
-                precinctSizeYIsValid=True
+			# Precinct size of 1 (exponent 0) only allowed for lowest resolution level
+			if i !=0:
+				precinctSizeYIsValid=precinctSizeY >= 2
+			else:
+				precinctSizeYIsValid=True
 
-            addElement(tests,"precinctSizeYIsValid",precinctSizeYIsValid)
+			addElement(tests,"precinctSizeYIsValid",precinctSizeYIsValid)
 
-            offset+=1
+			offset+=1
 
-    return(tests,characteristics)
+	return(tests,characteristics)
 
 def validateQCD(data):
 
-    # Analyse quantization default header fields (QCD) and validate
-    # (ISO/IEC 15444-1 Section A.6.4)
+	# Analyse quantization default header fields (QCD) and validate
+	# (ISO/IEC 15444-1 Section A.6.4)
 
-    # Test results to elementtree element
-    tests=ET.Element('qcd')
+	# Test results to elementtree element
+	tests=ET.Element('qcd')
 
-    # Characteristics to elementtree element
-    characteristics=ET.Element('qcd')
+	# Characteristics to elementtree element
+	characteristics=ET.Element('qcd')
 
-    # Length of QCD marker
-    lqcd=strToUShortInt(data[0:2])
-    addElement(characteristics,"lqcd",lqcd)
+	# Length of QCD marker
+	lqcd=strToUShortInt(data[0:2])
+	addElement(characteristics,"lqcd",lqcd)
 
-    # lqcd should be in range 4-197
-    lqcdIsValid=4 <= lqcd  <= 197
-    addElement(tests,"lqcdIsValid",lqcdIsValid)
+	# lqcd should be in range 4-197
+	lqcdIsValid=4 <= lqcd  <= 197
+	addElement(tests,"lqcdIsValid",lqcdIsValid)
 
-    # Note: lqcd should also be consistent with no. decomp.levels and sqcd!
+	# Note: lqcd should also be consistent with no. decomp.levels and sqcd!
 
-    # Quantization style for all components
-    sqcd=strToUnsignedChar(data[2:3])
+	# Quantization style for all components
+	sqcd=strToUnsignedChar(data[2:3])
 
-    # sqcd contains 2 quantization parameters: style + no of guard bits
+	# sqcd contains 2 quantization parameters: style + no of guard bits
 
-    # Style: least significant 5 bytes (apply bit mask)
-    qStyle=sqcd & 31
-    addElement(characteristics,"qStyle",qStyle)
+	# Style: least significant 5 bytes (apply bit mask)
+	qStyle=sqcd & 31
+	addElement(characteristics,"qStyle",qStyle)
 
-    # Allowed values: 0 (no quantization), 1 (scalar derived), 2 (scalar expounded)
-    qStyleIsValid=qStyle in [0,1,2]
-    addElement(tests,"qStyleIsValid",qStyleIsValid)
+	# Allowed values: 0 (no quantization), 1 (scalar derived), 2 (scalar expounded)
+	qStyleIsValid=qStyle in [0,1,2]
+	addElement(tests,"qStyleIsValid",qStyleIsValid)
 
-    # Number of guard bits (3 most significant bits, shift + bit mask)
-    guardBits=(sqcd >>5) &7
-    addElement(characteristics,"guardBits",guardBits)
+	# Number of guard bits (3 most significant bits, shift + bit mask)
+	guardBits=(sqcd >>5) &7
+	addElement(characteristics,"guardBits",guardBits)
 
-    # No. of decomposition levels --> cross-check with info from COD!!
-    if qStyle==0:
-        levels=int((lqcd-4)/3)
-    elif qStyle==2:
-        levels=int((lqcd-5)/6)
+	# No. of decomposition levels --> cross-check with info from COD!!
+	if qStyle==0:
+		levels=int((lqcd-4)/3)
+	elif qStyle==2:
+		levels=int((lqcd-5)/6)
 
-    offset=3
+	offset=3
 
-    if qStyle==0:
-        for i in range(levels):
-            spqcd=strToUnsignedChar(data[offset:offset+1])
+	if qStyle==0:
+		for i in range(levels):
+			spqcd=strToUnsignedChar(data[offset:offset+1])
 
-            # 5 most significant bits -> exponent epsilon in Eq E-5
-            epsilon=(spqcd >>3) &31
-            addElement(characteristics,"epsilon",epsilon)
+			# 5 most significant bits -> exponent epsilon in Eq E-5
+			epsilon=(spqcd >>3) &31
+			addElement(characteristics,"epsilon",epsilon)
 
-            offset +=1
+			offset +=1
 
-    elif qStyle==2:
-        for i in range(levels):
-            spqcd=strToUShortInt(data[offset:offset+2])
+	elif qStyle==2:
+		for i in range(levels):
+			spqcd=strToUShortInt(data[offset:offset+2])
 
-            # 11 least significant bits: mu in Eq E-3
-            mu=spqcd & 2047
-            addElement(characteristics,"mu",mu)
+			# 11 least significant bits: mu in Eq E-3
+			mu=spqcd & 2047
+			addElement(characteristics,"mu",mu)
 
-            # 5 most significant bits: exponent epsilon in Eq E-3
-            epsilon=(spqcd >> 11) & 31
-            addElement(characteristics,"epsilon",epsilon)
+			# 5 most significant bits: exponent epsilon in Eq E-3
+			epsilon=(spqcd >> 11) & 31
+			addElement(characteristics,"epsilon",epsilon)
 
-            offset +=2
+			offset +=2
 
-    else:
-        spqcd=strToUShortInt(data[offset:offset+2])
-        # 11 least significant bits: mu in Eq E-3
-        mu=spqcd & 2047
-        addElement(characteristics,"mu",mu)
+	else:
+		spqcd=strToUShortInt(data[offset:offset+2])
+		# 11 least significant bits: mu in Eq E-3
+		mu=spqcd & 2047
+		addElement(characteristics,"mu",mu)
 
-        # 5 most significant bits: exponent epsilon in Eq E-3
-        epsilon=(spqcd >> 11) & 31
-        addElement(characteristics,"epsilon",epsilon)
+		# 5 most significant bits: exponent epsilon in Eq E-3
+		epsilon=(spqcd >> 11) & 31
+		addElement(characteristics,"epsilon",epsilon)
 
-    # Possible enhancement here: instead of reporting coefficients, report result
-    # of corresponding equations (need Annex E from standard for that)
+	# Possible enhancement here: instead of reporting coefficients, report result
+	# of corresponding equations (need Annex E from standard for that)
 
-    return(tests,characteristics)
+	return(tests,characteristics)
 
 def validateCOM(data):
 
-    # Analyse codestream comment (COM) and validate
-    # (ISO/IEC 15444-1 Section A.6.4)
+	# Analyse codestream comment (COM) and validate
+	# (ISO/IEC 15444-1 Section A.6.4)
 
-    # Test results to elementtree element
-    tests=ET.Element('com')
+	# Test results to elementtree element
+	tests=ET.Element('com')
 
-    # Characteristics to elementtree element
-    characteristics=ET.Element('com')
+	# Characteristics to elementtree element
+	characteristics=ET.Element('com')
 
-    # Length of COM marker
-    lcom=strToUShortInt(data[0:2])
-    addElement(characteristics,"lcom",lcom)
+	# Length of COM marker
+	lcom=strToUShortInt(data[0:2])
+	addElement(characteristics,"lcom",lcom)
 
-    # lcom should be in range 5-65535
-    lcomIsValid=5 <= lcom  <= 65535
-    addElement(tests,"lcomIsValid",lcomIsValid)
+	# lcom should be in range 5-65535
+	lcomIsValid=5 <= lcom  <= 65535
+	addElement(tests,"lcomIsValid",lcomIsValid)
 
-    # Registration value of marker segment
-    rcom=strToUShortInt(data[2:4])
-    addElement(characteristics,"rcom",rcom)
+	# Registration value of marker segment
+	rcom=strToUShortInt(data[2:4])
+	addElement(characteristics,"rcom",rcom)
 
-    # rcom should be either 0 (binary values) or 1 (ISO/IEC 8859-15 (Latin) values)
-    rcomIsValid=0 <= rcom  <= 1
-    addElement(tests,"rcomIsValid",rcomIsValid)
+	# rcom should be either 0 (binary values) or 1 (ISO/IEC 8859-15 (Latin) values)
+	rcomIsValid=0 <= rcom  <= 1
+	addElement(tests,"rcomIsValid",rcomIsValid)
 
-    # Contents (multiples of Ccom)
-    comment=data[4:lcom]
+	# Contents (multiples of Ccom)
+	comment=data[4:lcom]
 
-    # Only add comment to characteristics if text (may contain binary data if rcom is 0!)
-    if rcom == 1:
+	# Only add comment to characteristics if text (may contain binary data if rcom is 0!)
+	if rcom == 1:
 
-        addElement(characteristics,"comment",comment)
+		addElement(characteristics,"comment",comment)
 
-    return(tests,characteristics)
+	return(tests,characteristics)
 
 def validateSOT(data):
 
-    # Analyse start of tile-part (SOT) marker segment and validate
-    # (ISO/IEC 15444-1 Section A.4.2)
+	# Analyse start of tile-part (SOT) marker segment and validate
+	# (ISO/IEC 15444-1 Section A.4.2)
 
-    # Note that unlike other marker validation functions this one returns a
-    # third result, which is the total tile-part length (psot)!
+	# Note that unlike other marker validation functions this one returns a
+	# third result, which is the total tile-part length (psot)!
 
-    # Test results to elementtree element
-    tests=ET.Element('sot')
+	# Test results to elementtree element
+	tests=ET.Element('sot')
 
-    # Characteristics to elementtree element
-    characteristics=ET.Element('sot')
+	# Characteristics to elementtree element
+	characteristics=ET.Element('sot')
 
-    # Length of SOT marker
-    lsot=strToUShortInt(data[0:2])
-    addElement(characteristics,"lsot",lsot)
+	# Length of SOT marker
+	lsot=strToUShortInt(data[0:2])
+	addElement(characteristics,"lsot",lsot)
 
-    # lcom should be 10
-    lsotIsValid=lsot  == 10
-    addElement(tests,"lsotIsValid",lsotIsValid)
+	# lcom should be 10
+	lsotIsValid=lsot  == 10
+	addElement(tests,"lsotIsValid",lsotIsValid)
 
-    # Tile index
-    isot=strToUShortInt(data[2:4])
-    addElement(characteristics,"isot",isot)
+	# Tile index
+	isot=strToUShortInt(data[2:4])
+	addElement(characteristics,"isot",isot)
 
-    # Tile index should be in range 0-65534
-    isotIsValid=0 <= isot <= 65534
-    addElement(tests,"isotIsValid",isotIsValid)
+	# Tile index should be in range 0-65534
+	isotIsValid=0 <= isot <= 65534
+	addElement(tests,"isotIsValid",isotIsValid)
 
-    # Length of tile part (including this SOT)
-    psot=strToUInt(data[4:8])
-    addElement(characteristics,"psot",psot)
+	# Length of tile part (including this SOT)
+	psot=strToUInt(data[4:8])
+	addElement(characteristics,"psot",psot)
 
-    # psot equals 0 (for last tile part) or greater than 14 (so range 1-13 is illegal)
-    psotIsValid=not(1 <= psot <= 13)
-    addElement(tests,"psotIsValid",psotIsValid)
+	# psot equals 0 (for last tile part) or greater than 14 (so range 1-13 is illegal)
+	psotIsValid=not(1 <= psot <= 13)
+	addElement(tests,"psotIsValid",psotIsValid)
 
-    # Tile part index
-    tpsot=strToUnsignedChar(data[8:9])
-    addElement(characteristics,"tpsot",tpsot)
+	# Tile part index
+	tpsot=strToUnsignedChar(data[8:9])
+	addElement(characteristics,"tpsot",tpsot)
 
-    # Should be in range 0-254
-    tpsotIsValid=0 <= tpsot <= 254
-    addElement(tests,"tpsotIsValid",tpsotIsValid)
+	# Should be in range 0-254
+	tpsotIsValid=0 <= tpsot <= 254
+	addElement(tests,"tpsotIsValid",tpsotIsValid)
 
-    # Number of tile-parts of a tile in the codestream
-    # Value of 0 indicates that number of tile-parts of tile in the codestream
-    # is not defined in this header; otherwise value in range 1-255
-    tnsot=strToUnsignedChar(data[9:10])
-    addElement(characteristics,"tnsot",tnsot)
+	# Number of tile-parts of a tile in the codestream
+	# Value of 0 indicates that number of tile-parts of tile in the codestream
+	# is not defined in this header; otherwise value in range 1-255
+	tnsot=strToUnsignedChar(data[9:10])
+	addElement(characteristics,"tnsot",tnsot)
 
-    return(tests,characteristics,psot)
+	return(tests,characteristics,psot)
 
 
 def validateTilePart(data,offsetStart):
 
-    # Analyse tile part that starts at offsetStart and perform cursory validation
-    # Precondition: offsetStart points to SOT marker
-    #
-    # Limitations:
-    # - COD, COC, QCD, QCC and RGN are markers only allowed in first tile-part
-    #   of a tile; there is currently no check on this (may be added later)
+	# Analyse tile part that starts at offsetStart and perform cursory validation
+	# Precondition: offsetStart points to SOT marker
+	#
+	# Limitations:
+	# - COD, COC, QCD, QCC and RGN are markers only allowed in first tile-part
+	#   of a tile; there is currently no check on this (may be added later)
 
-    # Test results to elementtree element
-    tests=ET.Element('tilePart')
+	# Test results to elementtree element
+	tests=ET.Element('tilePart')
 
-    # Characteristics to elementtree element
-    characteristics=ET.Element('tilePart')
+	# Characteristics to elementtree element
+	characteristics=ET.Element('tilePart')
 
-    offset=offsetStart
+	offset=offsetStart
 
-    # Read first marker segment, which is a  start of tile (SOT) marker segment
-    marker,segLength,segContents,offsetNext=getMarkerSegment(data,offset)
+	# Read first marker segment, which is a  start of tile (SOT) marker segment
+	marker,segLength,segContents,offsetNext=getMarkerSegment(data,offset)
 
-    # Validate start of tile (SOT) marker segment
-    # tilePartLength is value of psot, which is the total length of this tile
-    # including the SOT marker. Note that psot may be 0 for last tile!
-    resultSOT, characteristicsSOT, tilePartLength=validateSOT(segContents)
+	# Validate start of tile (SOT) marker segment
+	# tilePartLength is value of psot, which is the total length of this tile
+	# including the SOT marker. Note that psot may be 0 for last tile!
+	resultSOT, characteristicsSOT, tilePartLength=validateSOT(segContents)
 
-    # Add analysis results to test results tree
-    tests.append(resultSOT)
+	# Add analysis results to test results tree
+	tests.append(resultSOT)
 
-    # Add extracted characteristics to characteristics tree
-    characteristics.append(characteristicsSOT)
+	# Add extracted characteristics to characteristics tree
+	characteristics.append(characteristicsSOT)
 
-    offset=offsetNext
+	offset=offsetNext
 
-    # Last marker in every tile-part should be a start of data marker
-    foundSODMarker=False
+	# Last marker in every tile-part should be a start of data marker
+	foundSODMarker=False
 
-    # Loop through remaining tile part marker segments; extract properties of
-    # and validate COD, QCD and COM marker segments. Also test for presence of
-    # SOD marker
-    # NOTE: not tested yet because of unavailability of test images with these
-    # markers at tile-part level!!
+	# Loop through remaining tile part marker segments; extract properties of
+	# and validate COD, QCD and COM marker segments. Also test for presence of
+	# SOD marker
+	# NOTE: not tested yet because of unavailability of test images with these
+	# markers at tile-part level!!
 
-    while marker != b'\xff\x93':
-        marker,segLength,segContents,offsetNext=getMarkerSegment(data,offset)
+	while marker != b'\xff\x93':
+		marker,segLength,segContents,offsetNext=getMarkerSegment(data,offset)
 
-        if marker==b'\xff\x52':
-            # COD (coding style default) marker segment
+		if marker==b'\xff\x52':
+			# COD (coding style default) marker segment
 
-            # COD is required
-            foundCODMarker=True
+			# COD is required
+			foundCODMarker=True
 
-            # Validate COD segment
-            resultCOD, characteristicsCOD=validateCOD(segContents)
+			# Validate COD segment
+			resultCOD, characteristicsCOD=validateCOD(segContents)
 
-            # Add analysis results to test results tree
-            tests.append(resultCOD)
+			# Add analysis results to test results tree
+			tests.append(resultCOD)
 
-            # Add extracted characteristics to characteristics tree
-            characteristics.append(characteristicsCOD)
+			# Add extracted characteristics to characteristics tree
+			characteristics.append(characteristicsCOD)
 
-            offset=offsetNext
+			offset=offsetNext
 
-        elif marker==b'\xff\x5c':
-            # QCD (quantization default) marker segment
+		elif marker==b'\xff\x5c':
+			# QCD (quantization default) marker segment
 
-            # QCD is required
-            foundQCDMarker=True
+			# QCD is required
+			foundQCDMarker=True
 
-            # Validate QCD segment
-            resultQCD, characteristicsQCD=validateQCD(segContents)
+			# Validate QCD segment
+			resultQCD, characteristicsQCD=validateQCD(segContents)
 
-            # Add analysis results to test results tree
-            tests.append(resultQCD)
+			# Add analysis results to test results tree
+			tests.append(resultQCD)
 
-            # Add extracted characteristics to characteristics tree
-            characteristics.append(characteristicsQCD)
+			# Add extracted characteristics to characteristics tree
+			characteristics.append(characteristicsQCD)
 
-            offset=offsetNext
+			offset=offsetNext
 
-        elif marker==b'\xff\x64':
-            # COM (codestream comment) marker segment
+		elif marker==b'\xff\x64':
+			# COM (codestream comment) marker segment
 
-            # Validate QCD segment
-            resultCOM, characteristicsCOM=validateCOM(segContents)
+			# Validate QCD segment
+			resultCOM, characteristicsCOM=validateCOM(segContents)
 
-            # Add analysis results to test results tree
-            tests.append(resultCOM)
+			# Add analysis results to test results tree
+			tests.append(resultCOM)
 
-            # Add extracted characteristics to characteristics tree
-            characteristics.append(characteristicsCOM)
+			# Add extracted characteristics to characteristics tree
+			characteristics.append(characteristicsCOM)
 
-            offset=offsetNext
+			offset=offsetNext
 
-        elif marker==b'\xff\x93':
-            # SOT (start of data) marker segment: last tile-part marker
-            foundSODMarker=True
-            addElement(tests,"foundSODMarker",foundSODMarker)
+		elif marker==b'\xff\x93':
+			# SOT (start of data) marker segment: last tile-part marker
+			foundSODMarker=True
+			addElement(tests,"foundSODMarker",foundSODMarker)
 
-        else:
-            # Any other marker segment: ignore and move on to next one
-            offset=offsetNext
+		else:
+			# Any other marker segment: ignore and move on to next one
+			offset=offsetNext
 
 
-    # Position of first byte in next tile
-    offsetNextTilePart=offsetStart + tilePartLength
+	# Position of first byte in next tile
+	offsetNextTilePart=offsetStart + tilePartLength
 
-    # Check if offsetNextTile really points to start of new tile or otherwise
-    # EOC (useful for detecting within-codestream byte corruption)
-    if tilePartLength != 0:
-        # This will skip this test if tilePartLength equals 0, but that doesn't
-        # matter since check for EOC is included elsewhere
-        markerNextTilePart=data[offsetNextTilePart:offsetNextTilePart+2]
-        foundNextTilePartOrEOC=markerNextTilePart in [b'\xff\x90',b'\xff\xd9']
-        addElement(tests,"foundNextTilePartOrEOC",foundNextTilePartOrEOC)
+	# Check if offsetNextTile really points to start of new tile or otherwise
+	# EOC (useful for detecting within-codestream byte corruption)
+	if tilePartLength != 0:
+		# This will skip this test if tilePartLength equals 0, but that doesn't
+		# matter since check for EOC is included elsewhere
+		markerNextTilePart=data[offsetNextTilePart:offsetNextTilePart+2]
+		foundNextTilePartOrEOC=markerNextTilePart in [b'\xff\x90',b'\xff\xd9']
+		addElement(tests,"foundNextTilePartOrEOC",foundNextTilePartOrEOC)
 
-    return(tests,characteristics,offsetNextTilePart)
+	return(tests,characteristics,offsetNextTilePart)
 
 def getMarkerSegment(data,offset):
 
-    # Read marker segment that starts at offset and return marker, size,
-    # contents and start offset of next marker
+	# Read marker segment that starts at offset and return marker, size,
+	# contents and start offset of next marker
 
-    # First 2 bytes: 16 bit marker
-    marker=data[offset:offset+2]
+	# First 2 bytes: 16 bit marker
+	marker=data[offset:offset+2]
 
-    # Check if this is a delimiting marker segment
+	# Check if this is a delimiting marker segment
 
-    if marker in [b'\xff\x4f',b'\xff\x93',b'\xff\xd9',b'\xff\x92']:
-        # Zero-length markers: SOC, SOD, EOC, EPH
-        length=0
-    else:
-        # Not a delimiting marker, so remainder contains some data
-        length=strToUShortInt(data[offset+2:offset+4])
+	if marker in [b'\xff\x4f',b'\xff\x93',b'\xff\xd9',b'\xff\x92']:
+		# Zero-length markers: SOC, SOD, EOC, EPH
+		length=0
+	else:
+		# Not a delimiting marker, so remainder contains some data
+		length=strToUShortInt(data[offset+2:offset+4])
 
-    # Contents of marker segment (excluding marker) to binary string
-    contents=data[offset+2:offset + 2 +length]
+	# Contents of marker segment (excluding marker) to binary string
+	contents=data[offset+2:offset + 2 +length]
 
-    # Offset value start of next marker segment
-    offsetNext=offset+length+2
+	# Offset value start of next marker segment
+	offsetNext=offset+length+2
 
-    return(marker,length,contents,offsetNext)
+	return(marker,length,contents,offsetNext)
 
 def validateJP2(jp2Data):
-    # Top-level function for JP2 validation:
-    #
-    # 1. Parses all top-level boxes in JP2 byte object, and calls separate validator
-    #    function for each of these
-    # 2. Checks for presence of all required top-level boxes
-    # 3. Checks if JP2 header properties are consistent with corresponding properties
-    #    in codestream header
+	# Top-level function for JP2 validation:
+	#
+	# 1. Parses all top-level boxes in JP2 byte object, and calls separate validator
+	#	function for each of these
+	# 2. Checks for presence of all required top-level boxes
+	# 3. Checks if JP2 header properties are consistent with corresponding properties
+	#	in codestream header
 
-    # Initialise elementtree object that will hold all test results for this image
-    tests=ET.Element('tests')
+	# Initialise elementtree object that will hold all test results for this image
+	tests=ET.Element('tests')
 
-    # Initialise elementtree object that will hold all characteristics (property-value
-    # pairs) for this image
-    characteristics=ET.Element('properties')
+	# Initialise elementtree object that will hold all characteristics (property-value
+	# pairs) for this image
+	characteristics=ET.Element('properties')
 
-    # Marker tags/codes that identify all top level boxes as hexadecimal strings
-    #(Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
-    tagSignatureBox=b'\x6a\x50\x20\x20'
-    tagFileTypeBox=b'\x66\x74\x79\x70'
-    tagJP2HeaderBox=b'\x6a\x70\x32\x68'
-    tagContiguousCodestreamBox=b'\x6a\x70\x32\x63'
+	# Marker tags/codes that identify all top level boxes as hexadecimal strings
+	#(Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
+	tagSignatureBox=b'\x6a\x50\x20\x20'
+	tagFileTypeBox=b'\x66\x74\x79\x70'
+	tagJP2HeaderBox=b'\x6a\x70\x32\x68'
+	tagContiguousCodestreamBox=b'\x6a\x70\x32\x63'
 
-    # List for storing box type identifiers
-    boxTypes=[]
+	# List for storing box type identifiers
+	boxTypes=[]
 
-    noBytes=len(jp2Data)
-    byteStart = 0
-    bytesTotal=0
+	noBytes=len(jp2Data)
+	byteStart = 0
+	bytesTotal=0
 
-    # Dummy value
-    boxLengthValue=10
+	# Dummy value
+	boxLengthValue=10
 
-    while byteStart < noBytes and boxLengthValue != 0:
+	while byteStart < noBytes and boxLengthValue != 0:
 
-        boxLengthValue, boxType, byteEnd, boxContents = getBox(jp2Data,byteStart, noBytes)
+		boxLengthValue, boxType, byteEnd, boxContents = getBox(jp2Data,byteStart, noBytes)
 
-        # Validate current top level box
-        resultBox,characteristicsBox = BoxValidator(boxType, boxContents).validate()
+		# Validate current top level box
+		resultBox,characteristicsBox = BoxValidator(boxType, boxContents).validate()
 
-        byteStart = byteEnd
+		byteStart = byteEnd
 
-        # Add to list of box types
-        boxTypes.append(boxType)
+		# Add to list of box types
+		boxTypes.append(boxType)
 
-        # Add analysis results to test results tree
-        tests.append(resultBox)
+		# Add analysis results to test results tree
+		tests.append(resultBox)
 
-        # Add extracted characteristics to characteristics tree
-        characteristics.append(characteristicsBox)
+		# Add extracted characteristics to characteristics tree
+		characteristics.append(characteristicsBox)
 
-    # Do all required top level boxes exist (ISO/IEC 15444-1 Section I.4)?
-    containsSignatureBox=tagSignatureBox in  boxTypes
-    containsFileTypeBox=tagFileTypeBox in  boxTypes
-    containsJP2HeaderBox=tagJP2HeaderBox in  boxTypes
-    containsContiguousCodestreamBox=tagContiguousCodestreamBox in  boxTypes
+	# Do all required top level boxes exist (ISO/IEC 15444-1 Section I.4)?
+	containsSignatureBox=tagSignatureBox in  boxTypes
+	containsFileTypeBox=tagFileTypeBox in  boxTypes
+	containsJP2HeaderBox=tagJP2HeaderBox in  boxTypes
+	containsContiguousCodestreamBox=tagContiguousCodestreamBox in  boxTypes
 
-    addElement(tests,"containsSignatureBox",containsSignatureBox)
-    addElement(tests,"containsFileTypeBox",containsFileTypeBox)
-    addElement(tests,"containsJP2HeaderBox",containsJP2HeaderBox)
-    addElement(tests,"containsContiguousCodestreamBox",containsContiguousCodestreamBox)
+	addElement(tests,"containsSignatureBox",containsSignatureBox)
+	addElement(tests,"containsFileTypeBox",containsFileTypeBox)
+	addElement(tests,"containsJP2HeaderBox",containsJP2HeaderBox)
+	addElement(tests,"containsContiguousCodestreamBox",containsContiguousCodestreamBox)
 
-    # If iPR field in image header box equals 1, intellectual property box
-    # should exist as well
-    iPR=findElementText(characteristics,'jp2HeaderBox/imageHeaderBox/iPR')
+	# If iPR field in image header box equals 1, intellectual property box
+	# should exist as well
+	iPR=findElementText(characteristics,'jp2HeaderBox/imageHeaderBox/iPR')
 
-    if iPR == 1:
-        containsIntellectualPropertyBox=tagIntellectualPropertyBox in  boxTypes
-        addElement(tests,"containsIntellectualPropertyBox",containsIntellectualPropertyBox)
+	if iPR == 1:
+		containsIntellectualPropertyBox=tagIntellectualPropertyBox in  boxTypes
+		addElement(tests,"containsIntellectualPropertyBox",containsIntellectualPropertyBox)
 
-    # Is the first box a Signature Box (ISO/IEC 15444-1 Section I.5.1)?
-    try:
-        firstBoxIsSignatureBox=boxTypes[0] == tagSignatureBox
-    except:
-        firstBoxIsSignatureBox=False
+	# Is the first box a Signature Box (ISO/IEC 15444-1 Section I.5.1)?
+	try:
+		firstBoxIsSignatureBox=boxTypes[0] == tagSignatureBox
+	except:
+		firstBoxIsSignatureBox=False
 
-    # Is the second box a File Type Box (ISO/IEC 15444-1 Section I.5.2)?
-    try:
-        secondBoxIsFileTypeBox=boxTypes[1] == tagFileTypeBox
-    except:
-        secondBoxIsFileTypeBox=False
+	# Is the second box a File Type Box (ISO/IEC 15444-1 Section I.5.2)?
+	try:
+		secondBoxIsFileTypeBox=boxTypes[1] == tagFileTypeBox
+	except:
+		secondBoxIsFileTypeBox=False
 
-    # JP2 Header Box: after File Type box, before (first) contiguous codestream box
-    #(ISO/IEC 15444-1 Section I.5.3)?
-    try:
-        positionJP2HeaderBox=boxTypes.index(tagJP2HeaderBox)
-        positionFirstContiguousCodestreamBox=boxTypes.index(tagContiguousCodestreamBox)
+	# JP2 Header Box: after File Type box, before (first) contiguous codestream box
+	#(ISO/IEC 15444-1 Section I.5.3)?
+	try:
+		positionJP2HeaderBox=boxTypes.index(tagJP2HeaderBox)
+		positionFirstContiguousCodestreamBox=boxTypes.index(tagContiguousCodestreamBox)
 
-        if positionFirstContiguousCodestreamBox> positionJP2HeaderBox > 1:
-            locationJP2HeaderBoxIsValid=True
-        else:
-            locationJP2HeaderBoxIsValid=False
-    except:
-        locationJP2HeaderBoxIsValid=False
+		if positionFirstContiguousCodestreamBox> positionJP2HeaderBox > 1:
+			locationJP2HeaderBoxIsValid=True
+		else:
+			locationJP2HeaderBoxIsValid=False
+	except:
+		locationJP2HeaderBoxIsValid=False
 
-    addElement(tests,"firstBoxIsSignatureBox",firstBoxIsSignatureBox)
-    addElement(tests,"secondBoxIsFileTypeBox",secondBoxIsFileTypeBox)
-    addElement(tests,"locationJP2HeaderBoxIsValid",locationJP2HeaderBoxIsValid)
+	addElement(tests,"firstBoxIsSignatureBox",firstBoxIsSignatureBox)
+	addElement(tests,"secondBoxIsFileTypeBox",secondBoxIsFileTypeBox)
+	addElement(tests,"locationJP2HeaderBoxIsValid",locationJP2HeaderBoxIsValid)
 
-    # Some boxes can have multiple instances, whereas for others only one
-    # is allowed
-    # --> Note: multiple Contiguous Codestream boxes are allowed, although conforming
-    # readers only read first one. So maybe include a warning in case of multiple
-    # codestreams?
-    noMoreThanOneSignatureBox=boxTypes.count(tagSignatureBox) <= 1
-    noMoreThanOneFileTypeBox=boxTypes.count(tagFileTypeBox) <= 1
-    noMoreThanOneJP2HeaderBox=boxTypes.count(tagJP2HeaderBox) <= 1
+	# Some boxes can have multiple instances, whereas for others only one
+	# is allowed
+	# --> Note: multiple Contiguous Codestream boxes are allowed, although conforming
+	# readers only read first one. So maybe include a warning in case of multiple
+	# codestreams?
+	noMoreThanOneSignatureBox=boxTypes.count(tagSignatureBox) <= 1
+	noMoreThanOneFileTypeBox=boxTypes.count(tagFileTypeBox) <= 1
+	noMoreThanOneJP2HeaderBox=boxTypes.count(tagJP2HeaderBox) <= 1
 
-    addElement(tests,"noMoreThanOneSignatureBox",noMoreThanOneSignatureBox)
-    addElement(tests,"noMoreThanOneFileTypeBox",noMoreThanOneFileTypeBox)
-    addElement(tests,"noMoreThanOneJP2HeaderBox",noMoreThanOneJP2HeaderBox)
+	addElement(tests,"noMoreThanOneSignatureBox",noMoreThanOneSignatureBox)
+	addElement(tests,"noMoreThanOneFileTypeBox",noMoreThanOneFileTypeBox)
+	addElement(tests,"noMoreThanOneJP2HeaderBox",noMoreThanOneJP2HeaderBox)
 
-    # Check if general image properties in Image Header Box are consistent with
-    # corresponding values in codestream header.
+	# Check if general image properties in Image Header Box are consistent with
+	# corresponding values in codestream header.
 
-    # JP2 image header and codestream SIZ header as element objects
-    jp2ImageHeader=characteristics.find('jp2HeaderBox/imageHeaderBox')
-    sizHeader=characteristics.find('contiguousCodestreamBox/siz')
+	# JP2 image header and codestream SIZ header as element objects
+	jp2ImageHeader=characteristics.find('jp2HeaderBox/imageHeaderBox')
+	sizHeader=characteristics.find('contiguousCodestreamBox/siz')
 
-    # Only proceed with tests if the above really exist (if this is not the case
-    # the preceding tests will have already identified this file as not valid)
+	# Only proceed with tests if the above really exist (if this is not the case
+	# the preceding tests will have already identified this file as not valid)
 
-    # Note: do *NOT* use 'findtext' function to get values: if value equals 0
-    # this returns an empty string, even though 'text' field really contains an
-    # integer. Probably a bug in ET. Using 'find' + text property does work
-    # as expected
+	# Note: do *NOT* use 'findtext' function to get values: if value equals 0
+	# this returns an empty string, even though 'text' field really contains an
+	# integer. Probably a bug in ET. Using 'find' + text property does work
+	# as expected
 
-    if jp2ImageHeader != None and sizHeader != None:
+	if jp2ImageHeader != None and sizHeader != None:
 
-        # Height should be equal to ysiz -yOsiz
+		# Height should be equal to ysiz -yOsiz
 
-        height=findElementText(jp2ImageHeader,'height')
-        ysiz=findElementText(sizHeader,'ysiz')
-        yOsiz=findElementText(sizHeader,'yOsiz')
+		height=findElementText(jp2ImageHeader,'height')
+		ysiz=findElementText(sizHeader,'ysiz')
+		yOsiz=findElementText(sizHeader,'yOsiz')
 
-        heightConsistentWithSIZ=height == (ysiz-yOsiz)
-        addElement(tests,"heightConsistentWithSIZ", heightConsistentWithSIZ)
+		heightConsistentWithSIZ=height == (ysiz-yOsiz)
+		addElement(tests,"heightConsistentWithSIZ", heightConsistentWithSIZ)
 
-        # Width should be equal to xsiz - xOsiz
-        width=findElementText(jp2ImageHeader,'width')
-        xsiz=findElementText(sizHeader,'xsiz')
-        xOsiz=findElementText(sizHeader,'xOsiz')
+		# Width should be equal to xsiz - xOsiz
+		width=findElementText(jp2ImageHeader,'width')
+		xsiz=findElementText(sizHeader,'xsiz')
+		xOsiz=findElementText(sizHeader,'xOsiz')
 
-        widthConsistentWithSIZ=width == (xsiz-xOsiz)
-        addElement(tests,"widthConsistentWithSIZ", widthConsistentWithSIZ)
+		widthConsistentWithSIZ=width == (xsiz-xOsiz)
+		addElement(tests,"widthConsistentWithSIZ", widthConsistentWithSIZ)
 
-        # nC should be equal to csiz
-        nC=findElementText(jp2ImageHeader,'nC')
-        csiz=findElementText(sizHeader,'csiz')
+		# nC should be equal to csiz
+		nC=findElementText(jp2ImageHeader,'nC')
+		csiz=findElementText(sizHeader,'csiz')
 
-        nCConsistentWithSIZ=nC == csiz
-        addElement(tests,"nCConsistentWithSIZ", nCConsistentWithSIZ)
+		nCConsistentWithSIZ=nC == csiz
+		addElement(tests,"nCConsistentWithSIZ", nCConsistentWithSIZ)
 
-        # Bits per component: bPCSign should be equal to ssizSign,
-        # and bPCDepth to ssizDepth
-        #
-        # There can be 2 situations here:
-        #
-        # 1. bPCSign and bPCDepth same for all components --> use values from image header
-        # 2. bPCSign and bPCDepth vary across components --> use values from Bits Per
-        #    Components box
-        #
-        # Situation 1 is the most common one. Situation 2 can be identified by a value
-        # of 255 of bPC in the image header, which corresponds to  bPCSign = 1
-        # and bPCDepth = 128 (these are both derived from bPC, which is not included
-        # as a reportable here!)
-        #
-        # TO DO: test situation 2 using images with BPC box (cannot find any right now)
+		# Bits per component: bPCSign should be equal to ssizSign,
+		# and bPCDepth to ssizDepth
+		#
+		# There can be 2 situations here:
+		#
+		# 1. bPCSign and bPCDepth same for all components --> use values from image header
+		# 2. bPCSign and bPCDepth vary across components --> use values from Bits Per
+		#	Components box
+		#
+		# Situation 1 is the most common one. Situation 2 can be identified by a value
+		# of 255 of bPC in the image header, which corresponds to  bPCSign = 1
+		# and bPCDepth = 128 (these are both derived from bPC, which is not included
+		# as a reportable here!)
+		#
+		# TO DO: test situation 2 using images with BPC box (cannot find any right now)
 
-        bPCSign=findElementText(jp2ImageHeader, 'bPCSign')
-        bPCDepth=findElementText(jp2ImageHeader,'bPCDepth')
+		bPCSign=findElementText(jp2ImageHeader, 'bPCSign')
+		bPCDepth=findElementText(jp2ImageHeader,'bPCDepth')
 
-        if bPCSign == 1 and bPCDepth == 128:
-            # Actual bPCSign / bPCDepth in Bits Per Components box
-            # (situation 2 above)
+		if bPCSign == 1 and bPCDepth == 128:
+			# Actual bPCSign / bPCDepth in Bits Per Components box
+			# (situation 2 above)
 
-            bpcBox=characteristics.find('jp2HeaderBox/bitsPerComponentBox')
+			bpcBox=characteristics.find('jp2HeaderBox/bitsPerComponentBox')
 
-            # All occurrences of bPCSign box to list. If bpcBox is 'noneType'
-            # (e.g. due to some weird corruption of the file) this will result in
-            # an empty list, so nothing really bad will happen ..
-            bPCSignValues=findAllText(bpcBox,'bPCSign')
+			# All occurrences of bPCSign box to list. If bpcBox is 'noneType'
+			# (e.g. due to some weird corruption of the file) this will result in
+			# an empty list, so nothing really bad will happen ..
+			bPCSignValues=findAllText(bpcBox,'bPCSign')
 
-            # All occurrences of bPCDepth to list
-            bPCDepthValues=findAllText(bpcBox,'bPCDepth')
+			# All occurrences of bPCDepth to list
+			bPCDepthValues=findAllText(bpcBox,'bPCDepth')
 
-        else:
-            # These are the actual values (situation 1 above)
+		else:
+			# These are the actual values (situation 1 above)
 
-            # Create list of bPCSign values (i.e. duplicate fixed
-            # value for each component)
-            bPCSignValues=[]
+			# Create list of bPCSign values (i.e. duplicate fixed
+			# value for each component)
+			bPCSignValues=[]
 
-            for i in range(nC):
-                bPCSignValues.append(bPCSign)
+			for i in range(nC):
+				bPCSignValues.append(bPCSign)
 
-            # Create list of bPCDepth values(i.e. duplicate fixed
-            # value for each component)
-            bPCDepthValues=[]
+			# Create list of bPCDepth values(i.e. duplicate fixed
+			# value for each component)
+			bPCDepthValues=[]
 
-            for i in range(nC):
-                bPCDepthValues.append(bPCDepth)
+			for i in range(nC):
+				bPCDepthValues.append(bPCDepth)
 
-        # All occurrences of ssizSign to list
-        ssizSignValues=findAllText(sizHeader,'ssizSign')
+		# All occurrences of ssizSign to list
+		ssizSignValues=findAllText(sizHeader,'ssizSign')
 
-        # All occurrences of ssizDepth to list
-        ssizDepthValues=findAllText(sizHeader,'ssizDepth')
+		# All occurrences of ssizDepth to list
+		ssizDepthValues=findAllText(sizHeader,'ssizDepth')
 
-        # bPCSignValues should be equal to ssizSignValues
-        bPCSignConsistentWithSIZ=bPCSignValues == ssizSignValues
-        addElement(tests,"bPCSignConsistentWithSIZ", bPCSignConsistentWithSIZ)
+		# bPCSignValues should be equal to ssizSignValues
+		bPCSignConsistentWithSIZ=bPCSignValues == ssizSignValues
+		addElement(tests,"bPCSignConsistentWithSIZ", bPCSignConsistentWithSIZ)
 
-        # bPCDepthValues should be equal to ssizDepthValues
-        bPCDepthConsistentWithSIZ=bPCDepthValues == ssizDepthValues
-        addElement(tests,"bPCDepthConsistentWithSIZ", bPCDepthConsistentWithSIZ)
+		# bPCDepthValues should be equal to ssizDepthValues
+		bPCDepthConsistentWithSIZ=bPCDepthValues == ssizDepthValues
+		addElement(tests,"bPCDepthConsistentWithSIZ", bPCDepthConsistentWithSIZ)
 
-        # Calculate compression ratio of this image
-        compressionRatio=calculateCompressionRatio(noBytes,bPCDepthValues,height,width)
-        compressionRatio=round(compressionRatio,2)
-        addElement(characteristics,"compressionRatio",compressionRatio)
+		# Calculate compression ratio of this image
+		compressionRatio=calculateCompressionRatio(noBytes,bPCDepthValues,height,width)
+		compressionRatio=round(compressionRatio,2)
+		addElement(characteristics,"compressionRatio",compressionRatio)
 
-    # Valid JP2 only if all tests returned True
-    isValid=isValidJP2(tests)
+	# Valid JP2 only if all tests returned True
+	isValid=isValidJP2(tests)
 
-    return(isValid,tests,characteristics)
+	return(isValid,tests,characteristics)
 
 def checkFiles(images):
-    if len(images) == 0:
-        printWarning("no images to check!")
+	if len(images) == 0:
+		printWarning("no images to check!")
 
-    for image in images:
-        thisFile = image
+	for image in images:
+		thisFile = image
 
-        isFile = os.path.isfile(thisFile)
+		isFile = os.path.isfile(thisFile)
 
-        if isFile:
-            # Read and analyse one file
-            fileData = readFileBytes(thisFile)
-            isValidJP2, tests, characteristics = validateJP2(fileData)
+		if isFile:
+			# Read and analyse one file
+			fileData = readFileBytes(thisFile)
+			isValidJP2, tests, characteristics = validateJP2(fileData)
 
-            # Generate property values remap table
-            remapTable = generatePropertiesRemapTable()
+			# Generate property values remap table
+			remapTable = generatePropertiesRemapTable()
 
-            # Create printable version of tests and characteristics tree
-            testsPrintable = elementTreeToPrintable(tests,{})
-            characteristicsPrintable = elementTreeToPrintable(characteristics,remapTable)
+			# Create printable version of tests and characteristics tree
+			testsPrintable = elementTreeToPrintable(tests,{})
+			characteristicsPrintable = elementTreeToPrintable(characteristics,remapTable)
 
-            # Create output elementtree object
-            root=ET.Element('jpylyzer')
+			# Create output elementtree object
+			root=ET.Element('jpylyzer')
 
-            # Create elements for storing tool and file meta info
-            toolInfo=ET.Element('toolInfo')
-            fileInfo=ET.Element('fileInfo')
+			# Create elements for storing tool and file meta info
+			toolInfo=ET.Element('toolInfo')
+			fileInfo=ET.Element('fileInfo')
 
-            # Produce some general tool and file meta info
-            addElement(toolInfo,"toolName",scriptName)
-            addElement(toolInfo,"toolVersion",__version__)
-            addElement(fileInfo,"fileName",thisFile)
-            addElement(fileInfo,"filePath",os.path.abspath(thisFile))
-            addElement(fileInfo,"fileSizeInBytes",str(os.path.getsize(thisFile)))
-            addElement(fileInfo,"fileLastModified",time.ctime(os.path.getmtime(thisFile)))
+			# Produce some general tool and file meta info
+			addElement(toolInfo,"toolName",scriptName)
+			addElement(toolInfo,"toolVersion",__version__)
+			addElement(fileInfo,"fileName",thisFile)
+			addElement(fileInfo,"filePath",os.path.abspath(thisFile))
+			addElement(fileInfo,"fileSizeInBytes",str(os.path.getsize(thisFile)))
+			addElement(fileInfo,"fileLastModified",time.ctime(os.path.getmtime(thisFile)))
 
-            # Append to root
-            root.append(toolInfo)
-            root.append(fileInfo)
+			# Append to root
+			root.append(toolInfo)
+			root.append(fileInfo)
 
-            # Add validation outcome
-            addElement(root,"isValidJP2",str(isValidJP2))
+			# Add validation outcome
+			addElement(root,"isValidJP2",str(isValidJP2))
 
-            # Append test results and characteristics to root
-            root.append(testsPrintable)
-            root.append(characteristicsPrintable)
+			# Append test results and characteristics to root
+			root.append(testsPrintable)
+			root.append(characteristicsPrintable)
 
-            # Write output
-            writeOutput(root)
+			# Write output
+			writeOutput(root)
 
 
 def parseCommandLine():
-    # Create parser
-    parser = argparse.ArgumentParser(description="JP2 image validator and properties extractor",version=__version__)
+	# Create parser
+	parser = argparse.ArgumentParser(description="JP2 image validator and properties extractor",version=__version__)
 
-    # Add arguments
-    parser.add_argument('jp2In', action="store", help="input JP2 image(s)")
+	# Add arguments
+	parser.add_argument('jp2In', action="store", help="input JP2 image(s)")
 
-    # Parse arguments
-    args=parser.parse_args()
+	# Parse arguments
+	args=parser.parse_args()
 
-    return(args)
+	return(args)
 
 def main():
-    # Get input from command line
-    args=parseCommandLine()
-    jp2In=args.jp2In
+	# Get input from command line
+	args=parseCommandLine()
+	jp2In=args.jp2In
 
-    # Input images as file list
-    imagesIn=glob.glob(jp2In)
+	# Input images as file list
+	imagesIn=glob.glob(jp2In)
 
-    # Check file
-    checkFiles(imagesIn)
+	# Check file
+	checkFiles(imagesIn)
 
 if __name__ == "__main__":
-    main()
+	main()
 
 
