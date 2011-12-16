@@ -713,7 +713,8 @@ class BoxValidator:
 		b'\x63\x64\x65\x66': "channelDefinitionBox",
 		b'\x72\x65\x73\x20': "resolutionBox",
 		b'\x6a\x70\x32\x63': "contiguousCodestreamBox",
-		b'\x72\x65\x73\x63': "captureResolutionBox"
+		b'\x72\x65\x73\x63': "captureResolutionBox",
+		b'\x72\x65\x73\x64': "displayResolutionBox"
 	}
 
 	# Reverse access of typemap for quick lookup
@@ -1259,16 +1260,8 @@ class BoxValidator:
 
 			boxLengthValue, boxType, byteEnd, subBoxContents = getBox(self.boxContents, byteStart, noBytes)
 
-			# Call functions sub-boxes
-#			if boxType == tagCaptureResolutionBox:
-				# Capture Resolution Box
-#				resultBox, characteristicsBox = validateCaptureResolutionBox(subBoxContents)
-			if boxType == tagDisplayResolutionBox:
-				# Default Display Resolution Box
-				resultBox,characteristicsBox = validateDisplayResolutionBox(subBoxContents)
-			else:
-				# Unknown box (nothing to validate)
-				resultBox,characteristicsBox = BoxValidator(boxType, subBoxContents).validate()
+			# validate sub boxes
+			resultBox, characteristicsBox = BoxValidator(boxType, subBoxContents).validate()
 
 			byteStart = byteEnd
 
@@ -1346,77 +1339,62 @@ class BoxValidator:
 		hRescInPixelsPerInch = hRescInPixelsPerMeter * 25.4e-3
 		self.addCharacteristic("hRescInPixelsPerInch", round(hRescInPixelsPerInch,2))
 
-def validateDisplayResolutionBox(boxContents):
+	def validate_displayResolutionBox(self):
+		# Default Display  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.2)
 
-	# Default Display  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.2)
+		# Check box size, which should be 10 bytes
+		self.testFor("boxLengthIsValid", len(self.boxContents) == 10)
 
-	# Test results to elementtree element
-	tests=ET.Element('displayResolutionBox')
+		# Vertical / horizontal grid resolution numerators and denominators:
+		# all values within range 1-65535
 
-	# Characteristics to elementtree element
-	characteristics=ET.Element('displayResolutionBox')
+		# Vertical grid resolution numerator (2 byte integer)
+		vRdN = strToUShortInt(self.boxContents[0:2])
+		self.addCharacteristic("vRdN", vRdN)
+		self.testFor("vRdNIsValid", 1 <= vRdN <= 65535)
 
-	# Check box size, which should be 10 bytes
-	boxLengthIsValid=len(boxContents) == 10
-	addElement(tests,"boxLengthIsValid",boxLengthIsValid)
+		# Vertical grid resolution denominator (2 byte integer)
+		vRdD = strToUShortInt(self.boxContents[2:4])
+		self.addCharacteristic("vRdD", vRdD)
+		self.testFor("vRdDIsValid", 1 <= vRdD <= 65535)
 
-	# Vertical / horizontal grid resolution numerators and denominators:
-	# all values within range 1-65535
+		# Horizontal grid resolution numerator (2 byte integer)
+		hRdN = strToUShortInt(self.boxContents[4:6])
+		self.addCharacteristic("hRdN", hRdN)
+		self.testFor("hRdNIsValid", 1 <= hRdN <= 65535)
 
-	# Vertical grid resolution numerator (2 byte integer)
-	vRdN=strToUShortInt(boxContents[0:2])
-	addElement(characteristics,"vRdN",vRdN)
-	vRdNIsValid=1 <= vRdN <= 65535
-	addElement(tests,"vRdNIsValid",vRdNIsValid)
+		# Horizontal grid resolution denominator (2 byte integer)
+		hRdD = strToUShortInt(self.boxContents[6:8])
+		self.addCharacteristic("hRdD",hRdD)
+		self.testFor("hRdDIsValid", 1 <= hRdD <= 65535)
 
-	# Vertical grid resolution denominator (2 byte integer)
-	vRdD=strToUShortInt(boxContents[2:4])
-	addElement(characteristics,"vRdD",vRdD)
-	vRdDIsValid=1 <= vRdD <= 65535
-	addElement(tests,"vRdDIsValid",vRdDIsValid)
+		# Vertical / horizontal grid resolution exponents:
+		# values within range -128-127
 
-	# Horizontal grid resolution numerator (2 byte integer)
-	hRdN=strToUShortInt(boxContents[4:6])
-	addElement(characteristics,"hRdN",hRdN)
-	hRdNIsValid=1 <= hRdN <= 65535
-	addElement(tests,"hRdNIsValid",hRdNIsValid)
+		# Vertical grid resolution exponent (1 byte signed integer)
+		vRdE = strToSignedChar(self.boxContents[8:9])
+		self.addCharacteristic("vRdE", vRdE)
+		self.testFor("vRdEIsValid", -128 <= vRdE <= 127)
 
-	# Horizontal grid resolution denominator (2 byte integer)
-	hRdD=strToUShortInt(boxContents[6:8])
-	addElement(characteristics,"hRdD",hRdD)
-	hRdDIsValid=1 <= hRdD <= 65535
-	addElement(tests,"hRdDIsValid",hRdDIsValid)
+		# Horizontal grid resolution exponent (1 byte signed integer)
+		hRdE = strToSignedChar(self.boxContents[9:10])
+		self.addCharacteristic("hRdE", hRdE)
+		self.testFor("hRdEIsValid", -128 <= hRdE <= 127)
 
-	# Vertical / horizontal grid resolution exponents:
-	# values within range -128-127
+		# Include vertical and horizontal resolution values in pixels per meter
+		# and pixels per inch in output
+		vResdInPixelsPerMeter = (vRdN/vRdD) * (10**(vRdE))
+		self.addCharacteristic("vResdInPixelsPerMeter", round(vResdInPixelsPerMeter,2))
 
-	# Vertical grid resolution exponent (1 byte signed integer)
-	vRdE=strToSignedChar(boxContents[8:9])
-	addElement(characteristics,"vRdE",vRdE)
-	vRdEIsValid=-128 <= vRdE <= 127
-	addElement(tests,"vRdEIsValid",vRdEIsValid)
+		hResdInPixelsPerMeter = (hRdN/hRdD) * (10**(hRdE))
+		self.addCharacteristic("hResdInPixelsPerMeter", round(hResdInPixelsPerMeter,2))
 
-	# Horizontal grid resolution exponent (1 byte signed integer)
-	hRdE=strToSignedChar(boxContents[9:10])
-	addElement(characteristics,"hRdE",hRdE)
-	hRdEIsValid=-128 <= hRdE <= 127
-	addElement(tests,"hRdEIsValid",hRdEIsValid)
+		vResdInPixelsPerInch = vResdInPixelsPerMeter * 25.4e-3
+		self.addCharacteristic("vResdInPixelsPerInch", round(vResdInPixelsPerInch,2))
 
-	# Include vertical and horizontal resolution values in pixels per meter
-	# and pixels per inch in output
-	vResdInPixelsPerMeter=(vRdN/vRdD)*(10**(vRdE))
-	addElement(characteristics,"vResdInPixelsPerMeter",round(vResdInPixelsPerMeter,2))
+		hResdInPixelsPerInch = hResdInPixelsPerMeter * 25.4e-3
+		self.addCharacteristic("hResdInPixelsPerInch", round(hResdInPixelsPerInch,2))
 
-	hResdInPixelsPerMeter=(hRdN/hRdD)*(10**(hRdE))
-	addElement(characteristics,"hResdInPixelsPerMeter",round(hResdInPixelsPerMeter,2))
-
-	vResdInPixelsPerInch=vResdInPixelsPerMeter*25.4e-3
-	addElement(characteristics,"vResdInPixelsPerInch",round(vResdInPixelsPerInch,2))
-
-	hResdInPixelsPerInch=hResdInPixelsPerMeter*25.4e-3
-	addElement(characteristics,"hResdInPixelsPerInch",round(hResdInPixelsPerInch,2))
-
-	return(tests,characteristics)
 
 # Validator functions for boxes in UUID Info superbox
 
