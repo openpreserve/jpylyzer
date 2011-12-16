@@ -339,59 +339,6 @@ def addElement(parent,tag,text):
 	element=ET.SubElement(parent, tag)
 	element.text=text
 
-def validateSOT(data):
-
-	# Analyse start of tile-part (SOT) marker segment and validate
-	# (ISO/IEC 15444-1 Section A.4.2)
-
-	# Note that unlike other marker validation functions this one returns a
-	# third result, which is the total tile-part length (psot)!
-
-	# Test results to elementtree element
-	tests=ET.Element('sot')
-
-	# Characteristics to elementtree element
-	characteristics=ET.Element('sot')
-
-	# Length of SOT marker
-	lsot=strToUShortInt(data[0:2])
-	addElement(characteristics,"lsot",lsot)
-
-	# lcom should be 10
-	lsotIsValid=lsot  == 10
-	addElement(tests,"lsotIsValid",lsotIsValid)
-
-	# Tile index
-	isot=strToUShortInt(data[2:4])
-	addElement(characteristics,"isot",isot)
-
-	# Tile index should be in range 0-65534
-	isotIsValid=0 <= isot <= 65534
-	addElement(tests,"isotIsValid",isotIsValid)
-
-	# Length of tile part (including this SOT)
-	psot=strToUInt(data[4:8])
-	addElement(characteristics,"psot",psot)
-
-	# psot equals 0 (for last tile part) or greater than 14 (so range 1-13 is illegal)
-	psotIsValid=not(1 <= psot <= 13)
-	addElement(tests,"psotIsValid",psotIsValid)
-
-	# Tile part index
-	tpsot=strToUnsignedChar(data[8:9])
-	addElement(characteristics,"tpsot",tpsot)
-
-	# Should be in range 0-254
-	tpsotIsValid=0 <= tpsot <= 254
-	addElement(tests,"tpsotIsValid",tpsotIsValid)
-
-	# Number of tile-parts of a tile in the codestream
-	# Value of 0 indicates that number of tile-parts of tile in the codestream
-	# is not defined in this header; otherwise value in range 1-255
-	tnsot=strToUnsignedChar(data[9:10])
-	addElement(characteristics,"tnsot",tnsot)
-
-	return(tests,characteristics,psot)
 
 
 def validateTilePart(data,offsetStart):
@@ -417,7 +364,7 @@ def validateTilePart(data,offsetStart):
 	# Validate start of tile (SOT) marker segment
 	# tilePartLength is value of psot, which is the total length of this tile
 	# including the SOT marker. Note that psot may be 0 for last tile!
-	resultSOT, characteristicsSOT, tilePartLength=validateSOT(segContents)
+	resultSOT, characteristicsSOT, tilePartLength = BoxValidator('startOfTile', segContents).validate() #validateSOT(segContents)
 
 	# Add analysis results to test results tree
 	tests.append(resultSOT)
@@ -538,7 +485,8 @@ class BoxValidator:
 		b'\xff\x52': "cod",
 		b'\xff\x5c': "qcd",
 		b'\xff\x64': "com",
-		'icc': 'icc'
+		'icc': 'icc',
+		'startOfTile': 'sot'
 	}
 
 	# Reverse access of typemap for quick lookup
@@ -559,6 +507,7 @@ class BoxValidator:
 		self.characteristics = ET.Element(self.boxType)
 		self.tests = ET.Element(self.boxType)
 		self.boxContents = boxContents
+		self.returnOffset = None
 
 	def validate(self):
 		try:
@@ -567,7 +516,10 @@ class BoxValidator:
 			warnings.warn("Method 'validate_" + self.boxType + "' not implemented")
 		else:
 			to_call()
-		return (self.tests, self.characteristics)
+		if self.returnOffset is None:
+			return (self.tests, self.characteristics)
+		else:
+			return (self.tests, self.characteristics, self.returnOffset)
 
 	# Add an element of value to element tree
 	def addElement(self, parent,tag,text):
@@ -1725,3 +1677,49 @@ class BoxValidator:
 		except:
 			description=""
 		self.addCharacteristic("description",description)
+
+	def validate_sot(self):
+		# Analyse start of tile-part (SOT) marker segment and validate
+		# (ISO/IEC 15444-1 Section A.4.2)
+
+		# Note that unlike other marker validation functions this one returns a
+		# third result, which is the total tile-part length (psot)!
+
+		# Length of SOT marker
+		lsot=strToUShortInt(self.boxContents[0:2])
+		self.addCharacteristic("lsot",lsot)
+
+		# lcom should be 10
+		lsotIsValid=lsot  == 10
+		self.testFor("lsotIsValid",lsotIsValid)
+
+		# Tile index
+		isot=strToUShortInt(self.boxContents[2:4])
+		self.addCharacteristic("isot",isot)
+
+		# Tile index should be in range 0-65534
+		isotIsValid=0 <= isot <= 65534
+		self.testFor("isotIsValid",isotIsValid)
+
+		# Length of tile part (including this SOT)
+		psot=strToUInt(self.boxContents[4:8])
+		self.addCharacteristic("psot",psot)
+
+		# psot equals 0 (for last tile part) or greater than 14 (so range 1-13 is illegal)
+		psotIsValid=not(1 <= psot <= 13)
+		self.testFor("psotIsValid",psotIsValid)
+
+		# Tile part index
+		tpsot=strToUnsignedChar(self.boxContents[8:9])
+		self.addCharacteristic("tpsot",tpsot)
+
+		# Should be in range 0-254
+		tpsotIsValid=0 <= tpsot <= 254
+		self.testFor("tpsotIsValid",tpsotIsValid)
+
+		# Number of tile-parts of a tile in the codestream
+		# Value of 0 indicates that number of tile-parts of tile in the codestream
+		# is not defined in this header; otherwise value in range 1-255
+		tnsot=strToUnsignedChar(self.boxContents[9:10])
+		self.addCharacteristic("tnsot",tnsot)
+		self.returnOffset = psot
