@@ -712,7 +712,8 @@ class BoxValidator:
 		b'\x63\x6d\x61\x70': "componentMappingBox",
 		b'\x63\x64\x65\x66': "channelDefinitionBox",
 		b'\x72\x65\x73\x20': "resolutionBox",
-		b'\x6a\x70\x32\x63': "contiguousCodestreamBox"
+		b'\x6a\x70\x32\x63': "contiguousCodestreamBox",
+		b'\x72\x65\x73\x63': "captureResolutionBox"
 	}
 
 	# Reverse access of typemap for quick lookup
@@ -1259,10 +1260,10 @@ class BoxValidator:
 			boxLengthValue, boxType, byteEnd, subBoxContents = getBox(self.boxContents, byteStart, noBytes)
 
 			# Call functions sub-boxes
-			if boxType == tagCaptureResolutionBox:
+#			if boxType == tagCaptureResolutionBox:
 				# Capture Resolution Box
-				resultBox, characteristicsBox = validateCaptureResolutionBox(subBoxContents)
-			elif boxType == tagDisplayResolutionBox:
+#				resultBox, characteristicsBox = validateCaptureResolutionBox(subBoxContents)
+			if boxType == tagDisplayResolutionBox:
 				# Default Display Resolution Box
 				resultBox,characteristicsBox = validateDisplayResolutionBox(subBoxContents)
 			else:
@@ -1288,79 +1289,62 @@ class BoxValidator:
 		self.testFor("noMoreThanOneDisplayResolutionBox", subBoxTypes.count(tagDisplayResolutionBox) <= 1)
 
 
-# Validator functions for boxes in Resolution box
+	# Validator functions for boxes in Resolution box
+	def validate_captureResolutionBox(self):
+		# Capture  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.1)
 
-def validateCaptureResolutionBox(boxContents):
+		# Check box size, which should be 10 bytes
+		self.testFor("boxLengthIsValid", len(self.boxContents) == 10)
 
-	# Capture  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.1)
+		# Vertical / horizontal grid resolution numerators and denominators:
+		# all values within range 1-65535
 
-	# Test results to elementtree element
-	tests=ET.Element('captureResolutionBox')
+		# Vertical grid resolution numerator (2 byte integer)
+		vRcN = strToUShortInt(self.boxContents[0:2])
+		self.addCharacteristic("vRcN", vRcN)
+		self.testFor("vRcNIsValid", 1 <= vRcN <= 65535)
 
-	# Characteristics to elementtree element
-	characteristics=ET.Element('captureResolutionBox')
+		# Vertical grid resolution denominator (2 byte integer)
+		vRcD = strToUShortInt(self.boxContents[2:4])
+		self.addCharacteristic("vRcD", vRcD)
+		self.testFor("vRcDIsValid", 1 <= vRcD <= 65535)
 
-	# Check box size, which should be 10 bytes
-	boxLengthIsValid=len(boxContents) == 10
-	addElement(tests,"boxLengthIsValid",boxLengthIsValid)
+		# Horizontal grid resolution numerator (2 byte integer)
+		hRcN = strToUShortInt(self.boxContents[4:6])
+		self.addCharacteristic("hRcN", hRcN)
+		self.testFor("hRcNIsValid", 1 <= hRcN <= 65535)
 
-	# Vertical / horizontal grid resolution numerators and denominators:
-	# all values within range 1-65535
+		# Horizontal grid resolution denominator (2 byte integer)
+		hRcD = strToUShortInt(self.boxContents[6:8])
+		self.addCharacteristic("hRcD", hRcD)
+		self.testFor("hRcDIsValid", 1 <= hRcD <= 65535)
 
-	# Vertical grid resolution numerator (2 byte integer)
-	vRcN=strToUShortInt(boxContents[0:2])
-	addElement(characteristics,"vRcN",vRcN)
-	vRcNIsValid=1 <= vRcN <= 65535
-	addElement(tests,"vRcNIsValid",vRcNIsValid)
+		# Vertical / horizontal grid resolution exponents:
+		# values within range -128-127
 
-	# Vertical grid resolution denominator (2 byte integer)
-	vRcD=strToUShortInt(boxContents[2:4])
-	addElement(characteristics,"vRcD",vRcD)
-	vRcDIsValid=1 <= vRcD <= 65535
-	addElement(tests,"vRcDIsValid",vRcDIsValid)
+		# Vertical grid resolution exponent (1 byte signed integer)
+		vRcE = strToSignedChar(self.boxContents[8:9])
+		self.addCharacteristic("vRcE", vRcE)
+		self.testFor("vRcEIsValid", -128 <= vRcE <= 127)
 
-	# Horizontal grid resolution numerator (2 byte integer)
-	hRcN=strToUShortInt(boxContents[4:6])
-	addElement(characteristics,"hRcN",hRcN)
-	hRcNIsValid=1 <= hRcN <= 65535
-	addElement(tests,"hRcNIsValid",hRcNIsValid)
+		# Horizontal grid resolution exponent (1 byte signed integer)
+		hRcE = strToSignedChar(self.boxContents[9:10])
+		self.addCharacteristic("hRcE", hRcE)
+		self.testFor("hRcEIsValid", -128 <= hRcE <= 127)
 
-	# Horizontal grid resolution denominator (2 byte integer)
-	hRcD=strToUShortInt(boxContents[6:8])
-	addElement(characteristics,"hRcD",hRcD)
-	hRcDIsValid=1 <= hRcD <= 65535
-	addElement(tests,"hRcDIsValid",hRcDIsValid)
+		# Include vertical and horizontal resolution values in pixels per meter
+		# and pixels per inch in output
+		vRescInPixelsPerMeter = (vRcN/vRcD) * (10**(vRcE))
+		self.addCharacteristic("vRescInPixelsPerMeter", round(vRescInPixelsPerMeter,2))
 
-	# Vertical / horizontal grid resolution exponents:
-	# values within range -128-127
+		hRescInPixelsPerMeter = (hRcN/hRcD) * (10**(hRcE))
+		self.addCharacteristic("hRescInPixelsPerMeter", round(hRescInPixelsPerMeter,2))
 
-	# Vertical grid resolution exponent (1 byte signed integer)
-	vRcE=strToSignedChar(boxContents[8:9])
-	addElement(characteristics,"vRcE",vRcE)
-	vRcEIsValid=-128 <= vRcE <= 127
-	addElement(tests,"vRcEIsValid",vRcEIsValid)
+		vRescInPixelsPerInch = vRescInPixelsPerMeter * 25.4e-3
+		self.addCharacteristic("vRescInPixelsPerInch", round(vRescInPixelsPerInch,2))
 
-	# Horizontal grid resolution exponent (1 byte signed integer)
-	hRcE=strToSignedChar(boxContents[9:10])
-	addElement(characteristics,"hRcE",hRcE)
-	hRcEIsValid=-128 <= hRcE <= 127
-	addElement(tests,"hRcEIsValid",hRcEIsValid)
-
-	# Include vertical and horizontal resolution values in pixels per meter
-	# and pixels per inch in output
-	vRescInPixelsPerMeter=(vRcN/vRcD)*(10**(vRcE))
-	addElement(characteristics,"vRescInPixelsPerMeter",round(vRescInPixelsPerMeter,2))
-
-	hRescInPixelsPerMeter=(hRcN/hRcD)*(10**(hRcE))
-	addElement(characteristics,"hRescInPixelsPerMeter",round(hRescInPixelsPerMeter,2))
-
-	vRescInPixelsPerInch=vRescInPixelsPerMeter*25.4e-3
-	addElement(characteristics,"vRescInPixelsPerInch",round(vRescInPixelsPerInch,2))
-
-	hRescInPixelsPerInch=hRescInPixelsPerMeter*25.4e-3
-	addElement(characteristics,"hRescInPixelsPerInch",round(hRescInPixelsPerInch,2))
-
-	return(tests,characteristics)
+		hRescInPixelsPerInch = hRescInPixelsPerMeter * 25.4e-3
+		self.addCharacteristic("hRescInPixelsPerInch", round(hRescInPixelsPerInch,2))
 
 def validateDisplayResolutionBox(boxContents):
 
