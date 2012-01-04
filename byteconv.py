@@ -1,20 +1,5 @@
+from curses.ascii import isctrl
 import struct
-
-def containsControlCharacters(str):
-	# Returns True if str contains control characters
-	# Maybe rewrite using regex
-	controlChars={b'\x00',b'\x01',b'\x02',b'\x03',b'\x04',b'\x05',b'\x06',b'\x07', \
-		b'\x08',b'\x0b',b'\x0c',b'\x0e',b'\x0f',b'\x10',b'\x11',b'\x12',b'\x13',b'\x14', \
-		b'\x15',b'\x16',b'\x17',b'\x18',b'\x19',b'\x1a',b'\x1b',b'\x1c',b'\x1d',b'\x1e', \
-		b'\x1f'}
-
-	# Search for control character in sting
-	for c in controlChars:
-		if c in str:
-			return True
-
-	# Not found
-	return False 
 
 # Convert bytestr of bOrder byteorder to format using formatCharacter
 # Return -9999 if unpack raised an error
@@ -68,7 +53,7 @@ def strToText(str):
 
 	# Check if string contain control characters, which are not allowed in XML
 	# (Note: entities are no problem, as minidom will deal with those by itself)
-	if containsControlCharacters(str)==True:
+	if any(isctrl(c) for c in str):
 		# Return empty string
 		result=""
 	else:
