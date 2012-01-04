@@ -1,34 +1,11 @@
-# Search list for occurrences of 'value', and return list
-# of matching index positions in souurce list
-def __allIndexesOf__(list, value):
-	matchIndices = []
-	numberOfElements= len(list)
+def consecutive(lst):
+    """Returns True iff items in lst are consecutive numbers"""
+    for i in xrange(len(lst) - 1):
+        if lst[i] - lst[i-1] != 1:
+            return False
+    return True
 
-	for i in range(numberOfElements):
-		if list[i]==value:
-			matchIndices.append(i)
-
-	return matchIndices
-
-# Takes list and returns True if items are consecutive numbers,
-# and False otherwise
-def listContainsConsecutiveNumbers(list):
-	containsConsecutiveNumbers = True
-	numberOfElements = len(list)
-	try:
-		for i in range(1,numberOfElements):
-			if list[i] - list[i-1] != 1:
-				containsConsecutiveNumbers=False
-	except:
-		containsConsecutiveNumbers=False
-	return containsConsecutiveNumbers
-
-# Returns True if occurrences of 'value' in list are contiguous, and
-# "False otherwise"
-def listOccurrencesAreContiguous(list,value):   
-	# Create list with index values of all occurrences of 'value'
-	indexValues = __allIndexesOf__(list,value)
-	# If index values are a sequence of consecutive numbers this means that
-	# all occurrences of 'value' are contiguous
-	return listContainsConsecutiveNumbers(indexValues)
-
+def listOccurrencesAreContiguous(lst, value):
+    """True iff all occurrences of value in lst are at contiguous positions"""
+    indices_of_value = [i for i in xrange(len(lst)) if lst[i] == value]
+    return consecutive(indices_of_value)
