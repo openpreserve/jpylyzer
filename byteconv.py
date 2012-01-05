@@ -1,4 +1,3 @@
-from curses.ascii import isctrl
 import struct
 
 # Convert bytestr of bOrder byteorder to format using formatCharacter
@@ -31,6 +30,9 @@ def strToUnsignedChar(str):
 def strToSignedChar(str):
 	# Unpack 1 byte string to signed character/integer, assuming big-endian byte order.
 	return __doConv__(str, ">", "b")
+
+def isctrl(c):
+	return (0 <= ord(c) <= 8) or (ord(c) == 12) or (14 <= ord(c) < 32)
 
 def strToText(str):
 	# Unpack byte string to text string, assuming big-endian

@@ -43,7 +43,7 @@ from byteconv import strToText
 
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "16 December 2011"
+__version__= "5 January 2012"
 
 
 def main_is_frozen():

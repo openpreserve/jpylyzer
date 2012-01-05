@@ -35,7 +35,7 @@ class BoxValidator:
 	}
 
 	# Reverse access of typemap for quick lookup
-	boxTagMap = dict((v,k) for k,v in typeMap.iteritems())
+	boxTagMap = {v:k for k, v in typeMap.items()}
 
 	# Map for byte values to be tested against
 	controlledByteMap = {
