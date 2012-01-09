@@ -78,7 +78,7 @@ class BoxValidator:
 		else:
 			return (self.tests, self.characteristics, self.returnOffset)
 
-	def __isValid__(self):
+	def _isValid(self):
 		for elt in self.tests.iter():
 			if elt.text == False:
 				# File didn't pass this test, so not valid
@@ -87,7 +87,7 @@ class BoxValidator:
 
 	# Parse JP2 box and return information on its
 	# size, type and contents
-	def __getBox__(self, byteStart, noBytes):
+	def _getBox(self, byteStart, noBytes):
 		# Box headers
 		# Box length (4 byte unsigned integer)
 		boxLengthValue = bc.strToUInt(self.boxContents[byteStart:byteStart+4])
@@ -113,7 +113,7 @@ class BoxValidator:
 
 	# Read marker segment that starts at offset and return marker, size,
 	# contents and start offset of next marker
-	def __getMarkerSegment__(self,offset):
+	def _getMarkerSegment(self,offset):
 		# First 2 bytes: 16 bit marker
 		marker = self.boxContents[offset:offset+2]
 		# Check if this is a delimiting marker segment
@@ -133,7 +133,7 @@ class BoxValidator:
 	# noBytes: size of compressed image in bytes
 	# bPCDepthValues: list with bits per component for each component
 	# height, width: image height, width
-	def __calculateCompressionRatio__(self, noBytes,bPCDepthValues,height,width):
+	def _calculateCompressionRatio(self, noBytes,bPCDepthValues,height,width):
 		# Total bits per pixel
 		bitsPerPixel = 0
 		for i in range(len(bPCDepthValues)):
@@ -152,7 +152,7 @@ class BoxValidator:
 	# get the bitvalue of denary (base 10) number n at the equivalent binary
 	# position p (binary count starts at position 1 from the left)
 	# Only works if n can be expressed as 8 bits !!!
-	def __getBitValue__(self, n, p):
+	def _getBitValue(self, n, p):
 		# Word length in bits
 		wordLength=8
 		# Shift = word length - p
@@ -226,7 +226,7 @@ class BoxValidator:
 		# Dummy value
 		boxLengthValue = 10
 		while byteStart < noBytes and boxLengthValue != 0:
-			boxLengthValue, boxType, byteEnd, subBoxContents = self.__getBox__(byteStart, noBytes)
+			boxLengthValue, boxType, byteEnd, subBoxContents = self._getBox(byteStart, noBytes)
 
 			# Validate sub-boxes
 			resultBox, characteristicsBox = BoxValidator(boxType, subBoxContents).validate()
@@ -295,14 +295,14 @@ class BoxValidator:
 		offset = 0
 
 		# Read first marker segment. This should be the start-of-codestream marker
-		marker,segLength,segContents,offsetNext=self.__getMarkerSegment__(offset)
+		marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
 
 		# Marker should be start-of-codestream marker
 		self.testFor("codestreamStartsWithSOCMarker", marker == b'\xff\x4f')
 		offset = offsetNext
 
 		# Read next marker segment. This should be the SIZ (image and tile size) marker
-		marker,segLength,segContents,offsetNext=self.__getMarkerSegment__(offset)
+		marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
 		foundSIZMarker = (marker == b'\xff\x51')
 		self.testFor("foundSIZMarker", foundSIZMarker)
 
@@ -328,7 +328,7 @@ class BoxValidator:
 		foundQCDMarker=False
 
 		while marker != b'\xff\x90':
-			marker,segLength,segContents,offsetNext=self.__getMarkerSegment__(offset)
+			marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
 
 			if marker == b'\xff\x52':
 				# COD (coding style default) marker segment
@@ -453,7 +453,7 @@ class BoxValidator:
 		bPC = bc.strToUnsignedChar(self.boxContents[10:11])
 	# Most significant bit indicates whether components are signed (1)
 	# or unsigned (0).
-		bPCSign = self.__getBitValue__(bPC, 1)
+		bPCSign = self._getBitValue(bPC, 1)
 		self.addCharacteristic("bPCSign", bPCSign)
 
 		# Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
@@ -505,7 +505,7 @@ class BoxValidator:
 
 			# Most significant bit indicates whether components are signed (1)
 			# or unsigned (0). Extracted by applying bit mask of 10000000 (=128)
-			bPCSign = self.__getBitValue__(bPC, 1)
+			bPCSign = self._getBitValue(bPC, 1)
 			self.addCharacteristic("bPCSign",bPCSign)
 
 			# Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
@@ -664,7 +664,7 @@ class BoxValidator:
 
 		while byteStart < noBytes and boxLengthValue != 0:
 
-			boxLengthValue, boxType, byteEnd, subBoxContents = self.__getBox__(byteStart, noBytes)
+			boxLengthValue, boxType, byteEnd, subBoxContents = self._getBox(byteStart, noBytes)
 
 			# validate sub boxes
 			resultBox, characteristicsBox = BoxValidator(boxType, subBoxContents).validate()
@@ -899,7 +899,7 @@ class BoxValidator:
 
 			# Most significant bit indicates whether components are signed (1)
 			# or unsigned (0). Extracted by applying bit mask of 10000000 (=128)
-			ssizSign = self.__getBitValue__(ssiz, 1)
+			ssizSign = self._getBitValue(ssiz, 1)
 			self.addCharacteristic("ssizSign", ssizSign)
 
 			# Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
@@ -949,17 +949,17 @@ class BoxValidator:
 
 		# Last bit: 0 in case of default precincts (ppx/ppy=15), 1 in case precincts
 		# are defined in sPcod parameter
-		precincts=self.__getBitValue__(scod,8)
+		precincts=self._getBitValue(scod,8)
 		self.addCharacteristic("precincts",precincts)
 
 		# 7th bit: 0: no start of packet marker segments; 1: start of packet marker
 		# segments may be used
-		sop=self.__getBitValue__(scod,7)
+		sop=self._getBitValue(scod,7)
 		self.addCharacteristic("sop",sop)
 
 		# 6th bit: 0: no end of packet marker segments; 1: end of packet marker
 		# segments shall be used
-		eph=self.__getBitValue__(scod, 6)
+		eph=self._getBitValue(scod, 6)
 		self.addCharacteristic("eph",eph)
 
 		# Coding parameters that are independent of components (grouped as sGCod)
@@ -1036,27 +1036,27 @@ class BoxValidator:
 		codeBlockStyle=bc.strToUnsignedChar(self.boxContents[10:11])
 
 		# Bit 8: selective arithmetic coding bypass
-		codingBypass=self.__getBitValue__(codeBlockStyle,8)
+		codingBypass=self._getBitValue(codeBlockStyle,8)
 		self.addCharacteristic("codingBypass",codingBypass)
 
 		# Bit 7: reset of context probabilities on coding pass boundaries
-		resetOnBoundaries=self.__getBitValue__(codeBlockStyle,7)
+		resetOnBoundaries=self._getBitValue(codeBlockStyle,7)
 		self.addCharacteristic("resetOnBoundaries",resetOnBoundaries)
 
 		# Bit 6: termination on each coding pass
-		termOnEachPass=self.__getBitValue__(codeBlockStyle,6)
+		termOnEachPass=self._getBitValue(codeBlockStyle,6)
 		self.addCharacteristic("termOnEachPass",termOnEachPass)
 
 		# Bit 5: vertically causal context
-		vertCausalContext=self.__getBitValue__(codeBlockStyle,5)
+		vertCausalContext=self._getBitValue(codeBlockStyle,5)
 		self.addCharacteristic("vertCausalContext",vertCausalContext)
 
 		# Bit 4: predictable termination
-		predTermination=self.__getBitValue__(codeBlockStyle,4)
+		predTermination=self._getBitValue(codeBlockStyle,4)
 		self.addCharacteristic("predTermination",predTermination)
 
 		# Bit 3: segmentation symbols are used
-		segmentationSymbols=self.__getBitValue__(codeBlockStyle,3)
+		segmentationSymbols=self._getBitValue(codeBlockStyle,3)
 		self.addCharacteristic("segmentationSymbols",segmentationSymbols)
 
 		# Wavelet transformation: 9-7 irreversible (0) or 5-3 reversible (1)
@@ -1366,7 +1366,7 @@ class BoxValidator:
 		offset = self.startOffset
 
 		# Read first marker segment, which is a  start of tile (SOT) marker segment
-		marker,segLength,segContents,offsetNext=self.__getMarkerSegment__(offset)
+		marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
 
 		# Validate start of tile (SOT) marker segment
 		# tilePartLength is value of psot, which is the total length of this tile
@@ -1391,7 +1391,7 @@ class BoxValidator:
 		# markers at tile-part level!!
 
 		while marker != b'\xff\x93':
-			marker,segLength,segContents,offsetNext=self.__getMarkerSegment__(offset)
+			marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
 
 			if marker==b'\xff\x52':
 				# COD (coding style default) marker segment
@@ -1493,7 +1493,7 @@ class BoxValidator:
 
 		while byteStart < noBytes and boxLengthValue != 0:
 
-			boxLengthValue, boxType, byteEnd, boxContents = self.__getBox__(byteStart, noBytes)
+			boxLengthValue, boxType, byteEnd, boxContents = self._getBox(byteStart, noBytes)
 
 			# Validate current top level box
 			resultBox,characteristicsBox = BoxValidator(boxType, boxContents).validate()
@@ -1676,9 +1676,9 @@ class BoxValidator:
 			self.testFor("bPCDepthConsistentWithSIZ", bPCDepthConsistentWithSIZ)
 
 			# Calculate compression ratio of this image
-			compressionRatio=self.__calculateCompressionRatio__(noBytes,bPCDepthValues,height,width)
+			compressionRatio=self._calculateCompressionRatio(noBytes,bPCDepthValues,height,width)
 			compressionRatio=round(compressionRatio,2)
 			self.addCharacteristic("compressionRatio",compressionRatio)
 
 		# Valid JP2 only if all tests returned True
-		self.isValid = self.__isValid__()
+		self.isValid = self._isValid()

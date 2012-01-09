@@ -2,7 +2,7 @@ import struct
 
 # Convert bytestr of bOrder byteorder to format using formatCharacter
 # Return -9999 if unpack raised an error
-def __doConv__(bytestr, bOrder, formatCharacter):
+def _doConv(bytestr, bOrder, formatCharacter):
 	# Format string for unpack
 	formatStr=bOrder+formatCharacter
 	try:
@@ -13,23 +13,23 @@ def __doConv__(bytestr, bOrder, formatCharacter):
 
 def strToULongLong(str):
 	# Unpack 8 byte string to unsigned long long integer, assuming big-endian byte order.
-	return __doConv__(str, ">", "Q")
+	return _doConv(str, ">", "Q")
 
 def strToUInt(str):
 	# Unpack 4 byte string to unsigned integer, assuming big-endian byte order.
-	return __doConv__(str, ">", "I")
+	return _doConv(str, ">", "I")
 
 def strToUShortInt(str):
 	# Unpack 2 byte string to unsigned short integer, assuming big-endian  byte order
-	return __doConv__(str, ">", "H")
+	return _doConv(str, ">", "H")
 
 def strToUnsignedChar(str):
 	# Unpack 1 byte string to unsigned character/integer, assuming big-endian  byte order.
-	return __doConv__(str, ">", "B")
+	return _doConv(str, ">", "B")
 
 def strToSignedChar(str):
 	# Unpack 1 byte string to signed character/integer, assuming big-endian byte order.
-	return __doConv__(str, ">", "b")
+	return _doConv(str, ">", "b")
 
 def isctrl(c):
 	return (0 <= ord(c) <= 8) or (ord(c) == 12) or (14 <= ord(c) < 32)
