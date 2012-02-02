@@ -11,3 +11,11 @@
 
 %:
 	dh  $@
+
+build/jpylyser::
+        pod2man --section=1 --release=$(VERSION) --center "" debian/jpylyser.pod > jpylyser.1
+
+cleanbuilddir/jpylyser::
+        rm -f jpylyser.1
+
+DEB_INSTALL_MANPAGES_jpylyser = jpylyser.1
