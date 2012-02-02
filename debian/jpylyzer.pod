@@ -23,6 +23,8 @@ Show a help message and exit.
 
 Show program's version number and exit.
 
+=back
+
 =head1 BUGS
 
 Please report bugs at https://github.com/openplanets/jpylyzer/issues.

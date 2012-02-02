@@ -1,12 +1,12 @@
 Source: jpylyzer
 Section: utils 
 Priority: extra
-Maintainer: Rainer Schmidt <scape@openplanetsfoundation.org>
-Build-Depends: debhelper (>= 7), perl, cx-freeze, python (>> 2.7) and python (<<3.0) | python(>>3) and python(<<3.1) | python(>>3.1)
+Maintainer: Rui Castro <scape@openplanetsfoundation.org>
+Build-Depends: debhelper (>= 7), perl
 Standards-Version: 3.8.3
 Homepage: https://github.com/openplanets/jpylyzer
 
 Package: jpylyzer
-Architecture: any
+Architecture: amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Jpylyzer is a JP2 (JPEG 2000 Part 1) validator and properties extractor. 

@@ -9,31 +9,22 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+export DH_COMPAT=5
+
 %:
 	dh  $@
 
-build:
-        pod2man --section=1 --release=$(VERSION) --center "" debian/jpylyzer.pod > jpylyzer.1
-
-cleanbuilddir:
-        rm -f jpylyzer.1
-
 DEB_INSTALL_MANPAGES_jpylyzer = jpylyzer.1
 
-
-#!/usr/bin/make -f
-# -*- makefile -*-
-
-# Uncomment this to turn on verbose mode.
-export DH_VERBOSE=1
-export DH_COMPAT=4
-
-config.status: configure
+config.status:
 	dh_testdir
 # Add here commands to configure the package. 
 #	./configure
 
 build: build-stamp
+	pod2man --section=1 --release=$(VERSION) --center "" debian/jpylyzer.pod > jpylyzer.1
 
 build-stamp: config.status
 	dh_testdir
@@ -44,6 +35,7 @@ clean:
 	dh_testroot
 	rm -f build-stamp
 #	rm -f config.sub config.guess
+	rm -f jpylyzer.1
 	dh_clean
 
 install: build
@@ -52,7 +44,7 @@ install: build
 	dh_clean -k
 	dh_installdirs
 # Add here commands to install the package
-	$(MAKE) install DESTDIR=debian/jpylyzer/usr/bin
+	$(MAKE) install DESTDIR=debian/jpylyzer/usr/local/jpylyzer LINKDESTDIR=debian/jpylyzer/usr/local/bin LINKDIR=/usr/local/jpylyzer
 #	rm -f config.log
 #	rm -f config.status
 
@@ -64,7 +56,7 @@ binary-arch: build install
 binary-indep: install
 	dh_testdir
 	dh_testroot
-	dh_installchangelogs CHANGELOG
+	dh_installchangelogs
 	dh_installdocs
 	dh_installexamples
 	dh_installdebconf
