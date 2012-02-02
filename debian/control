@@ -2,7 +2,7 @@ Source: jpylyzer
 Section: utils 
 Priority: extra
 Maintainer: Rainer Schmidt <scape@openplanetsfoundation.org>
-Build-Depends: debhelper (>= 7), perl
+Build-Depends: debhelper (>= 7), perl, cx-freeze, python (>> 2.7) and python (<<3.0) | python(>>3) and python(<<3.1) | python(>>3.1)
 Standards-Version: 3.8.3
 Homepage: https://github.com/openplanets/jpylyzer
 
