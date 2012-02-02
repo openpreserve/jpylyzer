@@ -1,8 +1,8 @@
-Template: taverna-command-line/use_taverna
+Template: jpylyzer/use_taverna
 Type: boolean
 Description: Do you want to use taverna to run your jpylyser?
  We would like to know if you want to use taverna to run jpylyser.
-Template: taverna-command-line/use_hadoop
+Template: jpylyzer/use_hadoop
 Type: boolean
 Description: Do you want to use hadoop to run your jpylyser?
  We would like to know if you want to use hadoop to run jpylyser in a multi-node cluster setting.
