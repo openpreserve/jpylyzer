@@ -1,0 +1,46 @@
+=head1 NAME
+
+jpylyser - JP2 (JPEG 2000 Part 1) validator and properties extractor.
+
+=head1 SYNOPSIS
+
+jpylyser [I<options>] [I<jp2file>]
+
+=head1 DESCRIPTION
+
+Prototype JP2 (JPEG 2000 Part 1) validator and properties extractor
+Author: Johan van der Knijff, KB / National Library of the Netherlands.
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-h, --help>
+
+Show a help message and exit.
+
+=item B<-v, --version>
+
+Show program's version number and exit.
+
+=head1 BUGS
+
+Please report bugs at https://github.com/openplanets/jpylyzer/issues.
+
+=head1 AUTHORS
+
+B<jpylyser> was written by Johan van der Knijff <Johan.vanderKnijff@kb.nl>.
+
+This manual page was written by Rui Castro <rcastro@keep.pt>.
+
+=head1 COPYRIGHT
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 2, or (at your option) any
+later version.
+
+On Debian GNU/Linux systems, the complete text of the GNU General
+Public License can be found in `/usr/share/common-licenses/GPL'.
+
+=cut
