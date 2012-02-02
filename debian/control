@@ -9,41 +9,4 @@ Homepage: https://github.com/openplanets/jpylyzer
 Package: jpylyzer
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: JP2 (JPEG 2000 Part 1) validator and properties extractor 
-
-jpylyzer
-
-JP2 (JPEG 2000 Part 1) validator and properties extractor
-Author: Johan van der Knijff, KB / National Library of the Netherlands
-
-Command line synopsis:
-
-usage: jpylyzer.py [-h] [-v] jp2In
-
-positional arguments:
-
- jp2In: input JP2 image(s)
-
-optional arguments:
-
- -h, --help: show this help message and exit
-
- -v, --version: show program's version number and exit
-
-Output to stdout.
-
-Example (output redirected to file 'rubbish.xml'):
-
-jpylyzer.py rubbish.jp2 > rubbish.xml
-
-Outline of output elements:
-
-1. toolInfo: tool name (jpylyzer) + version.
-2. fileInfo: name, path, size and last modified time/date of input file.
-3. isValidJP2: "True"/"False" flag indicating whether file is valid JP2.
-4. tests: tree of test outcomes, expressed as "True"/"False" flags.
-   File is considered valid JP2 only if all tests return "True". Tree follows
-   JP2 box structure.
-5. properties: tree of image properies. Follows JP2 box structure. Naming of
-   properties follows ISO/IEC 15444-1 Annex I (JP2 file format syntax) and
-   Annex A (Codestream syntax).
+Description: Jpylyzer is a JP2 (JPEG 2000 Part 1) validator and properties extractor. 
