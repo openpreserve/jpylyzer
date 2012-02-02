@@ -57,7 +57,7 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
   <!-- TITLE should be something like "User commands" or similar (see
        http://www.tldp.org/HOWTO/Man-Page/q2.html). -->
   <!ENTITY dhtitle     "jpylyzer User Manual">
-  <!ENTITY dhucpackage "JPYLYSER">
+  <!ENTITY dhucpackage "jpylyzer">
   <!ENTITY dhpackage   "jpylyzer">
 ]>
 

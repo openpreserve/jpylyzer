@@ -13,12 +13,12 @@
 	dh  $@
 
 build:
-        pod2man --section=1 --release=$(VERSION) --center "" debian/jpylyser.pod > jpylyser.1
+        pod2man --section=1 --release=$(VERSION) --center "" debian/jpylyzer.pod > jpylyzer.1
 
 cleanbuilddir:
-        rm -f jpylyser.1
+        rm -f jpylyzer.1
 
-DEB_INSTALL_MANPAGES_jpylyser = jpylyser.1
+DEB_INSTALL_MANPAGES_jpylyzer = jpylyzer.1
 
 
 #!/usr/bin/make -f
@@ -52,7 +52,7 @@ install: build
 	dh_clean -k
 	dh_installdirs
 # Add here commands to install the package
-	$(MAKE) install DESTDIR=debian/jpylyser/usr/bin
+	$(MAKE) install DESTDIR=debian/jpylyzer/usr/bin
 #	rm -f config.log
 #	rm -f config.status
 

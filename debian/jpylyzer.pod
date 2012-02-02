@@ -1,10 +1,10 @@
 =head1 NAME
 
-jpylyser - JP2 (JPEG 2000 Part 1) validator and properties extractor.
+jpylyzer - JP2 (JPEG 2000 Part 1) validator and properties extractor.
 
 =head1 SYNOPSIS
 
-jpylyser [I<options>] [I<jp2file>]
+jpylyzer [I<options>] [I<jp2file>]
 
 =head1 DESCRIPTION
 
@@ -29,7 +29,7 @@ Please report bugs at https://github.com/openplanets/jpylyzer/issues.
 
 =head1 AUTHORS
 
-B<jpylyser> was written by Johan van der Knijff <Johan.vanderKnijff@kb.nl>.
+B<jpylyzer> was written by Johan van der Knijff <Johan.vanderKnijff@kb.nl>.
 
 This manual page was written by Rui Castro <rcastro@keep.pt>.
 

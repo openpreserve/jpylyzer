@@ -1,8 +1,8 @@
 Template: jpylyzer/use_taverna
 Type: boolean
-Description: Do you want to use taverna to run your jpylyser?
- We would like to know if you want to use taverna to run jpylyser.
+Description: Do you want to use taverna to run your jpylyzer?
+ We would like to know if you want to use taverna to run jpylyzer.
 Template: jpylyzer/use_hadoop
 Type: boolean
-Description: Do you want to use hadoop to run your jpylyser?
- We would like to know if you want to use hadoop to run jpylyser in a multi-node cluster setting.
+Description: Do you want to use hadoop to run your jpylyzer?
+ We would like to know if you want to use hadoop to run jpylyzer in a multi-node cluster setting.
