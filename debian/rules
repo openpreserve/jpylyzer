@@ -19,3 +19,63 @@ cleanbuilddir:
         rm -f jpylyser.1
 
 DEB_INSTALL_MANPAGES_jpylyser = jpylyser.1
+
+
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+export DH_COMPAT=4
+
+config.status: configure
+	dh_testdir
+# Add here commands to configure the package. 
+#	./configure
+
+build: build-stamp
+
+build-stamp: config.status
+	dh_testdir
+	touch $@
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp
+#	rm -f config.sub config.guess
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+# Add here commands to install the package
+	$(MAKE) install DESTDIR=debian/jpylyser/usr/bin
+#	rm -f config.log
+#	rm -f config.status
+
+# Build architecture-deposndent files here.
+binary-arch: build install
+# We have nothing to do by default.
+
+# Build architecture-independent files here.
+binary-indep: install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs CHANGELOG
+	dh_installdocs
+	dh_installexamples
+	dh_installdebconf
+	dh_installman
+	dh_link
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install	
