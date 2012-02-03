@@ -24,6 +24,7 @@ config.status:
 #	./configure
 
 build: build-stamp
+	make build
 	pod2man --section=1 --release=$(VERSION) --center "" debian/jpylyzer.pod > jpylyzer.1
 
 build-stamp: config.status
@@ -36,6 +37,7 @@ clean:
 	rm -f build-stamp
 #	rm -f config.sub config.guess
 	rm -f jpylyzer.1
+	make clean
 	dh_clean
 
 install: build
@@ -45,6 +47,7 @@ install: build
 	dh_installdirs
 # Add here commands to install the package
 	$(MAKE) install DESTDIR=debian/jpylyzer/usr/local/jpylyzer LINKDESTDIR=debian/jpylyzer/usr/local/bin LINKDIR=/usr/local/jpylyzer
+#	dh_install dist/jpylyzer usr/local/
 #	rm -f config.log
 #	rm -f config.status
 

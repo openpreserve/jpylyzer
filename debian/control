@@ -7,6 +7,6 @@ Standards-Version: 3.8.3
 Homepage: https://github.com/openplanets/jpylyzer
 
 Package: jpylyzer
-Architecture: amd64
+Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Jpylyzer is a JP2 (JPEG 2000 Part 1) validator and properties extractor. 
