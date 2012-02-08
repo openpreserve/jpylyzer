@@ -10,8 +10,8 @@ class BoxValidator:
 	typeMap = {
 		b'\x6a\x70\x32\x69': "intellectualPropertyBox",
 		b'\x78\x6d\x6c\x20': "xmlBox",
-		b'\x75\x75\x69\x64': "UUIDBox",
-		b'\x75\x69\x6e\x66': "UUIDInfoBox",
+		b'\x75\x75\x69\x64': "uuidDBox",
+		b'\x75\x69\x6e\x66': "uuidInfoBox",
 		b'\x6a\x50\x20\x20': "signatureBox",
 		b'\x66\x74\x79\x70': "fileTypeBox",
 		b'\x6a\x70\x32\x68': "jp2HeaderBox",
@@ -1396,9 +1396,6 @@ class BoxValidator:
 			if marker==b'\xff\x52':
 				# COD (coding style default) marker segment
 
-				# COD is required
-				foundCODMarker=True
-
 				# Validate COD segment
 				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() # validateCOD(segContents)
 
@@ -1412,9 +1409,6 @@ class BoxValidator:
 
 			elif marker==b'\xff\x5c':
 				# QCD (quantization default) marker segment
-
-				# QCD is required
-				foundQCDMarker=True
 
 				# Validate QCD segment
 				resultQCD, characteristicsQCD = BoxValidator(marker, segContents).validate() #validateQCD(segContents)
@@ -1430,7 +1424,7 @@ class BoxValidator:
 			elif marker==b'\xff\x64':
 				# COM (codestream comment) marker segment
 
-				# Validate QCD segment
+				# Validate COM segment
 				resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate() #b'\xff\x64'validateCOM(segContents)
 
 				# Add analysis results to test results tree
@@ -1442,7 +1436,7 @@ class BoxValidator:
 				offset=offsetNext
 
 			elif marker==b'\xff\x93':
-				# SOT (start of data) marker segment: last tile-part marker
+				# SOD (start of data) marker segment: last tile-part marker
 				foundSODMarker=True
 				self.testFor("foundSODMarker",foundSODMarker)
 
