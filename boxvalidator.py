@@ -1,3 +1,4 @@
+from __future__ import division
 import warnings
 import etpatch as ET
 import byteconv as bc
