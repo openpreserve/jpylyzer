@@ -28,7 +28,6 @@
 #  jpylyzer.py "*" -- results in correct behaviour
 #
 
-
 import sys
 import os
 import time
@@ -40,11 +39,9 @@ import warnings
 import etpatch as ET
 from boxvalidator import BoxValidator
 from byteconv import strToText
-
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
 __version__= "8 February 2012"
-
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe

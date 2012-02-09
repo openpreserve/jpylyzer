@@ -4,7 +4,6 @@ import etpatch as ET
 import byteconv as bc
 from contiguous import listOccurrencesAreContiguous
 
-
 class BoxValidator:
 	# Marker tags/codes that identify all sub-boxes as hexadecimal strings
 	#(Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
@@ -37,13 +36,6 @@ class BoxValidator:
 
 	# Reverse access of typemap for quick lookup
 	boxTagMap = {v:k for k, v in typeMap.items()}
-
-	# Map for byte values to be tested against
-	controlledByteMap = {
-		"validSignature": b'\x0d\x0a\x87\x0a',
-		"validBrandValue": b'\x6a\x70\x32\x20',
-		"requiredInCompatibilityList": b'\x6a\x70\x32\x20'
-	}
 
 	def __init__(self, bType, boxContents, startOffset = None):
 		if bType in self.typeMap:
@@ -176,7 +168,7 @@ class BoxValidator:
 		# Check box size, which should be 4 bytes
 		self.testFor("boxLengthIsValid", len(self.boxContents) == 4)
 		# Signature (*not* added to characteristics output, because it contains non-printable characters)
-		self.testFor("signatureIsValid", self.boxContents[0:4] == self.controlledByteMap['validSignature'])
+		self.testFor("signatureIsValid", self.boxContents[0:4] == b'\x0d\x0a\x87\x0a')
 
 	def validate_fileTypeBox(self):
 		# Determine number of compatibility fields from box length
@@ -190,7 +182,7 @@ class BoxValidator:
 		self.addCharacteristic( "br", br)
 
 	# Is brand value valid?
-		self.testFor("brandIsValid", br == self.controlledByteMap['validBrandValue'])
+		self.testFor("brandIsValid", br == b'\x6a\x70\x32\x20')
 
 		# 2. Minor version (4 bytes)
 		minV = bc.strToUInt(self.boxContents[4:8])
@@ -213,7 +205,7 @@ class BoxValidator:
 
 		# Compatibility list should contain at least one field with mandatory value.
 		# List is considered valid if this value is found.
-		self.testFor("compatibilityListIsValid", self.controlledByteMap['requiredInCompatibilityList'] in cLList)
+		self.testFor("compatibilityListIsValid", b'\x6a\x70\x32\x20' in cLList)
 
 
 	# This is a superbox (ISO/IEC 15444-1 Section I.5.3)

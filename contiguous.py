@@ -1,6 +1,7 @@
 # Changes JvdK: replaced xrange by range (Py 3 compatibility)
 # Changed range(1, len(lst) - 1) back to range(1,len(lst))
 
+
 def consecutive(lst):
     # Returns True if items in lst are consecutive numbers
     for i in range(1,len(lst)):
