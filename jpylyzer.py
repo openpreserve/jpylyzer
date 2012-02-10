@@ -41,7 +41,7 @@ from boxvalidator import BoxValidator
 from byteconv import strToText
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "8 February 2012"
+__version__= "10 February 2012"
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -159,7 +159,51 @@ def generatePropertiesRemapTable():
 
     return(enumerationsMap)
 
+def checkOneFile(file):
+    # Process one file and return analysis result as text string (which contains
+    # formatted XML)
+    
+    fileData = readFileBytes(file)
+    isValidJP2, tests, characteristics = BoxValidator("JP2", fileData).validate() #validateJP2(fileData)
 
+    # Generate property values remap table
+    remapTable = generatePropertiesRemapTable()
+
+    # Create printable version of tests and characteristics tree
+    tests.makeHumanReadable()
+    characteristics.makeHumanReadable(remapTable)
+
+    # Create output elementtree object
+    root=ET.Element('jpylyzer')
+
+    # Create elements for storing tool and file meta info
+    toolInfo=ET.Element('toolInfo')
+    fileInfo=ET.Element('fileInfo')
+
+    # Produce some general tool and file meta info
+    toolInfo.appendChildTagWithText("toolName", scriptName)
+    toolInfo.appendChildTagWithText("toolVersion", __version__)
+    fileInfo.appendChildTagWithText("fileName", file)
+    fileInfo.appendChildTagWithText("filePath", os.path.abspath(file))
+    fileInfo.appendChildTagWithText("fileSizeInBytes", str(os.path.getsize(file)))
+    fileInfo.appendChildTagWithText("fileLastModified", time.ctime(os.path.getmtime(file)))
+
+    # Append to root
+    root.append(toolInfo)
+    root.append(fileInfo)
+
+    # Add validation outcome
+    root.appendChildTagWithText("isValidJP2", str(isValidJP2))
+
+    # Append test results and characteristics to root
+    root.append(tests)
+    root.append(characteristics)
+    
+    # Result as pretty-printed XML
+    result=root.toxml()
+    
+    return(result)
+    
 
 def checkFiles(images):
     if len(images) == 0:
@@ -171,45 +215,11 @@ def checkFiles(images):
             isFile = os.path.isfile(thisFile)
 
             if isFile:
-                # Read and analyse one file
-                fileData = readFileBytes(thisFile)
-                isValidJP2, tests, characteristics = BoxValidator("JP2", fileData).validate() #validateJP2(fileData)
-
-                # Generate property values remap table
-                remapTable = generatePropertiesRemapTable()
-
-                # Create printable version of tests and characteristics tree
-                tests.makeHumanReadable()
-                characteristics.makeHumanReadable(remapTable)
-
-                # Create output elementtree object
-                root=ET.Element('jpylyzer')
-
-                # Create elements for storing tool and file meta info
-                toolInfo=ET.Element('toolInfo')
-                fileInfo=ET.Element('fileInfo')
-
-                # Produce some general tool and file meta info
-                toolInfo.appendChildTagWithText("toolName", scriptName)
-                toolInfo.appendChildTagWithText("toolVersion", __version__)
-                fileInfo.appendChildTagWithText("fileName", thisFile)
-                fileInfo.appendChildTagWithText("filePath", os.path.abspath(thisFile))
-                fileInfo.appendChildTagWithText("fileSizeInBytes", str(os.path.getsize(thisFile)))
-                fileInfo.appendChildTagWithText("fileLastModified", time.ctime(os.path.getmtime(thisFile)))
-
-                # Append to root
-                root.append(toolInfo)
-                root.append(fileInfo)
-
-                # Add validation outcome
-                root.appendChildTagWithText("isValidJP2", str(isValidJP2))
-
-                # Append test results and characteristics to root
-                root.append(tests)
-                root.append(characteristics)
-
-                # Write output
-                sys.stdout.write(root.toxml())
+                # Analyse file
+                result=checkOneFile(thisFile)
+                
+                # Write output to stdout
+                sys.stdout.write(result)
 
 def parseCommandLine():
     # Create parser
