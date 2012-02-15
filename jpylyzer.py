@@ -38,7 +38,7 @@ import argparse
 import warnings
 import etpatch as ET
 from boxvalidator import BoxValidator
-from byteconv import strToText
+from byteconv import bytesToText
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
 __version__= "15 February 2012"

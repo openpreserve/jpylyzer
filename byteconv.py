@@ -1,6 +1,6 @@
 import struct
 
-# Convert bytestr of bOrder byteorder to format using formatCharacter
+# Convert byte object of bOrder byteorder to format using formatCharacter
 # Return -9999 if unpack raised an error
 def _doConv(bytestr, bOrder, formatCharacter):
 	# Format string for unpack
@@ -11,25 +11,25 @@ def _doConv(bytestr, bOrder, formatCharacter):
 		result=-9999
 	return(result)
 
-def strToULongLong(str):
+def bytesToULongLong(bytes):
 	# Unpack 8 byte string to unsigned long long integer, assuming big-endian byte order.
-	return _doConv(str, ">", "Q")
+	return _doConv(bytes, ">", "Q")
 
-def strToUInt(str):
+def bytesToUInt(bytes):
 	# Unpack 4 byte string to unsigned integer, assuming big-endian byte order.
-	return _doConv(str, ">", "I")
+	return _doConv(bytes, ">", "I")
 
-def strToUShortInt(str):
+def bytesToUShortInt(bytes):
 	# Unpack 2 byte string to unsigned short integer, assuming big-endian  byte order
-	return _doConv(str, ">", "H")
+	return _doConv(bytes, ">", "H")
 
-def strToUnsignedChar(str):
+def bytesToUnsignedChar(bytes):
 	# Unpack 1 byte string to unsigned character/integer, assuming big-endian  byte order.
-	return _doConv(str, ">", "B")
+	return _doConv(bytes, ">", "B")
 
-def strToSignedChar(str):
+def bytesToSignedChar(bytes):
 	# Unpack 1 byte string to signed character/integer, assuming big-endian byte order.
-	return _doConv(str, ">", "b")
+	return _doConv(bytes, ">", "b")
 
 def isctrl(c):
 	# This doesn't work in Python 3! Behaviour varies depending on whether
@@ -38,8 +38,8 @@ def isctrl(c):
 	# old and ugly containsControlCharacters function below ...
 	return (0 <= ord(c) <= 8) or (ord(c) == 12) or (14 <= ord(c) < 32)
 	
-def containsControlCharacters(str):
-    # Returns True if str contains control characters
+def containsControlCharacters(bytes):
+    # Returns True if bytes object contains control characters
 
     controlChars={b'\x00',b'\x01',b'\x02',b'\x03',b'\x04',b'\x05',b'\x06',b'\x07', \
         b'\x08',b'\x0b',b'\x0c',b'\x0e',b'\x0f',b'\x10',b'\x11',b'\x12',b'\x13',b'\x14', \
@@ -49,22 +49,15 @@ def containsControlCharacters(str):
     containsControlCharacters=False
     
     for c in controlChars:
-        if c in str:
+        if c in bytes:
             containsControlCharacters=True
             
     return(containsControlCharacters)	
 
-def strToText(str):
-	# Unpack byte string to text string, assuming big-endian
+def bytesToText(bytes):
+	# Unpack byte object to text string, assuming big-endian
 	# byte order.
 	
-	# Would perhaps be better to call this function 'bytesToText'!
-
-	# Using ASCII may be too restrictive for representing some codestream comments,
-	# which use ISO/IES 8859-15 (Latin)
-	# However using ASCII here at least keeps the detection of control characters relatively
-	# simple. Maybe extend this later to UTF-8
-	#
 	# Possible improvement: include detection of char 129-255 in control character check
 	# (using regular expressions). In that case try / except block can be dropped
 	# Already spent way too much time on this now so do this later ...
@@ -75,20 +68,19 @@ def strToText(str):
 	# Set error mode
 	errorMode="strict"
 
-
-	# Check if string contain control characters, which are not allowed in XML
-	# (Note: entities are no problem, as minidom will deal with those by itself)
+	# Check if bytes object contains bytes that correspond to ASCII control characters,
+	# which are not allowed in XML
 	
-	if containsControlCharacters(str):
+	if containsControlCharacters(bytes):
 		# Return empty string
 		result=""
 
 	else:
 		try:
-			result=str.decode(encoding=enc,errors=errorMode)
+			result=bytes.decode(encoding=enc,errors=errorMode)
 			
 		except:
 			# Return empty string
-			result="Rubbish"
+			result=""
 			
 	return(result)

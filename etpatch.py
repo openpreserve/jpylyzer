@@ -1,7 +1,7 @@
 import warnings
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
-from byteconv import strToText
+from byteconv import bytesToText
 
 
 # TODO:
@@ -77,7 +77,7 @@ class Element(ET.Element):
 		
 				# Convert text field, depending on type
 				if textType == bytes:
-					textOut = strToText(remappedValue)
+					textOut = bytesToText(remappedValue)
 				elif textType in[int,float,bool]:
 					textOut=str(remappedValue)
 				else:
