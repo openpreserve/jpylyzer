@@ -1,6 +1,6 @@
 import warnings
 import xml.etree.ElementTree as ET
-from xml.dom import minidom
+#from xml.dom import minidom
 from byteconv import bytesToText
 
 
@@ -89,7 +89,10 @@ class Element(ET.Element):
 
 
 	def toxml(self, indent = "  "):
-		selfAsString=ET.tostring(self, 'ascii','xml')
-		return(selfAsString)
-		#return minidom.parseString(selfAsString).toprettyxml(indent)
-		#return str(ET.tostring(self, 'ascii'))
+		return(ET.tostring(self, 'ascii','xml'))
+		
+		# Disabled pretty-printing for now as minidom appears to choke on
+		# entity references, i.e. code below will go wrong:
+		#
+		# return minidom.parseString(selfAsString).toprettyxml(indent)
+
