@@ -4,6 +4,10 @@ import etpatch as ET
 import byteconv as bc
 from contiguous import listOccurrencesAreContiguous
 
+## TEST
+import sys
+## TEST
+
 class BoxValidator:
 	# Marker tags/codes that identify all sub-boxes as hexadecimal strings
 	#(Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
@@ -1198,7 +1202,17 @@ class BoxValidator:
 
 		# Contents (multiples of Ccom)
 		comment=self.boxContents[4:lcom]
-
+		
+		## TEST
+		
+		# Comment may contain non-Ascii values from Latin character set, so
+		# we'll replace any such characters by XML numeric character codes
+		comment=comment.decode("iso-8859-15","strict")
+			
+		#comment=comment.encode("ascii", "xmlcharrefreplace")
+		
+		## TEST
+						
 		# Only add comment to characteristics if text (may contain binary data if rcom is 0!)
 		if rcom == 1:
 			self.addCharacteristic("comment",comment)

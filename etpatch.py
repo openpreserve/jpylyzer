@@ -3,20 +3,20 @@ import xml.etree.ElementTree as ET
 from xml.dom import minidom
 from byteconv import strToText
 
+
 # TODO:
 # 1) Find out whether these patches are necessary
 # 2) learn how to write and test patches properly
 
 
 # I don't want to mess with ANYthing :)
-def tostring(elem, enc):
-	return ET.tostring(elem, enc)
+def tostring(elem, enc, meth):
+	return ET.tostring(elem, enc, meth)
 def SubElement(parent, tag):
 	return ET.SubElement(parent, tag)
 
 class Element(ET.Element):
-
-	pass
+	
 	# Replacement for ET's 'findtext' function, which has a bug
 	# that will return empty string if text field contains integer with
 	# value of zero (0); If there is no match, return None
@@ -40,6 +40,7 @@ class Element(ET.Element):
 	def appendChildTagWithText(self, tag, text):
 		el = ET.SubElement(self, tag)
 		el.text = text
+		
 
 	# Translate values to human readable, optionally using mappings
 	def makeHumanReadable(self, remapTable = {}):
@@ -73,14 +74,22 @@ class Element(ET.Element):
 			if remappedValue != None:
 				# Data type
 				textType = type(remappedValue)
+		
 				# Convert text field, depending on type
 				if textType == bytes:
 					textOut = strToText(remappedValue)
+				elif textType in[int,float,bool]:
+					textOut=str(remappedValue)
 				else:
-					textOut = str(remappedValue)
+					textOut=remappedValue
+	
 				# Update output tree
 				elt.text = textOut
+			
+
 
 	def toxml(self, indent = "  "):
-		return minidom.parseString(ET.tostring(self, 'ascii')).toprettyxml(indent)
+		selfAsString=ET.tostring(self, 'ascii','xml')
+		return(selfAsString)
+		#return minidom.parseString(selfAsString).toprettyxml(indent)
 		#return str(ET.tostring(self, 'ascii'))

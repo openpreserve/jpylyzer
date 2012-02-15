@@ -1,7 +1,7 @@
 jpylyzer
 
-Prototype JP2 (JPEG 2000 Part 1) validator and properties extractor
-Author: Johan van der Knijff, KB / National Library of the Netherlands
+JP2 (JPEG 2000 Part 1) image validator and properties extractor
+KB / National Library of the Netherlands - Open Planets Foundation
 
 Command line synopsis:
 

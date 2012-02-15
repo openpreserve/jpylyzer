@@ -57,6 +57,8 @@ def containsControlCharacters(str):
 def strToText(str):
 	# Unpack byte string to text string, assuming big-endian
 	# byte order.
+	
+	# Would perhaps be better to call this function 'bytesToText'!
 
 	# Using ASCII may be too restrictive for representing some codestream comments,
 	# which use ISO/IES 8859-15 (Latin)
@@ -73,20 +75,20 @@ def strToText(str):
 	# Set error mode
 	errorMode="strict"
 
+
 	# Check if string contain control characters, which are not allowed in XML
 	# (Note: entities are no problem, as minidom will deal with those by itself)
 	
-	#if any(isctrl(c) for c in str):
 	if containsControlCharacters(str):
 		# Return empty string
 		result=""
+
 	else:
 		try:
 			result=str.decode(encoding=enc,errors=errorMode)
 			
 		except:
-			# We end up here if str is part of extended ASCII (or Latin) set (char 129-255)
 			# Return empty string
-			result=""
-
+			result="Rubbish"
+			
 	return(result)

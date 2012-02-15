@@ -41,7 +41,7 @@ from boxvalidator import BoxValidator
 from byteconv import strToText
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "10 February 2012"
+__version__= "15 February 2012"
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -165,14 +165,14 @@ def checkOneFile(file):
     
     fileData = readFileBytes(file)
     isValidJP2, tests, characteristics = BoxValidator("JP2", fileData).validate() #validateJP2(fileData)
-
+    
     # Generate property values remap table
     remapTable = generatePropertiesRemapTable()
 
     # Create printable version of tests and characteristics tree
     tests.makeHumanReadable()
     characteristics.makeHumanReadable(remapTable)
-
+    
     # Create output elementtree object
     root=ET.Element('jpylyzer')
 
@@ -199,9 +199,9 @@ def checkOneFile(file):
     root.append(tests)
     root.append(characteristics)
     
-    # Result as pretty-printed XML
-    result=root.toxml()
-    
+    # Result as XML
+    result=root.toxml().decode("ascii")
+      
     return(result)
     
 
