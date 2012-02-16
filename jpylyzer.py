@@ -5,7 +5,7 @@
 # jpylyzer
 # Requires: Python 2.7 OR Python 3.2 or better
 #
-# Copyright (C) 2011 Johan van der Knijff, Koninklijke Bibliotheek - National Library of the Netherlands
+# Copyright (C) 2011, 2012 Johan van der Knijff, Koninklijke Bibliotheek - National Library of the Netherlands
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -35,13 +35,13 @@ import imp
 import glob
 import struct
 import argparse
-import warnings
 import etpatch as ET
 from boxvalidator import BoxValidator
 from byteconv import bytesToText
+from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "15 February 2012"
+__version__= "16 February 2012"
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -207,7 +207,7 @@ def checkOneFile(file):
 
 def checkFiles(images):
     if len(images) == 0:
-        warnings.warn("no images to check!")
+        printWarning("no images to check!")
 
     for image in images:
             thisFile = image

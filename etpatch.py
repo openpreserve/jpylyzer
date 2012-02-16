@@ -1,8 +1,5 @@
-import warnings
 import xml.etree.ElementTree as ET
-#from xml.dom import minidom
 from byteconv import bytesToText
-
 
 # TODO:
 # 1) Find out whether these patches are necessary

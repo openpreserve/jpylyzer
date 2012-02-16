@@ -1,8 +1,8 @@
 from __future__ import division
-import warnings
 import etpatch as ET
 import byteconv as bc
-from contiguous import listOccurrencesAreContiguous
+from shared import listOccurrencesAreContiguous
+from shared import printWarning
 
 class BoxValidator:
 	# Marker tags/codes that identify all sub-boxes as hexadecimal strings
@@ -10,7 +10,7 @@ class BoxValidator:
 	typeMap = {
 		b'\x6a\x70\x32\x69': "intellectualPropertyBox",
 		b'\x78\x6d\x6c\x20': "xmlBox",
-		b'\x75\x75\x69\x64': "uuidDBox",
+		b'\x75\x75\x69\x64': "uuidBox",
 		b'\x75\x69\x6e\x66': "uuidInfoBox",
 		b'\x6a\x50\x20\x20': "signatureBox",
 		b'\x66\x74\x79\x70': "fileTypeBox",
@@ -60,7 +60,8 @@ class BoxValidator:
 		try:
 			to_call = getattr(self, "validate_" + self.boxType)
 		except AttributeError:
-			warnings.warn("Method 'validate_" + self.boxType + "' not implemented")
+			printWarning("ignoring '" + self.boxType + "' (validator function not yet implemented)" )
+
 		else:
 			to_call()
 
@@ -162,7 +163,7 @@ class BoxValidator:
 
 	# Validations for boxes -- Read warnings for missing!!
 	def validate_unknownBox(self):
-		warnings.warn("No validation for unknown box")
+		printWarning("ignoring unknown box")
 
 	def validate_signatureBox(self):
 		# Check box size, which should be 4 bytes

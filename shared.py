@@ -1,6 +1,10 @@
-# Changes JvdK: replaced xrange by range (Py 3 compatibility)
-# Changed range(1, len(lst) - 1) back to range(1,len(lst))
+# Various shared functions
 
+import sys
+
+def printWarning(msg):
+    msgString=("User warning: %s\n") % (msg)
+    sys.stderr.write(msgString)
 
 def consecutive(lst):
     # Returns True if items in lst are consecutive numbers
