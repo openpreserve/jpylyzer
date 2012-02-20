@@ -76,40 +76,51 @@ class BoxValidator:
 		for elt in self.tests.iter():
 			if elt.text == False:
 				# File didn't pass this test, so not valid
-				return False
-		return True
+				return(False)
+		return(True)
 
-	# Parse JP2 box and return information on its
-	# size, type and contents
+	
 	def _getBox(self, byteStart, noBytes):
-		# Box headers
+		# Parse JP2 box and return information on its
+		# size, type and contents
+		
 		# Box length (4 byte unsigned integer)
 		boxLengthValue = bc.bytesToUInt(self.boxContents[byteStart:byteStart+4])
+		
 		# Box type
 		boxType = self.boxContents[byteStart+4:byteStart+8]
+		
 		# Start byte of box contents
 		contentsStartOffset = 8
+		
 		# Read extended box length if box length value equals 1
 		# In that case contentsStartOffset should also be 16 (not 8!)
 		# (See ISO/IEC 15444-1 Section I.4)
 		if boxLengthValue == 1:
 			boxLengthValue = bc.bytesToULongLong(self.boxContents[byteStart+8:byteStart+16])
 			contentsStartOffset = 16
+		
 		# For the very last box in a file boxLengthValue may equal 0, so we need
 		# to calculate actual value
 		if boxLengthValue == 0:
 			boxLengthValue = noBytes-byteStart
+		
 		# End byte for current box
 		byteEnd = byteStart + boxLengthValue
+		
 		# Contents of this box as a byte object (i.e. 'DBox' in ISO/IEC 15444-1 Section I.4)
 		boxContents = self.boxContents[byteStart+contentsStartOffset:byteEnd]
+		
 		return (boxLengthValue, boxType, byteEnd, boxContents)
 
-	# Read marker segment that starts at offset and return marker, size,
-	# contents and start offset of next marker
+	
 	def _getMarkerSegment(self,offset):
+		# Read marker segment that starts at offset and return marker, size,
+		# contents and start offset of next marker
+		
 		# First 2 bytes: 16 bit marker
 		marker = self.boxContents[offset:offset+2]
+		
 		# Check if this is a delimiting marker segment
 		if marker in [b'\xff\x4f',b'\xff\x93',b'\xff\xd9',b'\xff\x92']:
 			# Zero-length markers: SOC, SOD, EOC, EPH
@@ -117,75 +128,101 @@ class BoxValidator:
 		else:
 			# Not a delimiting marker, so remainder contains some data
 			length=bc.bytesToUShortInt(self.boxContents[offset+2:offset+4])
+		
 		# Contents of marker segment (excluding marker) to binary string
 		contents=self.boxContents[offset+2:offset + 2 +length]
+		
 		# Offset value start of next marker segment
 		offsetNext=offset+length+2
+		
 		return(marker,length,contents,offsetNext)
 
-	# Computes compression ratio
-	# noBytes: size of compressed image in bytes
-	# bPCDepthValues: list with bits per component for each component
-	# height, width: image height, width
 	def _calculateCompressionRatio(self, noBytes,bPCDepthValues,height,width):
+		# Computes compression ratio
+		# noBytes: size of compressed image in bytes
+		# bPCDepthValues: list with bits per component for each component
+		# height, width: image height, width
+		
 		# Total bits per pixel
 		bitsPerPixel = 0
+		
 		for i in range(len(bPCDepthValues)):
 			bitsPerPixel += bPCDepthValues[i]
+		
+		# Convert to bytes per pixel
 		bytesPerPixel = bitsPerPixel/8
+		
 		# Uncompressed image size
 		sizeUncompressed = bytesPerPixel*height*width
+		
 		# Compression ratio
 		if noBytes != 0:
 			compressionRatio = sizeUncompressed / noBytes
 		else:
 			# Obviously something going wrong here ...
 			compressionRatio = -9999
-		return compressionRatio 
+		
+		return(compressionRatio) 
 
-	# get the bitvalue of denary (base 10) number n at the equivalent binary
-	# position p (binary count starts at position 1 from the left)
-	# Only works if n can be expressed as 8 bits !!!
+
 	def _getBitValue(self, n, p):
+		# Get the bit value of denary (base 10) number n at the equivalent binary
+		# position p (binary count starts at position 1 from the left)
+		# Only works if n can be expressed as 8 bits !!!
+		
 		# Word length in bits
 		wordLength=8
+		
 		# Shift = word length - p
 		shift=wordLength-p
+		
 		return (n >> shift) & 1
 
-	# Add testresult node to tests element tree
+	
 	def testFor(self, testType, testResult):
+		# Add testResult node to tests element tree
+		
 		self.tests.appendChildTagWithText(testType, testResult)
 
-	# Add characteristic node to characteristics element tree
+
 	def addCharacteristic(self, characteristic, charValue):
+		# Add characteristic node to characteristics element tree
+		
 		self.characteristics.appendChildTagWithText(characteristic, charValue)
 
-	# Validations for boxes -- Read warnings for missing!!
+	# Validator functions for boxes
+	
 	def validate_unknownBox(self):
+		# Unknown box: print warning message to screen
+		
 		printWarning("ignoring unknown box")
 
 	def validate_signatureBox(self):
+		# Signature box (ISO/IEC 15444-1 Section I.5.2)
+				
 		# Check box size, which should be 4 bytes
 		self.testFor("boxLengthIsValid", len(self.boxContents) == 4)
+		
 		# Signature (*not* added to characteristics output, because it contains non-printable characters)
 		self.testFor("signatureIsValid", self.boxContents[0:4] == b'\x0d\x0a\x87\x0a')
 
 	def validate_fileTypeBox(self):
+		# File type box (ISO/IEC 15444-1 Section I.5.2)
+		
 		# Determine number of compatibility fields from box length
 		numberOfCompatibilityFields=(len(self.boxContents)-8)/4
+		
 		# This should never produce a decimal number (would indicate missing data)
 		self.testFor("boxLengthIsValid", numberOfCompatibilityFields == int(numberOfCompatibilityFields))
 
-		# This box contains (ISO/IEC 15444-1 Section I.5.2):
-		# 1. Brand (4 bytes)
+		# Brand value
 		br = self.boxContents[0:4]
 		self.addCharacteristic( "br", br)
 
-	# Is brand value valid?
+		# Is brand value valid?
 		self.testFor("brandIsValid", br == b'\x6a\x70\x32\x20')
 
-		# 2. Minor version (4 bytes)
+		# Minor version
 		minV = bc.bytesToUInt(self.boxContents[4:8])
 		self.addCharacteristic("minV", minV)
 
@@ -194,10 +231,11 @@ class BoxValidator:
 		# even if this field contains siome other value
 		self.testFor("minorVersionIsValid", minV == 0)
 
-		# 3. Compatibility list (one or more 4-byte fields)
+		# Compatibility list (one or more 4-byte fields)
 		# Create list object and store all entries as separate list elements
 		cLList = []
 		offset = 8
+		
 		for i in range(int(numberOfCompatibilityFields)):
 				cL = self.boxContents[offset:offset+4]
 				self.addCharacteristic("cL", cL)
@@ -207,10 +245,10 @@ class BoxValidator:
 		# Compatibility list should contain at least one field with mandatory value.
 		# List is considered valid if this value is found.
 		self.testFor("compatibilityListIsValid", b'\x6a\x70\x32\x20' in cLList)
-
-
-	# This is a superbox (ISO/IEC 15444-1 Section I.5.3)
+	
 	def validate_jp2HeaderBox(self):
+		# JP2 header box (superbox) (ISO/IEC 15444-1 Section I.5.3)
+		
 		# List for storing box type identifiers
 		subBoxTypes = []
 		noBytes = len(self.boxContents)
@@ -248,7 +286,7 @@ class BoxValidator:
 		if sign == 1 and depth == 128:
 			self.testFor("containsBitsPerComponentBox", self.boxTagMap['bitsPerComponentBox'] in subBoxTypes)
 
-	# Is the first box an Image Header Box?
+		# Is the first box an Image Header Box?
 		try:
 			firstJP2HeaderBoxIsImageHeaderBox=subBoxTypes[0] == self.boxTagMap['imageHeaderBox']
 		except:
@@ -281,172 +319,37 @@ class BoxValidator:
 		self.testFor("paletteAndComponentMappingBoxesOnlyTogether",paletteAndComponentMappingBoxesOnlyTogether)
 
 
-	def validate_contiguousCodestreamBox(self):
-		# Codestream length
-		length = len(self.boxContents)
-
-		# Keep track of byte offsets
-		offset = 0
-
-		# Read first marker segment. This should be the start-of-codestream marker
-		marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
-
-		# Marker should be start-of-codestream marker
-		self.testFor("codestreamStartsWithSOCMarker", marker == b'\xff\x4f')
-		offset = offsetNext
-
-		# Read next marker segment. This should be the SIZ (image and tile size) marker
-		marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
-		foundSIZMarker = (marker == b'\xff\x51')
-		self.testFor("foundSIZMarker", foundSIZMarker)
-
-		if foundSIZMarker:
-			# Validate SIZ segment
-			resultSIZ, characteristicsSIZ = BoxValidator(marker, segContents).validate() # validateSIZ(segContents)
-
-			# Add analysis results to test results tree
-			self.tests.append(resultSIZ)
-
-			# Add extracted characteristics to characteristics tree
-			self.characteristics.append(characteristicsSIZ)
-
-		offset = offsetNext
-
-		# Loop through remaining marker segments in main header; first SOT (start of
-		# tile-part marker) indicates end of main header. For now only validate
-		# COD and QCD segments (which are both required) and extract contents of
-		# COM segments. Any other marker segments are ignored.
-
-		# Initial values for foundCODMarker and foundQCDMarker
-		foundCODMarker=False
-		foundQCDMarker=False
-
-		while marker != b'\xff\x90':
-			marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
-
-			if marker == b'\xff\x52':
-				# COD (coding style default) marker segment
-				# COD is required
-				foundCODMarker=True
-
-				# Validate COD segment
-				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() #validateCOD(segContents)
-				# Add analysis results to test results tree
-				self.tests.append(resultCOD)
-				# Add extracted characteristics to characteristics tree
-				self.characteristics.append(characteristicsCOD)
-				offset = offsetNext
-			elif marker == b'\xff\x5c':
-				# QCD (quantization default) marker segment
-				# QCD is required
-				foundQCDMarker=True
-				# Validate QCD segment
-				resultQCD, characteristicsQCD = BoxValidator(marker, segContents).validate()# validateQCD(segContents)
-				# Add analysis results to test results tree
-				self.tests.append(resultQCD)
-				# Add extracted characteristics to characteristics tree
-				self.characteristics.append(characteristicsQCD)
-				offset=offsetNext
-			elif marker == b'\xff\x64':
-				# COM (codestream comment) marker segment
-				# Validate QCD segment
-				resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate() #validateCOM(segContents)
-				# Add analysis results to test results tree
-				self.tests.append(resultCOM)
-				# Add extracted characteristics to characteristics tree
-				self.characteristics.append(characteristicsCOM)
-				offset = offsetNext
-			elif marker==b'\xff\x90':
-				# Start of tile (SOT) marker segment; don't update offset as this
-				# will get of out of this loop (for functional readability):
-				offset = offset
-			else:
-				# Any other marker segment: ignore and move on to next one
-				offset=offsetNext
-
-		# Add foundCODMarker / foundQCDMarker outcome to tests
-		self.testFor("foundCODMarker",foundCODMarker)
-		self.testFor("foundQCDMarker",foundQCDMarker)
-
-		# Check if quantization parameters are consistent with levels (section A.6.4, eq A-4)
-		# Note: this check may be performed at tile-part level as well (not included now)
-		if foundCODMarker:
-			lqcd = self.characteristics.findElementText('qcd/lqcd')
-			qStyle = self.characteristics.findElementText('qcd/qStyle')
-			levels = self.characteristics.findElementText('cod/levels')
-
-		# Expected lqcd as a function of qStyle and levels
-		if qStyle == 0:
-			lqcdExpected = 4 + 3*levels
-		elif qStyle == 1:
-			lqcdExpected = 5
-		elif qStyle == 2:
-			lqcdExpected= 5 + 6*levels
-		else:
-			# Dummy value in case of non-legal value of qStyle
-			lqcdExpected = -9999
-
-		# lqcd should equal expected value
-		self.testFor("quantizationConsistentWithLevels", lqcd == lqcdExpected)
-
-	# Remainder of codestream is a sequence of tile parts, followed by one
-	# end-of-codestream marker
-
-		# Create sub-elements to store tile-part characteristics and tests
-		tilePartCharacteristics=ET.Element('tileParts')
-		tilePartTests=ET.Element('tileParts')
-
-		while marker == b'\xff\x90':
-			marker = self.boxContents[offset:offset+2]
-
-			if marker == b'\xff\x90':
-				resultTilePart, characteristicsTilePart,offsetNext = BoxValidator(marker, self.boxContents, offset).validate() #validateTilePart(self.boxContents,offset)
-				# Add analysis results to test results tree
-				tilePartTests.append(resultTilePart)
-
-				# Add extracted characteristics to characteristics tree
-				tilePartCharacteristics.append(characteristicsTilePart)
-
-				if offsetNext != offset:
-					offset = offsetNext
-
-		# Add tile-part characteristics and tests to characteristics / tests
-		self.characteristics.append(tilePartCharacteristics)
-		self.tests.append(tilePartTests)
-
-		# Last 2 bytes should be end-of-codestream marker
-		self.testFor("foundEOCMarker", self.boxContents[length-2:length] == b'\xff\xd9')
-
-
 	# Validator functions for boxes in JP2 Header superbox
+	
 	def validate_imageHeaderBox(self):
-	# This is a fixed-length box that contains generic image info.
-	# (ISO/IEC 15444-1 Section I.5.3.1)
-	# IMPORTANT: many of these parameters are redundant with header info
-	# in codestream, so there should be a consistency check between these two!
+		# Image header box (ISO/IEC 15444-1 Section I.5.3.1)	
+		# This is a fixed-length box that contains generic image info.
 
-	# Check box length (14 bytes, excluding box length/type fields)
+		# Check box length (14 bytes, excluding box length/type fields)
 		self.testFor("boxLengthIsValid", len(self.boxContents) == 14)
 
-	# Image height and width (both as unsigned integers)
+		# Image height and width (both as unsigned integers)
 		height = bc.bytesToUInt(self.boxContents[0:4])
 		self.addCharacteristic("height", height)
 		width = bc.bytesToUInt(self.boxContents[4:8])
 		self.addCharacteristic("width", width)
 
-	# Height and width should be within range 1 - (2**32)-1
+		# Height and width should be within range 1 - (2**32)-1
 		self.testFor("heightIsValid", 1 <= height <= (2**32)-1)
 		self.testFor("widthIsValid", 1 <= width <= (2**32)-1)
+	
 		# Number of components (unsigned short integer)
 		nC = bc.bytesToUShortInt(self.boxContents[8:10])
 		self.addCharacteristic("nC", nC)
-	# Number of components should be in range 1 - 16384 (including limits)
+	
+		# Number of components should be in range 1 - 16384 (including limits)
 		self.testFor("nCIsValid", 1 <= nC <= 16384)
 
 		# Bits per component (unsigned character)
 		bPC = bc.bytesToUnsignedChar(self.boxContents[10:11])
-	# Most significant bit indicates whether components are signed (1)
-	# or unsigned (0).
+	
+		# Most significant bit indicates whether components are signed (1)
+		# or unsigned (0).
 		bPCSign = self._getBitValue(bPC, 1)
 		self.addCharacteristic("bPCSign", bPCSign)
 
@@ -455,9 +358,9 @@ class BoxValidator:
 		bPCDepth = (bPC & 127) + 1
 		self.addCharacteristic("bPCDepth", bPCDepth)
 
-	# Bits per component field is valid if:
-	# 1. bPCDepth in range 1-38 (including limits)
-	# 2. OR bPC equal 255 (indicating that components vary in bit depth)
+		# Bits per component field is valid if:
+		# 1. bPCDepth in range 1-38 (including limits)
+		# 2. OR bPC equal 255 (indicating that components vary in bit depth)
 		bPCDepthIsWithinAllowedRange = 1 <= bPCDepth <= 38
 		bitDepthIsVariable = 1 <= bPC <= 255
 
@@ -467,27 +370,33 @@ class BoxValidator:
 			bPCIsValid=False
 
 		self.testFor("bPCIsValid",bPCIsValid)
-	# Compression type (unsigned character)
+		
+		# Compression type (unsigned character)
 		c = bc.bytesToUnsignedChar(self.boxContents[11:12])
 		self.addCharacteristic("c", c)
+		
 		# Value should always be 7
 		self.testFor("cIsValid", c == 7)
-	# Colourspace unknown field (unsigned character)
+		
+		# Colourspace unknown field (unsigned character)
 		unkC = bc.bytesToUnsignedChar(self.boxContents[12:13])
 		self.addCharacteristic("unkC", unkC)
-	# Value should be 0 or 1
+		
+		# Value should be 0 or 1
 		self.testFor("unkCIsValid", 0 <= unkC <= 1)
-	# Intellectual Property field (unsigned character)
+		
+		# Intellectual Property field (unsigned character)
 		iPR = bc.bytesToUnsignedChar(self.boxContents[13:14])
 		self.addCharacteristic("iPR",iPR)
-	# Value should be 0 or 1
+		
+		# Value should be 0 or 1
 		self.testFor("iPRIsValid", 0 <= iPR <= 1)
 
 
 	def validate_bitsPerComponentBox(self):
+		# bits per component box (ISO/IEC 15444-1 Section I.5.3.2)
 		# Optional box that specifies bit depth of each component
-		# (ISO/IEC 15444-1 Section I.5.3.2)
-
+		
 		# Number of bPC field (each field is 1 byte)
 		numberOfBPFields = len(self.boxContents)
 
@@ -512,10 +421,10 @@ class BoxValidator:
 
 
 	def validate_colourSpecificationBox(self):
+		# Colour specification box (ISO/IEC 15444-1 Section I.5.3.3)
 		# This box defines one method for interpreting colourspace of decompressed
 		# image data
-		# (ISO/IEC 15444-1 Section I.5.3.3)
-
+		
 		# Length of this box
 		length = len(self.boxContents)
 
@@ -526,18 +435,18 @@ class BoxValidator:
 		# Value should be 1 (enumerated colourspace) or 2 (restricted ICC profile)
 		self.testFor("methIsValid", 1 <= meth <= 2)
 
-	# Precedence (unsigned character)
+		# Precedence (unsigned character)
 		prec = bc.bytesToUnsignedChar(self.boxContents[1:2])
 		self.addCharacteristic("prec",prec)
 
-	# Value shall be 0 (but conforming readers should ignore it)
+		# Value shall be 0 (but conforming readers should ignore it)
 		self.testFor("precIsValid", prec == 0)
 
-	# Colourspace approximation (unsigned character)
+		# Colourspace approximation (unsigned character)
 		approx = bc.bytesToUnsignedChar(self.boxContents[2:3])
 		self.addCharacteristic("approx",approx)
 
-	# Value shall be 0 (but conforming readers should ignore it)
+		# Value shall be 0 (but conforming readers should ignore it)
 		self.testFor("approxIsValid",approx == 0)
 
 		# Colour space info: enumerated CS or embedded ICC profile,
@@ -594,10 +503,132 @@ class BoxValidator:
 			tests, iccCharacteristics = BoxValidator('icc', profile).validate() #self.getICCCharacteristics(profile)
 			self.characteristics.append(iccCharacteristics)
 
+	def validate_icc(self):
+		# Extracts characteristics (property-value pairs) of ICC profile
+		# Note that although values are stored in  'text' property of sub-elements,
+		# they may have a type other than 'text' (binary string, integers, lists)
+		# This means that some post-processing (conversion to text) is needed to
+		# write these property-value pairs to XML
+
+		# Profile header properties (note: incomplete at this stage!)
+		
+		# Size in bytes
+		profileSize=bc.bytesToUInt(self.boxContents[0:4])
+		self.addCharacteristic("profileSize",profileSize)
+		
+		# Preferred CMM type
+		preferredCMMType=bc.bytesToUInt(self.boxContents[4:8])
+		self.addCharacteristic("preferredCMMType",preferredCMMType)
+		
+		# Profile version: major revision
+		profileMajorRevision=bc.bytesToUnsignedChar(self.boxContents[8:9])
+		
+		# Profile version: minor revision
+		profileMinorRevisionByte=bc.bytesToUnsignedChar(self.boxContents[9:10])
+		
+		# Minor revision: first 4 bits of profileMinorRevisionByte
+		# (Shift bits 4 positions to right, logical shift not arithemetic shift!)
+		profileMinorRevision=profileMinorRevisionByte >> 4
+		
+		# Bug fix revision: last 4 bits of profileMinorRevisionByte
+		# (apply bit mask of 00001111 = 15)
+		profileBugFixRevision=profileMinorRevisionByte & 15
+		
+		# Construct text string with profile version
+		profileVersion="%s.%s.%s" % (profileMajorRevision, profileMinorRevision, profileBugFixRevision)
+		self.addCharacteristic("profileVersion",profileVersion)
+		
+		# Bytes 10 and 11 are reserved an set to zero(ignored here)
+		
+		# Profile class (or device class) (binary string)
+		profileClass=self.boxContents[12:16]
+		self.addCharacteristic("profileClass",profileClass)
+		
+		# Colour space (binary string)
+		colourSpace=self.boxContents[16:20]
+		self.addCharacteristic("colourSpace",colourSpace)
+		
+		# Profile connection space (binary string)
+		profileConnectionSpace=self.boxContents[20:24]
+		self.addCharacteristic("profileConnectionSpace",profileConnectionSpace)
+		
+		# Date and time fields
+		year=bc.bytesToUShortInt(self.boxContents[24:26])
+		month=bc.bytesToUnsignedChar(self.boxContents[27:28])
+		day=bc.bytesToUnsignedChar(self.boxContents[29:30])
+		hour=bc.bytesToUnsignedChar(self.boxContents[31:32])
+		minute=bc.bytesToUnsignedChar(self.boxContents[33:34])
+		second=bc.bytesToUnsignedChar(self.boxContents[35:36])
+		dateString="%d/%02d/%02d" % (year, month, day)
+		timeString="%02d:%02d:%02d" % (hour, minute, second)
+		dateTimeString="%s, %s" % (dateString, timeString)
+		self.addCharacteristic("dateTimeString",dateTimeString)
+		
+		# Profile signature (binary string)
+		profileSignature=self.boxContents[36:40]
+		self.addCharacteristic("profileSignature",profileSignature)
+		
+		# Primary platform (binary string)
+		primaryPlatform=self.boxContents[40:44]
+		self.addCharacteristic("primaryPlatform",primaryPlatform)
+		
+		# To do: add remaining header fields; maybe include check on Profile ID
+		# field (MD5 checksum) to test integrity of profile.
+		# Parse tag table
+		
+		# Number of tags (tag count)
+		tagCount=bc.bytesToUInt(self.boxContents[128:132])
+		
+		# List of tag signatures, offsets and sizes
+		# All local to this function; all property exports through "characteristics"
+		# element object!
+		tagSignatures=[]
+		tagOffsets=[]
+		tagSizes=[]
+		
+		# Offset of start of first tag
+		tagStart=132
+		for i in range(tagCount):
+			# Extract tag signature (as binary string) for each entry
+			tagSignature=self.boxContents[tagStart:tagStart+4]
+			tagOffset=bc.bytesToUInt(self.boxContents[tagStart+4:tagStart+8])
+			tagSize=bc.bytesToUInt(self.boxContents[tagStart+8:tagStart+12])
+			self.addCharacteristic("tag",tagSignature)
+			
+			# Add to list
+			tagSignatures.append(tagSignature)
+			tagOffsets.append(tagOffset)
+			tagSizes.append(tagSize)
+			
+			# Start offset of next tag
+			tagStart +=12
+		
+		# Get profile description from profile description tag
+		# The following code could go wrong in case tagSignatures doesn't
+		# contain description fields (e.g. if profile is corrupted); try block
+		# will capture any such errors.
+		
+		try:
+			i = tagSignatures.index(b'desc')
+			descStartOffset=tagOffsets[i]
+			descSize=tagSizes[i]
+			descTag=self.boxContents[descStartOffset:descStartOffset+descSize]
+		
+			# Note that description of this tag is missing from recent versions of
+			# standard; following code based on older version:
+			# ICC.1:2001-04 File Format for Color Profiles [REVISION of ICC.1:1998-09]
+			# Length of description (including terminating null character)
+			descriptionLength=bc.bytesToUInt(descTag[8:12])
+		
+			# Description as binary string (excluding terminating null char)
+			description=descTag[12:12+descriptionLength-1]
+		except:
+			description=""
+		self.addCharacteristic("description",description)
 
 	def validate_channelDefinitionBox(self):
+		# Channel definition box (ISO/IEC 15444-1 Section I.5.3.6)
 		# This box specifies the meaning of the samples in each channel in the image
-		# (ISO/IEC 15444-1 Section I.5.3.6)
 		# NOT TESTED YET BECAUSE OF UNAVAILABILITY OF SUITABLE TEST DATA!!
 
 		# Number of channel descriptions (short integer)
@@ -639,8 +670,9 @@ class BoxValidator:
 			offset += 6
 
 	def validate_resolutionBox(self):
-		# Superbox that specifies the capture and default display grid resolutions of
-		# the image. (ISO/IEC 15444-1 Section I.5.3.7
+		# Resolution box (superbox)(ISO/IEC 15444-1 Section I.5.3.7
+		# Specifies the capture and/or default display grid resolutions of
+		# the image.
 
 		# Marker tags/codes that identify all sub-boxes as hexadecimal strings
 		tagCaptureResolutionBox=b'\x72\x65\x73\x63'
@@ -677,12 +709,12 @@ class BoxValidator:
 		# This box contains either one Capture Resolution box, one Default Display
 		# resolution box, or one of both
 		self.testFor("containsCaptureOrDisplayResolutionBox", tagCaptureResolutionBox in subBoxTypes or tagDisplayResolutionBox in subBoxTypes)
-
 		self.testFor("noMoreThanOneCaptureResolutionBox", subBoxTypes.count(tagCaptureResolutionBox) <= 1)
 		self.testFor("noMoreThanOneDisplayResolutionBox", subBoxTypes.count(tagDisplayResolutionBox) <= 1)
 
 
 	# Validator functions for boxes in Resolution box
+	
 	def validate_captureResolutionBox(self):
 		# Capture  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.1)
 
@@ -795,11 +827,148 @@ class BoxValidator:
 		hResdInPixelsPerInch = hResdInPixelsPerMeter * 25.4e-3
 		self.addCharacteristic("hResdInPixelsPerInch", round(hResdInPixelsPerInch,2))
 
+	def validate_contiguousCodestreamBox(self):
+		# Contiguous codestream box (ISO/IEC 15444-1 Section I.5.4)
+		
+		# Codestream length
+		length = len(self.boxContents)
+
+		# Keep track of byte offsets
+		offset = 0
+
+		# Read first marker segment. This should be the start-of-codestream marker
+		marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
+
+		# Marker should be start-of-codestream marker
+		self.testFor("codestreamStartsWithSOCMarker", marker == b'\xff\x4f')
+		offset = offsetNext
+
+		# Read next marker segment. This should be the SIZ (image and tile size) marker
+		marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
+		foundSIZMarker = (marker == b'\xff\x51')
+		self.testFor("foundSIZMarker", foundSIZMarker)
+
+		if foundSIZMarker:
+			# Validate SIZ segment
+			resultSIZ, characteristicsSIZ = BoxValidator(marker, segContents).validate() # validateSIZ(segContents)
+
+			# Add analysis results to test results tree
+			self.tests.append(resultSIZ)
+
+			# Add extracted characteristics to characteristics tree
+			self.characteristics.append(characteristicsSIZ)
+
+		offset = offsetNext
+
+		# Loop through remaining marker segments in main header; first SOT (start of
+		# tile-part marker) indicates end of main header. For now only validate
+		# COD and QCD segments (which are both required) and extract contents of
+		# COM segments. Any other marker segments are ignored.
+
+		# Initial values for foundCODMarker and foundQCDMarker
+		foundCODMarker=False
+		foundQCDMarker=False
+
+		while marker != b'\xff\x90':
+			marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
+
+			if marker == b'\xff\x52':
+				# COD (coding style default) marker segment
+				# COD is required
+				foundCODMarker=True
+
+				# Validate COD segment
+				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() #validateCOD(segContents)
+				# Add analysis results to test results tree
+				self.tests.append(resultCOD)
+				# Add extracted characteristics to characteristics tree
+				self.characteristics.append(characteristicsCOD)
+				offset = offsetNext
+			elif marker == b'\xff\x5c':
+				# QCD (quantization default) marker segment
+				# QCD is required
+				foundQCDMarker=True
+				# Validate QCD segment
+				resultQCD, characteristicsQCD = BoxValidator(marker, segContents).validate()# validateQCD(segContents)
+				# Add analysis results to test results tree
+				self.tests.append(resultQCD)
+				# Add extracted characteristics to characteristics tree
+				self.characteristics.append(characteristicsQCD)
+				offset=offsetNext
+			elif marker == b'\xff\x64':
+				# COM (codestream comment) marker segment
+				# Validate QCD segment
+				resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate() #validateCOM(segContents)
+				# Add analysis results to test results tree
+				self.tests.append(resultCOM)
+				# Add extracted characteristics to characteristics tree
+				self.characteristics.append(characteristicsCOM)
+				offset = offsetNext
+			elif marker==b'\xff\x90':
+				# Start of tile (SOT) marker segment; don't update offset as this
+				# will get of out of this loop (for functional readability):
+				offset = offset
+			else:
+				# Any other marker segment: ignore and move on to next one
+				offset=offsetNext
+
+		# Add foundCODMarker / foundQCDMarker outcome to tests
+		self.testFor("foundCODMarker",foundCODMarker)
+		self.testFor("foundQCDMarker",foundQCDMarker)
+
+		# Check if quantization parameters are consistent with levels (section A.6.4, eq A-4)
+		# Note: this check may be performed at tile-part level as well (not included now)
+		if foundCODMarker:
+			lqcd = self.characteristics.findElementText('qcd/lqcd')
+			qStyle = self.characteristics.findElementText('qcd/qStyle')
+			levels = self.characteristics.findElementText('cod/levels')
+
+		# Expected lqcd as a function of qStyle and levels
+		if qStyle == 0:
+			lqcdExpected = 4 + 3*levels
+		elif qStyle == 1:
+			lqcdExpected = 5
+		elif qStyle == 2:
+			lqcdExpected= 5 + 6*levels
+		else:
+			# Dummy value in case of non-legal value of qStyle
+			lqcdExpected = -9999
+
+		# lqcd should equal expected value
+		self.testFor("quantizationConsistentWithLevels", lqcd == lqcdExpected)
+
+		# Remainder of codestream is a sequence of tile parts, followed by one
+		# end-of-codestream marker
+
+		# Create sub-elements to store tile-part characteristics and tests
+		tilePartCharacteristics=ET.Element('tileParts')
+		tilePartTests=ET.Element('tileParts')
+
+		while marker == b'\xff\x90':
+			marker = self.boxContents[offset:offset+2]
+
+			if marker == b'\xff\x90':
+				resultTilePart, characteristicsTilePart,offsetNext = BoxValidator(marker, self.boxContents, offset).validate() #validateTilePart(self.boxContents,offset)
+				# Add analysis results to test results tree
+				tilePartTests.append(resultTilePart)
+
+				# Add extracted characteristics to characteristics tree
+				tilePartCharacteristics.append(characteristicsTilePart)
+
+				if offsetNext != offset:
+					offset = offsetNext
+
+		# Add tile-part characteristics and tests to characteristics / tests
+		self.characteristics.append(tilePartCharacteristics)
+		self.tests.append(tilePartTests)
+
+		# Last 2 bytes should be end-of-codestream marker
+		self.testFor("foundEOCMarker", self.boxContents[length-2:length] == b'\xff\xd9')
 
 	# Validator functions for codestream elements
+	
 	def validate_siz(self):
-		# Analyse SIZ segment of codestream header and validate it
-		# (ISO/IEC 15444-1 Section A.5.1)
+		# Image and tile size (SIZ) header fields (ISO/IEC 15444-1 Section A.5.1)
 
 		# Length of main image header
 		lsiz = bc.bytesToUShortInt(self.boxContents[0:2])
@@ -883,8 +1052,6 @@ class BoxValidator:
 
 		# Precision, depth horizontal/verical separation repeated for each component
 
-		# NOTE: for clarity maybe assign each component its own element (with properties
-		# as sub elements)
 		offset = 38
 
 		for i in range(csiz):
@@ -924,8 +1091,7 @@ class BoxValidator:
 
 
 	def validate_cod(self):
-		# Analyse coding style default header fields (COD) and validate
-		# (ISO/IEC 15444-1 Section A.6.1)
+		# Coding style default (COD) header fields (ISO/IEC 15444-1 Section A.6.1)
 
 		# Length of COD marker
 		lcod=bc.bytesToUShortInt(self.boxContents[0:2])
@@ -1101,8 +1267,7 @@ class BoxValidator:
 
 
 	def validate_qcd(self):
-		# Analyse quantization default header fields (QCD) and validate
-		# (ISO/IEC 15444-1 Section A.6.4)
+		# Quantization default  (QCD) header fields (ISO/IEC 15444-1 Section A.6.4)
 
 		# Length of QCD marker
 		lqcd=bc.bytesToUShortInt(self.boxContents[0:2])
@@ -1178,8 +1343,7 @@ class BoxValidator:
 
 
 	def validate_com(self):
-		# Analyse codestream comment (COM) and validate
-		# (ISO/IEC 15444-1 Section A.6.4)
+		# Codestream comment (COM) (ISO/IEC 15444-1 Section A.9.2)
 
 		# Length of COM marker
 		lcom=bc.bytesToUShortInt(self.boxContents[0:2])
@@ -1209,108 +1373,8 @@ class BoxValidator:
 		if rcom == 1:
 			self.addCharacteristic("comment",comment)
 
-	def validate_icc(self):
-		# Extracts characteristics (property-value pairs) of ICC profile
-		# Note that although values are stored in  'text' property of sub-elements,
-		# they may have a type other than 'text' (binary string, integers, lists)
-		# This means that some post-processing (conversion to text) is needed to
-		# write these property-value pairs to XML
-
-		# Profile header properties (note: incomplete at this stage!)
-		# Size in bytes
-		profileSize=bc.bytesToUInt(self.boxContents[0:4])
-		self.addCharacteristic("profileSize",profileSize)
-		# Preferred CMM type
-		preferredCMMType=bc.bytesToUInt(self.boxContents[4:8])
-		self.addCharacteristic("preferredCMMType",preferredCMMType)
-		# Profile version: major revision
-		profileMajorRevision=bc.bytesToUnsignedChar(self.boxContents[8:9])
-		# Profile version: minor revision
-		profileMinorRevisionByte=bc.bytesToUnsignedChar(self.boxContents[9:10])
-		# Minor revision: first 4 bits of profileMinorRevisionByte
-		# (Shift bits 4 positions to right, logical shift not arithemetic shift!)
-		profileMinorRevision=profileMinorRevisionByte >> 4
-		# Bug fix revision: last 4 bits of profileMinorRevisionByte
-		# (apply bit mask of 00001111 = 15)
-		profileBugFixRevision=profileMinorRevisionByte & 15
-		# Construct text string with profile version
-		profileVersion="%s.%s.%s" % (profileMajorRevision, profileMinorRevision, profileBugFixRevision)
-		self.addCharacteristic("profileVersion",profileVersion)
-		# Bytes 10 and 11 are reserved an set to zero(ignored here)
-		# Profile class (or device class) (binary string)
-		profileClass=self.boxContents[12:16]
-		self.addCharacteristic("profileClass",profileClass)
-		# Colour space (binary string)
-		colourSpace=self.boxContents[16:20]
-		self.addCharacteristic("colourSpace",colourSpace)
-		# Profile connection space (binary string)
-		profileConnectionSpace=self.boxContents[20:24]
-		self.addCharacteristic("profileConnectionSpace",profileConnectionSpace)
-		# Date and time fields
-		year=bc.bytesToUShortInt(self.boxContents[24:26])
-		month=bc.bytesToUnsignedChar(self.boxContents[27:28])
-		day=bc.bytesToUnsignedChar(self.boxContents[29:30])
-		hour=bc.bytesToUnsignedChar(self.boxContents[31:32])
-		minute=bc.bytesToUnsignedChar(self.boxContents[33:34])
-		second=bc.bytesToUnsignedChar(self.boxContents[35:36])
-		dateString="%d/%02d/%02d" % (year, month, day)
-		timeString="%02d:%02d:%02d" % (hour, minute, second)
-		dateTimeString="%s, %s" % (dateString, timeString)
-		self.addCharacteristic("dateTimeString",dateTimeString)
-		# Profile signature (binary string)
-		profileSignature=self.boxContents[36:40]
-		self.addCharacteristic("profileSignature",profileSignature)
-		# Primary platform (binary string)
-		primaryPlatform=self.boxContents[40:44]
-		self.addCharacteristic("primaryPlatform",primaryPlatform)
-		# To do: add remaining header fields; maybe include check on Profile ID
-		# field (MD5 checksum) to test integrity of profile.
-		# Parse tag table
-		# Number of tags (tag count)
-		tagCount=bc.bytesToUInt(self.boxContents[128:132])
-		# List of tag signatures, offsets and sizes
-		# All local to this function; all property exports through "characteristics"
-		# element object!
-		tagSignatures=[]
-		tagOffsets=[]
-		tagSizes=[]
-		# Offset of start of first tag
-		tagStart=132
-		for i in range(tagCount):
-			# Extract tag signature (as binary string) for each entry
-			tagSignature=self.boxContents[tagStart:tagStart+4]
-			tagOffset=bc.bytesToUInt(self.boxContents[tagStart+4:tagStart+8])
-			tagSize=bc.bytesToUInt(self.boxContents[tagStart+8:tagStart+12])
-			self.addCharacteristic("tag",tagSignature)
-			# Add to list
-			tagSignatures.append(tagSignature)
-			tagOffsets.append(tagOffset)
-			tagSizes.append(tagSize)
-			# Start offset of next tag
-			tagStart +=12
-		# Get profile description from profile description tag
-		# The following code could go wrong in case tagSignatures doesn't
-		# contain description fields (e.g. if profile is corrupted); try block
-		# will capture any such errors.
-		try:
-			i = tagSignatures.index(b'desc')
-			descStartOffset=tagOffsets[i]
-			descSize=tagSizes[i]
-			descTag=self.boxContents[descStartOffset:descStartOffset+descSize]
-			# Note that description of this tag is missing from recent versions of
-			# standard; following code based on older version:
-			# ICC.1:2001-04 File Format for Color Profiles [REVISION of ICC.1:1998-09]
-			# Length of description (including terminating null character)
-			descriptionLength=bc.bytesToUInt(descTag[8:12])
-			# Description as binary string (excluding terminating null char)
-			description=descTag[12:12+descriptionLength-1]
-		except:
-			description=""
-		self.addCharacteristic("description",description)
-
 	def validate_sot(self):
-		# Analyse start of tile-part (SOT) marker segment and validate
-		# (ISO/IEC 15444-1 Section A.4.2)
+		# Start of tile-part (SOT) marker segment (ISO/IEC 15444-1 Section A.4.2)
 
 		# Note that unlike other marker validation functions this one returns a
 		# third result, which is the total tile-part length (psot)!
@@ -1457,6 +1521,27 @@ class BoxValidator:
 			self.testFor("foundNextTilePartOrEOC",foundNextTilePartOrEOC)
 
 		self.returnOffset = offsetNextTilePart
+
+	def validate_xmlBox(self):
+		# XML Box (ISO/IEC 15444-1 Section I.7.1)
+		
+		data=self.boxContents
+		
+		# Data should be well-formed XML. Try to parse data to Element instance.
+		
+		try:
+			dataAsElement= ET.fromstring(data)
+			
+			# Add data to characteristics tree
+			self.characteristics.append(dataAsElement)
+			
+			# If no exception was raised data contains well-formed XML
+			containsWellformedXML=True
+		except:
+			# If parse raised error this is not well-formed XML
+			containsWellformedXML=False
+		
+		self.testFor("containsWellformedXML",containsWellformedXML)
 
 	def validate_JP2(self):
 		# Top-level function for JP2 validation:

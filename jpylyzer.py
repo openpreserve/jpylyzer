@@ -41,7 +41,7 @@ from byteconv import bytesToText
 from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "16 February 2012"
+__version__= "17 February 2012"
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -53,15 +53,17 @@ def get_main_dir():
         return os.path.dirname(sys.executable)
     return os.path.dirname(sys.argv[0])
 
-# Read file, return contents as a byte object
 def readFileBytes(file):
+    # Read file, return contents as a byte object
+    
     # Open file
     f = open(file,"rb")
+    
     # Put contents of file into a byte object.
     fileData=f.read()
     f.close()
+    
     return(fileData)
-
 
 def generatePropertiesRemapTable():
 
@@ -204,7 +206,6 @@ def checkOneFile(file):
       
     return(result)
     
-
 def checkFiles(images):
     if len(images) == 0:
         printWarning("no images to check!")

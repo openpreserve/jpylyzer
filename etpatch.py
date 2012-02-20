@@ -9,6 +9,8 @@ from byteconv import bytesToText
 # I don't want to mess with ANYthing :)
 def tostring(elem, enc, meth):
 	return ET.tostring(elem, enc, meth)
+def fromstring(text):
+	return ET.fromstring(text)
 def SubElement(parent, tag):
 	return ET.SubElement(parent, tag)
 
@@ -20,39 +22,45 @@ class Element(ET.Element):
 	def findElementText(self, match):
 		elt = self.find(match)
 		if elt is not None:
-			return elt.text
+			return(elt.text)
 		else:
-			return None
+			return(None)
 
-	# Searches element and returns list that contains 'Text' attribute
-	# of all matching sub-elements. Returns empty list if element
-	# does not exist
+
 	def findAllText(self, match):
+		# Searches element and returns list that contains 'Text' attribute
+		# of all matching sub-elements. Returns empty list if element
+		# does not exist
+	
 		try:
 			return [result.text for result in self.findall(match)]
 		except:
 			return []
 
-	# Append childnode with text
+	
 	def appendChildTagWithText(self, tag, text):
+		# Append childnode with text
+		
 		el = ET.SubElement(self, tag)
 		el.text = text
 		
 
-	# Translate values to human readable, optionally using mappings
+	
 	def makeHumanReadable(self, remapTable = {}):
-		# Takes element tree object, and returns a modified version in which all
+		# Takes element object, and returns a modified version in which all
 		# non-printable 'text' fields (which may contain numeric data or binary strings)
 		# are replaced by printable strings
 		#
 		# Property values in original tree may be mapped to alternative (more user-friendly)
-		# reportable values using a rempapTable, which is a nested dictionary.
-		# Destination tree: copy of source (?? think this is just a reference, Johan)
+		# reportable values using a remapTable, which is a nested dictionary.
+
 		for elt in self.iter():
 			# Text field of this element
 			textIn = elt.text
+			
 			# Tag name
 			tag = elt.tag
+			
 			# Step 1: replace property values by values defined in enumerationsMap,
 			# if applicable
 			try:
@@ -67,6 +75,7 @@ class Element(ET.Element):
 			except KeyError:
 				# If tag doesn't match any key in enumerationsMap, use original value
 				remappedValue = textIn
+			
 			# Step 2: convert all values to text strings
 			if remappedValue != None:
 				# Data type
