@@ -3,9 +3,14 @@
 #
 #
 # jpylyzer
-# Requires: Python 2.7 OR Python 3.2 or better
 #
-# Copyright (C) 2011, 2012 Johan van der Knijff, Koninklijke Bibliotheek - National Library of the Netherlands
+# Requires: Python 2.7 (older versions won't work) OR Python 3.2 or more recent
+#  (Python 3.0 and 3.1 won't work either!)
+#
+# Copyright (C) 2011, 2012 Johan van der Knijff, Koninklijke Bibliotheek -
+#  National Library of the Netherlands
+#
+# Contributors: Rene van der Ark (refactoring of original code), Lars Buitinck 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -41,7 +46,7 @@ from byteconv import bytesToText
 from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "17 February 2012"
+__version__= "23 February 2012"
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -185,7 +190,7 @@ def checkOneFile(file):
     # Produce some general tool and file meta info
     toolInfo.appendChildTagWithText("toolName", scriptName)
     toolInfo.appendChildTagWithText("toolVersion", __version__)
-    fileInfo.appendChildTagWithText("fileName", file)
+    fileInfo.appendChildTagWithText("fileName", os.path.basename(file))
     fileInfo.appendChildTagWithText("filePath", os.path.abspath(file))
     fileInfo.appendChildTagWithText("fileSizeInBytes", str(os.path.getsize(file)))
     fileInfo.appendChildTagWithText("fileLastModified", time.ctime(os.path.getmtime(file)))
