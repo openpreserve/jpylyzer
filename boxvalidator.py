@@ -1,4 +1,5 @@
 from __future__ import division
+import uuid
 import etpatch as ET
 import byteconv as bc
 from shared import listOccurrencesAreContiguous
@@ -1542,6 +1543,25 @@ class BoxValidator:
 			containsWellformedXML=False
 		
 		self.testFor("containsWellformedXML",containsWellformedXML)
+	
+	def validate_uuidBox(self):
+		# UUID Box (ISO/IEC 15444-1 Section I.7.2)
+		# For details on UUIDs see: http://tools.ietf.org/html/rfc4122.html
+		
+		# Box contains 16-byte identifier, followed by block of data.
+		# Format of data is defined outside of the scope of JPEG 2000,
+		# so there's not much to validate here.
+		
+		# Check box size, which should be greater than 16 bytes
+		self.testFor("boxLengthIsValid", len(self.boxContents) > 16)
+				
+		# First 16 bytes contain UUID, convert to string of hex digits
+		# in standard form
+		id=str(uuid.UUID(bytes=self.boxContents[0:16]))
+		
+		# Add to characteristics tree	
+		self.addCharacteristic("uuid",id)
+		
 
 	def validate_JP2(self):
 		# Top-level function for JP2 validation:
