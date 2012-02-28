@@ -1,7 +1,7 @@
 jpylyzer
 
-Prototype JP2 (JPEG 2000 Part 1) validator and properties extractor
-Author: Johan van der Knijff, KB / National Library of the Netherlands
+JP2 (JPEG 2000 Part 1) image validator and properties extractor
+KB / National Library of the Netherlands - Open Planets Foundation
 
 Command line synopsis:
 
@@ -35,5 +35,5 @@ Outline of output elements:
    properties follows ISO/IEC 15444-1 Annex I (JP2 file format syntax) and
    Annex A (Codestream syntax).
 
-More elaborate documentation of jpylyzer will follow.   
+See jpylyzer User Manual for more details.   
 
