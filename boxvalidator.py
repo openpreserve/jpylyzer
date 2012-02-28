@@ -26,6 +26,8 @@ class BoxValidator:
 		b'\x6a\x70\x32\x63': "contiguousCodestreamBox",
 		b'\x72\x65\x73\x63': "captureResolutionBox",
 		b'\x72\x65\x73\x64': "displayResolutionBox",
+		b'\x75\x6c\x73\x74': "uuidListBox",
+		b'\x75\x72\x6c\x20': "urlBox",
 		b'\xff\x51': "siz",
 		b'\xff\x52': "cod",
 		b'\xff\x5c': "qcd",
@@ -630,10 +632,9 @@ class BoxValidator:
 	def validate_channelDefinitionBox(self):
 		# Channel definition box (ISO/IEC 15444-1 Section I.5.3.6)
 		# This box specifies the meaning of the samples in each channel in the image
-		# NOT TESTED YET BECAUSE OF UNAVAILABILITY OF SUITABLE TEST DATA!!
 
 		# Number of channel descriptions (short integer)
-		n = bc.bytesToShortInt(self.boxContents[0:2])
+		n = bc.bytesToUShortInt(self.boxContents[0:2])
 		self.addCharacteristic("n",n)
 
 		# Allowed range: 1 - 65535
@@ -648,21 +649,21 @@ class BoxValidator:
 		offset = 2
 		for i in range(n):
 			# Channel index
-			cN=bc.bytesToShortInt(self.boxContents[offset:offset+2])
+			cN=bc.bytesToUShortInt(self.boxContents[offset:offset+2])
 			self.addCharacteristic("cN",cN)
 
 			# Allowed range: 0 - 65535
 			self.testFor("cNIsValid", 0 <= cN <= 65535)
 
 			# Channel type
-			cTyp = bc.bytesToShortInt(self.boxContents[offset+2:offset+4])
+			cTyp = bc.bytesToUShortInt(self.boxContents[offset+2:offset+4])
 			self.addCharacteristic("cTyp",cTyp)
 
 			# Allowed range: 0 - 65535
 			self.testFor("cTypIsValid", 0 <= cTyp <= 65535)
 
 			# Channel Association
-			cAssoc = bc.bytesToShortInt(self.boxContents[offset+4:offset+6])
+			cAssoc = bc.bytesToUShortInt(self.boxContents[offset+4:offset+6])
 			self.addCharacteristic("cAssoc",cAssoc)
 
 			# Allowed range: 0 - 65535
@@ -1548,6 +1549,8 @@ class BoxValidator:
 		# UUID Box (ISO/IEC 15444-1 Section I.7.2)
 		# For details on UUIDs see: http://tools.ietf.org/html/rfc4122.html
 		
+		# NOTE: Untested at this stage due to lack of suitable test files!!!
+		
 		# Box contains 16-byte identifier, followed by block of data.
 		# Format of data is defined outside of the scope of JPEG 2000,
 		# so there's not much to validate here.
@@ -1561,7 +1564,96 @@ class BoxValidator:
 		
 		# Add to characteristics tree	
 		self.addCharacteristic("uuid",id)
+
+	def validate_uuidInfoBox(self):
+		# UUID Info box (superbox)(ISO/IEC 15444-1 Section I.7.3)
+		# Provides additional information on vendor-specific UUIDs
 		
+		# NOTE: Untested at this stage due to lack of suitable test files!!!
+
+		# Marker tags/codes that identify sub-boxes as hexadecimal strings
+		tagListBox=b'\x75\x6c\x73\x74'
+		tagURLBox=b'\x75\x72\x6c\x20'
+
+		# List for storing box type identifiers
+		subBoxTypes=[]
+
+		noBytes = len(self.boxContents)
+		byteStart = 0
+		bytesTotal = 0
+
+		# Dummy value
+		boxLengthValue = 10
+
+		while byteStart < noBytes and boxLengthValue != 0:
+
+			boxLengthValue, boxType, byteEnd, subBoxContents = self._getBox(byteStart, noBytes)
+
+			# validate sub boxes
+			resultBox, characteristicsBox = BoxValidator(boxType, subBoxContents).validate()
+
+			byteStart = byteEnd
+
+			# Add to list of box types
+			subBoxTypes.append(boxType)
+
+			# Add analysis results to test results tree
+			self.tests.append(resultBox)
+
+			# Add extracted characteristics to characteristics tree
+			self.characteristics.append(characteristicsBox)
+
+		# This box contains one UUID List box and one Data Entry URL box
+		self.testFor("containsOneListBox", subBoxTypes.count(tagListBox) == 1)
+		self.testFor("containsOneURLBox", subBoxTypes.count(tagURLBox) == 1)
+
+	def validate_uuidListBox(self):
+		# UUID List box (ISO/IEC 15444-1 Section I.7.3.1)
+		# Contains a list of UUIDs
+		
+		# NOTE: Untested at this stage due to lack of suitable test files!!!
+		
+		# Number of UUIDs
+		nU=bytesToUShortInt(self.boxContents[0:2])
+		self.addCharacteristic( "nU", nU)
+		
+		# Each UUID is 16 byte string, so check if total box length is valid
+		self.testFor("boxLengthIsValid", len(self.boxContents) == nU*16 + 2)
+
+		# Loop through all UUIDs				
+		offset = 2
+		for i in range(nU):
+			id=str(uuid.UUID(bytes=self.boxContents[offset:offset+16]))
+			self.addCharacteristic("uuid",id)
+			offset+=16
+
+	def validate_urlBox(self):
+		# Data Entry URL box (ISO/IEC 15444-1 Section I.7.3.2)
+		# Contains URL that can be used to obtain more information
+		# about UUIDs in UUID List box
+		
+		# Version number (1 byte unsigned integer)
+		version=bytesToUnsignedChar(self.boxContents[0:1])
+		self.addCharacteristic( "version", version)
+		
+		# Value of version shall be 0
+		self.testFor("versionIsValid", version == 0)
+		
+		# Next item reserved to flag particular attributes of this box
+		# (defined as 3-byte integer in standard, but since this is not
+		# readily supported in Python we'll treat it as a bytes object)
+		flag=self.boxContents[1:4]
+		
+		# All bytes should be 0
+		self.testFor("flagIsValid", flag == b'\x00\x00\x00')
+		
+		# Location: this is the actual URL, encoded as a UTF-8 string
+		# NOTE: according to spec loc is a null-terminated sring, not
+		# sure if this will go right when writing this to XML ..
+		loc=boxContents[4:len(boxContents)]
+		loc=loc.decode("utf-8","strict")
+		
+		self.addCharacteristic( "loc", loc)
 
 	def validate_JP2(self):
 		# Top-level function for JP2 validation:

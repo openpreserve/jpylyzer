@@ -46,7 +46,7 @@ from byteconv import bytesToText
 from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "24 February 2012"
+__version__= "27 February 2012"
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -109,6 +109,18 @@ def generatePropertiesRemapTable():
     enumCSMap[16]="sRGB"
     enumCSMap[17]="greyscale"
     enumCSMap[18]="sYCC"
+    
+    # Channel type (Channel Definition Box)
+    cTypMap={}
+    cTypMap[0]="colour"
+    cTypMap[1]="opacity"
+    cTypMap[2]="premultiplied opacity"
+    cTypMap[65535]="not specified"
+
+    # Channel association (Channel Definition Box)
+    cAssocMap={}
+    cAssocMap[0]="all colours"
+    cAssocMap[65535]="no colours"
 
     # Decoder capabilities, rsiz (Codestream, SIZ)
     rsizMap={}
@@ -158,6 +170,8 @@ def generatePropertiesRemapTable():
     enumerationsMap['c']=cMap
     enumerationsMap['meth']=methMap
     enumerationsMap['enumCS']=enumCSMap
+    enumerationsMap['cTyp']=cTypMap
+    enumerationsMap['cAssoc']=cAssocMap
     enumerationsMap['order']=orderMap
     enumerationsMap['transformation']=transformationMap
     enumerationsMap['rsiz']=rsizMap
