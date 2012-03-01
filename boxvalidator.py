@@ -1614,7 +1614,7 @@ class BoxValidator:
 		# NOTE: Untested at this stage due to lack of suitable test files!!!
 		
 		# Number of UUIDs
-		nU=bytesToUShortInt(self.boxContents[0:2])
+		nU=bc.bytesToUShortInt(self.boxContents[0:2])
 		self.addCharacteristic( "nU", nU)
 		
 		# Each UUID is 16 byte string, so check if total box length is valid
@@ -1633,7 +1633,7 @@ class BoxValidator:
 		# about UUIDs in UUID List box
 		
 		# Version number (1 byte unsigned integer)
-		version=bytesToUnsignedChar(self.boxContents[0:1])
+		version=bc.bytesToUnsignedChar(self.boxContents[0:1])
 		self.addCharacteristic( "version", version)
 		
 		# Value of version shall be 0
@@ -1648,10 +1648,14 @@ class BoxValidator:
 		self.testFor("flagIsValid", flag == b'\x00\x00\x00')
 		
 		# Location: this is the actual URL, encoded as a UTF-8 string
-		# NOTE: according to spec loc is a null-terminated sring, not
-		# sure if this will go right when writing this to XML ..
-		loc=boxContents[4:len(boxContents)]
-		loc=loc.decode("utf-8","strict")
+		loc=self.boxContents[4:len(self.boxContents)]
+		
+		try:
+			loc=loc.decode("utf-8","strict")
+			self.testFor("locIsUTF8", True)
+		except UnicodeDecodeError:
+			loc=""
+			self.testFor("locIsUTF8", False)
 		
 		self.addCharacteristic( "loc", loc)
 

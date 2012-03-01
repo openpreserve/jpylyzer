@@ -1,0 +1,21 @@
+This howto explains how to build 'jpylyzer' as an linux executable so that python is no longer a dependency.
+This was done because there was an incompatibility between 'jpylyzer' and python version bellow 2.7.
+
+
+INSTRUCTIONS
+
+1. Download 'pyinstaller'
+
+wget https://github.com/downloads/pyinstaller/pyinstaller/pyinstaller-1.5.1.tar.bz2
+
+2. unplack it
+
+tar -xjf pyinstaller-1.5.1.tar.bz2  
+
+3. compile
+
+run './pyinstaller jpylyzer.py'
+
+4. look in the directory 'jpylyzer/dist/jpylyzer'.
+
+Voila!

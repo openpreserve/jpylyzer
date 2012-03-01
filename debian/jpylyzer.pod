@@ -1,6 +1,6 @@
 =head1 NAME
 
-jpylyzer - JP2 (JPEG 2000 Part 1) validator and properties extractor.
+jpylyzer - JP2 (JPEG 2000 Part 1) image validator and properties extractor.
 
 =head1 SYNOPSIS
 
@@ -8,8 +8,8 @@ jpylyzer [I<options>] [I<jp2file>]
 
 =head1 DESCRIPTION
 
-Prototype JP2 (JPEG 2000 Part 1) validator and properties extractor
-Author: Johan van der Knijff, KB / National Library of the Netherlands.
+JP2 (JPEG 2000 Part 1) image validator and properties extractor
+    (C) National Library of the Netherlands / Open Planets Foundation
 
 =head1 OPTIONS
 
@@ -38,11 +38,11 @@ This manual page was written by Rui Castro <rcastro@keep.pt>.
 =head1 COPYRIGHT
 
 This program is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 2, or (at your option) any
+under the terms of the GNU Lesser General Public License as published by the
+Free Software Foundation; either version 3, or (at your option) any
 later version.
 
-On Debian GNU/Linux systems, the complete text of the GNU General
-Public License can be found in `/usr/share/common-licenses/GPL'.
+On Debian GNU/Linux systems, the complete text of the GNU Lesser General
+Public License can be found in '/usr/share/common-licenses/LGPL-3'.
 
 =cut

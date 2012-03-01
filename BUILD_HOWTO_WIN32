@@ -1,0 +1,28 @@
+This howto explains how to build 'jpylyzer' as a 32-bit Windows executable so that Python is no longer a dependency. Procedure described here will also pack binaries in a distribution-ready ZIP file!
+
+This all works on Win32 systems, it will probably work on Win64 systems as well (although I haven't found a way to build actual Win64 binaries, since the build packages don't appear to support this yet).
+
+SET-UP AND CONFIGURATION (YOU ONLY NEED TO GO THROUGH THESE STEPS ONCE):
+
+1. Download 'pyinstaller' from http://www.pyinstaller.org/
+
+2. unpack/unzip it with your favourite file archive manager. Note: this has to be a location where
+   a user who will run the package (i.e. build the jpylyzer executable) has write access!! 
+
+3. Run the pyinstaller configuration script ('python Configure.py')
+
+4. Download  and install 7-zip file archiver from http://www.7-zip.org/
+
+5. Open the batch file 'buildWin32.bat' which is part of the jpylyzer distribution, and update the 
+   configuration variables ('python', 'pathPyInstaller' and 'zipCommand')
+
+BUILDING THE WIN32 DISTRIBUTION:
+
+1. From the jpylyzer root dir (i.e. the directory in which jpylyzer.py is installed), run the
+   following batch file:
+
+buildWin32.bat
+
+2. Look at the zip file in the directory 'win32'.
+
+Voila!
