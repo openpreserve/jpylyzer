@@ -1650,6 +1650,10 @@ class BoxValidator:
 		# Location: this is the actual URL, encoded as a UTF-8 string
 		loc=self.boxContents[4:len(self.boxContents)]
 		
+		# Loc is null terminated string, remove null character as this
+		# cannot be represented as XML
+		loc=loc.rstrip(b'\x00')
+		
 		try:
 			loc=loc.decode("utf-8","strict")
 			self.testFor("locIsUTF8", True)

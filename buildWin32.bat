@@ -3,7 +3,7 @@
 ::
 :: ZIP file includes PDF User Manual and test images 
 ::
-:: Johan van der Knijff, 1 March 2011
+:: Johan van der Knijff, 2 March 2011
 ::
 :: Dependencies:
 :: 
@@ -13,6 +13,8 @@
 :: - 7-zip file archiver: http://www.7-zip.org/ 
 ::
 :: To do: 64 bit binaries?
+
+@echo off
 
 ::::::::: CONFIGURATION :::::::::: 
 
@@ -27,6 +29,12 @@ set pathPyInstaller=c:\pyinstall\
 
 :: Path to 7-zip command-line tool
 set zipCommand="C:\Program Files\7-Zip\7z"
+
+:: Executes jpylyzer with -v option and stores output to 
+:: env variable 'version'
+%vCommand% 2> temp.txt
+set /p version= < temp.txt
+del temp.txt 
 
 ::::::::: BUILD :::::::::::::::::: 
 
@@ -48,14 +56,17 @@ md .\dist\%scriptBaseName%\doc
 :: Copy PDF documentation to doc dir
 copy *.pdf .\dist\%scriptBaseName%\doc\
 
+:: Generate name for ZIP file
+set zipName=%scriptBaseName%_%version%_win32.zip
+
 :: Create ZIP file
-%zipCommand% a -r %scriptBaseName%.zip .\dist\jpylyzer\*
+%zipCommand% a -r %zipName% .\dist\jpylyzer\*
 
 :: Create Win32 directory
 md win32
 
 :: Move ZIP file to Win32 directory
-move /Y %scriptBaseName%.zip .\win32\
+move /Y %zipName% .\win32\
 
 ::::::::: CLEANUP ::::::::::::::::: 
 
@@ -67,3 +78,8 @@ rmdir dist /S /Q
 
 :: Delete spec file
 del %scriptBaseName%.spec
+
+echo /
+echo Done! Created %zipName% in directory .\win32\!
+echo / 
+
