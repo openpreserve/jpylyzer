@@ -32,6 +32,7 @@ set zipCommand="C:\Program Files\7-Zip\7z"
 
 :: Executes jpylyzer with -v option and stores output to 
 :: env variable 'version'
+set vCommand=%python% %scriptBaseName%.py -v
 %vCommand% 2> temp.txt
 set /p version= < temp.txt
 del temp.txt 
