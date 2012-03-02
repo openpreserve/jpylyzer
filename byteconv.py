@@ -32,49 +32,58 @@ def bytesToSignedChar(bytes):
 	return _doConv(bytes, ">", "b")
 
 def isctrl(c):
-	# This doesn't work in Python 3! Behaviour varies depending on whether
-	# c is part of text string or bytes string, and I've already wasted far
-	# too much time on this! For now we'll fall back on the
-	# old and ugly containsControlCharacters function below ...
-	return (0 <= ord(c) <= 8) or (ord(c) == 12) or (14 <= ord(c) < 32)
-	
+	# Returns True if byte corresponds to device control character
+	# (See also: http://www.w3schools.com/tags/ref_ascii.asp)
+	return (ord(c) < 32 or ord(c)==127)
+	#return (0 <= ord(c) <= 8) or (ord(c) == 12) or (14 <= ord(c) < 32)
+
 def containsControlCharacters(bytes):
-    # Returns True if bytes object contains control characters
+	# Returns True if bytes object contains control characters
 
-    controlChars={b'\x00',b'\x01',b'\x02',b'\x03',b'\x04',b'\x05',b'\x06',b'\x07', \
-        b'\x08',b'\x0b',b'\x0c',b'\x0e',b'\x0f',b'\x10',b'\x11',b'\x12',b'\x13',b'\x14', \
-        b'\x15',b'\x16',b'\x17',b'\x18',b'\x19',b'\x1a',b'\x1b',b'\x1c',b'\x1d',b'\x1e', \
-        b'\x1f'}
+	for i in range(len(bytes)):
+		if isctrl(bytes[i:i+1]):
+			return(True)
+	return(False)	
 
-    containsControlCharacters=False
-    
-    for c in controlChars:
-        if c in bytes:
-            containsControlCharacters=True
-            
-    return(containsControlCharacters)	
+def replaceControlCharacters(bytes):
+	# Replace all occurrences of device control characters with
+	# replaceByte
+
+	# Set replacement byte for device control characters (*must* be a bytes
+	# object, if not this won't work under Python 3!)
+	replaceByte=b'*'
+	
+	# Output bytes object
+	bytesOut=b''
+	
+	for i in range(len(bytes)):
+		
+		byteIn=bytes[i:i+1]
+		
+		if isctrl(byteIn):
+			bytesOut=bytesOut + replaceByte
+		else:
+			bytesOut=bytesOut+byteIn
+
+	return(bytesOut)
 
 def bytesToText(bytes):
 	# Unpack byte object to text string, assuming big-endian
 	# byte order.
 	
-	# Possible improvement: include detection of char 129-255 in control character check
-	# (using regular expressions). In that case try / except block can be dropped
-	# Already spent way too much time on this now so do this later ...
-
 	# Set encoding
 	enc="ascii"
 
 	# Set error mode
 	errorMode="strict"
-
-	# Check if bytes object contains bytes that correspond to ASCII control characters,
+	
+	# Check if bytes object contains bytes that correspond to device control characters,
 	# which are not allowed in XML
 	
 	if containsControlCharacters(bytes):
 		# Return empty string
 		result=""
-
+		
 	else:
 		try:
 			result=bytes.decode(encoding=enc,errors=errorMode)

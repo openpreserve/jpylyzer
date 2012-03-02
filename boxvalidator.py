@@ -1366,6 +1366,11 @@ class BoxValidator:
 		# Contents (multiples of Ccom)
 		comment=self.boxContents[4:lcom]
 		
+		# If comment contains any device control characters (e.g. because of
+		# file corruption), replace them  with printable character
+		if bc.containsControlCharacters(comment):
+			comment=bc.replaceControlCharacters(comment)
+		
 		# Decode to string with Latin encoding
 		# Elementtree will deal with any non-ASCII characters by replacing
 		# them with numeric entity references
@@ -1654,6 +1659,12 @@ class BoxValidator:
 		# cannot be represented as XML
 		loc=loc.rstrip(b'\x00')
 		
+		# If loc contains any device control characters (e.g. because of
+		# file corruption), replace them  with printable character
+		if bc.containsControlCharacters(loc):
+			loc=bc.replaceControlCharacters(loc)
+		
+		# Decode as UTF-8 
 		try:
 			loc=loc.decode("utf-8","strict")
 			self.testFor("locIsUTF8", True)
