@@ -61,7 +61,7 @@ binary-indep: install
 	dh_installchangelogs
 	dh_installdocs
 	dh_installexamples
-	dh_installdebconf
+#	dh_installdebconf
 	dh_installman
 	dh_link
 	dh_compress
