@@ -1,5 +1,6 @@
 This work was packaged for Debian by:
 
+    David Tarrant <davetaz@ecs.soton.ac.uk> on Wed, 01 Feb 2012 17:50:59 +0100
     Rainer Schmidt <scape@openplanetsfoundation.org> on Wed, 01 Feb 2012 17:50:59 +0100
 
 It was downloaded from:
@@ -35,6 +36,6 @@ License:
 
 The Debian packaging is:
 
-    Copyright (C) 2012 Rainer Schmidt <scape@openplanetsfoundation.org>
+    Copyright (C) 2012 Open Planets Foundation <www.openplanetsfoundation.org>
 
 and is licensed under the GPL version 3, see above.
