@@ -47,6 +47,8 @@ install: build
 	dh_installdirs
 # Add here commands to install the package
 	$(MAKE) install DESTDIR=debian/jpylyzer/usr/bin
+	dh_makeshlibs
+	dh_shlibdeps
 #	rm -f config.log
 #	rm -f config.status
 
