@@ -1,12 +1,10 @@
 build:
-	pyinstaller jpylyzer.py
-	@echo "Built in dist/jpylyzer/" 	
+	pymakespec --onefile jpylyzer.py
+	pyinstaller jpylyzer.spec
+	@echo "Built in dist/jpylyzer" 	
 
 install:
-#	pwd
-	mv dist/jpylyzer/* $(DESTDIR)
-	ln -s $(LINKDIR)/jpylyzer $(LINKDESTDIR)/jpylyzer
-#	ln -s /tmp $(LINKDESTDIR)/jpylyzer
+	mv dist/jpylyzer $(DESTDIR)
 
 clean:
 	rm -fR build

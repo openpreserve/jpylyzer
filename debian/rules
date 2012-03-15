@@ -46,8 +46,7 @@ install: build
 	dh_clean -k
 	dh_installdirs
 # Add here commands to install the package
-	$(MAKE) install DESTDIR=debian/jpylyzer/usr/local/jpylyzer LINKDESTDIR=debian/jpylyzer/usr/local/bin LINKDIR=/usr/local/jpylyzer
-#	dh_install dist/jpylyzer usr/local/
+	$(MAKE) install DESTDIR=debian/jpylyzer/usr/bin
 #	rm -f config.log
 #	rm -f config.status
 
