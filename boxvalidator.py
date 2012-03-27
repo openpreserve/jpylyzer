@@ -131,12 +131,19 @@ class BoxValidator:
 		else:
 			# Not a delimiting marker, so remainder contains some data
 			length=bc.bytesToUShortInt(self.boxContents[offset+2:offset+4])
-		
+			
 		# Contents of marker segment (excluding marker) to binary string
 		contents=self.boxContents[offset+2:offset + 2 +length]
-		
-		# Offset value start of next marker segment
-		offsetNext=offset+length+2
+			
+		if length== -9999:
+			# If length couldn't be determined because of decode error,
+			# return bogus value for offsetNext (calling function should
+			# handle this further!)
+			offsetNext=-9999
+					
+		else:
+			# Offset value start of next marker segment
+			offsetNext=offset+length+2
 		
 		return(marker,length,contents,offsetNext)
 
@@ -871,7 +878,7 @@ class BoxValidator:
 		foundCODMarker=False
 		foundQCDMarker=False
 
-		while marker != b'\xff\x90':
+		while marker != b'\xff\x90' and offsetNext !=-9999:
 			marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
 
 			if marker == b'\xff\x52':
@@ -908,7 +915,7 @@ class BoxValidator:
 				offset = offsetNext
 			elif marker==b'\xff\x90':
 				# Start of tile (SOT) marker segment; don't update offset as this
-				# will get of out of this loop (for functional readability):
+				# will get us of out of this loop (for functional readability):
 				offset = offset
 			else:
 				# Any other marker segment: ignore and move on to next one
@@ -1390,14 +1397,14 @@ class BoxValidator:
 		lsot=bc.bytesToUShortInt(self.boxContents[0:2])
 		self.addCharacteristic("lsot",lsot)
 
-		# lcom should be 10
+		# lsot should be 10
 		lsotIsValid=lsot  == 10
 		self.testFor("lsotIsValid",lsotIsValid)
 
 		# Tile index
 		isot=bc.bytesToUShortInt(self.boxContents[2:4])
 		self.addCharacteristic("isot",isot)
-
+		
 		# Tile index should be in range 0-65534
 		isotIsValid=0 <= isot <= 65534
 		self.testFor("isotIsValid",isotIsValid)
@@ -1441,7 +1448,7 @@ class BoxValidator:
 		# Validate start of tile (SOT) marker segment
 		# tilePartLength is value of psot, which is the total length of this tile
 		# including the SOT marker. Note that psot may be 0 for last tile!
-		resultSOT, characteristicsSOT, tilePartLength = BoxValidator('startOfTile', segContents).validate() #validateSOT(segContents)
+		resultSOT, characteristicsSOT, tilePartLength = BoxValidator('startOfTile', segContents).validate()
 
 		# Add analysis results to test results tree
 		self.tests.append(resultSOT)
@@ -1457,15 +1464,18 @@ class BoxValidator:
 		# Loop through remaining tile part marker segments; extract properties of
 		# and validate COD, QCD and COM marker segments. Also test for presence of
 		# SOD marker
-		# NOTE: not tested yet because of unavailability of test images with these
+		# NOTE 1: limited testing so far because of unavailability of test images with these
 		# markers at tile-part level!!
+		# NOTE 2: check for offsetNext !=-9999 was included after encountering image with corruption
+		# that resulted in nonsensical lsot values, ultimatelty leading to an infinite loop. Shouldn't happen
+		# anymore (although this may not be the most elegant way of handling this)
 
-		while marker != b'\xff\x93':
+		while marker != b'\xff\x93' and offsetNext !=-9999:
 			marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
-
+						
 			if marker==b'\xff\x52':
 				# COD (coding style default) marker segment
-
+				
 				# Validate COD segment
 				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() # validateCOD(segContents)
 
@@ -1479,7 +1489,7 @@ class BoxValidator:
 
 			elif marker==b'\xff\x5c':
 				# QCD (quantization default) marker segment
-
+				
 				# Validate QCD segment
 				resultQCD, characteristicsQCD = BoxValidator(marker, segContents).validate() #validateQCD(segContents)
 
@@ -1495,7 +1505,7 @@ class BoxValidator:
 				# COM (codestream comment) marker segment
 
 				# Validate COM segment
-				resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate() #b'\xff\x64'validateCOM(segContents)
+				resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate()
 
 				# Add analysis results to test results tree
 				self.tests.append(resultCOM)
@@ -1504,20 +1514,26 @@ class BoxValidator:
 				self.characteristics.append(characteristicsCOM)
 
 				offset=offsetNext
-
-			elif marker==b'\xff\x93':
-				# SOD (start of data) marker segment: last tile-part marker
-				foundSODMarker=True
-				self.testFor("foundSODMarker",foundSODMarker)
-
-			else:
-				# Any other marker segment: ignore and move on to next one
+				
+			elif marker in[b'\xff\x52',b'\xff\x5d',b'\xff\x5e', \
+					b'\xff\x5f',b'\xff\x61',b'\xff\x58']:
+				# COC, QCC, RGN, POC, PPT or PLT marker: ignore and
+				# move on to next one
 				offset=offsetNext
 
-
+			else:
+				# Unknown marker segment: ignore and move on to next one
+				offset=offsetNext
+			
+		# Last marker segment (at self.startOffset + 12) should be start-
+		# of-data (SOD) marker
+		marker,segLength,segContents,offsetNext=self._getMarkerSegment(self.startOffset + 12)
+		
+		self.testFor("foundSODMarker",marker == b'\xff\x93')
+					
 		# Position of first byte in next tile
 		offsetNextTilePart = self.startOffset + tilePartLength
-
+				
 		# Check if offsetNextTile really points to start of new tile or otherwise
 		# EOC (useful for detecting within-codestream byte corruption)
 		if tilePartLength != 0:
