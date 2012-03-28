@@ -887,7 +887,7 @@ class BoxValidator:
 				foundCODMarker=True
 
 				# Validate COD segment
-				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() #validateCOD(segContents)
+				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() 
 				# Add analysis results to test results tree
 				self.tests.append(resultCOD)
 				# Add extracted characteristics to characteristics tree
@@ -898,7 +898,7 @@ class BoxValidator:
 				# QCD is required
 				foundQCDMarker=True
 				# Validate QCD segment
-				resultQCD, characteristicsQCD = BoxValidator(marker, segContents).validate()# validateQCD(segContents)
+				resultQCD, characteristicsQCD = BoxValidator(marker, segContents).validate()
 				# Add analysis results to test results tree
 				self.tests.append(resultQCD)
 				# Add extracted characteristics to characteristics tree
@@ -907,7 +907,7 @@ class BoxValidator:
 			elif marker == b'\xff\x64':
 				# COM (codestream comment) marker segment
 				# Validate QCD segment
-				resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate() #validateCOM(segContents)
+				resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate() 
 				# Add analysis results to test results tree
 				self.tests.append(resultCOM)
 				# Add extracted characteristics to characteristics tree
@@ -1477,7 +1477,7 @@ class BoxValidator:
 				# COD (coding style default) marker segment
 				
 				# Validate COD segment
-				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() # validateCOD(segContents)
+				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() 
 
 				# Add analysis results to test results tree
 				self.tests.append(resultCOD)
@@ -1491,7 +1491,7 @@ class BoxValidator:
 				# QCD (quantization default) marker segment
 				
 				# Validate QCD segment
-				resultQCD, characteristicsQCD = BoxValidator(marker, segContents).validate() #validateQCD(segContents)
+				resultQCD, characteristicsQCD = BoxValidator(marker, segContents).validate()
 
 				# Add analysis results to test results tree
 				self.tests.append(resultQCD)
