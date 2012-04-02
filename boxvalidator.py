@@ -1,5 +1,6 @@
 from __future__ import division
 import uuid
+import math
 import etpatch as ET
 import byteconv as bc
 from shared import listOccurrencesAreContiguous
@@ -948,7 +949,23 @@ class BoxValidator:
 
 		# Remainder of codestream is a sequence of tile parts, followed by one
 		# end-of-codestream marker
-
+		
+		# Expected number of tiles (as calculated from info in SIZ marker)
+		numberOfTilesExpected=self.characteristics.findElementText('siz/numberOfTiles')
+		
+		# Create list with one entry for each tile
+		tileIndices=[]
+		
+		# Dictionary that contains expected number of tile parts for each tile
+		tilePartsPerTileExpected={}
+		
+		# Dictionary that contains found number of tile parts for each tile
+		tilePartsPerTileFound={}
+		
+		# Create entry for each tile part and initialise value at 0
+		for i in range(numberOfTilesExpected):
+			tilePartsPerTileFound[i]=0
+	
 		# Create sub-elements to store tile-part characteristics and tests
 		tilePartCharacteristics=ET.Element('tileParts')
 		tilePartTests=ET.Element('tileParts')
@@ -957,15 +974,40 @@ class BoxValidator:
 			marker = self.boxContents[offset:offset+2]
 
 			if marker == b'\xff\x90':
-				resultTilePart, characteristicsTilePart,offsetNext = BoxValidator(marker, self.boxContents, offset).validate() #validateTilePart(self.boxContents,offset)
+				resultTilePart, characteristicsTilePart,offsetNext = BoxValidator(marker, self.boxContents, offset).validate()
 				# Add analysis results to test results tree
 				tilePartTests.append(resultTilePart)
 
 				# Add extracted characteristics to characteristics tree
 				tilePartCharacteristics.append(characteristicsTilePart)
+				
+				tileIndex=characteristicsTilePart.findElementText('sot/isot')
+				tilePartIndex=characteristicsTilePart.findElementText('sor/tpsot')
+				tilePartsOfTile=characteristicsTilePart.findElementText('sot/tnsot')
+				
+				# Add tileIndex to tileIndices, if it doesn't exist already
+				if tileIndex not in tileIndices:
+					tileIndices.append(tileIndex)
+							
+				# Expected number of tile-parts for each tile to dictionary
+				if tilePartsOfTile != 0:				
+					tilePartsPerTileExpected[tileIndex]=tilePartsOfTile
+				
+				# Increase found number of tile-parts for this tile by 1 
+				tilePartsPerTileFound[tileIndex]=tilePartsPerTileFound[tileIndex] +1
 
 				if offsetNext != offset:
 					offset = offsetNext
+
+		# Length of tileIndices should equal numberOfTilesExpected
+		self.testFor("foundExpectedNumberOfTiles", len(tileIndices) == numberOfTilesExpected)
+		
+		#test = set(tilePartsPerTileExpected.items()) - set(tilePartsPerTileFound.items()) 
+		
+		#print(len(test))
+		
+		# Found numbers of tile	parts per tile should match expected	
+		self.testFor("foundExpectedNumberOfTileParts", len(set(tilePartsPerTileExpected.items()) - set(tilePartsPerTileFound.items())) == 0)
 
 		# Add tile-part characteristics and tests to characteristics / tests
 		self.characteristics.append(tilePartCharacteristics)
@@ -973,7 +1015,7 @@ class BoxValidator:
 
 		# Last 2 bytes should be end-of-codestream marker
 		self.testFor("foundEOCMarker", self.boxContents[length-2:length] == b'\xff\xd9')
-
+		
 	# Validator functions for codestream elements
 	
 	def validate_siz(self):
@@ -1048,6 +1090,19 @@ class BoxValidator:
 
 		# yTOsiz should be within range 0 - (2**32)-2
 		self.testFor("yTOsizIsValid", 0 <= yTOsiz <= (2**32)-2)
+		
+		# Number of tiles		
+		if xTsiz != 0 and yTsiz != 0:
+			# If block to prevent zero-division (which should not happen
+			# for valid files)
+			numberOfTilesX=math.ceil((xsiz-xOsiz)/xTsiz)
+			numberOfTilesY=math.ceil((ysiz-yOsiz)/yTsiz)
+			numberOfTiles=int(numberOfTilesX*numberOfTilesY)
+		else:
+			# Bogus value
+			numberOfTiles=0
+			
+		self.addCharacteristic("numberOfTiles", numberOfTiles)
 
 		# Number of components
 		csiz = bc.bytesToUShortInt(self.boxContents[36:38])

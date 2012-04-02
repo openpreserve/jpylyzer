@@ -46,7 +46,7 @@ from byteconv import bytesToText
 from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "1.1.6"
+__version__= "1.2.0"
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe

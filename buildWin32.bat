@@ -15,6 +15,7 @@
 :: To do: 64 bit binaries?
 
 @echo off
+setlocal
 
 ::::::::: CONFIGURATION :::::::::: 
 
