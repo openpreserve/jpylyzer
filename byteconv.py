@@ -1,4 +1,5 @@
 import struct
+import binascii
 
 # Convert byte object of bOrder byteorder to format using formatCharacter
 # Return -9999 if unpack raised an error
@@ -36,6 +37,10 @@ def isctrl(c):
 	# (See also: http://www.w3schools.com/tags/ref_ascii.asp)
 	return (ord(c) < 32 or ord(c)==127)
 	#return (0 <= ord(c) <= 8) or (ord(c) == 12) or (14 <= ord(c) < 32)
+	
+def bytesToHex(bytes):
+	# Return hexadecimal ascii representation of bytes
+	return binascii.hexlify(bytes)
 
 def containsControlCharacters(bytes):
 	# Returns True if bytes object contains control characters

@@ -528,7 +528,7 @@ class BoxValidator:
 		self.addCharacteristic("profileSize",profileSize)
 		
 		# Preferred CMM type
-		preferredCMMType=bc.bytesToUInt(self.boxContents[4:8])
+		preferredCMMType=self.boxContents[4:8]
 		self.addCharacteristic("preferredCMMType",preferredCMMType)
 		
 		# Profile version: major revision
@@ -551,15 +551,15 @@ class BoxValidator:
 		
 		# Bytes 10 and 11 are reserved an set to zero(ignored here)
 		
-		# Profile class (or device class) (binary string)
+		# Profile class (or device class)
 		profileClass=self.boxContents[12:16]
 		self.addCharacteristic("profileClass",profileClass)
 		
-		# Colour space (binary string)
+		# Colour space
 		colourSpace=self.boxContents[16:20]
 		self.addCharacteristic("colourSpace",colourSpace)
 		
-		# Profile connection space (binary string)
+		# Profile connection space 
 		profileConnectionSpace=self.boxContents[20:24]
 		self.addCharacteristic("profileConnectionSpace",profileConnectionSpace)
 		
@@ -575,18 +575,77 @@ class BoxValidator:
 		dateTimeString="%s, %s" % (dateString, timeString)
 		self.addCharacteristic("dateTimeString",dateTimeString)
 		
-		# Profile signature (binary string)
+		# Profile signature
 		profileSignature=self.boxContents[36:40]
 		self.addCharacteristic("profileSignature",profileSignature)
 		
-		# Primary platform (binary string)
+		# Primary platform
 		primaryPlatform=self.boxContents[40:44]
 		self.addCharacteristic("primaryPlatform",primaryPlatform)
 		
-		# To do: add remaining header fields; maybe include check on Profile ID
-		# field (MD5 checksum) to test integrity of profile.
-		# Parse tag table
+		# Profile flags (bytes 44-47; only first byte read here as remaing bytes
+		# don't contain any meaningful information)
+		profileFlags=bc.bytesToUnsignedChar(self.boxContents[44:45])
+				
+		# Embedded profile (0 if not embedded, 1 if embedded in file)
+		embeddedProfile=self._getBitValue(profileFlags,1)
+		self.addCharacteristic("embeddedProfile",embeddedProfile)
 		
+		# Profile cannot be used independently from embedded colour data
+		# (1 if true, 0 if false)
+		profileCannotBeUsedIndependently=self._getBitValue(profileFlags,2)
+		self.addCharacteristic("profileCannotBeUsedIndependently",profileCannotBeUsedIndependently)
+		
+		# Device manufacturer
+		deviceManufacturer=self.boxContents[48:52]
+		self.addCharacteristic("deviceManufacturer",deviceManufacturer)
+		
+		# Device model
+		deviceModel=self.boxContents[52:56]
+		self.addCharacteristic("deviceModel",deviceModel)
+		
+		# Device attributes (bytes 56-63; only first byte read here as remaing bytes
+		# don't contain any meaningful information)
+		deviceAttributes=bc.bytesToUnsignedChar(self.boxContents[56:57])
+		
+		# Transparency (1 = transparent; 0 = reflective)
+		transparency=self._getBitValue(deviceAttributes,1)
+		self.addCharacteristic("transparency",transparency)
+		
+		# Glossiness (1 = matte; 0 = glossy)
+		glossiness=self._getBitValue(deviceAttributes,2)
+		self.addCharacteristic("glossiness",glossiness)
+		
+		# Media polarity (1 = negative; 0 = positive)
+		polarity=self._getBitValue(deviceAttributes,3)
+		self.addCharacteristic("polarity",polarity)
+		
+		# Media colour (1 = black & white; 0 = colour)
+		colour=self._getBitValue(deviceAttributes,4)
+		self.addCharacteristic("colour",colour)
+		
+		# Rendering intent (bytes 64-67, only least-significant 2 bytes used)
+		renderingIntent=bc.bytesToUShortInt(self.boxContents[66:68])
+		self.addCharacteristic("renderingIntent",renderingIntent)
+		
+		# Profile connection space illuminants (X, Y, Z)
+		connectionSpaceIlluminantX=round(bc.bytesToUInt(self.boxContents[68:72])/65536,4)
+		self.addCharacteristic("connectionSpaceIlluminantX",connectionSpaceIlluminantX)
+		
+		connectionSpaceIlluminantY=round(bc.bytesToUInt(self.boxContents[72:76])/65536,4)
+		self.addCharacteristic("connectionSpaceIlluminantY",connectionSpaceIlluminantY)
+		
+		connectionSpaceIlluminantZ=round(bc.bytesToUInt(self.boxContents[76:80])/65536,4)
+		self.addCharacteristic("connectionSpaceIlluminantZ",connectionSpaceIlluminantZ)
+		
+		# Profile creator
+		profileCreator=self.boxContents[80:84]
+		self.addCharacteristic("profileCreator",profileCreator)
+		
+		# Profile ID (as hexadecimal string)
+		profileID=bc.bytesToHex(self.boxContents[84:100])
+		self.addCharacteristic("profileID",profileID)
+				
 		# Number of tags (tag count)
 		tagCount=bc.bytesToUInt(self.boxContents[128:132])
 		

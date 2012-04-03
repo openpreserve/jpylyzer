@@ -46,7 +46,7 @@ from byteconv import bytesToText
 from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "1.2.0"
+__version__= "1.3.0"
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -110,6 +110,50 @@ def generatePropertiesRemapTable():
     enumCSMap[17]="greyscale"
     enumCSMap[18]="sYCC"
     
+    # Profile Class (ICC)
+    profileClassMap={}
+    profileClassMap[b'scnr']="Input Device Profile"
+    profileClassMap[b'mntr']="Display Device Profile"
+    profileClassMap[b'prtr']="Output Device Profile"
+    profileClassMap[b'link']="DeviceLink Profile"
+    profileClassMap[b'spac']="ColorSpace Conversion Profile"
+    profileClassMap[b'abst']="Abstract Profile"
+    profileClassMap[b'nmcl']="Named Colour Profile"
+    
+    # Primary Platform (ICC)
+    primaryPlatformMap={}
+    primaryPlatformMap[b'APPL']="Apple Computer, Inc."
+    primaryPlatformMap[b'MSFT']="Microsoft Corporation"
+    primaryPlatformMap[b'SGI']="Silicon Graphics, Inc."
+    primaryPlatformMap[b'SUNW']="Sun Microsystems, Inc."
+    
+    # Transparency (ICC)
+    transparencyMap={}
+    transparencyMap[0]="Reflective"
+    transparencyMap[1]="Transparent"
+    
+    # Glossiness (ICC)
+    glossinessMap={}
+    glossinessMap[0]="Glossy"
+    glossinessMap[1]="Matte"
+    
+    # Polarity (ICC)
+    polarityMap={}
+    polarityMap[0]="Positive"
+    polarityMap[1]="Negative"
+    
+    # Colour (ICC)
+    colourMap={}
+    colourMap[0]="Colour"
+    colourMap[1]="Black and white"
+    
+    # Rendering intent (ICC)
+    renderingIntentMap={}
+    renderingIntentMap[0]="Perceptual"
+    renderingIntentMap[1]="Media-Relative Colorimetric"
+    renderingIntentMap[2]="Saturation"
+    renderingIntentMap[3]="ICC-Absolute Colorimetric"
+    
     # Channel type (Channel Definition Box)
     cTypMap={}
     cTypMap[0]="colour"
@@ -155,6 +199,15 @@ def generatePropertiesRemapTable():
     # Add sub-dictionaries to master dictionary, using tag name as key
     enumerationsMap['unkC']=yesNoMap
     enumerationsMap['iPR']=yesNoMap
+    enumerationsMap['profileClass']=profileClassMap
+    enumerationsMap['primaryPlatform']=primaryPlatformMap
+    enumerationsMap['embeddedProfile']=yesNoMap
+    enumerationsMap['profileCannotBeUsedIndependently']=yesNoMap
+    enumerationsMap['transparency']=transparencyMap
+    enumerationsMap['glossiness']=glossinessMap
+    enumerationsMap['polarity']=polarityMap
+    enumerationsMap['colour']=colourMap
+    enumerationsMap['renderingIntent']=renderingIntentMap
     enumerationsMap['precincts']=yesNoMap
     enumerationsMap['sop']=yesNoMap
     enumerationsMap['eph']=yesNoMap
