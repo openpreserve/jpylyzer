@@ -31,6 +31,25 @@ def bytesToUnsignedChar(bytes):
 def bytesToSignedChar(bytes):
 	# Unpack 1 byte string to signed character/integer, assuming big-endian byte order.
 	return _doConv(bytes, ">", "b")
+	
+def bytesToInteger(bytes):
+	# Unpack byte string of any length to integer.
+	#
+	# Taken from:
+	# http://stackoverflow.com/questions/4358285/
+	#
+	# JvdK: what endianness is assumed here? Could go wrong on some systems?
+
+	# binascii.hexlify will be obsolete in python3 soon
+	# They will add a .tohex() method to bytes class
+	# Issue 3532 bugs.python.org
+	
+	try:
+		result=int(binascii.hexlify(bytes),16)
+	except:
+		result=-9999
+	
+	return (result)
 
 def isctrl(c):
 	# Returns True if byte corresponds to device control character

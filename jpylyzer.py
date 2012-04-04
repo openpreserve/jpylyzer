@@ -46,7 +46,7 @@ from byteconv import bytesToText
 from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "1.3.0"
+__version__= "1.4.0"
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -154,6 +154,11 @@ def generatePropertiesRemapTable():
     renderingIntentMap[2]="Saturation"
     renderingIntentMap[3]="ICC-Absolute Colorimetric"
     
+    # mTyp (Component Mapping box)
+    mTypMap={}
+    mTypMap[0]="direct use"
+    mTypMap[1]="palette mapping"
+    
     # Channel type (Channel Definition Box)
     cTypMap={}
     cTypMap[0]="colour"
@@ -208,6 +213,8 @@ def generatePropertiesRemapTable():
     enumerationsMap['polarity']=polarityMap
     enumerationsMap['colour']=colourMap
     enumerationsMap['renderingIntent']=renderingIntentMap
+    enumerationsMap['bSign']=signMap
+    enumerationsMap['mTyp']=mTypMap
     enumerationsMap['precincts']=yesNoMap
     enumerationsMap['sop']=yesNoMap
     enumerationsMap['eph']=yesNoMap

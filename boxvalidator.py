@@ -695,6 +695,104 @@ class BoxValidator:
 		except:
 			description=""
 		self.addCharacteristic("description",description)
+		
+	def validate_paletteBox(self):
+		# Palette box (ISO/IEC 15444-1 Section I.5.3.4)
+		# Optional box that specifies a palette
+		
+		# Number of entries in the table (each field is 2 bytes)
+		nE = bc.bytesToUShortInt(self.boxContents[0:2])
+		self.addCharacteristic("nE",nE)
+		
+		# nE within range 1-1024
+		self.testFor("nEIsValid", 1 <= nE <= 1024)
+		
+		# Number of palette columns
+		nPC=bc.bytesToUnsignedChar(self.boxContents[2:3])
+		self.addCharacteristic("nPC",nPC)
+		
+		# nPC within range 1-255
+		self.testFor("nPCIsValid", 1 <= nPC <= 255)
+		
+		# Following parameters are repeated for each column
+		for i in range(nPC):
+
+			# Bit depth of values created by column i
+			b = bc.bytesToUnsignedChar(self.boxContents[3+i:4+i])
+			
+			# Most significant bit indicates whether palette column is signed (1)
+			# or unsigned (0). Extracted by applying bit mask of 10000000 (=128)
+			bSign = self._getBitValue(b, 1)
+			self.addCharacteristic("bSign",bSign)
+
+			# Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
+			# 01111111 (=127)
+			bDepth=(b & 127) + 1
+			self.addCharacteristic("bDepth",bDepth)
+
+			# Bits depth field is valid if bDepth in range 1-38 (including limits)
+			self.testFor("bDepthIsValid", 1 <= bDepth <= 38)
+			
+			# If bDepth is not a multiple of 8 bits add padding bits
+			# E.g. if bDepth is 10, bDepthPadded will be 16 bits, and
+			# C value will be stored in low 10 bits of 16-bit field
+			bDepthPadded=math.ceil(bDepth/8)*8
+			bytesPadded=int(bDepthPadded/8)
+			
+			# Start offset of cP entries for this column
+			offset=nPC+3+i*(nE*bytesPadded)
+			
+			for j in range(nE):
+				# Get bytes for this entry
+				cPAsBytes=self.boxContents[offset:offset+bytesPadded]
+				
+				# Convert to integer (cP could be *any* length so we cannot rely
+				# on struct.unpack!)
+				cP=bc.bytesToInteger(cPAsBytes)
+				self.addCharacteristic("cP",cP)
+				
+				offset += bytesPadded
+
+	def validate_componentMappingBox(self):
+		# Component mapping box (ISO/IEC 15444-1 Section I.5.3.5)
+		# This box defines how image channels are identified from actual components
+		
+		# Determine number of channels from box length
+		numberOfChannels=int(len(self.boxContents)/4)
+		
+		offset=0
+
+		# Loop through box contents and validate fields
+		for i in range(numberOfChannels):
+			
+			# Component index
+			cMP=bc.bytesToUShortInt(self.boxContents[offset:offset+2])
+			self.addCharacteristic("cMP",cMP)
+
+			# Allowed range: 0 - 16384
+			self.testFor("cMPIsValid", 0 <= cMP <= 16384)
+
+			# Specifies how channel is generated from codestream component
+			mTyp = bc.bytesToUnsignedChar(self.boxContents[offset+2:offset+3])
+			self.addCharacteristic("mTyp",mTyp)
+
+			# Allowed range: 0 - 1
+			self.testFor("mTypIsValid", 0 <= mTyp <= 1)
+
+			# Palette component index
+			pCol = bc.bytesToUnsignedChar(self.boxContents[offset+3:offset+4])
+			self.addCharacteristic("pCol",pCol)
+
+			# If mTyp equals 0, pCol should be 0 as well
+			if mTyp ==0:
+				pColIsValid = pCol ==0
+			else:
+				pColIsValid=True
+			
+			self.testFor("pColIsValid", pColIsValid)
+
+			offset += 4			
+
 
 	def validate_channelDefinitionBox(self):
 		# Channel definition box (ISO/IEC 15444-1 Section I.5.3.6)
