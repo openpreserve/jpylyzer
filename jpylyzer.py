@@ -40,13 +40,14 @@ import imp
 import glob
 import struct
 import argparse
+import config
 import etpatch as ET
 from boxvalidator import BoxValidator
 from byteconv import bytesToText
 from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "1.4.0"
+__version__= "1.5.0"
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -307,6 +308,7 @@ def parseCommandLine():
 
     # Add arguments
     parser.add_argument('jp2In', action="store", help="input JP2 image(s)")
+    parser.add_argument('--verbose', action="store_true", dest="outputVerboseFlag", default=False, help="report test results in verbose format")
 
     # Parse arguments
     args=parser.parse_args()
@@ -317,6 +319,10 @@ def main():
     # Get input from command line
     args=parseCommandLine()
     jp2In=args.jp2In
+    
+    # Storing this to 'config.outputVerboseFlag' makes this value available to any module
+    # that imports 'config.py' (here: 'boxvalidator.py')
+    config.outputVerboseFlag=args.outputVerboseFlag
 
     # Input images as file list
     imagesIn=glob.glob(jp2In)

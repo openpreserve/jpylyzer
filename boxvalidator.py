@@ -1,6 +1,7 @@
 from __future__ import division
 import uuid
 import math
+import config
 import etpatch as ET
 import byteconv as bc
 from shared import listOccurrencesAreContiguous
@@ -175,7 +176,6 @@ class BoxValidator:
 		
 		return(compressionRatio) 
 
-
 	def _getBitValue(self, n, p):
 		# Get the bit value of denary (base 10) number n at the equivalent binary
 		# position p (binary count starts at position 1 from the left)
@@ -189,12 +189,20 @@ class BoxValidator:
 		
 		return (n >> shift) & 1
 
-	
 	def testFor(self, testType, testResult):
 		# Add testResult node to tests element tree
 		
-		self.tests.appendChildTagWithText(testType, testResult)
-
+		#print(config.outputVerboseFlag)
+		
+		if config.outputVerboseFlag == False:
+			# Non-verbose output: only add results of tests that failed 
+			if testResult==False:
+				self.tests.appendChildTagWithText(testType, testResult)
+		
+		else:
+			# Verbose output, add results of all tests
+			self.tests.appendChildTagWithText(testType, testResult)
+		
 
 	def addCharacteristic(self, characteristic, charValue):
 		# Add characteristic node to characteristics element tree
@@ -280,7 +288,7 @@ class BoxValidator:
 			subBoxTypes.append(boxType)
 
 			# Add analysis results to test results tree
-			self.tests.append(resultBox)
+			self.tests.appendIfNotEmpty(resultBox)
 
 			# Add extracted characteristics to characteristics tree
 			self.characteristics.append(characteristicsBox)
@@ -868,7 +876,7 @@ class BoxValidator:
 			subBoxTypes.append(boxType)
 
 			# Add analysis results to test results tree
-			self.tests.append(resultBox)
+			self.tests.appendIfNotEmpty(resultBox)
 
 			# Add extracted characteristics to characteristics tree
 			self.characteristics.append(characteristicsBox)
@@ -1020,8 +1028,10 @@ class BoxValidator:
 			resultSIZ, characteristicsSIZ = BoxValidator(marker, segContents).validate() # validateSIZ(segContents)
 
 			# Add analysis results to test results tree
-			self.tests.append(resultSIZ)
-
+			#self.tests.appendIfNotEmpty(resultSIZ)
+			
+			self.tests.appendIfNotEmpty(resultSIZ)
+			
 			# Add extracted characteristics to characteristics tree
 			self.characteristics.append(characteristicsSIZ)
 
@@ -1047,7 +1057,7 @@ class BoxValidator:
 				# Validate COD segment
 				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() 
 				# Add analysis results to test results tree
-				self.tests.append(resultCOD)
+				self.tests.appendIfNotEmpty(resultCOD)
 				# Add extracted characteristics to characteristics tree
 				self.characteristics.append(characteristicsCOD)
 				offset = offsetNext
@@ -1058,7 +1068,7 @@ class BoxValidator:
 				# Validate QCD segment
 				resultQCD, characteristicsQCD = BoxValidator(marker, segContents).validate()
 				# Add analysis results to test results tree
-				self.tests.append(resultQCD)
+				self.tests.appendIfNotEmpty(resultQCD)
 				# Add extracted characteristics to characteristics tree
 				self.characteristics.append(characteristicsQCD)
 				offset=offsetNext
@@ -1067,7 +1077,7 @@ class BoxValidator:
 				# Validate QCD segment
 				resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate() 
 				# Add analysis results to test results tree
-				self.tests.append(resultCOM)
+				self.tests.appendIfNotEmpty(resultCOM)
 				# Add extracted characteristics to characteristics tree
 				self.characteristics.append(characteristicsCOM)
 				offset = offsetNext
@@ -1133,7 +1143,7 @@ class BoxValidator:
 			if marker == b'\xff\x90':
 				resultTilePart, characteristicsTilePart,offsetNext = BoxValidator(marker, self.boxContents, offset).validate()
 				# Add analysis results to test results tree
-				tilePartTests.append(resultTilePart)
+				tilePartTests.appendIfNotEmpty(resultTilePart)
 
 				# Add extracted characteristics to characteristics tree
 				tilePartCharacteristics.append(characteristicsTilePart)
@@ -1168,7 +1178,7 @@ class BoxValidator:
 
 		# Add tile-part characteristics and tests to characteristics / tests
 		self.characteristics.append(tilePartCharacteristics)
-		self.tests.append(tilePartTests)
+		self.tests.appendIfNotEmpty(tilePartTests)
 
 		# Last 2 bytes should be end-of-codestream marker
 		self.testFor("foundEOCMarker", self.boxContents[length-2:length] == b'\xff\xd9')
@@ -1663,7 +1673,7 @@ class BoxValidator:
 		resultSOT, characteristicsSOT, tilePartLength = BoxValidator('startOfTile', segContents).validate()
 
 		# Add analysis results to test results tree
-		self.tests.append(resultSOT)
+		self.tests.appendIfNotEmpty(resultSOT)
 
 		# Add extracted characteristics to characteristics tree
 		self.characteristics.append(characteristicsSOT)
@@ -1692,7 +1702,7 @@ class BoxValidator:
 				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() 
 
 				# Add analysis results to test results tree
-				self.tests.append(resultCOD)
+				self.tests.appendIfNotEmpty(resultCOD)
 
 				# Add extracted characteristics to characteristics tree
 				self.characteristics.append(characteristicsCOD)
@@ -1706,7 +1716,7 @@ class BoxValidator:
 				resultQCD, characteristicsQCD = BoxValidator(marker, segContents).validate()
 
 				# Add analysis results to test results tree
-				self.tests.append(resultQCD)
+				self.tests.appendIfNotEmpty(resultQCD)
 
 				# Add extracted characteristics to characteristics tree
 				self.characteristics.append(characteristicsQCD)
@@ -1720,7 +1730,7 @@ class BoxValidator:
 				resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate()
 
 				# Add analysis results to test results tree
-				self.tests.append(resultCOM)
+				self.tests.appendIfNotEmpty(resultCOM)
 
 				# Add extracted characteristics to characteristics tree
 				self.characteristics.append(characteristicsCOM)
@@ -1831,7 +1841,7 @@ class BoxValidator:
 			subBoxTypes.append(boxType)
 
 			# Add analysis results to test results tree
-			self.tests.append(resultBox)
+			self.tests.appendIfNotEmpty(resultBox)
 
 			# Add extracted characteristics to characteristics tree
 			self.characteristics.append(characteristicsBox)
@@ -1941,7 +1951,7 @@ class BoxValidator:
 			boxTypes.append(boxType)
 
 			# Add analysis results to test results tree
-			self.tests.append(resultBox)
+			self.tests.appendIfNotEmpty(resultBox)
 
 			# Add extracted characteristics to characteristics tree
 			self.characteristics.append(characteristicsBox)

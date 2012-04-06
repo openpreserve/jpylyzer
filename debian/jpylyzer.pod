@@ -23,6 +23,10 @@ Show a help message and exit.
 
 Show program's version number and exit.
 
+=item B<--verbose>
+
+Report test results in verbose format.
+
 =back
 
 =head1 BUGS

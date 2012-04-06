@@ -44,7 +44,11 @@ class Element(ET.Element):
 		el = ET.SubElement(self, tag)
 		el.text = text
 		
-
+	def appendIfNotEmpty(self,subelement):
+		# Append sub-element, but only if subelement is not empty
+		
+		if len(subelement) != 0:
+			self.append(subelement)
 	
 	def makeHumanReadable(self, remapTable = {}):
 		# Takes element object, and returns a modified version in which all
