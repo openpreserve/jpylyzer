@@ -1184,9 +1184,10 @@ class BoxValidator:
 		# Length of tileIndices should equal numberOfTilesExpected
 		self.testFor("foundExpectedNumberOfTiles", len(tileIndices) == numberOfTilesExpected)
 		
-		#test = set(tilePartsPerTileExpected.items()) - set(tilePartsPerTileFound.items()) 
-		
-		#print(len(test))
+		## TEST
+		#print(tilePartsPerTileExpected)
+		#print(tilePartsPerTileFound)
+		## TEST
 		
 		# Found numbers of tile	parts per tile should match expected	
 		self.testFor("foundExpectedNumberOfTileParts", len(set(tilePartsPerTileExpected.items()) - set(tilePartsPerTileFound.items())) == 0)
@@ -1709,7 +1710,7 @@ class BoxValidator:
 
 		while marker != b'\xff\x93' and offsetNext !=-9999:
 			marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
-						
+									
 			if marker==b'\xff\x52':
 				# COD (coding style default) marker segment
 				
@@ -1752,21 +1753,22 @@ class BoxValidator:
 
 				offset=offsetNext
 				
-			elif marker in[b'\xff\x52',b'\xff\x5d',b'\xff\x5e', \
+			elif marker in[b'\xff\x53',b'\xff\x5d',b'\xff\x5e', \
 					b'\xff\x5f',b'\xff\x61',b'\xff\x58']:
 				# COC, QCC, RGN, POC, PPT or PLT marker: ignore and
 				# move on to next one
+				# Bugfix 1.5.2: COC marker was previously missing (changed x52 to x53!)
 				offset=offsetNext
 
 			else:
 				# Unknown marker segment: ignore and move on to next one
 				offset=offsetNext
-			
-		# Last marker segment (at self.startOffset + 12) should be start-
-		# of-data (SOD) marker
-		marker,segLength,segContents,offsetNext=self._getMarkerSegment(self.startOffset + 12)
-		
+				
+		# Last marker segment should be start-of-data (SOD) marker
 		self.testFor("foundSODMarker",marker == b'\xff\x93')
+		
+		# Bugfix 1.5.2: previous versions mistakenly assumed SOD at self.startOffset + 12!
+		# Goes wrong if til part contains any optional markers. Fixed now!
 					
 		# Position of first byte in next tile
 		offsetNextTilePart = self.startOffset + tilePartLength
