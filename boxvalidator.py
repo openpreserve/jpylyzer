@@ -1037,7 +1037,7 @@ class BoxValidator:
 		marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
 		foundSIZMarker = (marker == b'\xff\x51')
 		self.testFor("foundSIZMarker", foundSIZMarker)
-
+		
 		if foundSIZMarker:
 			# Validate SIZ segment
 			resultSIZ, characteristicsSIZ = BoxValidator(marker, segContents).validate() # validateSIZ(segContents)
@@ -1063,7 +1063,7 @@ class BoxValidator:
 
 		while marker != b'\xff\x90' and offsetNext !=-9999:
 			marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
-
+			
 			if marker == b'\xff\x52':
 				# COD (coding style default) marker segment
 				# COD is required
@@ -1131,7 +1131,7 @@ class BoxValidator:
 
 		# Remainder of codestream is a sequence of tile parts, followed by one
 		# end-of-codestream marker
-		
+				
 		# Expected number of tiles (as calculated from info in SIZ marker)
 		numberOfTilesExpected=self.characteristics.findElementText('siz/numberOfTiles')
 		
@@ -1159,10 +1159,10 @@ class BoxValidator:
 				resultTilePart, characteristicsTilePart,offsetNext = BoxValidator(marker, self.boxContents, offset).validate()
 				# Add analysis results to test results tree
 				tilePartTests.appendIfNotEmpty(resultTilePart)
-
+				
 				# Add extracted characteristics to characteristics tree
 				tilePartCharacteristics.append(characteristicsTilePart)
-				
+								
 				tileIndex=characteristicsTilePart.findElementText('sot/isot')
 				tilePartIndex=characteristicsTilePart.findElementText('sor/tpsot')
 				tilePartsOfTile=characteristicsTilePart.findElementText('sot/tnsot')
@@ -1180,15 +1180,15 @@ class BoxValidator:
 
 				if offsetNext != offset:
 					offset = offsetNext
+				else:
+					# offsetNext same as offset: this happens if image only contains
+					# one single tile-part (psot=0), in which case we break out of
+					# this loop
+					break
 
 		# Length of tileIndices should equal numberOfTilesExpected
 		self.testFor("foundExpectedNumberOfTiles", len(tileIndices) == numberOfTilesExpected)
-		
-		## TEST
-		#print(tilePartsPerTileExpected)
-		#print(tilePartsPerTileFound)
-		## TEST
-		
+				
 		# Found numbers of tile	parts per tile should match expected	
 		self.testFor("foundExpectedNumberOfTileParts", len(set(tilePartsPerTileExpected.items()) - set(tilePartsPerTileFound.items())) == 0)
 
@@ -1679,7 +1679,7 @@ class BoxValidator:
 		#   of a tile; there is currently no check on this (may be added later)
 
 		offset = self.startOffset
-
+		
 		# Read first marker segment, which is a  start of tile (SOT) marker segment
 		marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
 
@@ -1687,7 +1687,7 @@ class BoxValidator:
 		# tilePartLength is value of psot, which is the total length of this tile
 		# including the SOT marker. Note that psot may be 0 for last tile!
 		resultSOT, characteristicsSOT, tilePartLength = BoxValidator('startOfTile', segContents).validate()
-
+		
 		# Add analysis results to test results tree
 		self.tests.appendIfNotEmpty(resultSOT)
 
