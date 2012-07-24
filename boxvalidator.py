@@ -75,6 +75,7 @@ class BoxValidator:
 		self.startOffset = startOffset
 		self.returnOffset = None
 		self.isValid = None
+		self.bTypeString = bType
 
 	def validate(self):
 		try:
@@ -227,8 +228,27 @@ class BoxValidator:
 	# Validator functions for boxes
 	
 	def validate_unknownBox(self):
-		# Unknown box: print warning message to screen
+
+		# Although jpylyzer doesn't "know" anything about this box, we
+		# can at least report the 4 characters from the Box Type field
+		# (TBox) here
 		
+		boxType=self.bTypeString
+		
+		# If boxType contains any device control characters (e.g. because of
+		# file corruption), replace them  with printable character
+		if bc.containsControlCharacters(boxType):
+			boxType=bc.replaceControlCharacters(boxType)
+		
+		# Decode to string with Latin encoding
+		# Elementtree will deal with any non-ASCII characters by replacing
+		# them with numeric entity references
+		boxType=boxType.decode("iso-8859-15","strict")
+		
+		# Add (cleaned up) boxType string to output
+		self.addCharacteristic( "boxType", boxType)
+		
+		# Print warning message to screen		
 		printWarning("ignoring unknown box")
 
 	def validate_signatureBox(self):
@@ -237,7 +257,7 @@ class BoxValidator:
 		# Check box size, which should be 4 bytes
 		self.testFor("boxLengthIsValid", len(self.boxContents) == 4)
 		
-		# Signature (*not* added to characteristics output, because it contains non-printable characters)
+		# Signature *not* added to characteristics output, because it contains non-printable characters)
 		self.testFor("signatureIsValid", self.boxContents[0:4] == b'\x0d\x0a\x87\x0a')
 
 	def validate_fileTypeBox(self):
