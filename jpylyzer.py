@@ -47,7 +47,7 @@ from byteconv import bytesToText
 from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "1.6.0"
+__version__= "1.6.1"
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -261,12 +261,18 @@ def checkOneFile(file):
     # Create elements for storing tool and file meta info
     toolInfo=ET.Element('toolInfo')
     fileInfo=ET.Element('fileInfo')
+    
+    # File name and path may contain non-ASCII characters, decoding to Latin should
+    # (hopefully) prevent any Unicode decode errors. Elementtree will then deal with any non-ASCII
+    # characters by replacing them with numeric entity references
+    fileName=os.path.basename(file).decode("iso-8859-15","strict")
+    filePath=os.path.abspath(file).decode("iso-8859-15","strict")
 
     # Produce some general tool and file meta info
     toolInfo.appendChildTagWithText("toolName", scriptName)
     toolInfo.appendChildTagWithText("toolVersion", __version__)
-    fileInfo.appendChildTagWithText("fileName", os.path.basename(file))
-    fileInfo.appendChildTagWithText("filePath", os.path.abspath(file))
+    fileInfo.appendChildTagWithText("fileName", fileName)
+    fileInfo.appendChildTagWithText("filePath", filePath)
     fileInfo.appendChildTagWithText("fileSizeInBytes", str(os.path.getsize(file)))
     fileInfo.appendChildTagWithText("fileLastModified", time.ctime(os.path.getmtime(file)))
 
@@ -280,10 +286,10 @@ def checkOneFile(file):
     # Append test results and characteristics to root
     root.append(tests)
     root.append(characteristics)
-    
+
     # Result as XML
     result=root.toxml().decode("ascii")
-      
+
     return(result)
     
 def checkFiles(images):
