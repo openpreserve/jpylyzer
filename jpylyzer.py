@@ -47,7 +47,7 @@ from byteconv import bytesToText
 from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "1.6.1"
+__version__= "1.6.2"
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -265,9 +265,15 @@ def checkOneFile(file):
     # File name and path may contain non-ASCII characters, decoding to Latin should
     # (hopefully) prevent any Unicode decode errors. Elementtree will then deal with any non-ASCII
     # characters by replacing them with numeric entity references
-    fileName=os.path.basename(file).decode("iso-8859-15","strict")
-    filePath=os.path.abspath(file).decode("iso-8859-15","strict")
-
+    try:
+        # This works in Python 2.7, but raises error in 3.x (no decode attribute for str type!)
+        fileName=os.path.basename(file).decode("iso-8859-15","strict")
+        filePath=os.path.abspath(file).decode("iso-8859-15","strict")
+    except AttributeError:
+        # This works in Python 3.x, but goes wrong withh non-ASCII chars in 2.7
+        fileName=os.path.basename(file)
+        filePath=os.path.abspath(file)
+        
     # Produce some general tool and file meta info
     toolInfo.appendChildTagWithText("toolName", scriptName)
     toolInfo.appendChildTagWithText("toolVersion", __version__)
