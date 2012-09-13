@@ -546,7 +546,7 @@ class BoxValidator:
 				tagSignatures.append(tagSignatureElements[i].text)
 
 			# Step 3: verify non-existence of "AToB0Tag"
-			self.testFor("iccNoLUTBasedProfile", b'AToB0Tag' not in tagSignatures)
+			self.testFor("iccNoLUTBasedProfile", b'A2B0' not in tagSignatures)
 
 		elif meth == 3:
 			# ICC profile embedded using "Any ICC" method. Belongs to Part 2 of the
