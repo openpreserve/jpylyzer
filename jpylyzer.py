@@ -298,9 +298,9 @@ def checkFiles(paths):
         printWarning("no images to check!")
 
     for path in paths:
-            thisPath = path
+            thisPath=path
 
-            isFile = os.path.isfile(thisPath)
+            isFile=os.path.isfile(thisPath)
 
             if isFile:
                 # Analyse file
@@ -310,7 +310,14 @@ def checkFiles(paths):
                 sys.stdout.write(result)
 
             else:
-                isFolder = os.path.isfolder(thisPath)
+                # Analyze folder
+                for file in os.listdir(thisPath):
+                    nextPath=os.path.join(thisPath, file)
+                    if os.path.isfile(nextPath) and file.endswith(".jp2"):
+                        # Analyse file
+                        result = checkOneFile(nextPath)
+                        # Write output to stdout
+                        sys.stdout.write(result)
 
 def parseCommandLine():
     # Create parser
