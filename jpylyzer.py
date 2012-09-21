@@ -42,7 +42,7 @@ from byteconv import bytesToText
 from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "1.6.3"
+__version__= "1.7.0"
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -328,7 +328,7 @@ def parseCommandLine():
 
     # Add arguments
     parser.add_argument('--verbose', action="store_true", dest="outputVerboseFlag", default=False, help="report test results in verbose format")
-    parser.add_argument('--recursive', action="store_true", dest="inputRecursiveFlag", default=False, help="when encountering a folder, every file in every subfolder will be analysed")
+    parser.add_argument('--recursive', '-r', action="store_true", dest="inputRecursiveFlag", default=False, help="when encountering a folder, every file in every subfolder will be analysed")
     parser.add_argument('jp2In', action="store", nargs=argparse.REMAINDER, help="input JP2 image(s) or folder(s)")
 
     # Parse arguments
