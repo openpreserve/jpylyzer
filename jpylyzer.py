@@ -289,7 +289,7 @@ def checkOneFile(file):
     root.append(characteristics)
 
     # Result as XML
-    result=root.toxml().decode("ascii")
+    result=root.toxml().decode("UTF-8")
 
     return(result)
 
