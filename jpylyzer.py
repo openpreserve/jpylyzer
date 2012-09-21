@@ -251,7 +251,7 @@ def checkOneFile(file):
     characteristics.makeHumanReadable(remapTable)
 
     # Create output elementtree object
-    root=ET.Element('jpylyzer')
+    root=ET.Element('analysis')
 
     # Create elements for storing tool and file meta info
     toolInfo=ET.Element('toolInfo')
@@ -288,12 +288,9 @@ def checkOneFile(file):
     root.append(tests)
     root.append(characteristics)
 
-    # Result as XML
-    result=root.toxml().decode("UTF-8")
+    return(root)
 
-    return(result)
-
-def checkFiles(paths):
+def checkFiles(root, paths):
     if len(paths) == 0:
         printWarning("no images to check!")
 
@@ -307,7 +304,7 @@ def checkFiles(paths):
                 result=checkOneFile(thisPath)
 
                 # Write output to stdout
-                sys.stdout.write(result)
+                root.append(result)
 
             else:
                 # Analyze folder
@@ -317,7 +314,7 @@ def checkFiles(paths):
                         # Analyse file
                         result = checkOneFile(nextPath)
                         # Write output to stdout
-                        sys.stdout.write(result)
+                        root.append(result)
 
 def parseCommandLine():
     # Create parser
@@ -341,8 +338,14 @@ def main():
     # that imports 'config.py' (here: 'boxvalidator.py')
     config.outputVerboseFlag=args.outputVerboseFlag
 
+    root = ET.Element("jpylyzer")
+
     # Check files
-    checkFiles(jp2In)
+    checkFiles(root, jp2In)
+
+     # Result as XML
+    result=root.toxml().decode("UTF-8")
+    sys.stdout.write(result)
 
 if __name__ == "__main__":
     main()
