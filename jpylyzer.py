@@ -290,31 +290,37 @@ def checkOneFile(file):
 
     return(root)
 
-def checkFiles(root, paths):
+def checkFiles(recurse, root, paths):
+
     if len(paths) == 0:
         printWarning("no images to check!")
 
     for path in paths:
-            thisPath=path
 
-            isFile=os.path.isfile(thisPath)
+            isFile=os.path.isfile(path)
 
             if isFile:
                 # Analyse file
-                result=checkOneFile(thisPath)
+                result=checkOneFile(path)
 
-                # Write output to stdout
+                # append the result
                 root.append(result)
 
             else:
                 # Analyze folder
-                for file in os.listdir(thisPath):
-                    nextPath=os.path.join(thisPath, file)
-                    if os.path.isfile(nextPath) and file.endswith(".jp2"):
-                        # Analyse file
-                        result = checkOneFile(nextPath)
-                        # Write output to stdout
-                        root.append(result)
+                for file in os.listdir(path):
+                    filePath = os.path.join(path, file)
+
+                    #Analyze files in folder
+                    if os.path.isfile(filePath):
+                        if file.endswith(".jp2"):
+                            # Analyse file
+                            result = checkOneFile(filePath)
+                            # append the result
+                            root.append(result)
+                    else:
+                        if recurse:
+                            checkFiles(recurse, root, [filePath])
 
 def parseCommandLine():
     # Create parser
@@ -322,6 +328,7 @@ def parseCommandLine():
 
     # Add arguments
     parser.add_argument('--verbose', action="store_true", dest="outputVerboseFlag", default=False, help="report test results in verbose format")
+    parser.add_argument('--recursive', action="store_true", dest="inputRecursiveFlag", default=False, help="when encountering a folder, every file in every subfolder will be analysed")
     parser.add_argument('jp2In', action="store", nargs=argparse.REMAINDER, help="input JP2 image(s) or folder(s)")
 
     # Parse arguments
@@ -341,7 +348,7 @@ def main():
     root = ET.Element("jpylyzer")
 
     # Check files
-    checkFiles(root, jp2In)
+    checkFiles(args.inputRecursiveFlag, root, jp2In)
 
      # Result as XML
     result=root.toxml().decode("UTF-8")
