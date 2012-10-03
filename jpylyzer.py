@@ -44,6 +44,11 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 
 __version__= "1.7.0"
 
+ERR_CODE_NO_IMAGES = -7
+
+# Create parser
+parser = argparse.ArgumentParser(description="JP2 image validator and properties extractor",version=__version__)
+
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
         hasattr(sys, "importers") # old py2exe
@@ -290,10 +295,17 @@ def checkOneFile(file):
 
     return(root)
 
+def usage():
+    print("Usage: jpylyzer.py [-h] [-v] [--verbose] [--recursive]")
+    
 def checkFiles(recurse, root, paths):
 
     if len(paths) == 0:
         printWarning("no images to check!")
+        #TODO print the help
+        print("\n")
+        parser.print_help()
+        sys.exit(ERR_CODE_NO_IMAGES)
 
     for path in paths:
 
@@ -323,14 +335,11 @@ def checkFiles(recurse, root, paths):
                             checkFiles(recurse, root, [filePath])
 
 def parseCommandLine():
-    # Create parser
-    parser = argparse.ArgumentParser(description="JP2 image validator and properties extractor",version=__version__)
-
     # Add arguments
     parser.add_argument('--verbose', action="store_true", dest="outputVerboseFlag", default=False, help="report test results in verbose format")
     parser.add_argument('--recursive', '-r', action="store_true", dest="inputRecursiveFlag", default=False, help="when encountering a folder, every file in every subfolder will be analysed")
     parser.add_argument('jp2In', action="store", nargs=argparse.REMAINDER, help="input JP2 image(s) or folder(s)")
-
+    
     # Parse arguments
     args=parser.parse_args()
 
