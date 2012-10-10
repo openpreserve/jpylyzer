@@ -36,6 +36,7 @@ import glob
 import struct
 import argparse
 import config
+import platform
 import etpatch as ET
 from boxvalidator import BoxValidator
 from byteconv import bytesToText
@@ -48,6 +49,9 @@ ERR_CODE_NO_IMAGES = -7
 
 # Create parser
 parser = argparse.ArgumentParser(description="JP2 image validator and properties extractor",version=__version__)
+
+# list of existing files to be analysed
+existingFiles = []
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -295,50 +299,99 @@ def checkOneFile(file):
 
     return(root)
 
-def usage():
-    print("Usage: jpylyzer.py [-h] [-v] [--verbose] [--recursive]")
+def checkNullArgs(args):
+    # This method checks if the input arguments list and exits program if invalid or no input argument is supplied.
     
-def checkFiles(recurse, root, paths):
-
-    if len(paths) == 0:
-        printWarning("no images to check!")
-        #TODO print the help
+    if len(args) == 0:
+        print("\n")
+        printWarning("no images found (or supplied) to check!")
         print("\n")
         parser.print_help()
         sys.exit(ERR_CODE_NO_IMAGES)
 
-    for path in paths:
+def addRecursiveFiles(paths,recurse):
+    # This method does the recursive search for files matching the path(s) in the input argument(s)
 
-            isFile=os.path.isfile(path)
+    if recurse:
+        for path in paths:
+            #The recursive search for (*) has already been done and does not have to be repeated here
+            if path not in ['*', '*.*']:
+                #Use the supplied search path if any, else search from the current directory
+                if path.startswith("./"):
+                    currentpath = path
+                else:
+                    currentpath=os.getcwd()
+                #Iterate through all the directories and subdirectories in the current path
+                #and search for matching files
+                if os.path.exists(currentpath):
+                    for d in os.listdir(currentpath):
+                        if os.path.isdir(d):
+                            dirpath = os.path.join(currentpath,d)
+                            dirpathtosearch = os.path.join(dirpath,path)
+                            subfiles = glob.glob(dirpathtosearch)
+                            if len(subfiles) > 0:
+                                existingFiles.extend(subfiles)
+                            for f in os.listdir(dirpath):
+                                filepath = os.path.join(dirpath,f)
+                                if os.path.isdir(filepath):
+                                    subdirpathtosearch = os.path.join(filepath,path)
+                                    subdirfiles = glob.glob(subdirpathtosearch)
+                                    if len(subdirfiles) > 0:
+                                        dirfiles = filterExistingFiles(subdirfiles,recurse)
 
-            if isFile:
-                # Analyse file
-                result=checkOneFile(path)
+def filterExistingFiles(paths, recurse):    
+    # This method filters list of file(s) that needs to be analysed
+    # Checks for the --recursive or -r option, and  includes the files
+    # from all the subdirectories under the current directory
 
-                # append the result
-                root.append(result)
-
-            else:
-                # Analyze folder
-                for file in os.listdir(path):
-                    filePath = os.path.join(path, file)
-
-                    #Analyze files in folder
+    for path in paths:                
+        #Check if the path is a file and add files to the existingFiles list
+        isFile = os.path.isfile(path)           
+        if isFile:
+            existingFiles.append(path)
+        #Else the filepath is a directory and checks if --recursive is true 
+        #to add to the existingFiles list 
+        else:
+            for file in os.listdir(path):
+                filePath = os.path.join(path, file)
+                if recurse:
                     if os.path.isfile(filePath):
-                        if file.endswith(".jp2"):
-                            # Analyse file
-                            result = checkOneFile(filePath)
-                            # append the result
-                            root.append(result)
-                    else:
-                        if recurse:
-                            checkFiles(recurse, root, [filePath])
+                        existingFiles.append(filePath)
+                    if os.path.isdir(filePath):
+                        filterExistingFiles([filePath],recurse)
+
+def checkFiles(recurse, root, paths):
+    # This method checks the input argument path(s) for existing files and analyses them
+    
+    wildcard="*"
+    #Expand the path (file or folder) given in the input argument, with the python glob function
+    #if the path does not have any wildcard then, suffix wildcard (*) to find matching files
+    for path in paths:
+        filepaths = glob.glob(path)
+        if wildcard not in path:
+            newpath = os.path.join(path,"*")
+            filepaths = glob.glob(newpath)
+        #call function to filter the existing files 
+        filterExistingFiles(filepaths,recurse)
+
+    #call function to check and add the files recursively
+    addRecursiveFiles(paths,recurse)
+    
+    # If there are no valid input files then exit program    
+    checkNullArgs(existingFiles)
+    
+    # Process the input files
+    for path in existingFiles:
+        # Analyse file
+        result=checkOneFile(path)
+        # append the result
+        root.append(result)
 
 def parseCommandLine():
     # Add arguments
     parser.add_argument('--verbose', action="store_true", dest="outputVerboseFlag", default=False, help="report test results in verbose format")
     parser.add_argument('--recursive', '-r', action="store_true", dest="inputRecursiveFlag", default=False, help="when encountering a folder, every file in every subfolder will be analysed")
-    parser.add_argument('jp2In', action="store", nargs=argparse.REMAINDER, help="input JP2 image(s) or folder(s)")
+    parser.add_argument('jp2In', action="store", type=str, nargs=argparse.REMAINDER, help="input JP2 image(s) or folder(s), prefix wildcard (*) with backslash (\\) in Linux")
     
     # Parse arguments
     args=parser.parse_args()
@@ -349,7 +402,7 @@ def main():
     # Get input from command line
     args=parseCommandLine()
     jp2In=args.jp2In
-
+         
     # Storing this to 'config.outputVerboseFlag' makes this value available to any module
     # that imports 'config.py' (here: 'boxvalidator.py')
     config.outputVerboseFlag=args.outputVerboseFlag
