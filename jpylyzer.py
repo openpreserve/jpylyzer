@@ -37,6 +37,7 @@ import struct
 import argparse
 import config
 import platform
+import codecs
 import etpatch as ET
 from boxvalidator import BoxValidator
 from byteconv import bytesToText
@@ -46,6 +47,7 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 __version__= "1.7.0"
 
 ERR_CODE_NO_IMAGES = -7
+UTF8_ENCODING = "UTF-8"
 
 # Create parser
 parser = argparse.ArgumentParser(description="JP2 image validator and properties extractor",version=__version__)
@@ -362,13 +364,13 @@ def filterExistingFiles(paths, recurse):
 
 def checkFiles(recurse, root, paths):
     # This method checks the input argument path(s) for existing files and analyses them
-    
+
     wildcard="*"
     #Expand the path (file or folder) given in the input argument, with the python glob function
     #if the path does not have any wildcard then, suffix wildcard (*) to find matching files
     for path in paths:
         filepaths = glob.glob(path)
-        if wildcard not in path:
+        if wildcard not in filepaths:
             newpath = os.path.join(path,"*")
             filepaths = glob.glob(newpath)
         #call function to filter the existing files 
@@ -376,7 +378,7 @@ def checkFiles(recurse, root, paths):
 
     #call function to check and add the files recursively
     addRecursiveFiles(paths,recurse)
-    
+
     # If there are no valid input files then exit program    
     checkNullArgs(existingFiles)
     
@@ -413,7 +415,12 @@ def main():
     checkFiles(args.inputRecursiveFlag, root, jp2In)
 
      # Result as XML
-    result=root.toxml().decode("UTF-8")
+    result=root.toxml().decode(UTF8_ENCODING)
+    
+    # Check encoding of the terminal and set to UTF-8
+    if sys.getfilesystemencoding().upper() != UTF8_ENCODING:
+        sys.stdout = codecs.getwriter(UTF8_ENCODING) (sys.stdout)
+
     sys.stdout.write(result)
 
 if __name__ == "__main__":
