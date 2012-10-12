@@ -371,8 +371,10 @@ def checkFiles(recurse, root, paths):
     for path in paths:
         filepaths = glob.glob(path)
         if wildcard not in filepaths:
-            newpath = os.path.join(path,"*")
-            filepaths = glob.glob(newpath)
+            for fp in filepaths:
+                if os.path.isdir(fp):
+                    newpath = os.path.join(path,"*")
+                    filepaths = glob.glob(newpath)
         #call function to filter the existing files 
         filterExistingFiles(filepaths,recurse)
 
@@ -381,7 +383,7 @@ def checkFiles(recurse, root, paths):
 
     # If there are no valid input files then exit program    
     checkNullArgs(existingFiles)
-    
+
     # Process the input files
     for path in existingFiles:
         # Analyse file
