@@ -39,6 +39,7 @@ import config
 import platform
 import codecs
 import etpatch as ET
+from xml.etree.ElementTree import ElementTree
 from boxvalidator import BoxValidator
 from byteconv import bytesToText
 from shared import printWarning
@@ -262,7 +263,7 @@ def checkOneFile(file):
     characteristics.makeHumanReadable(remapTable)
 
     # Create output elementtree object
-    root=ET.Element('analysis')
+    root=ET.Element('jpylyzer')
 
     # Create elements for storing tool and file meta info
     toolInfo=ET.Element('toolInfo')
@@ -362,7 +363,7 @@ def filterExistingFiles(paths, recurse):
                     if os.path.isdir(filePath):
                         filterExistingFiles([filePath],recurse)
 
-def checkFiles(recurse, root, paths):
+def checkFiles(recurse, wrap, paths):
     # This method checks the input argument path(s) for existing files and analyses them
 
     wildcard="*"
@@ -384,17 +385,28 @@ def checkFiles(recurse, root, paths):
     # If there are no valid input files then exit program    
     checkNullArgs(existingFiles)
 
+    # Wrap the xml output in <results> element, if wrapper flag is true
+    if wrap:
+        print("<?xml version='1.0' encoding='UTF-8'?><results>")
+    else:
+        print("<?xml version='1.0' encoding='UTF-8'?>")
+
+    # Check encoding of the terminal and set to UTF-8
+    if sys.getfilesystemencoding().upper() != UTF8_ENCODING:
+        sys.stdout = codecs.getwriter(UTF8_ENCODING) (sys.stdout)
+
     # Process the input files
     for path in existingFiles:
         # Analyse file
         result=checkOneFile(path)
-        # append the result
-        root.append(result)
+        # Output result
+        ElementTree(result).write(sys.__stdout__,encoding="UTF-8",xml_declaration=False)
 
 def parseCommandLine():
     # Add arguments
     parser.add_argument('--verbose', action="store_true", dest="outputVerboseFlag", default=False, help="report test results in verbose format")
     parser.add_argument('--recursive', '-r', action="store_true", dest="inputRecursiveFlag", default=False, help="when encountering a folder, every file in every subfolder will be analysed")
+    parser.add_argument('--wrapper', '-w', action="store_true", dest="inputWrapperFlag", default=False, help="wraps the output of the analysed images(s) under the 'jpylyzer' XML element")
     parser.add_argument('jp2In', action="store", type=str, nargs=argparse.REMAINDER, help="input JP2 image(s) or folder(s), prefix wildcard (*) with backslash (\\) in Linux")
     
     # Parse arguments
@@ -410,20 +422,13 @@ def main():
     # Storing this to 'config.outputVerboseFlag' makes this value available to any module
     # that imports 'config.py' (here: 'boxvalidator.py')
     config.outputVerboseFlag=args.outputVerboseFlag
-
-    root = ET.Element("jpylyzer")
+    
 
     # Check files
-    checkFiles(args.inputRecursiveFlag, root, jp2In)
-
-     # Result as XML
-    result=root.toxml().decode(UTF8_ENCODING)
+    checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
     
-    # Check encoding of the terminal and set to UTF-8
-    if sys.getfilesystemencoding().upper() != UTF8_ENCODING:
-        sys.stdout = codecs.getwriter(UTF8_ENCODING) (sys.stdout)
-
-    sys.stdout.write(result)
+    # Add the end </results> element, if wrapper flag is true
+    if args.inputWrapperFlag: print("</results>")
 
 if __name__ == "__main__":
     main()
