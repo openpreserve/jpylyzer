@@ -114,7 +114,7 @@ class Element(ET.Element):
 
 
 	def toxml(self, indent = "  "):
-		return(ET.tostring(self, 'ascii','xml'))
+		return(ET.tostring(self, 'UTF-8','xml'))
 		
 		# Disabled pretty-printing for now as minidom appears to choke on
 		# entity references, i.e. code below will go wrong:
