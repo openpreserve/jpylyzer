@@ -39,6 +39,7 @@ import config
 import platform
 import codecs
 import etpatch as ET
+import fnmatch
 from xml.etree.ElementTree import ElementTree
 from boxvalidator import BoxValidator
 from byteconv import bytesToText
@@ -304,7 +305,7 @@ def checkOneFile(file):
 
 def checkNullArgs(args):
     # This method checks if the input arguments list and exits program if invalid or no input argument is supplied.
-    
+
     if len(args) == 0:
         print("\n")
         printWarning("no images found (or supplied) to check!")
@@ -312,77 +313,84 @@ def checkNullArgs(args):
         parser.print_help()
         sys.exit(ERR_CODE_NO_IMAGES)
 
-def addRecursiveFiles(paths,recurse):
-    # This method does the recursive search for files matching the path(s) in the input argument(s)
+def getFiles(searchpattern):
+    results = glob.glob(searchpattern)
+    for f in results:
+        if os.path.isfile(f):
+            existingFiles.append(f)
 
-    if recurse:
-        for path in paths:
-            #The recursive search for (*) has already been done and does not have to be repeated here
-            if path not in ['*', '*.*']:
-                #Use the supplied search path if any, else search from the current directory
-                if path.startswith("./"):
-                    currentpath = path
-                else:
-                    currentpath=os.getcwd()
-                #Iterate through all the directories and subdirectories in the current path
-                #and search for matching files
-                if os.path.exists(currentpath):
-                    for d in os.listdir(currentpath):
-                        if os.path.isdir(d):
-                            dirpath = os.path.join(currentpath,d)
-                            dirpathtosearch = os.path.join(dirpath,path)
-                            subfiles = glob.glob(dirpathtosearch)
-                            if len(subfiles) > 0:
-                                existingFiles.extend(subfiles)
-                            for f in os.listdir(dirpath):
-                                filepath = os.path.join(dirpath,f)
-                                if os.path.isdir(filepath):
-                                    subdirpathtosearch = os.path.join(filepath,path)
-                                    subdirfiles = glob.glob(subdirpathtosearch)
-                                    if len(subdirfiles) > 0:
-                                        dirfiles = filterExistingFiles(subdirfiles,recurse)
+def getFilesFromTreePath(rootDir, pattern):
+    # Recurse into directory tree and return list of all files
+    # NOTE: directory names are disabled here!!
 
-def filterExistingFiles(paths, recurse):    
-    # This method filters list of file(s) that needs to be analysed
-    # Checks for the --recursive or -r option, and  includes the files
-    # from all the subdirectories under the current directory
+    for dirname, dirnames, filenames in os.walk(rootDir):
+        #Suppress directory names
+        for subdirname in dirnames:
+            thisDirectory=os.path.join(dirname, subdirname)
+            #find files matching the pattern in current path
+            searchpattern = os.path.join(thisDirectory,pattern)
+            getFiles(searchpattern)
 
-    for path in paths:                
-        #Check if the path is a file and add files to the existingFiles list
-        isFile = os.path.isfile(path)           
-        if isFile:
-            existingFiles.append(path)
-        #Else the filepath is a directory and checks if --recursive is true 
-        #to add to the existingFiles list 
+def findFiles(recurse, paths):
+
+    WILDCARD = "*"
+
+    #process the list of input paths
+    for root in paths:
+        #Windows (& Linux with backslash prefix) does not expand wildcard '*'
+        #so, find files in the current path and add to list
+        if WILDCARD in root:
+            filesList = glob.glob(root)
+            for f in filesList:
+                if os.path.isfile(f):
+                    existingFiles.append(f)
+        #In Linux wilcard expansion done by bash
+        #so, add file to list
         else:
-            for file in os.listdir(path):
-                filePath = os.path.join(path, file)
-                if recurse:
-                    if os.path.isfile(filePath):
-                        existingFiles.append(filePath)
-                    if os.path.isdir(filePath):
-                        filterExistingFiles([filePath],recurse)
+            if os.path.isfile(root):
+                existingFiles.append(root)
+        #Check if recurse in the input path
+        if recurse:
+            #get absolute input path if not given
+            if not(os.path.isabs(root)):
+                root = os.path.abspath(root)
+            pathAndFilePattern = os.path.split(root)
+            path = pathAndFilePattern[0]
+            filePattern = pathAndFilePattern[1]
+            filenameAndExtension = os.path.splitext(filePattern)
+            #input path contains wildcard
+            if WILDCARD in path:
+                filepath = glob.glob(path)
+                #if filepath is a folder, get files in current directory
+                if len(filepath) == 1:
+                    getFilesFromTreePath(filepath[0], filePattern)
+                #if filepath is a list of files/folder
+                #get all files in the tree matching the file extension (if any)
+                if len(filepath) > 1:
+                    for f in filepath:
+                        if os.path.isdir(f):
+                            getFilesFromTreePath(f, filePattern)
+                        if os.path.isfile(f):
+                            extension = filenameAndExtension[0]+ filenameAndExtension[1]
+                            if fnmatch.fnmatch(f, extension):
+                                existingFiles.append(f)
+            #file name or extension contains wildcard
+            else:
+                if WILDCARD in filePattern:
+                    getFilesFromTreePath(path, filePattern)
+                else:
+                    filenameAndExtension = os.path.splitext(filePattern)
+                    extension = WILDCARD + filenameAndExtension[1]
+                    getFilesFromTreePath(path, extension)
+
+
 
 def checkFiles(recurse, wrap, paths):
     # This method checks the input argument path(s) for existing files and analyses them
 
-    wildcard="*"
-    #Expand the path (file or folder) given in the input argument, with the python glob function
-    #if the path does not have any wildcard then, suffix wildcard (*) to find matching files
-    for path in paths:
-        filepaths = glob.glob(path)
-        if wildcard not in filepaths:
-            for fp in filepaths:
-                if os.path.isdir(fp):
-                    newpath = os.path.join(path,"*")
-                    filepaths = glob.glob(newpath)
-        #call function to filter the existing files 
-        filterExistingFiles(filepaths,recurse)
-
-    #call function to check and add the files recursively
-    addRecursiveFiles(paths,recurse)
-
-    # If there are no valid input files then exit program    
+    #Find existing files in the given input path(s)
+    findFiles(recurse, paths)
+    # If there are no valid input files then exit program
     checkNullArgs(existingFiles)
 
     # Wrap the xml output in <results> element, if wrapper flag is true
@@ -408,7 +416,7 @@ def parseCommandLine():
     parser.add_argument('--recursive', '-r', action="store_true", dest="inputRecursiveFlag", default=False, help="when encountering a folder, every file in every subfolder will be analysed")
     parser.add_argument('--wrapper', '-w', action="store_true", dest="inputWrapperFlag", default=False, help="wraps the output of the analysed images(s) under the 'jpylyzer' XML element")
     parser.add_argument('jp2In', action="store", type=str, nargs=argparse.REMAINDER, help="input JP2 image(s) or folder(s), prefix wildcard (*) with backslash (\\) in Linux")
-    
+
     # Parse arguments
     args=parser.parse_args()
 
@@ -418,15 +426,15 @@ def main():
     # Get input from command line
     args=parseCommandLine()
     jp2In=args.jp2In
-         
+
     # Storing this to 'config.outputVerboseFlag' makes this value available to any module
     # that imports 'config.py' (here: 'boxvalidator.py')
     config.outputVerboseFlag=args.outputVerboseFlag
-    
+
 
     # Check files
     checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
-    
+
     # Add the end </results> element, if wrapper flag is true
     if args.inputWrapperFlag: print("</results>")
 
