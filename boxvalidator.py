@@ -249,7 +249,7 @@ class BoxValidator:
 		self.addCharacteristic( "boxType", boxType)
 		
 		# Print warning message to screen		
-		printWarning("ignoring unknown box")
+		#printWarning("ignoring unknown box")
 
 	def validate_signatureBox(self):
 		# Signature box (ISO/IEC 15444-1 Section I.5.2)
