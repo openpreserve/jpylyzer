@@ -1910,22 +1910,44 @@ class BoxValidator:
 	def validate_uuidBox(self):
 		# UUID Box (ISO/IEC 15444-1 Section I.7.2)
 		# For details on UUIDs see: http://tools.ietf.org/html/rfc4122.html
-		
-		# NOTE: Untested at this stage due to lack of suitable test files!!!
-		
+			
 		# Box contains 16-byte identifier, followed by block of data.
 		# Format of data is defined outside of the scope of JPEG 2000,
-		# so there's not much to validate here.
+		# so in most cases there's not much to validate here. Exception:
+		# if uuid = be7acfcb-97a9-42e8-9c71-999491e3afac this indicates
+		# presence of XMP metadata
+		
+		boxLength=len(self.boxContents)
 		
 		# Check box size, which should be greater than 16 bytes
-		self.testFor("boxLengthIsValid", len(self.boxContents) > 16)
-				
+		self.testFor("boxLengthIsValid", boxLength > 16)
+						
 		# First 16 bytes contain UUID, convert to string of hex digits
 		# in standard form
 		id=str(uuid.UUID(bytes=self.boxContents[0:16]))
 		
-		# Add to characteristics tree	
-		self.addCharacteristic("uuid",id)
+		if id=="be7acfcb-97a9-42e8-9c71-999491e3afac":
+			# XMP packet
+			data=self.boxContents[16:boxLength]
+			
+			# Data should be well-formed XML. Try to parse data to Element instance.
+		
+			try:
+				dataAsElement= ET.fromstring(data)
+			
+				# Add data to characteristics tree
+				self.characteristics.append(dataAsElement)
+			
+				# If no exception was raised data contains well-formed XML
+				containsWellformedXML=True
+			except:
+				# If parse raised error this is not well-formed XML
+				containsWellformedXML=False
+		
+			self.testFor("containsWellformedXML",containsWellformedXML)
+		else:
+			# Only add to UUID to characteristics tree	
+			self.addCharacteristic("uuid",id)
 
 	def validate_uuidInfoBox(self):
 		# UUID Info box (superbox)(ISO/IEC 15444-1 Section I.7.3)
