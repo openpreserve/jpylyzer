@@ -49,11 +49,21 @@ class BoxValidator:
 		b'\xff\x52': "cod",
 		b'\xff\x5c': "qcd",
 		b'\xff\x64': "com",
+		b'\xff\x53': "coc",
+		b'\xff\x5e': "rgn",
+		b'\xff\x5d': "qcc",
+		b'\xff\x5f': "poc",
+		b'\xff\x55': "tlm",
+		b'\xff\x57': "plm",
+		b'\xff\x58': "plt",
+		b'\xff\x60': "ppm",
+		b'\xff\x61': "ppt",
+		b'\xff\x63': "crg",
 		b'\xff\x90': "tilePart",
 		'icc': 'icc',
 		'startOfTile': 'sot'
 	}
-
+	
 	# Reverse access of typemap for quick lookup
 	boxTagMap = {v:k for k, v in typeMap.items()}
 
@@ -1120,9 +1130,25 @@ class BoxValidator:
 				# Start of tile (SOT) marker segment; don't update offset as this
 				# will get us of out of this loop (for functional readability):
 				offset = offset
+				
+			elif marker in[b'\xff\x53',b'\xff\x5d',b'\xff\x5e', \
+					b'\xff\x5f',b'\xff\x55',b'\xff\x57',b'\xff\x60',b'\xff\x63']:
+				# COC, QCC, RGN, POC, TLM, PLM ,PPM, CRG marker: ignore and
+				# move on to next one
+				# Bugfix 1.5.2: COC marker was previously missing (changed x52 to x53!)
+				
+				resultOther,characteristicsOther= BoxValidator(marker, segContents).validate()
+				# Add analysis results to test results tree
+				self.tests.appendIfNotEmpty(resultOther)
+				# Add extracted characteristics to characteristics tree
+				self.characteristics.append(characteristicsOther)
+				offset=offsetNext
 			else:
 				# Any other marker segment: ignore and move on to next one
+				# Note that this should result in validation error as all
+				# marker segments are covered above!!
 				offset=offsetNext
+
 
 		# Add foundCODMarker / foundQCDMarker outcome to tests
 		self.testFor("foundCODMarker",foundCODMarker)
@@ -1689,6 +1715,53 @@ class BoxValidator:
 		tnsot=bc.bytesToUnsignedChar(self.boxContents[9:10])
 		self.addCharacteristic("tnsot",tnsot)
 		self.returnOffset = psot
+	
+	# The following validator functions cover those marker segments that
+	# are not yet supported, however including them has the effect that their
+	# presence at least reported in jpylyzer's output.
+	# Together these cover *all* the marker segments defined in ISO/IEC 15444-1,
+	# apart from the SOP/EPH markers (not sure if I even *want* to see those reported
+	# because there will be either lots of them or none at all!).
+	
+	def validate_coc(self):
+		# Empty function
+		pass
+	
+	def validate_rgn(self):
+		# Empty function
+		pass
+	
+	def validate_qcc(self):
+		# Empty function
+		pass
+	
+	def validate_poc(self):
+		# Empty function
+		pass
+	
+	def validate_tlm(self):
+		# Empty function
+		pass
+	
+	def validate_plm(self):
+		# Empty function
+		pass
+	
+	def validate_plt(self):
+		# Empty function
+		pass
+	
+	def validate_ppm(self):
+		# Empty function
+		pass
+	
+	def validate_ppt(self):
+		# Empty function
+		pass
+
+	def validate_crg(self):
+		# Empty function
+		pass
 
 	def validate_tilePart(self):
 		# Analyse tile part that starts at offsetStart and perform cursory validation
@@ -1772,17 +1845,26 @@ class BoxValidator:
 				self.characteristics.append(characteristicsCOM)
 
 				offset=offsetNext
-				
+					
 			elif marker in[b'\xff\x53',b'\xff\x5d',b'\xff\x5e', \
 					b'\xff\x5f',b'\xff\x61',b'\xff\x58']:
 				# COC, QCC, RGN, POC, PPT or PLT marker: ignore and
 				# move on to next one
 				# Bugfix 1.5.2: COC marker was previously missing (changed x52 to x53!)
+				
+				resultOther,characteristicsOther= BoxValidator(marker, segContents).validate()
+				# Add analysis results to test results tree
+				self.tests.appendIfNotEmpty(resultOther)
+				# Add extracted characteristics to characteristics tree
+				self.characteristics.append(characteristicsOther)
 				offset=offsetNext
 
 			else:
 				# Unknown marker segment: ignore and move on to next one
+				# NOTE: validation should also be a test for specific marker segments that are
+				# not allowed here!!
 				offset=offsetNext
+			
 				
 		# Last marker segment should be start-of-data (SOD) marker
 		self.testFor("foundSODMarker",marker == b'\xff\x93')
