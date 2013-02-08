@@ -190,7 +190,7 @@ class BoxValidator:
 			# Obviously something going wrong here ...
 			compressionRatio = -9999
 		
-		return(compressionRatio) 
+		return(compressionRatio)
 
 	def _getBitValue(self, n, p):
 		# Get the bit value of denary (base 10) number n at the equivalent binary
@@ -211,7 +211,7 @@ class BoxValidator:
 		#print(config.outputVerboseFlag)
 		
 		if config.outputVerboseFlag == False:
-			# Non-verbose output: only add results of tests that failed 
+			# Non-verbose output: only add results of tests that failed
 			if testResult==False:
 				self.tests.appendChildTagWithText(testType, testResult)
 		
@@ -249,7 +249,7 @@ class BoxValidator:
 		self.addCharacteristic( "boxType", boxType)
 		
 		# Print warning message to screen		
-		#printWarning("ignoring unknown box")
+		printWarning("ignoring unknown box")
 
 	def validate_signatureBox(self):
 		# Signature box (ISO/IEC 15444-1 Section I.5.2)
@@ -602,7 +602,7 @@ class BoxValidator:
 		colourSpace=self.boxContents[16:20]
 		self.addCharacteristic("colourSpace",colourSpace)
 		
-		# Profile connection space 
+		# Profile connection space
 		profileConnectionSpace=self.boxContents[20:24]
 		self.addCharacteristic("profileConnectionSpace",profileConnectionSpace)
 		
@@ -1090,7 +1090,7 @@ class BoxValidator:
 				foundCODMarker=True
 
 				# Validate COD segment
-				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() 
+				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate()
 				# Add analysis results to test results tree
 				self.tests.appendIfNotEmpty(resultCOD)
 				# Add extracted characteristics to characteristics tree
@@ -1110,7 +1110,7 @@ class BoxValidator:
 			elif marker == b'\xff\x64':
 				# COM (codestream comment) marker segment
 				# Validate QCD segment
-				resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate() 
+				resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate()
 				# Add analysis results to test results tree
 				self.tests.appendIfNotEmpty(resultCOM)
 				# Add extracted characteristics to characteristics tree
@@ -1195,7 +1195,7 @@ class BoxValidator:
 				if tilePartsOfTile != 0:				
 					tilePartsPerTileExpected[tileIndex]=tilePartsOfTile
 				
-				# Increase found number of tile-parts for this tile by 1 
+				# Increase found number of tile-parts for this tile by 1
 				tilePartsPerTileFound[tileIndex]=tilePartsPerTileFound[tileIndex] +1
 
 				if offsetNext != offset:
@@ -1735,7 +1735,7 @@ class BoxValidator:
 				# COD (coding style default) marker segment
 				
 				# Validate COD segment
-				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() 
+				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate()
 
 				# Add analysis results to test results tree
 				self.tests.appendIfNotEmpty(resultCOD)
@@ -1939,7 +1939,7 @@ class BoxValidator:
 		if bc.containsControlCharacters(loc):
 			loc=bc.replaceControlCharacters(loc)
 		
-		# Decode as UTF-8 
+		# Decode as UTF-8
 		try:
 			loc=loc.decode("utf-8","strict")
 			self.testFor("locIsUTF8", True)
