@@ -40,7 +40,7 @@ import platform
 import codecs
 import etpatch as ET
 import fnmatch
-from xml.etree.ElementTree import ElementTree
+import xml.etree.ElementTree as ETree
 from boxvalidator import BoxValidator
 from byteconv import bytesToText
 from shared import printWarning
@@ -50,9 +50,12 @@ __version__= "1.7.0"
 
 ERR_CODE_NO_IMAGES = -7
 UTF8_ENCODING = "UTF-8"
+PYTHON_VERSION=sys.version
+PYTHON_2="2"
+PYTHON_3="3"
 
 # Create parser
-parser = argparse.ArgumentParser(description="JP2 image validator and properties extractor",version=__version__)
+parser = argparse.ArgumentParser(description="JP2 image validator and properties extractor")
 
 # list of existing files to be analysed
 existingFiles = []
@@ -313,13 +316,22 @@ def checkNullArgs(args):
         parser.print_help()
         sys.exit(ERR_CODE_NO_IMAGES)
 
+
+def getFilesFromDir(dirpath):
+    for fp in os.listdir(dirpath):
+        filepath = os.path.join(dirpath, fp)
+        if os.path.isfile(filepath):
+            existingFiles.append(filepath)
+
+
 def getFiles(searchpattern):
     results = glob.glob(searchpattern)
     for f in results:
         if os.path.isfile(f):
             existingFiles.append(f)
 
-def getFilesFromTreePath(rootDir, pattern):
+
+def getFilesWithPatternFromTree(rootDir, pattern):
     # Recurse into directory tree and return list of all files
     # NOTE: directory names are disabled here!!
 
@@ -331,57 +343,94 @@ def getFilesFromTreePath(rootDir, pattern):
             searchpattern = os.path.join(thisDirectory,pattern)
             getFiles(searchpattern)
 
+
+def getFilesFromTree(rootDir):
+    # Recurse into directory tree and return list of all files
+    # NOTE: directory names are disabled here!!
+
+    for dirname, dirnames, filenames in os.walk(rootDir):
+        #Suppress directory names
+        for subdirname in dirnames:
+            thisDirectory=os.path.join(dirname, subdirname)
+
+        for filename in filenames:
+            thisFile=os.path.join(dirname, filename)
+            existingFiles.append(thisFile)
+
+
 def findFiles(recurse, paths):
 
     WILDCARD = "*"
 
     #process the list of input paths
     for root in paths:
+
+        #WILDCARD IN PATH OR FILENAME
+        #In Linux wilcard expansion done by bash so, add file to list
+        if os.path.isfile(root):
+            existingFiles.append(root)
         #Windows (& Linux with backslash prefix) does not expand wildcard '*'
-        #so, find files in the current path and add to list
-        if WILDCARD in root:
+        #Find files in the input path and add to list
+        elif WILDCARD in root:
+            #get the absolute path if not given
+            if not(os.path.isabs(root)):
+                root = os.path.abspath(root)
+
+            #Expand wildcard in the input path. Returns a list of files, folders
             filesList = glob.glob(root)
-            for f in filesList:
-                if os.path.isfile(f):
-                    existingFiles.append(f)
-        #In Linux wilcard expansion done by bash
-        #so, add file to list
-        else:
-            if os.path.isfile(root):
-                existingFiles.append(root)
+
+            #If the input path is a directory, then glob expands it to full name
+            if len(filesList) == 1:
+                #set root to the expanded directory path
+                root = filesList[0]
+
+            #get files from directory
+            if os.path.isdir(root) and not recurse:
+                getFilesFromDir(root)
+
+            #If the input path returned files list, add files to List
+            if len(filesList) > 1:
+                for f in filesList:
+                    if os.path.isfile(f):
+                        existingFiles.append(f)
+        #input path is a directory and is not recursive
+        elif os.path.isdir(root) and not recurse:
+            getFilesFromDir(root)
+
+        #RECURSION and WILDCARD IN RECURSION
         #Check if recurse in the input path
         if recurse:
             #get absolute input path if not given
             if not(os.path.isabs(root)):
                 root = os.path.abspath(root)
-            pathAndFilePattern = os.path.split(root)
-            path = pathAndFilePattern[0]
-            filePattern = pathAndFilePattern[1]
-            filenameAndExtension = os.path.splitext(filePattern)
-            #input path contains wildcard
-            if WILDCARD in path:
-                filepath = glob.glob(path)
-                #if filepath is a folder, get files in current directory
-                if len(filepath) == 1:
-                    getFilesFromTreePath(filepath[0], filePattern)
-                #if filepath is a list of files/folder
-                #get all files in the tree matching the file extension (if any)
-                if len(filepath) > 1:
-                    for f in filepath:
-                        if os.path.isdir(f):
-                            getFilesFromTreePath(f, filePattern)
-                        if os.path.isfile(f):
-                            extension = filenameAndExtension[0]+ filenameAndExtension[1]
-                            if fnmatch.fnmatch(f, extension):
-                                existingFiles.append(f)
-            #file name or extension contains wildcard
-            else:
-                if WILDCARD in filePattern:
-                    getFilesFromTreePath(path, filePattern)
-                else:
+
+            if WILDCARD in root:
+                pathAndFilePattern = os.path.split(root)
+                path = pathAndFilePattern[0]
+                filePattern = pathAndFilePattern[1]
+                filenameAndExtension = os.path.splitext(filePattern)
+                #input path contains wildcard
+                if WILDCARD in path:
+                    filepath = glob.glob(path)
+                    #if filepath is a folder, get files in current directory
+                    if len(filepath) == 1:
+                        getFilesWithPatternFromTree(filepath[0], filePattern)
+                    #if filepath is a list of files/folder
+                    #get all files in the tree matching the file pattern
+                    if len(filepath) > 1:
+                        for f in filepath:
+                            if os.path.isdir(f):
+                                getFilesWithPatternFromTree(f, filePattern)
+                #file name or extension contains wildcard
+                elif WILDCARD in filePattern:
+                    getFilesWithPatternFromTree(path, filePattern)
+                elif WILDCARD in filenameAndExtension:
                     filenameAndExtension = os.path.splitext(filePattern)
                     extension = WILDCARD + filenameAndExtension[1]
-                    getFilesFromTreePath(path, extension)
+                    getFilesWithPatternFromTree(path, extension)
+            #get files in the current folder and sub dirs w/o wildcard in path
+            elif os.path.isdir(root):
+                getFilesFromTree(root)
 
 
 
@@ -393,22 +442,35 @@ def checkFiles(recurse, wrap, paths):
     # If there are no valid input files then exit program
     checkNullArgs(existingFiles)
 
+    # Set encoding of the terminal to UTF-8
+    if PYTHON_VERSION.startswith(PYTHON_2):
+        out = codecs.getwriter(UTF8_ENCODING) (sys.stdout)
+    elif PYTHON_VERSION.startswith(PYTHON_3):
+        out = codecs.getwriter(UTF8_ENCODING) (sys.stdout.buffer)
+
     # Wrap the xml output in <results> element, if wrapper flag is true
     if wrap:
-        print("<?xml version='1.0' encoding='UTF-8'?><results>")
+        out.write("<?xml version='1.0' encoding='UTF-8'?><results>")
     else:
-        print("<?xml version='1.0' encoding='UTF-8'?>")
-
-    # Check encoding of the terminal and set to UTF-8
-    if sys.getfilesystemencoding().upper() != UTF8_ENCODING:
-        sys.stdout = codecs.getwriter(UTF8_ENCODING) (sys.stdout)
+        out.write("<?xml version='1.0' encoding='UTF-8'?>")
 
     # Process the input files
     for path in existingFiles:
+
         # Analyse file
-        result=checkOneFile(path)
-        # Output result
-        ElementTree(result).write(sys.__stdout__,encoding="UTF-8",xml_declaration=False)
+        xmlElement=checkOneFile(path)
+
+        #Output the xml
+        #Python2.x does automatic conversion between byte and string types,
+        #hence, binary data can be output using sys.stdout
+        if PYTHON_VERSION.startswith(PYTHON_2):
+            ETree.ElementTree(xmlElement).write(out, xml_declaration=False)
+        #Python3.x recognizes bytes and str as different types and encoded
+        #Unicode is represented as binary data. The underlying sys.stdout.buffer
+        #is used to write binary data
+        if PYTHON_VERSION.startswith(PYTHON_3):
+            output = ETree.tostring(xmlElement,encoding="unicode",method="xml")
+            out.write(output)
 
 def parseCommandLine():
     # Add arguments
@@ -416,6 +478,7 @@ def parseCommandLine():
     parser.add_argument('--recursive', '-r', action="store_true", dest="inputRecursiveFlag", default=False, help="when encountering a folder, every file in every subfolder will be analysed")
     parser.add_argument('--wrapper', '-w', action="store_true", dest="inputWrapperFlag", default=False, help="wraps the output of the analysed images(s) under the 'jpylyzer' XML element")
     parser.add_argument('jp2In', action="store", type=str, nargs=argparse.REMAINDER, help="input JP2 image(s) or folder(s), prefix wildcard (*) with backslash (\\) in Linux")
+    parser.add_argument('--version',action='version', version=__version__)
 
     # Parse arguments
     args=parser.parse_args()
