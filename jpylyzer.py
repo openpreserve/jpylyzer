@@ -338,7 +338,7 @@ def main():
 
     # Input images as file list
     imagesIn=glob.glob(jp2In)
-
+    
     # Check file
     checkFiles(imagesIn)
 
