@@ -311,7 +311,15 @@ def checkOneFile(file):
     return(result)
 
 
-def checkFiles(images):
+def checkFiles(images, pretty=False):
+    pretty = config.outputPretty
+    if pretty:
+        try:
+            from xml.etree import ElementTree
+            from xml.dom import minidom
+        except ImportError:
+            pretty = False
+
     if len(images) == 0:
         printWarning("no images to check!")
 
@@ -324,8 +332,13 @@ def checkFiles(images):
                 # Analyse file
                 result = checkOneFile(thisFile)
 
-                # Write output to stdout
-                sys.stdout.write(result)
+                if pretty:
+                    # Write pretty output
+                    reparsed = minidom.parseString(result)
+                    sys.stdout.write(reparsed.toprettyxml(indent="  "))
+                else:
+                    # Write ugly output
+                    sys.stdout.write(result)
 
 
 def parseCommandLine():
@@ -341,6 +354,11 @@ def parseCommandLine():
             dest="outputVerboseFlag",
             default=False,
             help="report test results in verbose format")
+    parser.add_argument('--pretty',
+            action="store_true",
+            dest="outputPretty",
+            default=False,
+            help="Pretty print results")
 
     # Parse arguments
     args = parser.parse_args()
@@ -357,6 +375,9 @@ def main():
     # this value available to any module that imports
     # 'config.py' (here: 'boxvalidator.py')
     config.outputVerboseFlag = args.outputVerboseFlag
+
+    # Pretty printing
+    config.outputPretty = args.outputPretty
 
     # Input images as file list
     imagesIn = glob.glob(jp2In)
