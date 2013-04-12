@@ -14,3 +14,4 @@
 #
 
 outputVerboseFlag = False
+outputPretty = False
