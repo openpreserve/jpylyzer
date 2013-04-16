@@ -476,7 +476,7 @@ def checkFiles(recurse, wrap, paths):
 def parseCommandLine():
     # Add arguments
     parser.add_argument('--verbose', action="store_true", dest="outputVerboseFlag", default=False, help="report test results in verbose format")
-    parser.add_argument('--recursive', '-r', action="store_true", dest="inputRecursiveFlag", default=False, help="when encountering a folder, every file in every subfolder will be analysed")
+    #parser.add_argument('--recursive', '-r', action="store_true", dest="inputRecursiveFlag", default=False, help="when encountering a folder, every file in every subfolder will be analysed")
     parser.add_argument('--wrapper', '-w', action="store_true", dest="inputWrapperFlag", default=False, help="wraps the output of the analysed images(s) under the 'jpylyzer' XML element")
     parser.add_argument('jp2In', action="store", type=str, nargs=argparse.REMAINDER, help="input JP2 image(s) or folder(s), prefix wildcard (*) with backslash (\\) in Linux")
     parser.add_argument('--version',action='version', version=__version__)
@@ -497,7 +497,8 @@ def main():
 
 
     # Check files
-    checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
+    #checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
+    checkFiles(False, args.inputWrapperFlag, jp2In)
 
     # Add the end </results> element, if wrapper flag is true
     if args.inputWrapperFlag: print("</results>")
