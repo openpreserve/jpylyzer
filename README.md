@@ -7,11 +7,11 @@ _Jpylyzer_ is a JP2 [(JPEG 2000 Part 1)][2] image validator and properties extra
 ## Command line use
 
 #### Usage
-`jpylyzer.py [-h] [-v] [--verbose] [--recursive|-r] jp2In`
+`jpylyzer.py [-h] [-v] [--verbose] jp2In`
 
 #### Positional arguments
 
-`jp2In` : input JP2 image(s) or folders
+`jp2In` : input JP2 image(s)
 
 #### Optional arguments
 
@@ -19,9 +19,7 @@ _Jpylyzer_ is a JP2 [(JPEG 2000 Part 1)][2] image validator and properties extra
 
 `-v, --version` : show program's version number and exit
 
-`--verbose` : report test results in verbose format
-
-`--recursive` : recrursive descend into a folder and sub-folders analysing all .jp2 files
+`--verbose` : report test results in verbose format.
 
 ## Output 
 Output is directed to the standard output device (_stdout_).

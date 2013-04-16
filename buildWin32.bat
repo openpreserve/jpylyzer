@@ -12,7 +12,9 @@
 :: - PyWin32 (needed by PyInstaller): http://sourceforge.net/projects/pywin32/files/
 :: - 7-zip file archiver: http://www.7-zip.org/ 
 ::
-:: To do: 64 bit binaries?
+:: To do:  - 64 bit binaries?
+::         - Cleanup, get rid off external zip tool dependency (this can probably be all done
+::           in PyInstaller)
 
 @echo off
 setlocal
@@ -64,10 +66,12 @@ set zipName=%scriptBaseName%_%version%_win32.zip
 :: Create ZIP file
 %zipCommand% a -r %zipName% .\dist\jpylyzer\*
 
-:: Create Win32 directory
+:: Delete dist directory that was created by PyInstaller
+::rmdir dist /S /Q
+
 md win32
 
-:: Move ZIP file to Win32 directory
+:: Move ZIP file to win32 directory
 move /Y %zipName% .\win32\
 
 ::::::::: CLEANUP ::::::::::::::::: 
@@ -78,10 +82,13 @@ rmdir build /S /Q
 :: Delete dist directory
 rmdir dist /S /Q
 
+:: Rename Win32 directory to dist
+ren win32 dist
+
 :: Delete spec file
 del %scriptBaseName%.spec
 
 echo /
-echo Done! Created %zipName% in directory .\win32\!
+echo Done! Created %zipName% in directory .\dist\!
 echo / 
 

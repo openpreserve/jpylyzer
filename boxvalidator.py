@@ -49,11 +49,21 @@ class BoxValidator:
 		b'\xff\x52': "cod",
 		b'\xff\x5c': "qcd",
 		b'\xff\x64': "com",
+		b'\xff\x53': "coc",
+		b'\xff\x5e': "rgn",
+		b'\xff\x5d': "qcc",
+		b'\xff\x5f': "poc",
+		b'\xff\x55': "tlm",
+		b'\xff\x57': "plm",
+		b'\xff\x58': "plt",
+		b'\xff\x60': "ppm",
+		b'\xff\x61': "ppt",
+		b'\xff\x63': "crg",
 		b'\xff\x90': "tilePart",
 		'icc': 'icc',
 		'startOfTile': 'sot'
 	}
-
+	
 	# Reverse access of typemap for quick lookup
 	boxTagMap = {v:k for k, v in typeMap.items()}
 
@@ -190,7 +200,7 @@ class BoxValidator:
 			# Obviously something going wrong here ...
 			compressionRatio = -9999
 		
-		return(compressionRatio)
+		return(compressionRatio) 
 
 	def _getBitValue(self, n, p):
 		# Get the bit value of denary (base 10) number n at the equivalent binary
@@ -211,7 +221,7 @@ class BoxValidator:
 		#print(config.outputVerboseFlag)
 		
 		if config.outputVerboseFlag == False:
-			# Non-verbose output: only add results of tests that failed
+			# Non-verbose output: only add results of tests that failed 
 			if testResult==False:
 				self.tests.appendChildTagWithText(testType, testResult)
 		
@@ -602,7 +612,7 @@ class BoxValidator:
 		colourSpace=self.boxContents[16:20]
 		self.addCharacteristic("colourSpace",colourSpace)
 		
-		# Profile connection space
+		# Profile connection space 
 		profileConnectionSpace=self.boxContents[20:24]
 		self.addCharacteristic("profileConnectionSpace",profileConnectionSpace)
 		
@@ -691,6 +701,10 @@ class BoxValidator:
 				
 		# Number of tags (tag count)
 		tagCount=bc.bytesToUInt(self.boxContents[128:132])
+		
+		## TEST
+		print("tagCount (icc): " +str(tagCount))
+		## TEST
 		
 		# List of tag signatures, offsets and sizes
 		# All local to this function; all property exports through "characteristics"
@@ -1084,13 +1098,17 @@ class BoxValidator:
 		while marker != b'\xff\x90' and offsetNext !=-9999:
 			marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
 			
+			## TEST
+			print("Starting validation of " + str(marker))
+			## TEST
+			
 			if marker == b'\xff\x52':
 				# COD (coding style default) marker segment
 				# COD is required
 				foundCODMarker=True
 
 				# Validate COD segment
-				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate()
+				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() 
 				# Add analysis results to test results tree
 				self.tests.appendIfNotEmpty(resultCOD)
 				# Add extracted characteristics to characteristics tree
@@ -1110,7 +1128,7 @@ class BoxValidator:
 			elif marker == b'\xff\x64':
 				# COM (codestream comment) marker segment
 				# Validate QCD segment
-				resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate()
+				resultCOM, characteristicsCOM = BoxValidator(marker, segContents).validate() 
 				# Add analysis results to test results tree
 				self.tests.appendIfNotEmpty(resultCOM)
 				# Add extracted characteristics to characteristics tree
@@ -1120,9 +1138,27 @@ class BoxValidator:
 				# Start of tile (SOT) marker segment; don't update offset as this
 				# will get us of out of this loop (for functional readability):
 				offset = offset
+				
+			elif marker in[b'\xff\x53',b'\xff\x5d',b'\xff\x5e', \
+					b'\xff\x5f',b'\xff\x55',b'\xff\x57',b'\xff\x60',b'\xff\x63']:
+				# COC, QCC, RGN, POC, TLM, PLM ,PPM, CRG marker: ignore and
+				# move on to next one
+				# Bugfix 1.5.2: COC marker was previously missing (changed x52 to x53!)
+				
+				resultOther,characteristicsOther= BoxValidator(marker, segContents).validate()
+				# Add analysis results to test results tree
+				self.tests.appendIfNotEmpty(resultOther)
+				# Add extracted characteristics to characteristics tree
+				self.characteristics.append(characteristicsOther)
+				offset=offsetNext
 			else:
 				# Any other marker segment: ignore and move on to next one
+				# Note that this should result in validation error as all
+				# marker segments are covered above!!
 				offset=offsetNext
+		## TEST
+		print("End of loop")
+		## TEST
 
 		# Add foundCODMarker / foundQCDMarker outcome to tests
 		self.testFor("foundCODMarker",foundCODMarker)
@@ -1155,6 +1191,13 @@ class BoxValidator:
 		# Expected number of tiles (as calculated from info in SIZ marker)
 		numberOfTilesExpected=self.characteristics.findElementText('siz/numberOfTiles')
 		
+		## TEST
+		print("numberOfTilesExpected: " +str(numberOfTilesExpected))
+		
+		numberOfTilesExpected=min(numberOfTilesExpected,1000)
+		
+		## TEST
+		
 		# Create list with one entry for each tile
 		tileIndices=[]
 		
@@ -1171,9 +1214,17 @@ class BoxValidator:
 		# Create sub-elements to store tile-part characteristics and tests
 		tilePartCharacteristics=ET.Element('tileParts')
 		tilePartTests=ET.Element('tileParts')
+		
+		## TEST
+		print("Entering tile-parts loop ..")
+		## TEST
 
 		while marker == b'\xff\x90':
 			marker = self.boxContents[offset:offset+2]
+			
+			##TEST
+			print("Offset: " + str(offset))
+			##TEST
 
 			if marker == b'\xff\x90':
 				resultTilePart, characteristicsTilePart,offsetNext = BoxValidator(marker, self.boxContents, offset).validate()
@@ -1195,7 +1246,7 @@ class BoxValidator:
 				if tilePartsOfTile != 0:				
 					tilePartsPerTileExpected[tileIndex]=tilePartsOfTile
 				
-				# Increase found number of tile-parts for this tile by 1
+				# Increase found number of tile-parts for this tile by 1 
 				tilePartsPerTileFound[tileIndex]=tilePartsPerTileFound[tileIndex] +1
 
 				if offsetNext != offset:
@@ -1689,6 +1740,53 @@ class BoxValidator:
 		tnsot=bc.bytesToUnsignedChar(self.boxContents[9:10])
 		self.addCharacteristic("tnsot",tnsot)
 		self.returnOffset = psot
+	
+	# The following validator functions cover those marker segments that
+	# are not yet supported, however including them has the effect that their
+	# presence at least reported in jpylyzer's output.
+	# Together these cover *all* the marker segments defined in ISO/IEC 15444-1,
+	# apart from the SOP/EPH markers (not sure if I even *want* to see those reported
+	# because there will be either lots of them or none at all!).
+	
+	def validate_coc(self):
+		# Empty function
+		pass
+	
+	def validate_rgn(self):
+		# Empty function
+		pass
+	
+	def validate_qcc(self):
+		# Empty function
+		pass
+	
+	def validate_poc(self):
+		# Empty function
+		pass
+	
+	def validate_tlm(self):
+		# Empty function
+		pass
+	
+	def validate_plm(self):
+		# Empty function
+		pass
+	
+	def validate_plt(self):
+		# Empty function
+		pass
+	
+	def validate_ppm(self):
+		# Empty function
+		pass
+	
+	def validate_ppt(self):
+		# Empty function
+		pass
+
+	def validate_crg(self):
+		# Empty function
+		pass
 
 	def validate_tilePart(self):
 		# Analyse tile part that starts at offsetStart and perform cursory validation
@@ -1735,7 +1833,7 @@ class BoxValidator:
 				# COD (coding style default) marker segment
 				
 				# Validate COD segment
-				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate()
+				resultCOD, characteristicsCOD = BoxValidator(marker, segContents).validate() 
 
 				# Add analysis results to test results tree
 				self.tests.appendIfNotEmpty(resultCOD)
@@ -1772,17 +1870,26 @@ class BoxValidator:
 				self.characteristics.append(characteristicsCOM)
 
 				offset=offsetNext
-				
+					
 			elif marker in[b'\xff\x53',b'\xff\x5d',b'\xff\x5e', \
 					b'\xff\x5f',b'\xff\x61',b'\xff\x58']:
 				# COC, QCC, RGN, POC, PPT or PLT marker: ignore and
 				# move on to next one
 				# Bugfix 1.5.2: COC marker was previously missing (changed x52 to x53!)
+				
+				resultOther,characteristicsOther= BoxValidator(marker, segContents).validate()
+				# Add analysis results to test results tree
+				self.tests.appendIfNotEmpty(resultOther)
+				# Add extracted characteristics to characteristics tree
+				self.characteristics.append(characteristicsOther)
 				offset=offsetNext
 
 			else:
 				# Unknown marker segment: ignore and move on to next one
+				# NOTE: validation should also be a test for specific marker segments that are
+				# not allowed here!!
 				offset=offsetNext
+			
 				
 		# Last marker segment should be start-of-data (SOD) marker
 		self.testFor("foundSODMarker",marker == b'\xff\x93')
@@ -1828,22 +1935,44 @@ class BoxValidator:
 	def validate_uuidBox(self):
 		# UUID Box (ISO/IEC 15444-1 Section I.7.2)
 		# For details on UUIDs see: http://tools.ietf.org/html/rfc4122.html
-		
-		# NOTE: Untested at this stage due to lack of suitable test files!!!
-		
+			
 		# Box contains 16-byte identifier, followed by block of data.
 		# Format of data is defined outside of the scope of JPEG 2000,
-		# so there's not much to validate here.
+		# so in most cases there's not much to validate here. Exception:
+		# if uuid = be7acfcb-97a9-42e8-9c71-999491e3afac this indicates
+		# presence of XMP metadata
+		
+		boxLength=len(self.boxContents)
 		
 		# Check box size, which should be greater than 16 bytes
-		self.testFor("boxLengthIsValid", len(self.boxContents) > 16)
-				
+		self.testFor("boxLengthIsValid", boxLength > 16)
+						
 		# First 16 bytes contain UUID, convert to string of hex digits
 		# in standard form
 		id=str(uuid.UUID(bytes=self.boxContents[0:16]))
 		
-		# Add to characteristics tree	
-		self.addCharacteristic("uuid",id)
+		if id=="be7acfcb-97a9-42e8-9c71-999491e3afac":
+			# XMP packet
+			data=self.boxContents[16:boxLength]
+			
+			# Data should be well-formed XML. Try to parse data to Element instance.
+		
+			try:
+				dataAsElement= ET.fromstring(data)
+			
+				# Add data to characteristics tree
+				self.characteristics.append(dataAsElement)
+			
+				# If no exception was raised data contains well-formed XML
+				containsWellformedXML=True
+			except:
+				# If parse raised error this is not well-formed XML
+				containsWellformedXML=False
+		
+			self.testFor("containsWellformedXML",containsWellformedXML)
+		else:
+			# Only add to UUID to characteristics tree	
+			self.addCharacteristic("uuid",id)
 
 	def validate_uuidInfoBox(self):
 		# UUID Info box (superbox)(ISO/IEC 15444-1 Section I.7.3)
@@ -1939,7 +2068,7 @@ class BoxValidator:
 		if bc.containsControlCharacters(loc):
 			loc=bc.replaceControlCharacters(loc)
 		
-		# Decode as UTF-8
+		# Decode as UTF-8 
 		try:
 			loc=loc.decode("utf-8","strict")
 			self.testFor("locIsUTF8", True)
@@ -1978,6 +2107,10 @@ class BoxValidator:
 		while byteStart < noBytes and boxLengthValue != 0:
 
 			boxLengthValue, boxType, byteEnd, boxContents = self._getBox(byteStart, noBytes)
+			
+			## TEST
+			print("Starting validation of " + boxType)
+			## TEST
 
 			# Validate current top level box
 			resultBox,characteristicsBox = BoxValidator(boxType, boxContents).validate()

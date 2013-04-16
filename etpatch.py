@@ -103,7 +103,7 @@ class Element(ET.Element):
 				# Convert text field, depending on type
 				if textType == bytes:
 					textOut = bytesToText(remappedValue)
-				elif textType in[int,float,bool]:
+				elif textType in[int,long,float,bool]:
 					textOut=str(remappedValue)
 				else:
 					textOut=remappedValue
@@ -114,7 +114,7 @@ class Element(ET.Element):
 
 
 	def toxml(self, indent = "  "):
-		return(ET.tostring(self, 'UTF-8','xml'))
+		return(ET.tostring(self, 'ascii','xml'))
 		
 		# Disabled pretty-printing for now as minidom appears to choke on
 		# entity references, i.e. code below will go wrong:
