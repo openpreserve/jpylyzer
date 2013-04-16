@@ -10,7 +10,10 @@
 # Copyright (C) 2011, 2012 Johan van der Knijff, Koninklijke Bibliotheek -
 #  National Library of the Netherlands
 #
-# Contributors: Rene van der Ark (refactoring of original code), Lars Buitinck 
+# Contributors: Rene van der Ark (refactoring of original code)
+# Lars Buitinck
+# Adam Retter, The National Archives, UK. <adam.retter@googlemail.com>
+# Jaishree Davey, The National Archives, UK.  
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
