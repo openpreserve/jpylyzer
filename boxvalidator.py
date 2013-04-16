@@ -703,7 +703,7 @@ class BoxValidator:
 		tagCount=bc.bytesToUInt(self.boxContents[128:132])
 		
 		## TEST
-		print("tagCount (icc): " +str(tagCount))
+		#print("tagCount (icc): " +str(tagCount))
 		## TEST
 		
 		# List of tag signatures, offsets and sizes
@@ -1099,7 +1099,7 @@ class BoxValidator:
 			marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
 			
 			## TEST
-			print("Starting validation of " + str(marker))
+			#print("Starting validation of " + str(marker))
 			## TEST
 			
 			if marker == b'\xff\x52':
@@ -1157,7 +1157,7 @@ class BoxValidator:
 				# marker segments are covered above!!
 				offset=offsetNext
 		## TEST
-		print("End of loop")
+		#print("End of loop")
 		## TEST
 
 		# Add foundCODMarker / foundQCDMarker outcome to tests
@@ -1192,9 +1192,9 @@ class BoxValidator:
 		numberOfTilesExpected=self.characteristics.findElementText('siz/numberOfTiles')
 		
 		## TEST
-		print("numberOfTilesExpected: " +str(numberOfTilesExpected))
+		#print("numberOfTilesExpected: " +str(numberOfTilesExpected))
 		
-		numberOfTilesExpected=min(numberOfTilesExpected,1000)
+		#numberOfTilesExpected=min(numberOfTilesExpected,1000)
 		
 		## TEST
 		
@@ -1216,14 +1216,14 @@ class BoxValidator:
 		tilePartTests=ET.Element('tileParts')
 		
 		## TEST
-		print("Entering tile-parts loop ..")
+		#print("Entering tile-parts loop ..")
 		## TEST
 
 		while marker == b'\xff\x90':
 			marker = self.boxContents[offset:offset+2]
 			
 			##TEST
-			print("Offset: " + str(offset))
+			#print("Offset: " + str(offset))
 			##TEST
 
 			if marker == b'\xff\x90':
@@ -2109,7 +2109,7 @@ class BoxValidator:
 			boxLengthValue, boxType, byteEnd, boxContents = self._getBox(byteStart, noBytes)
 			
 			## TEST
-			print("Starting validation of " + boxType)
+			#print("Starting validation of " + boxType)
 			## TEST
 
 			# Validate current top level box
