@@ -12,5 +12,11 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+import sys
 
 outputVerboseFlag=False
+ERR_CODE_NO_IMAGES = -7
+UTF8_ENCODING = "UTF-8"
+PYTHON_VERSION=sys.version
+PYTHON_2="2"
+PYTHON_3="3"

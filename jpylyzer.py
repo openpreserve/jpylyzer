@@ -49,12 +49,6 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 
 __version__= "1.7.0"
 
-ERR_CODE_NO_IMAGES = -7
-UTF8_ENCODING = "UTF-8"
-PYTHON_VERSION=sys.version
-PYTHON_2="2"
-PYTHON_3="3"
-
 # Create parser
 parser = argparse.ArgumentParser(description="JP2 image validator and properties extractor")
 
@@ -315,7 +309,7 @@ def checkNullArgs(args):
         printWarning("no images found (or supplied) to check!")
         print("\n")
         parser.print_help()
-        sys.exit(ERR_CODE_NO_IMAGES)
+        sys.exit(config.ERR_CODE_NO_IMAGES)
 
 
 def getFilesFromDir(dirpath):
@@ -444,10 +438,10 @@ def checkFiles(recurse, wrap, paths):
     checkNullArgs(existingFiles)
 
     # Set encoding of the terminal to UTF-8
-    if PYTHON_VERSION.startswith(PYTHON_2):
-        out = codecs.getwriter(UTF8_ENCODING) (sys.stdout)
-    elif PYTHON_VERSION.startswith(PYTHON_3):
-        out = codecs.getwriter(UTF8_ENCODING) (sys.stdout.buffer)
+    if config.PYTHON_VERSION.startswith(config.PYTHON_2):
+        out = codecs.getwriter(config.UTF8_ENCODING) (sys.stdout)
+    elif config.PYTHON_VERSION.startswith(config.PYTHON_3):
+        out = codecs.getwriter(config.UTF8_ENCODING) (sys.stdout.buffer)
 
     # Wrap the xml output in <results> element, if wrapper flag is true
     if wrap:
@@ -464,12 +458,12 @@ def checkFiles(recurse, wrap, paths):
         #Output the xml
         #Python2.x does automatic conversion between byte and string types,
         #hence, binary data can be output using sys.stdout
-        if PYTHON_VERSION.startswith(PYTHON_2):
+        if config.PYTHON_VERSION.startswith(config.PYTHON_2):
             ETree.ElementTree(xmlElement).write(out, xml_declaration=False)
         #Python3.x recognizes bytes and str as different types and encoded
         #Unicode is represented as binary data. The underlying sys.stdout.buffer
         #is used to write binary data
-        if PYTHON_VERSION.startswith(PYTHON_3):
+        if config.PYTHON_VERSION.startswith(config.PYTHON_3):
             output = ETree.tostring(xmlElement,encoding="unicode",method="xml")
             out.write(output)
 
@@ -478,6 +472,7 @@ def parseCommandLine():
     parser.add_argument('--verbose', action="store_true", dest="outputVerboseFlag", default=False, help="report test results in verbose format")
     #parser.add_argument('--recursive', '-r', action="store_true", dest="inputRecursiveFlag", default=False, help="when encountering a folder, every file in every subfolder will be analysed")
     parser.add_argument('--wrapper', '-w', action="store_true", dest="inputWrapperFlag", default=False, help="wraps the output of the analysed images(s) under the 'jpylyzer' XML element")
+    #parser.add_argument('jp2In', action="store", type=str, nargs=argparse.REMAINDER, help="input JP2 image(s) or folder(s), prefix wildcard (*) with backslash (\\) in Linux")
     parser.add_argument('jp2In', action="store", type=str, nargs=argparse.REMAINDER, help="input JP2 image(s) or folder(s), prefix wildcard (*) with backslash (\\) in Linux")
     parser.add_argument('--version',action='version', version=__version__)
 
