@@ -6,32 +6,34 @@ _Jpylyzer_ is a JP2 [(JPEG 2000 Part 1)][2] image validator and properties extra
 
 ## Command line use
 
-#### Usage
-`jpylyzer.py [-h] [-v] [--verbose] jp2In`
+### Usage
+`usage: jpylyzer.py [-h] [--verbose] [--wrapper] [--version] ...`
 
-#### Positional arguments
+### Positional arguments
 
-`jp2In` : input JP2 image(s)
+`jp2In` : input JP2 image(s) or folder(s), prefix wildcard (\*) with backslash (\\) in Linux. Multiple images or folders may be given here (they should be separated by whitespaces).
 
-#### Optional arguments
+### Optional arguments
 
-`-h, --help` : show this help message and exit
+`-h, --help` : show this help message and exit;
 
-`-v, --version` : show program's version number and exit
+`-v, --version` : show program's version number and exit;
 
-`--verbose` : report test results in verbose format.
+`--verbose` : report test results in verbose format;
+
+`--wrapper, -w` : wraps the output for individual image(s) in 'results' XML element.
 
 ## Output 
 Output is directed to the standard output device (_stdout_).
 
-#### Example
+### Example
 
 `jpylyzer.py rubbish.jp2 > rubbish.xml`
 
 In the above example, output is redirected to the file 'rubbish.xml'.
 
 
-#### Outline of output elements
+### Outline of output elements
 
 1. _toolInfo_: tool name (jpylyzer) + version.
 2. _fileInfo_: name, path, size and last modified time/date of input file.
@@ -43,12 +45,13 @@ In the above example, output is redirected to the file 'rubbish.xml'.
    properties follows [ISO/IEC 15444-1 Annex I][2] (JP2 file format syntax) and
    [Annex A][3] (Codestream syntax).
 
+
 ## Documentation
 
 _Jpylyzer_ is fully documented by an exhaustive [User Manual][1]. Check it out!
    
 
-[1]: https://github.com/downloads/openplanets/jpylyzer/jpylyzerUserManual.pdf
+[1]: https://github.com/openplanets/jpylyzer/blob/master/jpylyzerUserManual.pdf?raw=true
 [2]: http://www.jpeg.org/public/15444-1annexi.pdf
 [3]: http://www.itu.int/rec/T-REC-T.800/en
 [4]: http://www.scape-project.eu/
