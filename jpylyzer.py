@@ -380,8 +380,10 @@ def findFiles(recurse, paths):
                 root = filesList[0]
 
             #get files from directory
+            """ Disabled JvdK: if enabled all files in direct child directories are analysed - do we really want that?
             if os.path.isdir(root) and not recurse:
                 getFilesFromDir(root)
+            """ 
 
             #If the input path returned files list, add files to List
             if len(filesList) > 1:
@@ -389,6 +391,7 @@ def findFiles(recurse, paths):
                     if os.path.isfile(f):
                         existingFiles.append(f)
         #input path is a directory and is not recursive
+        
         elif os.path.isdir(root) and not recurse:
             getFilesFromDir(root)
 
