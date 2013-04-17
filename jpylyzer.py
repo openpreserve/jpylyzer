@@ -248,7 +248,7 @@ def generatePropertiesRemapTable():
     return(enumerationsMap)
 
 def checkOneFile(file):
-    # Process one file and return analysis result as elementy object
+    # Process one file and return analysis result as element object
 
     fileData = readFileBytes(file)
     isValidJP2, tests, characteristics = BoxValidator("JP2", fileData).validate() #validateJP2(fileData)
@@ -477,7 +477,7 @@ def parseCommandLine():
     #parser.add_argument('--recursive', '-r', action="store_true", dest="inputRecursiveFlag", default=False, help="when encountering a folder, every file in every subfolder will be analysed")
     parser.add_argument('--wrapper', '-w', action="store_true", dest="inputWrapperFlag", default=False, help="wraps the output for individual image(s) in 'results' XML element")
     parser.add_argument('jp2In', action="store", type=str, nargs=argparse.REMAINDER, help="input JP2 image(s) or folder(s), prefix wildcard (*) with backslash (\\) in Linux")
-    parser.add_argument('--version',action='version', version=__version__)
+    parser.add_argument('--version', '-v',action='version', version=__version__)
 
     # Parse arguments
     args=parser.parse_args()
