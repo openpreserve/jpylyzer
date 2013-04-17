@@ -248,8 +248,7 @@ def generatePropertiesRemapTable():
     return(enumerationsMap)
 
 def checkOneFile(file):
-    # Process one file and return analysis result as text string (which contains
-    # formatted XML)
+    # Process one file and return analysis result as elementy object
 
     fileData = readFileBytes(file)
     isValidJP2, tests, characteristics = BoxValidator("JP2", fileData).validate() #validateJP2(fileData)
