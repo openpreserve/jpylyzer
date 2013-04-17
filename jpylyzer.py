@@ -392,8 +392,10 @@ def findFiles(recurse, paths):
                         existingFiles.append(f)
         #input path is a directory and is not recursive
         
+        """ Disabled JvdK: 
         elif os.path.isdir(root) and not recurse:
             getFilesFromDir(root)
+        """
 
         #RECURSION and WILDCARD IN RECURSION
         #Check if recurse in the input path
@@ -491,7 +493,6 @@ def main():
     # Storing this to 'config.outputVerboseFlag' makes this value available to any module
     # that imports 'config.py' (here: 'boxvalidator.py')
     config.outputVerboseFlag=args.outputVerboseFlag
-
 
     # Check files
     #checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
