@@ -31,6 +31,8 @@ Report test results in verbose format.
 
 Wrap output for individual image(s) in 'results' XML element.
 
+=back
+
 =head1 ARGUMENTS
 
 =over 8
