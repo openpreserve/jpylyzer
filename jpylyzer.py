@@ -305,8 +305,6 @@ def checkNullArgs(args):
 
     if len(args) == 0:
         print("\n")
-        printWarning("no images found (or supplied) to check!")
-        print("\n")
         parser.print_help()
         sys.exit(config.ERR_CODE_NO_IMAGES)
 

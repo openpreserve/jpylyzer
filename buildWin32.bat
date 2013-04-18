@@ -43,10 +43,14 @@ del temp.txt
 ::::::::: BUILD :::::::::::::::::: 
 
 :: Make spec file
-%python% %pathPyInstaller%\MakeSpec.py %scriptBaseName%.py
+::%python% %pathPyInstaller%\MakeSpec.py %scriptBaseName%.py
 
 :: Build binaries
-%python% %pathPyInstaller%\build.py %scriptBaseName%.spec
+::%python% %pathPyInstaller%\build.py %scriptBaseName%.spec
+
+:: Build binaries
+%python% %pathPyInstaller%\pyinstaller.py %scriptBaseName%.py
+
 
 :: Create examples file dir in dist directory
 md .\dist\%scriptBaseName%\example_files
