@@ -11,7 +11,7 @@ _Jpylyzer_ is a JP2 [(JPEG 2000 Part 1)][2] image validator and properties extra
 
 ### Positional arguments
 
-`...` : input JP2 image(s), prefix wildcard (\*) with backslash (\\) in Linux. Multiple images may be given here (they should be separated by whitespaces).
+`...` : input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux..
 
 ### Optional arguments
 

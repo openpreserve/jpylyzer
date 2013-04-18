@@ -90,7 +90,7 @@ rmdir dist /S /Q
 ren win32 dist
 
 :: Delete spec file
-del %scriptBaseName%.spec
+::del %scriptBaseName%.spec
 
 echo /
 echo Done! Created %zipName% in directory .\dist\!

@@ -304,10 +304,24 @@ def checkNullArgs(args):
     # This method checks if the input arguments list and exits program if invalid or no input argument is supplied.
 
     if len(args) == 0:
-        print("\n")
+
+        print('')
         parser.print_help()
         sys.exit(config.ERR_CODE_NO_IMAGES)
 
+def checkNoInput(files):
+    # Check if input arguments list results in any existing input files at all (and exits if not)
+    
+    if len(files) == 0:
+        printWarning("no images to check!")
+        sys.exit(config.ERR_CODE_NO_IMAGES)
+
+def printHelpAndExit():
+    # Print help message and exit
+    print('')
+    parser.print_help()
+    sys.exit()
+        
 
 def getFilesFromDir(dirpath):
     for fp in os.listdir(dirpath):
@@ -387,13 +401,18 @@ def findFiles(recurse, paths):
                 for f in filesList:
                     if os.path.isfile(f):
                         existingFiles.append(f)
-        #input path is a directory and is not recursive
         
+        elif os.path.isdir(root) == False and os.path.isfile(root) == False:
+            # One or more (but not all) paths do no exist - print a warning
+            msg = root + " does not exist"
+            printWarning(msg)
+
         """ Disabled JvdK: 
         elif os.path.isdir(root) and not recurse:
+            #input path is a directory and is not recursive
             getFilesFromDir(root)
         """
-
+        
         #RECURSION and WILDCARD IN RECURSION
         #Check if recurse in the input path
         if recurse:
@@ -436,8 +455,10 @@ def checkFiles(recurse, wrap, paths):
 
     #Find existing files in the given input path(s)
     findFiles(recurse, paths)
+
     # If there are no valid input files then exit program
-    checkNullArgs(existingFiles)
+    # JvdK: 
+    checkNoInput(existingFiles)
 
     # Set encoding of the terminal to UTF-8
     if config.PYTHON_VERSION.startswith(config.PYTHON_2):
@@ -471,11 +492,31 @@ def checkFiles(recurse, wrap, paths):
 
 def parseCommandLine():
     # Add arguments
-    parser.add_argument('--verbose', action="store_true", dest="outputVerboseFlag", default=False, help="report test results in verbose format")
-    #parser.add_argument('--recursive', '-r', action="store_true", dest="inputRecursiveFlag", default=False, help="when encountering a folder, every file in every subfolder will be analysed")
-    parser.add_argument('--wrapper', '-w', action="store_true", dest="inputWrapperFlag", default=False, help="wraps the output for individual image(s) in 'results' XML element")
-    parser.add_argument('jp2In', action="store", type=str, nargs=argparse.REMAINDER, help="input JP2 image(s) or folder(s), prefix wildcard (*) with backslash (\\) in Linux")
-    parser.add_argument('--version', '-v',action='version', version=__version__)
+    parser.add_argument('--verbose', 
+        action = "store_true", 
+        dest = "outputVerboseFlag", 
+        default = False, 
+        help = "report test results in verbose format")
+    """
+    parser.add_argument('--recursive', '-r', 
+        action = "store_true", 
+        dest = "inputRecursiveFlag", 
+        default = False, 
+        help = "when encountering a folder, every file in every subfolder will be analysed")
+    """
+    parser.add_argument('--wrapper', 
+        '-w', action = "store_true", 
+        dest = "inputWrapperFlag", 
+        default = False, 
+        help = "wraps the output for individual image(s) in 'results' XML element")
+    parser.add_argument('jp2In', 
+        action = "store", 
+        type = str, 
+        nargs = argparse.REMAINDER, 
+        help = "input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (*) with backslash (\\) in Linux")
+    parser.add_argument('--version', '-v',
+        action = 'version', 
+        version = __version__)
 
     # Parse arguments
     args=parser.parse_args()
@@ -485,8 +526,14 @@ def parseCommandLine():
 def main():
     # Get input from command line
     args=parseCommandLine()
+     
+    # Input images
     jp2In=args.jp2In
-
+       
+    # Print help message and exit if jp2In is empty
+    if len(jp2In) == 0:
+        printHelpAndExit()
+    
     # Storing this to 'config.outputVerboseFlag' makes this value available to any module
     # that imports 'config.py' (here: 'boxvalidator.py')
     config.outputVerboseFlag=args.outputVerboseFlag
