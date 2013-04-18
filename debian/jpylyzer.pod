@@ -4,7 +4,7 @@ jpylyzer - JP2 (JPEG 2000 Part 1) image validator and properties extractor.
 
 =head1 SYNOPSIS
 
-jpylyzer [I<options>] [I<jp2file>]
+jpylyzer [I<options>] [I<jp2In>]
 
 =head1 DESCRIPTION
 
@@ -26,6 +26,19 @@ Show program's version number and exit.
 =item B<--verbose>
 
 Report test results in verbose format.
+
+=item B<--wrapper, -w>
+
+Wrap output for individual image(s) in 'results' XML element.
+
+=head1 ARGUMENTS
+
+=over 8
+
+=item B<jp2In>
+
+Input JP2 image(s), may be one or more (whitespace-separated) path expressions; 
+prefix wildcard (*) with backslash.
 
 =back
 

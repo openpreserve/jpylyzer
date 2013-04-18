@@ -21,7 +21,7 @@ _Jpylyzer_ is a JP2 [(JPEG 2000 Part 1)][2] image validator and properties extra
 
 `--verbose` : report test results in verbose format;
 
-`--wrapper, -w` : wraps the output for individual image(s) in 'results' XML element.
+`--wrapper, -w` : wrap the output for individual image(s) in 'results' XML element.
 
 ## Output 
 Output is directed to the standard output device (_stdout_).

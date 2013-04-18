@@ -508,7 +508,7 @@ def parseCommandLine():
         '-w', action = "store_true", 
         dest = "inputWrapperFlag", 
         default = False, 
-        help = "wraps the output for individual image(s) in 'results' XML element")
+        help = "wrap output for individual image(s) in 'results' XML element")
     parser.add_argument('jp2In', 
         action = "store", 
         type = str, 
