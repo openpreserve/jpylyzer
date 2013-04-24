@@ -73,10 +73,10 @@ set zipName=%scriptBaseName%_%version%_win32.zip
 :: Delete dist directory that was created by PyInstaller
 ::rmdir dist /S /Q
 
-md win32
+md downloads
 
-:: Move ZIP file to win32 directory
-move /Y %zipName% .\win32\
+:: Move ZIP file to downloads directory
+move /Y %zipName% .\downloads\
 
 ::::::::: CLEANUP ::::::::::::::::: 
 
@@ -87,12 +87,12 @@ rmdir build /S /Q
 rmdir dist /S /Q
 
 :: Rename Win32 directory to dist
-ren win32 dist
+::ren win32 dist
 
 :: Delete spec file
 ::del %scriptBaseName%.spec
 
 echo /
-echo Done! Created %zipName% in directory .\dist\!
+echo Done! Created %zipName% in directory .\downloads\!
 echo / 
 
