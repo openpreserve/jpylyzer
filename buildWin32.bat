@@ -17,14 +17,14 @@ setlocal
 
 ::::::::: CONFIGURATION :::::::::: 
 
-:: Script base name (i.e. script name minus .py extension)
-set scriptBaseName=jpylyzer
-
 :: Python
 set python=c:\python27\python
 
 :: Path to PyInstaller
 set pathPyInstaller=c:\pyinstall\
+
+:: Script base name (i.e. script name minus .py extension)
+set scriptBaseName=jpylyzer
 
 :: PyInstaller spec file that defines build options
 set specFile=jpylyzer_win32.spec
