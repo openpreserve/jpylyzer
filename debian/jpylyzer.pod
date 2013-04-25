@@ -50,7 +50,7 @@ Please report bugs at https://github.com/openplanets/jpylyzer/issues.
 
 =head1 AUTHORS
 
-B<jpylyzer> was written by Johan van der Knijff <Johan.vanderKnijff@kb.nl>.
+B<jpylyzer> was written by Johan van der Knijff <Johan.vanderKnijff@kb.nl> and others.
 
 This manual page was written by Rui Castro <rcastro@keep.pt>.
 
