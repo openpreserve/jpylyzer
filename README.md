@@ -72,19 +72,17 @@ In addition, this version includes several minor modifications that improve inte
 Added support for XMP metadata that are embedded in a UUID box.
 
 ###1.7
-1. Added minimal support of the following optional codestream marker segments that were missing in previous versions:
+Added minimal support of the following optional codestream marker segments that were missing in previous versions:
 
-    + Coding style component (COC) marker segment
-    + Region-of-interest (RGN) marker segment
-    + Quantization component (QCC) marker segment
-    + Progression order change (POC) marker segment
-    + Packet length, main header (PLM) marker segment
-    + Packed packet headers, main header (PPM) marker segment
-    + Tile-part lengths (TLM) marker segment
-    + Component registration (CRG) marker segment
-    + Packet length, tile-part header (PLT) marker segment
-    + Packed packet headers, tile-part header (PPT) marker segment
+   + Coding style component (COC) marker segment
+   + Region-of-interest (RGN) marker segment
+   + Quantization component (QCC) marker segment
+   + Progression order change (POC) marker segment
+   + Packet length, main header (PLM) marker segment
+   + Packed packet headers, main header (PPM) marker segment
+   + Tile-part lengths (TLM) marker segment
+   + Component registration (CRG) marker segment
+   + Packet length, tile-part header (PLT) marker segment
+   + Packed packet headers, tile-part header (PPT) marker segment
 
-    For now jpylyzer just reports the presence of these marker segments if they were found in an image, without doing validating them or reporting any properties (i.e. the validator functions are empty).
-
-2.  Windows binaries are now stored inside repo (*dist* directory) following Github's decision to drop support for external downloads. 
+For now jpylyzer just reports the presence of these marker segments if they were found in an image, without doing validating them or reporting any properties (i.e. the validator functions are empty).
