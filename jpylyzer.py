@@ -47,7 +47,7 @@ from byteconv import bytesToText
 from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "1.9.1"
+__version__= "1.9.2"
 
 # Create parser
 parser = argparse.ArgumentParser(description="JP2 image validator and properties extractor")
