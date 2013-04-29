@@ -56,7 +56,7 @@ _Jpylyzer_ is fully documented by an exhaustive [User Manual][1]. Check it out!
 [3]: http://www.itu.int/rec/T-REC-T.800/en
 [4]: http://www.scape-project.eu/
 
-## Changelog
+## Changes
 
 ###1.9
 The following improvements were added by Adam Retter and Jaishree Davey of The National Archives (UK):
