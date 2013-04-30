@@ -8,5 +8,5 @@ setup(name='jpylyzer',
       author='Johan van der Knijff',
       author_email='johan@work',
       url='http://a place',
-      packages=['jpylyzer'],
+      module=['jpylyzer'],
      )
