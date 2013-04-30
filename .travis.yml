@@ -3,7 +3,7 @@ python:
   - "2.7"
 
 install:
-  - pip install -v -V --use-mirrors pyinstaller
+  - pip install pyinstaller
 
 script:
   - ./travis-build.sh
