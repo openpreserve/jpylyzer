@@ -2,14 +2,16 @@
 
 from distutils.core import setup
 
+# TO DO: figure out how to import version number automatically from code!
+
 readme = open('README.txt', 'r')
 README_TEXT = readme.read()
 readme.close()
 
 setup(name = 'jpylyzer',
     packages = ['jpylyzer'],
-    version = '1.9.2',
-    license = 'LGPL'
+    version = '1.10.0',
+    license = 'LGPL',
     platforms = ['POSIX', 'Windows'],
     description = 'JP2 (JPEG 2000 Part 1) image validator and properties extractor',
     long_description = README_TEXT,
