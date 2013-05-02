@@ -48,12 +48,15 @@ In the above example, output is redirected to the file 'rubbish.xml'.
 *Jpylyzer* is fully documented by an exhaustive [User Manual][1]. Check it out!
    
 
-[1]: https://github.com/openplanets/jpylyzer/blob/master/jpylyzerUserManual.pdf?raw=true
+[1]: https://github.com/openplanets/jpylyzer/blob/master/jpylyzer/doc/jpylyzerUserManual.pdf?raw=true
 [2]: http://www.jpeg.org/public/15444-1annexi.pdf
 [3]: http://www.itu.int/rec/T-REC-T.800/en
 [4]: http://www.scape-project.eu/
 
 ## Changes
+
+###1.10
+Added *setup.py* and re-structured repo accordingly. This means that *jpylyzer* can now be built and installed with *distutils*.
 
 ###1.9
 The following improvements were added by Adam Retter and Jaishree Davey of The National Archives (UK):
