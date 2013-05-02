@@ -1,0 +1,2 @@
+recursive-include jpylyzer/example_files *
+recursive-include jpylyzer/doc *.pdf
