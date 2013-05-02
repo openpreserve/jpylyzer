@@ -13,9 +13,9 @@ tar -xjf pyinstaller-2.0.tar.bz2
 
 3. compile (in below example result as one single file):
 
-python pyinstaller.py --onefile jpylyzer.py
+python pyinstaller.py --onefile ./jpylyzer/jpylyzer.py
 
-4. look in the directory 'jpylyzer/dist/jpylyzer'.
+4. look in the directory 'dist'.
 
 Voila!
 
@@ -24,7 +24,7 @@ Voila!
 With PyInstaller 1.5 (which I think is the version that is still used on the Amazon Webcloud setup) 
 you first need to make a .spec file, so the compilation involves two steps:
 
-python Makespec.py --onefile jpylyzer.py
+python Makespec.py --onefile ./jpylyzer/jpylyzer.py
 python pyinstaller.py jpylyzer.spec
 
 ## NOTE ON JPYLYZER MAKEFILE
@@ -60,4 +60,4 @@ More info on all this here:
 
 http://www.openplanetsfoundation.org/blogs/2013-04-23-adventures-debian-packaging
 
-Updated 24/4/2013 by JvdK
+Updated 2/5/2013 by JvdK
