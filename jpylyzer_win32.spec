@@ -1,7 +1,6 @@
 # -*- mode: python -*-
-a = Analysis(['jpylyzer.py'],
-             #pathex=['F:\\johan\\pythonCode\\jpylyzer'],
-             pathex=['.'],
+a = Analysis(['.\jpylyzer\jpylyzer.py'],
+             pathex=['.\jpylyzer'],
              hiddenimports=[],
              hookspath=None)
 pyz = PYZ(a.pure)
@@ -16,12 +15,12 @@ exe = EXE(pyz,
 coll = COLLECT(exe,
                a.binaries +
                [('./license/LICENSE.txt','LICENSE','DATA')],
-               [('./doc/jpylyzerUserManual.pdf','jpylyzerUserManual.pdf','DATA')],
-               [('./example_files/balloon.jp2','./example_files/balloon.jp2','DATA')],
-               [('./example_files/balloon_trunc1.jp2','./example_files/balloon_trunc1.jp2','DATA')],
-               [('./example_files/balloon_trunc2.jp2','./example_files/balloon_trunc2.jp2','DATA')],
-               [('./example_files/balloon_trunc3.jp2','./example_files/balloon_trunc3.jp2','DATA')],
-               [('./example_files/readme.txt','./example_files/readme.txt','DATA')],
+               [('./doc/jpylyzerUserManual.pdf','./jpylyzer/doc/jpylyzerUserManual.pdf','DATA')],
+               [('./example_files/balloon.jp2','./jpylyzer/example_files/balloon.jp2','DATA')],
+               [('./example_files/balloon_trunc1.jp2','./jpylyzer/example_files/balloon_trunc1.jp2','DATA')],
+               [('./example_files/balloon_trunc2.jp2','./jpylyzer/example_files/balloon_trunc2.jp2','DATA')],
+               [('./example_files/balloon_trunc3.jp2','./jpylyzer/example_files/balloon_trunc3.jp2','DATA')],
+               [('./example_files/readme.txt','./jpylyzer/example_files/readme.txt','DATA')],
                a.zipfiles,
                a.datas,
                strip=None,

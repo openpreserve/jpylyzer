@@ -26,8 +26,8 @@ distribution, and update the configuration variables 'python' and
 
 BUILDING THE WIN32 DISTRIBUTION: 
 
-1. From the jpylyzer root dir (i.e. the directory in which jpylyzer.py 
-is installed), run the following batch file: 
+1. Run the batch file from the repo's root dir ( i.e. the one in which
+it is located): 
 
 buildWin32.bat 
 

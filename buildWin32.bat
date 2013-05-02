@@ -34,7 +34,7 @@ set distDir=.\dist_win32\
 
 :: Executes jpylyzer with -v option and stores output to 
 :: env variable 'version'
-set vCommand=%python% %scriptBaseName%.py -v
+set vCommand=%python% .\%scriptBaseName%\%scriptBaseName%.py -v
 %vCommand% 2> temp.txt
 set /p version= < temp.txt
 del temp.txt 
