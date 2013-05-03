@@ -31,7 +31,7 @@ python pyinstaller.py jpylyzer.spec
 
 The current version of the makefile uses the following commands:
 
-pymakespec --onefile jpylyzer.py
+pymakespec --onefile ./jpylyzer/jpylyzer.py
 pyinstaller jpylyzer.spec
 
 Apparently pymakespec/pyinstaller are helper scripts that call Makespec.py and pyinstaller.py, respectively.
@@ -41,7 +41,7 @@ so that the actual Python scripts are called. To make things slightly more compl
 has no default installation location, so you'll have to insert the file paths that apply to you
 system, e.g.:
 
-python /home/johan/pyinstall/Makespec.py --onefile jpylyzer.py
+python /home/johan/pyinstall/Makespec.py --onefile ./jpylyzer/jpylyzer.py
 python /home/johan/pyinstall/pyinstaller.py jpylyzer.spec
 
 ## BUILDING THE DEBIAN PACKAGES LOCALLY
