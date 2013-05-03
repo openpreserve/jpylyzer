@@ -1,5 +1,5 @@
 build:
-	pymakespec --onefile jpylyzer.py
+	pymakespec --onefile ./jpylyzer/jpylyzer.py
 	pyinstaller jpylyzer.spec
 	@echo "Built in dist/jpylyzer" 	
 
