@@ -29,9 +29,11 @@ bin
 #################
 nbactions.xml
 
-# Maven target directory #
-##########################
+# project build directories #
+#############################
 target
+build
+dist
 
 # Compiled Source #
 ###################
@@ -41,6 +43,11 @@ target
 *.exe
 *.o
 *.so
+*.pyc
+
+# PyInstaller bits #
+####################
+*.spec
 
 # Packages #
 ############
