@@ -5,8 +5,9 @@ python:
   - "3.3"
 
 install:
-  - python setup.py bdist --help-formats
-  - python setup.py install
+  - sudo pip install --use-mirrors pyinstaller
+  - pyi-makespec --strip --onefile ./jpylyzer/jpylyzer.py
+  - pyinstaller --strip jpylyzer.spec
 
 script:
   - python -m unittest discover
