@@ -8,6 +8,7 @@ install:
   - sudo pip install --use-mirrors pyinstaller
   - pyi-makespec --strip --onefile ./jpylyzer/jpylyzer.py
   - pyinstaller --strip jpylyzer.spec
+  - ./dist/jpylyzer --version
 
 script:
   - python -m unittest discover
