@@ -12,4 +12,5 @@ command -v pyinstaller >/dev/null 2>&1 || {
 # So making stripped binaries for debian packaging
 pyi-makespec --strip --onefile --specpath=pyi-build ./jpylyzer/jpylyzer.py
 pyinstaller --strip --clean --distpath=pyi-build/dist --workpath=pyi-build/build ./pyi-build/jpylyzer.spec
+./pyi-build/dist/jpylyzer --version
 

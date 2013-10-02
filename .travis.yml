@@ -6,8 +6,7 @@ python:
 
 install:
   - sudo pip install --use-mirrors pyinstaller
-  - pyi-makespec --strip --onefile ./jpylyzer/jpylyzer.py
-  - pyinstaller --strip jpylyzer.spec
+  - ./build-apt-package.sh
   - ./dist/jpylyzer --version
 
 script:
