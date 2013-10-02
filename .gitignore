@@ -1,0 +1,75 @@
+# If you're thinking of un-ignoring any of these artefacts in a lower
+# level .gitignore please think again. The none eclipse / maven options
+# below are recommended candidates from http://help.github.com/ignore-files/
+#
+# As a general rule please don't commit:
+#    IDE generated files, it upsets the IDEs of others
+#    Compiled / built files (exes, jars, etc.), it's a source repository
+#    Test data larger than a few KB, we'll go for bigger test files in the testbed
+#
+# Remember, we'd like to keep the git repo light and small enough for people to 
+# download quickly and easily.
+#
+# Any questions then get in touch:
+#
+#    Carl Wilson Open Planets Foundation
+#    carlwilson@GitHub carl( AT )openplanetsfoundation.org.
+
+# Eclipse Files #
+#################
+.externalToolBuilders
+.settings
+.classpath
+.project
+*.md.html
+bin
+.pydevproject
+
+# Netbeans Files #
+#################
+nbactions.xml
+
+# Maven target directory #
+##########################
+target
+
+# Compiled Source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# Better to unpack and commt the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.war
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# Vue Backup Files #
+######################
+.~*.vue
+
+# OS Generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+.directory
