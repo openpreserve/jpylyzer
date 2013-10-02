@@ -34,6 +34,7 @@ nbactions.xml
 target
 build
 dist
+pyi-build
 
 # Compiled Source #
 ###################
