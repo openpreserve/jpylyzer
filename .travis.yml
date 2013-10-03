@@ -4,12 +4,14 @@ python:
   - "3.2"
   - "3.3"
 
-install:
+before_install:
   - sudo pip install --use-mirrors pyinstaller
-  - make clean
-  - make
-  - python -m unittest discover
+
+install:
   - dpkg-buildpackage -tc
-  - sudo dpkg -i ../jpylyzer_1.10.1_amd64.deb
+
 script:
   - python -m unittest discover
+
+after_success:
+  - sudo dpkg -i ../jpylyzer_1.10.1_amd64.deb
