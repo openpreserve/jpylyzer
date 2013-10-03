@@ -6,7 +6,10 @@ python:
 
 install:
   - sudo pip install --use-mirrors pyinstaller
-  - ./build-apt-package.sh
+  - make clean
+  - make
+  - python -m unittest discover
+  - dpkg-buildpackage -tc
 
 script:
   - python -m unittest discover
