@@ -7,9 +7,6 @@
 # This special exception was added by Craig Small in version 0.37 of dh-make.
 
 # Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
-
-# Uncomment this to turn on verbose mode.
 export DH_VERBOSE=1
 export DH_COMPAT=5
 
@@ -52,7 +49,7 @@ install: build
 #	rm -f config.log
 #	rm -f config.status
 
-# Build architecture-deposndent files here.
+# Build architecture-dependent files here.
 binary-arch: build install
 # We have nothing to do by default.
 
