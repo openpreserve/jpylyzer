@@ -1190,13 +1190,10 @@ class BoxValidator:
                 
         # Expected number of tiles (as calculated from info in SIZ marker)
         numberOfTilesExpected=self.characteristics.findElementText('siz/numberOfTiles')
-        
-        ## TEST
-        #print("numberOfTilesExpected: " +str(numberOfTilesExpected))
-        
-        #numberOfTilesExpected=min(numberOfTilesExpected,1000)
-        
-        ## TEST
+               
+        # Impose upper limit on numberOfTilesExpected to avoid misbehaviour in case of corrupted files
+        # Value of 65535 equals upper value imposed by Kakadu (can't find this anywhere in the standard though)
+        numberOfTilesExpected=min(numberOfTilesExpected,65535)
         
         # Create list with one entry for each tile
         tileIndices=[]
