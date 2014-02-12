@@ -702,9 +702,9 @@ class BoxValidator:
         # Number of tags (tag count)
         tagCount=bc.bytesToUInt(self.boxContents[128:132])
         
-        ## TEST
-        #print("tagCount (icc): " +str(tagCount))
-        ## TEST
+        # Impose upper value on tagCount to avoid freezes in case of byte corrupted file
+        # Value of 4096 taken from ExifTool (arbitrary, no limit imposed by ICC spec)
+        tagCount=min(tagCount,4096)
         
         # List of tag signatures, offsets and sizes
         # All local to this function; all property exports through "characteristics"
