@@ -47,7 +47,11 @@ from byteconv import bytesToText
 from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
-__version__= "1.10.1"
+# scriptName is empty when called from Java/Jython, so this needs a fix
+if len(scriptName) == 0:
+    scriptName = 'jpylyzer'
+
+__version__= "1.10.2"
 
 # Create parser
 parser = argparse.ArgumentParser(description="JP2 image validator and properties extractor")

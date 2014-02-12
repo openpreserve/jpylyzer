@@ -14,7 +14,7 @@
    id="svg2993"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="logoJpylyzerFinalSquare.svg"
+   sodipodi:docname="logoJpylyzerSquare.svg"
    inkscape:export-filename="F:\johan\pythonCode\jpylyzer\logo\jpylyzerSquare.png"
    inkscape:export-xdpi="106.98684"
    inkscape:export-ydpi="106.98684">
@@ -25,7 +25,7 @@
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.0"
+     inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="0.58918083"
      inkscape:cx="379.8553"
@@ -37,7 +37,8 @@
      inkscape:window-height="987"
      inkscape:window-x="-4"
      inkscape:window-y="-4"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     units="mm" />
   <metadata
      id="metadata2999">
     <rdf:RDF>
@@ -55,7 +56,10 @@
      inkscape:groupmode="layer"
      id="layer1">
     <g
-       id="g3040">
+       id="g3040"
+       inkscape:export-filename="F:\johan\pythonCode\jpylyzer\logo\logoSquare.png"
+       inkscape:export-xdpi="295.38416"
+       inkscape:export-ydpi="295.38416">
       <path
          d="m 318.68298,347.3186 16.38282,0 0,89.4375 c -2e-5,12.23436 -4.14846,22.80466 -12.44532,31.71094 -7.64062,7.07808 -17.17967,10.61714 -28.61718,10.61719 -18.37496,-5e-5 -31.07808,-8.34379 -38.10938,-25.03125 -2.06244,-6.14065 -3.09369,-11.53126 -3.09375,-16.17188 l 16.38281,0 c 5e-5,6.04686 2.1563,11.97655 6.46875,17.78907 4.45316,4.68746 10.57034,7.03121 18.35157,7.03125 11.71876,-4e-5 19.40625,-5.34378 23.0625,-16.03125 1.07812,-3.75002 1.61718,-7.10158 1.61718,-10.05469 z m 8.29688,-22.07812 c 3.89061,1e-4 6.5156,2.15635 7.875,6.46875 l 0.21094,1.82812 c -2e-5,3.79697 -2.03908,6.44541 -6.11719,7.94532 l -1.61719,0.14062 -0.70312,0 c -3.70314,9e-5 -6.28126,-2.03897 -7.73438,-6.11719 l -0.21094,-1.61718 0,-0.5625 c 0,-3.7499 1.96875,-6.32803 5.90625,-7.73438 z"
          style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Star Avenue;-inkscape-font-specification:Star Avenue"
