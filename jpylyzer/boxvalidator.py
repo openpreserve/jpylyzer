@@ -120,12 +120,7 @@ class BoxValidator:
         
         # Box type
         boxType = self.boxContents[byteStart+4:byteStart+8]
-        
-        ## TEST
-        #print(str(byteStart))
-        #print(str(boxLengthValue))
-        ## TEST
-        
+                
         # Start byte of box contents
         contentsStartOffset = 8
         
@@ -146,7 +141,7 @@ class BoxValidator:
         
         # Contents of this box as a byte object (i.e. 'DBox' in ISO/IEC 15444-1 Section I.4)
         boxContents = self.boxContents[byteStart+contentsStartOffset:byteEnd]
-        
+                
         return (boxLengthValue, boxType, byteEnd, boxContents)
 
     
@@ -326,7 +321,8 @@ class BoxValidator:
 
         # Dummy value
         boxLengthValue = 10
-        while byteStart < noBytes and boxLengthValue != 0:
+
+        while byteStart < noBytes and boxLengthValue not in [0,-9999]:
             boxLengthValue, boxType, byteEnd, subBoxContents = self._getBox(byteStart, noBytes)
 
             # Validate sub-boxes
@@ -916,16 +912,16 @@ class BoxValidator:
 
         # Dummy value
         boxLengthValue = 10
-
-        while byteStart < noBytes and boxLengthValue != 0:
-
+                
+        while byteStart < noBytes and boxLengthValue not in [0,-9999]:
+        
             boxLengthValue, boxType, byteEnd, subBoxContents = self._getBox(byteStart, noBytes)
-
+            
             # validate sub boxes
             resultBox, characteristicsBox = BoxValidator(boxType, subBoxContents).validate()
-
+            
             byteStart = byteEnd
-
+            
             # Add to list of box types
             subBoxTypes.append(boxType)
 
@@ -933,15 +929,14 @@ class BoxValidator:
             self.tests.appendIfNotEmpty(resultBox)
 
             # Add extracted characteristics to characteristics tree
-            self.characteristics.append(characteristicsBox)
-
+            self.characteristics.append(characteristicsBox)        
+            
         # This box contains either one Capture Resolution box, one Default Display
         # resolution box, or one of both
         self.testFor("containsCaptureOrDisplayResolutionBox", tagCaptureResolutionBox in subBoxTypes or tagDisplayResolutionBox in subBoxTypes)
         self.testFor("noMoreThanOneCaptureResolutionBox", subBoxTypes.count(tagCaptureResolutionBox) <= 1)
         self.testFor("noMoreThanOneDisplayResolutionBox", subBoxTypes.count(tagDisplayResolutionBox) <= 1)
-
-
+        
     # Validator functions for boxes in Resolution box
     
     def validate_captureResolutionBox(self):
@@ -1102,11 +1097,7 @@ class BoxValidator:
 
         while marker != b'\xff\x90' and offsetNext !=-9999:
             marker,segLength,segContents,offsetNext=self._getMarkerSegment(offset)
-            
-            ## TEST
-            #print("Starting validation of " + str(marker))
-            ## TEST
-            
+                        
             if marker == b'\xff\x52':
                 # COD (coding style default) marker segment
                 # COD is required
@@ -1161,9 +1152,6 @@ class BoxValidator:
                 # Note that this should result in validation error as all
                 # marker segments are covered above!!
                 offset=offsetNext
-        ## TEST
-        #print("End of loop")
-        ## TEST
 
         # Add foundCODMarker / foundQCDMarker outcome to tests
         self.testFor("foundCODMarker",foundCODMarker)
@@ -1217,10 +1205,6 @@ class BoxValidator:
         tilePartCharacteristics=ET.Element('tileParts')
         tilePartTests=ET.Element('tileParts')
         
-        ## TEST
-        #print("Entering tile-parts loop ..")
-        ## TEST
-
         while marker == b'\xff\x90':
             marker = self.boxContents[offset:offset+2]
             
@@ -1996,7 +1980,7 @@ class BoxValidator:
         # Dummy value
         boxLengthValue = 10
 
-        while byteStart < noBytes and boxLengthValue != 0:
+        while byteStart < noBytes and boxLengthValue not in [0,-9999]:
 
             boxLengthValue, boxType, byteEnd, subBoxContents = self._getBox(byteStart, noBytes)
 
@@ -2106,14 +2090,10 @@ class BoxValidator:
         # Dummy value
         boxLengthValue=10
 
-        while byteStart < noBytes and boxLengthValue != 0:
+        while byteStart < noBytes and boxLengthValue not in [0,-9999]:
 
             boxLengthValue, boxType, byteEnd, boxContents = self._getBox(byteStart, noBytes)
             
-            ## TEST
-            #print("Starting validation of " + boxType)
-            ## TEST
-
             # Validate current top level box
             resultBox,characteristicsBox = BoxValidator(boxType, boxContents).validate()
 
