@@ -51,7 +51,7 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 if len(scriptName) == 0:
     scriptName = 'jpylyzer'
 
-__version__= "1.10.2"
+__version__= "1.10.3"
 
 # Create parser
 parser = argparse.ArgumentParser(description="JP2 image validator and properties extractor")
