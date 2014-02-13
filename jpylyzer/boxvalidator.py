@@ -121,6 +121,11 @@ class BoxValidator:
         # Box type
         boxType = self.boxContents[byteStart+4:byteStart+8]
         
+        ## TEST
+        #print(str(byteStart))
+        #print(str(boxLengthValue))
+        ## TEST
+        
         # Start byte of box contents
         contentsStartOffset = 8
         

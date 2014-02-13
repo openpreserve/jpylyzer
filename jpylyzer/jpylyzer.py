@@ -7,7 +7,7 @@
 # Requires: Python 2.7 (older versions won't work) OR Python 3.2 or more recent
 #  (Python 3.0 and 3.1 won't work either!)
 #
-# Copyright (C) 2011, 2012 Johan van der Knijff, Koninklijke Bibliotheek -
+# Copyright (C) 2011 - 2014 Johan van der Knijff, Koninklijke Bibliotheek -
 #  National Library of the Netherlands
 #
 # Contributors:
