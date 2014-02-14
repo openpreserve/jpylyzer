@@ -13,9 +13,9 @@ This tool was specifically created to answer the following questions that you mi
 2. What are the technical characteristics of the image (feature extraction)?
 
 #Getting started
-* [Installation instructions]({{ site.url }}/installation.html)
+* [Installation instructions]({{ BASE_PATH }}/installation.html)
 
-* [Using jpylyzer]({{ site.url }}/usage.html)
+* [Using jpylyzer]({{ BASE_PATH }}/usage.html)
 
 
 #License
