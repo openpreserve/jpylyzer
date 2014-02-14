@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ page.title }}</title>
+    {% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
+    <meta name="author" content="{{ site.author.name }}">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="{{ ASSET_PATH }}/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="{{ ASSET_PATH }}/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="{{ BASE_PATH }}{{ site.JB.atom_path }}" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="{{ BASE_PATH }}{{ site.JB.rss_path }}" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    
+  <!-- Place banner image aligned with column layout --> 
+  <div class="top-area">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span2">
+	  </div>
+      <div class="span10">
+	    <!-- Column center (banner goes here) -->
+        <div class="banner-header">
+		  <!--<a href="{{ HOME_PATH }}"><img src="{{ site.url }}/images/logojpylyzer_616x198.png" alt="jpylyzer"  width="616" height="198"></a> -->
+		  <a href="{{ HOME_PATH }}"><img src="{{ site.url }}/images/logojpylyzer_399x128.png" alt="jpylyzer"  width="399" height="128"></a>
+		  
+		  <div class="banner-tagline">{{ site.tagline }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+  <div class="container-fluid">
+	<div class="row-fluid">
+	  <div class="span2">
+	    <div class="sidebarLeft">
+		<p><a href="{{ site.kbURL}}"><img src="{{ site.url }}/images/logo-KB.png" alt="KB"  width="157" height="103"></a></p>
+		<br>
+		<p><a href="{{ site.opfURL}}"><img src="{{ site.url }}/images/OPF-text-160x89.png" alt="OPF"  width="160" height="89"></a></p>
+		<br>
+		<p><a href="{{ site.scapeURL}}"><img src="{{ site.url }}/images/scapelogo-170x57.png" alt="SCAPE"  width="170" height="57"></a></p>
+		<br><br><br><br>
+		<small><a href="{{ HOME_PATH }}">Jpylyzer home</a></small>
+		</div>
+	  </div>
+	
+	  <div class="span6">
+	    <!-- Column center (main content) -->
+        <div class="content">
+          {{ content }}
+        </div>	
+	  </div>
+	  	  
+	  <div class="span4"> 
+	    <div class="sidebar">
+	      <!-- Column right -->
+	      <h1>Windows binaries</h1>
+		  <p><a href=" {{ site.win32BinaryURL }} "><img src="{{ site.url }}/images/Windows-icon-64.png" alt="Windows 32 bit binaries"  width="64" height="64"></a>
+		  <a href="{{ site.win32BinaryURL }}">32 bit</a></p>
+		  <br>
+		  <h1>Debian packages</h1>
+		  <p><a href="{{ site.amd64URL }}"><img src="{{ site.url }}/images/linux-icon-64.png" alt="Amd64 Debian"  width="64" height="64"></a>
+		  <a href="{{ site.amd64URL }}">Amd 64</a>
+		  &nbsp;&nbsp;&nbsp;
+		  <a href="{{ site.i386URL }}"><img src="{{ site.url }}/images/linux-icon-64.png" alt="i386 Debian"  width="64" height="64"></a>
+		  <a href="{{ site.i386URL }}">i386</a></p>
+		  <br>
+		  <h1>Documentation</h1>
+		  <p><a href="{{ site.userManualURL}}"><img src="{{ site.url }}/images/PDF-icon-64.png" alt="PDF"  width="64" height="64"></a>
+		  <a href="{{ site.userManualURL}}">User Manual</a></p>
+		  <br>
+		  <h1>Developer resources</h1>
+		  <p><a href="{{ site.gitURL}}"><img src="{{ site.url }}/images/Octocat-64.png" alt="git repo"  width="64" height="64"></a>
+		  <a href="{{ site.gitURL}}">Source code</a>
+		  <a href="{{ site.issuesURL}}"><img src="{{ site.url }}/images/issue-64.png" alt="issue tracker"  width="64" height="64"></a>
+		  <a href="{{ site.issuesURL}}">Issue tracker</a></p>
+		  <br>
+		  
+		  <p><a href="{{ site.testImagesURL}}"><img src="{{ site.url }}/images/testcard-64.png" alt="test images"  width="64" height="64"></a>
+		  <a href="{{ site.testImagesURL}}">Test files</a></p>
+		  <br>
+		  
+		  <h1>Additional resources</h1>
+		  <p><a href="{{ site.blogsOPF}}"><img src="{{ site.url }}/images/OPF-64x47.png" alt="OPF"  width="64" height="47"></a>
+		  <a href="{{ site.blogsOPF}}">Blog posts at OPF</a></p>
+		  <br>
+		  
+		  <p><iframe src="{{ site.jpylyzerVideo }}" width="350" height="196" allowfullscreen></iframe> </p>
+
+	    </div>
+      </div>	  
+	</div>
+	
+	<footer>
+	<hr>
+	<div class="row-fluid">
+      <div class="span2">
+	    <!-- Column left (empty) -->
+	  </div>
+	  
+	  <div class="span6">
+	  <!-- Column center (footer text) -->
+	    <p><small>&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}
+        with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+        and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a></small></p>
+      </div>
+	</div>
+    </footer>
+  </div>
+
+    {% include JB/analytics %}
+  </body>
+</html>
