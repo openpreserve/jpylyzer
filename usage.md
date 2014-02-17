@@ -45,8 +45,13 @@ A *jpylyzer* output file contains the following top-level output elements:
    A file is considered valid JP2 only if all tests return *True*. Tree follows JP2 box structure. By default only tests that returned *False* are reported, which results in an empty *tests*  element for files that are valid JP2. Use the  `--verbose` flag to get *all* test results.
 5. *properties*: tree of image properties. Follows JP2 box structure. Naming of properties follows [ISO/IEC 15444-1 Annex I](http://www.jpeg.org/public/15444-1annexi.pdf) (JP2 file format syntax) and [Annex A](http://www.itu.int/rec/T-REC-T.800/en) (Codestream syntax).
 
+## Demonstration video
+The following video gives an overview of what *jpylyzer* does, and how to use it:
+
+<iframe src="{{ site.jpylyzerVideo }}" width="500" height="281" allowfullscreen></iframe>
+
 ## User Manual
-For more information on the use of *jpylyzer*, have a look at the exhaustive [User Manual]({{ site.userManualURL }}). It provides an in-depth coverage of the following topics:
+For more detailed information on the use of *jpylyzer*, there&#8217;s an exhaustive [User Manual]({{ site.userManualURL }}). It provides an in-depth coverage of the following topics:
 
 * the installation process;
 * usage of *jpylyzer* as a command-line tool, or as an importable *Python* module;
