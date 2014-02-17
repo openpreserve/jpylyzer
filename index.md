@@ -4,19 +4,17 @@ title: jpylyzer
 ---
 {% include JB/setup %}
 
-##About jpylyzer
+##What is jpylyzer?
 *Jpylyzer* is a validator and feature extractor for *JP2* images. *JP2* is the still image format that is defined by [Part 1](http://www.jpeg.org/public/15444-1annexi.pdf) of the [JPEG 2000](http://www.jpeg.org/jpeg2000/) image compression standard (ISO/IEC 15444-1).
 
-This tool was specifically created to answer the following questions that you might have about a *JP2* file:
-
-1. Is this really a *JP2*, and does it conform to the format&#8217;s specifications (validation)?
-2. What are the technical characteristics of the image (feature extraction)?
+*Jpylyzer* tells you if a *JP2* image really a conforms to the format&#8217;s specifications (validation). It also reports the image&#8217;s technical characteristics (feature extraction).
 
 ##Getting started
+To get started with *jpylyzer*, check out the following links:
+ 
 * [Installation instructions]({{ BASE_PATH }}/installation.html)
 
 * [Using jpylyzer]({{ BASE_PATH }}/usage.html)
-
 
 ##License
 *Jpylyzer* is free software: you can redistribute it and/or modify
