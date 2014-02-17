@@ -19,7 +19,6 @@
   
 .banner-tagline{
   font-size:26px;
-  font-style:bold;
   letter-spacing:4px;
   line-height:30px;
   text-align:left;
@@ -33,21 +32,24 @@
 .sidebar{
   background-color: #f0f0f0;
   margin-top: 0px;
+  margin-bottom: 20px;
   padding: 15px;
   }
   
 .sidebar h1{
-  /* letter-spacing:3px; */
   font-size:24px;
-  /* color:#708090; */
+  text-align:center;
   }
   
 .sidebar h2{
   font-size:20px;
+  text-align:center;
   }
 
 .sidebar h3{
   font-size:18px;
+  color:#708090;
+  text-align:center;
   }  
 
 .sidebar p{

@@ -18,11 +18,20 @@ author :
   github : bitsgalore
   twitter : bitsgalore
 
-# The following variables all point to URLs that are referenced; the Bintray ones
-# need updating after each new binary release  
-win32BinaryURL: http://dl.bintray.com/openplanets/opf-windows/jpylyzer_1.10.1_win32.zip
-amd64URL: http://dl.bintray.com/openplanets/opf-debian/jpylyzer_1.10.1_amd64.deb
-i386URL: http://dl.bintray.com/openplanets/opf-debian/jpylyzer_1.10.1_i386.deb
+# The following variables all point to URLs that are referenced
+
+# Version of binary release (update this for each new release!)
+binVersion: 1.10.1
+
+# Prefixes/suffixes that define file paths to binary downloads
+win32Pre: http://dl.bintray.com/openplanets/opf-windows/jpylyzer_
+win32Suf: _win32.zip
+amd64Pre: http://dl.bintray.com/openplanets/opf-debian/jpylyzer_
+amd64Suf: _amd64.deb
+i386Pre: http://dl.bintray.com/openplanets/opf-debian/jpylyzer_
+i386Suf: _i386.deb
+
+# Remaining URLs
 userManualURL: https://github.com/openplanets/jpylyzer/blob/master/doc/jpylyzerUserManual.pdf?raw=true
 gitURL: https://github.com/openplanets/jpylyzer
 issuesURL: https://github.com/openplanets/jpylyzer/issues

@@ -73,24 +73,32 @@
         </div>	
 	  </div>
 	  	  
-	  <div class="span4"> 
+	  <div class="span3"> 
 	    <div class="sidebar">
 	      <!-- Column right -->
-	      <h2>Windows binaries</h2>
-		  <p><a href=" {{ site.win32BinaryURL }} "><img src="{{ BASE_PATH }}/images/Windows-icon-64.png" alt="Windows 32 bit binaries"  width="64" height="64"></a>
-		  <a href="{{ site.win32BinaryURL }}">32 bit</a></p>
+	      <h2>Binaries (version {{ site.binVersion }})</h2>
+          
+          <h3>Windows</h3>
+		  <p><a href="{{ site.win32Pre }}{{ site.binVersion }}{{ site.win32Suf }}"><img src="{{ BASE_PATH }}/images/Windows-icon-64.png" alt="Windows 32 bit binaries"  width="64" height="64"></a>
+		  <a href="{{ site.win32Pre }}{{ site.binVersion }}{{ site.win32Suf }}">32 bit</a></p>
 		  <br>
-		  <h2>Debian packages</h2>
-		  <p><a href="{{ site.amd64URL }}"><img src="{{ BASE_PATH }}/images/linux-icon-64.png" alt="Amd64 Debian"  width="55" height="64"></a>
-		  <a href="{{ site.amd64URL }}">Amd 64</a>
+		  <h3>Debian</h3>
+		  <p><a href="{{ site.amd64Pre }}{{ site.binVersion }}{{ site.amd64Suf }}"><img src="{{ BASE_PATH }}/images/linux-icon-64.png" alt="Amd64 Debian"  width="55" height="64"></a>
+		  <a href="{{ site.amd64Pre }}{{ site.binVersion }}{{ site.amd64Suf }}">Amd 64</a>
 		  &nbsp;&nbsp;&nbsp;
-		  <a href="{{ site.i386URL }}"><img src="{{ BASE_PATH }}/images/linux-icon-64.png" alt="i386 Debian"  width="55" height="64"></a>
-		  <a href="{{ site.i386URL }}">i386</a></p>
-		  <br>
-		  <h2>Documentation</h2>
+		  <a href="{{ site.i386Pre }}{{ site.binVersion }}{{ site.i386Suf }}"><img src="{{ BASE_PATH }}/images/linux-icon-64.png" alt="i386 Debian"  width="55" height="64"></a>
+		  <a href="{{ site.i386Pre }}{{ site.binVersion }}{{ site.i386Suf }}">i386</a></p>
+
+	    </div>
+        
+        <div class="sidebar">
+	      <h2>Documentation</h2>
 		  <p><a href="{{ site.userManualURL}}"><img src="{{ BASE_PATH }}/images/PDF-icon-64.png" alt="PDF"  width="64" height="64"></a>
 		  <a href="{{ site.userManualURL}}">User Manual</a></p>
-		  <br>
+          
+	    </div>
+        
+        <div class="sidebar">
 		  <h2>Developer resources</h2>
 		  <p><a href="{{ site.gitURL}}"><img src="{{ BASE_PATH }}/images/Octocat-64.png" alt="git repo"  width="64" height="53"></a>
 		  <a href="{{ site.gitURL}}">Source code</a>
@@ -100,16 +108,17 @@
 		  
 		  <p><a href="{{ site.testImagesURL}}"><img src="{{ BASE_PATH }}/images/testcard-64.png" alt="test images"  width="64" height="64"></a>
 		  <a href="{{ site.testImagesURL}}">Test files</a></p>
-		  <br>
-		  
+
+	    </div>
+        
+        <div class="sidebar">
 		  <h2>Additional resources</h2>
 		  <p><a href="{{ site.blogsOPF}}"><img src="{{ BASE_PATH }}/images/OPF-64x47.png" alt="OPF"  width="64" height="47"></a>
 		  <a href="{{ site.blogsOPF}}">Blog posts at OPF</a></p>
-		  <br>
-		  
-		  <p><iframe src="{{ site.jpylyzerVideo }}" width="350" height="196" allowfullscreen></iframe> </p>
+          <!-- <p><iframe src="{{ site.jpylyzerVideo }}" width="350" height="196" allowfullscreen></iframe> </p> -->
 
 	    </div>
+        
       </div>	  
 	</div>
 	

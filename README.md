@@ -1,42 +1,54 @@
-# Jekyll-Bootstrap
+# Jpylyzer homepage
 
-The quickest way to start and publish your Jekyll powered blog. 100% compatible with GitHub pages
+##About
+These pages were built with Jekyll Bootstrap 0.3.0:
 
-Test 1, 2, 3...
-
-## Usage
-
-For all usage and documentation please see: <http://jekyllbootstrap.com>
-
-## Version
-
-0.3.0 - stable and versioned using [semantic versioning](http://semver.org/).
-
-**NOTE:** 0.3.0 introduces a new theme which is not backwards compatible in the sense it won't _look_ like the old version.
-However, the actual API has not changed at all.
-You might want to run 0.3.0 in a branch to make sure you are ok with the theme design changes.
-
-## Contributing
-
-
-To contribute to the framework please make sure to checkout your branch based on `jb-development`!!
-This is very important as it allows me to accept your pull request without having to publish a public version release.
-
-Small, atomic Features, bugs, etc.
-Use the `jb-development` branch but note it will likely change fast as pull requests are accepted.
-Please rebase as often as possible when working.
-Work on small, atomic features/bugs to avoid upstream commits affecting/breaking your development work.
-
-For Big Features or major API extensions/edits:
-This is the one case where I'll accept pull-requests based off the master branch.
-This allows you to work in isolation but it means I'll have to manually merge your work into the next public release.
-Translation : it might take a bit longer so please be patient! (but sincerely thank you).
-
-**Jekyll-Bootstrap Documentation Website.**
+<http://jekyllbootstrap.com>
 
 The documentation website at <http://jekyllbootstrap.com> is maintained at https://github.com/plusjade/jekyllbootstrap.com
 
+Jekyll Bootstrap is published under the [MIT](http://opensource.org/licenses/MIT) license.
 
-## License
+## Maintenance notes
 
-[MIT](http://opensource.org/licenses/MIT)
+###General site layout
+Based on this template:
+
+    /_includes/themes/twitter/default.html
+
+###Use of Liquid variables
+To minimise the effort needed to update the site as new *jpylyzer* versions become available, file paths and *jpylyzer* version numbers are defined by *Liquid* variables that can be set/modified in the configuration file:
+
+    _config.yml
+
+For example:
+    
+    # Version of binary release (update this for each new release!)
+    binVersion: 1.10.1
+    
+    # Prefixes/suffixes that define file paths to binary downloads
+    win32Pre: http://dl.bintray.com/openplanets/opf-windows/jpylyzer_
+    win32Suf: _win32.zip
+    amd64Pre: http://dl.bintray.com/openplanets/opf-debian/jpylyzer_
+    amd64Suf: _amd64.deb
+    i386Pre: http://dl.bintray.com/openplanets/opf-debian/jpylyzer_
+    i386Suf: _i386.deb
+
+In the default site template (see above) the download link to the Win32 executable is then defined as:
+
+    <a href="{{ site.win32Pre }}{{ site.binVersion }}{{ site.win32Suf }}">32 bit</a></p>
+
+Which is rendered by Jekyll as:
+
+    <a href="http://dl.bintray.com/openplanets/opf-windows/jpylyzer_1.10.1_win32.zip">32 bit</a>
+
+So, to update the references to the Windows executables and Debian packages you *only* need to change *binVersion* (assuming that the new binaries follow the existing naming conventions and are stored at the same location).
+
+###Stylesheets
+The site uses two stylesheets. First there's the Twitter Bootstrap stylesheet, which should be left as it is (don't edit this!):
+
+    /assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css
+
+In addition there's a stylesheet with user-defined styles that can be used to define your own styles, or override the Twitter Bootstrap ones:
+
+    /assets/themes/twitter/css/style.css
