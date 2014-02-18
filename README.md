@@ -52,3 +52,10 @@ The site uses two stylesheets. First there's the Twitter Bootstrap stylesheet, w
 In addition there's a stylesheet with user-defined styles that can be used to define your own styles, or override the Twitter Bootstrap ones:
 
     /assets/themes/twitter/css/style.css
+
+###Adding news items
+News items are stored as *Markdown* files in the *\_posts* folder. File naming convention:
+
+    yyyy-mm-dd-Title-of-Post.md
+
+Most recent posts (3) will automatically show up in *Latest news* bar on top of homepage.

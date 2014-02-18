@@ -27,7 +27,29 @@
   margin-bottom: 0px;
   }
 
+.pagination{
+  text-align:center;
+  font-size:14px;
+  font-weight:bold;
+  }
+  
 .post-entry{padding-bottom:25px;}
+
+.newsbar{
+  /*(background-color: #f2f2f2;*/
+  margin-top: 0px;
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 2px solid #ccc;
+  }
+  
+.newsbar h2{
+  font-size:20px;
+  line-height:26px; 
+  margin:10px 0 20px 0; 
+  border-bottom: 2px solid #ccc;
+  text-align:center;
+  }
   
 .sidebar{
   background-color: #f0f0f0;
@@ -43,11 +65,16 @@
   
 .sidebar h2{
   font-size:20px;
+  line-height:26px; 
+  margin:10px 0 20px 0; 
+  border-bottom: 2px solid #ccc;
   text-align:center;
   }
 
 .sidebar h3{
   font-size:18px;
+  line-height:24px; 
+  margin:10px 0 20px 0;
   color:#708090;
   text-align:center;
   }  
@@ -61,17 +88,35 @@
   padding: 15px;
   }  
   
+
 body{
   font-size:16px;
-  line-height:22px;
   }
   
 blockquote p{
   margin-bottom:0; font-size:16px; font-style:italic; font-weight:300 ;line-height:22px; }
+
+h1{font-size:28px;}
+h2{font-size:20px;}
+h3{font-size:18px;}  
   
+/*  
 h1{font-size:28px; line-height:30px;margin: 10px 0 10px 0;}
-h2{font-size:20px; line-height:22px; margin:10px 0 10px 0;}
+h2{font-size:20px; line-height:24px; margin:10px 0 20px 0; border-bottom: 1px solid #ccc;}
 h3{font-size:18px; line-height:20px; margin:10px 0 10px 0;}
+*/
+
+figure{
+  display:inline-block;
+  margin-top:0px;
+  margin-bottom:0px;
+  /*margin-right:0px;
+  margin-left:0px;*/
+  }
+
+figure figcaption{
+    font-size:14px;
+    text-align: center;}
 
 table{
   font-size:14px;line-height:16px;

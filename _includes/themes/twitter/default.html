@@ -62,7 +62,29 @@
 		<br>
 		<p><a href="{{ site.scapeURL}}"><img src="{{ BASE_PATH }}/images/scapelogo-170x57.png" alt="SCAPE"  width="170" height="57"></a></p>
 		<br><br><br><br>
-		<small><a href="{{ HOME_PATH }}">Jpylyzer home</a></small>
+                   
+        <figure>
+          <a href="{{ BASE_PATH }}/rss.xml"><img src="{{ BASE_PATH }}/images/feed-icon-32.png" alt="RSS" width="32" height="32"></a>
+          <figcaption>
+            <a href="{{ BASE_PATH }}/rss.xml">RSS</a>
+          </figcaption>
+        </figure>
+
+        <figure>
+          <a href="{{ BASE_PATH }}/atom.xml"><img src="{{ BASE_PATH }}/images/feed-icon-32.png" alt="ATOM" width="32" height="32"></a>
+          <figcaption>
+            <a href="{{ BASE_PATH }}/atom.xml">ATOM</a>
+          </figcaption>
+        </figure>
+        
+        <br><br>
+        <figure>
+          <a href="{{ HOME_PATH }}"><img src="{{ BASE_PATH }}/images/home-icon-40x32.png" alt="ATOM" width="40" height="32"></a>
+          <figcaption>
+            <a href="{{ HOME_PATH }}">Jpylyzer home</a>
+          </figcaption>
+        </figure> 
+        
 		</div>
 	  </div>
 	
@@ -74,49 +96,86 @@
 	  </div>
 	  	  
 	  <div class="span3"> 
+              
 	    <div class="sidebar">
 	      <!-- Column right -->
 	      <h2>Binaries (version {{ site.binVersion }})</h2>
           
           <h3>Windows</h3>
-		  <p><a href="{{ site.win32Pre }}{{ site.binVersion }}{{ site.win32Suf }}"><img src="{{ BASE_PATH }}/images/Windows-icon-64.png" alt="Windows 32 bit binaries"  width="64" height="64"></a>
-		  <a href="{{ site.win32Pre }}{{ site.binVersion }}{{ site.win32Suf }}">32 bit</a></p>
-		  <br>
-		  <h3>Debian</h3>
-		  <p><a href="{{ site.amd64Pre }}{{ site.binVersion }}{{ site.amd64Suf }}"><img src="{{ BASE_PATH }}/images/linux-icon-64.png" alt="Amd64 Debian"  width="55" height="64"></a>
-		  <a href="{{ site.amd64Pre }}{{ site.binVersion }}{{ site.amd64Suf }}">Amd 64</a>
-		  &nbsp;&nbsp;&nbsp;
-		  <a href="{{ site.i386Pre }}{{ site.binVersion }}{{ site.i386Suf }}"><img src="{{ BASE_PATH }}/images/linux-icon-64.png" alt="i386 Debian"  width="55" height="64"></a>
-		  <a href="{{ site.i386Pre }}{{ site.binVersion }}{{ site.i386Suf }}">i386</a></p>
-
-	    </div>
-        
+          
+          <figure>       
+            <a href="{{ site.win32Pre }}{{ site.binVersion }}{{ site.win32Suf }}"><img src="{{ BASE_PATH }}/images/Windows-icon-64.png" alt="Windows 32 bit binaries"  width="64" height="64"></a>
+            <figcaption>
+		      <a href="{{ site.win32Pre }}{{ site.binVersion }}{{ site.win32Suf }}">32 bit</a>
+		    </figcaption>
+          </figure>
+          
+          <br>
+		  
+          <h3>Debian</h3>
+          <figure>
+		    <a href="{{ site.amd64Pre }}{{ site.binVersion }}{{ site.amd64Suf }}"><img src="{{ BASE_PATH }}/images/linux-icon-64.png" alt="Amd64 Debian"  width="55" height="64"></a>
+            <figcaption>
+		      <a href="{{ site.amd64Pre }}{{ site.binVersion }}{{ site.amd64Suf }}">Amd 64</a>
+		    </figcaption>
+          </figure>
+          
+          <figure>
+		    <a href="{{ site.i386Pre }}{{ site.binVersion }}{{ site.i386Suf }}"><img src="{{ BASE_PATH }}/images/linux-icon-64.png" alt="i386 Debian"  width="55" height="64"></a>
+		    <figcaption>
+              <a href="{{ site.i386Pre }}{{ site.binVersion }}{{ site.i386Suf }}">i386</a>
+		    </figcaption>
+          </figure>
+         </div>
+         
         <div class="sidebar">
 	      <h2>Documentation</h2>
-		  <p><a href="{{ site.userManualURL}}"><img src="{{ BASE_PATH }}/images/PDF-icon-64.png" alt="PDF"  width="64" height="64"></a>
-		  <a href="{{ site.userManualURL}}">User Manual</a></p>
           
+          <figure>
+		    <a href="{{ site.userManualURL}}"><img src="{{ BASE_PATH }}/images/PDF-icon-64.png" alt="PDF"  width="64" height="64"></a>
+            <figcaption>
+		      <a href="{{ site.userManualURL}}">User Manual</a>
+            </figcaption>
+          </figure>
 	    </div>
         
         <div class="sidebar">
 		  <h2>Developer resources</h2>
-		  <p><a href="{{ site.gitURL}}"><img src="{{ BASE_PATH }}/images/Octocat-64.png" alt="git repo"  width="64" height="53"></a>
-		  <a href="{{ site.gitURL}}">Source code</a>
-		  <a href="{{ site.issuesURL}}"><img src="{{ BASE_PATH }}/images/issue-64.png" alt="issue tracker"  width="64" height="64"></a>
-		  <a href="{{ site.issuesURL}}">Issue tracker</a></p>
-		  <br>
-		  
-		  <p><a href="{{ site.testImagesURL}}"><img src="{{ BASE_PATH }}/images/testcard-64.png" alt="test images"  width="64" height="64"></a>
-		  <a href="{{ site.testImagesURL}}">Test files</a></p>
+          
+          <figure>
+		    <a href="{{ site.gitURL}}"><img src="{{ BASE_PATH }}/images/Octocat-64.png" alt="git repo"  width="64" height="53"></a>
+		    <figcaption>
+              <a href="{{ site.gitURL}}">Source code</a>
+		    </figcaption>
+          </figure>
 
+          <figure>
+            <a href="{{ site.issuesURL}}"><img src="{{ BASE_PATH }}/images/issue-64.png" alt="issue tracker"  width="64" height="64"></a>
+		    <figcaption>
+              <a href="{{ site.issuesURL}}">Issue tracker</a>
+		    </figcaption>
+          </figure>  
+          
+          <br><br>
+		  
+          <figure>
+		    <a href="{{ site.testImagesURL}}"><img src="{{ BASE_PATH }}/images/testcard-64.png" alt="test images"  width="64" height="64"></a>
+		    <figcaption>
+              <a href="{{ site.testImagesURL}}">Test files</a>
+            </figcaption>
+          </figure>
 	    </div>
         
         <div class="sidebar">
 		  <h2>Additional resources</h2>
-		  <p><a href="{{ site.blogsOPF}}"><img src="{{ BASE_PATH }}/images/OPF-64x47.png" alt="OPF"  width="64" height="47"></a>
-		  <a href="{{ site.blogsOPF}}">Blog posts at OPF</a></p>
-          <!-- <p><iframe src="{{ site.jpylyzerVideo }}" width="350" height="196" allowfullscreen></iframe> </p> -->
-
+          
+          <figure>
+		    <a href="{{ site.blogsOPF}}"><img src="{{ BASE_PATH }}/images/OPF-64x47.png" alt="OPF"  width="64" height="47"></a>
+            <figcaption>
+		      <a href="{{ site.blogsOPF}}">Blog posts at OPF</a>
+            </figcaption>
+          </figure>
+         
 	    </div>
         
       </div>	  
