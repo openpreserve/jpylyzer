@@ -28,6 +28,8 @@
 
 `--wrapper, -w` : wrap the output for individual image(s) in 'results' XML element.
 
+`--nullxml` : extract null-terminated XML content from XML and UUID boxes (doesn't affect validation)
+
 ## Output 
 Output is directed to the standard output device (*stdout*).
 
