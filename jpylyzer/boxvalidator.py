@@ -1915,6 +1915,15 @@ class BoxValidator:
         except:
             # If parse raised error this is not well-formed XML
             containsWellformedXML=False
+
+            # Useful for extracting null-terminated XML (older Kakadu versions)         
+            if config.extractNullTerminatedXMLFlag == True:
+                try:
+                    data=bc.removeNullTerminator(data)
+                    dataAsElement= ET.fromstring(data)
+                    self.characteristics.append(dataAsElement)
+                except:
+                    pass
         
         self.testFor("containsWellformedXML",containsWellformedXML)
     
@@ -1954,6 +1963,15 @@ class BoxValidator:
             except:
                 # If parse raised error this is not well-formed XML
                 containsWellformedXML=False
+                
+                # Useful for extracting null-terminated XML (older Kakadu versions)         
+                if config.extractNullTerminatedXMLFlag == True:
+                    try:
+                        data=bc.removeNullTerminator(data)
+                        dataAsElement= ET.fromstring(data)
+                        self.characteristics.append(dataAsElement)
+                    except:
+                        pass
         
             self.testFor("containsWellformedXML",containsWellformedXML)
         else:

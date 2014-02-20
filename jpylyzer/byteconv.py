@@ -106,6 +106,12 @@ def replaceControlCharacters(bytes):
 
     return(bytesOut)
 
+def removeNullTerminator(bytes):
+    # Remove null terminator from bytes
+    
+    bytesOut=bytes.rstrip(b'\x00')
+    return(bytesOut)
+    
 def bytesToText(bytes):
     # Unpack byte object to text string, assuming big-endian
     # byte order.

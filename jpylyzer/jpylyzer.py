@@ -51,7 +51,7 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 if len(scriptName) == 0:
     scriptName = 'jpylyzer'
 
-__version__= "1.10.4"
+__version__= "1.11.0"
 
 # Create parser
 parser = argparse.ArgumentParser(description="JP2 image validator and properties extractor")
@@ -513,6 +513,11 @@ def parseCommandLine():
         dest = "inputWrapperFlag", 
         default = False, 
         help = "wrap output for individual image(s) in 'results' XML element")
+    parser.add_argument('--nullxml', 
+        action = "store_true", 
+        dest = "extractNullTerminatedXMLFlag", 
+        default = False, 
+        help = "extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)") 
     parser.add_argument('jp2In', 
         action = "store", 
         type = str, 
@@ -538,9 +543,10 @@ def main():
     if len(jp2In) == 0:
         printHelpAndExit()
     
-    # Storing this to 'config.outputVerboseFlag' makes this value available to any module
-    # that imports 'config.py' (here: 'boxvalidator.py')
+    # Makes user-specified flags available to any module that imports 'config.py' 
+    # (here: 'boxvalidator.py')
     config.outputVerboseFlag=args.outputVerboseFlag
+    config.extractNullTerminatedXMLFlag=args.extractNullTerminatedXMLFlag
 
     # Check files
     #checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
