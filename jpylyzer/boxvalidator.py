@@ -2065,7 +2065,7 @@ class BoxValidator:
         
         # Loc is null terminated string, remove null character as this
         # cannot be represented as XML
-        loc=loc.rstrip(b'\x00')
+        loc=bc.removeNullTerminator(loc)
         
         # If loc contains any device control characters (e.g. because of
         # file corruption), replace them  with printable character
