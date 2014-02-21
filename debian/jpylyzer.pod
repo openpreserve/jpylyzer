@@ -31,6 +31,10 @@ Report test results in verbose format.
 
 Wrap output for individual image(s) in 'results' XML element.
 
+=item B<--nullxml>
+
+Extract null-terminated XML content from XML and UUID boxes(doesn't affect validation).
+
 =back
 
 =head1 ARGUMENTS
