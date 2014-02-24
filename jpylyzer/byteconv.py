@@ -89,7 +89,7 @@ def removeControlCharacters(string):
     # Remove control characters from string
     # Source: http://stackoverflow.com/a/19016117/1209004
     return "".join(ch for ch in string if unicodedata.category(ch)[0]!="C")
-
+    
 def removeNullTerminator(bytes):
     # Remove null terminator from bytes
     

@@ -1668,18 +1668,19 @@ class BoxValidator:
 
         # Contents (multiples of Ccom)
         comment=self.boxContents[4:lcom]
-        
-        """
-        # If comment contains any device control characters (e.g. because of
-        # file corruption), replace them  with printable character
-        if bc.containsControlCharacters(comment):
-            comment=bc.replaceControlCharacters(comment)
-        
-        # Decode to string with Latin encoding
-        # Elementtree will deal with any non-ASCII characters by replacing
-        # them with numeric entity references
-        comment=comment.decode("iso-8859-15","strict")
-        """
+                
+        # Decode to string with Latin encoding, determine if valid ISO 8859-15
+        # NOTE: doesn't work as expected, see: 
+        # http://stackoverflow.com/questions/21988688/check-if-bytes-result-in-valid-iso-8859-15-latin-in-python
+        try:
+            comment=comment.decode("iso-8859-15","strict")
+            commentIsValid=True
+        except:
+            # Empty string in case of decode error
+            comment=""
+            commentIsValid=False
+            
+        self.testFor("commentIsValid",commentIsValid)
         
         # Only add comment to characteristics if text (may contain binary data if rcom is 0!)
         if rcom == 1:
