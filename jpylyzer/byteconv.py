@@ -15,6 +15,7 @@
 
 import struct
 import binascii
+import unicodedata
 
 # Convert byte object of bOrder byteorder to format using formatCharacter
 # Return -9999 if unpack raised an error
@@ -84,57 +85,34 @@ def containsControlCharacters(bytes):
             return(True)
     return(False)	
 
-def replaceControlCharacters(bytes):
-    # Replace all occurrences of device control characters with
-    # replaceByte
-
-    # Set replacement byte for device control characters (*must* be a bytes
-    # object, if not this won't work under Python 3!)
-    replaceByte=b'*'
-    
-    # Output bytes object
-    bytesOut=b''
-    
-    for i in range(len(bytes)):
-        
-        byteIn=bytes[i:i+1]
-        
-        if isctrl(byteIn):
-            bytesOut=bytesOut + replaceByte
-        else:
-            bytesOut=bytesOut+byteIn
-
-    return(bytesOut)
+def removeControlCharacters(string):
+    # Remove control characters from string
+    # Source: http://stackoverflow.com/a/19016117/1209004
+    return "".join(ch for ch in string if unicodedata.category(ch)[0]!="C")
 
 def removeNullTerminator(bytes):
     # Remove null terminator from bytes
     
     bytesOut=bytes.rstrip(b'\x00')
     return(bytesOut)
-    
+
 def bytesToText(bytes):
     # Unpack byte object to text string, assuming big-endian
     # byte order.
     
-    # Set encoding
-    enc="ascii"
-
-    # Set error mode
+    # Set encoding and error mode
+    enc="utf-8"
     errorMode="strict"
     
-    # Check if bytes object contains bytes that correspond to device control characters,
-    # which are not allowed in XML
-    
-    if containsControlCharacters(bytes):
-        # Return empty string
-        result=""
+    try:
+        # Decode to utf-8
+        string = bytes.decode(encoding=enc,errors=errorMode)
         
-    else:
-        try:
-            result=bytes.decode(encoding=enc,errors=errorMode)
-            
-        except:
-            # Return empty string
-            result=""
-            
+        # Remove control characters
+        result=removeControlCharacters(string)
+    
+    except:
+        # Return empty string if bytes cannot be decoded
+        result=""
+    
     return(result)

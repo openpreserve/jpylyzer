@@ -245,6 +245,7 @@ class BoxValidator:
         
         boxType=self.bTypeString
         
+        """"
         # If boxType contains any device control characters (e.g. because of
         # file corruption), replace them  with printable character
         if bc.containsControlCharacters(boxType):
@@ -254,7 +255,7 @@ class BoxValidator:
         # Elementtree will deal with any non-ASCII characters by replacing
         # them with numeric entity references
         boxType=boxType.decode("iso-8859-15","strict")
-        
+        """
         # Add (cleaned up) boxType string to output
         self.addCharacteristic( "boxType", boxType)
         
@@ -1668,6 +1669,7 @@ class BoxValidator:
         # Contents (multiples of Ccom)
         comment=self.boxContents[4:lcom]
         
+        """
         # If comment contains any device control characters (e.g. because of
         # file corruption), replace them  with printable character
         if bc.containsControlCharacters(comment):
@@ -1677,7 +1679,8 @@ class BoxValidator:
         # Elementtree will deal with any non-ASCII characters by replacing
         # them with numeric entity references
         comment=comment.decode("iso-8859-15","strict")
-                                    
+        """
+        
         # Only add comment to characteristics if text (may contain binary data if rcom is 0!)
         if rcom == 1:
             self.addCharacteristic("comment",comment)
@@ -2067,6 +2070,7 @@ class BoxValidator:
         # cannot be represented as XML
         loc=bc.removeNullTerminator(loc)
         
+        """
         # If loc contains any device control characters (e.g. because of
         # file corruption), replace them  with printable character
         if bc.containsControlCharacters(loc):
@@ -2079,7 +2083,7 @@ class BoxValidator:
         except UnicodeDecodeError:
             loc=""
             self.testFor("locIsUTF8", False)
-        
+        """
         self.addCharacteristic( "loc", loc)
 
     def validate_JP2(self):
