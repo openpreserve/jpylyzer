@@ -1672,6 +1672,8 @@ class BoxValidator:
         # Decode to string with Latin encoding, determine if valid ISO 8859-15
         # NOTE: doesn't work as expected, see: 
         # http://stackoverflow.com/questions/21988688/check-if-bytes-result-in-valid-iso-8859-15-latin-in-python
+        
+       
         try:
             comment=comment.decode("iso-8859-15","strict")
             commentIsValid=True

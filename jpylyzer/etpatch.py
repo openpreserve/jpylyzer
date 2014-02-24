@@ -15,6 +15,7 @@
 
 import xml.etree.ElementTree as ET
 from byteconv import bytesToText
+from byteconv import removeControlCharacters
 import config
 
 # TODO:
@@ -120,7 +121,7 @@ class Element(ET.Element):
                 elif textType in numericTypes:
                     textOut=str(remappedValue)
                 else:
-                    textOut=remappedValue
+                    textOut=removeControlCharacters(remappedValue)
     
                 # Update output tree
                 elt.text = textOut
