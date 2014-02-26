@@ -14,9 +14,10 @@
 #
 import sys
 
-outputVerboseFlag=False
+outputVerboseFlag = False
+extractNullTerminatedXMLFlag = False
 ERR_CODE_NO_IMAGES = -7
 UTF8_ENCODING = "UTF-8"
-PYTHON_VERSION=sys.version
-PYTHON_2="2"
-PYTHON_3="3"
+PYTHON_VERSION = sys.version
+PYTHON_2 = "2"
+PYTHON_3 = "3"
