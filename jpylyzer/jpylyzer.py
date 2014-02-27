@@ -43,6 +43,7 @@ import etpatch as ET
 import fnmatch
 import xml.etree.ElementTree as ETree
 from boxvalidator import BoxValidator
+from xml.dom import minidom
 from byteconv import bytesToText
 from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
@@ -481,19 +482,32 @@ def checkFiles(recurse, wrap, paths):
 
         # Analyse file
         xmlElement=checkOneFile(path)
+        
+        ## TEST
+        
+        # Seems to work for both Py 2.7 / Py 3, but writes XML header for each file. So 
+        # if we can strip that away we're in business, it seems.
+        
+        xmlElementAsString = ET.tostring(xmlElement, 'UTF-8','xml')
+        xmlPretty = minidom.parseString(xmlElementAsString).toprettyxml('    ')
+        out.write(xmlPretty)
+        
+        ## TEST
+        
+        """
 
-        #Output the xml
-        #Python2.x does automatic conversion between byte and string types,
-        #hence, binary data can be output using sys.stdout
+        # Output the xml
+        # Python2.x does automatic conversion between byte and string types,
+        # hence, binary data can be output using sys.stdout
         if config.PYTHON_VERSION.startswith(config.PYTHON_2):
             ETree.ElementTree(xmlElement).write(out, xml_declaration=False)
-        #Python3.x recognizes bytes and str as different types and encoded
-        #Unicode is represented as binary data. The underlying sys.stdout.buffer
-        #is used to write binary data
+        # Python3.x recognizes bytes and str as different types and encoded
+        # Unicode is represented as binary data. The underlying sys.stdout.buffer
+        # is used to write binary data
         if config.PYTHON_VERSION.startswith(config.PYTHON_3):
             output = ETree.tostring(xmlElement,encoding="unicode",method="xml")
             out.write(output)
-
+        """
 def parseCommandLine():
     # Add arguments
     parser.add_argument('--verbose', 
