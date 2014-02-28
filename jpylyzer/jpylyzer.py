@@ -471,6 +471,41 @@ def findFiles(recurse, paths):
                 getFilesFromTree(root)
 
 
+def writeElement(elt,codec):
+    # Writes element as XML to stdout using defined codec
+    
+    # Element to string
+    if config.PYTHON_VERSION.startswith(config.PYTHON_2):
+        xmlOut = ET.tostring(elt, 'UTF-8', 'xml')
+    if config.PYTHON_VERSION.startswith(config.PYTHON_3):
+        xmlOut = ET.tostring(elt, 'unicode', 'xml')
+    
+    if config.noPrettyXMLFlag == False:
+        # Make xml pretty
+        xmlPretty = minidom.parseString(xmlOut).toprettyxml('    ')
+
+        # Steps to get rid of xml declaration:
+        # String to list
+        xmlAsList = xmlPretty.split("\n")
+        # Remove first item (xml declaration)
+        del xmlAsList[0]
+        # Convert back to string
+        xmlOut = "\n".join(xmlAsList)
+
+        # Write output
+        codec.write(xmlOut)
+    else:
+        # Python2.x does automatic conversion between byte and string types,
+        # hence, binary data can be output using sys.stdout
+        if config.PYTHON_VERSION.startswith(config.PYTHON_2):
+            ETree.ElementTree(elt).write(codec, xml_declaration=False)
+        # Python3.x recognizes bytes and str as different types and encoded
+        # Unicode is represented as binary data. The underlying sys.stdout.buffer
+        # is used to write binary data
+        if config.PYTHON_VERSION.startswith(config.PYTHON_3):
+            codec.write(xmlOut)
+
+            
 def checkFiles(recurse, wrap, paths):
     # This method checks the input argument path(s) for existing files and
     # analyses them
@@ -498,25 +533,15 @@ def checkFiles(recurse, wrap, paths):
 
         # Analyse file
         xmlElement = checkOneFile(path)
+        
+        # Write output to stdout
+        writeElement(xmlElement,out)
+        
+    # Close </results> element if wrapper flag is true
+    if wrap:
+        out.write("</results>\n")
 
-        # Element to string
-        xmlElementAsString = ET.tostring(xmlElement, 'UTF-8', 'xml')
-
-        # Make xml pretty
-        xmlPretty = minidom.parseString(xmlElementAsString).toprettyxml('    ')
-
-        # Steps to get rid of xml declaration:
-        # String to list
-        xmlAsList = xmlPretty.split("\n")
-        # Remove first item (xml declaration)
-        del xmlAsList[0]
-        # Convert back to string
-        xmlPretty = "\n".join(xmlAsList)
-
-        # Write output
-        out.write(xmlPretty)
-
-
+            
 def parseCommandLine():
     # Add arguments
     parser.add_argument('--verbose',
@@ -541,6 +566,11 @@ def parseCommandLine():
                         dest="extractNullTerminatedXMLFlag",
                         default=False,
                         help="extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)")
+    parser.add_argument('--nopretty',
+                        action="store_true",
+                        dest="noPrettyXMLFlag",
+                        default=False,
+                        help="suppress pretty-printing of xml output")
     parser.add_argument('jp2In',
                         action="store",
                         type=str,
@@ -571,14 +601,11 @@ def main():
     # (here: 'boxvalidator.py')
     config.outputVerboseFlag = args.outputVerboseFlag
     config.extractNullTerminatedXMLFlag = args.extractNullTerminatedXMLFlag
+    config.noPrettyXMLFlag = args.noPrettyXMLFlag
 
     # Check files
     #checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
     checkFiles(False, args.inputWrapperFlag, jp2In)
-
-    # Add the end </results> element, if wrapper flag is true
-    if args.inputWrapperFlag:
-        print("</results>")
 
 if __name__ == "__main__":
     main()
