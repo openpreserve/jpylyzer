@@ -571,7 +571,7 @@ def parseCommandLine():
                         action="store_true",
                         dest="noPrettyXMLFlag",
                         default=False,
-                        help="suppress pretty-printing of xml output")
+                        help="suppress pretty-printing of XML output")
     parser.add_argument('jp2In',
                         action="store",
                         type=str,

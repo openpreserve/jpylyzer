@@ -35,6 +35,10 @@ Wrap output for individual image(s) in 'results' XML element.
 
 Extract null-terminated XML content from XML and UUID boxes(doesn't affect validation).
 
+=item B<--nopretty>
+
+Suppress pretty-printing of XML output.
+
 =back
 
 =head1 ARGUMENTS

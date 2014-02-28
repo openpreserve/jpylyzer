@@ -12,7 +12,10 @@
 ## Command line use
 
 ### Usage
-`usage: jpylyzer.py [-h] [--verbose] [--wrapper] [--version] ...`
+
+`usage: jpylyzer.py [-h] [--verbose] [--wrapper] [--nullxml] [--nopretty]
+                   [--version]
+                   ...`
 
 ### Positional arguments
 
@@ -29,6 +32,8 @@
 `--wrapper, -w` : wrap the output for individual image(s) in 'results' XML element.
 
 `--nullxml` : extract null-terminated XML content from XML and UUID boxes (doesn't affect validation)
+
+`--nopretty` : suppress pretty-printing of XML output
 
 ## Output 
 Output is directed to the standard output device (*stdout*).
