@@ -15,6 +15,7 @@
 #   Lars Buitinck
 #   Adam Retter, The National Archives, UK. <adam.retter@googlemail.com>
 #   Jaishree Davey, The National Archives, UK.
+#   Carl Wilson, Open Planets Foundation, UK.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
