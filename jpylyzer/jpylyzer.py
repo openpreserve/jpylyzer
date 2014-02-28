@@ -52,7 +52,7 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 if len(scriptName) == 0:
     scriptName = 'jpylyzer'
 
-__version__= "1.11.2"
+__version__= "1.12.0"
 
 # Create parser
 parser = argparse.ArgumentParser(description="JP2 image validator and properties extractor")
@@ -462,7 +462,6 @@ def checkFiles(recurse, wrap, paths):
     findFiles(recurse, paths)
 
     # If there are no valid input files then exit program
-    # JvdK: 
     checkNoInput(existingFiles)
 
     # Set encoding of the terminal to UTF-8
@@ -473,41 +472,33 @@ def checkFiles(recurse, wrap, paths):
 
     # Wrap the xml output in <results> element, if wrapper flag is true
     if wrap:
-        out.write("<?xml version='1.0' encoding='UTF-8'?><results>")
+        out.write("<?xml version='1.0' encoding='UTF-8'?>\n<results>\n")
     else:
-        out.write("<?xml version='1.0' encoding='UTF-8'?>")
+        out.write("<?xml version='1.0' encoding='UTF-8'?>\n")
 
     # Process the input files
     for path in existingFiles:
-
+        
         # Analyse file
-        xmlElement=checkOneFile(path)
+        xmlElement=checkOneFile(path)  
         
-        ## TEST
-        
-        # Seems to work for both Py 2.7 / Py 3, but writes XML header for each file. So 
-        # if we can strip that away we're in business, it seems.
-        
+        # Element to string
         xmlElementAsString = ET.tostring(xmlElement, 'UTF-8','xml')
+        
+        # Make xml pretty
         xmlPretty = minidom.parseString(xmlElementAsString).toprettyxml('    ')
+        
+        # Steps to get rid of xml declaration:
+        # String to list
+        xmlAsList = xmlPretty.split("\n")
+        # Remove first item (xml declaration)
+        del xmlAsList[0]
+        # Convert back to string
+        xmlPretty = "\n".join(xmlAsList)
+        
+        # Write output
         out.write(xmlPretty)
         
-        ## TEST
-        
-        """
-
-        # Output the xml
-        # Python2.x does automatic conversion between byte and string types,
-        # hence, binary data can be output using sys.stdout
-        if config.PYTHON_VERSION.startswith(config.PYTHON_2):
-            ETree.ElementTree(xmlElement).write(out, xml_declaration=False)
-        # Python3.x recognizes bytes and str as different types and encoded
-        # Unicode is represented as binary data. The underlying sys.stdout.buffer
-        # is used to write binary data
-        if config.PYTHON_VERSION.startswith(config.PYTHON_3):
-            output = ETree.tostring(xmlElement,encoding="unicode",method="xml")
-            out.write(output)
-        """
 def parseCommandLine():
     # Add arguments
     parser.add_argument('--verbose', 
