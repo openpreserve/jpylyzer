@@ -1776,18 +1776,27 @@ class BoxValidator:
         comment = self.boxContents[4:lcom]
 
         # Decode to string with Latin encoding, determine if valid ISO 8859-15
-        # NOTE: doesn't work as expected, see:
-        # http://stackoverflow.com/questions/21988688/check-if-bytes-result-in-valid-iso-8859-15-latin-in-python
-
+        
         try:
             comment = comment.decode("iso-8859-15", "strict")
-            commentIsValid = True
         except:
             # Empty string in case of decode error
             comment = ""
+        
+        """
+        Disabled validity check since it returns False if comment contains
+        linefeed or carriage return
+        
+        # Ideally decode above should raise exception if comment is not valid
+        # ISO 8859-15, but this doesn't work. So instead we do this indirectly
+        # by looking for control characters
+        if bc.removeControlCharacters(comment) == comment:
+            commentIsValid = True
+        else:
             commentIsValid = False
-
+        
         self.testFor("commentIsValid", commentIsValid)
+        """
 
         # Only add comment to characteristics if text (may contain binary data
         # if rcom is 0!)
