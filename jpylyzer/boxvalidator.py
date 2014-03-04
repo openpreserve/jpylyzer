@@ -1782,21 +1782,16 @@ class BoxValidator:
         except:
             # Empty string in case of decode error
             comment = ""
-        
-        """
-        Disabled validity check since it returns False if comment contains
-        linefeed or carriage return
-        
+                
         # Ideally decode above should raise exception if comment is not valid
         # ISO 8859-15, but this doesn't work. So instead we do this indirectly
-        # by looking for control characters
+        # by looking for control characters (tab, newline and carriage return are OK)
         if bc.removeControlCharacters(comment) == comment:
             commentIsValid = True
         else:
             commentIsValid = False
         
         self.testFor("commentIsValid", commentIsValid)
-        """
 
         # Only add comment to characteristics if text (may contain binary data
         # if rcom is 0!)
