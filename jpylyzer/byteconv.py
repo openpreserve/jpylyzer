@@ -103,10 +103,13 @@ def containsControlCharacters(bytes):
 
 def removeControlCharacters(string):
     # Remove control characters from string
-    # Source: http://stackoverflow.com/a/19016117/1209004
-    return "".join(ch for ch in string if unicodedata.category(ch)[0] != "C")
+    # Adapted from: http://stackoverflow.com/a/19016117/1209004
+    
+    # Tab, newline and return are part of C0, but are allowed in XML
+    allowedChars = [u'\t', u'\n',u'\r']
+    return "".join(ch for ch in string if unicodedata.category(ch)[0] != "C" or ch in allowedChars)
 
-
+    
 def removeNullTerminator(bytes):
     # Remove null terminator from bytes
 
