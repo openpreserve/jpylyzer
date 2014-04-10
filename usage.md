@@ -12,6 +12,7 @@ jpylyzer  [-h] [--verbose] [--wrapper] [--nullxml] [--nopretty] [--version] ...
 {% endhighlight %}
 
 ### Positional arguments
+
 |:--|:--|
 |`...`|input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux|
 
