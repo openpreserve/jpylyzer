@@ -21,7 +21,7 @@ author :
 # The following variables all point to URLs that are referenced
 
 # Version of binary release (update this for each new release!)
-binVersion: 1.10.1
+binVersion: 1.13.0
 
 # Prefixes/suffixes that define file paths to binary downloads
 win32Pre: http://dl.bintray.com/openplanets/opf-windows/jpylyzer_
