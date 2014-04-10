@@ -1,3 +1,13 @@
+jpylyzer (1.13) precise; urgency=low
+
+  * Added -nullxml option
+  * Output now pretty printed by default
+  * Improved  handling of UTF-8
+  * Added validation of codestream comments
+  * Added check for null-terminator in url box
+
+ -- johan <johan.vanderknijff@kb.nl>  Thu, 10 Apr 2014 09:58:07 +0200
+
 jpylyzer (1.10.1) stable; urgency=low
 
   * Initial release 
