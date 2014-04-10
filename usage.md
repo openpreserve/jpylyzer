@@ -8,21 +8,23 @@ title: Using jpylyzer
 Calling *jpylyzer* in a command window without any arguments results in the following helper message:
 
 {% highlight console %}
-jpylyzer [-h] [--verbose] [--wrapper] [--version] ...
+jpylyzer  [-h] [--verbose] [--wrapper] [--nullxml] [--nopretty] [--version] ...
 {% endhighlight %}
 
 ### Positional arguments
-`...` : input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux..
+|:--|:--|
+|`...`|input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux|
+
 
 ### Optional arguments
 
-`-h, --help` : show this help message and exit;
-
-`-v, --version` : show program's version number and exit;
-
-`--verbose` : report test results in verbose format;
-
-`--wrapper, -w` : wrap the output for individual image(s) in 'results' XML element.
+|:--|:--|
+|`-h, --help`|show this help message and exit|
+|`--verbose`|report test results in verbose format|
+|`--wrapper, -w`|wrap output for individual image(s) in 'results' XML element|
+|`--nullxml`|extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)|
+|`--nopretty`|suppress pretty-printing of XML output|
+|`--version, -v`|show program's version number and exit|
 
 ## Output 
 Output is directed to the standard output device (*stdout*).
@@ -33,7 +35,7 @@ Output is directed to the standard output device (*stdout*).
 jpylyzer rubbish.jp2 > rubbish.xml
 {% endhighlight %}
 
-In the above example, output is redirected to the file &#8216;rubbish.xml&#8217;. Note that currently *jpylyzer*&#8217;s XML is not pretty-printed, so you may want to use an XML editor to view the output (or open the XML in your web browser).
+In the above example, output is redirected to the file &#8216;rubbish.xml&#8217;. By default *jpylyzer*&#8217;s XML is pretty-printed, so you should be able to view the file using your favourite text editor. Alternatively use a dedicated XML editor, or open the file in your web browser.
 
 ## Overview of output elements
 A *jpylyzer* output file contains the following top-level output elements:
@@ -49,6 +51,8 @@ A *jpylyzer* output file contains the following top-level output elements:
 The following video gives an overview of what *jpylyzer* does, and how to use it:
 
 <iframe src="{{ site.jpylyzerVideo }}" width="500" height="281" allowfullscreen></iframe>
+
+Note that this video was based on an older *jpylyzer* version that didn&#8217;t support pretty-printed output. (From version 1.13.0 onward *jpylyzer* uses pretty-printing for its XML output.)
 
 ## User Manual
 For more detailed information on the use of *jpylyzer*, there&#8217;s an exhaustive [User Manual]({{ site.userManualURL }}). It provides an in-depth coverage of the following topics:
