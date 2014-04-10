@@ -1,4 +1,4 @@
-jpylyzer (1.13) precise; urgency=low
+jpylyzer (1.13.0) precise; urgency=low
 
   * Added -nullxml option
   * Output now pretty printed by default
