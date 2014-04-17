@@ -3,10 +3,16 @@
 ## About
 *Jpylyzer* is a JP2 [(JPEG 2000 Part 1)][2] image validator and properties extractor. Its development was partially supported by the [SCAPE][4] Project. The SCAPE project is co-funded by the European Union under FP7 ICT-2009.4.1 (Grant Agreement number 270137).
 
+## Jpylyzer homepage
+
+[http://openplanets.github.io/jpylyzer/](http://openplanets.github.io/jpylyzer/)
+
 ## Downloads
 
 * [User Manual][1] - exhaustive documentation of all aspects of *jpylyzer*
-* [Windows binaries][5] - stand-alone Windows binaries that allow you to run *jpylyzer* without any *Python* dependencies 
+* [Windows binaries][5] - stand-alone Windows binaries that allow you to run *jpylyzer* without any *Python* dependencies
+* [Debian packages][6] - i386 (32 bit) architecture
+* [Debian packages][7] - Amd 64 (64 bit) architecture
 
 
 ## Command line use
@@ -58,38 +64,6 @@ In the above example, output is redirected to the file 'rubbish.xml'.
 [2]: http://www.jpeg.org/public/15444-1annexi.pdf
 [3]: http://www.itu.int/rec/T-REC-T.800/en
 [4]: http://www.scape-project.eu/
-[5]: https://bintray.com/pkg/show/general/openplanets/binaries/jpylyzer
-
-## Changes
-
-###1.10
-Added *setup.py* and re-structured repo accordingly. This means that *jpylyzer* can now be built and installed with *distutils*.
-
-###1.9
-The following improvements were added by Adam Retter and Jaishree Davey of The National Archives (UK):
-
-1. Unicode output
-2. Possibility to specify multiple (sets of) images at command-line
-3. Wrapper option that results in well-formed XML in case of multiple input images
-4. Function *checkOneFile* now returns Element object (before: text string with XML) 
-
-In addition, this version includes several minor modifications that improve interoperability between Python 2.7 and Python 3. 
-
-###1.8
-Added support for XMP metadata that are embedded in a UUID box.
-
-###1.7
-Added minimal support of the following optional codestream marker segments that were missing in previous versions:
-
-   + Coding style component (COC) marker segment
-   + Region-of-interest (RGN) marker segment
-   + Quantization component (QCC) marker segment
-   + Progression order change (POC) marker segment
-   + Packet length, main header (PLM) marker segment
-   + Packed packet headers, main header (PPM) marker segment
-   + Tile-part lengths (TLM) marker segment
-   + Component registration (CRG) marker segment
-   + Packet length, tile-part header (PLT) marker segment
-   + Packed packet headers, tile-part header (PPT) marker segment
-
-For now jpylyzer just reports the presence of these marker segments if they were found in an image, without doing validating them or reporting any properties (i.e. the validator functions are empty).
+[5]: https://bintray.com/openplanets/opf-windows/jpylyzer_win32/
+[6]: https://bintray.com/openplanets/opf-debian/jpylyzer_i386/
+[7]: https://bintray.com/openplanets/opf-debian/jpylyzer_amd64/
