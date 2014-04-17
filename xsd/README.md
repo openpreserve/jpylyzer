@@ -14,3 +14,13 @@ This folder contains a first attempt at an output schema for jpylyzer. A couple 
 * **test_allboxes.xml** - synthetic output file that contains all possible box types that jpylyzer is able to report
 * **test_wrapper.xml** - synthetic output file with multiple *jpylyzer* elements that are wrapped in a *results* element (`--wrapper` option)
 
+## Validate jpylyzer output file against schema
+
+Using [xmllint](http://xmlsoft.org/xmllint.html):
+
+    xmllint --noout --schema jpylyzer.xsd test_allboxes.xml 
+
+Result:
+
+    test_allboxes.xml validates
+
