@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+<xs:schema 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://openplanetsfoundation.org/ns/jpylyzer/"
+  xmlns="http://openplanetsfoundation.org/ns/jpylyzer/"
+  elementFormDefault="qualified">
 
   <!-- All box types -->  
   <xs:complexType name="allBoxes">
@@ -26,27 +30,7 @@
       <xs:element ref="unknownBox"/>
     </xs:choice>
   </xs:complexType>
-  
-  <!-- All codestream markers -->   
-  <xs:complexType name="allMarkerSegments">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="siz"/>
-      <xs:element ref="cod"/>
-      <xs:element ref="qcd"/>
-      <xs:element ref="com"/>
-      <xs:element ref="coc"/>
-      <xs:element ref="rgn"/>
-      <xs:element ref="qcc"/>
-      <xs:element ref="poc"/>
-      <xs:element ref="tlm"/>
-      <xs:element ref="plm"/>
-      <xs:element ref="plt"/>
-      <xs:element ref="ppm"/>
-      <xs:element ref="ppt"/>
-      <xs:element ref="crg"/>
-    </xs:choice>
-  </xs:complexType>
-  
+
   <!-- Results element (only present if wrapper option was used --> 
   <xs:element name="results">
     <xs:complexType>
