@@ -392,7 +392,7 @@ with the ‘\>’ operator (both under Windows and Linux):
 
     jpylyzer.py jp2In > outputFile
 
-E.g. the following command will run*jpylyzer* on image ‘rubbish.jp2’ and
+E.g. the following command will run *jpylyzer* on image ‘rubbish.jp2’ and
 redirects the output to file ‘rubbish.xml’:
 
     jpylyzer.py rubbish.jp2 > rubbish.xml
