@@ -116,15 +116,15 @@ here between *jpylyzer* and the current standard text.
 Outline of this User Manual {#outline}
 -------------------------------
 
-Chapter 2 describes the installation process of *jpylyzer* for Windows
-and Unix-based systems. Chapter 3 explains the usage of *jpylyzer* as a
-command-line tool, or as an importable Python module. Chapter 4 gives a
+[Chapter 2](#installation) describes the installation process of *jpylyzer* for Windows
+and Unix-based systems. [Chapter 3](#using-jpylyzer) explains the usage of *jpylyzer* as a
+command-line tool, or as an importable Python module. [Chapter 4](#structure-jp2) gives a
 brief overview of the structure of JP2 and its ‘box’ structure.
-*Jpylyzer*’s output format is explained in chapter 5. The final chapters
+*Jpylyzer*’s output format is explained in [chapter 5](#output-format). The final chapters
 give a detailed description of the tests that *jpylyzer* performs for
-validation, and its reported properties. Chapter 6 does this for all
+validation, and its reported properties. [Chapter 6](#jp2-box-by-box) does this for all
 ‘boxes’, except for the ‘Contiguous Codestream’ box, which is given a
-chapter (7) of its own.
+[chapter (7)](#contiguous-codestream-box-chapter) of its own.
 
 Funding {#funding}
 -----------
@@ -397,7 +397,7 @@ redirects the output to file ‘rubbish.xml’:
 
     jpylyzer.py rubbish.jp2 > rubbish.xml
 
-The format of the XML output is described in Chapter 5.
+The format of the XML output is described in [Chapter 5](#output-format).
 
 ### Creating well-formed XML with multiple images
 
@@ -446,7 +446,7 @@ In some cases you will see the following warning message:
     User warning: ignoring 'boxName' (validator function not yet implemented)
 
 The reason for this: a JP2 file is made up of units that are called
-‘boxes’. This is explained in more detail in Chapter 4. Each ‘box’ has
+‘boxes’. This is explained in more detail in [Chapter 4](#structure-jp2). Each ‘box’ has
 its own dedicated validator function. At this stage validator functions
 are still missing for a small number of (optional) boxes. *Jpylyzer*
 will display the above warning message if it encounters a (yet)
@@ -694,7 +694,7 @@ JP2’s box structure. Each individual test can have two values:
 If a file passed *all* tests, this is an indication that it is most
 likely valid JP2. In that case, the *isValidJP2* element (section 5.4)
 has a value of “True” (and “False” in all other cases). These tests are
-all explained in chapters 6 and 7.
+all explained in chapters [6](#jp2-box-by-box) and [7](#contiguous-codestream-box-chapter).
 
 ### Default and verbose reporting of test results
 
@@ -709,7 +709,7 @@ properties element {#properties-element}
 
 This element contains the extracted image properties, which are
 organised in a hierarchical tree that corresponds to JP2’s box
-structure. See chapters 6 and 7 for a description of the reported
+structure. See chapters [6](#jp2-box-by-box) and [7](#contiguous-codestream-box-chapter) for a description of the reported
 properties.
 
 JP2: box by box {#jp2-box-by-box}
@@ -730,7 +730,7 @@ About the properties and tests trees {#about-properties-tests-trees}
 The ‘properties’ element in *jpylyzer*’s output holds a hierarchical
 tree structure that contains all extracted properties. The ‘tests’ tree
 follows the same structure. The hierarchy reflects JP2’s box structure
-(explained in Chapter 4): each box is represented by a corresponding
+(explained in [Chapter 4](#structure-jp2)): each box is represented by a corresponding
 output element that contains the corresponding property entries. If a
 box is a superbox, the output element will contain child elements for
 each child box. For some boxes, the output contains further
@@ -825,13 +825,13 @@ represented as child elements in the properties tree:
 
 |Child element|Description|
 |:------------|:----------|
-|imageHeaderBox (section 6.5)|Properties from Image Header box (required)|
-|bitsPerComponentBox (section 6.6)|Properties from Bits Per Component box (optional)|
-|ColourSpecificationBox (section 6.7)|Properties from Colour Specification box (required)|
-|paletteBox (section 6.8)|Properties from Palette box (optional)|
-|componentMappingBox (section 6.9)|Properties from Component Mapping box (optional)|
-|channelDefinitionBox (section 6.10)|Properties from Channel Definition box (optional)|
-|resolutionBox (section 6.11)|Properties from Resolution box (optional)|
+|imageHeaderBox ([section 6.5](#image-header-box))|Properties from Image Header box (required)|
+|bitsPerComponentBox ([section 6.6](#bits-per-component-box))|Properties from Bits Per Component box (optional)|
+|ColourSpecificationBox ([section 6.7](#colour-specification-box))|Properties from Colour Specification box (required)|
+|paletteBox ([section 6.8](#palette-box))|Properties from Palette box (optional)|
+|componentMappingBox ([section 6.9](#component-mapping-box))|Properties from Component Mapping box (optional)|
+|channelDefinitionBox ([section 6.10](#channel-definition-box))|Properties from Channel Definition box (optional)|
+|resolutionBox ([section 6.11](#resolution-box))|Properties from Resolution box (optional)|
 
 ### Tests
 
@@ -1077,8 +1077,8 @@ represented as child elements in the properties tree:
 
 |Child element|Description|
 |:------------|:----------|
-|captureResolutionBox (section 6.12)|Properties from Capture Resolution box|
-|displayResolutionBox (section 6.13)|Properties from Default Display Resolution box|
+|captureResolutionBox ([section 6.12](#capture-resolution-box))|Properties from Capture Resolution box|
+|displayResolutionBox ([section 6.13](#display-resolution-box))|Properties from Default Display Resolution box|
 
 ### Tests
 
@@ -1175,7 +1175,7 @@ pixels per inch, which are calculated from these values.
 Contiguous Codestream box {#codestream-box}
 ------------------------------
 
-This box contains the codestream. See chapter 7.
+This box contains the codestream. See [chapter 7](#contiguous-codestream-box-chapter).
 
 Intellectual Property box {#intellectual-property-box}
 ------------------------------
@@ -1275,8 +1275,8 @@ as child elements in the properties tree:
 
 |Child element|Description|
 |:------------|:----------|
-|uuidListBox (section 6.19)|Properties from UUID List box|
-|urlBox (section 6.20)|Properties from Data Entry URL box|
+|uuidListBox ([section 6.19](#uuid-list-box))|Properties from UUID List box|
+|urlBox ([section 6.20](#data-entry-url-box))|Properties from Data Entry URL box|
 
 ### Tests
 
@@ -1393,9 +1393,9 @@ all top-level boxes:
 
 |Child element|Description|
 |:------------|:----------|
-|signatureBox (section 6.2)|Properties from JPEG 2000 Signature box|
-|fileTypeBox (section 6.3)|Properties from File Type box|
-|jp2HeaderBox (section 6.4)|Properties from JP2 Header box|
+|signatureBox ([section 6.2]())|Properties from JPEG 2000 Signature box|
+|fileTypeBox ([section 6.3]())|Properties from File Type box|
+|jp2HeaderBox ([section 6.4]())|Properties from JP2 Header box|
 |contiguousCodestreamBox (chapter 7)|Properties from Contiguous Codestream box|
 |intellectualPropertyBox (section 6.15)|Properties from Intellectual Property box (optional)|
 |xmlBox (section 6.16)|Properties from XML box (optional)|
