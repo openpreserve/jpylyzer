@@ -336,7 +336,7 @@ brackets (example: `[-h]`) are optional.
 
 ### Synopsis
 
-*Jpylyzer*can be invoked using the following command-line arguments:
+*Jpylyzer* can be invoked using the following command-line arguments:
 
     jpylyzer.py [-h] [--verbose] [--wrapper] [--version]
          [--nullxml] [--nopretty] ...
@@ -433,13 +433,15 @@ to force extraction for images that are affected by this.
 Under the following conditions *jpylyzer* will print a user warning to
 the standard error device (typically the console screen):
 
-1. If there are no input images to check (typically because the value of
+#### No images to check
+If there are no input images to check (typically because the value of
 jp2In refers to a non-existent file), the following warning message is
 shown:
 
     User warning: no images to check!
 
-2. In some cases you will see the following warning message:
+#### Unsupported box
+In some cases you will see the following warning message:
 
     User warning: ignoring 'boxName' (validator function not yet implemented)
 
@@ -451,7 +453,8 @@ will display the above warning message if it encounters a (yet)
 unsupported box. Any unsupported boxes are simply ignored, and the
 remainder of the file will be analyzed (and validated) normally.
 
-3. Finally, you may occasionally see this warning message:
+#### Unknown box
+Finally, you may occasionally see this warning message:
 
     User warning: ignoring unknown box
 
@@ -611,7 +614,7 @@ This chapter explains *jpylyzer*’s output format.
 Overview
 ------------
 
-*Jpylyzer*generates its output in XML format. Figure 5‑1 shows the
+*Jpylyzer* generates its output in XML format. Figure 5‑1 shows the
 output structure.
 
 ![](jpylyzerUserManual_files/image006.gif)
@@ -1304,7 +1307,7 @@ uuidListBox
 
 |Test name|True if|
 |:--------|:------|
-|boxLengthIsValid|Size of box equals *nU*\*16 + 2|
+|boxLengthIsValid|Size of box equals *nU* \* 16 + 2|
 
 Data Entry URL box (child of UUID Info box)
 ------------------------------------------------
@@ -1383,7 +1386,7 @@ With:
 |nC|: number of image components (from Image Header box)|
 |:--|:---------------------------------------------------|
 |i|: component index|
-|bPCDepth<sub>i</sub>|: bits per component for component *i* (from Image Header box or Bits Per|Component box)|
+|bPCDepth<sub>i</sub>|: bits per component for component *i* (from Image Header box or Bits Per Component box)|
 |height|: image height (from Image Header box)|
 |width|: image width (from Image Header box)|
 
