@@ -1435,7 +1435,7 @@ performs a number of tests to verify the consistency between these two.
 |bPCSignConsistentWithSIZ|Values of *bPCSign* from Image Header box (or Bits Per Component box) are equal to corresponding *ssizSign* values from codestream SIZ header|
 |bPCDepthConsistentWithSIZ|Values of *bPCDepth* from Image Header box (or Bits Per Component box) are equal to corresponding *ssizDepth* values from codestream SIZ header|
 
-Contiguous Codestream box {#contiguous-codestream-box}
+Contiguous Codestream box {#contiguous-codestream-box-chapter}
 ===========================
 
 General codestream structure {#codestream-structure}
@@ -1486,7 +1486,7 @@ codestream.
 
 Figure 7‑1 General structure of a JPEG 2000 codestream.
 
-Limitations of codestream validation
+Limitations of codestream validation {#limitations-codestream-validation}
 ----------------------------------------
 
 It is important to stress here that *jpylyzer* currently doesn’t support
@@ -1603,7 +1603,7 @@ marker segments, which are used for embedding arbitrary binary data or
 text. *Jpylyzer* will extract the contents of any comments that are
 text.
 
-Structure of reported output
+Structure of reported output {#structure-reported-output}
 --------------------------------
 
 Figure 7‑2 illustrates the structure of *jpylyzer*’s codestream-level
@@ -1616,7 +1616,7 @@ represented as a separate *tilePart* sub element.
 
 Figure 7‑2 Structure of codestream-level XML output
 
-Contiguous Codestream box
+Contiguous Codestream box {#contiguous-codestream-box}
 -----------------------------
 
 ### Element name
@@ -1651,7 +1651,7 @@ which are represented as child elements in the properties tree:
 |foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from SOT marker, see section 7.10)|
 |foundEOCMarker|Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment|
 
-Image and tile size (SIZ) marker segment (child of Contiguous Codestream box)
+Image and tile size (SIZ) marker segment (child of Contiguous Codestream box) {#siz-marker}
 ---------------------------------------------------------------------------------
 
 ### Element name
@@ -1699,7 +1699,7 @@ siz
 |xRsizIsValid<sup>\*</sup>|*xRsiz* is within range [1,255] (repeated for each component)|
 |yRsizIsValid<sup>\*</sup>|*yRsiz* is within range [1,255] (repeated for each component)|
 
-Coding style default (COD) marker segment
+Coding style default (COD) marker segment {#cod-marker}
 ---------------------------------------------
 
 ### Element name
@@ -1747,7 +1747,7 @@ cod
 |precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
 
   
-Quantization default (QCD) marker segment
+Quantization default (QCD) marker segment {#qcd-marker}
 ---------------------------------------------
 
 ### Element name
@@ -1772,7 +1772,7 @@ qcd
 |qStyleIsValid|*qStyle* equals 0 (“no quantization”), 1 (“scalar derived”), or 2 (“scalar expounded”)|
 
 
-Comment (COM) marker segment
+Comment (COM) marker segment {#com-marker}
 --------------------------------
 
 ### Element name
@@ -1796,7 +1796,7 @@ com
 |commentIsValid|Comment is valid ISO/IEC8859-15 and does not contain control characters, other than tab, newline or carriage return|
 
   
-Tile part (child of Contiguous Codestream box)
+Tile part (child of Contiguous Codestream box) {#tile-part}
 --------------------------------------------------
 
 Tile-part level properties and tests. This is not a box or a marker
@@ -1825,7 +1825,7 @@ Each tile part element can contain a number of child elements:
 |foundSODMarker|Last marker segment of tile part is a start-of-data (SOD) marker|
 
 
-Start of tile part (SOT) marker segment (child of tile part)
+Start of tile part (SOT) marker segment (child of tile part) {#sot-marker}
 -----------------------------------------------------------------
 
 ### Element name
@@ -1856,7 +1856,7 @@ will report their presence in the *properties* element, but it does not
 perform any further tests or analyses. This may change in upcoming
 versions of the software.
 
-Coding style component (COC) marker segment
+Coding style component (COC) marker segment {#coc-marker}
 ------------------------------------------------
 
 ### Element name
@@ -1877,7 +1877,7 @@ coc
 |||
 |||
 
-Region-of-interest (RGN) marker segment
+Region-of-interest (RGN) marker segment {#rgn-marker}
 --------------------------------------------
 
 ### Element name
@@ -1898,7 +1898,7 @@ rgn
 |||
 |||
 
-Quantization component (QCC) marker segment
+Quantization component (QCC) marker segment {#qcc-marker}
 ------------------------------------------------
 
 ### Element name
@@ -1919,7 +1919,7 @@ qcc
 |||
 |||
 
-Progression order change (POC) marker segment
+Progression order change (POC) marker segment {#poc-marker}
 --------------------------------------------------
 
 ### Element name
@@ -1940,7 +1940,7 @@ poc
 |||
 |||
 
-Packet length, main header (PLM) marker segment
+Packet length, main header (PLM) marker segment {#plm-marker}
 ----------------------------------------------------
 
 ### Element name
@@ -1961,7 +1961,7 @@ plm
 |||
 |||
 
-Packed packet headers, main header (PPM) marker segment
+Packed packet headers, main header (PPM) marker segment {#ppm-marker}
 ------------------------------------------------------------
 
 ### Element name
@@ -1982,7 +1982,7 @@ ppm
 |||
 |||
 
-Tile-part lengths (TLM) marker segment
+Tile-part lengths (TLM) marker segment {#tlm-marker}
 -------------------------------------------
 
 ### Element name
@@ -2003,7 +2003,7 @@ tlm
 |||
 |||
 
-Component registration (CRG) marker segment
+Component registration (CRG) marker segment {#crg-marker}
 ------------------------------------------------
 
 ### Element name
@@ -2024,7 +2024,7 @@ crg
 |||
 |||
 
-Packet length, tile-part header (PLT) marker segment
+Packet length, tile-part header (PLT) marker segment {#plt-marker}
 ---------------------------------------------------------
 
 ### Element name
@@ -2045,7 +2045,7 @@ plt
 |||
 |||
 
-Packed packet headers, tile-part header (PPT) marker segment
+Packed packet headers, tile-part header (PPT) marker segment {#ppt-marker}
 -----------------------------------------------------------------
 
 ### Element name
@@ -2067,7 +2067,7 @@ ppt
 |||
 
 
-References
+References {#references}
 ============
 
 ICC. Specification ICC.1:1998-09 – File Format for Color Profiles.
