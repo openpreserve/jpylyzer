@@ -1,12 +1,8 @@
-  
-
 jpylyzer: validator and properties extractor for JPEG 2000 Part 1 (JP2)
 
 User Manual
 
 jpylyzer version: 1.13
-
-
 
 KB/ National Library of the Netherlands
 
@@ -14,9 +10,9 @@ Open Planets Foundation
 
 ![scapelogo-big\_png.jpg](jpylyzerUserManual_files/image003.gif)
 
-This work was partially supported by the SCAPE Project. The SCAPE project is
-co-funded by the European Union under FP7 ICT-2009.4.1 (Grant Agreement
-number 270137).
+This work was partially supported by the SCAPE Project. The SCAPE
+project is co-funded by the European Union under FP7 ICT-2009.4.1 (Grant
+Agreement number 270137).
 
 Disclaimer
 
@@ -29,26 +25,25 @@ to other material supplied in connection therewith. The material is
 provided "as is". The entire risk as to its quality and performance is
 with the user.
 
-  
-Introduction {#introduction}
-==============
+Introduction
+============
 
-About jpylyzer {#about-jpylyzer}
-------------------
+About jpylyzer
+--------------
 
 This User Manual documents *jpylyzer*, a validator and feature extractor
 for JP2 images. JP2 is the still image format that is defined by JPEG
 2000 Part 1 (ISO/IEC 15444-1). *Jpylyzer* was specifically created to
 answer the following questions that you might have about any JP2 file:
 
-1. Is this really a JP2 and does it really conform to the format's
-specifications (validation)?
+1.  Is this really a JP2 and does it really conform to the format's
+    specifications (validation)?
 
-2. What are the technical characteristics of this image (feature
-extraction)?
+2.  What are the technical characteristics of this image (feature
+    extraction)?
 
-Validation: scope and restrictions {#validation-scope-and-restrictions}
---------------------------------------
+Validation: scope and restrictions
+----------------------------------
 
 Since the word ‘validation’ means different things to different people,
 a few words about the overall scope of *jpylyzer*. First of all, it is
@@ -95,11 +90,11 @@ Because of the foregoing, a thorough JP2 quality assurance workflow
 should not rely on *jpylyzer* (or any other format validator) alone, but
 it should include other tests as well. Some obvious examples are:
 
-* A rendering test that checks if a file renders at all
+-   A rendering test that checks if a file renders at all
 
-* Format migration workflows (e.g. TIFF to JP2) should ideally also
-include some comparison between source and destination images (e.g. a
-pixel-wise comparison)
+-   Format migration workflows (e.g. TIFF to JP2) should ideally also
+    include some comparison between source and destination images (e.g.
+    a pixel-wise comparison)
 
 Conversely, an image that successfully passes a rendering test or
 pixel-wise comparison may still contain problematic features (e.g.
@@ -113,8 +108,8 @@ the support for embedded ICC profiles in JP2. *Jpylyzer* is already
 anticipating these changes, and as a result there is a minor discrepancy
 here between *jpylyzer* and the current standard text.
 
-Outline of this User Manual {#outline}
--------------------------------
+Outline of this User Manual
+---------------------------
 
 Chapter 2 describes the installation process of *jpylyzer* for Windows
 and Unix-based systems. Chapter 3 explains the usage of *jpylyzer* as a
@@ -126,17 +121,17 @@ validation, and its reported properties. Chapter 6 does this for all
 ‘boxes’, except for the ‘Contiguous Codestream’ box, which is given a
 chapter (7) of its own.
 
-Funding {#funding}
------------
+Funding
+-------
 
 The development of *jpylyzer* was funded by the EU FP 7 project SCAPE
 (SCAlabable Preservation Environments). More information about this
 project can be found here:
 
-[http://www.scape-project.eu/](http://www.scape-project.eu/)
+<http://www.scape-project.eu/>
 
-License {#license}
------------
+License
+-------
 
 *Jpylyzer* is free software: you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License as published by
@@ -148,45 +143,44 @@ See the GNU Lesser General Public License for more details. You should
 have received a copy of the GNU Lesser General Public License along with
 this program. If not, see:
 
-[http://www.gnu.org/licenses/](http://www.gnu.org/licenses/)
+<http://www.gnu.org/licenses/>
 
 On Debian systems, the complete text of the GNU Lesser General Public
 License version 3 can be found in:
 
     /usr/share/common-licenses/LGPL-3
 
+Installation and set-up
+=======================
 
-Installation and set-up {#installation}
-=========================
-
-Obtaining the software {#obtaining-the-software}
---------------------------
+Obtaining the software
+----------------------
 
 To obtain the latest version of the software please use the download
 links at the *jpylyzer* homepage:
 
-[http://openplanets.github.io/jpylyzer/](http://openplanets.github.io/jpylyzer/)
+<http://openplanets.github.io/jpylyzer/>
 
 You have three options:
 
-1. Use the Python source code. This allows you to run the software as a
-Python script on most popular platforms (Windows, Linux, Mac, etc.).
-However, this requires that you have a recent version of the Python
-interpreter available on your system.
+1.  Use the Python source code. This allows you to run the software as a
+    Python script on most popular platforms (Windows, Linux, Mac, etc.).
+    However, this requires that you have a recent version of the Python
+    interpreter available on your system.
 
-2. Alternatively, for Windows users there is also a set of stand-alone
-binaries[^1]. These allow you to run *jpylyzer* as an
-executable Windows application, without any need for installing Python.
-This option is particularly useful for Windows users who cannot (or
-don’t want to) install software on their system.
+2.  Alternatively, for Windows users there is also a set of stand-alone
+    binaries[^1]. These allow you to run *jpylyzer* as an executable
+    Windows application, without any need for installing Python. This
+    option is particularly useful for Windows users who cannot (or don’t
+    want to) install software on their system.
 
-3. For Linux users Debian packages are available. These allow you to run
-*jpylyzer* without any need for installing Python.
+3.  For Linux users Debian packages are available. These allow you to
+    run *jpylyzer* without any need for installing Python.
 
 These options are described in the following sections.
 
-Installation of Python script (Linux/Unix, Windows, Mac OS X) {#installation-python}
------------------------------------------------------------------
+Installation of Python script (Linux/Unix, Windows, Mac OS X)
+-------------------------------------------------------------
 
 First, download the source files using one of the ‘Source Code
 Downloads’ links on the OPF *jpylyzer* page.
@@ -202,7 +196,7 @@ do this, use the following commands:
 In order to run the script you will need either Python 2.7, or Python
 3.2 (or more recent)[^2]. Python can be downloaded from:
 
-[http://python.org/](http://python.org/)
+<http://python.org/>
 
 ### Testing the installation
 
@@ -231,27 +225,29 @@ Executing this command should result in the following screen output:
 If the above test didn’t run successfully, first verify the following
 possible causes:
 
-* On Windows: check if files with a *.py* extension are associated with
-the Python interpreter. If you have multiple versions of Python on your
-system, make sure that the association does not link to a Python version
-that is incompatible with *jpylyzer* (e.g. Python 2.6 or older, or
-Python 3.0/3.1).
+-   On Windows: check if files with a *.py* extension are associated
+    with the Python interpreter. If you have multiple versions of Python
+    on your system, make sure that the association does not link to a
+    Python version that is incompatible with *jpylyzer* (e.g. Python 2.6
+    or older, or Python 3.0/3.1).
 
-* On Unix/Linux: by default, *jpylyzer* uses the command interpreter
-that is defined by the ‘python’ environment variable. If this is linked
-to some (very) old version of Python, things may not work as expected.
-If you run into problems because of this, update the command interpreter
-references in *jpylyzer.py*, i.e. change:
+-   On Unix/Linux: by default, *jpylyzer* uses the command interpreter
+    that is defined by the ‘python’ environment variable. If this is
+    linked to some (very) old version of Python, things may not work as
+    expected. If you run into problems because of this, update the
+    command interpreter references in *jpylyzer.py*, i.e. change:
 
 <pre>#! /usr/bin/env python</pre>
+
 
 into:
 
 <pre>#! /usr/bin/env python27</pre>
 
 
-Installation of Windows binaries (Windows only) {#installation-windows}
----------------------------------------------------
+
+Installation of Windows binaries (Windows only)
+-----------------------------------------------
 
 Download the binary using the link on the *jpylyzer* homepage. Unzip the
 contents of this file to an empty folder on your PC. *Jpylyzer* should
@@ -292,8 +288,8 @@ window, click on ‘Edit’ and add the full *jpylyzer* path (this requires
 local Administrator privileges). The settings take effect on any newly
 opened command prompt.
 
-Installation of Debian packages (Ubuntu/Linux) {#installation-debian}
---------------------------------------------------
+Installation of Debian packages (Ubuntu/Linux)
+----------------------------------------------
 
 For a number of Linux architectures Debian packages of *jpylyzer* exist.
 To install, simply download the *.deb* file, double-click on it and
@@ -304,19 +300,18 @@ command terminal by typing:
 
 In both cases you need to have administrative privileges.
 
+Using *jpylyzer*
+================
 
-Using *jpylyzer* {#using-jpylyzer}
-==================
-
-Overview {#using-overview}
-------------
+Overview
+--------
 
 This chapter describes the general use of *jpylyzer*. The first sections
 cover the use of *jpylyzer* as a command-line tool and as an importable
 Python module.
 
-Command-line usage {#command-line-usage}
-----------------------
+Command-line usage
+------------------
 
 This section explains *jpylyzer*’s general command-line interface. For
 the sake of brevity, all command-line examples assume the use of the
@@ -343,26 +338,21 @@ brackets (example: `[-h]`) are optional.
 
 With:
 
-...
-: input JP2 image(s)
+... : input JP2 image(s)
 
-[-h, --help]
-: show help message and exit
+[-h, --help] : show help message and exit
 
-[--verbose]
-: report test results in verbose format
+[--verbose] : report test results in verbose format
 
-[--wrapper, -w]
-: wraps the output for individual image(s) in 'results' XML element
+[--wrapper, -w] : wraps the output for individual image(s) in 'results'
+XML element
 
-[--nullxml]
-: extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)
+[--nullxml] : extract null-terminated XML content from XML and UUID
+boxes(doesn't affect validation)
 
-[--nopretty]
-: suppress pretty-printing of XML output
+[--nopretty] : suppress pretty-printing of XML output
 
-[-v, --version]
-: show program's version number and exit
+[-v, --version] : show program's version number and exit
 
 Note that the input can either be a single image, a space-separated
 sequence of images, a pathname expression that includes multiple images,
@@ -392,8 +382,8 @@ with the ‘\>’ operator (both under Windows and Linux):
 
     jpylyzer.py jp2In > outputFile
 
-E.g. the following command will run *jpylyzer* on image ‘rubbish.jp2’ and
-redirects the output to file ‘rubbish.xml’:
+E.g. the following command will run *jpylyzer* on image ‘rubbish.jp2’
+and redirects the output to file ‘rubbish.xml’:
 
     jpylyzer.py rubbish.jp2 > rubbish.xml
 
@@ -434,6 +424,7 @@ Under the following conditions *jpylyzer* will print a user warning to
 the standard error device (typically the console screen):
 
 #### No images to check
+
 If there are no input images to check (typically because the value of
 jp2In refers to a non-existent file), the following warning message is
 shown:
@@ -441,6 +432,7 @@ shown:
     User warning: no images to check!
 
 #### Unsupported box
+
 In some cases you will see the following warning message:
 
     User warning: ignoring 'boxName' (validator function not yet implemented)
@@ -454,6 +446,7 @@ unsupported box. Any unsupported boxes are simply ignored, and the
 remainder of the file will be analyzed (and validated) normally.
 
 #### Unknown box
+
 Finally, you may occasionally see this warning message:
 
     User warning: ignoring unknown box
@@ -464,8 +457,8 @@ This happens if *jpylyzer* encounters a box that is not defined by JPEG
 Again, *jpylyzer* will simply ignore these and process all other boxes
 normally.
 
-Using *jpylyzer* as a Python module {#using-as-python-module}
----------------------------------------
+Using *jpylyzer* as a Python module
+-----------------------------------
 
 Instead of using *jpylyzer* from the command-line, you can also import
 it as a module in your own Python programs. To do so, put all the
@@ -482,8 +475,8 @@ which can be called in the following way:
 
 Here, *file* is the path to a file object. The function returns an
 element object that can either be used directly, or converted to XML
-using the *ElementTree* module[^3]. The structure of the
-element object follows the XML output that described in Chapter 5.
+using the *ElementTree* module[^3]. The structure of the element object
+follows the XML output that described in Chapter 5.
 
 Alternatively, you may only want to import the *checkOneFile* function,
 in which case the import statement becomes:
@@ -494,12 +487,11 @@ This will allow you to call the function as follows:
 
     checkOneFile(file)
 
+Structure of a JP2 file
+=======================
 
-Structure of a JP2 file {#structure-jp2}
-=========================
-
-Scope of this chapter {#structure-scope}
--------------------------
+Scope of this chapter
+---------------------
 
 This chapter gives a brief overview of the JP2 file format. A basic
 understanding of the general structure of JP2 is helpful for
@@ -512,8 +504,8 @@ For an exhaustive description of every detail of the format you are
 advised to consult Annex I (‘JP2 file format syntax’) and Annex A
 (‘Codestream syntax’) of ISO/IEC 15444-1.
 
-General format structure {#general-format-structure}
-----------------------------
+General format structure
+------------------------
 
 At the highest level, a JP2 file is made up of a collection of *boxes*.
 A *box* can be thought of as the fundamental building block of the
@@ -528,38 +520,38 @@ denotes a box that contains other box(es).
 
 A number of things here are noteworthy to point out:
 
-* Some of these boxes are required, whereas others (indicated with
-dashed lines in Figure 4‑1) are optional.
+-   Some of these boxes are required, whereas others (indicated with
+    dashed lines in Figure 4‑1) are optional.
 
-* The order in which the boxes appear in the file is subject to some
-constraints (e.g. the first box in a JP2 must always be a ‘Signature’
-box, followed by a ‘File Type’ box).
+-   The order in which the boxes appear in the file is subject to some
+    constraints (e.g. the first box in a JP2 must always be a
+    ‘Signature’ box, followed by a ‘File Type’ box).
 
-* Some boxes may have multiple instances (e.g. ‘Contiguous Codestream’
-box), whereas others must be unique (e.g. ‘JP2 Header’ box).
+-   Some boxes may have multiple instances (e.g. ‘Contiguous Codestream’
+    box), whereas others must be unique (e.g. ‘JP2 Header’ box).
 
 More specific details can be found in the standard. The important thing
 here is that requirements like the above are something that should be
 verified by a validator, and this is exactly what *jpylyzer* does at the
 highest level of its validation procedure.
 
-General structure of a box {#general-box-structure}
-------------------------------
+General structure of a box
+--------------------------
 
 All boxes are defined by a generic binary structure, which is
 illustrated by Figure 4‑2. Most boxes are made up of the following three
 components:
 
-1. A fixed-length ‘box length’ field that indicates the total size of
-the box (in bytes).
+1.  A fixed-length ‘box length’ field that indicates the total size of
+    the box (in bytes).
 
-2. A fixed-length ‘box type’ field which specifies the type of
-information that can be found in this box
+2.  A fixed-length ‘box type’ field which specifies the type of
+    information that can be found in this box
 
-3. The box contents, which contains the actual information within the
-box. Its internal format depends on the box type. The box contents of a
-‘superbox’ will contain its child boxes (which can be parsed
-recursively).
+3.  The box contents, which contains the actual information within the
+    box. Its internal format depends on the box type. The box contents
+    of a ‘superbox’ will contain its child boxes (which can be parsed
+    recursively).
 
 In some cases a box will also contain an ‘extended box length field’.
 This field is needed if the size of a box exceeds 2<sup>32</sup>-1
@@ -571,20 +563,19 @@ length’ field.
 Figure 4‑2 General structure of a box (based on Figure I.4 in ISO/IEC
 15444-1).
 
-Defined boxes in JP2 {#defined-boxes}
-------------------------
+Defined boxes in JP2
+--------------------
 
 Table 4‑1 lists all boxes that are defined in ISO/IEC 15444-1. A JP2
 file may contain boxes that are not defined by the standard. Such boxes
 are simply skipped and ignored by conforming reader applications.
 
-  
 Table 4‑1 Defined boxes in JP2 (taken from Table I.2 in ISO/IEC 15444-1,
 with minor modifications). Addition signs in ‘box name’ column indicate
 hierarchical structure.
 
 |Box name|Superbox|Required?|Purpose|
-|:-----------|:-----------|:------------|:----------|
+|:-------|:-------|:--------|:------|
 |JPEG 2000 Signature box|No|Required|Identifies the file as being part of the JPEG 2000 family of files.|
 |File Type box|No|Required|Specifies file type, version and compatibility information, including specifying if this file is a conforming JP2 file or if it can be read by a conforming JP2 reader.|
 |JP2 Header box|Yes|Required|Contains a series of boxes that contain header-type information about the file.|
@@ -605,14 +596,13 @@ hierarchical structure.
 |+ UUID List box|No|Optional|Specifies a list of UUIDs.|
 |+ URL box|No|Optional|Specifies a URL.|
 
-
-Output format {#output-format}
-===============
+Output format
+=============
 
 This chapter explains *jpylyzer*’s output format.
 
-Overview {#output-format-overview}
-------------
+Overview
+--------
 
 *Jpylyzer* generates its output in XML format. Figure 5‑1 shows the
 output structure.
@@ -624,16 +614,16 @@ under ‘tests’ and ‘properties’ contain further sub-elements.
 
 The root element (*jpylyzer*) contains 5 child elements:
 
-1. *toolInfo*: information about *jpylyzer*
+1.  *toolInfo*: information about *jpylyzer*
 
-2. *fileInfo*: general information about the analysed file
+2.  *fileInfo*: general information about the analysed file
 
-3. *isValidJP2*: outcome of the validation
+3.  *isValidJP2*: outcome of the validation
 
-4. *tests*: outcome of the individual tests that are part of the
-validation process (organised by box)
+4.  *tests*: outcome of the individual tests that are part of the
+    validation process (organised by box)
 
-5. *properties*: image properties (organised by box)
+5.  *properties*: image properties (organised by box)
 
 If *jpylyzer* is executed with the *--wrapper* option, the root element
 is *results*, which contains one or more *jpylyzer* elements which
@@ -642,54 +632,54 @@ output is pretty-printed. You can use the *--nopretty* switch to disable
 pretty-printing (this produces smaller files and may give a slightly
 better performance).
 
-toolInfo element {#toolinfo-element}
---------------------
+toolInfo element
+----------------
 
 This element holds information about *jpylyzer*. Currently it contains
 the following sub-elements:
 
-* *toolName*: name of the analysis tool (i.e. *jpylyzer.py* or
-*jpylyzer*, depending on whether the Python script or the Windows
-binaries were used)
+-   *toolName*: name of the analysis tool (i.e. *jpylyzer.py* or
+    *jpylyzer*, depending on whether the Python script or the Windows
+    binaries were used)
 
-* *toolVersion*: version of *jpylyzer* (*jpylyzer* uses a date
-versioning scheme)
+-   *toolVersion*: version of *jpylyzer* (*jpylyzer* uses a date
+    versioning scheme)
 
-fileInfo element {#fileinfo-element}
---------------------
+fileInfo element
+----------------
 
 This element holds general information about the analysed file.
 Currently it contains the following sub-elements:
 
-* *filename*: name of the analysed file without its path (e.g.
-“rubbish.jp2”)
+-   *filename*: name of the analysed file without its path (e.g.
+    “rubbish.jp2”)
 
-* *filePath*: name of the analysed file, including its full absolute
-path (e.g. “d:\\data\\images\\rubbish.jp2”)
+-   *filePath*: name of the analysed file, including its full absolute
+    path (e.g. “d:\\data\\images\\rubbish.jp2”)
 
-* *fileSizeInBytes*: file size in bytes
+-   *fileSizeInBytes*: file size in bytes
 
-* *fileLastModified*: last modified date and time
+-   *fileLastModified*: last modified date and time
 
-isValidJP2 element {#isvalidjp2-element}
-----------------------
+isValidJP2 element
+------------------
 
 This element contains the results of the validation. If a file passed
 all the tests (i.e. all tests returned “True”, see section 5.5) it is
 most likely valid JP2, and the value of isValidJP2 will be “True”. Its
 value is “False” otherwise.
 
-tests element {#tests-element}
------------------
+tests element
+-------------
 
 This element is reserved to hold the outcomes of all the individual
 tests that *jpylyzer* performs to assess whether a file is valid JP2.
 The results are organised in a hierarchical tree that corresponds to
 JP2’s box structure. Each individual test can have two values:
 
-* “True” if a file passed the test.
+-   “True” if a file passed the test.
 
-* “False” if a file failed the test.
+-   “False” if a file failed the test.
 
 If a file passed *all* tests, this is an indication that it is most
 likely valid JP2. In that case, the *isValidJP2* element (section 5.4)
@@ -704,28 +694,28 @@ valid JP2 the tests element will be empty. If the --verbose flag is
 used, the results of *all* tests are included (including those that
 returned “True”)[^4].
 
-properties element {#properties-element}
-----------------------
+properties element
+------------------
 
 This element contains the extracted image properties, which are
 organised in a hierarchical tree that corresponds to JP2’s box
 structure. See chapters 6 and 7 for a description of the reported
 properties.
 
-JP2: box by box {#jp2-box-by-box}
-=================
+JP2: box by box
+===============
 
 The following two chapters provide a detailed explanation of
 *jpylyzer*’s functionality and its output. In particular, the following
 two aspects are addressed:
 
-1. The reported properties
+1.  The reported properties
 
-2. The tests that *jpylyzer* performs to establish the validity of a
-file.
+2.  The tests that *jpylyzer* performs to establish the validity of a
+    file.
 
-About the properties and tests trees {#about-properties-tests-trees}
-----------------------------------------
+About the properties and tests trees
+------------------------------------
 
 The ‘properties’ element in *jpylyzer*’s output holds a hierarchical
 tree structure that contains all extracted properties. The ‘tests’ tree
@@ -758,8 +748,8 @@ and end-of-packet markers. For cases like these *jpylyzer* uses its own
 (largely self-descriptive) names (which are all documented in these
 chapters).
 
-JPEG 2000 Signature box {#jpeg2000-signature-box}
----------------------------
+JPEG 2000 Signature box
+-----------------------
 
 This box contains information that allows identification of the file as
 being part of the JPEG 2000 family of file formats.
@@ -780,8 +770,8 @@ characters)
 |boxLengthIsValid|Size of box contents equals 4 bytes|
 |signatureIsValid|Signature equals 0x0d0a870a|
 
-File Type box {#file-type-box}
------------------
+File Type box
+-------------
 
 This box specifies file type, version and compatibility information,
 including specifying if this file is a conforming JP2 file or if it can
@@ -808,8 +798,8 @@ fileTypeBox
 |minorVersionIsValid|*minV* equals 0|
 |compatibilityListIsValid|Sequence of compatibility (*cL*) fields includes one entry that equals 0x6a703220 (“jp2 ”)|
 
-JP2 Header box (superbox) {#jp2-header-box}
------------------------------
+JP2 Header box (superbox)
+-------------------------
 
 This box is a superbox that holds a series of boxes that contain
 header-type information about the file.
@@ -850,8 +840,8 @@ represented as child elements in the properties tree:
 |colourSpecificationBoxesAreContiguous|In case of multiple Colour Specification boxes, they appear contiguously in the JP2 Header box|
 |paletteAndComponentMappingBoxesOnlyTogether|Box contains a Palette box (only if Component Mapping box is present); box contains a Component Mapping box (only if Palette box is present)|
 
-Image Header box (child of JP2 Header box) {#image-header-box}
-----------------------------------------------
+Image Header box (child of JP2 Header box)
+------------------------------------------
 
 This box specifies the size of the image and other related fields.
 
@@ -885,8 +875,8 @@ imageHeaderBox
 |unkCIsValid|*unkC* equals 0 (“no”) or 1 (“yes”)|
 |iPRIsValid|*iPR* equals 0 (“no”) or 1 (“yes”)|
 
-Bits Per Component box (child of JP2 Header box) {#bits-per-component-box}
-----------------------------------------------------
+Bits Per Component box (child of JP2 Header box)
+------------------------------------------------
 
 This (optional) box specifies the bit depth of the components in the
 file in cases where the bit depth is not constant across all components.
@@ -908,8 +898,8 @@ bitsPerComponentBox
 |:--------|:------|
 |bPCIsValid<sup>\*</sup>|*bPCDepth* is within range [1,38] (repeated for each component)|
 
-Colour Specification box (child of JP2 Header box) {#colour-specification-box}
-------------------------------------------------------
+Colour Specification box (child of JP2 Header box)
+--------------------------------------------------
 
 This box specifies the colourspace of the image.
 
@@ -977,8 +967,8 @@ profile is allowed in JP2)!
 |iccPermittedProfileClass (if meth equals “Restricted ICC”)|ICC profile class is “input device” or “display device”[^6]|
 |iccNoLUTBasedProfile (if meth equals “Restricted ICC”)|ICC profile type is not N-component LUT based (which is not allowed in JP2)|
 
-Palette box (child of JP2 Header box) {#palette-box}
------------------------------------------
+Palette box (child of JP2 Header box)
+-------------------------------------
 
 This (optional) box specifies the palette which maps a single component
 in index space to a multiple-component image.
@@ -1005,8 +995,8 @@ paletteBox
 |nPCIsValid|*nPC* is within range [1,255]|
 |bDepthIsValid<sup>\*</sup>|*bDepth* is within range [1,38] (repeated for each column)|
 
-Component Mapping box (child of JP2 Header box) {#component-mapping-box}
----------------------------------------------------
+Component Mapping box (child of JP2 Header box)
+-----------------------------------------------
 
 This (optional) box specifies the mapping between a palette and
 codestream components.
@@ -1031,8 +1021,8 @@ componentMappingBox
 |mTypIsValid<sup>\*</sup>|*mTyp* is within range [0,1] (repeated for each channel)|
 |pColIsValid<sup>\*</sup>|*pCol* is 0 if *mTyp* is 0 (repeated for each channel)|
 
-Channel Definition box (child of JP2 Header box) {#channel-definition-box}
------------------------------------------------------
+Channel Definition box (child of JP2 Header box)
+------------------------------------------------
 
 This (optional) box specifies the type and ordering of the components
 within the codestream, as well as those created by the application of a
@@ -1061,8 +1051,8 @@ channelDefinitionBox
 |cTypIsValid<sup>\*</sup>|*cType* is within range [0, 65535] (repeated for each channel)|
 |cAssocIsValid<sup>\*</sup>|*cAssoc* is within range [0, 65535] (repeated for each channel)|
 
-Resolution box (child of JP2 Header box, superbox) {#resolution-box}
--------------------------------------------------------
+Resolution box (child of JP2 Header box, superbox)
+--------------------------------------------------
 
 This (optional) box contains the grid resolution.
 
@@ -1088,8 +1078,8 @@ represented as child elements in the properties tree:
 |noMoreThanOneCaptureResolutionBox|Box contains no more than one Capture Resolution box|
 |noMoreThanOneDisplayResolutionBox|Box contains no more than one Default Display Resolution box|
 
-Capture Resolution box (child of Resolution box) {#capture-resolution-box}
------------------------------------------------------
+Capture Resolution box (child of Resolution box)
+------------------------------------------------
 
 This (optional) box specifies the grid resolution at which the image was
 captured.
@@ -1130,8 +1120,8 @@ pixels per inch, which are calculated from these values.
 |vRcEIsValid|*vRcE* is within range [-127,128]|
 |hRcEIsValid|*hRcE* is within range [-127,128]|
 
-Default Display Resolution box (child of Resolution box) {#display-resolution-box}
--------------------------------------------------------------
+Default Display Resolution box (child of Resolution box)
+--------------------------------------------------------
 
 This (optional) box specifies the default grid resolution at which the
 image should be displayed.
@@ -1172,13 +1162,13 @@ pixels per inch, which are calculated from these values.
 |vRdEIsValid|*vRdE* is within range [-127,128]|
 |hRdEIsValid|*hRdE* is within range [-127,128]|
 
-Contiguous Codestream box {#codestream-box}
-------------------------------
+Contiguous Codestream box
+-------------------------
 
 This box contains the codestream. See chapter 7.
 
-Intellectual Property box {#intellectual-property-box}
-------------------------------
+Intellectual Property box
+-------------------------
 
 This (optional) box contains intellectual property information about the
 image. The JP2 format specification (ISO/IEC 15444-1) does not provide
@@ -1188,8 +1178,8 @@ a result, *jpylyzer* does not currently include a validator function for
 this box, which is now simply ignored. *Jpylyzer* will display a user
 warning message in that case.
 
-XML box {#xml-box}
-------------
+XML box
+-------
 
 This (optional) box contains XML formatted information.
 
@@ -1218,8 +1208,8 @@ is not required by the standard. Besides, doing so would make *jpylyzer*
 significantly slower for XML that contains references to external
 schemas and DTDs.
 
-UUID box {#uuid-box}
--------------
+UUID box
+--------
 
 This (optional) box contains additional (binary) information, which may
 be vendor-specific. Some applications (e.g. Kakadu and ExifTool) also
@@ -1258,8 +1248,8 @@ outside of the scope of JPEG 2000.
 |boxLengthIsValid|Size of box contents is greater than 16 bytes|
 |containsWellformedXML|Contents of box are parsable, well-formed XML (this test is **only** performed if uuid has value *be7acfcb-97a9-42e8-9c71-999491e3afac*)|
 
-UUID Info box (superbox) {#uuid-info-box}
------------------------------
+UUID Info box (superbox)
+------------------------
 
 This (optional) box contains additional information associated with a
 UUID.
@@ -1285,8 +1275,8 @@ as child elements in the properties tree:
 |containsOneListBox|Box contains exactly one UUID List box|
 |containsOneURLBox|Box contains exactly one Data Entry URL box|
 
-UUID List box (child of UUID Info box) {#uuid-list-box}
--------------------------------------------
+UUID List box (child of UUID Info box)
+--------------------------------------
 
 This (optional) box specifies a list of UUIDs.
 
@@ -1307,8 +1297,8 @@ uuidListBox
 |:--------|:------|
 |boxLengthIsValid|Size of box equals *nU* \* 16 + 2|
 
-Data Entry URL box (child of UUID Info box) {#data-entry-url-box}
-------------------------------------------------
+Data Entry URL box (child of UUID Info box)
+-------------------------------------------
 
 This (optional) box specifies a URL.
 
@@ -1331,8 +1321,8 @@ urlBox
 |locIsUTF8|Location (URL) can be decoded to UTF-8|
 |locHasNullTerminator|Location (URL) is a null-terminated string|
 
-Unknown box {#unknown-box}
-----------------
+Unknown box
+-----------
 
 An image may contain boxes that are not defined by ISO/IEC 15444-1.
 Although *jpylyzer* ignores such boxes, it will report some minimal info
@@ -1348,8 +1338,8 @@ unknownBox
 |:-------|:----------|
 |boxType|Four-character text string that specifies the type of information that is found in this box (corresponds to *TBox* in section I.4 of ISO/IEC 15444-1).|
 
-Top-level tests and properties {#top-level-tests-properties}
------------------------------------
+Top-level tests and properties
+------------------------------
 
 This section describes the tests and output for the top file level.
 
@@ -1407,14 +1397,15 @@ all top-level boxes:
 The tests that *jpylyzer* performs at the root level fall in either of
 the following two categories:
 
-1. Tests for the presence of required top-level boxes, the order in
-which they appear and restrictions on the number of instances for
-specific boxes
+1.  Tests for the presence of required top-level boxes, the order in
+    which they appear and restrictions on the number of instances for
+    specific boxes
 
-2. Tests for consistency of information in different parts of the file.
-In particular, a lot of the information in the Image Header box is
-redundant with information in the codestream header, and *jpylyzer*
-performs a number of tests to verify the consistency between these two.
+2.  Tests for consistency of information in different parts of the file.
+    In particular, a lot of the information in the Image Header box is
+    redundant with information in the codestream header, and *jpylyzer*
+    performs a number of tests to verify the consistency between these
+    two.
 
 |Test name|True if|
 |:--------|:------|
@@ -1435,11 +1426,11 @@ performs a number of tests to verify the consistency between these two.
 |bPCSignConsistentWithSIZ|Values of *bPCSign* from Image Header box (or Bits Per Component box) are equal to corresponding *ssizSign* values from codestream SIZ header|
 |bPCDepthConsistentWithSIZ|Values of *bPCDepth* from Image Header box (or Bits Per Component box) are equal to corresponding *ssizDepth* values from codestream SIZ header|
 
-Contiguous Codestream box {#contiguous-codestream-box}
-===========================
+Contiguous Codestream box
+=========================
 
-General codestream structure {#codestream-structure}
---------------------------------
+General codestream structure
+----------------------------
 
 The Contiguous Codestream box holds the JPEG 2000 codestream, which
 contains the actual image data in a JP2.
@@ -1458,36 +1449,36 @@ every marker has any associated parameters.
 The codestream is made up of the following components (illustrated in
 Figure 7‑1):
 
-1. A *start of codestream* marker that indicates the start of the
-codestream
+1.  A *start of codestream* marker that indicates the start of the
+    codestream
 
-2. A main codestream header (which includes a number of header marker
-segments)
+2.  A main codestream header (which includes a number of header marker
+    segments)
 
-3. A sequence of one or more *tile parts*. Each tile part consists of
-the following components:
+3.  A sequence of one or more *tile parts*. Each tile part consists of
+    the following components:
 
-    a. A *start of tile-part* marker segment, which indicates the start of a
-tile part and which also contains index information of the tile part and
-its associated tile
+    a. A *start of tile-part* marker segment, which indicates the start
+    of a tile part and which also contains index information of the tile
+    part and its associated tile
 
-    b. Optionally this may be followed by one or more additional tile-part
-header marker segments
+    b. Optionally this may be followed by one or more additional
+    tile-part header marker segments
 
-    c. A *start of data* marker that indicates the start of the bitstream
-for the current tile part
+    c. A *start of data* marker that indicates the start of the
+    bitstream for the current tile part
 
     d. The bitstream
 
-4. An ‘end of codestream’ marker that indicates the end of the
-codestream.
+4.  An ‘end of codestream’ marker that indicates the end of the
+    codestream.
 
 ![](jpylyzerUserManual_files/image009.gif)
 
 Figure 7‑1 General structure of a JPEG 2000 codestream.
 
 Limitations of codestream validation
-----------------------------------------
+------------------------------------
 
 It is important to stress here that *jpylyzer* currently doesn’t support
 the full set of marker segments that can occur in a codestream. As a
@@ -1502,36 +1493,37 @@ current version of *jpylyzer* only offers full support (i.e. reads and
 validates) for the following main header marker segments (which includes
 all the required ones):
 
-* Start of codestream (SOC) marker segment (required)
+-   Start of codestream (SOC) marker segment (required)
 
-* Image and tile size (SIZ) marker segment (required)
+-   Image and tile size (SIZ) marker segment (required)
 
-* Coding style default (COD) marker segment (required)
+-   Coding style default (COD) marker segment (required)
 
-* Quantization default (QCD) marker segment (required)
+-   Quantization default (QCD) marker segment (required)
 
-* Comment (COM) marker segment (optional)
+-   Comment (COM) marker segment (optional)
 
 In addition the codestream header may also contain any of the following
 marker segments, which are all optional:
 
-* Coding style component (COC) marker segment (optional)<sup>\*</sup>
+-   Coding style component (COC) marker segment (optional)<sup>\*</sup>
 
-* Region-of-interest (RGN) marker segment (optional) <sup>\*</sup>
+-   Region-of-interest (RGN) marker segment (optional) <sup>\*</sup>
 
-* Quantization component (QCC) marker segment (optional) <sup>\*</sup>
+-   Quantization component (QCC) marker segment (optional) <sup>\*</sup>
 
-* Progression order change (POC) marker segment (optional) <sup>\*</sup>
+-   Progression order change (POC) marker segment (optional)
+    <sup>\*</sup>
 
-* Packet length, main header (PLM) marker segment (optional)
-<sup>\*</sup>
+-   Packet length, main header (PLM) marker segment (optional)
+    <sup>\*</sup>
 
-* Packed packet headers, main header (PPM) marker segment (optional)
-<sup>\*</sup>
+-   Packed packet headers, main header (PPM) marker segment (optional)
+    <sup>\*</sup>
 
-* Tile-part lengths (TLM) marker segment (optional) <sup>\*</sup>
+-   Tile-part lengths (TLM) marker segment (optional) <sup>\*</sup>
 
-* Component registration (CRG) marker segment (optional) <sup>\*</sup>
+-   Component registration (CRG) marker segment (optional) <sup>\*</sup>
 
 The above marker segments (which are marked with an asterisk) are only
 minimally supported at this stage: if *jpylyzer* encounters any of them,
@@ -1546,31 +1538,32 @@ The tile part validation has similar limitations. The standard lists 11
 marker segments that can occur in the tile part header. Currently,
 *jpylyzer* only fully supports the following ones:
 
-* Start of tile part (SOT) marker segment (required)
+-   Start of tile part (SOT) marker segment (required)
 
-* Coding style default (COD) marker segment (optional)
+-   Coding style default (COD) marker segment (optional)
 
-* Quantization default (QCD) marker segment (optional)
+-   Quantization default (QCD) marker segment (optional)
 
-* Comment (COM) marker segment (optional)
+-   Comment (COM) marker segment (optional)
 
-* Start of data (SOD) marker segment (required)
+-   Start of data (SOD) marker segment (required)
 
 In addition the following optional marker segments may also occur:
 
-* Coding style component (COC) marker segment (optional)<sup>\*</sup>
+-   Coding style component (COC) marker segment (optional)<sup>\*</sup>
 
-* Region-of-interest (RGN) marker segment (optional) <sup>\*</sup>
+-   Region-of-interest (RGN) marker segment (optional) <sup>\*</sup>
 
-* Quantization component (QCC) marker segment (optional) <sup>\*</sup>
+-   Quantization component (QCC) marker segment (optional) <sup>\*</sup>
 
-* Progression order change (POC) marker segment (optional) <sup>\*</sup>
+-   Progression order change (POC) marker segment (optional)
+    <sup>\*</sup>
 
-* Packet length, tile-part header (PLT) marker segment (optional)
-<sup>\*</sup>
+-   Packet length, tile-part header (PLT) marker segment (optional)
+    <sup>\*</sup>
 
-* Packed packet headers, tile-part header (PPT) marker segment
-(optional) <sup>\*</sup>
+-   Packed packet headers, tile-part header (PPT) marker segment
+    (optional) <sup>\*</sup>
 
 These marker segments (which are marked with an asterisk) are only
 minimally supported at this stage: if *jpylyzer* encounters any of them,
@@ -1583,11 +1576,11 @@ contents, and the respective elements in the output will be empty.
 In addition to the above limitations, *jpylyzer* can *not* be used to
 establish whether the data in the bitstream are correct (this would
 require decoding the compressed image data, which is completely out of
-*jpylyzer*’s scope)[^16]. As a result, if *jpylyzer* is used
-as part of a quality assurance workflow, it is recommended to also
-include an additional check on the image contents[^17]. Also,
-*jpylyzer* does not perform any checks on marker segments within the
-bit-stream: start-of packet (SOP) and end-of-packet (EPH) markers.
+*jpylyzer*’s scope)[^16]. As a result, if *jpylyzer* is used as part of
+a quality assurance workflow, it is recommended to also include an
+additional check on the image contents[^17]. Also, *jpylyzer* does not
+perform any checks on marker segments within the bit-stream: start-of
+packet (SOP) and end-of-packet (EPH) markers.
 
 ### Detection of incomplete or truncated codestreams
 
@@ -1604,7 +1597,7 @@ text. *Jpylyzer* will extract the contents of any comments that are
 text.
 
 Structure of reported output
---------------------------------
+----------------------------
 
 Figure 7‑2 illustrates the structure of *jpylyzer*’s codestream-level
 output. At the top level, the SIZ, COD, QCD and COM marker segments are
@@ -1617,7 +1610,7 @@ represented as a separate *tilePart* sub element.
 Figure 7‑2 Structure of codestream-level XML output
 
 Contiguous Codestream box
------------------------------
+-------------------------
 
 ### Element name
 
@@ -1627,8 +1620,6 @@ contiguousCodestreamBox
 
 The reported properties for this box are organised into a number groups,
 which are represented as child elements in the properties tree:
-
-  
 
 |Child element|Description|
 |:------------|:----------|
@@ -1652,7 +1643,7 @@ which are represented as child elements in the properties tree:
 |foundEOCMarker|Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment|
 
 Image and tile size (SIZ) marker segment (child of Contiguous Codestream box)
----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------
 
 ### Element name
 
@@ -1700,7 +1691,7 @@ siz
 |yRsizIsValid<sup>\*</sup>|*yRsiz* is within range [1,255] (repeated for each component)|
 
 Coding style default (COD) marker segment
----------------------------------------------
+-----------------------------------------
 
 ### Element name
 
@@ -1746,9 +1737,8 @@ cod
 |precinctSizeXIsValid<sup>\*</sup>|*precinctSizeX* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
 |precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
 
-  
 Quantization default (QCD) marker segment
----------------------------------------------
+-----------------------------------------
 
 ### Element name
 
@@ -1761,8 +1751,8 @@ qcd
 |lqcd|Length of QCD marker segment in bytes|
 |qStyle|Quantization style for all components|
 |guardBits|Number of guard bits|
-|epsilon<sup>\*</sup>|* If *qStyle* equals 0 (“no quantization”): *Epsilon* exponent in Eq E-5 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)|* If *qStyle* equals 1 (“scalar derived”): *Epsilon* exponent in Eq E-3 of ISO/IEC 15444-1|* If *qStyle* equals 2 (“scalar expounded”): *Epsilon* exponent in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)||
-|mu<sup>\*</sup>|* If *qStyle* equals 1 (“scalar derived”): *mu* constant in Eq E-3 of ISO/IEC 15444-1|* if *qStyle* equals 2 (“scalar expounded”) : *mu* constant in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)|
+|epsilon<sup>\*</sup>|\* If *qStyle* equals 0 (“no quantization”): *Epsilon* exponent in Eq E-5 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)|\* If *qStyle* equals 1 (“scalar derived”): *Epsilon* exponent in Eq E-3 of ISO/IEC 15444-1|\* If *qStyle* equals 2 (“scalar expounded”): *Epsilon* exponent in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)||
+|mu<sup>\*</sup>|\* If *qStyle* equals 1 (“scalar derived”): *mu* constant in Eq E-3 of ISO/IEC 15444-1|\* if *qStyle* equals 2 (“scalar expounded”) : *mu* constant in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)|
 
 ### Tests
 
@@ -1771,9 +1761,8 @@ qcd
 |lqcdIsValid|*lqcd* is within range [4,197]|
 |qStyleIsValid|*qStyle* equals 0 (“no quantization”), 1 (“scalar derived”), or 2 (“scalar expounded”)|
 
-
 Comment (COM) marker segment
---------------------------------
+----------------------------
 
 ### Element name
 
@@ -1795,9 +1784,8 @@ com
 |rcomIsValid|*rcom* equals 0 (“binary”) or 1 (“ISO/IEC 8859-15 (Latin”))|
 |commentIsValid|Comment is valid ISO/IEC8859-15 and does not contain control characters, other than tab, newline or carriage return|
 
-  
 Tile part (child of Contiguous Codestream box)
---------------------------------------------------
+----------------------------------------------
 
 Tile-part level properties and tests. This is not a box or a marker
 segment!
@@ -1824,9 +1812,8 @@ Each tile part element can contain a number of child elements:
 |foundNextTilePartOrEOC|Tile part start offset + *tilePartLength* points to either start of new tile or EOC marker (useful for detecting within-codestream byte corruption)|
 |foundSODMarker|Last marker segment of tile part is a start-of-data (SOD) marker|
 
-
 Start of tile part (SOT) marker segment (child of tile part)
------------------------------------------------------------------
+------------------------------------------------------------
 
 ### Element name
 
@@ -1857,7 +1844,7 @@ perform any further tests or analyses. This may change in upcoming
 versions of the software.
 
 Coding style component (COC) marker segment
-------------------------------------------------
+-------------------------------------------
 
 ### Element name
 
@@ -1878,7 +1865,7 @@ coc
 |||
 
 Region-of-interest (RGN) marker segment
---------------------------------------------
+---------------------------------------
 
 ### Element name
 
@@ -1899,7 +1886,7 @@ rgn
 |||
 
 Quantization component (QCC) marker segment
-------------------------------------------------
+-------------------------------------------
 
 ### Element name
 
@@ -1920,7 +1907,7 @@ qcc
 |||
 
 Progression order change (POC) marker segment
---------------------------------------------------
+---------------------------------------------
 
 ### Element name
 
@@ -1941,7 +1928,7 @@ poc
 |||
 
 Packet length, main header (PLM) marker segment
-----------------------------------------------------
+-----------------------------------------------
 
 ### Element name
 
@@ -1962,7 +1949,7 @@ plm
 |||
 
 Packed packet headers, main header (PPM) marker segment
-------------------------------------------------------------
+-------------------------------------------------------
 
 ### Element name
 
@@ -1983,7 +1970,7 @@ ppm
 |||
 
 Tile-part lengths (TLM) marker segment
--------------------------------------------
+--------------------------------------
 
 ### Element name
 
@@ -2004,7 +1991,7 @@ tlm
 |||
 
 Component registration (CRG) marker segment
-------------------------------------------------
+-------------------------------------------
 
 ### Element name
 
@@ -2025,7 +2012,7 @@ crg
 |||
 
 Packet length, tile-part header (PLT) marker segment
----------------------------------------------------------
+----------------------------------------------------
 
 ### Element name
 
@@ -2046,7 +2033,7 @@ plt
 |||
 
 Packed packet headers, tile-part header (PPT) marker segment
------------------------------------------------------------------
+------------------------------------------------------------
 
 ### Element name
 
@@ -2066,51 +2053,52 @@ ppt
 |||
 |||
 
-
 References
-============
+==========
 
 ICC. Specification ICC.1:1998-09 – File Format for Color Profiles.
-International Color Consortium, 1998. [http://www.color.org/ICC-1\_1998-09.pdf](http://www.color.org/ICC-1_1998-09.pdf).
+International Color Consortium, 1998.
+<http://www.color.org/ICC-1_1998-09.pdf>.
 
 ISO/IEC. Information technology — JPEG 2000 image coding system: Core
 coding system. ISO/IEC 15444-1, Second edition. Geneva: ISO/IEC, 2004a.
-[http://www.jpeg.org/public/15444-1annexi.pdf](http://www.jpeg.org/public/15444-1annexi.pdf) (“Annex I: JP2 file format syntax” only).
+<http://www.jpeg.org/public/15444-1annexi.pdf> (“Annex I: JP2 file
+format syntax” only).
 
 ISO/IEC. Information technology — JPEG 2000 image coding system:
-Extensions. ISO/IEC 15444-2, First edition. Geneva: ISO/IEC, 2004b. [http://www.jpeg.org/public/15444-2annexm.pdf](http://www.jpeg.org/public/15444-2annexm.pdf)
-(“Annex M: JPX extended file format syntax” only).
+Extensions. ISO/IEC 15444-2, First edition. Geneva: ISO/IEC, 2004b.
+<http://www.jpeg.org/public/15444-2annexm.pdf> (“Annex M: JPX extended
+file format syntax” only).
 
 Leach, P., Mealling, M. & Salz, R. A Universally Unique IDentifier
-(UUID) URN namespace. Memo, IETF. [http://tools.ietf.org/html/rfc4122.html](http://tools.ietf.org/html/rfc4122.html).
+(UUID) URN namespace. Memo, IETF.
+<http://tools.ietf.org/html/rfc4122.html>.
 
+[^1]: The *jpylyzer* binaries were created using the *PyInstaller*
+    package: <http://www.pyinstaller.org/>
 
-[^1]: The *jpylyzer* binaries were created using the
-*PyInstaller* package:
-[http://www.pyinstaller.org/](http://www.pyinstaller.org/)
+[^2]: Note that *jpylyzer* will not work under Python versions 3.0-3.1!
 
-[^2]: Note that *jpylyzer* will not work under Python
-versions 3.0-3.1!
+[^3]: Note that *jpylyzer* versions 1.8 and earlier returned a formatted
+    XML string instead of an element object!
 
-[^3]: Note that *jpylyzer* versions 1.8 and earlier returned
-a formatted XML string instead of an element object!
+[^4]: Note that *jpylyzer* versions 1.4 and earlier used the verbose
+    output format by default. This behaviour has changed in version 1.5
+    onwards, as the lengthy output turned out to be slightly confusing
+    to some users.
 
-[^4]: Note that *jpylyzer* versions 1.4 and earlier used the
-verbose output format by default. This behaviour has changed in version
-1.5 onwards, as the lengthy output turned out to be slightly confusing
-to some users.
+[^5]: The “Any ICC” method is defined in ISO/IEC 15444-2 (the JPX
+    format), and is not allowed in JP2. However, *jpylyzer* offers
+    limited support for JPX here by also reporting the properties of ICC
+    profiles that were embedded using this method. Note that any file
+    that uses this method will fail the “methIsValid” test (and thereby
+    the validation).
 
-[^5]: The “Any ICC” method is defined in ISO/IEC 15444-2 (the
-JPX format), and is not allowed in JP2. However, *jpylyzer* offers
-limited support for JPX here by also reporting the properties of ICC
-profiles that were embedded using this method. Note that any file that
-uses this method will fail the “methIsValid” test (and thereby the
-validation).
-
-[^6]: Originally ISO/IEC 15444-1 only allowed “input
-device” profiles. Support of “display device” profiles was added through an
-[amendment](http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en) to the
-standard in 2013. The behaviour of *jpylyzer* is consistent with this amendment.
+[^6]: Originally ISO/IEC 15444-1 only allowed “input device” profiles.
+    Support of “display device” profiles was added through an
+    [amendment](http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en) to
+    the standard in 2013. The behaviour of *jpylyzer* is consistent with
+    this amendment.
 
 [^7]: Calculated as:
 
@@ -2129,19 +2117,19 @@ standard in 2013. The behaviour of *jpylyzer* is consistent with this amendment.
 [^14]: Calculated as:
 
 [^15]: Link:
-[http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf](http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf)
+    <http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf>
 
-[^16]: However, support for start of packet (SOP) and end of
-packet (EPH) markers may be included in future versions.
+[^16]: However, support for start of packet (SOP) and end of packet
+    (EPH) markers may be included in future versions.
 
-[^17]: For example, in a TIFF to JP2 conversion workflow one
-could include a pixel-by-pixel comparison of the values in the TIFF and
-the JP2.
+[^17]: For example, in a TIFF to JP2 conversion workflow one could
+    include a pixel-by-pixel comparison of the values in the TIFF and
+    the JP2.
 
-[^18]: The consistency check verifies if the length of the
-quantization default marker segment (*lqcd* from *qcd*) is consistent
-with the quantization style (*qStyle* from *qcd*) and the number of
-decomposition levels (*levels* from *cod*). They are consistent if the
-following equation is true:
+[^18]: The consistency check verifies if the length of the quantization
+    default marker segment (*lqcd* from *qcd*) is consistent with the
+    quantization style (*qStyle* from *qcd*) and the number of
+    decomposition levels (*levels* from *cod*). They are consistent if
+    the following equation is true:
 
 [^19]: Calculated as
