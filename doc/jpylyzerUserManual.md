@@ -175,7 +175,7 @@ However, this requires that you have a recent version of the Python
 interpreter available on your system.
 
 2. Alternatively, for Windows users there is also a set of stand-alone
-binaries[[1]](#_ftn1). These allow you to run *jpylyzer* as an
+binaries[^1]. These allow you to run *jpylyzer* as an
 executable Windows application, without any need for installing Python.
 This option is particularly useful for Windows users who cannot (or
 don’t want to) install software on their system.
@@ -200,7 +200,7 @@ do this, use the following commands:
     dos2unix *.py
 
 In order to run the script you will need either Python 2.7, or Python
-3.2 (or more recent)[[2]](#_ftn2). Python can be downloaded from:
+3.2 (or more recent)[^2]. Python can be downloaded from:
 
 [http://python.org/](http://python.org/)
 
@@ -482,7 +482,7 @@ which can be called in the following way:
 
 Here, *file* is the path to a file object. The function returns an
 element object that can either be used directly, or converted to XML
-using the *ElementTree* module[[3]](#_ftn3). The structure of the
+using the *ElementTree* module[^3]. The structure of the
 element object follows the XML output that described in Chapter 5.
 
 Alternatively, you may only want to import the *checkOneFile* function,
@@ -704,7 +704,7 @@ By default, *jpylyzer* only reports any tests that failed (i.e. returned
 “False”), including the corresponding part of the box structure. For a
 valid JP2 the tests element will be empty. If the --verbose flag is
 used, the results of *all* tests are included (including those that
-returned “True”)[[4]](#_ftn4).
+returned “True”)[^4].
 
 properties element
 ----------------------
@@ -927,7 +927,7 @@ colourSpecificationBox
 |prec|Precedence|
 |approx|Colourspace approximation|
 |enumCS (if meth equals “Enumerated”)|Enumerated colourspace (as descriptive text string)|
-|icc (if meth equals “Restricted ICC” or “Any ICC”[[5]](#_ftn5))|Properties of ICC profile as child element (see below)|
+|icc (if meth equals “Restricted ICC” or “Any ICC”[^5])|Properties of ICC profile as child element (see below)|
 
 ### Reported properties of ICC profiles
 
@@ -976,7 +976,7 @@ profile is allowed in JP2)!
 |approxIsValid|*approx* equals 0|
 |enumCSIsValid (if meth equals “Enumerated”)|*enumCS* equals 16 (“sRGB”), 17 (“greyscale”) or 18 (“sYCC”)|
 |iccSizeIsValid (if meth equals “Restricted ICC”)|Actual size of embedded ICC profile equals value of profileSize field in ICC header|
-|iccPermittedProfileClass (if meth equals “Restricted ICC”)|ICC profile class is “input device” or “display device”[[6]](#_ftn6)|
+|iccPermittedProfileClass (if meth equals “Restricted ICC”)|ICC profile class is “input device” or “display device”[^6]|
 |iccNoLUTBasedProfile (if meth equals “Restricted ICC”)|ICC profile type is not N-component LUT based (which is not allowed in JP2)|
 
 Palette box (child of JP2 Header box)
@@ -1115,10 +1115,10 @@ pixels per inch, which are calculated from these values.
 |hRcD|Horizontal grid resolution denominator|
 |vRcE|Vertical grid resolution exponent|
 |hRcE|Horizontal grid resolution exponent|
-|vRescInPixelsPerMeter|Vertical grid resolution, expressed in pixels per meter[[7]](#_ftn7)|
-|hRescInPixelsPerMeter|Horizontal grid resolution, expressed in pixels per meter[[8]](#_ftn8)|
-|vRescInPixelsPerInch|Vertical grid resolution, expressed in pixels per inch[[9]](#_ftn9)|
-|hRescInPixelsPerInch|Horizontal grid resolution, expressed in pixels per inch[[10]](#_ftn10)|
+|vRescInPixelsPerMeter|Vertical grid resolution, expressed in pixels per meter[^7]|
+|hRescInPixelsPerMeter|Horizontal grid resolution, expressed in pixels per meter[^8]|
+|vRescInPixelsPerInch|Vertical grid resolution, expressed in pixels per inch[^9]|
+|hRescInPixelsPerInch|Horizontal grid resolution, expressed in pixels per inch[^10]|
 
 ### Tests
 
@@ -1157,10 +1157,10 @@ pixels per inch, which are calculated from these values.
 |hRdD|Horizontal grid resolution denominator|
 |vRdE|Vertical grid resolution exponent|
 |hRdE|Horizontal grid resolution exponent|
-|vResdInPixelsPerMeter|Vertical grid resolution, expressed in pixels per meter[[11]](#_ftn11)|
-|hResdInPixelsPerMeter|Horizontal grid resolution, expressed in pixels per meter[[12]](#_ftn12)|
-|vResdInPixelsPerInch|Vertical grid resolution, expressed in pixels per inch[[13]](#_ftn13)|
-|hResdInPixelsPerInch|Horizontal grid resolution, expressed in pixels per inch[[14]](#_ftn14)|
+|vResdInPixelsPerMeter|Vertical grid resolution, expressed in pixels per meter[^11]|
+|hResdInPixelsPerMeter|Horizontal grid resolution, expressed in pixels per meter[^12]|
+|vResdInPixelsPerInch|Vertical grid resolution, expressed in pixels per inch[^13]|
+|hResdInPixelsPerInch|Horizontal grid resolution, expressed in pixels per inch[^14]|
 
 ### Tests
 
@@ -1226,7 +1226,7 @@ UUID box
 This (optional) box contains additional (binary) information, which may
 be vendor-specific. Some applications (e.g. Kakadu and ExifTool) also
 use this box for storing XMP metadata (see Section 1.1.4 in Part 3 of
-the XMP specification[[15]](#_ftn15)).
+the XMP specification[^15]).
 
 ### Element name
 
@@ -1585,9 +1585,9 @@ contents, and the respective elements in the output will be empty.
 In addition to the above limitations, *jpylyzer* can *not* be used to
 establish whether the data in the bitstream are correct (this would
 require decoding the compressed image data, which is completely out of
-*jpylyzer*’s scope)[[16]](#_ftn16). As a result, if *jpylyzer* is used
+*jpylyzer*’s scope)[^16]. As a result, if *jpylyzer* is used
 as part of a quality assurance workflow, it is recommended to also
-include an additional check on the image contents[[17]](#_ftn17). Also,
+include an additional check on the image contents[^17]. Also,
 *jpylyzer* does not perform any checks on marker segments within the
 bit-stream: start-of packet (SOP) and end-of-packet (EPH) markers.
 
@@ -1648,7 +1648,7 @@ which are represented as child elements in the properties tree:
 |foundSIZMarker|Second marker segment in codestream is image and tile size (SIZ) marker segment|
 |foundCODMarker|Codestream main header contains coding style default (COD) marker segment|
 |foundQCDMarker|Codestream main header contains quantization default (QCD) marker segment|
-|quantizationConsistentWithLevels|Values of quantization parameters from QCD marker segment are consistent with *levels* from COD marker segment[[18]](#_ftn18)|
+|quantizationConsistentWithLevels|Values of quantization parameters from QCD marker segment are consistent with *levels* from COD marker segment[^18]|
 |foundExpectedNumberOfTiles|Number of encountered tiles is consistent with expected number of tiles (as calculated from SIZ marker, see section 7.5)|
 |foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from SOT marker, see section 7.10)|
 |foundEOCMarker|Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment|
@@ -1674,7 +1674,7 @@ siz
 |yTsiz|Height of one reference tile with respect to the reference grid|
 |xTOsiz|Horizontal offset from origin of reference grid to left side of first tile|
 |yTOsiz|Vertical offset from origin of reference grid to top side of first tile|
-|numberOfTiles|Number of tiles[[19]](#_ftn19)|
+|numberOfTiles|Number of tiles[^19]|
 |csiz|Number of components|
 |ssizSign<sup>\*</sup>|Indicates whether image component is signed or unsigned (repeated for each component)|
 |ssizDepth<sup>\*</sup>|Number of bits for this component (repeated for each component)|
@@ -2087,66 +2087,63 @@ Leach, P., Mealling, M. & Salz, R. A Universally Unique IDentifier
 (UUID) URN namespace. Memo, IETF. [http://tools.ietf.org/html/rfc4122.html](http://tools.ietf.org/html/rfc4122.html).
 
 
-Notes
-============
-
-[[1]](#_ftnref1) The *jpylyzer* binaries were created using the
+[^1]: The *jpylyzer* binaries were created using the
 *PyInstaller* package:
 [http://www.pyinstaller.org/](http://www.pyinstaller.org/)
 
-[[2]](#_ftnref2) Note that *jpylyzer* will not work under Python
+[^2]: Note that *jpylyzer* will not work under Python
 versions 3.0-3.1!
 
-[[3]](#_ftnref3) Note that *jpylyzer* versions 1.8 and earlier returned
+[^3]: Note that *jpylyzer* versions 1.8 and earlier returned
 a formatted XML string instead of an element object!
 
-[[4]](#_ftnref4) Note that *jpylyzer* versions 1.4 and earlier used the
+[^4]: Note that *jpylyzer* versions 1.4 and earlier used the
 verbose output format by default. This behaviour has changed in version
 1.5 onwards, as the lengthy output turned out to be slightly confusing
 to some users.
 
-[[5]](#_ftnref5) The “Any ICC” method is defined in ISO/IEC 15444-2 (the
+[^5]: The “Any ICC” method is defined in ISO/IEC 15444-2 (the
 JPX format), and is not allowed in JP2. However, *jpylyzer* offers
 limited support for JPX here by also reporting the properties of ICC
 profiles that were embedded using this method. Note that any file that
 uses this method will fail the “methIsValid” test (and thereby the
 validation).
 
-[[6]](#_ftnref6) Originally ISO/IEC 15444-1 only allowed “input
+[^6]: Originally ISO/IEC 15444-1 only allowed “input
 device” profiles. Support of “display device” profiles was added through an
 [amendment](http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en) to the
 standard in 2013. The behaviour of *jpylyzer* is consistent with this amendment.
 
-[[7]](#_ftnref7) Calculated as:
+[^7]: Calculated as:
 
-[[8]](#_ftnref8) Calculated as:
+[^8]: Calculated as:
 
-[[9]](#_ftnref9) Calculated as:
+[^9]: Calculated as:
 
-[[10]](#_ftnref10) Calculated as:
+[^10]: Calculated as:
 
-[[11]](#_ftnref11) Calculated as:
+[^11]: Calculated as:
 
-[[12]](#_ftnref12) Calculated as:
+[^12]: Calculated as:
 
-[[13]](#_ftnref13) Calculated as:
+[^13]: Calculated as:
 
-[[14]](#_ftnref14) Calculated as:
+[^14]: Calculated as:
 
-[[15]](#_ftnref15) Link:
+[^15]: Link:
 [http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf](http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf)
 
-[[16]](#_ftnref16) However, support for start of packet (SOP) and end of
+[^16]: However, support for start of packet (SOP) and end of
 packet (EPH) markers may be included in future versions.
 
-[[17]](#_ftnref17) For example, in a TIFF to JP2 conversion workflow one
+[^17]: For example, in a TIFF to JP2 conversion workflow one
 could include a pixel-by-pixel comparison of the values in the TIFF and
 the JP2.
 
-[[18]](#_ftnref18) The consistency check verifies if the length of the
+[^18]: The consistency check verifies if the length of the
 quantization default marker segment (*lqcd* from *qcd*) is consistent
 with the quantization style (*qStyle* from *qcd*) and the number of
 decomposition levels (*levels* from *cod*). They are consistent if the
 following equation is true:
 
-[[19]](#_ftnref19) Calculated as
+[^19]: Calculated as
