@@ -1396,11 +1396,11 @@ all top-level boxes:
 |signatureBox ([section 6.2]())|Properties from JPEG 2000 Signature box|
 |fileTypeBox ([section 6.3]())|Properties from File Type box|
 |jp2HeaderBox ([section 6.4]())|Properties from JP2 Header box|
-|contiguousCodestreamBox (chapter 7)|Properties from Contiguous Codestream box|
-|intellectualPropertyBox (section 6.15)|Properties from Intellectual Property box (optional)|
-|xmlBox (section 6.16)|Properties from XML box (optional)|
-|uuidBox (section 6.17)|Properties from UUID box (optional)|
-|uuidInfoBox (section 6.18)|Properties from UUID Info box (optional)|
+|contiguousCodestreamBox ([chapter 7]())|Properties from Contiguous Codestream box|
+|intellectualPropertyBox ([section 6.15]())|Properties from Intellectual Property box (optional)|
+|xmlBox ([section 6.16]())|Properties from XML box (optional)|
+|uuidBox ([section 6.17]())|Properties from UUID box (optional)|
+|uuidInfoBox ([section 6.18]())|Properties from UUID Info box (optional)|
 
 ### Tests
 
