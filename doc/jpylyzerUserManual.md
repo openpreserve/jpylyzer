@@ -1,11 +1,14 @@
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
   
 
 jpylyzer: validator and properties extractor for JPEG 2000 Part 1 (JP2)
 
 User Manual
 
-jpylyzer version: 1.13
 
+jpylyzer version: 1.13
 
 
 KB/ National Library of the Netherlands
@@ -343,25 +346,25 @@ brackets (example: `[-h]`) are optional.
 
 With:
 
-...
+`...`
 : input JP2 image(s)
 
-[-h, --help]
+`[-h, --help]`
 : show help message and exit
 
-[--verbose]
+`[--verbose]`
 : report test results in verbose format
 
-[--wrapper, -w]
+`[--wrapper, -w]`
 : wraps the output for individual image(s) in 'results' XML element
 
-[--nullxml]
+`[--nullxml]`
 : extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)
 
-[--nopretty]
+`[--nopretty]`
 : suppress pretty-printing of XML output
 
-[-v, --version]
+`[-v, --version]`
 : show program's version number and exit
 
 Note that the input can either be a single image, a space-separated
@@ -1370,14 +1373,58 @@ combining information from different parts / boxes of the file.
 The compression ratio is calculated as the ratio between the size of the
 uncompressed image data and the actual file size:
 
-![](jpylyzerUserManual_files/image007.gif)
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+  <mi>compressionRatio</mi>
+  <mo>=</mo>
+  <mfrac>
+    <mrow>
+      <mi>sizeUncompressed</mi>
+    </mrow>
+    <mrow>
+      <mi>sizeCompressed</mi>
+    </mrow>
+  </mfrac>
+</mrow>
+</math>
 
 Here, *sizeCompressed* is simply the file size (*fileSizeInBytes* in
 output file’s ‘fileInfo’ element). The uncompressed size (in bytes) can
 be calculated by multiplying the number of bytes per pixel by the total
 number of pixels:
 
-![](jpylyzerUserManual_files/image008.gif)
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+  <mi>sizeUncompressed</mi>
+  <mo>=</mo>
+  <mfrac>
+    <mrow>
+      <mn>1</mn>
+    </mrow>
+    <mrow>
+      <mn>8</mn>
+    </mrow>
+  </mfrac>
+  <munderover>
+          <mo>&Sum;</mo>
+      <mrow>
+        <mi>i</mi>
+        <mo>=</mo>
+        <mn>1</mn>
+      </mrow>
+        <mi>nC</mi>
+  </munderover>
+  <msub>
+          <mi>bPCDepth</mi>
+        <mi>i</mi>
+  </msub>
+  <mo>&bull;</mo>
+  <mi>height</mi>
+  <mo>&bull;</mo>
+  <mi>width</mi>
+</mrow>
+</math>
+
 
 With:
 
@@ -1761,8 +1808,8 @@ qcd
 |lqcd|Length of QCD marker segment in bytes|
 |qStyle|Quantization style for all components|
 |guardBits|Number of guard bits|
-|epsilon<sup>\*</sup>|* If *qStyle* equals 0 (“no quantization”): *Epsilon* exponent in Eq E-5 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)|* If *qStyle* equals 1 (“scalar derived”): *Epsilon* exponent in Eq E-3 of ISO/IEC 15444-1|* If *qStyle* equals 2 (“scalar expounded”): *Epsilon* exponent in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)||
-|mu<sup>\*</sup>|* If *qStyle* equals 1 (“scalar derived”): *mu* constant in Eq E-3 of ISO/IEC 15444-1|* if *qStyle* equals 2 (“scalar expounded”) : *mu* constant in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)|
+|epsilon<sup>\*</sup>|- If *qStyle* equals 0 (“no quantization”): *Epsilon* exponent in Eq E-5 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)<br/>- If *qStyle* equals 1 (“scalar derived”): *Epsilon* exponent in Eq E-3 of ISO/IEC 15444-1<br/>- If *qStyle* equals 2 (“scalar expounded”): *Epsilon* exponent in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)|
+|mu<sup>\*</sup>|- If *qStyle* equals 1 (“scalar derived”): *mu* constant in Eq E-3 of ISO/IEC 15444-1<br/>- if *qStyle* equals 2 (“scalar expounded”) : *mu* constant in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)|
 
 ### Tests
 
@@ -2112,21 +2159,89 @@ device” profiles. Support of “display device” profiles was added through a
 [amendment](http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en) to the
 standard in 2013. The behaviour of *jpylyzer* is consistent with this amendment.
 
-[^7]: Calculated as:
+[^7]: Calculated as: 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+  <mfrac>
+    <mrow>
+      <mi>vRcN</mi>
+    </mrow>
+    <mrow>
+      <mi>vRcD</mi>
+    </mrow>
+  </mfrac>
+  <mo>*</mo>
+  <msup>
+          <mn>10</mn>
+        <mi>vRcE</mi>
+  </msup>
+</mrow>
+</math>
 
 [^8]: Calculated as:
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+  <mfrac>
+    <mrow>
+      <mi>hRcN</mi>
+    </mrow>
+    <mrow>
+      <mi>hRcD</mi>
+    </mrow>
+  </mfrac>
+  <mo>*</mo>
+  <msup>
+          <mn>10</mn>
+        <mi>hRcE</mi>
+  </msup>
+</mrow>
+</math>
 
-[^9]: Calculated as:
+[^9]: Calculated as: vRescInPixelsPerMeter\*25.4\*10<sup>-3</sup>
 
-[^10]: Calculated as:
+[^10]: Calculated as: hRescInPixelsPerMeter\*25.4\*10<sup>-3</sup>
 
 [^11]: Calculated as:
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+  <mfrac>
+    <mrow>
+      <mi>vRdN</mi>
+    </mrow>
+    <mrow>
+      <mi>vRdD</mi>
+    </mrow>
+  </mfrac>
+  <mo>*</mo>
+  <msup>
+          <mn>10</mn>
+        <mi>vRdE</mi>
+  </msup>
+</mrow>
+</math>
 
 [^12]: Calculated as:
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+  <mfrac>
+    <mrow>
+      <mi>hRdN</mi>
+    </mrow>
+    <mrow>
+      <mi>hRdD</mi>
+    </mrow>
+  </mfrac>
+  <mo>*</mo>
+  <msup>
+          <mn>10</mn>
+        <mi>hRdE</mi>
+  </msup>
+</mrow>
+</math>
 
-[^13]: Calculated as:
+[^13]: Calculated as: vResdInPixelsPerMeter\*25.4\*10<sup>-3</sup>
 
-[^14]: Calculated as:
+[^14]: Calculated as: hResdInPixelsPerMeter\*25.4\*10<sup>-3</sup>
 
 [^15]: Link:
 [http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf](http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf)
