@@ -4,6 +4,8 @@
 
 The jpylyzer User Manual uses the [Markdown Extra](http://michelf.ca/projects/php-markdown/extra/) syntax. This Markdown version differs in a number of ways from [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown), and as a result the Markdown file doesn't render correctly when viewed in Github. This is no reason for any concern.
 
+For the rendering of the equation objects (which are in [MathML](http://en.wikipedia.org/wiki/MathML)) there is a dependency on [MathJax](http://www.mathjax.org/)
+
 ## Exporting to other delivery formats
 
 Use [Pandoc](http://johnmacfarlane.net/pandoc/) to export the raw Markdown file. For example, to generate the User Manual in HTML format use the following command-line:
@@ -22,3 +24,7 @@ Note on command-line switches:
 <!-- * `--self-contained` embeds css and images inside the file -->
 
 You will need a fairly recent version of *Pandoc* to make this work, as older versions do not support `markdown_phpextra` as an input format.
+
+## Stylesheet
+The stylesheet *jpylyzer.css* is based on John MacFarlane's [pandoc.css](http://johnmacfarlane.net/pandoc/demo/pandoc.css), with some adaptations.
+

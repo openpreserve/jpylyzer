@@ -97,7 +97,7 @@
 
 </script>
 
-<p></p>
+
 <p>jpylyzer: validator and properties extractor for JPEG 2000 Part 1 (JP2)</p>
 <p>User Manual</p>
 <p>jpylyzer version: 1.13</p>
@@ -2875,7 +2875,7 @@ JP2 image validator and properties extractor
 <li id="fn16"><p>However, support for start of packet (SOP) and end of packet (EPH) markers may be included in future versions.<a href="#fnref16">&#8617;</a></p></li>
 <li id="fn17"><p>For example, in a TIFF to JP2 conversion workflow one could include a pixel-by-pixel comparison of the values in the TIFF and the JP2.<a href="#fnref17">&#8617;</a></p></li>
 <li id="fn18"><p>The consistency check verifies if the length of the quantization default marker segment (<em>lqcd</em> from <em>qcd</em>) is consistent with the quantization style (<em>qStyle</em> from <em>qcd</em>) and the number of decomposition levels (<em>levels</em> from <em>cod</em>). They are consistent if the following equation is true:<a href="#fnref18">&#8617;</a></p></li>
-<li id="fn19"><p>Calculated as<a href="#fnref19">&#8617;</a></p></li>
+<li id="fn19"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>numberOfTiles</mi> <mo>=</mo> <mo>[</mo> <mfrac> <mrow> <mi>xsiz</mi> <mo>-</mo> <mi>xOsiz</mi> </mrow> <mrow> <mi>xTsiz</mi> </mrow> </mfrac> <mo>]</mo> <mo>&#8226;</mo> <mo>[</mo> <mfrac> <mrow> <mi>ysiz</mi> <mo>-</mo> <mi>yOsiz</mi> </mrow> <mrow> <mi>yTsiz</mi> </mrow> </mfrac> <mo>]</mo> </mrow> </math><a href="#fnref19">&#8617;</a></p></li>
 </ol>
 </div>
 </body>

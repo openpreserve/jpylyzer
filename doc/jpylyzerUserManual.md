@@ -1,7 +1,6 @@
 <script type="text/javascript"
   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
-  
 
 jpylyzer: validator and properties extractor for JPEG 2000 Part 1 (JP2)
 
@@ -2259,4 +2258,36 @@ with the quantization style (*qStyle* from *qcd*) and the number of
 decomposition levels (*levels* from *cod*). They are consistent if the
 following equation is true:
 
-[^19]: Calculated as
+[^19]: Calculated as:
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+  <mi>numberOfTiles</mi>
+  <mo>=</mo>
+  <mo>[</mo>
+  <mfrac>
+    <mrow>
+      <mi>xsiz</mi>
+      <mo>-</mo>
+      <mi>xOsiz</mi>
+    </mrow>
+    <mrow>
+      <mi>xTsiz</mi>
+    </mrow>
+  </mfrac>
+  <mo>]</mo>
+  <mo>&bull;</mo>
+  <mo>[</mo>
+  <mfrac>
+    <mrow>
+      <mi>ysiz</mi>
+      <mo>-</mo>
+      <mi>yOsiz</mi>
+    </mrow>
+    <mrow>
+      <mi>yTsiz</mi>
+    </mrow>
+  </mfrac>
+  <mo>]</mo>
+</mrow>
+</math>
+
