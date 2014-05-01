@@ -522,7 +522,7 @@ A *box* can be thought of as the fundamental building block of the
 format. Some boxes (‘superboxes’) are containers for other boxes. Figure
 4‑1 gives an overview of the top-level boxes in a JP2 file.
 
-![](jpylyzerUserManual_files/image004.gif)
+![Top-level overview of a JP2 file](jpylyzerUserManual_files/image004.gif)
 
 Figure 4‑1 Top-level overview of a JP2 file (based on Figure I.1 in
 ISO/IEC 15444-1). Boxes with dashed borders are optional. 'Superbox'
@@ -568,7 +568,7 @@ This field is needed if the size of a box exceeds 2<sup>32</sup>-1
 bytes, which is the maximum value that can be stored in the 4-byte ‘box
 length’ field.
 
-![](jpylyzerUserManual_files/image005.jpg)
+![General structure of a box](jpylyzerUserManual_files/image005.jpg)
 
 Figure 4‑2 General structure of a box (based on Figure I.4 in ISO/IEC
 15444-1).
@@ -619,7 +619,7 @@ Overview {#output-format-overview}
 *Jpylyzer* generates its output in XML format. Figure 5‑1 shows the
 output structure.
 
-![](jpylyzerUserManual_files/image006.gif)
+![Jpylyzer’s XML output structure](jpylyzerUserManual_files/image006.gif)
 
 Figure 5‑1 *Jpylyzer*’s XML output structure. Note that ‘box’ elements
 under ‘tests’ and ‘properties’ contain further sub-elements.
@@ -1528,7 +1528,7 @@ for the current tile part
 4. An ‘end of codestream’ marker that indicates the end of the
 codestream.
 
-![](jpylyzerUserManual_files/image009.gif)
+![General structure of a JPEG 2000 codestream](jpylyzerUserManual_files/image009.gif)
 
 Figure 7‑1 General structure of a JPEG 2000 codestream.
 
@@ -1658,7 +1658,7 @@ each represented as individual sub elements. The tile part properties
 are nested in a *tileParts* element, where each individual tile part is
 represented as a separate *tilePart* sub element.
 
-![](jpylyzerUserManual_files/image010.gif)
+![Structure of codestream-level XML output](jpylyzerUserManual_files/image010.gif)
 
 Figure 7‑2 Structure of codestream-level XML output
 
