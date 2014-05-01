@@ -75,7 +75,7 @@ standard.
 
 Related to this, even though *jpylyzer*’s validation process is very
 comprehensive, it is not complete. For instance, the validation of JPEG
-2000 codestreams at this moment is still somewhat limited. Section 7.2
+2000 codestreams at this moment is still somewhat limited. [Section 7.2](#limitations-codestream-validation)
 discusses these limitations in detail. Some of these limitations (e.g.
 optional codestream segment markers that are only minimally supported at
 this stage) may be taken away in upcoming versions of the tool.
@@ -124,7 +124,7 @@ brief overview of the structure of JP2 and its ‘box’ structure.
 give a detailed description of the tests that *jpylyzer* performs for
 validation, and its reported properties. [Chapter 6](#jp2-box-by-box) does this for all
 ‘boxes’, except for the ‘Contiguous Codestream’ box, which is given a
-[chapter (7)](#contiguous-codestream-box-chapter) of its own.
+[Chapter (7)](#contiguous-codestream-box-chapter) of its own.
 
 Funding {#funding}
 -----------
@@ -483,7 +483,7 @@ which can be called in the following way:
 Here, *file* is the path to a file object. The function returns an
 element object that can either be used directly, or converted to XML
 using the *ElementTree* module[^3]. The structure of the
-element object follows the XML output that described in Chapter 5.
+element object follows the XML output that described in [Chapter 5](#output-format).
 
 Alternatively, you may only want to import the *checkOneFile* function,
 in which case the import statement becomes:
@@ -675,7 +675,7 @@ isValidJP2 element {#isvalidjp2-element}
 ----------------------
 
 This element contains the results of the validation. If a file passed
-all the tests (i.e. all tests returned “True”, see section 5.5) it is
+all the tests (i.e. all tests returned “True”, see [section 5.5](#tests-element)) it is
 most likely valid JP2, and the value of isValidJP2 will be “True”. Its
 value is “False” otherwise.
 
@@ -692,7 +692,7 @@ JP2’s box structure. Each individual test can have two values:
 * “False” if a file failed the test.
 
 If a file passed *all* tests, this is an indication that it is most
-likely valid JP2. In that case, the *isValidJP2* element (section 5.4)
+likely valid JP2. In that case, the *isValidJP2* element ([section 5.4](#isvalidjp2-element))
 has a value of “True” (and “False” in all other cases). These tests are
 all explained in chapters [6](#jp2-box-by-box) and [7](#contiguous-codestream-box-chapter).
 
@@ -1393,14 +1393,14 @@ all top-level boxes:
 
 |Child element|Description|
 |:------------|:----------|
-|signatureBox ([section 6.2]())|Properties from JPEG 2000 Signature box|
-|fileTypeBox ([section 6.3]())|Properties from File Type box|
-|jp2HeaderBox ([section 6.4]())|Properties from JP2 Header box|
-|contiguousCodestreamBox ([chapter 7]())|Properties from Contiguous Codestream box|
-|intellectualPropertyBox ([section 6.15]())|Properties from Intellectual Property box (optional)|
-|xmlBox ([section 6.16]())|Properties from XML box (optional)|
-|uuidBox ([section 6.17]())|Properties from UUID box (optional)|
-|uuidInfoBox ([section 6.18]())|Properties from UUID Info box (optional)|
+|signatureBox ([section 6.2](#jpeg2000-signature-box))|Properties from JPEG 2000 Signature box|
+|fileTypeBox ([section 6.3](#file-type-box))|Properties from File Type box|
+|jp2HeaderBox ([section 6.4](#jp2-header-box))|Properties from JP2 Header box|
+|contiguousCodestreamBox ([chapter 7](#contiguous-codestream-box-chapter))|Properties from Contiguous Codestream box|
+|intellectualPropertyBox ([section 6.15](#intellectual-property-box))|Properties from Intellectual Property box (optional)|
+|xmlBox ([section 6.16](#xml-box))|Properties from XML box (optional)|
+|uuidBox ([section 6.17](#uuid-box))|Properties from UUID box (optional)|
+|uuidInfoBox ([section 6.18](#uuid-info-box))|Properties from UUID Info box (optional)|
 
 ### Tests
 
@@ -1632,11 +1632,11 @@ which are represented as child elements in the properties tree:
 
 |Child element|Description|
 |:------------|:----------|
-|siz (section 7.5)|Properties from the image and tile size (SIZ) marker segment (codestream main header)|
-|cod (section 7.6)|Properties from the coding style default (COD) marker segment (codestream main header)|
-|qcd (section 7.7)|Properties from the quantization default (QCD) marker segment (codestream main header)|
-|com (section 7.8)|Properties from the (optional) comment (COM) marker segment (codestream main header)|
-|tileParts (section 7.9)|Properties from individual tile parts|
+|siz ([section 7.5](#siz-marker))|Properties from the image and tile size (SIZ) marker segment (codestream main header)|
+|cod ([section 7.6](#cod-marker))|Properties from the coding style default (COD) marker segment (codestream main header)|
+|qcd ([section 7.7](#qcd-marker))|Properties from the quantization default (QCD) marker segment (codestream main header)|
+|com ([section 7.8](#com-marker))|Properties from the (optional) comment (COM) marker segment (codestream main header)|
+|tileParts ([section 7.9](#tile-part))|Properties from individual tile parts|
 
 ### Tests
 
@@ -1647,8 +1647,8 @@ which are represented as child elements in the properties tree:
 |foundCODMarker|Codestream main header contains coding style default (COD) marker segment|
 |foundQCDMarker|Codestream main header contains quantization default (QCD) marker segment|
 |quantizationConsistentWithLevels|Values of quantization parameters from QCD marker segment are consistent with *levels* from COD marker segment[^18]|
-|foundExpectedNumberOfTiles|Number of encountered tiles is consistent with expected number of tiles (as calculated from SIZ marker, see section 7.5)|
-|foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from SOT marker, see section 7.10)|
+|foundExpectedNumberOfTiles|Number of encountered tiles is consistent with expected number of tiles (as calculated from SIZ marker, see [section 7.5](#siz-marker))|
+|foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from SOT marker, see [section 7.10](#sot-marker))|
 |foundEOCMarker|Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment|
 
 Image and tile size (SIZ) marker segment (child of Contiguous Codestream box) {#siz-marker}
@@ -1812,10 +1812,10 @@ Each tile part element can contain a number of child elements:
 
 |Child element|Description|
 |:------------|:----------|
-|sot (section 7.10)|Properties from start of tile (SOT) marker segment|
-|cod (section 7.6)|Properties from the (optional) coding style default (COD) marker segment (tile part header)|
-|qcd (section 7.7)|Properties from the (optional) quantization default (QCD) marker segment (tile part header)|
-|com (section 7.8)|Properties from the (optional) comment (COM) marker segment (tile part header)|
+|sot ([section 7.10](#sot-marker))|Properties from start of tile (SOT) marker segment|
+|cod ([section 7.6](#cod-marker))|Properties from the (optional) coding style default (COD) marker segment (tile part header)|
+|qcd ([section 7.7](#qcd-marker))|Properties from the (optional) quantization default (QCD) marker segment (tile part header)|
+|com ([section 7.8](#com-marker))|Properties from the (optional) comment (COM) marker segment (tile part header)|
 
 ### Tests
 
