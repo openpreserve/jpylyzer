@@ -10,7 +10,7 @@ For the rendering of the equation objects (which are in [MathML](http://en.wikip
 
 Use [Pandoc](http://johnmacfarlane.net/pandoc/) to export the raw Markdown file. For example, to generate the User Manual in HTML format use the following command-line:
 
-    pandoc -s --toc --toc-depth=2 --ascii -N -c jpylyzer.css -f markdown_phpextra jpylyzerUserManual.md -o jpylyzerUserManual.html
+    pandoc -s --toc --toc-depth=2 --ascii -N -c jpylyzer.css -f markdown_phpextra -w html5 jpylyzerUserManual.md -o jpylyzerUserManual.html
 
 Note on command-line switches:
 
@@ -20,6 +20,7 @@ Note on command-line switches:
 * `--ascii` generates output in ascii format (not sure if this is really needed?)
 * `-N` activates automatic chapter/section/subsection numbering
 * `-f` sets the input format to `markdown_phpextra`
+* `-w html5` sets the output format to `html 5` (important, because document contains MathML content that is not supported in previous html versions) 
 * `-c jpylyzer.css` defines style sheet
 <!-- * `--self-contained` embeds css and images inside the file -->
 

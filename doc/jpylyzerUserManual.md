@@ -1,37 +1,3 @@
-<script type="text/javascript"
-  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-jpylyzer: validator and properties extractor for JPEG 2000 Part 1 (JP2)
-
-User Manual
-
-
-jpylyzer version: 1.13
-
-
-KB/ National Library of the Netherlands
-
-Open Planets Foundation
-
-![scapelogo-big\_png.jpg](jpylyzerUserManual_files/image003.gif)
-
-This work was partially supported by the SCAPE Project. The SCAPE project is
-co-funded by the European Union under FP7 ICT-2009.4.1 (Grant Agreement
-number 270137).
-
-Disclaimer
-
-Both the program code and this manual have been carefully inspected
-before printing. However, no warranties, either expressed or implied,
-are made concerning the accuracy, completeness, reliability, usability,
-performance, or fitness for any particular purpose of the information
-contained in this manual, to the software described in this manual, and
-to other material supplied in connection therewith. The material is
-provided "as is". The entire risk as to its quality and performance is
-with the user.
-
-  
 Introduction {#introduction}
 ==============
 
@@ -1405,7 +1371,7 @@ number of pixels:
     </mrow>
   </mfrac>
   <munderover>
-          <mo>&Sum;</mo>
+          <mo>&sum;</mo>
       <mrow>
         <mi>i</mi>
         <mo>=</mo>
@@ -2169,7 +2135,7 @@ standard in 2013. The behaviour of *jpylyzer* is consistent with this amendment.
       <mi>vRcD</mi>
     </mrow>
   </mfrac>
-  <mo>*</mo>
+  <mo>&bull;</mo>
   <msup>
           <mn>10</mn>
         <mi>vRcE</mi>
@@ -2188,7 +2154,7 @@ standard in 2013. The behaviour of *jpylyzer* is consistent with this amendment.
       <mi>hRcD</mi>
     </mrow>
   </mfrac>
-  <mo>*</mo>
+  <mo>&bull;</mo>
   <msup>
           <mn>10</mn>
         <mi>hRcE</mi>
@@ -2196,9 +2162,33 @@ standard in 2013. The behaviour of *jpylyzer* is consistent with this amendment.
 </mrow>
 </math>
 
-[^9]: Calculated as: vRescInPixelsPerMeter\*25.4\*10<sup>-3</sup>
+[^9]: Calculated as:
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+  <mi>vRescInPixelsPerMeter</mi>
+  <mo>&bull;</mo>
+  <mn>25.4</mn>
+  <mo>&bull;</mo>
+  <msup>
+          <mn>10</mn>
+        <mi>-3</mi>
+  </msup>
+</mrow>
+</math>
 
-[^10]: Calculated as: hRescInPixelsPerMeter\*25.4\*10<sup>-3</sup>
+[^10]: Calculated as:
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+  <mi>hRescInPixelsPerMeter</mi>
+  <mo>&bull;</mo>
+  <mn>25.4</mn>
+  <mo>&bull;</mo>
+  <msup>
+          <mn>10</mn>
+        <mi>-3</mi>
+  </msup>
+</mrow>
+</math>
 
 [^11]: Calculated as:
 <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -2211,7 +2201,7 @@ standard in 2013. The behaviour of *jpylyzer* is consistent with this amendment.
       <mi>vRdD</mi>
     </mrow>
   </mfrac>
-  <mo>*</mo>
+  <mo>&bull;</mo>
   <msup>
           <mn>10</mn>
         <mi>vRdE</mi>
@@ -2230,7 +2220,7 @@ standard in 2013. The behaviour of *jpylyzer* is consistent with this amendment.
       <mi>hRdD</mi>
     </mrow>
   </mfrac>
-  <mo>*</mo>
+  <mo>&bull;</mo>
   <msup>
           <mn>10</mn>
         <mi>hRdE</mi>
@@ -2238,9 +2228,33 @@ standard in 2013. The behaviour of *jpylyzer* is consistent with this amendment.
 </mrow>
 </math>
 
-[^13]: Calculated as: vResdInPixelsPerMeter\*25.4\*10<sup>-3</sup>
+[^13]: Calculated as:
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+  <mi>vResdInPixelsPerMeter</mi>
+  <mo>&bull;</mo>
+  <mn>25.4</mn>
+  <mo>&bull;</mo>
+  <msup>
+          <mn>10</mn>
+        <mi>-3</mi>
+  </msup>
+</mrow>
+</math>
 
-[^14]: Calculated as: hResdInPixelsPerMeter\*25.4\*10<sup>-3</sup>
+[^14]: Calculated as:
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+  <mi>hResdInPixelsPerMeter</mi>
+  <mo>&bull;</mo>
+  <mn>25.4</mn>
+  <mo>&bull;</mo>
+  <msup>
+          <mn>10</mn>
+        <mi>-3</mi>
+  </msup>
+</mrow>
+</math>
 
 [^15]: Link:
 [http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf](http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf)
