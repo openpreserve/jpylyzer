@@ -59,7 +59,7 @@
   
 .sidebar h1{
   font-size:24px;
-  text-align:center;
+  text-align:left;
   }
   
 .sidebar h2{
@@ -67,7 +67,7 @@
   line-height:26px; 
   margin:10px 0 20px 0; 
   border-bottom: 2px solid #ccc;
-  text-align:center;
+  text-align:left;
   }
 
 .sidebar h3{
@@ -75,13 +75,17 @@
   line-height:24px; 
   margin:10px 0 20px 0;
   color:#708090;
-  text-align:center;
+  text-align:left;
   }  
 
 .sidebar p{
   font-size:14px;
   }  
 
+.sidebar small{
+  color:#708090;;
+}
+  
 .sidebarLeft{
   margin-top: 0px;
   padding: 15px;
@@ -115,6 +119,11 @@ h3{font-size:18px; line-height:20px; margin:10px 0 10px 0;}
 
 figure{
   display:inline-block;
+  /*display:inline; */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left:15px;
+  padding-right:15px;
   margin-top:0px;
   margin-bottom:0px;
   /*margin-right:0px;

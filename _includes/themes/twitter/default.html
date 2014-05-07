@@ -101,7 +101,7 @@
               
 	    <div class="sidebar">
 	      <!-- Column right -->
-	      <h2>Binaries (version {{ site.binVersion }})</h2>
+	      <h2>Binaries <small>(version {{ site.binVersion }})</small></h2>
           
           <h3>Windows</h3>
           
@@ -121,7 +121,7 @@
 		      <a href="{{ site.amd64Pre }}{{ site.binVersion }}{{ site.amd64Suf }}">Amd 64</a>
 		    </figcaption>
           </figure>
-          
+                    
           <figure>
 		    <a href="{{ site.i386Pre }}{{ site.binVersion }}{{ site.i386Suf }}"><img src="{{ BASE_PATH }}/images/linux-icon-64.png" alt="i386 Debian"  width="55" height="64"></a>
 		    <figcaption>
@@ -131,14 +131,34 @@
          </div>
          
         <div class="sidebar">
-	      <h2>Documentation</h2>
+	      <h2>User Manual</h2>
           
+          <figure>
+		    <a href="{{ site.userManualURL}}"><img src="{{ BASE_PATH }}/images/book_icon.png" alt="PDF"  width="64" height="48"></a>
+            <figcaption>
+		      <a href="{{ BASE_PATH }}/userManual.html">Online</a>
+            </figcaption>
+          </figure>
+                    
           <figure>
 		    <a href="{{ site.userManualURL}}"><img src="{{ BASE_PATH }}/images/PDF-icon-64.png" alt="PDF"  width="64" height="64"></a>
             <figcaption>
-		      <a href="{{ site.userManualURL}}">User Manual</a>
+		      <a href="{{ site.userManualURL}}">PDF</a>
             </figcaption>
           </figure>
+          
+	    </div>
+
+        <div class="sidebar">
+		  <h2>Troubleshooting</h2>
+          
+          <figure>
+            <a href="{{ site.issuesURL}}"><img src="{{ BASE_PATH }}/images/issue-64.png" alt="issue tracker"  width="64" height="64"></a>
+		    <figcaption>
+              <a href="{{ site.issuesURL}}">Issue tracker</a>
+		    </figcaption>
+          </figure>   
+
 	    </div>
         
         <div class="sidebar">
@@ -152,20 +172,12 @@
           </figure>
 
           <figure>
-            <a href="{{ site.issuesURL}}"><img src="{{ BASE_PATH }}/images/issue-64.png" alt="issue tracker"  width="64" height="64"></a>
-		    <figcaption>
-              <a href="{{ site.issuesURL}}">Issue tracker</a>
-		    </figcaption>
-          </figure>  
-          
-          <br><br>
-		  
-          <figure>
 		    <a href="{{ site.testImagesURL}}"><img src="{{ BASE_PATH }}/images/testcard-64.png" alt="test images"  width="64" height="64"></a>
 		    <figcaption>
               <a href="{{ site.testImagesURL}}">Test files</a>
             </figcaption>
-          </figure>
+          </figure>          
+
 	    </div>
         
         <div class="sidebar">
@@ -194,7 +206,7 @@
 	  <!-- Column center (footer text) -->
 	    <p><small>&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}
         with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
-        and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a></small></p>
+        and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>; book icon adapted from <a href="http://commons.wikimedia.org/wiki/File:Black_book_icon.svg" target="_blank">Waldir</a></small></p>
       </div>
 	</div>
     </footer>
