@@ -1624,7 +1624,7 @@ each represented as individual sub elements. The tile part properties
 are nested in a *tileParts* element, where each individual tile part is
 represented as a separate *tilePart* sub element.
 
-![Structure of codestream-level XML output](images/outputStructureCodestream.png)
+![Structure of codestream-level XML output](images/codestreamOutput.png)
 
 ***Figure 7‑2** Structure of codestream-level XML output.*
 
