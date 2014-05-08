@@ -312,25 +312,25 @@ brackets (example: `[-h]`) are optional.
 With:
 
 `...`
-: input JP2 image(s)
+:   input JP2 image(s)
 
 `[-h, --help]`
-: show help message and exit
+:   show help message and exit
 
 `[--verbose]`
-: report test results in verbose format
+:   report test results in verbose format
 
 `[--wrapper, -w]`
-: wraps the output for individual image(s) in 'results' XML element
+:   wraps the output for individual image(s) in 'results' XML element
 
 `[--nullxml]`
-: extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)
+:   extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)
 
 `[--nopretty]`
-: suppress pretty-printing of XML output
+:   suppress pretty-printing of XML output
 
 `[-v, --version]`
-: show program's version number and exit
+:   show program's version number and exit
 
 Note that the input can either be a single image, a space-separated
 sequence of images, a pathname expression that includes multiple images,
@@ -1384,12 +1384,21 @@ number of pixels:
 
 With:
 
-|:--|:---------------------------------------------------|
-|nC|: number of image components (from Image Header box)|
-|i|: component index|
-|bPCDepth<sub>i</sub>|: bits per component for component *i* (from Image Header box or Bits Per Component box)|
-|height|: image height (from Image Header box)|
-|width|: image width (from Image Header box)|
+
+nC
+:   number of image components (from Image Header box)
+
+i
+:   component index
+
+bPCDepth<sub>i</sub>
+:   bits per component for component *i* (from Image Header box or Bits Per Component box)
+
+height
+:   image height (from Image Header box)
+
+width
+:   image width (from Image Header box)
 
 In addition, the root of the properties tree contains the elements for
 all top-level boxes:
