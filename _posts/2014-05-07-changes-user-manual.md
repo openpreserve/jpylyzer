@@ -14,7 +14,7 @@ The *jpylyzer* User Manual is now available online as part of this website. Chec
 
 ### Source of User Manual now in Markdown 
 
-This is the first result of an effort to move jpylyzer's documentation away from the Microsoft Word:
+This is the first result of an effort to move jpylyzer's documentation away from Microsoft Word:
 the source of the User Manual is now entirely written in [Markdown Extra](http://michelf.ca/projects/php-markdown/extra/),
 with some [MathML](http://en.wikipedia.org/wiki/MathML) which is used for the equations. 
 With the [Pandoc](http://johnmacfarlane.net/pandoc/) tool the Markdown source can be exported to a wide variety of delivery formats.
