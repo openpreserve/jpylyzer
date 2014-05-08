@@ -1,0 +1,127 @@
+/* Custom stylesheet based on pandoc.css */
+/* Author: John MacFarlane */
+/* http://johnmacfarlane.net/pandoc/demo/pandoc.css */
+/* Modifications by Johan van der Knijff */ 
+
+body {
+    margin: auto;
+    padding-right: 1em;
+    padding-left: 1em;
+    max-width: 40em; 
+    font-family: Verdana, sans-serif;
+    font-size: 100%;
+    line-height: 1.3;
+    color: #000; 
+}
+pre {
+    border: 1px dotted gray;
+    background-color: #ececec;
+    color: #1111111;
+    padding: 0.5em;
+}
+code {
+    font-family: monospace;
+}
+
+a{
+   color: #000;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a { 
+    text-decoration: none;
+    color: #000; 
+}
+
+h1, h2, h3, h4, h5 { font-family: verdana;
+                     font-weight: bold;
+                     color: #000; }
+                     
+h1 {
+        font-size: 160%;
+        padding-top: 2em;
+        padding-bottom: 0.5em;
+}
+
+h2 {
+        font-size: 110%;
+        padding-top: 0.5em;
+}
+
+h3 {
+        font-size: 95%;
+}
+
+h4 {
+        font-size: 90%;
+        font-style: italic;
+}
+
+h5 {
+        font-size: 90%;
+        font-style: italic;
+}
+
+h1.title {
+        font-size: 200%;
+        font-weight: bold;
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
+        text-align: left;
+        border: none;
+}
+
+li a{
+   color: #000;
+}
+
+dt code {
+        font-weight: bold;
+}
+dd p {
+        margin-top: 0;
+}
+
+table{
+  border-collapse: collapse;
+}
+
+table th {
+  font-weight: bold;
+}
+
+table th, td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  /*background-color: #fff; */
+}
+
+figure figcaption{
+    font-style:italic;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: left;}
+
+#footer {
+        padding-top: 1em;
+        font-size: 70%;
+        color: gray;
+        text-align: center;
+        }
+
+math, math[mode="inline"] {
+  display: inline;
+  font-family: CMSY10, CMEX10, Symbol, Times;
+  font-style: normal;
+}
+
+math[mode="display"] {
+  display: block;
+  text-align: center;
+  font-family: CMSY10, CMEX10, Symbol, Times;
+  font-style: normal;
+}
+

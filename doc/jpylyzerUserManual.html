@@ -272,10 +272,8 @@ JP2 image validator and properties extractor
 <p>This chapter gives a brief overview of the JP2 file format. A basic understanding of the general structure of JP2 is helpful for appreciating how <em>jpylyzer</em> performs its validation. It will also make it easier to understand <em>jpylyzer</em>&#8216;s extracted properties, as these are reported as a hierarchical tree that corresponds to the internal structure of JP2.</p>
 <p>For an exhaustive description of every detail of the format you are advised to consult Annex I (&#8216;JP2 file format syntax&#8217;) and Annex A (&#8216;Codestream syntax&#8217;) of ISO/IEC 15444-1.</p>
 <h2 id="general-format-structure"><a href="#general-format-structure"><span class="header-section-number">4.2</span> General format structure</a></h2>
-<p>At the highest level, a JP2 file is made up of a collection of <em>boxes</em>. A <em>box</em> can be thought of as the fundamental building block of the format. Some boxes (&#8216;superboxes&#8217;) are containers for other boxes. The Figure below gives an overview of the top-level boxes in a JP2 file.</p>
-<figure>
-<img src="images/jp2FormatStructure.png" alt="Top-level overview of a JP2 file. Boxes with dashed borders are optional." /><figcaption>Top-level overview of a JP2 file. Boxes with dashed borders are optional.</figcaption>
-</figure>
+<p>At the highest level, a JP2 file is made up of a collection of <em>boxes</em>. A <em>box</em> can be thought of as the fundamental building block of the format. Some boxes (&#8216;superboxes&#8217;) are containers for other boxes. The <a href="#top-level-jp2">Figure below</a> gives an overview of the top-level boxes in a JP2 file.</p>
+<p><img src="images/jp2FormatStructure.png" alt="Top-level overview of a JP2 file. Boxes with dashed borders are optional." />{#top-level-jp2}</p>
 <p>A number of things here are noteworthy to point out:</p>
 <ul>
 <li><p>Some of these boxes are required, whereas others (indicated with dashed lines in the Figure) are optional.</p></li>

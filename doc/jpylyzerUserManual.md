@@ -490,7 +490,6 @@ below gives an overview of the top-level boxes in a JP2 file.
 
 ![Top-level overview of a JP2 file. Boxes with dashed borders are optional.](images/jp2FormatStructure.png)
 
-
 A number of things here are noteworthy to point out:
 
 * Some of these boxes are required, whereas others (indicated with
