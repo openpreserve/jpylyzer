@@ -24,9 +24,14 @@ Note on command-line switches:
 * `-N` activates automatic chapter/section/subsection numbering
 * `-w html5` sets the output format to `html 5`
 * `-c jpylyzer.css` defines style sheet
-<!-- * `--self-contained` embeds css and images inside the file -->
 
 You will need a fairly recent version of *Pandoc* to make this work, as older versions do not support `markdown_phpextra` as an input format. Note that it is important to use html5 as the output format, because the Markdown file contains [MathML](http://nl.wikipedia.org/wiki/Mathematical_Markup_Language) content that is not supported in previous html versions. 
+
+### Self-contained HTML
+
+    pandoc -s --toc --toc-depth=2 --ascii -N -c jpylyzer.css -w html5 --self-contained -T "jpylyzer User Manual"  -o jpylyzerUserManual.html jpylyzerUserManual.md
+
+The `--self-contained` option results in a self-contained file where the style sheet and the images are embedded inside the HTML (useful for offline use).
 
 ### Export to PDF
 Needs further investigation. First attempt, after some experimentation:
@@ -43,7 +48,13 @@ This results in a PDF, but it has a number of issues:
 
     pandoc -S -N --chapters -w epub3 --epub-stylesheet jpylyzer.css -o jpylyzerUserManual.epub frontMatter.md jpylyzerUserManual.md
 
-Results in some validation errors with [epubcheck](https://github.com/idpf/epubcheck); equations are mangled; TOC numbering isn't quite right.
+This produces a file that is valid EPUB 3 according to [epubcheck](https://github.com/idpf/epubcheck).
+
+Issues:
+
+* Equations are mangled
+* TOC numbering isn't quite right.
+
 
 ## Stylesheet
 The stylesheet *jpylyzer.css* is based on John MacFarlane's [pandoc.css](http://johnmacfarlane.net/pandoc/demo/pandoc.css), with some adaptations.
