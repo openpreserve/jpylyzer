@@ -1291,7 +1291,7 @@ urlBox
 |locIsUTF8|Location (URL) can be decoded to UTF-8|
 |locHasNullTerminator|Location (URL) is a null-terminated string|
 
-Unknown box {#unknown-box}
+Unknown box {#unknown-box-section}
 ----------------
 
 An image may contain boxes that are not defined by ISO/IEC 15444-1.
