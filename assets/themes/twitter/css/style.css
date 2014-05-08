@@ -85,7 +85,16 @@
 .sidebar small{
   color:#708090;;
 }
-  
+
+.sidebar figure figcaption{
+    font-size:14px;
+    text-align: center;
+    font-style:normal;
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: center;
+    }
+    
 .sidebarLeft{
   margin-top: 0px;
   padding: 15px;
@@ -111,33 +120,27 @@ h1{font-size:28px;}
 h2{font-size:20px;}
 h3{font-size:18px;}  
   
-/*  
-h1{font-size:28px; line-height:30px;margin: 10px 0 10px 0;}
-h2{font-size:20px; line-height:24px; margin:10px 0 20px 0; border-bottom: 1px solid #ccc;}
-h3{font-size:18px; line-height:20px; margin:10px 0 10px 0;}
-*/
-
 figure{
   display:inline-block;
-  /*display:inline; */
   margin-left: auto;
   margin-right: auto;
   padding-left:15px;
   padding-right:15px;
   margin-top:0px;
   margin-bottom:0px;
-  /*margin-right:0px;
-  margin-left:0px;*/
   }
 
 figure figcaption{
-    font-size:14px;
-    text-align: center;}
+    font-size:16px;
+    font-style:italic;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: left;}
 
 table{
   font-size:14px;line-height:16px;
   border-collapse:collapse;
-  /*margin:0 0 20px;*/ }
+  }
 
 td, th{
  padding:15px;
