@@ -39,5 +39,5 @@ For best results in Inkscape:
 
 * select all the Figure elements by drawing a rectangle around them; 
 * then use *Export Bitmap* from the *File* menu; 
-* set the *Export area* to *Selection*, and *Width* to a value between 500 (smaller figures) and 600 (larger ones);
+* set the *Export area* to *Selection*, and *Width* to a value between 350 (smaller figures) and 400 (larger ones);
 * export result to directory *images*, using the same base name as the SVG.  
