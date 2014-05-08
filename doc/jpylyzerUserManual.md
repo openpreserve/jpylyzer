@@ -485,19 +485,16 @@ General format structure {#general-format-structure}
 
 At the highest level, a JP2 file is made up of a collection of *boxes*.
 A *box* can be thought of as the fundamental building block of the
-format. Some boxes (‘superboxes’) are containers for other boxes. Figure
-4‑1 gives an overview of the top-level boxes in a JP2 file.
+format. Some boxes (‘superboxes’) are containers for other boxes. The Figure
+below gives an overview of the top-level boxes in a JP2 file.
 
-![Top-level overview of a JP2 file](images/jp2FormatStructure.png)
+![Top-level overview of a JP2 file. Boxes with dashed borders are optional.](images/jp2FormatStructure.png)
 
-***Figure 4‑1** Top-level overview of a JP2 file (based on Figure I.1 in
-ISO/IEC 15444-1). Boxes with dashed borders are optional. 'Superbox'
-denotes a box that contains other box(es).*
 
 A number of things here are noteworthy to point out:
 
 * Some of these boxes are required, whereas others (indicated with
-dashed lines in Figure 4‑1) are optional.
+dashed lines in the Figure) are optional.
 
 * The order in which the boxes appear in the file is subject to some
 constraints (e.g. the first box in a JP2 must always be a ‘Signature’
@@ -515,7 +512,11 @@ General structure of a box {#general-box-structure}
 ------------------------------
 
 All boxes are defined by a generic binary structure, which is
-illustrated by Figure 4‑2. Most boxes are made up of the following three
+illustrated by the following Figure: 
+
+![General structure of a box.](images/boxStructure.png)
+
+Most boxes are made up of the following three
 components:
 
 1. A fixed-length ‘box length’ field that indicates the total size of
@@ -534,22 +535,14 @@ This field is needed if the size of a box exceeds 2<sup>32</sup>-1
 bytes, which is the maximum value that can be stored in the 4-byte ‘box
 length’ field.
 
-![General structure of a box](images/boxStructure.png)
-
-***Figure 4‑2** General structure of a box (based on Figure I.4 in ISO/IEC
-15444-1).*
 
 Defined boxes in JP2 {#defined-boxes}
 ------------------------
 
-Table 4‑1 lists all boxes that are defined in ISO/IEC 15444-1. A JP2
-file may contain boxes that are not defined by the standard. Such boxes
-are simply skipped and ignored by conforming reader applications.
-
-  
-Table 4‑1 Defined boxes in JP2 (taken from Table I.2 in ISO/IEC 15444-1,
-with minor modifications). Addition signs in ‘box name’ column indicate
-hierarchical structure.
+The following Table (taken from Table I.2 in ISO/IEC 15444-1,
+with minor modifications) lists all boxes that are defined in the standard.
+Addition signs in the ‘box name’ column indicate boxes that are children of a
+‘superbox’.
 
 |Box name|Superbox|Required?|Purpose|
 |:-----------|:-----------|:------------|:----------|
@@ -573,6 +566,8 @@ hierarchical structure.
 |+ UUID List box|No|Optional|Specifies a list of UUIDs.|
 |+ URL box|No|Optional|Specifies a URL.|
 
+A JP2 file may contain boxes that are not defined by the standard. Such boxes
+are simply skipped and ignored by conforming reader applications. 
 
 Output format {#output-format}
 ===============
@@ -582,13 +577,10 @@ This chapter explains *jpylyzer*’s output format.
 Overview {#output-format-overview}
 ------------
 
-*Jpylyzer* generates its output in XML format. Figure 5‑1 shows the
-output structure.
+*Jpylyzer* generates its output in XML format. The following Figure shows the
+output structure:
 
-![Jpylyzer’s XML output structure](images/outputStructure.png)
-
-***Figure 5‑1** Jpylyzer’s XML output structure. Note that ‘box’ elements
-under ‘tests’ and ‘properties’ contain further sub-elements.*
+![Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements.](images/outputStructure.png)
 
 The root element (*jpylyzer*) contains 5 child elements:
 
@@ -1467,10 +1459,14 @@ every marker has any associated parameters.
 
 ### General structure of the codestream
 
-The codestream is made up of the following components (illustrated in
-Figure 7‑1):
+The codestream is made up of a number of components. The Figure below
+gives an overview.
 
-1. A *start of codestream* marker that indicates the start of the
+![General structure of a JPEG 2000 codestream.](images/codestreamStructure.png)
+
+From top to bottom, the Figure shows the following components:
+
+1. A *start of codestream* (SOC) marker, which indicates the start of the
 codestream
 
 2. A main codestream header (which includes a number of header marker
@@ -1479,24 +1475,21 @@ segments)
 3. A sequence of one or more *tile parts*. Each tile part consists of
 the following components:
 
-    a. A *start of tile-part* marker segment, which indicates the start of a
-tile part and which also contains index information of the tile part and
+    a. A *start of tile-part* (SOT) marker segment, which indicates the start of a
+tile part, and which also contains index information of the tile part and
 its associated tile
 
     b. Optionally this may be followed by one or more additional tile-part
 header marker segments
 
-    c. A *start of data* marker that indicates the start of the bitstream
+    c. A *start of data* (SOD) marker that indicates the start of the bitstream
 for the current tile part
 
     d. The bitstream
 
-4. An ‘end of codestream’ marker that indicates the end of the
+4. An ‘end of codestream’ (EOC) marker that indicates the end of the
 codestream.
 
-![General structure of a JPEG 2000 codestream](images/codestreamStructure.png)
-
-***Figure 7‑1** General structure of a JPEG 2000 codestream.*
 
 Limitations of codestream validation {#limitations-codestream-validation}
 ----------------------------------------
@@ -1618,15 +1611,16 @@ text.
 Structure of reported output {#structure-reported-output}
 --------------------------------
 
-Figure 7‑2 illustrates the structure of *jpylyzer*’s codestream-level
-output. At the top level, the SIZ, COD, QCD and COM marker segments are
+The Figure below illustrates the structure of *jpylyzer*’s codestream-level
+output. 
+
+![Structure of codestream-level XML output.](images/codestreamOutput.png)
+
+At the top level, the SIZ, COD, QCD and COM marker segments are
 each represented as individual sub elements. The tile part properties
 are nested in a *tileParts* element, where each individual tile part is
 represented as a separate *tilePart* sub element.
 
-![Structure of codestream-level XML output](images/codestreamOutput.png)
-
-***Figure 7‑2** Structure of codestream-level XML output.*
 
 Contiguous Codestream box {#contiguous-codestream-box}
 -----------------------------

@@ -10,10 +10,10 @@ For the rendering of the equation objects (which are in [MathML](http://en.wikip
 
 Use [Pandoc](http://johnmacfarlane.net/pandoc/) to export the raw Markdown to a variety of delivery formats. 
 
-##Exporting to HTML
+###Export to HTML
 To generate the User Manual in HTML 5 format use the following command-line:
 
-    pandoc -s --toc --toc-depth=2 --ascii -N -c jpylyzer.css -f markdown_phpextra -w html5 -T "jpylyzer User Manual"  -o jpylyzerUserManual.html jpylyzerUserManual.md 
+    pandoc -s --toc --toc-depth=2 --ascii -N -c jpylyzer.css -w html5 -T "jpylyzer User Manual"  -o jpylyzerUserManual.html jpylyzerUserManual.md 
 
 Note on command-line switches:
 
@@ -22,12 +22,28 @@ Note on command-line switches:
 * `--toc-depth=2` specifies that table of contents contains Chapter (level 1) and Section (level 2) headings (so level 3 and higher are left out).
 * `--ascii` generates output in ascii format (not sure if this is really needed?)
 * `-N` activates automatic chapter/section/subsection numbering
-* `-f` sets the input format to `markdown_phpextra`
 * `-w html5` sets the output format to `html 5`
 * `-c jpylyzer.css` defines style sheet
 <!-- * `--self-contained` embeds css and images inside the file -->
 
 You will need a fairly recent version of *Pandoc* to make this work, as older versions do not support `markdown_phpextra` as an input format. Note that it is important to use html5 as the output format, because the Markdown file contains [MathML](http://nl.wikipedia.org/wiki/Mathematical_Markup_Language) content that is not supported in previous html versions. 
+
+### Export to PDF
+Needs further investigation. First attempt, after some experimentation:
+
+    pandoc -s --toc --toc-depth=2 -N --chapters --latex-engine=xelatex -o jpylyzerUserManual.pdf frontMatter.md jpylyzerUserManual.md
+
+This results in a PDF, but it has a number of issues:
+
+* Equations are mangled
+* Some of the tables don't fit on the page (cell contents aren't wrapped)
+* Size of images isn't quite right.
+
+### Export to EPUB3
+
+    pandoc -S -N --chapters -w epub3 --epub-stylesheet jpylyzer.css -o jpylyzerUserManual.epub frontMatter.md jpylyzerUserManual.md
+
+Results in some validation errors with [epubcheck](https://github.com/idpf/epubcheck); equations are mangled; TOC numbering isn't quite right.
 
 ## Stylesheet
 The stylesheet *jpylyzer.css* is based on John MacFarlane's [pandoc.css](http://johnmacfarlane.net/pandoc/demo/pandoc.css), with some adaptations.
