@@ -1384,8 +1384,8 @@ number of pixels:
 
 With:
 
-|nC|: number of image components (from Image Header box)|
 |:--|:---------------------------------------------------|
+|nC|: number of image components (from Image Header box)|
 |i|: component index|
 |bPCDepth<sub>i</sub>|: bits per component for component *i* (from Image Header box or Bits Per Component box)|
 |height|: image height (from Image Header box)|
