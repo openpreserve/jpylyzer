@@ -50,7 +50,7 @@ scapeURL: http://www.scape-project.eu/
 # Else if you are pushing to username.github.io, replace with your username.
 # Finally if you are pushing to a GitHub project page, include the project name at the end.
 #
-production_url : https://openplanets.github.io/jpylyzer
+production_url : http://openplanets.github.io/jpylyzer
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
 #
@@ -79,7 +79,7 @@ JB :
   #   - Only the following values are falsy: ["", null, false]
   #   - When setting BASE_PATH it must be a valid url.
   #     This means always setting the protocol (http|https) or prefixing with "/"
-  BASE_PATH : http://openplanets.github.io/jpylyzer
+  BASE_PATH : https://openplanets.github.io/jpylyzer
 
   # By default, the asset_path is automatically defined relative to BASE_PATH plus the enabled theme.
   # ex: [BASE_PATH]/assets/themes/[THEME-NAME]
