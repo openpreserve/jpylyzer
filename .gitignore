@@ -50,6 +50,10 @@ pyi-build
 ####################
 *.spec
 
+# Vagrant bits #
+####################
+.vagrant/
+
 # Packages #
 ############
 # Better to unpack and commt the raw source
@@ -64,6 +68,8 @@ pyi-build
 *.war
 *.zip
 *.dsc
+*.deb
+*.changes
 
 # Logs and databases #
 ######################
