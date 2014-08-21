@@ -16,6 +16,7 @@ These are all under the directory `vagrant` in the jpylyzer repo. As an example 
 
     cd jpylyzer/vagrant/precise64
 
+<!--
 
 ## Step 3: check if vagrant box already exists
 
@@ -37,7 +38,9 @@ Enter:
 
 This may take a couple of minutes to complete.
 
-## Step 5: start the virtual machine
+-->
+
+## Step 3: start the virtual machine
 
 Enter:
 
@@ -46,7 +49,7 @@ Enter:
 If this is the first time you've run the command it will provision the virtual machine, that is install the appropriate software that is needed for building the package. This is achieved by running the bootstrap.sh shell script. This may take a while, so please be patient.
  
 
-## Step 6: connect to the virtual machine and go to shared directory
+## Step 4: connect to the virtual machine and go to shared directory
 
 Enter:
 
@@ -56,7 +59,7 @@ Then while in the shell:
 
     cd /vagrant
 
-## Step 7: build the package
+## Step 5: build the package
 
 Enter:
 
@@ -64,7 +67,7 @@ Enter:
 
 If all goes well the package is now built; all files can be found in working directory (`jpylyzer/vagrant/precise64`).
 
-## Step 8: disconnect and shut down virtual machine
+## Step 6: disconnect and shut down virtual machine
 
     logout
     vagrant halt
