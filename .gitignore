@@ -63,6 +63,7 @@ pyi-build
 *.tar
 *.war
 *.zip
+*.dsc
 
 # Logs and databases #
 ######################

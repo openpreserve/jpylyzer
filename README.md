@@ -59,7 +59,10 @@ In the above example, output is redirected to the file 'rubbish.xml'.
 4. *tests*: tree of test outcomes, expressed as *True* / *False* flags.
    A file is considered valid JP2 only if all tests return *True*. Tree follows JP2 box structure. By default only tests that returned *False* are reported, which results in an empty *tests*  element for files that are valid JP2. Use the  `--verbose` flag to get *all* test results.
 5. *properties*: tree of image properties. Follows JP2 box structure. Naming of properties follows [ISO/IEC 15444-1 Annex I][2] (JP2 file format syntax) and [Annex A][3] (Codestream syntax).
-   
+
+## Debian packages build process
+The [Vagrant directory](/vagrant) of this repo contains instructions on how to build Debian packages using [VirtualBox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/). A Vagrantfile and provisioning scripts are included for a number of target platforms, which should make the process of building the packages fairly easy.  
+
 [1]: https://github.com/openplanets/jpylyzer/blob/master/doc/jpylyzerUserManual.pdf?raw=true
 [2]: http://www.jpeg.org/public/15444-1annexi.pdf
 [3]: http://www.itu.int/rec/T-REC-T.800/en
