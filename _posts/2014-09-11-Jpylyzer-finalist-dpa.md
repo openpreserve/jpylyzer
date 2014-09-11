@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Jpylyzer selected as finalist for Digital Preservation Awards 2014 
+title: Jpylyzer finalist for Digital Preservation Awards 2014 
 ---
 {% include JB/setup %}
 
