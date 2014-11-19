@@ -32,14 +32,14 @@ i386Pre: http://dl.bintray.com/openplanets/opf-debian/jpylyzer_
 i386Suf: _i386.deb
 
 # Remaining URLs
-userManualURL: https://github.com/openplanets/jpylyzer/blob/master/doc/jpylyzerUserManual.pdf?raw=true
-gitURL: https://github.com/openplanets/jpylyzer
-issuesURL: https://github.com/openplanets/jpylyzer/issues
-testImagesURL: https://github.com/openplanets/jpylyzer-test-files
-blogsOPF: http://www.openplanetsfoundation.org/category/preservation-topics/jpylyzer
+userManualURL: https://github.com/openpreserve/jpylyzer/blob/master/doc/jpylyzerUserManual.pdf?raw=true
+gitURL: https://github.com/openpreserve/jpylyzer
+issuesURL: https://github.com/openpreserve/jpylyzer/issues
+testImagesURL: https://github.com/openpreserve/jpylyzer-test-files
+blogsOPF: http://www.openpreservation.org/category/preservation-topics/jpylyzer
 jpylyzerVideo: https://player.vimeo.com/video/53693082
 kbURL: http://kb.nl/en
-opfURL: http://www.openplanetsfoundation.org/
+opfURL: http://www.openpreservation.org/
 scapeURL: http://www.scape-project.eu/
 
 # The production_url is only used when full-domain names are needed
@@ -51,7 +51,7 @@ scapeURL: http://www.scape-project.eu/
 # Finally if you are pushing to a GitHub project page, include the project name at the end.
 #
 #production_url : http://openplanets.github.io/jpylyzer
-production_url : http://jpylyzer.openplanetsfoundation.org/
+production_url : http://jpylyzer.openpreservation.org/
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
 #
@@ -81,7 +81,7 @@ JB :
   #   - When setting BASE_PATH it must be a valid url.
   #     This means always setting the protocol (http|https) or prefixing with "/"
   # BASE_PATH : https://openplanets.github.io/jpylyzer
-  BASE_PATH : http://jpylyzer.openplanetsfoundation.org/
+  BASE_PATH : http://jpylyzer.openpreservation.org/
 
   # By default, the asset_path is automatically defined relative to BASE_PATH plus the enabled theme.
   # ex: [BASE_PATH]/assets/themes/[THEME-NAME]
