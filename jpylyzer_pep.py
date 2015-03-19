@@ -282,7 +282,8 @@ def checkOneFile(file):
         root = ET.Element('jpylyzer')
     else:
         root = ET.Element(
-            'jpylyzer', {'xmlns': 'http://openpreservation.org/ns/jpylyzer'})
+            'jpylyzer',
+            {'xmlns': 'http://openpreservation.org/ns/jpylyzer'})
 
     # Create elements for storing tool and file meta info
     toolInfo = ET.Element('toolInfo')
