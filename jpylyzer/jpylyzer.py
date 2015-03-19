@@ -275,7 +275,7 @@ def checkOneFile(file):
 
     # Create output elementtree object
 
-    if wrap or recurse:
+    if config.inputRecursiveFlag or config.inputWrapperFlag:
         # Name space already declared in results element, so no need to do it here
         root=ET.Element('jpylyzer')
     else:
@@ -530,7 +530,7 @@ def checkFiles(recurse, wrap, paths):
 
     # Wrap the xml output in <results> element, if wrapper flag is true
     if wrap or recurse:
-        out.write("<?xml version='1.0' encoding='UTF-8'?>\n<results xmlns=\"http://openpreservation.org/ns/jpylyzer">\n")
+        out.write("<?xml version='1.0' encoding='UTF-8'?>\n<results xmlns=\"http://openpreservation.org/ns/jpylyzer\">\n")
     else:
         out.write("<?xml version='1.0' encoding='UTF-8'?>\n")
 
@@ -606,8 +606,11 @@ def main():
     # (here: 'boxvalidator.py')
     config.outputVerboseFlag = args.outputVerboseFlag
     config.extractNullTerminatedXMLFlag = args.extractNullTerminatedXMLFlag
+    config.inputRecursiveFlag = args.inputRecursiveFlag
+    config.inputWrapperFlag = args.inputWrapperFlag
+    config.extractNullTerminatedXMLFlag = args.extractNullTerminatedXMLFlag
     config.noPrettyXMLFlag = args.noPrettyXMLFlag
-
+    
     # Check files
     checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
     #checkFiles(False, args.inputWrapperFlag, jp2In)

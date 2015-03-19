@@ -16,6 +16,9 @@ import sys
 
 outputVerboseFlag = False
 extractNullTerminatedXMLFlag = False
+inputRecursiveFlag = False
+inputWrapperFlag = False
+extractNullTerminatedXMLFlag = False
 noPrettyXMLFlag = False
 ERR_CODE_NO_IMAGES = -7
 UTF8_ENCODING = "UTF-8"
