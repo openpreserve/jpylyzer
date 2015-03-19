@@ -53,7 +53,7 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 if len(scriptName) == 0:
     scriptName = 'jpylyzer'
 
-__version__ = "1.13.0"
+__version__ = "1.14.0"
 
 # Create parser
 parser = argparse.ArgumentParser(
@@ -274,7 +274,12 @@ def checkOneFile(file):
     characteristics.makeHumanReadable(remapTable)
 
     # Create output elementtree object
-    root = ET.Element('jpylyzer')
+
+    if wrap or recurse:
+        # Name space already declared in results element, so no need to do it here
+        root=ET.Element('jpylyzer')
+    else:
+        root=ET.Element('jpylyzer', {'xmlns': 'http://openpreservation.org/ns/jpylyzer'})
 
     # Create elements for storing tool and file meta info
     toolInfo = ET.Element('toolInfo')
@@ -525,7 +530,7 @@ def checkFiles(recurse, wrap, paths):
 
     # Wrap the xml output in <results> element, if wrapper flag is true
     if wrap or recurse:
-        out.write("<?xml version='1.0' encoding='UTF-8'?>\n<results xmlns=\"http://openplanetsfoundation.org/ns/jpylyzer/\">\n")
+        out.write("<?xml version='1.0' encoding='UTF-8'?>\n<results xmlns=\"http://openpreservation.org/ns/jpylyzer">\n")
     else:
         out.write("<?xml version='1.0' encoding='UTF-8'?>\n")
 
@@ -552,10 +557,10 @@ def parseCommandLine():
                         help="report test results in verbose format")
     
     parser.add_argument('--recursive', '-r', 
-        action = "store_true", 
-        dest = "inputRecursiveFlag", 
-        default = False, 
-        help = "when encountering a folder, every file in every subfolder will be analysed; this option also includes the wrapper functionality")
+                        action = "store_true", 
+                        dest = "inputRecursiveFlag", 
+                        default = False, 
+                        help = "when encountering a folder, every file in every subfolder will be analysed; this option also includes the wrapper functionality")
     parser.add_argument('--wrapper',
                         '-w', action="store_true",
                         dest="inputWrapperFlag",
