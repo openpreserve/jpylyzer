@@ -524,8 +524,8 @@ def checkFiles(recurse, wrap, paths):
         out = codecs.getwriter(config.UTF8_ENCODING)(sys.stdout.buffer)
 
     # Wrap the xml output in <results> element, if wrapper flag is true
-    if wrap:
-        out.write("<?xml version='1.0' encoding='UTF-8'?>\n<results>\n")
+    if wrap or recurse:
+        out.write("<?xml version='1.0' encoding='UTF-8'?>\n<results xmlns=\"http://openplanetsfoundation.org/ns/jpylyzer/\">\n")
     else:
         out.write("<?xml version='1.0' encoding='UTF-8'?>\n")
 
@@ -539,7 +539,7 @@ def checkFiles(recurse, wrap, paths):
         writeElement(xmlElement,out)
         
     # Close </results> element if wrapper flag is true
-    if wrap:
+    if wrap or recurse:
         out.write("</results>\n")
 
             
@@ -550,13 +550,12 @@ def parseCommandLine():
                         dest="outputVerboseFlag",
                         default=False,
                         help="report test results in verbose format")
-    """
+    
     parser.add_argument('--recursive', '-r', 
         action = "store_true", 
         dest = "inputRecursiveFlag", 
         default = False, 
-        help = "when encountering a folder, every file in every subfolder will be analysed")
-    """
+        help = "when encountering a folder, every file in every subfolder will be analysed; this option also includes the wrapper functionality")
     parser.add_argument('--wrapper',
                         '-w', action="store_true",
                         dest="inputWrapperFlag",
@@ -605,8 +604,8 @@ def main():
     config.noPrettyXMLFlag = args.noPrettyXMLFlag
 
     # Check files
-    #checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
-    checkFiles(False, args.inputWrapperFlag, jp2In)
+    checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
+    #checkFiles(False, args.inputWrapperFlag, jp2In)
 
 if __name__ == "__main__":
     main()
