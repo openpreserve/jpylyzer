@@ -61,8 +61,29 @@ In the above example, output is redirected to the file 'rubbish.xml'.
 5. *properties*: tree of image properties. Follows JP2 box structure. Naming of properties follows [ISO/IEC 15444-1 Annex I][2] (JP2 file format syntax) and [Annex A][3] (Codestream syntax).
 
 ## Debian packages build process
-The [Vagrant directory](/vagrant) of this repo contains instructions on how to build Debian packages using [VirtualBox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/). A Vagrantfile and provisioning scripts are included for a number of target platforms, which should make the process of building the packages fairly easy.  
+The [Vagrant directory](vagrant) of this repo contains instructions on how to build Debian packages using [VirtualBox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/). A Vagrantfile and provisioning scripts are included for a number of target platforms, which should make the process of building the packages fairly easy.
 
+## Steps in preparing a jpylyzer release
+
+(Outline only, this section is under development and needs more detail!).
+
+1. Make changes to code
+1. Update version number in *jpylyzer.py*
+1. In case of changes to command-line interface, update [jpylyzer.pod](debian/jpylyzer.pod) file in *Debian* folder.
+1. Create new entry in changelog using `dch -i`; then manually update version number, and create list of changes.
+1. Update [User Manual](doc/jpylyzerUserManual.md) if necessary
+1. Commit all changes
+1. Add tag and commit
+1. Build Linux packages using [instructions here](vagrant)
+1. Build Windows binaries
+1. Upload Linux/Windows packages to BinTray
+1. Website: update *binVersion* in *_config.yml* (this updates the links to all packages on BinTray to the correct version)
+1. Website: write short release note
+1. Commit changes to website
+1. Spread the word!
+
+  
+  
 [1]: https://github.com/openplanets/jpylyzer/blob/master/doc/jpylyzerUserManual.pdf?raw=true
 [2]: http://www.jpeg.org/public/15444-1annexi.pdf
 [3]: http://www.itu.int/rec/T-REC-T.800/en
