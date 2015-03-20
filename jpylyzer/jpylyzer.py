@@ -282,7 +282,9 @@ def checkOneFile(file):
         root = ET.Element('jpylyzer')
     else:
         root = ET.Element(
-            'jpylyzer', {'xmlns': 'http://openpreservation.org/ns/jpylyzer'})
+        'jpylyzer', {'xmlns' : 'http://openpreservation.org/ns/jpylyzer/',
+        'xmlns:xsi' : 'http://www.w3.org/2001/XMLSchema-instance' ,
+        'xsi:schemaLocation' : 'http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd'})
 
     # Create elements for storing tool and file meta info
     toolInfo = ET.Element('toolInfo')
@@ -533,10 +535,13 @@ def checkFiles(recurse, wrap, paths):
 
     # Wrap the xml output in <results> element, if wrapper flag is true
     if wrap or recurse:
-        out.write(
-            "<?xml version='1.0' encoding='UTF-8'?>\n<results xmlns=\"http://openpreservation.org/ns/jpylyzer\">\n")
+        xmlHead = "<?xml version='1.0' encoding='UTF-8'?>\n"
+        xmlHead += "<results xmlns=\"http://openpreservation.org/ns/jpylyzer/\"\n"
+        xmlHead += "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+        xmlHead += "xsi:schemaLocation=\"http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd\">\n"
     else:
-        out.write("<?xml version='1.0' encoding='UTF-8'?>\n")
+        xmlHead = "<?xml version='1.0' encoding='UTF-8'?>\n"
+    out.write(xmlHead)
 
     # Process the input files
     for path in existingFiles:
