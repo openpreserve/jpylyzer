@@ -306,8 +306,9 @@ brackets (example: `[-h]`) are optional.
 
 *Jpylyzer* can be invoked using the following command-line arguments:
 
-    jpylyzer.py [-h] [--verbose] [--wrapper] [--version]
-         [--nullxml] [--nopretty] ...
+    jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+                   [--nopretty] [--version] ...
+
 
 With:
 
@@ -319,6 +320,9 @@ With:
 
 `[--verbose]`
 :   report test results in verbose format
+
+`[--recurse, -r]`
+:   when analysing a directory, recurse into subdirectories (implies --wrapper)
 
 `[--wrapper, -w]`
 :   wraps the output for individual image(s) in 'results' XML element
@@ -367,7 +371,26 @@ redirects the output to file ‘rubbish.xml’:
 
 The format of the XML output is described in [Chapter 5](#output-format).
 
-### Creating well-formed XML with multiple images
+### ‘recurse’ option
+
+If the *--recurse* option is used, *jpylyzer* will recursively traverse all
+subdirectories of a filepath expression. E.g:
+
+    jpylyzer.py /home/myJP2s/*.jp2 > rubbish.xml
+
+In this case *jpylyzer* analyses all files that have a *.jp2* extension in 
+directory */home/myJP2s* and all its subdirectories.
+
+#### Warning
+
+For now it may not be the best idea to use this option for analysing very large jobs 
+(e.g. whole disks). The reason for this is, that in the unlikely case of an uncaught
+exception during such a job jpylyzer might simply crash without given a clue
+as to which particular file caused it. This can, for example, happen with extremely 
+large images that do not fit into memory. This should be addressed in future versions
+of *jpylyzer*. 
+
+### Creating valid XML with multiple images
 
 By default, *jpylyzer* creates a separate XML tree for each analysed
 image, without any overarching hierarchy. If you use a pathname
@@ -380,12 +403,14 @@ example:
 In this case, the output for these 2 images is redirected to
 ‘rubbish.xml’, but the file will be a succession of two XML trees, which
 by itself is not well-formed XML. Use the *--wrapper* option if you want
-to create well-formed XML instead:
+to create valid XML instead:
 
     jpylyzer.py --wrapper rubbish.jp2 garbage.jp2 > rubbish.xml
 
 In the above case the XML trees of the individual images are wrapped
-inside a ‘results’ element.
+inside a ‘results’ element. When the *--recurse* option is used, jpylyzer
+will automatically wrap the output in a ‘results’ element, so there's no
+need to specify *--wrapper* in that case.
 
 ### ‘nullxml’ option
 
@@ -576,7 +601,7 @@ This chapter explains *jpylyzer*’s output format.
 Overview {#output-format-overview}
 ------------
 
-*Jpylyzer* generates its output in XML format. The following Figure shows the
+*Jpylyzer* generates its output in XML format, which is defined by [the schema that can be found here](http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd). The following Figure shows the
 output structure:
 
 ![Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements.](images/outputStructure.png)
