@@ -10,7 +10,7 @@ readme.close()
 
 setup(name='jpylyzer',
       packages=['jpylyzer'],
-      version='1.13.0',
+      version='1.14.0',
       license='LGPL',
       platforms=['POSIX', 'Windows'],
       description='JP2 (JPEG 2000 Part 1) image validator and properties extractor',
@@ -19,5 +19,5 @@ setup(name='jpylyzer',
       author_email='johan.vanderknijff@kb.nl',
       maintainer='Johan van der Knijff',
       maintainer_email='johan.vanderknijff@kb.nl',
-      url='https://github.com/openplanets/jpylyzer'
+      url='http://jpylyzer.openpreservation.org/'
       )
