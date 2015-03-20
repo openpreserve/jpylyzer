@@ -27,6 +27,10 @@ Show program's version number and exit.
 
 Report test results in verbose format.
 
+=item B<--recurse, -r>
+
+When analysing a directory, recurse into subdirectories (implies --wrapper).
+
 =item B<--wrapper, -w>
 
 Wrap output for individual image(s) in 'results' XML element.

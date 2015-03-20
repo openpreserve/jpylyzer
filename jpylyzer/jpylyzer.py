@@ -565,11 +565,11 @@ def parseCommandLine():
                         default=False,
                         help="report test results in verbose format")
 
-    parser.add_argument('--recursive', '-r',
+    parser.add_argument('--recurse', '-r',
                         action="store_true",
                         dest="inputRecursiveFlag",
                         default=False,
-                        help="when encountering a folder, every file in every subfolder will be analysed; this option also includes the wrapper functionality")
+                        help="when analysing a directory, recurse into subdirectories (implies --wrapper)")
     parser.add_argument('--wrapper',
                         '-w', action="store_true",
                         dest="inputWrapperFlag",
