@@ -8,13 +8,14 @@ title: Using jpylyzer
 Calling *jpylyzer* in a command window without any arguments results in the following helper message:
 
 {% highlight console %}
-jpylyzer  [-h] [--verbose] [--wrapper] [--nullxml] [--nopretty] [--version] ...
+usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+                   [--nopretty] [--version] jp2In [jp2In ...]
 {% endhighlight %}
 
 ### Positional arguments
 
 |:--|:--|
-|`...`|input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux|
+|`jp2In`|input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux|
 
 
 ### Optional arguments
@@ -22,6 +23,7 @@ jpylyzer  [-h] [--verbose] [--wrapper] [--nullxml] [--nopretty] [--version] ...
 |:--|:--|
 |`-h, --help`|show this help message and exit|
 |`--verbose`|report test results in verbose format|
+|`--recurse`|when analysing a directory, recurse into subdirectories (implies --wrapper)|
 |`--wrapper, -w`|wrap output for individual image(s) in 'results' XML element|
 |`--nullxml`|extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)|
 |`--nopretty`|suppress pretty-printing of XML output|
