@@ -133,7 +133,7 @@ Obtaining the software {#obtaining-the-software}
 To obtain the latest version of the software please use the download
 links at the *jpylyzer* homepage:
 
-[http://openplanets.github.io/jpylyzer/](http://openplanets.github.io/jpylyzer/)
+<http://jpylyzer.openpreservation.org/>
 
 You have three options:
 
@@ -188,11 +188,10 @@ the files to directory ‘/home/jpylyzer’, the command would become:
 
 Executing this command should result in the following screen output:
 
-    usage: jpylyzer.py [-h] [--verbose] [--wrapper] [--version] ...
+    usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+                       [--nopretty] [--version]
+                       jp2In [jp2In ...]
 
-    JP2 image validator and properties extractor
-
-    [...]
 
 ### Troubleshooting
 
@@ -241,11 +240,10 @@ the files to directory `c:\tools\jpylyzer`, the command would become:
 
 Executing this command should result in the following screen output:
 
-    usage: jpylyzer.exe [-h] [--verbose] [--wrapper] [--version] ...
+    usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+                       [--nopretty] [--version]
+                       jp2In [jp2In ...]
 
-    JP2 image validator and properties extractor
-
-    [...]
 
 ### Running jpylyzer without typing the full path
 
@@ -306,13 +304,15 @@ brackets (example: `[-h]`) are optional.
 
 *Jpylyzer* can be invoked using the following command-line arguments:
 
-    jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                   [--nopretty] [--version] ...
+    usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+                       [--nopretty] [--version]
+                       jp2In [jp2In ...]
+
 
 
 With:
 
-`...`
+`jp2In`
 :   input JP2 image(s)
 
 `[-h, --help]`
