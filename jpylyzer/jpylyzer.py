@@ -588,7 +588,7 @@ def parseCommandLine():
     parser.add_argument('jp2In',
                         action="store",
                         type=str,
-                        nargs=argparse.REMAINDER,
+                        nargs='+',
                         help="input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (*) with backslash (\\) in Linux")
     parser.add_argument('--version', '-v',
                         action='version',
