@@ -32,7 +32,7 @@ i386Pre: http://dl.bintray.com/openplanets/opf-debian/jpylyzer_
 i386Suf: _i386.deb
 
 # Remaining URLs
-userManualURL: https://github.com/openpreserve/jpylyzer/blob/master/doc/jpylyzerUserManual.pdf?raw=true
+userManualURL: https://github.com/openpreserve/jpylyzer/blob/master/doc/jpylyzerUserManual.html?raw=true
 gitURL: https://github.com/openpreserve/jpylyzer
 issuesURL: https://github.com/openpreserve/jpylyzer/issues
 testImagesURL: https://github.com/openpreserve/jpylyzer-test-files
