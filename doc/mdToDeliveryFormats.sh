@@ -41,10 +41,6 @@ echo "{% include JB/setup %}" >> $outWeb
 # This results in a flood of xmllint error messages, but they can be ignored.
 xmllint --html --htmlout --xpath "//body/node()" tmp.html >> $outWeb
 
-# Step 4: add closing tags
-# echo "</body>" >> $outWeb
-# echo "</html>" >> $outWeb
-
 # Create self-contained HTML file (mainly useful for offline use; replaces PDF)
 pandoc -s --toc --toc-depth=2 --ascii -N -c $styleSheet -w html5 --self-contained -o $outHtmlSC $mdSource
 
