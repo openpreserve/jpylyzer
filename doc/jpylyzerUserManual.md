@@ -1,3 +1,7 @@
+% Jpylyzer User Manual
+%
+%
+
 Introduction {#introduction}
 ==============
 
@@ -189,8 +193,7 @@ the files to directory ‘/home/jpylyzer’, the command would become:
 Executing this command should result in the following screen output:
 
     usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                       [--nopretty] [--version]
-                       jp2In [jp2In ...]
+                       [--nopretty] [--version] jp2In [jp2In ...]
 
 
 ### Troubleshooting
@@ -241,8 +244,7 @@ the files to directory `c:\tools\jpylyzer`, the command would become:
 Executing this command should result in the following screen output:
 
     usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                       [--nopretty] [--version]
-                       jp2In [jp2In ...]
+                       [--nopretty] [--version] jp2In [jp2In ...]
 
 
 ### Running jpylyzer without typing the full path
@@ -305,9 +307,7 @@ brackets (example: `[-h]`) are optional.
 *Jpylyzer* can be invoked using the following command-line arguments:
 
     usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                       [--nopretty] [--version]
-                       jp2In [jp2In ...]
-
+                       [--nopretty] [--version] jp2In [jp2In ...]
 
 
 With:
