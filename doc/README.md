@@ -8,7 +8,7 @@ For the rendering of the equation objects (which are in [MathML](http://en.wikip
 
 ## Exporting to HTML
 
-Run the script [mdToDeliveryFormats.sh](doc/mdToDeliveryFormats.sh) to export the Markdown file to the folllowing delivery formats:
+Run the script [mdToDeliveryFormats.sh](mdToDeliveryFormats.sh) to export the Markdown file to the folllowing delivery formats:
 
 1. Jekyll template with HTML that can be used to replace the on-line manual on the jpylyzer homepage (file  [userManual.html](https://github.com/openpreserve/jpylyzer/blob/gh-pages/userManual.html))
 
