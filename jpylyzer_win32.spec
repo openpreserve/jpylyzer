@@ -15,7 +15,7 @@ exe = EXE(pyz,
 coll = COLLECT(exe,
                a.binaries +
                [('./license/LICENSE.txt','LICENSE','DATA')],
-               [('./doc/jpylyzerUserManual.pdf','./doc/jpylyzerUserManual.pdf','DATA')],
+               [('./doc/jpylyzerUserManual.html','./doc/jpylyzerUserManual.html','DATA')],
                [('./example_files/balloon.jp2','./example_files/balloon.jp2','DATA')],
                [('./example_files/balloon_trunc1.jp2','./example_files/balloon_trunc1.jp2','DATA')],
                [('./example_files/balloon_trunc2.jp2','./example_files/balloon_trunc2.jp2','DATA')],
