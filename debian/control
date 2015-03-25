@@ -1,10 +1,10 @@
 Source: jpylyzer
 Section: utils
 Priority: extra
-Maintainer: Open Planets Foundation <jpylyzer-dev@openplanetsfoundation.org>
+Maintainer: Open Preservation Foundation <jpylyzer-dev@openplanetsfounation.org>
 Build-Depends: debhelper (>= 7), perl
 Standards-Version: 3.8.3
-Homepage: https://github.com/openplanets/jpylyzer
+Homepage: https://github.com/openpreserve/jpylyzer
 
 Package: jpylyzer
 Architecture: any
