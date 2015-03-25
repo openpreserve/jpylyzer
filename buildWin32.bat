@@ -7,7 +7,7 @@
 ::
 :: Dependencies:
 :: 
-:: - Python 2.7  (PyInstaller doesn't work with Python 3 yet!) 
+:: - Python 2.7, 32-bit version  (PyInstaller doesn't work with Python 3 yet!) 
 :: - PyInstaller 2: http://www.pyinstaller.org/
 :: - PyWin32 (needed by PyInstaller): http://sourceforge.net/projects/pywin32/files/
 :: - a spec file with 
@@ -18,7 +18,9 @@ setlocal
 ::::::::: CONFIGURATION :::::::::: 
 
 :: Python
-set python=c:\python27\python
+:: Note that to produce a 32-bit binary we need a 32-bit Python version!
+::set python=c:\python27\python
+set python=c:\python27_32bit\python
 
 :: Path to PyInstaller
 set pathPyInstaller=c:\pyinstall\
