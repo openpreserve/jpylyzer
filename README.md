@@ -64,20 +64,10 @@ Most recent posts (3) will automatically show up in *Latest news* bar on top of 
 
 Steps:
 
-1. Export the master (Markdown) jpylyzer manual file to HTML with Pandoc:
+1. Follow [instructions here](https://github.com/openpreserve/jpylyzer/tree/master/doc#export-to-html) to export Markdown version of User Manual to HTML.
 
-    pandoc -s --toc --toc-depth=2 --ascii -N -c jpylyzer.css -w html5 
-    -T "jpylyzer User Manual"  -o jpylyzerUserManual.html jpylyzerUserManual.md 
+1. Copy both generate HTML files and paste them into the root directory of the home page. Done!
 
-(See also [instructions here](https://github.com/openpreserve/jpylyzer/tree/master/doc#export-to-html))
-
-1. Open the file in a text editor and copy everything between the *<body>* and *</body>* tags (without including these tags themselves!)
-
-1. Open the file [userManual.html](userManual.html) in a text editor, delete everything below the title text (i.e. *{h1}User Manual{/h1}*), and paste in text from the previous step.
-
-1. Save file. Done!
-
-Obviously this is a bit clumsy, and should be automated at some point. In any case do **not** copy the Pandoc-generated HTML file directly, as styles/formatting will break.
  
  
 
