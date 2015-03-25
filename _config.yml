@@ -21,7 +21,10 @@ author :
 # The following variables all point to URLs that are referenced
 
 # Version of binary release (update this for each new release!)
-binVersion: 1.13.0
+binVersion: 1.14.1
+
+# Name of downloadable User Manual file
+userManualName: jpylyzerUserManual.html
 
 # Prefixes/suffixes that define file paths to binary downloads
 win32Pre: http://dl.bintray.com/openplanets/opf-windows/jpylyzer_
@@ -32,7 +35,6 @@ i386Pre: http://dl.bintray.com/openplanets/opf-debian/jpylyzer_
 i386Suf: _i386.deb
 
 # Remaining URLs
-userManualURL: [BASE_PATH]/jpylyzerUserManual
 gitURL: https://github.com/openpreserve/jpylyzer
 issuesURL: https://github.com/openpreserve/jpylyzer/issues
 testImagesURL: https://github.com/openpreserve/jpylyzer-test-files
