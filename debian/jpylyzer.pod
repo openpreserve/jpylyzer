@@ -9,7 +9,7 @@ jpylyzer [I<options>] [I<jp2In>]
 =head1 DESCRIPTION
 
 JP2 (JPEG 2000 Part 1) image validator and properties extractor
-    (C) National Library of the Netherlands / Open Planets Foundation
+    (C) National Library of the Netherlands / Open Preservation Foundation
 
 =head1 OPTIONS
 
@@ -58,7 +58,7 @@ prefix wildcard (*) with backslash.
 
 =head1 BUGS
 
-Please report bugs at https://github.com/openplanets/jpylyzer/issues.
+Please report bugs at https://github.com/openpreserve/jpylyzer/issues.
 
 =head1 AUTHORS
 
