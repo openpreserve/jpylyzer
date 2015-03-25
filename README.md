@@ -5,7 +5,7 @@
 
 ## Jpylyzer homepage
 
-[http://openplanets.github.io/jpylyzer/](http://openplanets.github.io/jpylyzer/)
+<http://jpylyzer.openpreservation.org/>
 
 ## Downloads
 
@@ -19,13 +19,12 @@
 
 ### Usage
 
-`usage: jpylyzer.py [-h] [--verbose] [--wrapper] [--nullxml] [--nopretty]
-                   [--version]
-                   ...`
+    usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+                       [--nopretty] [--version] jp2In [jp2In ...]
 
 ### Positional arguments
 
-`...` : input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux..
+`jp2In` : input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux..
 
 ### Optional arguments
 
@@ -34,6 +33,8 @@
 `-v, --version` : show program's version number and exit;
 
 `--verbose` : report test results in verbose format;
+
+`--recurse, -r` : when analysing a directory, recurse into subdirectories (implies `--wrapper`)
 
 `--wrapper, -w` : wrap the output for individual image(s) in 'results' XML element.
 
@@ -61,6 +62,7 @@ In the above example, output is redirected to the file 'rubbish.xml'.
 5. *properties*: tree of image properties. Follows JP2 box structure. Naming of properties follows [ISO/IEC 15444-1 Annex I][2] (JP2 file format syntax) and [Annex A][3] (Codestream syntax).
 
 ## Debian packages build process
+
 The [Vagrant directory](vagrant) of this repo contains instructions on how to build Debian packages using [VirtualBox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/). A Vagrantfile and provisioning scripts are included for a number of target platforms, which should make the process of building the packages fairly easy.
 
 ## Steps in preparing a jpylyzer release
@@ -82,7 +84,6 @@ The [Vagrant directory](vagrant) of this repo contains instructions on how to bu
 1. Commit changes to website
 1. Spread the word!
 
-  
   
 [1]: https://github.com/openplanets/jpylyzer/blob/master/doc/jpylyzerUserManual.pdf?raw=true
 [2]: http://www.jpeg.org/public/15444-1annexi.pdf
