@@ -70,7 +70,7 @@ The [Vagrant directory](vagrant) of this repo contains instructions on how to bu
 (Outline only, this section is under development and needs more detail!).
 
 1. Make changes to code
-1. Update version number in *jpylyzer.py*
+1. Update version number in *jpylyzer.py*, *setup.py* and *sonar-project.properties* (do we really need last file?)
 1. In case of changes to command-line interface, update [jpylyzer.pod](debian/jpylyzer.pod) file in *Debian* folder.
 1. Create new entry in changelog using `dch -i`; then manually update version number, and create list of changes.
 1. Update [User Manual](doc/jpylyzerUserManual.md) if necessary

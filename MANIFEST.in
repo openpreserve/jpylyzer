@@ -1,2 +1,2 @@
 recursive-include example_files *
-recursive-include doc *.pdf
+recursive-include doc *.html
