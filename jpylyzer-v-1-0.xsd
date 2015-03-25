@@ -707,6 +707,6 @@
   </xs:element>
 
   <!-- Compression ratio element -->
-  <xs:element name="compressionRatio" type="xs:decimal"/>
+  <xs:element name="compressionRatio" type="xs:double"/>
    
 </xs:schema> 
