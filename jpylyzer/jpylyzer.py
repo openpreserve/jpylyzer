@@ -54,7 +54,7 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 if len(scriptName) == 0:
     scriptName = 'jpylyzer'
 
-__version__ = "1.14.1"
+__version__ = "1.14.2"
 
 # Create parser
 parser = argparse.ArgumentParser(
@@ -419,7 +419,7 @@ def findFiles(recurse, paths):
 
             # If the input path is a directory, then glob expands it to full
             # name
-            if len(filesList) == 1:
+            if len(filesList) == 1 and os.path.isdir(filesList[0]):
                 # set root to the expanded directory path
                 root = filesList[0]
 
@@ -430,6 +430,10 @@ def findFiles(recurse, paths):
             """
 
             # If the input path returned files list, add files to List
+            
+            if len(filesList) == 1 and os.path.isfile(filesList[0]):
+                existingFiles.append(filesList[0])
+            
             if len(filesList) > 1:
                 for f in filesList:
                     if os.path.isfile(f):
@@ -480,7 +484,6 @@ def findFiles(recurse, paths):
             # get files in the current folder and sub dirs w/o wildcard in path
             elif os.path.isdir(root):
                 getFilesFromTree(root)
-
 
 def writeElement(elt, codec):
     # Writes element as XML to stdout using defined codec
