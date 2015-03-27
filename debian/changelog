@@ -1,4 +1,10 @@
-jpylyzer (1.14.1) UNRELEASED; urgency=medium
+jpylyzer (1.14.2) precise; urgency=medium
+
+  * Fixed findFile for case of 1 file matching wildcard expression 
+
+ -- johan <johan.vanderknijff@kb.nl>  Wed, 27 Mar 2015 17:04:22 +0100
+
+jpylyzer (1.14.1) precise; urgency=medium
 
   * Fixed outdated OPF refs in Debian folder
   * Fixed problem in schema for compressionRatio 
