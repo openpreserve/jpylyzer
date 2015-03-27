@@ -176,7 +176,7 @@ Outline of output elements:
     <!-- Or use this section to tell about upstream BTS. -->
     <title>BUGS</title>
     <para>The upstreams <acronym>BTS</acronym> can be found
-      at <ulink url="https://github.com/openplanets/jpylyzer/issues"/>.</para>
+      at <ulink url="https://github.com/openpreserve/jpylyzer/issues"/>.</para>
   </refsect1>
 </refentry>
 
