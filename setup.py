@@ -4,7 +4,7 @@ from distutils.core import setup
 
 # TO DO: figure out how to import version number automatically from code!
 
-readme = open('README.txt', 'r')
+readme = open('README.md', 'r')
 README_TEXT = readme.read()
 readme.close()
 
