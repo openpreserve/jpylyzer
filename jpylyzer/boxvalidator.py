@@ -253,7 +253,7 @@ class BoxValidator:
         # file corruption), replace them  with printable character
         if bc.containsControlCharacters(boxType):
             boxType=bc.replaceControlCharacters(boxType)
-        
+
         # Decode to string with Latin encoding
         # Elementtree will deal with any non-ASCII characters by replacing
         # them with numeric entity references
@@ -1776,13 +1776,13 @@ class BoxValidator:
         comment = self.boxContents[4:lcom]
 
         # Decode to string with Latin encoding, determine if valid ISO 8859-15
-        
+
         try:
             comment = comment.decode("iso-8859-15", "strict")
         except:
             # Empty string in case of decode error
             comment = ""
-                
+
         # Ideally decode above should raise exception if comment is not valid
         # ISO 8859-15, but this doesn't work. So instead we do this indirectly
         # by looking for control characters (tab, newline and carriage return are OK)
@@ -1790,7 +1790,7 @@ class BoxValidator:
             commentIsValid = True
         else:
             commentIsValid = False
-        
+
         self.testFor("commentIsValid", commentIsValid)
 
         # Only add comment to characteristics if text (may contain binary data
@@ -2199,7 +2199,7 @@ class BoxValidator:
 
         # Last byte of loc must be null terminator
         self.testFor("locHasNullTerminator", loc[-1] == b'\x00')
-        
+
         # Remove null character as this cannot be represented as XML
         loc = bc.removeNullTerminator(loc)
 
@@ -2209,14 +2209,14 @@ class BoxValidator:
         if bc.containsControlCharacters(loc):
             loc=bc.replaceControlCharacters(loc)
         """
-        
-        # Try decode to UTF-8 
+
+        # Try decode to UTF-8
         try:
             tmp=loc.decode("utf-8","strict")
             self.testFor("locIsUTF8", True)
         except UnicodeDecodeError:
             self.testFor("locIsUTF8", False)
-        
+
         self.addCharacteristic("loc", loc)
 
     def validate_JP2(self):
