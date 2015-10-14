@@ -1235,6 +1235,9 @@ class BoxValidator:
             lqcd = self.characteristics.findElementText('qcd/lqcd')
             qStyle = self.characteristics.findElementText('qcd/qStyle')
             levels = self.characteristics.findElementText('cod/levels')
+        else:
+            lqcd = -9998
+            qStyle = -9999
 
         # Expected lqcd as a function of qStyle and levels
         if qStyle == 0:
@@ -1256,6 +1259,10 @@ class BoxValidator:
         # Expected number of tiles (as calculated from info in SIZ marker)
         numberOfTilesExpected = self.characteristics.findElementText(
             'siz/numberOfTiles')
+
+        # If we did not get the number of tiles, assume it is zero
+        if not numberOfTilesExpected:
+            numberOfTilesExpected = 0
 
         # Impose upper limit on numberOfTilesExpected to avoid misbehaviour in case of corrupted files
         # Value of 65535 equals upper value imposed by Kakadu (can't find this
