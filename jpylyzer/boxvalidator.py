@@ -667,7 +667,7 @@ class BoxValidator:
         primaryPlatform = self.boxContents[40:44]
         self.addCharacteristic("primaryPlatform", primaryPlatform)
 
-        # Profile flags (bytes 44-47; only first byte read here as remaing bytes
+        # Profile flags (bytes 44-47; only first byte read here as remaining bytes
         # don't contain any meaningful information)
         profileFlags = bc.bytesToUnsignedChar(self.boxContents[44:45])
 
@@ -689,7 +689,7 @@ class BoxValidator:
         deviceModel = self.boxContents[52:56]
         self.addCharacteristic("deviceModel", deviceModel)
 
-        # Device attributes (bytes 56-63; only first byte read here as remaing bytes
+        # Device attributes (bytes 56-63; only first byte read here as remaining bytes
         # don't contain any meaningful information)
         deviceAttributes = bc.bytesToUnsignedChar(self.boxContents[56:57])
 
