@@ -32,6 +32,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
+import mmap
 import os
 import time
 import imp
@@ -263,9 +264,17 @@ def generatePropertiesRemapTable():
 def checkOneFile(file):
     # Process one file and return analysis result as element object
 
-    fileData = readFileBytes(file)
+    # fileData = readFileBytes(file)
+
+    f = open(file, "rb")
+
+    fileData = mmap.mmap(f.fileno(), 0, mmap.MAP_SHARED, mmap.PROT_READ)
+
     isValidJP2, tests, characteristics = BoxValidator(
         "JP2", fileData).validate()  # validateJP2(fileData)
+
+    fileData.close()
+    f.close()
 
     # Generate property values remap table
     remapTable = generatePropertiesRemapTable()
