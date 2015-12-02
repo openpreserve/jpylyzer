@@ -5,10 +5,10 @@ python:
   - "3.3"
 
 before_install:
-  - sudo pip install --use-mirrors pyinstaller
+  - sudo -H pip install pyinstaller
 
 install:
-  - dpkg-buildpackage -tc
+  - dpkg-buildpackage -tc -uc -us
 
 script:
   - python -m unittest discover
