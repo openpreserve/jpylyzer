@@ -2203,9 +2203,9 @@ class BoxValidator:
 
         # Location: this is the actual URL, encoded as a UTF-8 string
         loc = self.boxContents[4:len(self.boxContents)]
-
+        
         # Last byte of loc must be null terminator
-        self.testFor("locHasNullTerminator", loc[-1] == b'\x00')
+        self.testFor("locHasNullTerminator", loc.endswith(b'\x00'))
 
         # Remove null character as this cannot be represented as XML
         loc = bc.removeNullTerminator(loc)
