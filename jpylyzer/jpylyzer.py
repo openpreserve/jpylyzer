@@ -17,6 +17,7 @@
 #   Jaishree Davey, The National Archives, UK.
 #   Laura Damian, The National Archives, UK.
 #   Carl Wilson, Open Planets Foundation, UK.
+#   Stefan Weil
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -40,7 +41,6 @@ import glob
 import struct
 import argparse
 import config
-import platform
 import codecs
 import etpatch as ET
 import fnmatch
@@ -267,8 +267,18 @@ def checkOneFile(file):
     # fileData = readFileBytes(file)
 
     f = open(file, "rb")
+    
+    # Call to mmap is different on Linuix and Windows, so we need to know
+    # the current platform
+    platform = config.PLATFORM
 
-    fileData = mmap.mmap(f.fileno(), 0, mmap.MAP_SHARED, mmap.PROT_READ)
+    if platform in ["win32", "cygwin"]:
+        # Parameters for Windows may need further fine-tuning ...
+        fileData = mmap.mmap(f.fileno(), 0)
+    else:
+        # This works for Linux. Not too sure about other platforms like 
+        # Mac OS though
+        fileData = mmap.mmap(f.fileno(), 0, mmap.MAP_SHARED, mmap.PROT_READ)   
 
     isValidJP2, tests, characteristics = BoxValidator(
         "JP2", fileData).validate()  # validateJP2(fileData)
