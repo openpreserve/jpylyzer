@@ -1,3 +1,10 @@
+jpylyzer (1.14.4) precise; urgency=medium
+
+  * Fixed Travis build error (Stefan Weil)
+  * Fixed Python runtime error (Stefan Weil)
+
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Wed, 02 Dec 2015 10:35:43 +0100
+
 jpylyzer (1.14.2) precise; urgency=medium
 
   * Fixed findFile for case of 1 file matching wildcard expression 
