@@ -274,7 +274,7 @@ def checkOneFile(file):
 
     if platform in ["win32", "cygwin"]:
         # Parameters for Windows may need further fine-tuning ...
-        fileData = mmap.mmap(f.fileno(), 0)
+        fileData = mmap.mmap(f.fileno(), 0, access = mmap.ACCESS_READ))
     else:
         # This works for Linux. Not too sure about other platforms like 
         # Mac OS though
