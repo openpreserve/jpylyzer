@@ -299,7 +299,7 @@ def checkOneFile(file):
         fileName = os.path.basename(file).decode("iso-8859-15", "strict")
         filePath = os.path.abspath(file).decode("iso-8859-15", "strict")
     except AttributeError:
-        # This works in Python 3.x, but goes wrong withh non-ASCII chars in 2.7
+        # This works in Python 3.x, but goes wrong with non-ASCII chars in 2.7
         fileName = os.path.basename(file)
         filePath = os.path.abspath(file)
 
