@@ -272,12 +272,12 @@ def checkOneFile(file):
     # the current platform
     platform = config.PLATFORM
 
-    if platform in ["win32", "cygwin"]:
+    if platform == "win32":
         # Parameters for Windows may need further fine-tuning ...
         fileData = mmap.mmap(f.fileno(), 0, access = mmap.ACCESS_READ)
     else:
-        # This works for Linux. Not too sure about other platforms like 
-        # Mac OS though
+        # This works for Linux (and Cygwin on Windows). Not too sure 
+        # about other platforms like Mac OS though
         fileData = mmap.mmap(f.fileno(), 0, mmap.MAP_SHARED, mmap.PROT_READ)   
 
     isValidJP2, tests, characteristics = BoxValidator(
