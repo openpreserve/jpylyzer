@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+        <title>jpylyzer</title>
+        <description>jpylyzer - National Library of the Netherlands / Open Preservation Foundation</description>
+        <link>http://jpylyzer.openpreservation.org/</link>
+        <link>http://jpylyzer.openpreservation.org/</link>
+        <lastBuildDate>2015-12-03T16:27:50+01:00</lastBuildDate>
+        <pubDate>2015-12-03T16:27:50+01:00</pubDate>
+        <ttl>1800</ttl>
+
+
+        <item>
+                <title>Release of jpylyzer 1.15.1</title>
+                <description>
+&lt;p&gt;Version 1.15.1 of &lt;em&gt;jpylyzer&lt;/em&gt; is now available. The most notable improvement in this release is the use of &lt;a href=&quot;https://en.wikipedia.org/wiki/Memory-mapped_file&quot;&gt;memory mapping&lt;/a&gt; for reading input images. This results in better performance when processing (very) large files. This improvement was suggested by Stefan Weil of Mannheim University Library, and the changes are based on a patch he submitted.&lt;/p&gt;
+
+&lt;p&gt;Two examples illustrate the benefits of this change:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://hirise-pds.lpl.arizona.edu/download/PDS/RDR/ESP/ORB_011200_011299/ESP_011265_1560/ESP_011265_1560_RED.JP2&quot;&gt;This 2 GB image&lt;/a&gt;
+ resulted in a memory error with &lt;em&gt;jpylyzer&lt;/em&gt; 1.14.2 on a Windows machine with 4 GB RAM. The new version processes the file without problems.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;On a Linux Mint machine with 8 GB RAM, &lt;a href=&quot;http://apollo.sese.asu.edu/data/pancam/AS16/jp2/AS16-P-4102.jp2&quot;&gt;this 6.7 GB image&lt;/a&gt;
+ also resulted in a memory error. Again, the new version handles the file without any problem. &lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Please bear in mind that memory errors may still occur under some circumstances. For instance, a test with the 6.7 GB image failed on a Linux Mint machine with 4 GB RAM. So it seems prudent to make sure that the amount of available RAM always exceeds the maximum image size by some safe margin. Also, chip architecture and operating system may put further constraints on the amount of memory than can ne mapped at a time. &lt;/p&gt;
+
+&lt;p&gt;Memory errors aside, the processing of large files like the above is also quite a bit faster than in earlier releases, and is less prone to grind all other processes on your machine to a halt.&lt;/p&gt;
+
+&lt;p&gt;This release also fixes a number of minor bugs, most notably:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;A &lt;a href=&quot;https://github.com/openpreserve/jpylyzer/pull/72&quot;&gt;Python runtime error&lt;/a&gt; that would occur for some corrupted JP2s (patch again by Stefan Weil).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Under Python 3, the validation test &lt;em&gt;locHasNullTerminator&lt;/em&gt; &lt;a href=&quot;https://github.com/openpreserve/jpylyzer/issues/76&quot;&gt;would erroneously fail&lt;/a&gt; for JP2s with an URL  Box. &lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+                <link>http://jpylyzer.openpreservation.org//2015/12/03/Release-of-jpylyzer-1-15-1</link>
+                <guid>http://jpylyzer.openpreservation.org//2015/12/03/Release-of-jpylyzer-1-15-1</guid>
+                <pubDate>2015-12-03T00:00:00+01:00</pubDate>
+        </item>
+
+        <item>
+                <title>Release of jpylyzer 1.14.1</title>
+                <description>
+&lt;p&gt;Following a year of limited development activity, we proudly present &lt;em&gt;jpylyzer&lt;/em&gt; 1.14.1. Here&amp;#8217;s an overview of the most noticeable changes in this version.&lt;/p&gt;
+
+&lt;h3 id=&quot;improved-xml-output&quot;&gt;Improved XML output&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;Jpylyzer&lt;/em&gt;&amp;#8217;s output now  contains a namespace declaration as well as a reference to an XSD schema. The &lt;a href=&quot;http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd&quot;&gt;schema can be found here&lt;/a&gt;. Hopefully these improvements will make post-processing &lt;em&gt;jpylyzer&lt;/em&gt;&amp;#8217;s output easier. Note that the schema has had limited testing so far, and it&amp;#8217;s not inconceivable that it may need further tweaking. If you get unexpected results (e.g. output files that are not valid against the schema) please let us know, preferrably using the &lt;a href=&quot;https://github.com/openpreserve/jpylyzer/issues&quot;&gt;issue tracker&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;recursive-scanning-of-directory-trees&quot;&gt;Recursive scanning of directory trees&lt;/h3&gt;
+
+&lt;p&gt;The new &lt;code&gt;--recurse&lt;/code&gt; option allows you to recursively scan a directory tree. Read &lt;a href=&quot;http://jpylyzer.openpreservation.org//userManual.html#warning&quot;&gt;this warning&lt;/a&gt; before using this feature; for operational production settings it&amp;#8217;s probably safer not to use it yet. Thanks go out to Adam Retter, Jaishree Davey and Laura Damian of The National Archives (UK) who submitted this feature.&lt;/p&gt;
+
+&lt;h3 id=&quot;user-manual-changes&quot;&gt;User Manual changes&lt;/h3&gt;
+
+&lt;p&gt;The User Manual is now accessible in two ways:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://jpylyzer.openpreservation.org/userManual.html&quot;&gt;online on the main website&lt;/a&gt;;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;as a &lt;a href=&quot;http://jpylyzer.openpreservation.org/jpylyzerUserManual.html&quot;&gt;downloadable self-contained HTML file&lt;/a&gt;. This file is completely self-contained (all style sheets, images, etc. are embedded in one single file), which makes it suitable for offline viewing. This replaces the former PDF version, which is now discontinued. (With the source of the User Manual now being in MarkDown, generating PDF derivatives of acceptable quality turned out to be too much hassle.) Both versions are generated from the MarkDown source with this little &lt;a href=&quot;https://github.com/openpreserve/jpylyzer/blob/master/doc/mdToDeliveryFormats.sh&quot;&gt;script&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;cli-argument-parser-fix&quot;&gt;CLI argument parser fix&lt;/h3&gt;
+
+&lt;p&gt;The helper message in the latest versions of &lt;em&gt;jpylyzer&lt;/em&gt; was somewhat confusing because the argument parser library was called in an unusual way. This has also been fixed (&lt;em&gt;jpylyzer&lt;/em&gt;&amp;#8217;s behavior is unaffected by this).&lt;/p&gt;
+
+&lt;h3 id=&quot;vagrant-virtual-machine-definitions-and-build-scripts&quot;&gt;Vagrant virtual machine definitions and build scripts&lt;/h3&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://github.com/openpreserve/jpylyzer/tree/master/vagrant&quot;&gt;Vagrant&lt;/a&gt; directory of the source repo allows you to automatically set up virtual machines for building 64 and 32 bit Debian packages using &lt;a href=&quot;http://www.vagrantup.com/&quot;&gt;&lt;em&gt;Vagrant&lt;/em&gt;&lt;/a&gt; and &lt;a href=&quot;https://www.virtualbox.org/&quot;&gt;VirtualBox&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;miscellaneous-fixes&quot;&gt;Miscellaneous fixes&lt;/h3&gt;
+
+&lt;p&gt;Apart from the above changes, this release includes various minor tweaks, clean-ups and fixes; most of these are unnoticeable to the user.&lt;/p&gt;
+
+&lt;h3 id=&quot;final-remarks&quot;&gt;Final remarks&lt;/h3&gt;
+
+&lt;p&gt;It&amp;#8217;s always possible that changes cause things to go wrong unintentionally; if this happens please get in touch, if possible using the &lt;a href=&quot;https://github.com/openpreserve/jpylyzer/issues&quot;&gt;issue tracker&lt;/a&gt;. Meanwhile, happy jpylyzing!&lt;/p&gt;
+
+</description>
+                <link>http://jpylyzer.openpreservation.org//2015/03/25/Release-of-jpylyzer-1-14-1</link>
+                <guid>http://jpylyzer.openpreservation.org//2015/03/25/Release-of-jpylyzer-1-14-1</guid>
+                <pubDate>2015-03-25T00:00:00+01:00</pubDate>
+        </item>
+
+        <item>
+                <title>New location of source repository</title>
+                <description>
+&lt;p&gt;As of today, the source repository of jpylyzer has moved to a new location:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/openpreserve/jpylyzer&quot;&gt;https://github.com/openpreserve/jpylyzer&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The reason behind this change is the recent &lt;a href=&quot;http://openpreservation.org/news/open-preservation-foundation-launches-new-strategy-brand-and-website/&quot;&gt;name change&lt;/a&gt; of the Open Planets Foundation into the Open Preservation Foundation.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://github.com/openplanets/jpylyzer&quot;&gt;old repo&lt;/a&gt; is now empty, and only serves to redirect requests to the jpylyzer homepage through its old URL. From now on please do not use it for any commits or pull requests. We&amp;#8217;re aware that this is a bit inconvenient, but as it turned out it wasn&amp;#8217;t possible to implement automatic redirects for &lt;em&gt;both&lt;/em&gt; the repo &lt;em&gt;and&lt;/em&gt; the homepage, so we opted to give priority to the homepage. This means that jpylyzer contributors may need to change their local repo settings. The easiest solution is probably to simply clone the repo from its new location.&lt;/p&gt;
+
+&lt;h3 id=&quot;new-homepage-url&quot;&gt;New homepage URL&lt;/h3&gt;
+&lt;p&gt;Meanwhile the new URL for the jpylyzer homepage is: &lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://jpylyzer.openpreservation.org/&quot;&gt;http://jpylyzer.openpreservation.org/&lt;/a&gt; &lt;/p&gt;
+
+&lt;p&gt;The old URLs still work, but please use the new one when referring to jpylyzer.&lt;/p&gt;
+</description>
+                <link>http://jpylyzer.openpreservation.org//2014/11/20/New-location-of-source-repository</link>
+                <guid>http://jpylyzer.openpreservation.org//2014/11/20/New-location-of-source-repository</guid>
+                <pubDate>2014-11-20T00:00:00+01:00</pubDate>
+        </item>
+
+        <item>
+                <title>Jpylyzer finalist for Digital Preservation Awards 2014</title>
+                <description>
+&lt;p&gt;Today the &lt;a href=&quot;http://www.dpconline.org/about&quot;&gt;Digital Preservation Coalition&lt;/a&gt; announced that jpylyzer has been selected as one of the finalists for the Digital Preservation Awards 2014. Jpylyzer is shortlisted for the &lt;a href=&quot;http://www.dpconline.org/newsroom/latest-news/1272-dpa-2014-award-researchandinnovation-finalists&quot;&gt;OPF Award for Research and Innovation&lt;/a&gt;, which &amp;#8220;recognises excellence in practical research and innovation activities&amp;#8221;. &lt;/p&gt;
+
+&lt;p&gt;More information can be found here:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.dpconline.org/newsroom/latest-news/1271-dpa-2014finalists&quot;&gt;http://www.dpconline.org/newsroom/latest-news/1271-dpa-2014finalists&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Groovy!&lt;/p&gt;
+</description>
+                <link>http://jpylyzer.openpreservation.org//2014/09/11/Jpylyzer-finalist-dpa</link>
+                <guid>http://jpylyzer.openpreservation.org//2014/09/11/Jpylyzer-finalist-dpa</guid>
+                <pubDate>2014-09-11T00:00:00+02:00</pubDate>
+        </item>
+
+        <item>
+                <title>Changes to the User Manual</title>
+                <description>
+&lt;p&gt;Over the last weeks there have been some changes related to the jpylyzer User Manual. Here&amp;#8217;s a brief overview.&lt;/p&gt;
+
+&lt;h3 id=&quot;user-manual-now-part-of-website&quot;&gt;User Manual now part of website&lt;/h3&gt;
+
+&lt;p&gt;The &lt;em&gt;jpylyzer&lt;/em&gt; User Manual is now available online as part of this website. Check out the following link:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://openplanets.github.io/jpylyzer/userManual.html&quot;&gt;http://openplanets.github.io/jpylyzer/userManual.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;source-of-user-manual-now-in-markdown&quot;&gt;Source of User Manual now in Markdown&lt;/h3&gt;
+
+&lt;p&gt;This is the first result of an effort to move jpylyzer&amp;#8217;s documentation away from Microsoft Word:
+the source of the User Manual is now entirely written in &lt;a href=&quot;http://michelf.ca/projects/php-markdown/extra/&quot;&gt;Markdown Extra&lt;/a&gt;,
+with some &lt;a href=&quot;http://en.wikipedia.org/wiki/MathML&quot;&gt;MathML&lt;/a&gt; which is used for the equations. 
+With the &lt;a href=&quot;http://johnmacfarlane.net/pandoc/&quot;&gt;Pandoc&lt;/a&gt; tool the Markdown source can be exported to a wide variety of delivery formats.&lt;/p&gt;
+
+&lt;h3 id=&quot;figures-as-svg&quot;&gt;Figures as SVG&lt;/h3&gt;
+
+&lt;p&gt;In addition to this, the figures in the User Manual are now all available as editable &lt;a href=&quot;http://en.wikipedia.org/wiki/Scalable_Vector_Graphics&quot;&gt;Scalable Vector Graphics&lt;/a&gt; files. These can be found (alongside the 
+Markdown source) in the Github repo:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/openplanets/jpylyzer/tree/master/doc&quot;&gt;https://github.com/openplanets/jpylyzer/tree/master/doc&lt;/a&gt; &lt;/p&gt;
+
+&lt;p&gt;These changes remove any dependencies on proprietary formats and tools. Hopefully this will make it easier for people to contribute to 
+jpylyzer and its documentation.&lt;/p&gt;
+
+&lt;h3 id=&quot;status-of-pdf&quot;&gt;Status of PDF&lt;/h3&gt;
+
+&lt;p&gt;The status of the &lt;em&gt;PDF&lt;/em&gt; version of the Manual is a bit unclear at this stage: a first test at updating the &lt;em&gt;PDF&lt;/em&gt; from the Markdown source resulted in 
+some issues (the main problem is that some of the tables are not properly fitted to the page), and I&amp;#8217;m still looking for a solution for that. 
+Perhaps more importantly, I&amp;#8217;m not sure if there&amp;#8217;s real &lt;em&gt;need&lt;/em&gt; for a PDF version anymore. For now I&amp;#8217;ll leave the old &lt;em&gt;PDF&lt;/em&gt; (which is based on the Word document) online.
+Needless to say this is only a temporary solution (the Word document will eventually be removed from the repo altogether).&lt;/p&gt;
+
+</description>
+                <link>http://jpylyzer.openpreservation.org//2014/05/07/changes-user-manual</link>
+                <guid>http://jpylyzer.openpreservation.org//2014/05/07/changes-user-manual</guid>
+                <pubDate>2014-05-07T00:00:00+02:00</pubDate>
+        </item>
+
+        <item>
+                <title>Release of jpylyzer 1.13.0</title>
+                <description>
+&lt;p&gt;Since it&amp;#8217;s been quite a while since the previous binary release (which was version 1.10.1), here&amp;#8217;s a brief overview of the main changes since that version:&lt;/p&gt;
+
+&lt;h3 id=&quot;pretty-printed-output&quot;&gt;Pretty-printed output&lt;/h3&gt;
+&lt;p&gt;The most visible change is that &lt;em&gt;jpylyzer&lt;/em&gt; now produces output as pretty-printed XML. If you&amp;#8217;re using &lt;em&gt;jpylyzer&lt;/em&gt; interactively, you can now inspect its output without the need to use a dedicated XML editor or viewer; just use any text editor you like. You can suppress pretty printing with the &lt;em&gt;&amp;#8211;nopretty&lt;/em&gt; option.&lt;/p&gt;
+
+&lt;h3 id=&quot;improved-stability-in-case-of-malformed-images&quot;&gt;Improved stability in case of malformed images&lt;/h3&gt;
+&lt;p&gt;Andy Jackson of the British Library reported some &lt;a href=&quot;https://github.com/openplanets/jpylyzer/issues/31&quot;&gt;odd behaviour&lt;/a&gt; with images that were (deliberately) malformed by flipping specific bit values. An analysis revealed a number of edge cases that would drive &lt;em&gt;jpylyzer&lt;/em&gt; into an (almost) infinite loop. Although  you&amp;#8217;re unlikely to run into such malformations with actual images that exist &amp;#8216;in the wild&amp;#8217;, &lt;em&gt;jpylyzer&lt;/em&gt; now handles these cases gracefully.&lt;/p&gt;
+
+&lt;h3 id=&quot;extraction-of-null-terminated-xml-content&quot;&gt;Extraction of null-terminated XML content&lt;/h3&gt;
+&lt;p&gt;Old versions of certain &lt;em&gt;JPEG 2000&lt;/em&gt; encoders would erroneously terminate embedded XML with a null byte. As this results in an XML (or UUID) box whose contents are not well-formed XML, &lt;em&gt;jpylyzer&lt;/em&gt; doesn&amp;#8217;t include the XML in its output if this happens. The new &lt;em&gt;&amp;#8211;nullxml&lt;/em&gt; option forces &lt;em&gt;jpylyzer&lt;/em&gt; to extract the XML (minus the trailing null byte) in that case. The use of this option does &lt;em&gt;not&lt;/em&gt; affect the validation outcome in any way.&lt;/p&gt;
+
+&lt;h3 id=&quot;validation-of-codestream-comments&quot;&gt;Validation of codestream comments&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Jpylyzer&lt;/em&gt; now includes a check on the presence of control characters in codestream comments.&lt;/p&gt;
+
+&lt;h3 id=&quot;validation-of-url-box&quot;&gt;Validation of URL box&lt;/h3&gt;
+&lt;p&gt;URLs in the URL box must be terminated with a null-byte; &lt;em&gt;jpylyzer&lt;/em&gt; now performs a check for this.  &lt;/p&gt;
+
+&lt;h3 id=&quot;improved-handling-of-control-characters-and-utf-8&quot;&gt;Improved handling of control characters and UTF-8&lt;/h3&gt;
+&lt;p&gt;This release also fixes a number of minor bugs that are related to the handling of control characters in extracted content, and the subsequent encoding of extracted features as UTF-8 encoded text.&lt;/p&gt;
+
+&lt;h3 id=&quot;miscellaneous-bugfixes-and-improvements&quot;&gt;Miscellaneous bugfixes and improvements&lt;/h3&gt;
+&lt;p&gt;In addition to the above changes, this release contains a number of small fixes, improvements and optimisations, most of which are invisible to the user. Also, the source code now (mostly) respects the conventions of the &lt;a href=&quot;http://legacy.python.org/dev/peps/pep-0008/&quot;&gt;PEP 8&lt;/a&gt; style guide, which should make it easier to read.&lt;/p&gt;
+
+&lt;h2 id=&quot;improved-build-process-more-regular-releases&quot;&gt;Improved build process, more regular releases&lt;/h2&gt;
+&lt;p&gt;For some time the release schedule of binary packages for &lt;em&gt;jpylyzer&lt;/em&gt; has been lagging behind the development version for quite a bit. The main reason for this was the somewhat awkward process for making the Debian packages: each release includes both 64 and 32 bit packages, each of which needs to be built on a different architecture.&lt;/p&gt;
+
+&lt;p&gt;A recent &lt;a href=&quot;http://wiki.opf-labs.org/display/SP/SCAPE+Training+Event+-+Preserving+Your+Preservation+Tools&quot;&gt;SCAPE training event&lt;/a&gt; gave me the idea of creating each build using a dedicated virtual machine, which is pretty easy with &lt;a href=&quot;https://www.virtualbox.org/&quot;&gt;&lt;em&gt;VirtualBox&lt;/em&gt;&lt;/a&gt; and &lt;a href=&quot;http://www.vagrantup.com/&quot;&gt;&lt;em&gt;Vagrant&lt;/em&gt;&lt;/a&gt;. That didn&amp;#8217;t &lt;em&gt;quite&lt;/em&gt; work, as &lt;em&gt;VirtualBox&lt;/em&gt; turned out to be unable to cope with any 64-bit virtual machines (which is probably a quirk of the host machine I&amp;#8217;m using for the builds, which is quite old). In the end I decided on doing a clean install of &lt;a href=&quot;http://www.linuxmint.com/release.php?id=18&quot;&gt;&lt;em&gt;Linux Mint&lt;/em&gt; 13&lt;/a&gt; on the host machine (based on &lt;a href=&quot;http://releases.ubuntu.com/12.04/&quot;&gt;&lt;em&gt;Ubuntu&lt;/em&gt; 12.04 &lt;em&gt;Precise&lt;/em&gt;&lt;/a&gt;), and this machine is used directly for creating the 64 bit packages. The 32 bit packages are made on a virtual machine running the 32 bit version of &lt;em&gt;Ubuntu Precise&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Finally the &lt;em&gt;Windows&lt;/em&gt; executables are made on a separate machine, as always. Overall this results in a workflow that is reasonably straightforward. This should result in more regular binary releases from now on.&lt;/p&gt;
+
+</description>
+                <link>http://jpylyzer.openpreservation.org//2014/04/10/Release-of-jpylyzer-1-13-0</link>
+                <guid>http://jpylyzer.openpreservation.org//2014/04/10/Release-of-jpylyzer-1-13-0</guid>
+                <pubDate>2014-04-10T00:00:00+02:00</pubDate>
+        </item>
+
+        <item>
+                <title>Launch of jpylyzer homepage</title>
+                <description>
+&lt;p&gt;At long last &lt;em&gt;jpylyzer&lt;/em&gt; has its own homepage. From now on these pages will be the main channel for updates on this tool. This also means that &lt;a href=&quot;http://www.openplanetsfoundation.org/software/jpylyzer&quot;&gt;the old &lt;em&gt;jpylyzer&lt;/em&gt; page on the main site of the Open Planets Foundation&lt;/a&gt; is now largely obsolete (we&amp;#8217;ll probably put a redirect there to the current pages).  &lt;/p&gt;
+</description>
+                <link>http://jpylyzer.openpreservation.org//2014/02/18/Launch-of-jpylyzer-homepage</link>
+                <guid>http://jpylyzer.openpreservation.org//2014/02/18/Launch-of-jpylyzer-homepage</guid>
+                <pubDate>2014-02-18T00:00:00+01:00</pubDate>
+        </item>
+
+
+</channel>
+</rss>

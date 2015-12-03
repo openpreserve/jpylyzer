@@ -85,7 +85,7 @@ The [Vagrant directory](vagrant) of this repo contains instructions on how to bu
 1. Spread the word!
 
   
-[1]: https://github.com/openplanets/jpylyzer/blob/master/doc/jpylyzerUserManual.pdf?raw=true
+[1]: http://jpylyzer.openpreservation.org//jpylyzerUserManual.html
 [2]: http://www.jpeg.org/public/15444-1annexi.pdf
 [3]: http://www.itu.int/rec/T-REC-T.800/en
 [4]: http://www.scape-project.eu/

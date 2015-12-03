@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Release of jpylyzer 1.14.1</title>
+    
+    <meta name="author" content="National Library of the Netherlands / Open Preservation Foundation">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    
+  <!-- Place banner image aligned with column layout --> 
+  <div class="top-area">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span2">
+	  </div>
+      <div class="span10">
+	    <!-- Column center (banner goes here) -->
+        <div class="banner-header">
+		  <!--<a href="/"><img src="/images/logojpylyzer_616x198.png" alt="jpylyzer"  width="616" height="198"></a> -->
+		  <a href=""><img src="/images/logojpylyzer_399x128.png" alt="jpylyzer"  width="399" height="128"></a>
+		  <div class="banner-tagline">JP2 validator and extractor</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+  <div class="container-fluid">
+	<div class="row-fluid">
+	  <div class="span2">
+	    <div class="sidebarLeft">
+        <p><a href="/2014/09/11/Jpylyzer-finalist-dpa"><img src="/images/dpc_awards_150.png" alt="Digital Preservation Awards"  width="150" height="150"></a></p>
+		<br>
+		<p><a href="http://kb.nl/en"><img src="/images/logo-KB.png" alt="KB"  width="157" height="103"></a></p>
+		<br>
+		<p><a href="http://www.openpreservation.org/"><img src="/images/opf-text-160x92.png" alt="OPF"  width="160" height="92"></a></p>
+		<br>
+		<p><a href="http://www.scape-project.eu/"><img src="/images/scapelogo-170x57.png" alt="SCAPE"  width="170" height="57"></a></p>
+		<br><br><br><br>
+      </div>
+
+      <div class="sidebarLeft">
+        <figure>
+          <a href="/rss.xml"><img src="/images/feed-icon-32.png" alt="RSS" width="32" height="32"></a>
+          <figcaption>
+            <a href="/rss.xml">RSS</a>
+          </figcaption>
+        </figure>
+
+        <figure>
+          <a href="/atom.xml"><img src="/images/feed-icon-32.png" alt="ATOM" width="32" height="32"></a>
+          <figcaption>
+            <a href="/atom.xml">ATOM</a>
+          </figcaption>
+        </figure>
+        
+        <br><br>
+        <figure>
+          <a href="/"><img src="/images/home-icon-40x32.png" alt="ATOM" width="40" height="32"></a>
+          <figcaption>
+            <a href="/">Jpylyzer home</a>
+          </figcaption>
+        </figure> 
+        
+		</div>
+	  </div>
+	
+	  <div class="span6">
+	    <!-- Column center (main content) -->
+        <div class="content">
+          
+<!-- <div class="page-header">
+ <h1>Release of jpylyzer 1.14.1 </h1>
+</div> -->
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <h1>Release of jpylyzer 1.14.1</h1>
+    <div class="date">
+      <span>25 March 2015</span>
+    </div>
+    <div class="content">
+      
+<p>Following a year of limited development activity, we proudly present <em>jpylyzer</em> 1.14.1. Here&#8217;s an overview of the most noticeable changes in this version.</p>
+
+<h3 id="improved-xml-output">Improved XML output</h3>
+
+<p><em>Jpylyzer</em>&#8217;s output now  contains a namespace declaration as well as a reference to an XSD schema. The <a href="http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd">schema can be found here</a>. Hopefully these improvements will make post-processing <em>jpylyzer</em>&#8217;s output easier. Note that the schema has had limited testing so far, and it&#8217;s not inconceivable that it may need further tweaking. If you get unexpected results (e.g. output files that are not valid against the schema) please let us know, preferrably using the <a href="https://github.com/openpreserve/jpylyzer/issues">issue tracker</a>.</p>
+
+<h3 id="recursive-scanning-of-directory-trees">Recursive scanning of directory trees</h3>
+
+<p>The new <code>--recurse</code> option allows you to recursively scan a directory tree. Read <a href="http://jpylyzer.openpreservation.org//userManual.html#warning">this warning</a> before using this feature; for operational production settings it&#8217;s probably safer not to use it yet. Thanks go out to Adam Retter, Jaishree Davey and Laura Damian of The National Archives (UK) who submitted this feature.</p>
+
+<h3 id="user-manual-changes">User Manual changes</h3>
+
+<p>The User Manual is now accessible in two ways:</p>
+
+<ol>
+  <li>
+    <p><a href="http://jpylyzer.openpreservation.org/userManual.html">online on the main website</a>;</p>
+  </li>
+  <li>
+    <p>as a <a href="http://jpylyzer.openpreservation.org/jpylyzerUserManual.html">downloadable self-contained HTML file</a>. This file is completely self-contained (all style sheets, images, etc. are embedded in one single file), which makes it suitable for offline viewing. This replaces the former PDF version, which is now discontinued. (With the source of the User Manual now being in MarkDown, generating PDF derivatives of acceptable quality turned out to be too much hassle.) Both versions are generated from the MarkDown source with this little <a href="https://github.com/openpreserve/jpylyzer/blob/master/doc/mdToDeliveryFormats.sh">script</a>.</p>
+  </li>
+</ol>
+
+<h3 id="cli-argument-parser-fix">CLI argument parser fix</h3>
+
+<p>The helper message in the latest versions of <em>jpylyzer</em> was somewhat confusing because the argument parser library was called in an unusual way. This has also been fixed (<em>jpylyzer</em>&#8217;s behavior is unaffected by this).</p>
+
+<h3 id="vagrant-virtual-machine-definitions-and-build-scripts">Vagrant virtual machine definitions and build scripts</h3>
+
+<p>The <a href="https://github.com/openpreserve/jpylyzer/tree/master/vagrant">Vagrant</a> directory of the source repo allows you to automatically set up virtual machines for building 64 and 32 bit Debian packages using <a href="http://www.vagrantup.com/"><em>Vagrant</em></a> and <a href="https://www.virtualbox.org/">VirtualBox</a>.</p>
+
+<h3 id="miscellaneous-fixes">Miscellaneous fixes</h3>
+
+<p>Apart from the above changes, this release includes various minor tweaks, clean-ups and fixes; most of these are unnoticeable to the user.</p>
+
+<h3 id="final-remarks">Final remarks</h3>
+
+<p>It&#8217;s always possible that changes cause things to go wrong unintentionally; if this happens please get in touch, if possible using the <a href="https://github.com/openpreserve/jpylyzer/issues">issue tracker</a>. Meanwhile, happy jpylyzing!</p>
+
+
+    </div>
+
+    
+
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2014/11/20/New-location-of-source-repository" title="New location of source repository">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2015/12/03/Release-of-jpylyzer-1-15-1" title="Release of jpylyzer 1.15.1">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+  </div>
+</div>
+
+
+        </div>	
+	  </div>
+	  	  
+	  <div class="span3"> 
+              
+	    <div class="sidebar">
+	      <!-- Column right -->
+	      <h2>Binaries <small>(version 1.15.1)</small></h2>
+          
+          <h3>Windows</h3>
+          
+          <figure>       
+            <a href="http://dl.bintray.com/openplanets/opf-windows/jpylyzer_1.15.1_win32.zip"><img src="/images/Windows-icon-64.png" alt="Windows 32 bit binaries"  width="64" height="64"></a>
+            <figcaption>
+		      <a href="http://dl.bintray.com/openplanets/opf-windows/jpylyzer_1.15.1_win32.zip">32 bit</a>
+		    </figcaption>
+          </figure>
+          
+          <br>
+		  
+          <h3>Debian</h3>
+          <figure>
+		    <a href="http://dl.bintray.com/openplanets/opf-debian/jpylyzer_1.15.1_amd64.deb"><img src="/images/linux-icon-64.png" alt="Amd64 Debian"  width="55" height="64"></a>
+            <figcaption>
+		      <a href="http://dl.bintray.com/openplanets/opf-debian/jpylyzer_1.15.1_amd64.deb">Amd 64</a>
+		    </figcaption>
+          </figure>
+                    
+          <figure>
+		    <a href="http://dl.bintray.com/openplanets/opf-debian/jpylyzer_1.15.1_i386.deb"><img src="/images/linux-icon-64.png" alt="i386 Debian"  width="55" height="64"></a>
+		    <figcaption>
+              <a href="http://dl.bintray.com/openplanets/opf-debian/jpylyzer_1.15.1_i386.deb">i386</a>
+		    </figcaption>
+          </figure>
+         </div>
+         
+        <div class="sidebar">
+	      <h2>User Manual</h2>
+          
+          <figure>
+		    <a href="/userManual.html"><img src="/images/book_icon.png" alt="Manual"  width="64" height="48"></a>
+            <figcaption>
+		      <a href="/userManual.html">Online</a>
+            </figcaption>
+          </figure>
+                    
+          <figure>
+		    <a href=""><img src="/images/HTML5_Logo_64.png" alt="HTML"  width="64" height="64"></a>
+            <figcaption>
+              <a href="/jpylyzerUserManual.html" download>Download</a>
+            </figcaption>
+          </figure>
+          
+	    </div>
+
+        <div class="sidebar">
+		  <h2>Troubleshooting</h2>
+          
+          <figure>
+            <a href="https://github.com/openpreserve/jpylyzer/issues"><img src="/images/issue-64.png" alt="issue tracker"  width="64" height="64"></a>
+		    <figcaption>
+              <a href="https://github.com/openpreserve/jpylyzer/issues">Issue tracker</a>
+		    </figcaption>
+          </figure>   
+
+	    </div>
+        
+        <div class="sidebar">
+		  <h2>Developer resources</h2>
+          
+          <figure>
+		    <a href="https://github.com/openpreserve/jpylyzer"><img src="/images/Octocat-64.png" alt="git repo"  width="64" height="53"></a>
+		    <figcaption>
+              <a href="https://github.com/openpreserve/jpylyzer">Source code</a>
+		    </figcaption>
+          </figure>
+
+          <figure>
+		    <a href="https://github.com/openpreserve/jpylyzer-test-files"><img src="/images/testcard-64.png" alt="test images"  width="64" height="64"></a>
+		    <figcaption>
+              <a href="https://github.com/openpreserve/jpylyzer-test-files">Test files</a>
+            </figcaption>
+          </figure>          
+
+	    </div>
+        
+        <div class="sidebar">
+		  <h2>Additional resources</h2>
+          
+          <figure>
+		    <a href="http://www.openpreservation.org/category/preservation-topics/jpylyzer"><img src="/images/opf-logo-notext-64x56.png" alt="OPF"  width="64" height="56"></a>
+            <figcaption>
+		      <a href="http://www.openpreservation.org/category/preservation-topics/jpylyzer">Blog posts at OPF</a>
+            </figcaption>
+          </figure>
+         
+	    </div>
+        
+      </div>	  
+	</div>
+	
+	<footer>
+	<hr>
+	<div class="row-fluid">
+      <div class="span2">
+	    <!-- Column left (empty) -->
+	  </div>
+	  
+	  <div class="span6">
+	  <!-- Column center (footer text) -->
+	    <p><small>&copy; 2015 National Library of the Netherlands / Open Preservation Foundation
+        with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+        and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>; book icon adapted from <a href="http://commons.wikimedia.org/wiki/File:Black_book_icon.svg" target="_blank">Waldir</a></small></p>
+      </div>
+	</div>
+    </footer>
+  </div>
+
+    
+  </body>
+</html>
+
