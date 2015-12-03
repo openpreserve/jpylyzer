@@ -7,7 +7,7 @@
 require 'pp'
 module Jekyll
   # Need to overwrite the inspect method here because the original
-  # uses < > to encapsulate the psuedo post/page objects in which case
+  # uses < > to encapsulate the pseudo post/page objects in which case
   # the output is taken for HTML tags and hidden from view.
   #
   class Post

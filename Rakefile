@@ -74,7 +74,7 @@ end # task :post
 
 # Usage: rake page name="about.html"
 # You can also specify a sub-directory path.
-# If you don't specify a file extention we create an index.html at the path specified
+# If you don't specify a file extension we create an index.html at the path specified
 desc "Create a new page."
 task :page do
   name = ENV["name"] || "new-page.md"
@@ -102,7 +102,7 @@ task :preview do
   system "jekyll serve -w"
 end # task :preview
 
-# Public: Alias - Maintains backwards compatability for theme switching.
+# Public: Alias - Maintains backwards compatibility for theme switching.
 task :switch_theme => "theme:switch"
 
 namespace :theme do
