@@ -55,7 +55,7 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 if len(scriptName) == 0:
     scriptName = 'jpylyzer'
 
-__version__ = "1.14.5"
+__version__ = "1.15.0"
 
 # Create parser
 parser = argparse.ArgumentParser(
@@ -268,7 +268,7 @@ def checkOneFile(file):
 
     f = open(file, "rb")
     
-    # Call to mmap is different on Linuix and Windows, so we need to know
+    # Call to mmap is different on Linux and Windows, so we need to know
     # the current platform
     platform = config.PLATFORM
 

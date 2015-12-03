@@ -1,3 +1,10 @@
+jpylyzer (1.15.0) precise; urgency=medium
+
+  * Input file(s) now mapped into memory using mmap (based on patch 
+    by Stefan Weil)
+
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Thu, 03 Dec 2015 12:18:13 +0100
+
 jpylyzer (1.14.5) precise; urgency=medium
 
   * Fixed locHasNullTerminator bug that occurred under Python 3 
