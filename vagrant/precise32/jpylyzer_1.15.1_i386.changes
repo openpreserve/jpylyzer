@@ -1,0 +1,28 @@
+Format: 1.8
+Date: Thu, 03 Dec 2015 14:36:49 +0100
+Source: jpylyzer
+Binary: jpylyzer
+Architecture: source i386
+Version: 1.15.1
+Distribution: precise
+Urgency: medium
+Maintainer: Open Preservation Foundation <jpylyzer-dev@openplanetsfounation.org>
+Changed-By: Johan van der Knijff <johan.vanderknijff@kb.nl>
+Description: 
+ jpylyzer   - JP2 (JPEG 2000 Part 1) validator and properties extractor.
+Changes: 
+ jpylyzer (1.15.1) precise; urgency=medium
+ .
+   * Catch mmap failure for empty files (Stefan Weil)
+Checksums-Sha1: 
+ d32ad1cb77ea603544c567bb85ede46ce72fc6e4 598 jpylyzer_1.15.1.dsc
+ 0b01f50ad997eab7a30bc259325911b92d9deeb6 97437484 jpylyzer_1.15.1.tar.gz
+ ee6a74d0d1d53f1931b122e5edb39ec7458c03ec 5942210 jpylyzer_1.15.1_i386.deb
+Checksums-Sha256: 
+ d61af0f5ee77856f8e6b01efc68813ace958aa79e1aa091b43ff1379557d4f9f 598 jpylyzer_1.15.1.dsc
+ 55a2b5cd0848add424510068052c921c077c07c243ef2c2762ed1809c474d85b 97437484 jpylyzer_1.15.1.tar.gz
+ 62c8d8270da2c2ca1ed56a3851d25a5329aff0ab40a754a07d9767cb075d8875 5942210 jpylyzer_1.15.1_i386.deb
+Files: 
+ d8518e8fe1fb82458860c61f708127ae 598 utils extra jpylyzer_1.15.1.dsc
+ d6067ac7a41771afb9770603f8babf4f 97437484 utils extra jpylyzer_1.15.1.tar.gz
+ 6cc14d95a69f9694682bf6ba5dd1d0cc 5942210 utils extra jpylyzer_1.15.1_i386.deb
