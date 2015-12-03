@@ -106,6 +106,13 @@
 	      <h2>Binaries <small>(version {{ site.binVersion }})</small></h2>
           
           <h3>Windows</h3>
+
+          <figure>       
+            <a href="{{ site.win64Pre }}{{ site.binVersion }}{{ site.win64Suf }}"><img src="{{ BASE_PATH }}/images/Windows-icon-64.png" alt="Windows 64 bit binaries"  width="64" height="64"></a>
+            <figcaption>
+		      <a href="{{ site.win64Pre }}{{ site.binVersion }}{{ site.win64Suf }}">64 bit</a>
+		    </figcaption>
+          </figure>
           
           <figure>       
             <a href="{{ site.win32Pre }}{{ site.binVersion }}{{ site.win32Suf }}"><img src="{{ BASE_PATH }}/images/Windows-icon-64.png" alt="Windows 32 bit binaries"  width="64" height="64"></a>
@@ -113,7 +120,7 @@
 		      <a href="{{ site.win32Pre }}{{ site.binVersion }}{{ site.win32Suf }}">32 bit</a>
 		    </figcaption>
           </figure>
-          
+         
           <br>
 		  
           <h3>Debian</h3>

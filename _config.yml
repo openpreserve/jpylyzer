@@ -29,6 +29,8 @@ userManualName: jpylyzerUserManual.html
 # Prefixes/suffixes that define file paths to binary downloads
 win32Pre: http://dl.bintray.com/openplanets/opf-windows/jpylyzer_
 win32Suf: _win32.zip
+win64Pre: http://dl.bintray.com/openplanets/opf-windows/jpylyzer_
+win64Suf: _win64.zip
 amd64Pre: http://dl.bintray.com/openplanets/opf-debian/jpylyzer_
 amd64Suf: _amd64.deb
 i386Pre: http://dl.bintray.com/openplanets/opf-debian/jpylyzer_
