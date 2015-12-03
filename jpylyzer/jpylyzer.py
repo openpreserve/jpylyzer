@@ -272,18 +272,24 @@ def checkOneFile(file):
     # the current platform
     platform = config.PLATFORM
 
-    if platform == "win32":
-        # Parameters for Windows may need further fine-tuning ...
-        fileData = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
-    else:
-        # This works for Linux (and Cygwin on Windows). Not too sure
-        # about other platforms like Mac OS though
-        fileData = mmap.mmap(f.fileno(), 0, mmap.MAP_SHARED, mmap.PROT_READ)
+    try:
+        if platform == "win32":
+            # Parameters for Windows may need further fine-tuning ...
+            fileData = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+        else:
+            # This works for Linux (and Cygwin on Windows). Not too sure
+            # about other platforms like Mac OS though
+            fileData = mmap.mmap(f.fileno(), 0, mmap.MAP_SHARED, mmap.PROT_READ)
+    except ValueError:
+        # mmap fails on empty files.
+        fileData = ""
 
     isValidJP2, tests, characteristics = BoxValidator(
         "JP2", fileData).validate()  # validateJP2(fileData)
 
-    fileData.close()
+    if fileData != "":
+        fileData.close()
+
     f.close()
 
     # Generate property values remap table
