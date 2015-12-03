@@ -267,18 +267,18 @@ def checkOneFile(file):
     # fileData = readFileBytes(file)
 
     f = open(file, "rb")
-    
+
     # Call to mmap is different on Linux and Windows, so we need to know
     # the current platform
     platform = config.PLATFORM
 
     if platform == "win32":
         # Parameters for Windows may need further fine-tuning ...
-        fileData = mmap.mmap(f.fileno(), 0, access = mmap.ACCESS_READ)
+        fileData = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
     else:
-        # This works for Linux (and Cygwin on Windows). Not too sure 
+        # This works for Linux (and Cygwin on Windows). Not too sure
         # about other platforms like Mac OS though
-        fileData = mmap.mmap(f.fileno(), 0, mmap.MAP_SHARED, mmap.PROT_READ)   
+        fileData = mmap.mmap(f.fileno(), 0, mmap.MAP_SHARED, mmap.PROT_READ)
 
     isValidJP2, tests, characteristics = BoxValidator(
         "JP2", fileData).validate()  # validateJP2(fileData)
@@ -301,9 +301,9 @@ def checkOneFile(file):
         root = ET.Element('jpylyzer')
     else:
         root = ET.Element(
-        'jpylyzer', {'xmlns' : 'http://openpreservation.org/ns/jpylyzer/',
-        'xmlns:xsi' : 'http://www.w3.org/2001/XMLSchema-instance' ,
-        'xsi:schemaLocation' : 'http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd'})
+            'jpylyzer', {'xmlns': 'http://openpreservation.org/ns/jpylyzer/',
+                         'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                         'xsi:schemaLocation': 'http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd'})
 
     # Create elements for storing tool and file meta info
     toolInfo = ET.Element('toolInfo')
@@ -449,10 +449,10 @@ def findFiles(recurse, paths):
             """
 
             # If the input path returned files list, add files to List
-            
+
             if len(filesList) == 1 and os.path.isfile(filesList[0]):
                 existingFiles.append(filesList[0])
-            
+
             if len(filesList) > 1:
                 for f in filesList:
                     if os.path.isfile(f):
@@ -503,6 +503,7 @@ def findFiles(recurse, paths):
             # get files in the current folder and sub dirs w/o wildcard in path
             elif os.path.isdir(root):
                 getFilesFromTree(root)
+
 
 def writeElement(elt, codec):
     # Writes element as XML to stdout using defined codec
