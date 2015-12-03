@@ -1290,7 +1290,7 @@ class BoxValidator:
             marker = self.boxContents[offset:offset + 2]
 
             # TEST
-            #print("Offset: " + str(offset))
+            # print("Offset: " + str(offset))
             # TEST
 
             if marker == b'\xff\x90':
@@ -1792,7 +1792,8 @@ class BoxValidator:
 
         # Ideally decode above should raise exception if comment is not valid
         # ISO 8859-15, but this doesn't work. So instead we do this indirectly
-        # by looking for control characters (tab, newline and carriage return are OK)
+        # by looking for control characters (tab, newline and carriage return
+        # are OK)
         if bc.removeControlCharacters(comment) == comment:
             commentIsValid = True
         else:
@@ -2203,7 +2204,7 @@ class BoxValidator:
 
         # Location: this is the actual URL, encoded as a UTF-8 string
         loc = self.boxContents[4:len(self.boxContents)]
-        
+
         # Last byte of loc must be null terminator
         self.testFor("locHasNullTerminator", loc.endswith(b'\x00'))
 
@@ -2219,7 +2220,7 @@ class BoxValidator:
 
         # Try decode to UTF-8
         try:
-            tmp=loc.decode("utf-8","strict")
+            tmp = loc.decode("utf-8", "strict")
             self.testFor("locIsUTF8", True)
         except UnicodeDecodeError:
             self.testFor("locIsUTF8", False)
