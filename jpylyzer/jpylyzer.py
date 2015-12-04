@@ -298,7 +298,7 @@ def checkOneFile(file):
         root = ET.Element(
             'jpylyzer', {'xmlns': 'http://openpreservation.org/ns/jpylyzer/',
                          'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-                         'xsi:schemaLocation': 'http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd'})
+                         'xsi:schemaLocation': 'http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-1.xsd'})
 
     # Create elements for storing tool, file and status meta info
     toolInfo = ET.Element('toolInfo')
@@ -360,20 +360,19 @@ def checkOneFile(file):
             failureMessage = "unknown error (please report to developers)"
 
         printWarning(failureMessage)
-        tests = ET.Element('tests')
-        characteristics = ET.Element('characteristics')
+        tests = ET.Element("tests")
+        characteristics = ET.Element('properties')
  
     # Add status info
     statusInfo.appendChildTagWithText("success", str(success))
     if success == False:
         statusInfo.appendChildTagWithText("failureMessage",failureMessage)
-    # Add validation outcome
-    root.appendChildTagWithText("isValidJP2", str(isValidJP2))
-
+  
     # Append all results to root
     root.append(toolInfo)
     root.append(fileInfo)
     root.append(statusInfo)
+    root.appendChildTagWithText("isValidJP2", str(isValidJP2))
     root.append(tests)
     root.append(characteristics)
 
@@ -594,7 +593,7 @@ def checkFiles(recurse, wrap, paths):
         xmlHead = "<?xml version='1.0' encoding='UTF-8'?>\n"
         xmlHead += "<results xmlns=\"http://openpreservation.org/ns/jpylyzer/\"\n"
         xmlHead += "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-        xmlHead += "xsi:schemaLocation=\"http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd\">\n"
+        xmlHead += "xsi:schemaLocation=\"http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-1.xsd\">\n"
     else:
         xmlHead = "<?xml version='1.0' encoding='UTF-8'?>\n"
     out.write(xmlHead)
