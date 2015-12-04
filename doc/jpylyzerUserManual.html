@@ -497,7 +497,11 @@ User warning: unknown error (please report to developers)</code></pre>
 <ul>
 <li><p><em>success</em>: a Boolean flag that indicates whether the validation attempt completed normally (&#8220;True&#8221;) or not (&#8220;False&#8221;). A value of &#8220;False&#8221; indicates an internal error that prevented <em>jpylyzer</em> from validating the file.</p></li>
 <li><p><em>failureMessage</em>: if the validation attempt failed (value of <em>success</em> equals &#8220;False&#8221;), this field gives further details about the reason of the failure. Examples are:</p>
-<p>memory error (file size too large) runtime error (please report to developers) unknown error (please report to developers)</p></li>
+<pre><code>memory error (file size too large)
+
+runtime error (please report to developers)
+
+unknown error (please report to developers)</code></pre></li>
 </ul>
 <h2 id="isvalidjp2-element"><span class="header-section-number">5.5</span> isValidJP2 element</h2>
 <p>This element contains the results of the validation. If a file passed all the tests (i.e. all tests returned &#8220;True&#8221;, see <a href="#tests-element">section 5.5</a>) it is most likely valid JP2, and the value of isValidJP2 will be &#8220;True&#8221;. Its value is &#8220;False&#8221; otherwise.</p>

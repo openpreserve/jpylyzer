@@ -458,7 +458,7 @@ may put constraints on the amount of memory that can be allocated.
 The following error messages most likely indicate a jpylyzer bug:  
    
     User warning:runtime error (please report to developers)
-    
+
     User warning: unknown error (please report to developers)
 
 If you ever run into either of these two errors, please get in touch with the jpylyzer
@@ -693,9 +693,11 @@ an internal error that prevented *jpylyzer* from validating the file.
 equals “False”), this field gives further details about the reason of the failure.
 Examples are:
 
-    memory error (file size too large)
-    runtime error (please report to developers)
-    unknown error (please report to developers)
+        memory error (file size too large)
+
+        runtime error (please report to developers)
+
+        unknown error (please report to developers)
 
 
 isValidJP2 element {#isvalidjp2-element}
