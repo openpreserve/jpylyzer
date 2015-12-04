@@ -88,3 +88,7 @@ ehthumbs.db
 Icon?
 Thumbs.db
 .directory
+
+# Files from gh-pages #
+#######################
+/_site
