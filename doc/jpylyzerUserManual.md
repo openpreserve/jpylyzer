@@ -455,7 +455,11 @@ Memory errors may occur for (very) large images. If you get this warning, try us
 a machine with more RAM. Also, a machine's chip architecture and the operating system
 may put constraints on the amount of memory that can be allocated.
 
-The following error messages most likely indicate a jpylyzer bug:  
+The following warning indicates an input error:
+
+    User warning: I/O error (cannot open file)
+
+Finally, the following messages most likely indicate a jpylyzer bug:  
    
     User warning:runtime error (please report to developers)
 
@@ -467,7 +471,7 @@ developers. The easiest way to do this is to create a new issue at:
 <https://github.com/openpreserve/jpylyzer/issues>
 
 #### Unknown box
-Finally, you may occasionally see this warning message:
+Occasionally, you may see this warning message:
 
     User warning: ignoring unknown box
 

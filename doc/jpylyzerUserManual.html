@@ -278,14 +278,16 @@ dos2unix *.py</code></pre>
 <p>In rare cases you may come across one of the following messages:</p>
 <pre><code>User warning: memory error (file size too large)</code></pre>
 <p>Memory errors may occur for (very) large images. If you get this warning, try using a machine with more RAM. Also, a machine's chip architecture and the operating system may put constraints on the amount of memory that can be allocated.</p>
-<p>The following error messages most likely indicate a jpylyzer bug:</p>
+<p>The following warning indicates an input error:</p>
+<pre><code>User warning: I/O error (cannot open file)</code></pre>
+<p>Finally, the following messages most likely indicate a jpylyzer bug:</p>
 <pre><code>User warning:runtime error (please report to developers)
 
 User warning: unknown error (please report to developers)</code></pre>
 <p>If you ever run into either of these two errors, please get in touch with the jpylyzer developers. The easiest way to do this is to create a new issue at:</p>
 <p><a href="https://github.com/openpreserve/jpylyzer/issues" class="uri">https://github.com/openpreserve/jpylyzer/issues</a></p>
 <h4 id="unknown-box"><span class="header-section-number">3.2.6.4</span> Unknown box</h4>
-<p>Finally, you may occasionally see this warning message:</p>
+<p>Occasionally, you may see this warning message:</p>
 <pre><code>User warning: ignoring unknown box</code></pre>
 <p>This happens if <em>jpylyzer</em> encounters a box that is not defined by JPEG 2000 Part 1. It should be noted that, to a large extent, JPEG 2000 Part 1 permits the presence of boxes that are defined outside the standard. Again, <em>jpylyzer</em> will simply ignore these and process all other boxes normally.</p>
 <h2 id="using-as-python-module"><span class="header-section-number">3.3</span> Using <em>jpylyzer</em> as a Python module</h2>
