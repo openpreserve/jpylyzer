@@ -1,3 +1,11 @@
+jpylyzer (1.16.0) precise; urgency=medium
+
+  * Added exception handler to main image read function
+  * Added statusInfo elelement to output
+  * Added new version of XSD and output examples accordingly
+
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Fri, 04 Dec 2015 13:01:48 +0100
+
 jpylyzer (1.15.1) precise; urgency=medium
 
   * Catch mmap failure for empty files (Stefan Weil)

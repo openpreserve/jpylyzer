@@ -446,6 +446,26 @@ will display the above warning message if it encounters a (yet)
 unsupported box. Any unsupported boxes are simply ignored, and the
 remainder of the file will be analyzed (and validated) normally.
 
+#### Error while processing a file
+In rare cases you may come across one of the following messages:
+
+    User warning: memory error (file size too large)
+ 
+Memory errors may occur for (very) large images. If you get this warning, try using 
+a machine with more RAM. Also, a machine's chip architecture and the operating system
+may put constraints on the amount of memory that can be allocated.
+
+The following error messages most likely indicate a jpylyzer bug:  
+   
+    User warning:runtime error (please report to developers)
+
+    User warning: unknown error (please report to developers)
+
+If you ever run into either of these two errors, please get in touch with the jpylyzer
+developers. The easiest way to do this is to create a new issue at:
+
+<https://github.com/openpreserve/jpylyzer/issues>
+
 #### Unknown box
 Finally, you may occasionally see this warning message:
 
@@ -612,12 +632,14 @@ The root element (*jpylyzer*) contains 5 child elements:
 
 2. *fileInfo*: general information about the analysed file
 
-3. *isValidJP2*: outcome of the validation
+3. *statusInfo*: information about the status of *jpylyzer*'s validation attempt
 
-4. *tests*: outcome of the individual tests that are part of the
+4. *isValidJP2*: outcome of the validation
+
+5. *tests*: outcome of the individual tests that are part of the
 validation process (organised by box)
 
-5. *properties*: image properties (organised by box)
+6. *properties*: image properties (organised by box)
 
 If *jpylyzer* is executed with the *--wrapper* option, the root element
 is *results*, which contains one or more *jpylyzer* elements which
@@ -654,6 +676,29 @@ path (e.g. “d:\\data\\images\\rubbish.jp2”)
 * *fileSizeInBytes*: file size in bytes
 
 * *fileLastModified*: last modified date and time
+
+statusInfo element {#statusinfo-element}
+--------------------
+
+This element holds general information about about the status of 
+*jpylyzer*'s attempt at validating a file. It tells you whether 
+the validation process could be completed without any internal
+*jpylyzer* errors. It contains the following sub-elements:
+
+* *success*: a Boolean flag that indicates whether the validation attempt 
+completed normally (“True”) or not (“False”). A value of “False” indicates
+an internal error that prevented *jpylyzer* from validating the file. 
+
+* *failureMessage*: if the validation attempt failed (value of *success* 
+equals “False”), this field gives further details about the reason of the failure.
+Examples are:
+
+        memory error (file size too large)
+
+        runtime error (please report to developers)
+
+        unknown error (please report to developers)
+
 
 isValidJP2 element {#isvalidjp2-element}
 ----------------------

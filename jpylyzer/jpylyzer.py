@@ -55,7 +55,7 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 if len(scriptName) == 0:
     scriptName = 'jpylyzer'
 
-__version__ = "1.15.1"
+__version__ = "1.16.0"
 
 # Create parser
 parser = argparse.ArgumentParser(
@@ -260,12 +260,10 @@ def generatePropertiesRemapTable():
 
     return(enumerationsMap)
 
+def fileToMemoryMap(file):
+    # Read contents of file to memory map object
 
-def checkOneFile(file):
-    # Process one file and return analysis result as element object
-
-    # fileData = readFileBytes(file)
-
+    # Open file
     f = open(file, "rb")
 
     # Call to mmap is different on Linux and Windows, so we need to know
@@ -283,21 +281,12 @@ def checkOneFile(file):
     except ValueError:
         # mmap fails on empty files.
         fileData = ""
+    
+    f.close()    
+    return(fileData)  
 
-    isValidJP2, tests, characteristics = BoxValidator(
-        "JP2", fileData).validate()  # validateJP2(fileData)
-
-    if fileData != "":
-        fileData.close()
-
-    f.close()
-
-    # Generate property values remap table
-    remapTable = generatePropertiesRemapTable()
-
-    # Create printable version of tests and characteristics tree
-    tests.makeHumanReadable()
-    characteristics.makeHumanReadable(remapTable)
+def checkOneFile(file):
+    # Process one file and return analysis result as element object
 
     # Create output elementtree object
 
@@ -309,11 +298,12 @@ def checkOneFile(file):
         root = ET.Element(
             'jpylyzer', {'xmlns': 'http://openpreservation.org/ns/jpylyzer/',
                          'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-                         'xsi:schemaLocation': 'http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd'})
+                         'xsi:schemaLocation': 'http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-1.xsd'})
 
-    # Create elements for storing tool and file meta info
+    # Create elements for storing tool, file and status meta info
     toolInfo = ET.Element('toolInfo')
     fileInfo = ET.Element('fileInfo')
+    statusInfo = ET.Element('statusInfo')
 
     # File name and path may contain non-ASCII characters, decoding to Latin should
     # (hopefully) prevent any Unicode decode errors. Elementtree will then deal with any non-ASCII
@@ -338,19 +328,55 @@ def checkOneFile(file):
     fileInfo.appendChildTagWithText(
         "fileLastModified", time.ctime(os.path.getmtime(file)))
 
-    # Append to root
+    # Initialise success flag
+    success = True
+    
+    try:
+        # Contents of file to memory map object
+        fileData = fileToMemoryMap(file)
+        isValidJP2, tests, characteristics = BoxValidator("JP2", fileData).validate()
+        
+        if fileData != "":
+            fileData.close()
+
+        # Generate property values remap table
+        remapTable = generatePropertiesRemapTable()
+
+        # Create printable version of tests and characteristics tree
+        tests.makeHumanReadable()
+        characteristics.makeHumanReadable(remapTable)
+    except Exception as ex:    
+        isValidJP2 = False
+        success = False
+        exceptionType = type(ex)
+
+        if exceptionType == MemoryError:
+            failureMessage = "memory error (file size too large)"
+        elif exceptionType == IOError:
+            failureMessage = "I/O error (cannot open file)"
+        elif exceptionType == RuntimeError:
+            failureMessage = "runtime error (please report to developers)"
+        else:
+            failureMessage = "unknown error (please report to developers)"
+
+        printWarning(failureMessage)
+        tests = ET.Element("tests")
+        characteristics = ET.Element('properties')
+ 
+    # Add status info
+    statusInfo.appendChildTagWithText("success", str(success))
+    if success == False:
+        statusInfo.appendChildTagWithText("failureMessage",failureMessage)
+  
+    # Append all results to root
     root.append(toolInfo)
     root.append(fileInfo)
-
-    # Add validation outcome
+    root.append(statusInfo)
     root.appendChildTagWithText("isValidJP2", str(isValidJP2))
-
-    # Append test results and characteristics to root
     root.append(tests)
     root.append(characteristics)
 
     return(root)
-
 
 def checkNullArgs(args):
     # This method checks if the input arguments list and exits program if
@@ -567,7 +593,7 @@ def checkFiles(recurse, wrap, paths):
         xmlHead = "<?xml version='1.0' encoding='UTF-8'?>\n"
         xmlHead += "<results xmlns=\"http://openpreservation.org/ns/jpylyzer/\"\n"
         xmlHead += "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-        xmlHead += "xsi:schemaLocation=\"http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd\">\n"
+        xmlHead += "xsi:schemaLocation=\"http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-1.xsd\">\n"
     else:
         xmlHead = "<?xml version='1.0' encoding='UTF-8'?>\n"
     out.write(xmlHead)
@@ -577,7 +603,7 @@ def checkFiles(recurse, wrap, paths):
 
         # Analyse file
         xmlElement = checkOneFile(path)
-
+       
         # Write output to stdout
         writeElement(xmlElement, out)
 
