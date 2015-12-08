@@ -247,8 +247,6 @@ dos2unix *.py</code></pre>
 <p>If the <em>--recurse</em> option is used, <em>jpylyzer</em> will recursively traverse all subdirectories of a filepath expression. E.g:</p>
 <pre><code>jpylyzer.py /home/myJP2s/*.jp2 &gt; rubbish.xml</code></pre>
 <p>In this case <em>jpylyzer</em> analyses all files that have a <em>.jp2</em> extension in directory <em>/home/myJP2s</em> and all its subdirectories.</p>
-<h4 id="warning"><span class="header-section-number">3.2.3.1</span> Warning</h4>
-<p>For now it may not be the best idea to use this option for analysing very large jobs (e.g. whole disks). The reason for this is, that in the unlikely case of an uncaught exception during such a job jpylyzer might simply crash without given a clue as to which particular file caused it. This can, for example, happen with extremely large images that do not fit into memory. This should be addressed in future versions of <em>jpylyzer</em>.</p>
 <h3 id="creating-valid-xml-with-multiple-images"><span class="header-section-number">3.2.4</span> Creating valid XML with multiple images</h3>
 <p>By default, <em>jpylyzer</em> creates a separate XML tree for each analysed image, without any overarching hierarchy. If you use a pathname expression to process multiple images and redirect the output to a file, the resulting file will <strong>not</strong> be a well-formed XML document. An example:</p>
 <pre><code>jpylyzer.py rubbish.jp2 garbage.jp2 &gt; rubbish.xml</code></pre>

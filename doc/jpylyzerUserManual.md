@@ -381,15 +381,6 @@ subdirectories of a filepath expression. E.g:
 In this case *jpylyzer* analyses all files that have a *.jp2* extension in 
 directory */home/myJP2s* and all its subdirectories.
 
-#### Warning
-
-For now it may not be the best idea to use this option for analysing very large jobs 
-(e.g. whole disks). The reason for this is, that in the unlikely case of an uncaught
-exception during such a job jpylyzer might simply crash without given a clue
-as to which particular file caused it. This can, for example, happen with extremely 
-large images that do not fit into memory. This should be addressed in future versions
-of *jpylyzer*. 
-
 ### Creating valid XML with multiple images
 
 By default, *jpylyzer* creates a separate XML tree for each analysed
