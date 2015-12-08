@@ -27,7 +27,7 @@ outHtmlSC=${baseName}.html
 # Create file that replacess userManual page on website
 
 # Step 1: convert to HTML
-pandoc -s --toc --toc-depth=2 --ascii -N -c $styleSheet -w html5 -o tmp.html $mdSource
+pandoc -s --columns 1000 --toc --toc-depth=2 --ascii -N -c $styleSheet -w html5 -o tmp.html $mdSource
 
 # Step 2: generate file with Jekyll headers
 
@@ -42,7 +42,7 @@ echo "{% include JB/setup %}" >> $outWeb
 xmllint --html --htmlout --xpath "//body/node()" tmp.html >> $outWeb
 
 # Create self-contained HTML file (mainly useful for offline use; replaces PDF)
-pandoc -s --toc --toc-depth=2 --ascii -N -c $styleSheet -w html5 --self-contained -o $outHtmlSC $mdSource
+pandoc -s --columns 1000 --toc --toc-depth=2 --ascii -N -c $styleSheet -w html5 --self-contained -o $outHtmlSC $mdSource
 
 # Clean-up
 rm tmp.html
