@@ -55,7 +55,7 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 if len(scriptName) == 0:
     scriptName = 'jpylyzer'
 
-__version__ = "1.16.0"
+__version__ = "1.16.1"
 
 # Create parser
 parser = argparse.ArgumentParser(
@@ -325,8 +325,14 @@ def checkOneFile(file):
     fileInfo.appendChildTagWithText("filePath", filePath)
     fileInfo.appendChildTagWithText(
         "fileSizeInBytes", str(os.path.getsize(file)))
+    try:
+        lastModifiedDate = time.ctime(os.path.getmtime(file))
+    except ValueError:
+        # Dates earlier than 1 Jan 1970 can raise ValueError on Windows
+        # Workaround: replace by lowest possible value (typically 1 Jan 1970)
+        lastModifiedDate = time.ctime(0)
     fileInfo.appendChildTagWithText(
-        "fileLastModified", time.ctime(os.path.getmtime(file)))
+        "fileLastModified", lastModifiedDate)
 
     # Initialise success flag
     success = True
