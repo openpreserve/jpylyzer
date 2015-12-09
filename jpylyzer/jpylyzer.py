@@ -305,14 +305,14 @@ def checkOneFile(file):
     fileInfo = ET.Element('fileInfo')
     statusInfo = ET.Element('statusInfo')
 
-    # File name and path may contain non-ASCII characters, decoding to Latin should
+    # File name and path may contain non-ASCII characters, decoding to UTF-8 should
     # (hopefully) prevent any Unicode decode errors. Elementtree will then deal with any non-ASCII
     # characters by replacing them with numeric entity references
     try:
         # This works in Python 2.7, but raises error in 3.x (no decode
         # attribute for str type!)
-        fileName = os.path.basename(file).decode("iso-8859-15", "strict")
-        filePath = os.path.abspath(file).decode("iso-8859-15", "strict")
+        fileName = os.path.basename(file).decode("UTF-8", "strict")
+        filePath = os.path.abspath(file).decode("UTF-8", "strict")
     except AttributeError:
         # This works in Python 3.x, but goes wrong with non-ASCII chars in 2.7
         fileName = os.path.basename(file)
