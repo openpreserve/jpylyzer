@@ -1,3 +1,9 @@
+jpylyzer (1.16.3) precise; urgency=medium
+
+  * Corrected handling of Unicode characters in file names under Windows
+
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Thu, 10 Dec 2015 15:00:10 +0100
+
 jpylyzer (1.16.2) precise; urgency=medium
 
   * fileName and filePath encoded as UTF-8C
