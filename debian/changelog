@@ -1,3 +1,9 @@
+jpylyzer (1.16.2) precise; urgency=medium
+
+  * fileName and filePath encoded as UTF-8C
+
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Thu, 10 Dec 2015 12:11:57 +0100
+
 jpylyzer (1.16.0) precise; urgency=medium
 
   * Added exception handler to main image read function

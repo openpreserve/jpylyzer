@@ -10,7 +10,7 @@
 
 ## Cd Status
 
-- [![Build Status](https://travis-ci.org/openpreserve/jpylyzer.svg?branch=master)](https://travis-ci.org/openpreserve/jpylyzer "Jpylyzer Travis-CI integration build") Travis-CI.
+- [![Build Status](https://travis-ci.org/openpreserve/jpylyzer.svg?branch=master)](https://travis-ci.org/openpreserve/jpylyzer "Jpylyzer Travis-CI integration build") Travis-CI
 
 - [![Build Status](http://jenkins.opf-labs.org/buildStatus/icon?job=jpylyser)](http://jenkins.opf-labs.org/job/jpylyser/) OPF Jenkins
 
