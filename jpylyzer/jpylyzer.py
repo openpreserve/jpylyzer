@@ -55,7 +55,7 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 if len(scriptName) == 0:
     scriptName = 'jpylyzer'
 
-__version__ = "1.16.2"
+__version__ = "1.16.3"
 
 # Create parser
 parser = argparse.ArgumentParser(
@@ -305,18 +305,9 @@ def checkOneFile(file):
     fileInfo = ET.Element('fileInfo')
     statusInfo = ET.Element('statusInfo')
 
-    # File name and path may contain non-ASCII characters, decoding to UTF-8 should
-    # (hopefully) prevent any Unicode decode errors. Elementtree will then deal with any non-ASCII
-    # characters by replacing them with numeric entity references
-    try:
-        # This works in Python 2.7, but raises error in 3.x (no decode
-        # attribute for str type!)
-        fileName = os.path.basename(file).decode("UTF-8", "strict")
-        filePath = os.path.abspath(file).decode("UTF-8", "strict")
-    except AttributeError:
-        # This works in Python 3.x, but goes wrong with non-ASCII chars in 2.7
-        fileName = os.path.basename(file)
-        filePath = os.path.abspath(file)
+    # File name and path 
+    fileName = os.path.basename(file)
+    filePath = os.path.abspath(file)
 
     # Produce some general tool and file meta info
     toolInfo.appendChildTagWithText("toolName", scriptName)
@@ -437,7 +428,6 @@ def getFilesWithPatternFromTree(rootDir, pattern):
             searchpattern = os.path.join(thisDirectory, pattern)
             getFiles(searchpattern)
 
-
 def getFilesFromTree(rootDir):
     # Recurse into directory tree and return list of all files
     # NOTE: directory names are disabled here!!
@@ -458,6 +448,10 @@ def findFiles(recurse, paths):
 
     # process the list of input paths
     for root in paths:
+    
+        if config.PYTHON_VERSION.startswith(config.PYTHON_2):
+            # Convert root to UTF-8 (only needed for Python 2.x)
+            root = unicode(root, 'utf-8')
 
         # WILDCARD IN PATH OR FILENAME
         # In Linux wilcard expansion done by bash so, add file to list
@@ -587,7 +581,7 @@ def checkFiles(recurse, wrap, paths):
 
     # If there are no valid input files then exit program
     checkNoInput(existingFiles)
-
+    
     # Set encoding of the terminal to UTF-8
     if config.PYTHON_VERSION.startswith(config.PYTHON_2):
         out = codecs.getwriter(config.UTF8_ENCODING)(sys.stdout)
