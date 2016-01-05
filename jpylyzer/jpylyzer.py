@@ -411,8 +411,6 @@ def printHelpAndExit():
 def stripSurrogatePairs(ustring):
 
     # Removes surrogate pairs from a Unicode string
-    # 'lone' contains regex for surrogate pair detection
-    # (generated outside this function for performance)
 
     # This works for Python 3.x, but not for 2.x!
     # Source: http://stackoverflow.com/q/19649463/1209004
@@ -425,9 +423,11 @@ def stripSurrogatePairs(ustring):
             tmp = ustring.encode('utf-8', 'surrogateescape')
             ustring = tmp.decode('utf-8', 'ignore')
 
+    # In Python 2.x we need to use regex
+    # Source: http://stackoverflow.com/a/18674109/1209004
+
     if config.PYTHON_VERSION.startswith(config.PYTHON_2):
         # Generate regex for surrogate pair detection
-        #(source: http://stackoverflow.com/a/18674109/1209004)
 
         lone = re.compile(
             u(r"""(?x)            # verbose expression (allows comments)
@@ -442,6 +442,7 @@ def stripSurrogatePairs(ustring):
             )                   # end group
             """))
    
+        # Remove surrogates (i.e. replace by empty string) 
         tmp = lone.sub(r'',ustring).encode('utf-8')
         ustring = tmp.decode('utf-8')
 
