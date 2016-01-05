@@ -10,7 +10,7 @@ readme.close()
 
 setup(name='jpylyzer',
       packages=['jpylyzer'],
-      version='1.16.3',
+      version='1.17.0',
       license='LGPL',
       platforms=['POSIX', 'Windows'],
       description='JP2 (JPEG 2000 Part 1) image validator and properties extractor',
