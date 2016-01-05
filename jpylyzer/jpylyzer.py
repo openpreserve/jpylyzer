@@ -42,6 +42,7 @@ import struct
 import argparse
 import config
 import codecs
+import re
 import etpatch as ET
 import fnmatch
 import xml.etree.ElementTree as ETree
@@ -50,12 +51,13 @@ from xml.dom import minidom
 from byteconv import bytesToText
 from shared import printWarning
 scriptPath, scriptName = os.path.split(sys.argv[0])
+from six import u
 
 # scriptName is empty when called from Java/Jython, so this needs a fix
 if len(scriptName) == 0:
     scriptName = 'jpylyzer'
 
-__version__ = "1.16.3"
+__version__ = "1.17.0"
 
 # Create parser
 parser = argparse.ArgumentParser(
@@ -88,7 +90,6 @@ def readFileBytes(file):
     f.close()
 
     return(fileData)
-
 
 def generatePropertiesRemapTable():
 
@@ -309,11 +310,17 @@ def checkOneFile(file):
     fileName = os.path.basename(file)
     filePath = os.path.abspath(file)
 
+    # If file name / path contain any surrogate pairs, remove them to
+    # avoid problems when writing to XML
+    fileNameCleaned = stripSurrogatePairs(fileName)
+    filePathCleaned = stripSurrogatePairs(filePath)
+
+
     # Produce some general tool and file meta info
     toolInfo.appendChildTagWithText("toolName", scriptName)
     toolInfo.appendChildTagWithText("toolVersion", __version__)
-    fileInfo.appendChildTagWithText("fileName", fileName)
-    fileInfo.appendChildTagWithText("filePath", filePath)
+    fileInfo.appendChildTagWithText("fileName", fileNameCleaned)
+    fileInfo.appendChildTagWithText("filePath", filePathCleaned)
     fileInfo.appendChildTagWithText(
         "fileSizeInBytes", str(os.path.getsize(file)))
     try:
@@ -401,6 +408,44 @@ def printHelpAndExit():
     parser.print_help()
     sys.exit()
 
+def stripSurrogatePairs(ustring):
+
+    # Removes surrogate pairs from a Unicode string
+    # 'lone' contains regex for surrogate pair detection
+    # (generated outside this function for performance)
+
+    # This works for Python 3.x, but not for 2.x!
+    # Source: http://stackoverflow.com/q/19649463/1209004
+
+    if config.PYTHON_VERSION.startswith(config.PYTHON_3):
+        try:
+            ustring.encode('utf-8')
+        except UnicodeEncodeError:
+            # Strip away surrogate pairs
+            tmp = ustring.encode('utf-8', 'surrogateescape')
+            ustring = tmp.decode('utf-8', 'ignore')
+
+    if config.PYTHON_VERSION.startswith(config.PYTHON_2):
+        # Generate regex for surrogate pair detection
+        #(source: http://stackoverflow.com/a/18674109/1209004)
+
+        lone = re.compile(
+            u(r"""(?x)            # verbose expression (allows comments)
+            (                    # begin group
+            [\ud800-\udbff]      #   match leading surrogate
+            (?![\udc00-\udfff])  #   but only if not followed by trailing surrogate
+            )                    # end group
+            |                    #  OR
+            (                    # begin group
+            (?<![\ud800-\udbff]) #   if not preceded by leading surrogate
+            [\udc00-\udfff]      #   match trailing surrogate
+            )                   # end group
+            """))
+   
+        tmp = lone.sub(r'',ustring).encode('utf-8')
+        ustring = tmp.decode('utf-8')
+
+    return(ustring)
 
 def getFilesFromDir(dirpath):
     for fp in os.listdir(dirpath):
