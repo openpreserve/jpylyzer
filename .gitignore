@@ -48,7 +48,7 @@ pyi-build
 
 # PyInstaller bits #
 ####################
-*.spec
+# *.spec
 
 # Vagrant bits #
 ####################
