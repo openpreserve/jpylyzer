@@ -85,8 +85,9 @@ The [Vagrant directory](vagrant) of this repo contains instructions on how to bu
 1. Add tag and commit
 1. Build Linux packages using [instructions here](vagrant)
 1. Build Windows binaries
-1. Upload Linux/Windows packages to BinTray
-1. Website: update *binVersion* in *_config.yml* (this updates the links to all packages on BinTray to the correct version)
+1. Go to [*Latest Release*](https://github.com/openpreserve/jpylyzer/releases/latest) and click on the *Edit* button
+1. Upload Linux/Windows packages to the release by dragging them to the *Attach Binaries* field at the bottom
+1. Website: update *binVersion* in *_config.yml* (this updates the links to all packages to the correct version)
 1. Website: write short release note
 1. Commit changes to website
 1. Spread the word!
