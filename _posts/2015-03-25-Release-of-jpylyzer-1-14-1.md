@@ -8,7 +8,7 @@ Following a year of limited development activity, we proudly present *jpylyzer* 
 
 ### Improved XML output
 
-*Jpylyzer*'s output now  contains a namespace declaration as well as a reference to an XSD schema. The [schema can be found here](http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd). Hopefully these improvements will make post-processing *jpylyzer*'s output easier. Note that the schema has had limited testing so far, and it's not inconceivable that it may need further tweaking. If you get unexpected results (e.g. output files that are not valid against the schema) please let us know, preferrably using the [issue tracker](https://github.com/openpreserve/jpylyzer/issues).
+*Jpylyzer*'s output now  contains a namespace declaration as well as a reference to an XSD schema. The [schema can be found here](http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd). Hopefully these improvements will make post-processing *jpylyzer*'s output easier. Note that the schema has had limited testing so far, and it's not inconceivable that it may need further tweaking. If you get unexpected results (e.g. output files that are not valid against the schema) please let us know, preferably using the [issue tracker](https://github.com/openpreserve/jpylyzer/issues).
 
 ### Recursive scanning of directory trees
 
