@@ -40,7 +40,7 @@ i386Suf: _i386.deb
 gitURL: https://github.com/openpreserve/jpylyzer
 issuesURL: https://github.com/openpreserve/jpylyzer/issues
 testImagesURL: https://github.com/openpreserve/jpylyzer-test-files
-blogsOPF: http://www.openpreservation.org/category/preservation-topics/jpylyzer
+blogsOPF: http://openpreservation.org/knowledge/blogs/topic/jpylyzer/
 jpylyzerVideo: https://player.vimeo.com/video/53693082
 kbURL: http://kb.nl/en
 opfURL: http://www.openpreservation.org/
