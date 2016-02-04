@@ -2,6 +2,10 @@
 # For more see: http://jekyllrb.com/docs/permalinks/
 permalink: /:categories/:year/:month/:day/:title
 
+# Hack to get around asset path bug in Jekyll 3 that results in wrong
+# path for blog posts
+ASSET_PATH: /assets/themes/twitter
+
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
 markdown: kramdown
 pygments: true
