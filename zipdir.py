@@ -11,30 +11,29 @@ import zipfile
 import argparse
 
 try:
-    import zlib
     compression = zipfile.ZIP_DEFLATED
 except:
     compression = zipfile.ZIP_STORED
 
 
-def zipdir(path, zip):
+def zipdir(path, zipFile):
 
     nameBase = os.path.basename(path)
 
     for root, dirs, files in os.walk(path):
-        for file in files:
+        for filename in files:
 
             baseNameRoot = os.path.basename(root)
 
             if baseNameRoot == nameBase:
-                archName = file
+                archName = filename
             else:
-                archName = os.path.basename(root) + "//" + file
+                archName = os.path.basename(root) + "//" + filename
 
             print archName
 
-            zip.write(
-                os.path.join(root, file), archName, compress_type=compression)
+            zipFile.write(
+                os.path.join(root, filename), archName, compress_type=compression)
 
 
 def parseCommandLine():
@@ -58,10 +57,10 @@ def main():
     dirIn = args.dirIn
     fileOut = os.path.abspath(args.fileOut)
 
-    zip = zipfile.ZipFile(fileOut, 'w')
-    zipdir(dirIn, zip)
+    zipFile = zipfile.ZipFile(fileOut, 'w')
+    zipdir(dirIn, zipFile)
 
-    zip.close()
+    zipFile.close()
 
 if __name__ == "__main__":
     main()
