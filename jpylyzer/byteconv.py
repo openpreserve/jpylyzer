@@ -31,36 +31,36 @@ def _doConv(bytestr, bOrder, formatCharacter):
     return(result)
 
 
-def bytesToULongLong(bytes):
+def bytesToULongLong(bytestring):
     # Unpack 8 byte string to unsigned long long integer, assuming big-endian
     # byte order.
-    return _doConv(bytes, ">", "Q")
+    return _doConv(bytestring, ">", "Q")
 
 
-def bytesToUInt(bytes):
+def bytesToUInt(bytestring):
     # Unpack 4 byte string to unsigned integer, assuming big-endian byte order.
-    return _doConv(bytes, ">", "I")
+    return _doConv(bytestring, ">", "I")
 
 
-def bytesToUShortInt(bytes):
+def bytesToUShortInt(bytestring):
     # Unpack 2 byte string to unsigned short integer, assuming big-endian
     # byte order
-    return _doConv(bytes, ">", "H")
+    return _doConv(bytestring, ">", "H")
 
 
-def bytesToUnsignedChar(bytes):
+def bytesToUnsignedChar(bytestring):
     # Unpack 1 byte string to unsigned character/integer, assuming big-endian
     # byte order.
-    return _doConv(bytes, ">", "B")
+    return _doConv(bytestring, ">", "B")
 
 
-def bytesToSignedChar(bytes):
+def bytesToSignedChar(bytestring):
     # Unpack 1 byte string to signed character/integer, assuming big-endian
     # byte order.
-    return _doConv(bytes, ">", "b")
+    return _doConv(bytestring, ">", "b")
 
 
-def bytesToInteger(bytes):
+def bytesToInteger(bytestring):
     # Unpack byte string of any length to integer.
     #
     # Taken from:
@@ -73,7 +73,7 @@ def bytesToInteger(bytes):
     # Issue 3532 bugs.python.org
 
     try:
-        result = int(binascii.hexlify(bytes), 16)
+        result = int(binascii.hexlify(bytestring), 16)
     except:
         result = -9999
 
@@ -87,16 +87,16 @@ def isctrl(c):
     # return (0 <= ord(c) <= 8) or (ord(c) == 12) or (14 <= ord(c) < 32)
 
 
-def bytesToHex(bytes):
-    # Return hexadecimal ascii representation of bytes
-    return binascii.hexlify(bytes)
+def bytesToHex(bytestring):
+    # Return hexadecimal ascii representation of bytestring
+    return binascii.hexlify(bytestring)
 
 
-def containsControlCharacters(bytes):
-    # Returns True if bytes object contains control characters
+def containsControlCharacters(bytestring):
+    # Returns True if bytestring object contains control characters
 
-    for i in range(len(bytes)):
-        if isctrl(bytes[i:i + 1]):
+    for i in range(len(bytestring)):
+        if isctrl(bytestring[i:i + 1]):
             return(True)
     return(False)
 
@@ -110,14 +110,14 @@ def removeControlCharacters(string):
     return "".join(ch for ch in string if unicodedata.category(ch)[0] != "C" or ch in allowedChars)
 
 
-def removeNullTerminator(bytes):
-    # Remove null terminator from bytes
+def removeNullTerminator(bytestring):
+    # Remove null terminator from bytestring
 
-    bytesOut = bytes.rstrip(b'\x00')
+    bytesOut = bytestring.rstrip(b'\x00')
     return(bytesOut)
 
 
-def bytesToText(bytes):
+def bytesToText(bytestring):
     # Unpack byte object to text string, assuming big-endian
     # byte order.
 
@@ -127,13 +127,13 @@ def bytesToText(bytes):
 
     try:
         # Decode to utf-8
-        string = bytes.decode(encoding=enc, errors=errorMode)
+        string = bytestring.decode(encoding=enc, errors=errorMode)
 
         # Remove control characters
         result = removeControlCharacters(string)
 
     except:
-        # Return empty string if bytes cannot be decoded
+        # Return empty string if bytestring cannot be decoded
         result = ""
 
     return(result)
