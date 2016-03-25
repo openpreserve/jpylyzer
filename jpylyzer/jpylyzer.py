@@ -282,9 +282,9 @@ def fileToMemoryMap(file):
     except ValueError:
         # mmap fails on empty files.
         fileData = ""
-    
-    f.close()    
-    return(fileData)  
+
+    f.close()
+    return(fileData)
 
 def checkOneFile(file):
     # Process one file and return analysis result as element object
@@ -306,7 +306,7 @@ def checkOneFile(file):
     fileInfo = ET.Element('fileInfo')
     statusInfo = ET.Element('statusInfo')
 
-    # File name and path 
+    # File name and path
     fileName = os.path.basename(file)
     filePath = os.path.abspath(file)
 
@@ -334,12 +334,12 @@ def checkOneFile(file):
 
     # Initialise success flag
     success = True
-    
+
     try:
         # Contents of file to memory map object
         fileData = fileToMemoryMap(file)
         isValidJP2, tests, characteristics = BoxValidator("JP2", fileData).validate()
-        
+
         if fileData != "":
             fileData.close()
 
@@ -349,7 +349,7 @@ def checkOneFile(file):
         # Create printable version of tests and characteristics tree
         tests.makeHumanReadable()
         characteristics.makeHumanReadable(remapTable)
-    except Exception as ex:    
+    except Exception as ex:
         isValidJP2 = False
         success = False
         exceptionType = type(ex)
@@ -366,12 +366,12 @@ def checkOneFile(file):
         printWarning(failureMessage)
         tests = ET.Element("tests")
         characteristics = ET.Element('properties')
- 
+
     # Add status info
     statusInfo.appendChildTagWithText("success", str(success))
     if success == False:
         statusInfo.appendChildTagWithText("failureMessage",failureMessage)
-  
+
     # Append all results to root
     root.append(toolInfo)
     root.append(fileInfo)
@@ -441,8 +441,8 @@ def stripSurrogatePairs(ustring):
             [\udc00-\udfff]      #   match trailing surrogate
             )                   # end group
             """))
-   
-        # Remove surrogates (i.e. replace by empty string) 
+
+        # Remove surrogates (i.e. replace by empty string)
         tmp = lone.sub(r'',ustring).encode('utf-8')
         ustring = tmp.decode('utf-8')
 
@@ -494,7 +494,7 @@ def findFiles(recurse, paths):
 
     # process the list of input paths
     for root in paths:
-    
+
         if config.PYTHON_VERSION.startswith(config.PYTHON_2):
             # Convert root to UTF-8 (only needed for Python 2.x)
             root = unicode(root, 'utf-8')
@@ -627,7 +627,7 @@ def checkFiles(recurse, wrap, paths):
 
     # If there are no valid input files then exit program
     checkNoInput(existingFiles)
-    
+
     # Set encoding of the terminal to UTF-8
     if config.PYTHON_VERSION.startswith(config.PYTHON_2):
         out = codecs.getwriter(config.UTF8_ENCODING)(sys.stdout)
@@ -649,7 +649,7 @@ def checkFiles(recurse, wrap, paths):
 
         # Analyse file
         xmlElement = checkOneFile(path)
-       
+
         # Write output to stdout
         writeElement(xmlElement, out)
 
