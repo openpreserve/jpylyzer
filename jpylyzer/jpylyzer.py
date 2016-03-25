@@ -79,18 +79,6 @@ def get_main_dir():
     return os.path.dirname(sys.argv[0])
 
 
-def readFileBytes(file):
-    # Read file, return contents as a byte object
-
-    # Open file
-    f = open(file, "rb")
-
-    # Put contents of file into a byte object.
-    fileData = f.read()
-    f.close()
-
-    return(fileData)
-
 def generatePropertiesRemapTable():
 
     # Generates nested dictionary which is used to map 'raw' property values
