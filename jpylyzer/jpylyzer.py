@@ -249,11 +249,11 @@ def generatePropertiesRemapTable():
 
     return(enumerationsMap)
 
-def fileToMemoryMap(file):
-    # Read contents of file to memory map object
+def fileToMemoryMap(filename):
+    # Read contents of filename to memory map object
 
-    # Open file
-    f = open(file, "rb")
+    # Open filename
+    f = open(filename, "rb")
 
     # Call to mmap is different on Linux and Windows, so we need to know
     # the current platform
@@ -274,7 +274,7 @@ def fileToMemoryMap(file):
     f.close()
     return(fileData)
 
-def checkOneFile(file):
+def checkOneFile(path):
     # Process one file and return analysis result as element object
 
     # Create output elementtree object
@@ -295,8 +295,8 @@ def checkOneFile(file):
     statusInfo = ET.Element('statusInfo')
 
     # File name and path
-    fileName = os.path.basename(file)
-    filePath = os.path.abspath(file)
+    fileName = os.path.basename(path)
+    filePath = os.path.abspath(path)
 
     # If file name / path contain any surrogate pairs, remove them to
     # avoid problems when writing to XML
@@ -310,9 +310,9 @@ def checkOneFile(file):
     fileInfo.appendChildTagWithText("fileName", fileNameCleaned)
     fileInfo.appendChildTagWithText("filePath", filePathCleaned)
     fileInfo.appendChildTagWithText(
-        "fileSizeInBytes", str(os.path.getsize(file)))
+        "fileSizeInBytes", str(os.path.getsize(path)))
     try:
-        lastModifiedDate = time.ctime(os.path.getmtime(file))
+        lastModifiedDate = time.ctime(os.path.getmtime(path))
     except ValueError:
         # Dates earlier than 1 Jan 1970 can raise ValueError on Windows
         # Workaround: replace by lowest possible value (typically 1 Jan 1970)
@@ -325,7 +325,7 @@ def checkOneFile(file):
 
     try:
         # Contents of file to memory map object
-        fileData = fileToMemoryMap(file)
+        fileData = fileToMemoryMap(path)
         isValidJP2, tests, characteristics = BoxValidator("JP2", fileData).validate()
 
         if fileData != "":
