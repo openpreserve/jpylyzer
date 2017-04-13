@@ -4,7 +4,7 @@ This page describes how to build Debian packages for jpylyzer. By using virtual 
 
 **Note:** the instructions below always result in a jpylyzer build that is based on the source code in the *remote* Github repo at <https://github.com/openpreserve/jpylyzer/>, *not* on the local code!
 
-##Step 1: install virtualisation software
+## Step 1: install virtualisation software
 
 * Install [VirtualBox](https://www.virtualbox.org/)
 * Install VirtualBox Extension Pack (download link [here](https://www.virtualbox.org/))
