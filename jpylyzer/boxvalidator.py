@@ -2241,8 +2241,9 @@ class BoxValidator:
         tagSignatureBox = b'\x6a\x50\x20\x20'
         tagFileTypeBox = b'\x66\x74\x79\x70'
         tagJP2HeaderBox = b'\x6a\x70\x32\x68'
+        tagIntellectualPropertyBox = b'\x6a\x70\x32\x69'
         tagContiguousCodestreamBox = b'\x6a\x70\x32\x63'
-
+        
         # List for storing box type identifiers
         boxTypes = []
 
