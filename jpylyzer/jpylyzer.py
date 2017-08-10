@@ -57,7 +57,7 @@ from six import u
 if len(scriptName) == 0:
     scriptName = 'jpylyzer'
 
-__version__ = "1.17.0"
+__version__ = "1.17.1"
 
 # Create parser
 parser = argparse.ArgumentParser(
