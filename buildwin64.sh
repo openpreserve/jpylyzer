@@ -9,8 +9,9 @@
 
 # Python
 # Note that to produce a 64-bit binary we need a 64-bit Python version!
-pythonWine=~/.wine/drive_c/Python27_64/python.exe
-pyInstallerWine=~/.wine/drive_c/Python27_64/Scripts/pyinstaller.exe
+#pythonWine=~/.wine/drive_c/Python27_64/python.exe
+pythonWine=~/.wine/dosdevices/c:/Python_64/python.exe
+pyInstallerWine=~/.wine/dosdevices/c:/Python_64/Scripts/pyinstaller.exe
 
 # Script base name (i.e. script name minus .py extension)
 scriptBaseName=jpylyzer
