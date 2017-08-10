@@ -2,7 +2,7 @@ jpylyzer (1.17.1) UNRELEASED; urgency=medium
 
   * Fixed missing tagIntellectualPropertyBox
 
- -- Johan van der Knijff <johan@johan-HP-ProBook-640-G1>  Thu, 10 Aug 2017 14:59:33 +0200
+ -- Johan van der Knijff <<johan.vanderknijff@kb.nl>  Thu, 10 Aug 2017 14:59:33 +0200
 
 jpylyzer (1.17.0) precise; urgency=medium
 
