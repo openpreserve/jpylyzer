@@ -8,21 +8,21 @@
 # CONFIGURATION 
 
 # Python
-# Note that to produce a 64-bit binary we need a 64-bit Python version!
-pythonWine=~/.wine/drive_c/Python27_64/python.exe
-pyInstallerWine=~/.wine/drive_c/Python27_64/Scripts/pyinstaller.exe
+# Note that to produce a 32-bit binary we need a 32-bit Python version!
+pythonWine=~/.wine/drive_c/Python27_32/python.exe
+pyInstallerWine=~/.wine/drive_c/Python27_32/Scripts/pyinstaller.exe
 
 # Script base name (i.e. script name minus .py extension)
 scriptBaseName=jpylyzer
 
 # PyInstaller spec file that defines build options
-specFile=jpylyzer_win64.spec
+specFile=jpylyzer_win32.spec
 
 # Working directory
 workDir=$PWD
 
 # Directory where build is created (should be identical to 'name' in 'coll' in spec file!!)
-distDir=./dist/win64/
+distDir=./dist/win32/
 
 # Executes jpylyzer with -v option and stores output to 
 # env variable 'version'
@@ -35,7 +35,7 @@ rm temp.txt
 $pyInstallerWine $specFile --distpath=$distDir
 
 # Generate name for ZIP file
-zipName="$scriptBaseName"_"$version"_win64.zip
+zipName="$scriptBaseName"_"$version"_win32.zip
 
 # Create ZIP file
 cd $distDir
