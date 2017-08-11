@@ -95,7 +95,7 @@ if [ -d $HOME"/.wine/drive_c/Python27_64" ]; then
 else
     echo "Python (64 bit) not yet installed, installing now"
     echo ""
-    installPython "64" $downloadURL64bit
+    installPython 64 $downloadURL64bit
 fi
 
 # Get path to Python root
@@ -114,7 +114,7 @@ if [ -d $HOME"/.wine/drive_c/Python27_32" ]; then
 else
     echo "Python (32 bit) not yet installed, installing now"
     echo ""
-    installPython "32" $downloadURL32bit
+    installPython 32 $downloadURL32bit
 fi
 
 # Get path to Python root
