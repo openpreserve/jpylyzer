@@ -122,7 +122,6 @@ python32=$pyRoot32"/python.exe"
 # Install PyInstaller (if not installed already)
 installPyInstaller $python32
 
-echo "Done!"
 echo ""
 echo "Python root (64 bit): "$pyRoot64
 echo "Python (64 bit): "$python64
@@ -130,4 +129,9 @@ echo "Python root (32 bit): "$pyRoot32
 echo "Python (32 bit): "$python32
 echo ""
 
+echo "Building binaries, 64 bit"
+buildBinaries 64 $pyRoot64 $python64 $specFile64bit
+
+echo "Building binaries, 32 bit"
+buildBinaries 32 $pyRoot32 $python32 $specFile32bit
 
