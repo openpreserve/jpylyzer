@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# Set up Wine environment for Windows builds. Precondition: 64-bit version of Wine is already installed. 
+# Build 64 and 32 bit Windows binaries using Wine and WinPython. If the required Wine environment (WinPython + PyInstaller)
+# cannoit be found it is set up quasi-automatically (the WinPython installer needs some manual input)
+# Precondition: 64-bit version of Wine is already installed. 
 
 # WinPython download URLS
 downloadURL64bit=https://sourceforge.net/projects/winpython/files/WinPython_2.7/2.7.13.1/WinPython-64bit-2.7.13.1Zero.exe/download
