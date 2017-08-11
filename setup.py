@@ -26,27 +26,26 @@ README_TEXT = readme.read()
 readme.close()
 
 setup(name='jpylyzer',
-      packages=find_packages(),
-      version=find_version('jpylyzer', 'jpylyzer.py'),
-      license='LGPL',
-      install_requires=install_requires,
-      platforms=['POSIX', 'Windows'],
-      description='JP2 (JPEG 2000 Part 1) image validator and properties extractor',
-      long_description=README_TEXT,
-      author='Johan van der Knijff',
-      author_email='johan.vanderknijff@kb.nl',
-      maintainer='Johan van der Knijff',
-      maintainer_email='johan.vanderknijff@kb.nl',
-      url='http://jpylyzer.openpreservation.org/',
-      download_url='https://github.com/openpreserve/jpylyzer/archive/' + find_version('jpylyzer', 'jpylyzer.py') + '.tar.gz'
-      ),
-      package_data={'jpylyzer': ['*.*']},
-      entry_points={'console_scripts': [
-        'jpylyzer = jpylyzer.jpylyzer:main',
-      ]},
-      classifiers=[
-        'Environment :: Console',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-    ]
+packages=find_packages(),
+    version=find_version('jpylyzer', 'jpylyzer.py'),
+    license='LGPL',
+    install_requires=install_requires,
+    platforms=['POSIX', 'Windows'],
+    description='JP2 (JPEG 2000 Part 1) image validator and properties extractor',
+    long_description=README_TEXT,
+    author='Johan van der Knijff',
+    author_email='johan.vanderknijff@kb.nl',
+    maintainer='Johan van der Knijff',
+    maintainer_email='johan.vanderknijff@kb.nl',
+    url='http://jpylyzer.openpreservation.org/',
+    download_url='https://github.com/openpreserve/jpylyzer/archive/' + find_version('jpylyzer', 'jpylyzer.py') + '.tar.gz',
+    package_data={'jpylyzer': ['*.*']},
+    entry_points={'console_scripts': [
+      'jpylyzer = jpylyzer.jpylyzer:main',
+    ]},
+    classifiers=[
+      'Environment :: Console',
+      'Programming Language :: Python :: 2',
+      'Programming Language :: Python :: 2.7',
+      'Programming Language :: Python :: 3']
+    )

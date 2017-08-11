@@ -6,10 +6,17 @@
 downloadURL64bit=https://sourceforge.net/projects/winpython/files/WinPython_2.7/2.7.13.1/WinPython-64bit-2.7.13.1Zero.exe/download
 downloadURL32bit=https://sourceforge.net/projects/winpython/files/WinPython_2.7/2.7.13.1/WinPython-32bit-2.7.13.1Zero.exe/download
 
+# PyInstaller spec files that defines build options
+specFile64bit=jpylyzer_win64.spec
+specFile32bit=jpylyzer_win32.spec
+
+# Script base name (i.e. script name minus .py extension)
+scriptBaseName=jpylyzer
+
 installPython(){
     # Installs Python. Arguments:
-    # - bit value (32 or 64)
-    # - download URL
+    # - $1: bitness (32 or 64)
+    # - $2: download URL
     echo "Downloading installer"
     wget $2 -O pyTemp.exe
     echo ""
@@ -26,7 +33,7 @@ installPython(){
 
 installPyInstaller(){
     # Installs pyInstaller if it is not installed already. Argument:
-    # - python (full path of python interpreter)
+    # - $1: python (full path of python interpreter)
     echo "Checking for pyinstaller" 
     wine $1 -m pip show pyinstaller
 
@@ -36,6 +43,45 @@ installPyInstaller(){
         echo "Installing pyinstaller"
         wine $1 -m pip install pyinstaller
     fi
+}
+
+buildBinaries(){
+    # Builds Windows binaries. 
+    
+    # Read arguments:
+    bitness=$1
+    pyRoot=$2
+    pyInstallerWine=$pyRoot"/Scripts/pyinstaller.exe"
+    pythonWine=$3
+    specFile=$4
+
+    # Working directory
+    workDir=$PWD
+
+    # Directory where build is created (should be identical to 'name' in 'coll' in spec file!!)
+    distDir=$workDir"/dist/win"$bitness"/"
+
+    # Executes jpylyzer with -v option and stores output to 
+    # env variable 'version'
+    # Also trim trailing EOL character and replace '.' by '_' 
+    wine $pythonWine $workDir"/$scriptBaseName/$scriptBaseName.py" -v 2> temp.txt
+    version=$(head -n 1 temp.txt | tr -d '\r' |tr '.' '_' )
+    rm temp.txt
+
+    echo "Building binaries"
+    $pyInstallerWine $specFile --distpath=$distDir
+
+    # Generate name for ZIP file
+    zipName=$scriptBaseName"_"$version"_win"$bitness".zip"
+
+    echo "Creating ZIP file"
+    cd $distDir
+    zip -r $zipName $scriptBaseName
+    cd $workDir
+
+    echo "Deleting build directory"
+    rm -r $workDir"/build"
+    rm -r  $distDir/$scriptBaseName
 }
 
 echo "64 bit Python"
