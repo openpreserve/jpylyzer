@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Build Windows binaries from Python script, and pack them in ZIP file
 
 #
@@ -10,8 +12,8 @@
 # Python
 # Note that to produce a 32-bit binary we need a 32-bit Python version!
 #pythonWine=~/.wine/drive_c/Python27_32/python.exe
-pythonWine=~/.wine/dosdevices/c:/Python_32/Scripts/pyinstaller.exe
-pyInstallerWine=~/.wine/dosdevices/c:/Python_32/Scripts/pyinstaller.exe
+pythonWine=~/.wine/drive_c/Python_32/Scripts/pyinstaller.exe
+pyInstallerWine=~/.wine/drive_c/Python_32/Scripts/pyinstaller.exe
 
 # Script base name (i.e. script name minus .py extension)
 scriptBaseName=jpylyzer
