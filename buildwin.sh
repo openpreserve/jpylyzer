@@ -16,6 +16,10 @@ specFile32bit=jpylyzer_win32.spec
 # Script base name (i.e. script name minus .py extension)
 scriptBaseName=jpylyzer
 
+# Wine debug variable (suppresses garbage debugging messages)
+WineDebug="-msvcrt"
+#WineDebug="fixme-all"
+
 installPython(){
     # Installs Python. Arguments:
     # - $1: bitness (32 or 64)
@@ -28,7 +32,7 @@ installPython(){
     echo "Follow installer instructions. For Destination Folder replace default path with C:\Python27_"$1
     echo ""
 
-    wine pyTemp.exe
+    WINEDEBUG=$WineDebug wine pyTemp.exe
 
     echo "Removing installer"
     rm pyTemp.exe
@@ -38,13 +42,13 @@ installPyInstaller(){
     # Installs pyInstaller if it is not installed already. Argument:
     # - $1: python (full path of python interpreter)
     echo "Checking for pyinstaller" 
-    wine $1 -m pip show pyinstaller
+    WINEDEBUG=$WineDebug wine $1 -m pip show pyinstaller
 
     if [ $? -eq 0 ]; then
         echo "Pyinstaller already installed"
     else
         echo "Installing pyinstaller"
-        wine $1 -m pip install pyinstaller
+        WINEDEBUG=$WineDebug wine $1 -m pip install pyinstaller
     fi
 }
 
@@ -67,12 +71,12 @@ buildBinaries(){
     # Executes jpylyzer with -v option and stores output to 
     # env variable 'version'
     # Also trim trailing EOL character and replace '.' by '_' 
-    wine $pythonWine $workDir"/$scriptBaseName/$scriptBaseName.py" -v 2> temp.txt
+    WINEDEBUG=$WineDebug wine $pythonWine $workDir"/$scriptBaseName/$scriptBaseName.py" -v 2> temp.txt
     version=$(head -n 1 temp.txt | tr -d '\r' |tr '.' '_' )
     rm temp.txt
 
     echo "Building binaries"
-    $pyInstallerWine $specFile --distpath=$distDir
+    WINEDEBUG=$WineDebug wine $pyInstallerWine $specFile --distpath=$distDir
 
     # Generate name for ZIP file
     zipName=$scriptBaseName"_"$version"_win"$bitness".zip"
