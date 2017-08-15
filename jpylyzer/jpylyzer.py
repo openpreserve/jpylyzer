@@ -33,7 +33,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
-import mmap
 import os
 import time
 import imp
@@ -272,6 +271,7 @@ def fileToMemoryMap(file):
     platform = config.PLATFORM
 
     try:
+        import mmap
         if platform == "win32":
             # Parameters for Windows may need further fine-tuning ...
             fileData = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
@@ -337,10 +337,13 @@ def checkOneFile(file):
     
     try:
         # Contents of file to memory map object
-        fileData = fileToMemoryMap(file)
+        try:
+          fileData = fileToMemoryMap(file)
+        except:
+          fileData = readFileBytes(file)
         isValidJP2, tests, characteristics = BoxValidator("JP2", fileData).validate()
         
-        if fileData != "":
+        if fileData != "" and type(fileData) != str:
             fileData.close()
 
         # Generate property values remap table

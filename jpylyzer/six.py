@@ -644,7 +644,7 @@ else:
     # Workaround for standalone backslash
 
     def u(s):
-        return unicode(s.replace(r'\\', r'\\\\'), "unicode_escape")
+        return unicode(s.replace(r'\\', r'\\\\'), "utf-8")
     unichr = unichr
     int2byte = chr
 
