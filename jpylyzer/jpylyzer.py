@@ -50,8 +50,10 @@ from boxvalidator import BoxValidator
 from xml.dom import minidom
 from byteconv import bytesToText
 from shared import printWarning
-scriptPath, scriptName = os.path.split(sys.argv[0])
 from six import u
+
+
+scriptPath, scriptName = os.path.split(sys.argv[0])
 
 # scriptName is empty when called from Java/Jython, so this needs a fix
 if len(scriptName) == 0:
@@ -66,11 +68,17 @@ parser = argparse.ArgumentParser(
 # list of existing files to be analysed
 existingFiles = []
 
+# Name space and schema strings
+nsString = 'http://openpreservation.org/ns/jpylyzer/'
+xsiNsString = 'http://www.w3.org/2001/XMLSchema-instance'
+locSchemaString = 'http://openpreservation.org/ns/jpylyzer/ \
+http://jpylyzer.openpreservation.org/jpylyzer-v-1-1.xsd'
+
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or  # new py2exe
-            hasattr(sys, "importers")  # old py2exe
-            or imp.is_frozen("__main__"))  # tools/freeze
+            hasattr(sys, "importers") or  # old py2exe
+            imp.is_frozen("__main__"))  # tools/freeze
 
 
 def get_main_dir():
@@ -249,6 +257,7 @@ def generatePropertiesRemapTable():
 
     return(enumerationsMap)
 
+
 def fileToMemoryMap(filename):
     # Read contents of filename to memory map object
 
@@ -274,6 +283,7 @@ def fileToMemoryMap(filename):
     f.close()
     return(fileData)
 
+
 def checkOneFile(path):
     # Process one file and return analysis result as element object
 
@@ -285,9 +295,9 @@ def checkOneFile(path):
         root = ET.Element('jpylyzer')
     else:
         root = ET.Element(
-            'jpylyzer', {'xmlns': 'http://openpreservation.org/ns/jpylyzer/',
-                         'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-                         'xsi:schemaLocation': 'http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-1.xsd'})
+            'jpylyzer', {'xmlns': nsString,
+                         'xmlns:xsi': xsiNsString,
+                         'xsi:schemaLocation': locSchemaString})
 
     # Create elements for storing tool, file and status meta info
     toolInfo = ET.Element('toolInfo')
@@ -302,7 +312,6 @@ def checkOneFile(path):
     # avoid problems when writing to XML
     fileNameCleaned = stripSurrogatePairs(fileName)
     filePathCleaned = stripSurrogatePairs(filePath)
-
 
     # Produce some general tool and file meta info
     toolInfo.appendChildTagWithText("toolName", scriptName)
@@ -357,8 +366,8 @@ def checkOneFile(path):
 
     # Add status info
     statusInfo.appendChildTagWithText("success", str(success))
-    if success == False:
-        statusInfo.appendChildTagWithText("failureMessage",failureMessage)
+    if not success:
+        statusInfo.appendChildTagWithText("failureMessage", failureMessage)
 
     # Append all results to root
     root.append(toolInfo)
@@ -369,6 +378,7 @@ def checkOneFile(path):
     root.append(characteristics)
 
     return(root)
+
 
 def checkNullArgs(args):
     # This method checks if the input arguments list and exits program if
@@ -395,6 +405,7 @@ def printHelpAndExit():
     print('')
     parser.print_help()
     sys.exit()
+
 
 def stripSurrogatePairs(ustring):
 
@@ -431,10 +442,11 @@ def stripSurrogatePairs(ustring):
             """))
 
         # Remove surrogates (i.e. replace by empty string)
-        tmp = lone.sub(r'',ustring).encode('utf-8')
+        tmp = lone.sub(r'', ustring).encode('utf-8')
         ustring = tmp.decode('utf-8')
 
     return(ustring)
+
 
 def getFilesFromDir(dirpath):
     for fp in os.listdir(dirpath):
@@ -461,6 +473,7 @@ def getFilesWithPatternFromTree(rootDir, pattern):
             # find files matching the pattern in current path
             searchpattern = os.path.join(thisDirectory, pattern)
             getFiles(searchpattern)
+
 
 def getFilesFromTree(rootDir):
     # Recurse into directory tree and return list of all files
@@ -509,7 +522,8 @@ def findFiles(recurse, paths):
                 root = filesList[0]
 
             # get files from directory
-            """ Disabled JvdK: if enabled all files in direct child directories are analysed - do we really want that?
+            """ Disabled JvdK: if enabled all files in direct child directories are analysed -
+            do we really want that?
             if os.path.isdir(root) and not recurse:
                 getFilesFromDir(root)
             """
@@ -524,7 +538,7 @@ def findFiles(recurse, paths):
                     if os.path.isfile(f):
                         existingFiles.append(f)
 
-        elif os.path.isdir(root) == False and os.path.isfile(root) == False:
+        elif not os.path.isdir(root) and not os.path.isfile(root):
             # One or more (but not all) paths do no exist - print a warning
             msg = root + " does not exist"
             printWarning(msg)
@@ -580,7 +594,7 @@ def writeElement(elt, codec):
     if config.PYTHON_VERSION.startswith(config.PYTHON_3):
         xmlOut = ET.tostring(elt, 'unicode', 'xml')
 
-    if config.noPrettyXMLFlag == False:
+    if not config.noPrettyXMLFlag:
         # Make xml pretty
         xmlPretty = minidom.parseString(xmlOut).toprettyxml('    ')
 
@@ -625,9 +639,9 @@ def checkFiles(recurse, wrap, paths):
     # Wrap the xml output in <results> element, if wrapper flag is true
     if wrap or recurse:
         xmlHead = "<?xml version='1.0' encoding='UTF-8'?>\n"
-        xmlHead += "<results xmlns=\"http://openpreservation.org/ns/jpylyzer/\"\n"
-        xmlHead += "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-        xmlHead += "xsi:schemaLocation=\"http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-1.xsd\">\n"
+        xmlHead += "<results xmlns=\"" + nsString + "\" "
+        xmlHead += "xmlns:xsi=\"" + xsiNsString + "\" "
+        xmlHead += "xsi:schemaLocation=\"" + locSchemaString + "\">\n"
     else:
         xmlHead = "<?xml version='1.0' encoding='UTF-8'?>\n"
     out.write(xmlHead)
@@ -658,7 +672,8 @@ def parseCommandLine():
                         action="store_true",
                         dest="inputRecursiveFlag",
                         default=False,
-                        help="when analysing a directory, recurse into subdirectories (implies --wrapper)")
+                        help="when analysing a directory, recurse into subdirectories \
+                                (implies --wrapper)")
     parser.add_argument('--wrapper',
                         '-w', action="store_true",
                         dest="inputWrapperFlag",
@@ -668,7 +683,8 @@ def parseCommandLine():
                         action="store_true",
                         dest="extractNullTerminatedXMLFlag",
                         default=False,
-                        help="extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)")
+                        help="extract null-terminated XML content from XML and UUID boxes \
+                                (doesn't affect validation)")
     parser.add_argument('--nopretty',
                         action="store_true",
                         dest="noPrettyXMLFlag",
@@ -678,7 +694,8 @@ def parseCommandLine():
                         action="store",
                         type=str,
                         nargs='+',
-                        help="input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (*) with backslash (\\) in Linux")
+                        help="input JP2 image(s), may be one or more (whitespace-separated) path \
+                                expressions; prefix wildcard (*) with backslash (\\) in Linux")
     parser.add_argument('--version', '-v',
                         action='version',
                         version=__version__)
