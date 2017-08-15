@@ -109,8 +109,8 @@ class BoxValidator:
         for elt in self.tests.iter():
             if elt.text == False:
                 # File didn't pass this test, so not valid
-                return(False)
-        return(True)
+                return False
+        return True
 
     def _getBox(self, byteStart, noBytes):
         # Parse JP2 box and return information on its
@@ -204,7 +204,7 @@ class BoxValidator:
             # Obviously something going wrong here ...
             compressionRatio = -9999
 
-        return(compressionRatio)
+        return compressionRatio
 
     def _getBitValue(self, n, p):
         # Get the bit value of denary (base 10) number n at the equivalent binary
@@ -353,7 +353,7 @@ class BoxValidator:
         self.testFor(
             "containsImageHeaderBox", self.boxTagMap['imageHeaderBox'] in subBoxTypes)
         self.testFor("containsColourSpecificationBox", self.boxTagMap[
-                     'colourSpecificationBox'] in subBoxTypes)
+            'colourSpecificationBox'] in subBoxTypes)
 
         # If bPCSign equals 1 and bPCDepth equals 128 (equivalent to bPC field being
         # 255), this box should contain a Bits Per Components box
@@ -362,7 +362,7 @@ class BoxValidator:
 
         if sign == 1 and depth == 128:
             self.testFor("containsBitsPerComponentBox", self.boxTagMap[
-                         'bitsPerComponentBox'] in subBoxTypes)
+                'bitsPerComponentBox'] in subBoxTypes)
 
         # Is the first box an Image Header Box?
         try:
@@ -376,7 +376,7 @@ class BoxValidator:
 
         # Some boxes can have multiple instances, whereas for others only one
         # is allowed
-        self.testFor("noMoreThanOneImageHeaderBox",  subBoxTypes.count(
+        self.testFor("noMoreThanOneImageHeaderBox", subBoxTypes.count(
             self.boxTagMap['imageHeaderBox']) <= 1)
         self.testFor("noMoreThanOneBitsPerComponentBox", subBoxTypes.count(
             self.boxTagMap['bitsPerComponentBox']) <= 1)
@@ -398,8 +398,9 @@ class BoxValidator:
 
         # If JP2 Header box contains a Palette Box, it should also contain a component
         # mapping box, and vice versa
-        if (self.boxTagMap['paletteBox'] in subBoxTypes and self.boxTagMap['componentMappingBox'] not in subBoxTypes) \
-                or (self.boxTagMap['componentMappingBox'] in subBoxTypes and self.boxTagMap['paletteBox'] not in subBoxTypes):
+        if (self.boxTagMap['paletteBox'] in subBoxTypes and self.boxTagMap['componentMappingBox'] \
+                not in subBoxTypes) or (self.boxTagMap['componentMappingBox'] in subBoxTypes \
+                and self.boxTagMap['paletteBox'] not in subBoxTypes):
             paletteAndComponentMappingBoxesOnlyTogether = False
         else:
             paletteAndComponentMappingBoxesOnlyTogether = True
@@ -982,12 +983,12 @@ class BoxValidator:
 
         # This box contains either one Capture Resolution box, one Default Display
         # resolution box, or one of both
-        self.testFor("containsCaptureOrDisplayResolutionBox",
-                     tagCaptureResolutionBox in subBoxTypes or tagDisplayResolutionBox in subBoxTypes)
-        self.testFor("noMoreThanOneCaptureResolutionBox",
-                     subBoxTypes.count(tagCaptureResolutionBox) <= 1)
-        self.testFor("noMoreThanOneDisplayResolutionBox",
-                     subBoxTypes.count(tagDisplayResolutionBox) <= 1)
+        self.testFor("containsCaptureOrDisplayResolutionBox", \
+            tagCaptureResolutionBox in subBoxTypes or tagDisplayResolutionBox in subBoxTypes)
+        self.testFor("noMoreThanOneCaptureResolutionBox", \
+            subBoxTypes.count(tagCaptureResolutionBox) <= 1)
+        self.testFor("noMoreThanOneDisplayResolutionBox", \
+            subBoxTypes.count(tagDisplayResolutionBox) <= 1)
 
     # Validator functions for boxes in Resolution box
 
@@ -1264,9 +1265,9 @@ class BoxValidator:
         if not numberOfTilesExpected:
             numberOfTilesExpected = 0
 
-        # Impose upper limit on numberOfTilesExpected to avoid misbehaviour in case of corrupted files
-        # Value of 65535 equals upper value imposed by Kakadu (can't find this
-        # anywhere in the standard though)
+        # Impose upper limit on numberOfTilesExpected to avoid misbehaviour in case of corrupted
+        # files. Value of 65535 equals upper value imposed by Kakadu (can't find this  anywhere
+        # in the standard though)
         numberOfTilesExpected = min(numberOfTilesExpected, 65535)
 
         # Create list with one entry for each tile
@@ -1835,7 +1836,7 @@ class BoxValidator:
 
         # psot equals 0 (for last tile part) or greater than 14 (so range 1-13
         # is illegal)
-        psotIsValid = not(1 <= psot <= 13)
+        psotIsValid = not 1 <= psot <= 13
         self.testFor("psotIsValid", psotIsValid)
 
         # Tile part index
@@ -1937,9 +1938,9 @@ class BoxValidator:
         # SOD marker
         # NOTE 1: limited testing so far because of unavailability of test images with these
         # markers at tile-part level!!
-        # NOTE 2: check for offsetNext !=-9999 was included after encountering image with corruption
-        # that resulted in nonsensical lsot values, ultimatelty leading to an infinite loop. Shouldn't happen
-        # anymore (although this may not be the most elegant way of handling
+        # NOTE 2: check for offsetNext !=-9999 was included after encountering image with
+        # corruption that resulted in nonsensical lsot values, ultimatelty leading to an infinite
+        # loop. Shouldn't happen anymore (although this may not be the most elegant way of handling
         # this)
 
         while marker != b'\xff\x93' and offsetNext != -9999:
@@ -2243,7 +2244,7 @@ class BoxValidator:
         tagJP2HeaderBox = b'\x6a\x70\x32\x68'
         tagIntellectualPropertyBox = b'\x6a\x70\x32\x69'
         tagContiguousCodestreamBox = b'\x6a\x70\x32\x63'
-        
+
         # List for storing box type identifiers
         boxTypes = []
 
