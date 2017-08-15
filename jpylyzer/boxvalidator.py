@@ -25,7 +25,7 @@ from shared import printWarning
 
 class BoxValidator:
     # Marker tags/codes that identify all sub-boxes as hexadecimal strings
-    #(Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
+    # (Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
     typeMap = {
         b'\x6a\x70\x32\x69': "intellectualPropertyBox",
         b'\x78\x6d\x6c\x20': "xmlBox",
@@ -398,9 +398,9 @@ class BoxValidator:
 
         # If JP2 Header box contains a Palette Box, it should also contain a component
         # mapping box, and vice versa
-        if (self.boxTagMap['paletteBox'] in subBoxTypes and self.boxTagMap['componentMappingBox'] \
-                not in subBoxTypes) or (self.boxTagMap['componentMappingBox'] in subBoxTypes \
-                and self.boxTagMap['paletteBox'] not in subBoxTypes):
+        if ((self.boxTagMap['paletteBox'] in subBoxTypes and self.boxTagMap['componentMappingBox']
+                not in subBoxTypes) or (self.boxTagMap['componentMappingBox'] in subBoxTypes and
+                                        self.boxTagMap['paletteBox'] not in subBoxTypes)):
             paletteAndComponentMappingBoxesOnlyTogether = False
         else:
             paletteAndComponentMappingBoxesOnlyTogether = True
@@ -452,7 +452,7 @@ class BoxValidator:
         bPCDepthIsWithinAllowedRange = 1 <= bPCDepth <= 38
         bitDepthIsVariable = 1 <= bPC <= 255
 
-        if bPCDepthIsWithinAllowedRange == True or bitDepthIsVariable == True:
+        if bPCDepthIsWithinAllowedRange or bitDepthIsVariable:
             bPCIsValid = True
         else:
             bPCIsValid = False
