@@ -2082,9 +2082,9 @@ class BoxValidator:
 
         # First 16 bytes contain UUID, convert to string of hex digits
         # in standard form
-        id = str(uuid.UUID(bytes=self.boxContents[0:16]))
+        boxUUID = str(uuid.UUID(bytes=self.boxContents[0:16]))
 
-        if id == "be7acfcb-97a9-42e8-9c71-999491e3afac":
+        if boxUUID == "be7acfcb-97a9-42e8-9c71-999491e3afac":
             # XMP packet
             data = self.boxContents[16:boxLength]
 
@@ -2116,7 +2116,7 @@ class BoxValidator:
             self.testFor("containsWellformedXML", containsWellformedXML)
         else:
             # Only add to UUID to characteristics tree
-            self.addCharacteristic("uuid", id)
+            self.addCharacteristic("uuid", boxUUID)
 
     def validate_uuidInfoBox(self):
         # UUID Info box (superbox)(ISO/IEC 15444-1 Section I.7.3)
@@ -2178,8 +2178,8 @@ class BoxValidator:
         # Loop through all UUIDs
         offset = 2
         for i in range(nU):
-            id = str(uuid.UUID(bytes=self.boxContents[offset:offset + 16]))
-            self.addCharacteristic("uuid", id)
+            boxUUID = str(uuid.UUID(bytes=self.boxContents[offset:offset + 16]))
+            self.addCharacteristic("uuid", boxUUID)
             offset += 16
 
     def validate_urlBox(self):

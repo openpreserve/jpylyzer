@@ -79,18 +79,6 @@ def get_main_dir():
     return os.path.dirname(sys.argv[0])
 
 
-def readFileBytes(file):
-    # Read file, return contents as a byte object
-
-    # Open file
-    f = open(file, "rb")
-
-    # Put contents of file into a byte object.
-    fileData = f.read()
-    f.close()
-
-    return(fileData)
-
 def generatePropertiesRemapTable():
 
     # Generates nested dictionary which is used to map 'raw' property values
@@ -261,11 +249,11 @@ def generatePropertiesRemapTable():
 
     return(enumerationsMap)
 
-def fileToMemoryMap(file):
-    # Read contents of file to memory map object
+def fileToMemoryMap(filename):
+    # Read contents of filename to memory map object
 
-    # Open file
-    f = open(file, "rb")
+    # Open filename
+    f = open(filename, "rb")
 
     # Call to mmap is different on Linux and Windows, so we need to know
     # the current platform
@@ -282,11 +270,11 @@ def fileToMemoryMap(file):
     except ValueError:
         # mmap fails on empty files.
         fileData = ""
-    
-    f.close()    
-    return(fileData)  
 
-def checkOneFile(file):
+    f.close()
+    return(fileData)
+
+def checkOneFile(path):
     # Process one file and return analysis result as element object
 
     # Create output elementtree object
@@ -306,9 +294,9 @@ def checkOneFile(file):
     fileInfo = ET.Element('fileInfo')
     statusInfo = ET.Element('statusInfo')
 
-    # File name and path 
-    fileName = os.path.basename(file)
-    filePath = os.path.abspath(file)
+    # File name and path
+    fileName = os.path.basename(path)
+    filePath = os.path.abspath(path)
 
     # If file name / path contain any surrogate pairs, remove them to
     # avoid problems when writing to XML
@@ -322,9 +310,9 @@ def checkOneFile(file):
     fileInfo.appendChildTagWithText("fileName", fileNameCleaned)
     fileInfo.appendChildTagWithText("filePath", filePathCleaned)
     fileInfo.appendChildTagWithText(
-        "fileSizeInBytes", str(os.path.getsize(file)))
+        "fileSizeInBytes", str(os.path.getsize(path)))
     try:
-        lastModifiedDate = time.ctime(os.path.getmtime(file))
+        lastModifiedDate = time.ctime(os.path.getmtime(path))
     except ValueError:
         # Dates earlier than 1 Jan 1970 can raise ValueError on Windows
         # Workaround: replace by lowest possible value (typically 1 Jan 1970)
@@ -334,12 +322,12 @@ def checkOneFile(file):
 
     # Initialise success flag
     success = True
-    
+
     try:
         # Contents of file to memory map object
-        fileData = fileToMemoryMap(file)
+        fileData = fileToMemoryMap(path)
         isValidJP2, tests, characteristics = BoxValidator("JP2", fileData).validate()
-        
+
         if fileData != "":
             fileData.close()
 
@@ -349,7 +337,7 @@ def checkOneFile(file):
         # Create printable version of tests and characteristics tree
         tests.makeHumanReadable()
         characteristics.makeHumanReadable(remapTable)
-    except Exception as ex:    
+    except Exception as ex:
         isValidJP2 = False
         success = False
         exceptionType = type(ex)
@@ -366,12 +354,12 @@ def checkOneFile(file):
         printWarning(failureMessage)
         tests = ET.Element("tests")
         characteristics = ET.Element('properties')
- 
+
     # Add status info
     statusInfo.appendChildTagWithText("success", str(success))
     if success == False:
         statusInfo.appendChildTagWithText("failureMessage",failureMessage)
-  
+
     # Append all results to root
     root.append(toolInfo)
     root.append(fileInfo)
@@ -441,8 +429,8 @@ def stripSurrogatePairs(ustring):
             [\udc00-\udfff]      #   match trailing surrogate
             )                   # end group
             """))
-   
-        # Remove surrogates (i.e. replace by empty string) 
+
+        # Remove surrogates (i.e. replace by empty string)
         tmp = lone.sub(r'',ustring).encode('utf-8')
         ustring = tmp.decode('utf-8')
 
@@ -494,7 +482,7 @@ def findFiles(recurse, paths):
 
     # process the list of input paths
     for root in paths:
-    
+
         if config.PYTHON_VERSION.startswith(config.PYTHON_2):
             # Convert root to UTF-8 (only needed for Python 2.x)
             root = unicode(root, 'utf-8')
@@ -627,7 +615,7 @@ def checkFiles(recurse, wrap, paths):
 
     # If there are no valid input files then exit program
     checkNoInput(existingFiles)
-    
+
     # Set encoding of the terminal to UTF-8
     if config.PYTHON_VERSION.startswith(config.PYTHON_2):
         out = codecs.getwriter(config.UTF8_ENCODING)(sys.stdout)
@@ -649,7 +637,7 @@ def checkFiles(recurse, wrap, paths):
 
         # Analyse file
         xmlElement = checkOneFile(path)
-       
+
         # Write output to stdout
         writeElement(xmlElement, out)
 
