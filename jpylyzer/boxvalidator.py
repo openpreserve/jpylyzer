@@ -325,7 +325,6 @@ class BoxValidator:
         subBoxTypes = []
         noBytes = len(self.boxContents)
         byteStart = 0
-        bytesTotal = 0
 
         # Dummy value
         boxLengthValue = 10
@@ -956,7 +955,6 @@ class BoxValidator:
 
         noBytes = len(self.boxContents)
         byteStart = 0
-        bytesTotal = 0
 
         # Dummy value
         boxLengthValue = 10
@@ -1305,8 +1303,6 @@ class BoxValidator:
                 tilePartCharacteristics.append(characteristicsTilePart)
 
                 tileIndex = characteristicsTilePart.findElementText('sot/isot')
-                tilePartIndex = characteristicsTilePart.findElementText(
-                    'sor/tpsot')
                 tilePartsOfTile = characteristicsTilePart.findElementText(
                     'sot/tnsot')
 
@@ -1931,9 +1927,6 @@ class BoxValidator:
 
         offset = offsetNext
 
-        # Last marker in every tile-part should be a start of data marker
-        foundSODMarker = False
-
         # Loop through remaining tile part marker segments; extract properties of
         # and validate COD, QCD and COM marker segments. Also test for presence of
         # SOD marker
@@ -2135,7 +2128,6 @@ class BoxValidator:
 
         noBytes = len(self.boxContents)
         byteStart = 0
-        bytesTotal = 0
 
         # Dummy value
         boxLengthValue = 10
@@ -2251,7 +2243,6 @@ class BoxValidator:
 
         noBytes = len(self.boxContents)
         byteStart = 0
-        bytesTotal = 0
 
         # Dummy value
         boxLengthValue = 10

@@ -38,17 +38,14 @@ import os
 import time
 import imp
 import glob
-import struct
 import argparse
 import config
 import codecs
 import re
 import etpatch as ET
-import fnmatch
 import xml.etree.ElementTree as ETree
 from boxvalidator import BoxValidator
 from xml.dom import minidom
-from byteconv import bytesToText
 from shared import printWarning
 from six import u
 
