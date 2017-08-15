@@ -116,7 +116,7 @@ class Element(ET.Element):
 
             # Convert
 
-            if remappedValue != None:
+            if remappedValue is not None:
                 # Data type
                 textType = type(remappedValue)
 

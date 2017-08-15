@@ -2233,10 +2233,10 @@ class BoxValidator:
         # Top-level function for JP2 validation:
         #
         # 1. Parses all top-level boxes in JP2 byte object, and calls separate validator
-        #    function for each of these
+        # -- function for each of these
         # 2. Checks for presence of all required top-level boxes
         # 3. Checks if JP2 header properties are consistent with corresponding properties
-        #	 in codestream header
+        # -- in codestream header
 
         # Marker tags/codes that identify all top level boxes as hexadecimal strings
         # (Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
@@ -2392,7 +2392,7 @@ class BoxValidator:
             #
             # 1. bPCSign and bPCDepth same for all components --> use values from image header
             # 2. bPCSign and bPCDepth vary across components --> use values from Bits Per
-            #	Components box
+            # -- Components box
             #
             # Situation 1 is the most common one. Situation 2 can be identified by a value
             # of 255 of bPC in the image header, which corresponds to  bPCSign = 1
