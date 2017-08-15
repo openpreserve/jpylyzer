@@ -107,7 +107,7 @@ class BoxValidator:
 
     def _isValid(self):
         for elt in self.tests.iter():
-            if elt.text == False:
+            if elt.text is False:
                 # File didn't pass this test, so not valid
                 return False
         return True
@@ -224,9 +224,9 @@ class BoxValidator:
 
         # print(config.outputVerboseFlag)
 
-        if config.outputVerboseFlag == False:
+        if config.outputVerboseFlag is False:
             # Non-verbose output: only add results of tests that failed
-            if testResult == False:
+            if testResult is False:
                 self.tests.appendChildTagWithText(testType, testResult)
 
         else:
@@ -983,12 +983,13 @@ class BoxValidator:
 
         # This box contains either one Capture Resolution box, one Default Display
         # resolution box, or one of both
-        self.testFor("containsCaptureOrDisplayResolutionBox", \
-            tagCaptureResolutionBox in subBoxTypes or tagDisplayResolutionBox in subBoxTypes)
-        self.testFor("noMoreThanOneCaptureResolutionBox", \
-            subBoxTypes.count(tagCaptureResolutionBox) <= 1)
-        self.testFor("noMoreThanOneDisplayResolutionBox", \
-            subBoxTypes.count(tagDisplayResolutionBox) <= 1)
+        self.testFor("containsCaptureOrDisplayResolutionBox",
+                     tagCaptureResolutionBox in subBoxTypes or
+                     tagDisplayResolutionBox in subBoxTypes)
+        self.testFor("noMoreThanOneCaptureResolutionBox",
+                     subBoxTypes.count(tagCaptureResolutionBox) <= 1)
+        self.testFor("noMoreThanOneDisplayResolutionBox",
+                     subBoxTypes.count(tagDisplayResolutionBox) <= 1)
 
     # Validator functions for boxes in Resolution box
 
@@ -2056,7 +2057,7 @@ class BoxValidator:
             containsWellformedXML = False
 
             # Useful for extracting null-terminated XML (older Kakadu versions)
-            if config.extractNullTerminatedXMLFlag == True:
+            if config.extractNullTerminatedXMLFlag:
                 try:
                     data = bc.removeNullTerminator(data)
                     dataAsElement = ET.fromstring(data)
@@ -2106,7 +2107,7 @@ class BoxValidator:
 
                 # Useful for extracting null-terminated XML (older Kakadu
                 # versions)
-                if config.extractNullTerminatedXMLFlag == True:
+                if config.extractNullTerminatedXMLFlag:
                     try:
                         data = bc.removeNullTerminator(data)
                         dataAsElement = ET.fromstring(data)
@@ -2232,13 +2233,13 @@ class BoxValidator:
         # Top-level function for JP2 validation:
         #
         # 1. Parses all top-level boxes in JP2 byte object, and calls separate validator
-        #	function for each of these
+        #    function for each of these
         # 2. Checks for presence of all required top-level boxes
         # 3. Checks if JP2 header properties are consistent with corresponding properties
-        #	in codestream header
+        #	 in codestream header
 
         # Marker tags/codes that identify all top level boxes as hexadecimal strings
-        #(Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
+        # (Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
         tagSignatureBox = b'\x6a\x50\x20\x20'
         tagFileTypeBox = b'\x66\x74\x79\x70'
         tagJP2HeaderBox = b'\x6a\x70\x32\x68'
@@ -2310,7 +2311,7 @@ class BoxValidator:
             secondBoxIsFileTypeBox = False
 
         # JP2 Header Box: after File Type box, before (first) contiguous codestream box
-        #(ISO/IEC 15444-1 Section I.5.3)?
+        # (ISO/IEC 15444-1 Section I.5.3)?
         try:
             positionJP2HeaderBox = boxTypes.index(tagJP2HeaderBox)
             positionFirstContiguousCodestreamBox = boxTypes.index(
@@ -2358,7 +2359,7 @@ class BoxValidator:
         # integer. Probably a bug in ET. Using 'find' + text property does work
         # as expected
 
-        if jp2ImageHeader != None and sizHeader != None:
+        if jp2ImageHeader is not None and sizHeader is not None:
 
             # Height should be equal to ysiz -yOsiz
 
