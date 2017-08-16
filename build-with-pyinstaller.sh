@@ -4,8 +4,9 @@
 
 # First check for PyInstaller
 command -v pyinstaller >/dev/null 2>&1 || {
-    echo >&2 "http://www.pyinstaller.org/ is required to build the Jpylyzer executable.";
-    echo >&2 "Please install PyInstaller http://pythonhosted.org/PyInstaller/#installing-pyinstaller.";
+    echo >&2 "PyInstaller is required to build the Jpylyzer executable.";
+    echo >&2 "Please install PyInstaller with:";
+    echo >&2 "  (sudo) pip install pyinstaller"
     exit 1;
 }
 
