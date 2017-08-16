@@ -21,7 +21,7 @@ def find_version(*file_paths):
     raise RuntimeError("Unable to find version string.")
 
 INSTALL_REQUIRES = []
-PYTHON_REQUIRES = '>=2.7, !=3.0.*, !=3.1.*, <4',
+PYTHON_REQUIRES = '>=2.7, !=3.0.*, !=3.1.*, <4'
 
 README = open('README.md', 'r')
 README_TEXT = README.read()
