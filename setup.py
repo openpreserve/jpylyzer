@@ -20,6 +20,7 @@ def find_version(*file_paths):
     raise RuntimeError("Unable to find version string.")
 
 install_requires = []
+python_requires ='>=2.7, !=3.0.*, !=3.1.*, <4',
 
 readme = open('README.md', 'r')
 README_TEXT = readme.read()
@@ -30,6 +31,7 @@ packages=find_packages(),
     version=find_version('jpylyzer', 'jpylyzer.py'),
     license='LGPL',
     install_requires=install_requires,
+    python_requires = python_requires,
     platforms=['POSIX', 'Windows'],
     description='JP2 (JPEG 2000 Part 1) image validator and properties extractor',
     long_description=README_TEXT,
