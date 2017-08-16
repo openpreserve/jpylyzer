@@ -1780,28 +1780,35 @@ class BoxValidator:
         # Contents (multiples of Ccom)
         comment = self.boxContents[4:lcom]
 
-        # Decode to string with Latin encoding, determine if valid ISO 8859-15
-
-        try:
-            comment = comment.decode("iso-8859-15", "strict")
-        except:
-            # Empty string in case of decode error
-            comment = ""
-
-        # Ideally decode above should raise exception if comment is not valid
-        # ISO 8859-15, but this doesn't work. So instead we do this indirectly
-        # by looking for control characters (tab, newline and carriage return
-        # are OK)
-        if bc.removeControlCharacters(comment) == comment:
+        if rcom == 0:
+            # no validation of binary comment content
             commentIsValid = True
-        else:
-            commentIsValid = False
+            comment = bc.bytesToHex(comment)
+
+        elif rcom == 1:
+
+            # Decode to string with Latin encoding, determine if valid ISO
+            # 8859-15
+
+            try:
+                comment = comment.decode("iso-8859-15", "strict")
+            except:
+                # Empty string in case of decode error
+                comment = ""
+
+            # Ideally decode above should raise exception if comment is not
+            # valid ISO 8859-15, but this doesn't work. So instead we do this
+            # indirectly by looking for control characters (tab, newline and
+            # carriage return are OK)
+            if bc.removeControlCharacters(comment) == comment:
+                commentIsValid = True
+            else:
+                commentIsValid = False
 
         self.testFor("commentIsValid", commentIsValid)
 
-        # Only add comment to characteristics if text (may contain binary data
-        # if rcom is 0!)
-        if rcom == 1:
+        # any non-printable data should have been removed.
+        if commentIsValid:
             self.addCharacteristic("comment", comment)
 
     def validate_sot(self):
