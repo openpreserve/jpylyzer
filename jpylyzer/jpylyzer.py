@@ -48,7 +48,7 @@ from boxvalidator import BoxValidator
 from xml.dom import minidom
 from shared import printWarning
 from six import u
-from pympler.tracker import SummaryTracker
+
 
 scriptPath, scriptName = os.path.split(sys.argv[0])
 
@@ -704,9 +704,6 @@ def parseCommandLine():
 
 
 def main():
-
-    # Start Pympler
-    tracker = SummaryTracker()
     
     # Get input from command line
     args = parseCommandLine()
@@ -731,8 +728,5 @@ def main():
     checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
     # checkFiles(False, args.inputWrapperFlag, jp2In)
     
-    # Pympler output
-    tracker.print_diff()
-
 if __name__ == "__main__":
     main()

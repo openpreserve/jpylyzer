@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 """Setup script for jpylyzer"""
+from setuptools import setup, find_packages
 import codecs
 import os
 import re
 
-from setuptools import setup, find_packages
 
 def read(*parts):
     """Read file and return contents"""
