@@ -80,6 +80,7 @@ xsiNsString = 'http://www.w3.org/2001/XMLSchema-instance'
 locSchemaString = 'http://openpreservation.org/ns/jpylyzer/ \
 http://jpylyzer.openpreservation.org/jpylyzer-v-1-1.xsd'
 
+
 def generatePropertiesRemapTable():
     """Generates nested dictionary which is used to map 'raw' property values
     (mostly integer values) to corresponding text descriptions
@@ -651,7 +652,7 @@ def checkFiles(recurse, wrap, paths):
 
 def parseCommandLine():
     """Parse command line arguments"""
-    
+
     # Add arguments
     parser.add_argument('--verbose',
                         action="store_true",
