@@ -1,24 +1,24 @@
 #! /usr/bin/env python
 #
-#
-#
-# jpylyzer
-#
-# Requires: Python 2.7 (older versions won't work) OR Python 3.2 or more recent
-#  (Python 3.0 and 3.1 won't work either!)
-#
-# Copyright (C) 2011 - 2014 Johan van der Knijff, Koninklijke Bibliotheek -
-#  National Library of the Netherlands
-#
-# Contributors:
-#   Rene van der Ark (refactoring of original code)
-#   Lars Buitinck
-#   Adam Retter, The National Archives, UK. <adam.retter@googlemail.com>
-#   Jaishree Davey, The National Archives, UK.
-#   Laura Damian, The National Archives, UK.
-#   Carl Wilson, Open Planets Foundation, UK.
-#   Stefan Weil, UB Mannheim, DE.
-#
+"""Jpylyzer validator for JPEG 200 Part 1 (JP2) images
+
+ Requires: Python 2.7 (older versions won't work) OR Python 3.2 or more recent
+  (Python 3.0 and 3.1 won't work either!)
+
+ Copyright (C) 2011 - 2017 Johan van der Knijff, Koninklijke Bibliotheek -
+  National Library of the Netherlands
+
+Contributors:
+   Rene van der Ark, NL (refactoring of original code).
+   Lars Buitinck, NL.
+   Adam Retter, The National Archives, UK.
+   Jaishree Davey, The National Archives, UK.
+   Laura Damian, The National Archives, UK.
+   Carl Wilson, Open Planets Foundation, UK.
+   Stefan Weil, UB Mannheim, DE.
+   Adam Fritzler, Planet Labs, USA.
+"""
+
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -80,23 +80,10 @@ xsiNsString = 'http://www.w3.org/2001/XMLSchema-instance'
 locSchemaString = 'http://openpreservation.org/ns/jpylyzer/ \
 http://jpylyzer.openpreservation.org/jpylyzer-v-1-1.xsd'
 
-
-def main_is_frozen():
-    return (hasattr(sys, "frozen") or  # new py2exe
-            hasattr(sys, "importers") or  # old py2exe
-            imp.is_frozen("__main__"))  # tools/freeze
-
-
-def get_main_dir():
-    if main_is_frozen():
-        return os.path.dirname(sys.executable)
-    return os.path.dirname(sys.argv[0])
-
-
 def generatePropertiesRemapTable():
-
-    # Generates nested dictionary which is used to map 'raw' property values
-    # (mostly integer values) to corresponding text descriptions
+    """Generates nested dictionary which is used to map 'raw' property values
+    (mostly integer values) to corresponding text descriptions
+    """
 
     # Master dictionary for mapping of text descriptions to enumerated values
     # Key: corresponds to parameter tag name
@@ -261,11 +248,11 @@ def generatePropertiesRemapTable():
     enumerationsMap['qStyle'] = qStyleMap
     enumerationsMap['rcom'] = registrationMap
 
-    return(enumerationsMap)
+    return enumerationsMap
 
 
 def fileToMemoryMap(filename):
-    # Read contents of filename to memory map object
+    """Read contents of filename to memory map object"""
 
     # Open filename
     f = open(filename, "rb")
@@ -287,11 +274,11 @@ def fileToMemoryMap(filename):
         fileData = ""
 
     f.close()
-    return(fileData)
+    return fileData
 
 
 def checkOneFile(path):
-    # Process one file and return analysis result as element object
+    """Process one file and return analysis result as element object"""
 
     # Create output elementtree object
 
@@ -383,12 +370,13 @@ def checkOneFile(path):
     root.append(tests)
     root.append(characteristics)
 
-    return(root)
+    return root
 
 
 def checkNullArgs(args):
-    # This method checks if the input arguments list and exits program if
-    # invalid or no input argument is supplied.
+    """This method checks if the input arguments list and exits program if
+    invalid or no input argument is supplied.
+    """
 
     if len(args) == 0:
 
@@ -398,8 +386,9 @@ def checkNullArgs(args):
 
 
 def checkNoInput(files):
-    # Check if input arguments list results in any existing input files at all
-    # (and exits if not)
+    """Check if input arguments list results in any existing input files at all
+    (and exits if not)
+    """
 
     if len(files) == 0:
         printWarning("no images to check!")
@@ -407,7 +396,7 @@ def checkNoInput(files):
 
 
 def printHelpAndExit():
-    # Print help message and exit
+    """Print help message and exit"""
     print('')
     parser.print_help()
     sys.exit()
@@ -415,7 +404,7 @@ def printHelpAndExit():
 
 def stripSurrogatePairs(ustring):
 
-    # Removes surrogate pairs from a Unicode string
+    """Removes surrogate pairs from a Unicode string"""
 
     # This works for Python 3.x, but not for 2.x!
     # Source: http://stackoverflow.com/q/19649463/1209004
@@ -451,10 +440,11 @@ def stripSurrogatePairs(ustring):
         tmp = lone.sub(r'', ustring).encode('utf-8')
         ustring = tmp.decode('utf-8')
 
-    return(ustring)
+    return ustring
 
 
 def getFilesFromDir(dirpath):
+    """Append paths of all files in a directory to existingFiles"""
     for fp in os.listdir(dirpath):
         filepath = os.path.join(dirpath, fp)
         if os.path.isfile(filepath):
@@ -462,6 +452,7 @@ def getFilesFromDir(dirpath):
 
 
 def getFiles(searchpattern):
+    """Append paths of all files that match search pattern to existingFiles"""
     results = glob.glob(searchpattern)
     for f in results:
         if os.path.isfile(f):
@@ -469,9 +460,9 @@ def getFiles(searchpattern):
 
 
 def getFilesWithPatternFromTree(rootDir, pattern):
-    # Recurse into directory tree and return list of all files
-    # NOTE: directory names are disabled here!!
-
+    """Recurse into directory tree and return list of all files
+    NOTE: directory names are disabled here!!
+    """
     for dirname, dirnames, filenames in os.walk(rootDir):
         # Suppress directory names
         for subdirname in dirnames:
@@ -482,8 +473,9 @@ def getFilesWithPatternFromTree(rootDir, pattern):
 
 
 def getFilesFromTree(rootDir):
-    # Recurse into directory tree and return list of all files
-    # NOTE: directory names are disabled here!!
+    """Recurse into directory tree and return list of all files
+    NOTE: directory names are disabled here!!
+    """
 
     for dirname, dirnames, filenames in os.walk(rootDir):
         # Suppress directory names
@@ -496,6 +488,7 @@ def getFilesFromTree(rootDir):
 
 
 def findFiles(recurse, paths):
+    """Find all files that match a wildcard expression and add their paths to existingFiles"""
 
     WILDCARD = "*"
 
@@ -514,7 +507,7 @@ def findFiles(recurse, paths):
         # Find files in the input path and add to list
         elif WILDCARD in root:
             # get the absolute path if not given
-            if not(os.path.isabs(root)):
+            if not os.path.isabs(root):
                 root = os.path.abspath(root)
 
             # Expand wildcard in the input path. Returns a list of files,
@@ -528,11 +521,6 @@ def findFiles(recurse, paths):
                 root = filesList[0]
 
             # get files from directory
-            """ Disabled JvdK: if enabled all files in direct child directories are analysed -
-            do we really want that?
-            if os.path.isdir(root) and not recurse:
-                getFilesFromDir(root)
-            """
 
             # If the input path returned files list, add files to List
 
@@ -549,17 +537,11 @@ def findFiles(recurse, paths):
             msg = root + " does not exist"
             printWarning(msg)
 
-        """ Disabled JvdK:
-        elif os.path.isdir(root) and not recurse:
-            #input path is a directory and is not recursive
-            getFilesFromDir(root)
-        """
-
         # RECURSION and WILDCARD IN RECURSION
         # Check if recurse in the input path
         if recurse:
             # get absolute input path if not given
-            if not(os.path.isabs(root)):
+            if not os.path.isabs(root):
                 root = os.path.abspath(root)
 
             if WILDCARD in root:
@@ -592,7 +574,7 @@ def findFiles(recurse, paths):
 
 
 def writeElement(elt, codec):
-    # Writes element as XML to stdout using defined codec
+    """Writes element as XML to stdout using defined codec"""
 
     # Element to string
     if config.PYTHON_VERSION.startswith(config.PYTHON_2):
@@ -627,8 +609,9 @@ def writeElement(elt, codec):
 
 
 def checkFiles(recurse, wrap, paths):
-    # This method checks the input argument path(s) for existing files and
-    # analyses them
+    """This method checks the input argument path(s) for existing files and
+    analyses them
+    """
 
     # Find existing files in the given input path(s)
     findFiles(recurse, paths)
@@ -667,6 +650,8 @@ def checkFiles(recurse, wrap, paths):
 
 
 def parseCommandLine():
+    """Parse command line arguments"""
+    
     # Add arguments
     parser.add_argument('--verbose',
                         action="store_true",
@@ -709,10 +694,11 @@ def parseCommandLine():
     # Parse arguments
     args = parser.parse_args()
 
-    return(args)
+    return args
 
 
 def main():
+    """Main command line application"""
 
     # Get input from command line
     args = parseCommandLine()
