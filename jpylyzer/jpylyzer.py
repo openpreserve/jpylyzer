@@ -42,12 +42,20 @@ import argparse
 import config
 import codecs
 import re
-import etpatch as ET
-import xml.etree.ElementTree as ETree
-from boxvalidator import BoxValidator
 from xml.dom import minidom
-from shared import printWarning
-from six import u
+import xml.etree.ElementTree as ETree
+
+if __package__ == None:
+    import etpatch as ET
+    from boxvalidator import BoxValidator
+    from shared import printWarning
+    from six import u
+else:
+    # Use relative imports if run from package
+    from . import etpatch as ET
+    from .boxvalidator import BoxValidator
+    from .shared import printWarning
+    from .six import u    
 
 
 scriptPath, scriptName = os.path.split(sys.argv[0])

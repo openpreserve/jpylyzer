@@ -16,12 +16,20 @@
 from __future__ import division
 import uuid
 import math
-import config
-import etpatch as ET
-import byteconv as bc
-from shared import listOccurrencesAreContiguous
-from shared import printWarning
 
+if __package__ == "jpylyzer":
+    # Use relative imports if run from package
+    from . import config
+    from . import etpatch as ET
+    from . import byteconv as bc
+    from .shared import listOccurrencesAreContiguous
+    from .shared import printWarning
+else:
+    import config
+    import etpatch as ET
+    import byteconv as bc
+    from shared import listOccurrencesAreContiguous
+    from shared import printWarning
 
 class BoxValidator:
     # Marker tags/codes that identify all sub-boxes as hexadecimal strings

@@ -14,9 +14,16 @@
 #
 
 import xml.etree.ElementTree as ET
-from byteconv import bytesToText
-from byteconv import removeControlCharacters
-import config
+
+if __package__ == "jpylyzer":
+    # Use relative imports if run from package
+    from .byteconv import bytesToText
+    from .byteconv import removeControlCharacters
+    from . import config
+else:
+    from byteconv import bytesToText
+    from byteconv import removeControlCharacters
+    import config
 
 # TODO:
 # 1) Find out whether these patches are necessary
