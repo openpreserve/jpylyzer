@@ -1,12 +1,12 @@
 Metadata-Version: 1.2
 Name: jpylyzer
-Version: 1.18b1
+Version: 1.18b2
 Summary: JP2 (JPEG 2000 Part 1) image validator and properties extractor
 Home-page: http://jpylyzer.openpreservation.org/
 Author: Johan van der Knijff
 Author-email: johan.vanderknijff@kb.nl
 License: LGPL
-Download-URL: https://github.com/openpreserve/jpylyzer/archive/1.18.b1.tar.gz
+Download-URL: https://github.com/openpreserve/jpylyzer/archive/1.18.b2.tar.gz
 Description: # jpylyzer
         
         ## About

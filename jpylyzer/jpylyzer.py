@@ -39,19 +39,20 @@ import time
 import imp
 import glob
 import argparse
-import config
 import codecs
 import re
 from xml.dom import minidom
 import xml.etree.ElementTree as ETree
 
 if __package__ is None:
+    import config
     import etpatch as ET
     from boxvalidator import BoxValidator
     from shared import printWarning
     from six import u
 else:
     # Use relative imports if run from package
+    from . import config
     from . import etpatch as ET
     from .boxvalidator import BoxValidator
     from .shared import printWarning
@@ -64,7 +65,7 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 if len(scriptName) == 0:
     scriptName = 'jpylyzer'
 
-__version__ = "1.18.b2"
+__version__ = "1.18.b3"
 
 # Create parser
 parser = argparse.ArgumentParser(
