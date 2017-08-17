@@ -253,25 +253,13 @@ class BoxValidator:
     # Validator functions for boxes
 
     def validate_unknownBox(self):
-
         """Process 'unknown'box. Although jpylyzer doesn't know anything about this box, we
         can at least report the 4 characters from the Box Type field (TBox) here
         """
 
         boxType = self.bTypeString
 
-        """
-        # If boxType contains any device control characters (e.g. because of
-        # file corruption), replace them  with printable character
-        if bc.containsControlCharacters(boxType):
-            boxType=bc.replaceControlCharacters(boxType)
-
-        # Decode to string with Latin encoding
-        # Elementtree will deal with any non-ASCII characters by replacing
-        # them with numeric entity references
-        boxType=boxType.decode("iso-8859-15","strict")
-        """
-        # Add (cleaned up) boxType string to output
+        # Add boxType string to output
         self.addCharacteristic("boxType", boxType)
 
         # Print warning message to screen
@@ -379,7 +367,7 @@ class BoxValidator:
         try:
             firstJP2HeaderBoxIsImageHeaderBox = subBoxTypes[
                 0] == self.boxTagMap['imageHeaderBox']
-        except:
+        except Exception:
             firstJP2HeaderBoxIsImageHeaderBox = False
 
         self.testFor(
@@ -805,7 +793,7 @@ class BoxValidator:
 
             # Description as binary string (excluding terminating null char)
             description = descTag[12:12 + descriptionLength - 1]
-        except:
+        except Exception:
             description = ""
         self.addCharacteristic("description", description)
 
@@ -1813,7 +1801,7 @@ class BoxValidator:
 
             try:
                 comment = comment.decode("iso-8859-15", "strict")
-            except:
+            except UnicodeError:
                 # Empty string in case of decode error
                 comment = ""
 
@@ -1880,13 +1868,12 @@ class BoxValidator:
         self.addCharacteristic("tnsot", tnsot)
         self.returnOffset = psot
 
-    """The following validator functions cover those marker segments that
-    are not yet supported, however including them has the effect that their
-    presence at least reported in jpylyzer's output.
-    Together these cover *all* the marker segments defined in ISO/IEC 15444-1,
-    apart from the SOP/EPH markers (not sure if I even *want* to see those reported
-    because there will be either lots of them or none at all!).
-    """
+    # The following validator functions cover those marker segments that
+    # are not yet supported, however including them has the effect that their
+    # presence at least reported in jpylyzer's output.
+    # Together these cover *all* the marker segments defined in ISO/IEC 15444-1,
+    # apart from the SOP/EPH markers (not sure if I even *want* to see those reported
+    # because there will be either lots of them or none at all!).
 
     def validate_coc(self):
         """Empty function"""
@@ -1930,11 +1917,11 @@ class BoxValidator:
 
     def validate_tilePart(self):
         """Analyse tile part that starts at offsetStart and perform cursory validation
-        
+
         Precondition: offsetStart points to SOT marker
-        
+
         Limitations:
-        
+
          - COD, COC, QCD, QCC and RGN are markers only allowed in first tile-part
            of a tile; there is currently no check on this (may be added later)
         """
@@ -2078,7 +2065,7 @@ class BoxValidator:
 
             # If no exception was raised data contains well-formed XML
             containsWellformedXML = True
-        except:
+        except Exception:
             # If parse raised error this is not well-formed XML
             containsWellformedXML = False
 
@@ -2088,7 +2075,7 @@ class BoxValidator:
                     data = bc.removeNullTerminator(data)
                     dataAsElement = ET.fromstring(data)
                     self.characteristics.append(dataAsElement)
-                except:
+                except Exception:
                     pass
 
         self.testFor("containsWellformedXML", containsWellformedXML)
@@ -2103,7 +2090,7 @@ class BoxValidator:
         if uuid = be7acfcb-97a9-42e8-9c71-999491e3afac this indicates
         presence of XMP metadata
         """
-         
+
         boxLength = len(self.boxContents)
 
         # Check box size, which should be greater than 16 bytes
@@ -2238,16 +2225,9 @@ class BoxValidator:
         # Remove null character as this cannot be represented as XML
         loc = bc.removeNullTerminator(loc)
 
-        """
-        # If loc contains any device control characters (e.g. because of
-        # file corruption), replace them  with printable character
-        if bc.containsControlCharacters(loc):
-            loc=bc.replaceControlCharacters(loc)
-        """
-
         # Try decode to UTF-8
         try:
-            tmp = loc.decode("utf-8", "strict")
+            loc.decode("utf-8", "strict")
             self.testFor("locIsUTF8", True)
         except UnicodeDecodeError:
             self.testFor("locIsUTF8", False)
@@ -2256,7 +2236,7 @@ class BoxValidator:
 
     def validate_JP2(self):
         """Top-level function for JP2 validation:
-        
+
         1. Parses all top-level boxes in JP2 byte object, and calls separate validator
            function for each of these
         2. Checks for presence of all required top-level boxes
@@ -2326,13 +2306,13 @@ class BoxValidator:
         # Is the first box a Signature Box (ISO/IEC 15444-1 Section I.5.1)?
         try:
             firstBoxIsSignatureBox = boxTypes[0] == tagSignatureBox
-        except:
+        except Exception:
             firstBoxIsSignatureBox = False
 
         # Is the second box a File Type Box (ISO/IEC 15444-1 Section I.5.2)?
         try:
             secondBoxIsFileTypeBox = boxTypes[1] == tagFileTypeBox
-        except:
+        except Exception:
             secondBoxIsFileTypeBox = False
 
         # JP2 Header Box: after File Type box, before (first) contiguous codestream box
@@ -2346,7 +2326,7 @@ class BoxValidator:
                 locationJP2HeaderBoxIsValid = True
             else:
                 locationJP2HeaderBoxIsValid = False
-        except:
+        except Exception:
             locationJP2HeaderBoxIsValid = False
 
         self.testFor("firstBoxIsSignatureBox", firstBoxIsSignatureBox)
