@@ -36,7 +36,6 @@ import sys
 import mmap
 import os
 import time
-import imp
 import glob
 import argparse
 import codecs
