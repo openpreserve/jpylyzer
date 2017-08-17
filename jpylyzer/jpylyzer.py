@@ -443,14 +443,6 @@ def stripSurrogatePairs(ustring):
     return ustring
 
 
-def getFilesFromDir(dirpath):
-    """Append paths of all files in a directory to existingFiles"""
-    for fp in os.listdir(dirpath):
-        filepath = os.path.join(dirpath, fp)
-        if os.path.isfile(filepath):
-            existingFiles.append(filepath)
-
-
 def getFiles(searchpattern):
     """Append paths of all files that match search pattern to existingFiles"""
     results = glob.glob(searchpattern)
