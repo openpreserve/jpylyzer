@@ -45,7 +45,7 @@ import re
 from xml.dom import minidom
 import xml.etree.ElementTree as ETree
 
-if __package__ == None:
+if __package__ is None:
     import etpatch as ET
     from boxvalidator import BoxValidator
     from shared import printWarning
@@ -55,7 +55,7 @@ else:
     from . import etpatch as ET
     from .boxvalidator import BoxValidator
     from .shared import printWarning
-    from .six import u    
+    from .six import u
 
 
 scriptPath, scriptName = os.path.split(sys.argv[0])
@@ -712,7 +712,7 @@ def parseCommandLine():
 
 
 def main():
-    
+
     # Get input from command line
     args = parseCommandLine()
 
@@ -735,6 +735,6 @@ def main():
     # Check files
     checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
     # checkFiles(False, args.inputWrapperFlag, jp2In)
-    
+
 if __name__ == "__main__":
     main()
