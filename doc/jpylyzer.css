@@ -103,11 +103,15 @@ table tr {
         text-align: center;
         }
 
+/*
+
 math, math[mode="inline"] {
   display: inline;
   font-family: CMSY10, CMEX10, Symbol, Times;
   font-style: normal;
 }
+
+*/
 
 math[mode="display"] {
   display: block;

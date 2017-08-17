@@ -24,7 +24,7 @@ outWeb=userManual.html
 # Self-contained HTML
 outHtmlSC=${baseName}.html
 
-# Create file that replacess userManual page on website
+# Create file that replaces userManual page on website
 
 # Step 1: convert to HTML
 pandoc -s --columns 1000 --toc --toc-depth=2 --ascii -N -c $styleSheet -w html5 -o tmp.html $mdSource

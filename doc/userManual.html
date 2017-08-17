@@ -6,6 +6,7 @@ title: User Manual
 
 <header>
 <h1 class="title">Jpylyzer User Manual</h1>
+<p class="author"></p>
 </header>
 <nav id="TOC">
 <ul>
@@ -18,7 +19,7 @@ title: User Manual
 </ul></li>
 <li><a href="#installation"><span class="toc-section-number">2</span> Installation and set-up</a><ul>
 <li><a href="#obtaining-the-software"><span class="toc-section-number">2.1</span> Obtaining the software</a></li>
-<li><a href="#installation-python"><span class="toc-section-number">2.2</span> Installation of Python script (Linux/Unix, Windows, Mac OS X)</a></li>
+<li><a href="#installation-pip"><span class="toc-section-number">2.2</span> Installation with Pip (Linux/Unix, Windows, Mac OS X)</a></li>
 <li><a href="#installation-windows"><span class="toc-section-number">2.3</span> Installation of Windows binaries (Windows only)</a></li>
 <li><a href="#installation-debian"><span class="toc-section-number">2.4</span> Installation of Debian packages (Ubuntu/Linux)</a></li>
 </ul></li>
@@ -131,51 +132,63 @@ title: User Manual
 <p><a href="http://jpylyzer.openpreservation.org/" class="uri">http://jpylyzer.openpreservation.org/</a></p>
 <p>You have three options:</p>
 <ol type="1">
-<li><p>Use the Python source code. This allows you to run the software as a Python script on most popular platforms (Windows, Linux, Mac, etc.). However, this requires that you have a recent version of the Python interpreter available on your system.</p></li>
+<li><p>Install the software with the <em>Pip</em> package manager. This works on all platforms (Windows, Linux, Mac, etc.), but it requires that you have the Python interpreter available on your system. Jpylyzer is compatible with Python 2.7, and Python 3.2 and more recent (Python 3.0 and 3.1 are not supported).</p></li>
 <li><p>Alternatively, for Windows users there is also a set of stand-alone binaries<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. These allow you to run <em>jpylyzer</em> as an executable Windows application, without any need for installing Python. This option is particularly useful for Windows users who cannot (or don’t want to) install software on their system.</p></li>
 <li><p>For Linux users Debian packages are available. These allow you to run <em>jpylyzer</em> without any need for installing Python.</p></li>
 </ol>
 <p>These options are described in the following sections.</p>
-<h2 id="installation-python"><span class="header-section-number">2.2</span> Installation of Python script (Linux/Unix, Windows, Mac OS X)</h2>
-<p>First, download the source files using one of the ‘Source Code Downloads’ links on the OPF <em>jpylyzer</em> page.</p>
-<p>Then unzip the contents of the ZIP file to an empty directory. If you are working on a Linux/Unix based system you may need to make the scripts executable, and convert any line breaks to Unix-style ones. To do this, use the following commands:</p>
-<pre><code>chmod 755 *.py
-dos2unix *.py</code></pre>
-<p>In order to run the script you will need either Python 2.7, or Python 3.2 (or more recent)<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>. Python can be downloaded from:</p>
-<p><a href="http://python.org/" class="uri">http://python.org/</a></p>
-<h3 id="testing-the-installation"><span class="header-section-number">2.2.1</span> Testing the installation</h3>
-<p>To test your installation, open a console window (or command prompt) and type:</p>
-<pre><code>%jpylyzerPath%/jpylyzer.py -h</code></pre>
-<p>In the above command, replace <em>%jpylyzerPath%</em> with the full path to the <em>jpylyzer</em> installation directory (i.e. the directory that contains ‘jpylyzer.py’ and its associated files). For example, if you extracted the files to directory ‘/home/jpylyzer’, the command would become:</p>
-<pre><code>/home/jpylyzer/jpylyzer.py -h</code></pre>
-<p>Executing this command should result in the following screen output:</p>
-<pre><code>usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                   [--nopretty] [--version] jp2In [jp2In ...]</code></pre>
-<h3 id="troubleshooting"><span class="header-section-number">2.2.2</span> Troubleshooting</h3>
-<p>If the above test didn’t run successfully, first verify the following possible causes:</p>
-<ul>
-<li><p>On Windows: check if files with a <em>.py</em> extension are associated with the Python interpreter. If you have multiple versions of Python on your system, make sure that the association does not link to a Python version that is incompatible with <em>jpylyzer</em> (e.g. Python 2.6 or older, or Python 3.0/3.1).</p></li>
-<li><p>On Unix/Linux: by default, <em>jpylyzer</em> uses the command interpreter that is defined by the ‘python’ environment variable. If this is linked to some (very) old version of Python, things may not work as expected. If you run into problems because of this, update the command interpreter references in <em>jpylyzer.py</em>, i.e. change:</p></li>
-</ul>
-<pre>#! /usr/bin/env python</pre>
-<p>into:</p>
-<pre>#! /usr/bin/env python27</pre>
+<h2 id="installation-pip"><span class="header-section-number">2.2</span> Installation with Pip (Linux/Unix, Windows, Mac OS X)</h2>
+<h3 id="general-installation-procedure"><span class="header-section-number">2.2.1</span> General installation procedure</h3>
+<p>First make sure you have a recent version of <em>pip</em>. Then install <em>jpylyzer</em> with the following command:</p>
+<pre><code>pip install jpylyzer</code></pre>
+<h3 id="single-user-installation-linux"><span class="header-section-number">2.2.2</span> Single user installation (Linux)</h3>
+<p>On most Linux systems the above command needs to be run as super user (see below). If you don't want this use the below command for a single-user install:</p>
+<pre><code>pip install jpylyzer --user</code></pre>
+<p>This will install the software to the <code>.local</code> folder (hidden by default!) in your home directory (<code>~/.local</code>). Next try to run <em>jpylyzer</em> by entering:</p>
+<pre><code>jpylyzer</code></pre>
+<p>Most likely this will result in:</p>
+<pre><code>jpylyzer: command not found</code></pre>
+<p>If this happens, add the directory <code>~/.local/bin</code> (which is where the jpylyzer command-line tool is installed) to the <code>PATH</code> environment variable (you only need to do this once). To do this, locate the (hidden) file <code>.profile</code> in you home directory (<code>~/</code>), and open it in a text editor. Then add the following lines at the end of the file:</p>
+<pre><code># set PATH so it includes the user's .local bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi</code></pre>
+<p>Save the file, log out of your session and then log in again. Open a command terminal and type:</p>
+<pre><code> jpylyzer</code></pre>
+<p>If all went well you now see this:</p>
+<pre><code>usage: jpylyzer [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+                [--nopretty] [--version]
+                jp2In [jp2In ...]
+jpylyzer: error: the following arguments are required: jp2In</code></pre>
+<p>Which means that the installation was successful!</p>
+<h3 id="global-installation-linux"><span class="header-section-number">2.2.3</span> Global installation (Linux)</h3>
+<p>Simply enter:</p>
+<pre><code>sudo -H pip install isolyzer</code></pre>
+<p>No further configuration is needed in this case.</p>
+<h3 id="note-on-pre-releases"><span class="header-section-number">2.2.4</span> Note on pre-releases</h3>
+<p>The above command lines will only install stable versions of jpylyzer. In order to install the latest pre-release, add the <code>--pre</code> switch. For example:</p>
+<pre><code>sudo -H pip install jpylyzer --pre</code></pre>
 <h2 id="installation-windows"><span class="header-section-number">2.3</span> Installation of Windows binaries (Windows only)</h2>
 <p>Download the binary using the link on the <em>jpylyzer</em> homepage. Unzip the contents of this file to an empty folder on your PC. <em>Jpylyzer</em> should now be ready for use.</p>
-<h3 id="testing-the-installation-1"><span class="header-section-number">2.3.1</span> Testing the installation</h3>
+<h3 id="testing-the-installation"><span class="header-section-number">2.3.1</span> Testing the installation</h3>
 <p>To test your installation, open a Command Prompt (‘DOS prompt’) and type:</p>
-<pre><code>%jpylyzerPath%\jpylyzer -h</code></pre>
+<pre><code>%jpylyzerPath%\jpylyzer</code></pre>
 <p>In the above command, replace <em>%jpylyzerPath%</em> with the full path to the <em>jpylyzer</em> installation directory (i.e. the directory that contains ‘jpylyzer.exe’ and its associated files). For example, if you extracted the files to directory <code>c:\tools\jpylyzer</code>, the command would become:</p>
-<pre><code>c:\tools\jpylyzer\jpylyzer -h</code></pre>
+<pre><code>c:\tools\jpylyzer\jpylyzer</code></pre>
 <p>Executing this command should result in the following screen output:</p>
-<pre><code>usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                   [--nopretty] [--version] jp2In [jp2In ...]</code></pre>
+<pre><code>usage: jpylyzer [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+                [--nopretty] [--version]
+                jp2In [jp2In ...]
+jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <h3 id="running-jpylyzer-without-typing-the-full-path"><span class="header-section-number">2.3.2</span> Running jpylyzer without typing the full path</h3>
 <p>Optionally, you may also want to add the full path of the <em>jpylyzer</em> installation directory to the Windows ’Path’ environment variable. Doing so allows you to run <em>jpylyzer</em> from any directory on your PC without having to type the full path. In Windows 7 you can do this by selecting ‘settings’ from the ‘Start’ menu; then go to ‘control panel’/’system’ and go to the ‘advanced’ tab. Click on the ‘environment variables’ button. Finally, locate the ‘Path’ variable in the ‘system variables’ window, click on ‘Edit’ and add the full <em>jpylyzer</em> path (this requires local Administrator privileges). The settings take effect on any newly opened command prompt.</p>
 <h2 id="installation-debian"><span class="header-section-number">2.4</span> Installation of Debian packages (Ubuntu/Linux)</h2>
 <p>For a number of Linux architectures Debian packages of <em>jpylyzer</em> exist. To install, simply download the <em>.deb</em> file, double-click on it and select <em>Install Package</em>. Alternatively you can also do this in the command terminal by typing:</p>
 <pre><code>sudo dpkg -i jpylyzer_1.13.0_i386.deb</code></pre>
 <p>In both cases you need to have administrative privileges.</p>
+<p>For <em>Ubuntu</em> and <em>Debian</em> alternative packages are available in the official release channels. To install simply run the following commands:</p>
+<pre><code>sudo apt-get update
+sudo apt-get install python-jpylyzer</code></pre>
 <h1 id="using-jpylyzer"><span class="header-section-number">3</span> Using <em>jpylyzer</em></h1>
 <h2 id="using-overview"><span class="header-section-number">3.1</span> Overview</h2>
 <p>This chapter describes the general use of <em>jpylyzer</em>. The first sections cover the use of <em>jpylyzer</em> as a command-line tool and as an importable Python module.</p>
@@ -281,15 +294,16 @@ User warning: unknown error (please report to developers)</code></pre>
 <pre><code>User warning: ignoring unknown box</code></pre>
 <p>This happens if <em>jpylyzer</em> encounters a box that is not defined by JPEG 2000 Part 1. It should be noted that, to a large extent, JPEG 2000 Part 1 permits the presence of boxes that are defined outside the standard. Again, <em>jpylyzer</em> will simply ignore these and process all other boxes normally.</p>
 <h2 id="using-as-python-module"><span class="header-section-number">3.3</span> Using <em>jpylyzer</em> as a Python module</h2>
-<p>Instead of using <em>jpylyzer</em> from the command-line, you can also import it as a module in your own Python programs. To do so, put all the <em>jpylyzer</em> source files in the same directory as your own code. Then import <em>jpylyzer</em> into your code by adding:</p>
-<pre><code>import jpylyzer</code></pre>
-<p>Subsequently you can call any function that is defined in <em>jpylyzer.py</em>. In practice you will most likely only need the <em>checkOneFile</em> function, which can be called in the following way:</p>
-<pre><code>jpylyzer.checkOneFile(file)</code></pre>
-<p>Here, <em>file</em> is the path to a file object. The function returns an element object that can either be used directly, or converted to XML using the <em>ElementTree</em> module<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>. The structure of the element object follows the XML output that described in <a href="#output-format">Chapter 5</a>.</p>
-<p>Alternatively, you may only want to import the <em>checkOneFile</em> function, in which case the import statement becomes:</p>
-<pre><code>from jpylyzer import checkOneFile</code></pre>
-<p>This will allow you to call the function as follows:</p>
-<pre><code>checkOneFile(file)</code></pre>
+<p>Instead of using <em>jpylyzer</em> from the command-line, you can also import it as a module in your own Python programs. To do so, install jpylyzer with <em>pip</em>. Then import <em>jpylyzer</em> into your code by adding:</p>
+<pre><code>from jpylyzer import jpylyzer</code></pre>
+<p>Subsequently you can call any function that is defined in <em>jpylyzer.py</em>. In practice you will most likely only need the <em>checkOneFile</em> function. The following minimal script shows how this works:</p>
+<pre><code>#! /usr/bin/env python
+
+from jpylyzer import jpylyzer
+
+myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
+myResult = jpylyzer.checkOneFile(myFile)</code></pre>
+<p>Here, <em>myResult</em> is an <em>Element</em> object that can either be used directly, or converted to XML using the <em>ElementTree</em> module<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>. The structure of the element object follows the XML output that described in <a href="#output-format">Chapter 5</a>.</p>
 <h1 id="structure-jp2"><span class="header-section-number">4</span> Structure of a JP2 file</h1>
 <h2 id="structure-scope"><span class="header-section-number">4.1</span> Scope of this chapter</h2>
 <p>This chapter gives a brief overview of the JP2 file format. A basic understanding of the general structure of JP2 is helpful for appreciating how <em>jpylyzer</em> performs its validation. It will also make it easier to understand <em>jpylyzer</em>‘s extracted properties, as these are reported as a hierarchical tree that corresponds to the internal structure of JP2.</p>
@@ -499,7 +513,7 @@ unknown error (please report to developers)</code></pre></li>
 </ul>
 <p>If a file passed <em>all</em> tests, this is an indication that it is most likely valid JP2. In that case, the <em>isValidJP2</em> element (<a href="#isvalidjp2-element">section 5.4</a>) has a value of “True” (and “False” in all other cases). These tests are all explained in chapters <a href="#jp2-box-by-box">6</a> and <a href="#contiguous-codestream-box-chapter">7</a>.</p>
 <h3 id="default-and-verbose-reporting-of-test-results"><span class="header-section-number">5.6.1</span> Default and verbose reporting of test results</h3>
-<p>By default, <em>jpylyzer</em> only reports any tests that failed (i.e. returned “False”), including the corresponding part of the box structure. For a valid JP2 the tests element will be empty. If the --verbose flag is used, the results of <em>all</em> tests are included (including those that returned “True”)<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>.</p>
+<p>By default, <em>jpylyzer</em> only reports any tests that failed (i.e. returned “False”), including the corresponding part of the box structure. For a valid JP2 the tests element will be empty. If the --verbose flag is used, the results of <em>all</em> tests are included (including those that returned “True”)<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>.</p>
 <h2 id="properties-element"><span class="header-section-number">5.7</span> properties element</h2>
 <p>This element contains the extracted image properties, which are organised in a hierarchical tree that corresponds to JP2’s box structure. See chapters <a href="#jp2-box-by-box">6</a> and <a href="#contiguous-codestream-box-chapter">7</a> for a description of the reported properties.</p>
 <h1 id="jp2-box-by-box"><span class="header-section-number">6</span> JP2: box by box</h1>
@@ -852,7 +866,7 @@ unknown error (please report to developers)</code></pre></li>
 <td style="text-align: left;">Enumerated colourspace (as descriptive text string)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">icc (if meth equals “Restricted ICC” or “Any ICC”<a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a>)</td>
+<td style="text-align: left;">icc (if meth equals “Restricted ICC” or “Any ICC”<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>)</td>
 <td style="text-align: left;">Properties of ICC profile as child element (see below)</td>
 </tr>
 </tbody>
@@ -1000,7 +1014,7 @@ unknown error (please report to developers)</code></pre></li>
 </tr>
 <tr class="even">
 <td style="text-align: left;">iccPermittedProfileClass (if meth equals “Restricted ICC”)</td>
-<td style="text-align: left;">ICC profile class is “input device” or “display device”<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a></td>
+<td style="text-align: left;">ICC profile class is “input device” or “display device”<a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">iccNoLUTBasedProfile (if meth equals “Restricted ICC”)</td>
@@ -1265,19 +1279,19 @@ unknown error (please report to developers)</code></pre></li>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vRescInPixelsPerMeter</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hRescInPixelsPerMeter</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vRescInPixelsPerInch</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hRescInPixelsPerInch</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn10" class="footnoteRef" id="fnref10"><sup>10</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a></td>
 </tr>
 </tbody>
 </table>
@@ -1360,19 +1374,19 @@ unknown error (please report to developers)</code></pre></li>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vResdInPixelsPerMeter</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn11" class="footnoteRef" id="fnref11"><sup>11</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn10" class="footnoteRef" id="fnref10"><sup>10</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hResdInPixelsPerMeter</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn12" class="footnoteRef" id="fnref12"><sup>12</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn11" class="footnoteRef" id="fnref11"><sup>11</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vResdInPixelsPerInch</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn13" class="footnoteRef" id="fnref13"><sup>13</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn12" class="footnoteRef" id="fnref12"><sup>12</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hResdInPixelsPerInch</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn14" class="footnoteRef" id="fnref14"><sup>14</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn13" class="footnoteRef" id="fnref13"><sup>13</sup></a></td>
 </tr>
 </tbody>
 </table>
@@ -1442,7 +1456,7 @@ unknown error (please report to developers)</code></pre></li>
 </table>
 <p>Note that <em>jpylyzer</em> does not check whether the XML is <em>valid</em>, as this is not required by the standard. Besides, doing so would make <em>jpylyzer</em> significantly slower for XML that contains references to external schemas and DTDs.</p>
 <h2 id="uuid-box"><span class="header-section-number">6.17</span> UUID box</h2>
-<p>This (optional) box contains additional (binary) information, which may be vendor-specific. Some applications (e.g. Kakadu and ExifTool) also use this box for storing XMP metadata (see Section 1.1.4 in Part 3 of the XMP specification<a href="#fn15" class="footnoteRef" id="fnref15"><sup>15</sup></a>).</p>
+<p>This (optional) box contains additional (binary) information, which may be vendor-specific. Some applications (e.g. Kakadu and ExifTool) also use this box for storing XMP metadata (see Section 1.1.4 in Part 3 of the XMP specification<a href="#fn14" class="footnoteRef" id="fnref14"><sup>14</sup></a>).</p>
 <h3 id="element-name-13"><span class="header-section-number">6.17.1</span> Element name</h3>
 <p>uuidBox</p>
 <h3 id="reported-properties-13"><span class="header-section-number">6.17.2</span> Reported properties</h3>
@@ -1862,7 +1876,7 @@ unknown error (please report to developers)</code></pre></li>
 </ul>
 <p>These marker segments (which are marked with an asterisk) are only minimally supported at this stage: if <em>jpylyzer</em> encounters any of them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> currently does not analyse their contents, and the respective elements in the output will be empty.</p>
 <h3 id="bit-streams"><span class="header-section-number">7.2.3</span> Bit streams</h3>
-<p>In addition to the above limitations, <em>jpylyzer</em> can <em>not</em> be used to establish whether the data in the bitstream are correct (this would require decoding the compressed image data, which is completely out of <em>jpylyzer</em>’s scope)<a href="#fn16" class="footnoteRef" id="fnref16"><sup>16</sup></a>. As a result, if <em>jpylyzer</em> is used as part of a quality assurance workflow, it is recommended to also include an additional check on the image contents<a href="#fn17" class="footnoteRef" id="fnref17"><sup>17</sup></a>. Also, <em>jpylyzer</em> does not perform any checks on marker segments within the bit-stream: start-of packet (SOP) and end-of-packet (EPH) markers.</p>
+<p>In addition to the above limitations, <em>jpylyzer</em> can <em>not</em> be used to establish whether the data in the bitstream are correct (this would require decoding the compressed image data, which is completely out of <em>jpylyzer</em>’s scope)<a href="#fn15" class="footnoteRef" id="fnref15"><sup>15</sup></a>. As a result, if <em>jpylyzer</em> is used as part of a quality assurance workflow, it is recommended to also include an additional check on the image contents<a href="#fn16" class="footnoteRef" id="fnref16"><sup>16</sup></a>. Also, <em>jpylyzer</em> does not perform any checks on marker segments within the bit-stream: start-of packet (SOP) and end-of-packet (EPH) markers.</p>
 <h3 id="detection-of-incomplete-or-truncated-codestreams"><span class="header-section-number">7.2.4</span> Detection of incomplete or truncated codestreams</h3>
 <p>A JP2’s tile part header contains information that makes it possible to detect incomplete and truncated codestreams in most cases. Depending on the encoder software used, this method may fail for images that only contain one single tile part (i.e. images that do not contain tiling).</p>
 <h3 id="current-limitations-of-comment-extraction"><span class="header-section-number">7.2.5</span> Current limitations of comment extraction</h3>
@@ -1935,7 +1949,7 @@ unknown error (please report to developers)</code></pre></li>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">quantizationConsistentWithLevels</td>
-<td style="text-align: left;">Values of quantization parameters from QCD marker segment are consistent with <em>levels</em> from COD marker segment<a href="#fn18" class="footnoteRef" id="fnref18"><sup>18</sup></a></td>
+<td style="text-align: left;">Values of quantization parameters from QCD marker segment are consistent with <em>levels</em> from COD marker segment<a href="#fn17" class="footnoteRef" id="fnref17"><sup>17</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">foundExpectedNumberOfTiles</td>
@@ -2005,7 +2019,7 @@ unknown error (please report to developers)</code></pre></li>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">numberOfTiles</td>
-<td style="text-align: left;">Number of tiles<a href="#fn19" class="footnoteRef" id="fnref19"><sup>19</sup></a></td>
+<td style="text-align: left;">Number of tiles<a href="#fn18" class="footnoteRef" id="fnref18"><sup>18</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">csiz</td>
@@ -2879,23 +2893,22 @@ unknown error (please report to developers)</code></pre></li>
 <hr>
 <ol>
 <li id="fn1"><p>The <em>jpylyzer</em> binaries were created using the <em>PyInstaller</em> package: <a href="http://www.pyinstaller.org/" class="uri">http://www.pyinstaller.org/</a><a href="#fnref1">↩</a></p></li>
-<li id="fn2"><p>Note that <em>jpylyzer</em> will not work under Python versions 3.0-3.1!<a href="#fnref2">↩</a></p></li>
-<li id="fn3"><p>Note that <em>jpylyzer</em> versions 1.8 and earlier returned a formatted XML string instead of an element object!<a href="#fnref3">↩</a></p></li>
-<li id="fn4"><p>Note that <em>jpylyzer</em> versions 1.4 and earlier used the verbose output format by default. This behaviour has changed in version 1.5 onwards, as the lengthy output turned out to be slightly confusing to some users.<a href="#fnref4">↩</a></p></li>
-<li id="fn5"><p>The “Any ICC” method is defined in ISO/IEC 15444-2 (the JPX format), and is not allowed in JP2. However, <em>jpylyzer</em> offers limited support for JPX here by also reporting the properties of ICC profiles that were embedded using this method. Note that any file that uses this method will fail the “methIsValid” test (and thereby the validation).<a href="#fnref5">↩</a></p></li>
-<li id="fn6"><p>Originally ISO/IEC 15444-1 only allowed “input device” profiles. Support of “display device” profiles was added through an <a href="http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard in 2013. The behaviour of <em>jpylyzer</em> is consistent with this amendment.<a href="#fnref6">↩</a></p></li>
-<li id="fn7"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRcN</mi> </mrow> <mrow> <mi>vRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRcE</mi> </msup> </mrow> </math><a href="#fnref7">↩</a></p></li>
-<li id="fn8"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRcN</mi> </mrow> <mrow> <mi>hRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRcE</mi> </msup> </mrow> </math><a href="#fnref8">↩</a></p></li>
-<li id="fn9"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref9">↩</a></p></li>
-<li id="fn10"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref10">↩</a></p></li>
-<li id="fn11"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRdN</mi> </mrow> <mrow> <mi>vRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRdE</mi> </msup> </mrow> </math><a href="#fnref11">↩</a></p></li>
-<li id="fn12"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRdN</mi> </mrow> <mrow> <mi>hRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRdE</mi> </msup> </mrow> </math><a href="#fnref12">↩</a></p></li>
-<li id="fn13"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref13">↩</a></p></li>
-<li id="fn14"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref14">↩</a></p></li>
-<li id="fn15"><p>Link: <a href="http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf" class="uri">http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf</a><a href="#fnref15">↩</a></p></li>
-<li id="fn16"><p>However, support for start of packet (SOP) and end of packet (EPH) markers may be included in future versions.<a href="#fnref16">↩</a></p></li>
-<li id="fn17"><p>For example, in a TIFF to JP2 conversion workflow one could include a pixel-by-pixel comparison of the values in the TIFF and the JP2.<a href="#fnref17">↩</a></p></li>
-<li id="fn18"><p>The consistency check verifies if the length of the quantization default marker segment (<em>lqcd</em> from <em>qcd</em>) is consistent with the quantization style (<em>qStyle</em> from <em>qcd</em>) and the number of decomposition levels (<em>levels</em> from <em>cod</em>). They are consistent if the following equation is true:<a href="#fnref18">↩</a></p></li>
-<li id="fn19"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>numberOfTiles</mi> <mo>=</mo> <mo>[</mo> <mfrac> <mrow> <mi>xsiz</mi> <mo>-</mo> <mi>xOsiz</mi> </mrow> <mrow> <mi>xTsiz</mi> </mrow> </mfrac> <mo>]</mo> <mo>•</mo> <mo>[</mo> <mfrac> <mrow> <mi>ysiz</mi> <mo>-</mo> <mi>yOsiz</mi> </mrow> <mrow> <mi>yTsiz</mi> </mrow> </mfrac> <mo>]</mo> </mrow> </math><a href="#fnref19">↩</a></p></li>
+<li id="fn2"><p>Note that <em>jpylyzer</em> versions 1.8 and earlier returned a formatted XML string instead of an element object!<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>Note that <em>jpylyzer</em> versions 1.4 and earlier used the verbose output format by default. This behaviour has changed in version 1.5 onwards, as the lengthy output turned out to be slightly confusing to some users.<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>The “Any ICC” method is defined in ISO/IEC 15444-2 (the JPX format), and is not allowed in JP2. However, <em>jpylyzer</em> offers limited support for JPX here by also reporting the properties of ICC profiles that were embedded using this method. Note that any file that uses this method will fail the “methIsValid” test (and thereby the validation).<a href="#fnref4">↩</a></p></li>
+<li id="fn5"><p>Originally ISO/IEC 15444-1 only allowed “input device” profiles. Support of “display device” profiles was added through an <a href="http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard in 2013. The behaviour of <em>jpylyzer</em> is consistent with this amendment.<a href="#fnref5">↩</a></p></li>
+<li id="fn6"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRcN</mi> </mrow> <mrow> <mi>vRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRcE</mi> </msup> </mrow> </math><a href="#fnref6">↩</a></p></li>
+<li id="fn7"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRcN</mi> </mrow> <mrow> <mi>hRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRcE</mi> </msup> </mrow> </math><a href="#fnref7">↩</a></p></li>
+<li id="fn8"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref8">↩</a></p></li>
+<li id="fn9"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref9">↩</a></p></li>
+<li id="fn10"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRdN</mi> </mrow> <mrow> <mi>vRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRdE</mi> </msup> </mrow> </math><a href="#fnref10">↩</a></p></li>
+<li id="fn11"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRdN</mi> </mrow> <mrow> <mi>hRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRdE</mi> </msup> </mrow> </math><a href="#fnref11">↩</a></p></li>
+<li id="fn12"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref12">↩</a></p></li>
+<li id="fn13"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref13">↩</a></p></li>
+<li id="fn14"><p>Link: <a href="http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf" class="uri">http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf</a><a href="#fnref14">↩</a></p></li>
+<li id="fn15"><p>However, support for start of packet (SOP) and end of packet (EPH) markers may be included in future versions.<a href="#fnref15">↩</a></p></li>
+<li id="fn16"><p>For example, in a TIFF to JP2 conversion workflow one could include a pixel-by-pixel comparison of the values in the TIFF and the JP2.<a href="#fnref16">↩</a></p></li>
+<li id="fn17"><p>The consistency check verifies if the length of the quantization default marker segment (<em>lqcd</em> from <em>qcd</em>) is consistent with the quantization style (<em>qStyle</em> from <em>qcd</em>) and the number of decomposition levels (<em>levels</em> from <em>cod</em>). They are consistent if the following equation is true:<a href="#fnref17">↩</a></p></li>
+<li id="fn18"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>numberOfTiles</mi> <mo>=</mo> <mo>[</mo> <mfrac> <mrow> <mi>xsiz</mi> <mo>-</mo> <mi>xOsiz</mi> </mrow> <mrow> <mi>xTsiz</mi> </mrow> </mfrac> <mo>]</mo> <mo>•</mo> <mo>[</mo> <mfrac> <mrow> <mi>ysiz</mi> <mo>-</mo> <mi>yOsiz</mi> </mrow> <mrow> <mi>yTsiz</mi> </mrow> </mfrac> <mo>]</mo> </mrow> </math><a href="#fnref18">↩</a></p></li>
 </ol>
 </section>
