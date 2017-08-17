@@ -5,10 +5,11 @@ title: Using jpylyzer
 {% include JB/setup %}
 
 ## Using jpylyzer
+
 Calling *jpylyzer* in a command window without any arguments results in the following helper message:
 
 {% highlight console %}
-usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+usage: jpylyzer [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
                    [--nopretty] [--version] jp2In [jp2In ...]
 {% endhighlight %}
 
@@ -48,7 +49,7 @@ A *jpylyzer* output file contains the following top-level output elements:
 3. *isValidJP2*: *True* / *False* flag indicating whether file is valid JP2.
 4. *tests*: tree of test outcomes, expressed as *True* / *False* flags.
    A file is considered valid JP2 only if all tests return *True*. Tree follows JP2 box structure. By default only tests that returned *False* are reported, which results in an empty *tests*  element for files that are valid JP2. Use the  `--verbose` flag to get *all* test results.
-5. *properties*: tree of image properties. Follows JP2 box structure. Naming of properties follows [ISO/IEC 15444-1 Annex I](http://www.jpeg.org/public/15444-1annexi.pdf) (JP2 file format syntax) and [Annex A](http://www.itu.int/rec/T-REC-T.800/en) (Codestream syntax).
+5. *properties*: tree of image properties. Follows JP2 box structure. Naming of properties follows [ISO/IEC 15444-1 Annex I](https://web.archive.org/web/20100926184120/http://www.jpeg.org/public/15444-1annexi.pdf) (JP2 file format syntax) and [Annex A](http://www.itu.int/rec/T-REC-T.800/en) (Codestream syntax).
 
 ## Demonstration video
 The following video gives an overview of what *jpylyzer* does, and how to use it:

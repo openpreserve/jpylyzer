@@ -5,31 +5,70 @@ title: Installation
 {% include JB/setup %}
 
 ## Installation
-The easiest option is to use the binary builds that exist for both *Windows*- and *Linux*-based systems. These are completely stand-alone, without any dependencies on other software (i.e. you don&#8217;t need *Python* to use them). 
 
-## Windows
-Download the Windows binaries using the link in the right-hand bar. Then extract the contents of the *ZIP* file to any directory you like. You should now be able to run *jpylyzer* from your command prompt. For example, assuming that you installed the contents  of the *ZIP* file to the directory *C:\jpylyzer\\*, type or paste the following line into a command prompt window:
+For installing *jpylyzer*, you have three options:
 
-{% highlight console %}
-C:\jpylyzer\jpylyzer
-{% endhighlight %}
+1. Install with the *Pip* package manager. This works on all platforms
+(Windows, Linux, Mac, etc.), but you need to have the Python interpreter
+available on your system. *Jpylyzer* is compatible with Python 2.7, and Python
+3.2 and more recent (Python 3.0 and 3.1 are not supported).
 
-This should give you the *jpylyzer* helper message.
+2. Alternatively, for Windows users stand-alone binaries are available.
+These allow you to run *jpylyzer* as anexecutable Windows application,
+without any need for installing Python. This option is particularly useful
+for Windows users who cannot (or don’t want to) install software on their system.
 
-## Running jpylyzer without typing the full path
-Optionally, you may also want to add the full path of the jpylyzer installation directory to the Windows *Path* environment variable. Doing so allows you to run jpylyzer from any directory on your PC, without having to type the full path. In Windows 7 you can do this by selecting *settings* from the *Start* menu; then go to *control panel*/*system* and click on  *advanced system settings*. Then click on the *environment variables* button. Finally, locate the *Path* variable in the *system variables* window, click on *Edit* and add the full *jpylyzer* path (this requires local Administrator privileges). The settings take effect once you open a new command prompt.
+3. For Linux users Debian packages are available. These allow you to run
+*jpylyzer* without any need for installing Python.
 
-## Linux
-Debian packages of jpylyzer exist for *AMD6* and *i386* Linux architectures. To install, simply download the Debian package using the link in the right-hand bar, double-click on it and select *Install Package*. Alternatively you can also do this in the command terminal by typing:
+These options are briefly outlined below. See the [User Manual]({{ BASE_PATH }}/userManual.html)
+for a more exhaustive description.
 
-{% highlight console %}
-sudo dpkg -i jpylyzer_1.10.1_amd64.deb
-{% endhighlight %}
+## Installation with Pip (all platforms)
+
+First make sure you have a recent version of *pip*. Then install *jpylyzer*
+with the following command:
+
+    pip install jpylyzer
+
+This may require administrator/super user privileges. If you don't have these
+privilges, you can do a single-user install:
+
+    pip install jpylyzer --user
+
+## Windows binaries
+
+Download the binary (64 or 32 bit) using the link using the link in the right-hand bar of
+this page. Unzip the contents of this file to an empty folder on your PC. *Jpylyzer* should
+now be ready for use.
+
+Optionally, you may also want to add the full path of the *jpylyzer*
+installation directory to the Windows ’Path’ environment variable. Doing
+so allows you to run *jpylyzer* from any directory on your PC without
+having to type the full path. In Windows 7 you can do this by selecting
+‘settings’ from the ‘Start’ menu; then go to ‘control panel’/’system’
+and go to the ‘advanced’ tab. Click on the ‘environment variables’
+button. Finally, locate the ‘Path’ variable in the ‘system variables’
+window, click on ‘Edit’ and add the full *jpylyzer* path (this requires
+local Administrator privileges). The settings take effect on any newly
+opened command prompt.
+
+## Installation from Debian packages (Linux)
+
+For a number of Linux architectures Debian packages of *jpylyzer* exist.
+To install, download the package for your architecture using the link in the right-hand bar of
+this page, and then open it with your package manager (which can be invoked by double-clicking
+or right-clicking on the *.deb* file). Alternatively you can also do this in the
+command terminal by typing:
+
+    sudo dpkg -i jpylyzer_1.18.0_amd64.deb
+
+For *Ubuntu* and *Debian*, alternative packages are available in the
+official release channels. To install simply run the following commands:
+
+    sudo apt-get update
+    sudo apt-get install python-jpylyzer
 
 In both cases you need to have superuser privileges.
 
-## Python (any platform)
-Instead of using the binary builds, you can also download *jpylyzer*&#8217;s source code to run *jpylyzer* as a [*Python*](http://www.python.org/) script. This should work on any platform, but note that this requires either *Python* 2.7 (earlier versions won&#8217;t work), or *Python* 3.2 or later (3.0 and 3.1 won&#8217;t work either!).
-
-
-
+A more exhaustive description of the above installation options can be found in the [User Manual]({{ BASE_PATH }}/userManual.html).
