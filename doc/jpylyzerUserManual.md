@@ -142,7 +142,7 @@ links at the *jpylyzer* homepage:
 You have three options:
 
 1. Install the software with the *Pip* package manager. This works on
-all platforms (Windows, Linux, Mac, etc.), but it requires that you have
+all platforms (Windows, Linux, Mac, etc.), but you need to have
 the Python interpreter available on your system. Jpylyzer is compatible with
 Python 2.7, and Python 3.2 and more recent (Python 3.0 and 3.1 are not
 supported).
@@ -280,6 +280,7 @@ official release channels. To install simply run the following commands:
 
     sudo apt-get update
     sudo apt-get install python-jpylyzer
+
 
 Using *jpylyzer* {#using-jpylyzer}
 ==================
