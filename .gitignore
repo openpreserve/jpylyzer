@@ -70,6 +70,7 @@ pyi-build
 *.dsc
 *.deb
 *.changes
+*.egg-info
 
 # Logs and databases #
 ######################

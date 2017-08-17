@@ -9,8 +9,8 @@
 
 # Repository: this is usually pypi; for testing use testpypi
 # The corresponding repository URLS are defined in config file ~/.pypirc
-repository=testpypi
-#repository=pypi
+#repository=testpypi
+repository=pypi
 
 # Clear contents of dist dir
 rm ./dist/*
@@ -25,6 +25,5 @@ else
     echo "Wheel build not successful quitting now ..."
 
 fi
-}
 
 

@@ -1,3 +1,0 @@
-[console_scripts]
-jpylyzer = jpylyzer.jpylyzer:main
-
