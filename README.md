@@ -26,12 +26,12 @@
 
 ### Usage
 
-    usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+    usage: jpylyzer [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
                        [--nopretty] [--version] jp2In [jp2In ...]
 
 ### Positional arguments
 
-`jp2In` : input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux..
+`jp2In` : input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux.
 
 ### Optional arguments
 
@@ -50,6 +50,7 @@
 `--nopretty` : suppress pretty-printing of XML output
 
 ## Output 
+
 Output is directed to the standard output device (*stdout*).
 
 ### Example
@@ -83,8 +84,9 @@ The [Vagrant directory](vagrant) of this repo contains instructions on how to bu
 1. Update [User Manual](doc/jpylyzerUserManual.md) if necessary
 1. Commit all changes
 1. Add tag and commit
+1. Create and upload PyPi packages by running [`package-pypi.sh`](./package-pypi.sh) 
 1. Build Linux packages using [instructions here](vagrant)
-1. Build Windows binaries
+1. Build Windows binaries using [instructions here](./BUILD_HOWTO_WINDOWS.md)
 1. Go to [*Latest Release*](https://github.com/openpreserve/jpylyzer/releases/latest) and click on the *Edit* button
 1. Upload Linux/Windows packages to the release by dragging them to the *Attach Binaries* field at the bottom
 1. Website: update *binVersion* in *_config.yml* (this updates the links to all packages to the correct version)
@@ -92,7 +94,6 @@ The [Vagrant directory](vagrant) of this repo contains instructions on how to bu
 1. Commit changes to website
 1. Spread the word!
 
-  
 [1]: http://jpylyzer.openpreservation.org//jpylyzerUserManual.html
 [2]: http://www.jpeg.org/public/15444-1annexi.pdf
 [3]: http://www.itu.int/rec/T-REC-T.800/en
