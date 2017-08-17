@@ -1,3 +1,4 @@
+"""Validator class for all boxes in JP2"""
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -33,8 +34,8 @@ else:
 
 
 class BoxValidator:
-    # Marker tags/codes that identify all sub-boxes as hexadecimal strings
-    # (Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
+    """Marker tags/codes that identify all sub-boxes as hexadecimal strings
+    (Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)"""
     typeMap = {
         b'\x6a\x70\x32\x69': "intellectualPropertyBox",
         b'\x78\x6d\x6c\x20': "xmlBox",
@@ -98,6 +99,7 @@ class BoxValidator:
         self.bTypeString = bType
 
     def validate(self):
+        """Generic box validation function"""
         try:
             to_call = getattr(self, "validate_" + self.boxType)
         except AttributeError:
@@ -122,9 +124,9 @@ class BoxValidator:
         return True
 
     def _getBox(self, byteStart, noBytes):
-        # Parse JP2 box and return information on its
-        # size, type and contents
-
+        """Parse JP2 box and return information on its
+        size, type and contents
+        """
         # Box length (4 byte unsigned integer)
         boxLengthValue = bc.bytesToUInt(
             self.boxContents[byteStart:byteStart + 4])
@@ -158,8 +160,9 @@ class BoxValidator:
         return (boxLengthValue, boxType, byteEnd, boxContents)
 
     def _getMarkerSegment(self, offset):
-        # Read marker segment that starts at offset and return marker, size,
-        # contents and start offset of next marker
+        """Read marker segment that starts at offset and return marker, size,
+        contents and start offset of next marker
+        """
 
         # First 2 bytes: 16 bit marker
         marker = self.boxContents[offset:offset + 2]
@@ -189,10 +192,11 @@ class BoxValidator:
         return(marker, length, contents, offsetNext)
 
     def _calculateCompressionRatio(self, noBytes, bPCDepthValues, height, width):
-        # Computes compression ratio
-        # noBytes: size of compressed image in bytes
-        # bPCDepthValues: list with bits per component for each component
-        # height, width: image height, width
+        """Computes compression ratio
+        - noBytes: size of compressed image in bytes
+        - bPCDepthValues: list with bits per component for each component
+        - height, width: image height, width
+        """
 
         # Total bits per pixel
         bitsPerPixel = 0
@@ -216,9 +220,10 @@ class BoxValidator:
         return compressionRatio
 
     def _getBitValue(self, n, p):
-        # Get the bit value of denary (base 10) number n at the equivalent binary
-        # position p (binary count starts at position 1 from the left)
-        # Only works if n can be expressed as 8 bits !!!
+        """Get the bit value of denary (base 10) number n at the equivalent binary
+        position p (binary count starts at position 1 from the left)
+        Only works if n can be expressed as 8 bits !!!
+        """
 
         # Word length in bits
         wordLength = 8
@@ -229,9 +234,7 @@ class BoxValidator:
         return (n >> shift) & 1
 
     def testFor(self, testType, testResult):
-        # Add testResult node to tests element tree
-
-        # print(config.outputVerboseFlag)
+        """Add testResult node to tests element tree"""
 
         if config.outputVerboseFlag is False:
             # Non-verbose output: only add results of tests that failed
@@ -243,7 +246,7 @@ class BoxValidator:
             self.tests.appendChildTagWithText(testType, testResult)
 
     def addCharacteristic(self, characteristic, charValue):
-        # Add characteristic node to characteristics element tree
+        """Add characteristic node to characteristics element tree"""
 
         self.characteristics.appendChildTagWithText(characteristic, charValue)
 
@@ -251,13 +254,13 @@ class BoxValidator:
 
     def validate_unknownBox(self):
 
-        # Although jpylyzer doesn't "know" anything about this box, we
-        # can at least report the 4 characters from the Box Type field
-        # (TBox) here
+        """Process 'unknown'box. Although jpylyzer doesn't know anything about this box, we
+        can at least report the 4 characters from the Box Type field (TBox) here
+        """
 
         boxType = self.bTypeString
 
-        """"
+        """
         # If boxType contains any device control characters (e.g. because of
         # file corruption), replace them  with printable character
         if bc.containsControlCharacters(boxType):
@@ -275,7 +278,7 @@ class BoxValidator:
         printWarning("ignoring unknown box")
 
     def validate_signatureBox(self):
-        # Signature box (ISO/IEC 15444-1 Section I.5.2)
+        """Signature box (ISO/IEC 15444-1 Section I.5.2)"""
 
         # Check box size, which should be 4 bytes
         self.testFor("boxLengthIsValid", len(self.boxContents) == 4)
@@ -286,7 +289,7 @@ class BoxValidator:
             "signatureIsValid", self.boxContents[0:4] == b'\x0d\x0a\x87\x0a')
 
     def validate_fileTypeBox(self):
-        # File type box (ISO/IEC 15444-1 Section I.5.2)
+        """File type box (ISO/IEC 15444-1 Section I.5.2)"""
 
         # Determine number of compatibility fields from box length
         numberOfCompatibilityFields = (len(self.boxContents) - 8) / 4
@@ -328,7 +331,7 @@ class BoxValidator:
         self.testFor("compatibilityListIsValid", b'\x6a\x70\x32\x20' in cLList)
 
     def validate_jp2HeaderBox(self):
-        # JP2 header box (superbox) (ISO/IEC 15444-1 Section I.5.3)
+        """JP2 header box (superbox) (ISO/IEC 15444-1 Section I.5.3)"""
 
         # List for storing box type identifiers
         subBoxTypes = []
@@ -407,8 +410,8 @@ class BoxValidator:
         # If JP2 Header box contains a Palette Box, it should also contain a component
         # mapping box, and vice versa
         if ((self.boxTagMap['paletteBox'] in subBoxTypes and self.boxTagMap['componentMappingBox']
-                not in subBoxTypes) or (self.boxTagMap['componentMappingBox'] in subBoxTypes and
-                                        self.boxTagMap['paletteBox'] not in subBoxTypes)):
+             not in subBoxTypes) or (self.boxTagMap['componentMappingBox'] in subBoxTypes and
+                                     self.boxTagMap['paletteBox'] not in subBoxTypes)):
             paletteAndComponentMappingBoxesOnlyTogether = False
         else:
             paletteAndComponentMappingBoxesOnlyTogether = True
@@ -418,8 +421,9 @@ class BoxValidator:
 
     # Validator functions for boxes in JP2 Header superbox
     def validate_imageHeaderBox(self):
-        # Image header box (ISO/IEC 15444-1 Section I.5.3.1)
-        # This is a fixed-length box that contains generic image info.
+        """Image header box (ISO/IEC 15444-1 Section I.5.3.1)
+        This is a fixed-length box that contains generic image info.
+        """
 
         # Check box length (14 bytes, excluding box length/type fields)
         self.testFor("boxLengthIsValid", len(self.boxContents) == 14)
@@ -489,8 +493,8 @@ class BoxValidator:
         self.testFor("iPRIsValid", 0 <= iPR <= 1)
 
     def validate_bitsPerComponentBox(self):
-        # bits per component box (ISO/IEC 15444-1 Section I.5.3.2)
-        # Optional box that specifies bit depth of each component
+        """bits per component box (ISO/IEC 15444-1 Section I.5.3.2)
+        Optional box that specifies bit depth of each component"""
 
         # Number of bPC field (each field is 1 byte)
         numberOfBPFields = len(self.boxContents)
@@ -517,9 +521,9 @@ class BoxValidator:
             self.testFor("bPCIsValid", 1 <= bPCDepth <= 38)
 
     def validate_colourSpecificationBox(self):
-        # Colour specification box (ISO/IEC 15444-1 Section I.5.3.3)
-        # This box defines one method for interpreting colourspace of decompressed
-        # image data
+        """Colour specification box (ISO/IEC 15444-1 Section I.5.3.3)
+        This box defines one method for interpreting colourspace of decompressed
+        image data"""
 
         # Length of this box
         length = len(self.boxContents)
@@ -605,11 +609,12 @@ class BoxValidator:
             self.characteristics.append(iccCharacteristics)
 
     def validate_icc(self):
-        # Extracts characteristics (property-value pairs) of ICC profile
-        # Note that although values are stored in  'text' property of sub-elements,
-        # they may have a type other than 'text' (binary string, integers, lists)
-        # This means that some post-processing (conversion to text) is needed to
-        # write these property-value pairs to XML
+        """Extracts characteristics (property-value pairs) of ICC profile
+        Note that although values are stored in  'text' property of sub-elements,
+        they may have a type other than 'text' (binary string, integers, lists)
+        This means that some post-processing (conversion to text) is needed to
+        write these property-value pairs to XML
+        """
 
         # Profile header properties (note: incomplete at this stage!)
 
@@ -805,8 +810,9 @@ class BoxValidator:
         self.addCharacteristic("description", description)
 
     def validate_paletteBox(self):
-        # Palette box (ISO/IEC 15444-1 Section I.5.3.4)
-        # Optional box that specifies a palette
+        """Palette box (ISO/IEC 15444-1 Section I.5.3.4)
+        Optional box that specifies a palette
+        """
 
         # Number of entries in the table (each field is 2 bytes)
         nE = bc.bytesToUShortInt(self.boxContents[0:2])
@@ -864,9 +870,10 @@ class BoxValidator:
                 offset += bytesPadded
 
     def validate_componentMappingBox(self):
-        # Component mapping box (ISO/IEC 15444-1 Section I.5.3.5)
-        # This box defines how image channels are identified from actual
-        # components
+        """Component mapping box (ISO/IEC 15444-1 Section I.5.3.5)
+        This box defines how image channels are identified from actual
+        components
+        """
 
         # Determine number of channels from box length
         numberOfChannels = int(len(self.boxContents) / 4)
@@ -907,9 +914,10 @@ class BoxValidator:
             offset += 4
 
     def validate_channelDefinitionBox(self):
-        # Channel definition box (ISO/IEC 15444-1 Section I.5.3.6)
-        # This box specifies the meaning of the samples in each channel in the
-        # image
+        """Channel definition box (ISO/IEC 15444-1 Section I.5.3.6)
+        This box specifies the meaning of the samples in each channel in the
+        image
+        """
 
         # Number of channel descriptions (short integer)
         n = bc.bytesToUShortInt(self.boxContents[0:2])
@@ -951,9 +959,10 @@ class BoxValidator:
             offset += 6
 
     def validate_resolutionBox(self):
-        # Resolution box (superbox)(ISO/IEC 15444-1 Section I.5.3.7
-        # Specifies the capture and/or default display grid resolutions of
-        # the image.
+        """Resolution box (superbox)(ISO/IEC 15444-1 Section I.5.3.7
+        Specifies the capture and/or default display grid resolutions of
+        the image.
+        """
 
         # Marker tags/codes that identify all sub-boxes as hexadecimal strings
         tagCaptureResolutionBox = b'\x72\x65\x73\x63'
@@ -1001,7 +1010,7 @@ class BoxValidator:
     # Validator functions for boxes in Resolution box
 
     def validate_captureResolutionBox(self):
-        # Capture  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.1)
+        """Capture  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.1)"""
 
         # Check box size, which should be 10 bytes
         self.testFor("boxLengthIsValid", len(self.boxContents) == 10)
@@ -1061,7 +1070,7 @@ class BoxValidator:
             "hRescInPixelsPerInch", round(hRescInPixelsPerInch, 2))
 
     def validate_displayResolutionBox(self):
-        # Default Display  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.2)
+        """Default Display  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.2)"""
 
         # Check box size, which should be 10 bytes
         self.testFor("boxLengthIsValid", len(self.boxContents) == 10)
@@ -1121,7 +1130,7 @@ class BoxValidator:
             "hResdInPixelsPerInch", round(hResdInPixelsPerInch, 2))
 
     def validate_contiguousCodestreamBox(self):
-        # Contiguous codestream box (ISO/IEC 15444-1 Section I.5.4)
+        """Contiguous codestream box (ISO/IEC 15444-1 Section I.5.4)"""
 
         # Codestream length
         length = len(self.boxContents)
@@ -1354,8 +1363,9 @@ class BoxValidator:
     # Validator functions for codestream elements
 
     def validate_siz(self):
-        # Image and tile size (SIZ) header fields (ISO/IEC 15444-1 Section
-        # A.5.1)
+        """Image and tile size (SIZ) header fields (ISO/IEC 15444-1 Section
+        A.5.1)
+        """
 
         # Length of main image header
         lsiz = bc.bytesToUShortInt(self.boxContents[0:2])
@@ -1496,8 +1506,9 @@ class BoxValidator:
             offset += 3
 
     def validate_cod(self):
-        # Coding style default (COD) header fields (ISO/IEC 15444-1 Section
-        # A.6.1)
+        """Coding style default (COD) header fields (ISO/IEC 15444-1 Section
+        A.6.1)
+        """
 
         # Length of COD marker
         lcod = bc.bytesToUShortInt(self.boxContents[0:2])
@@ -1688,8 +1699,9 @@ class BoxValidator:
                 offset += 1
 
     def validate_qcd(self):
-        # Quantization default  (QCD) header fields (ISO/IEC 15444-1 Section
-        # A.6.4)
+        """Quantization default  (QCD) header fields (ISO/IEC 15444-1 Section
+        A.6.4)
+        """
 
         # Length of QCD marker
         lqcd = bc.bytesToUShortInt(self.boxContents[0:2])
@@ -1767,7 +1779,7 @@ class BoxValidator:
         # of corresponding equations (need Annex E from standard for that)
 
     def validate_com(self):
-        # Codestream comment (COM) (ISO/IEC 15444-1 Section A.9.2)
+        """Codestream comment (COM) (ISO/IEC 15444-1 Section A.9.2)"""
 
         # Length of COM marker
         lcom = bc.bytesToUShortInt(self.boxContents[0:2])
@@ -1821,8 +1833,9 @@ class BoxValidator:
             self.addCharacteristic("comment", comment)
 
     def validate_sot(self):
-        # Start of tile-part (SOT) marker segment (ISO/IEC 15444-1 Section
-        # A.4.2)
+        """Start of tile-part (SOT) marker segment (ISO/IEC 15444-1 Section
+        A.4.2)
+        """
 
         # Note that unlike other marker validation functions this one returns a
         # third result, which is the total tile-part length (psot)!
@@ -1867,60 +1880,64 @@ class BoxValidator:
         self.addCharacteristic("tnsot", tnsot)
         self.returnOffset = psot
 
-    # The following validator functions cover those marker segments that
-    # are not yet supported, however including them has the effect that their
-    # presence at least reported in jpylyzer's output.
-    # Together these cover *all* the marker segments defined in ISO/IEC 15444-1,
-    # apart from the SOP/EPH markers (not sure if I even *want* to see those reported
-    # because there will be either lots of them or none at all!).
+    """The following validator functions cover those marker segments that
+    are not yet supported, however including them has the effect that their
+    presence at least reported in jpylyzer's output.
+    Together these cover *all* the marker segments defined in ISO/IEC 15444-1,
+    apart from the SOP/EPH markers (not sure if I even *want* to see those reported
+    because there will be either lots of them or none at all!).
+    """
 
     def validate_coc(self):
-        # Empty function
+        """Empty function"""
         pass
 
     def validate_rgn(self):
-        # Empty function
+        """Empty function"""
         pass
 
     def validate_qcc(self):
-        # Empty function
+        """Empty function"""
         pass
 
     def validate_poc(self):
-        # Empty function
+        """Empty function"""
         pass
 
     def validate_tlm(self):
-        # Empty function
+        """Empty function"""
         pass
 
     def validate_plm(self):
-        # Empty function
+        """Empty function"""
         pass
 
     def validate_plt(self):
-        # Empty function
+        """Empty function"""
         pass
 
     def validate_ppm(self):
-        # Empty function
+        """Empty function"""
         pass
 
     def validate_ppt(self):
-        # Empty function
+        """Empty function"""
         pass
 
     def validate_crg(self):
-        # Empty function
+        """Empty function"""
         pass
 
     def validate_tilePart(self):
-        # Analyse tile part that starts at offsetStart and perform cursory validation
-        # Precondition: offsetStart points to SOT marker
-        #
-        # Limitations:
-        # - COD, COC, QCD, QCC and RGN are markers only allowed in first tile-part
-        #   of a tile; there is currently no check on this (may be added later)
+        """Analyse tile part that starts at offsetStart and perform cursory validation
+        
+        Precondition: offsetStart points to SOT marker
+        
+        Limitations:
+        
+         - COD, COC, QCD, QCC and RGN are markers only allowed in first tile-part
+           of a tile; there is currently no check on this (may be added later)
+        """
 
         offset = self.startOffset
 
@@ -2046,7 +2063,7 @@ class BoxValidator:
         self.returnOffset = offsetNextTilePart
 
     def validate_xmlBox(self):
-        # XML Box (ISO/IEC 15444-1 Section I.7.1)
+        """XML Box (ISO/IEC 15444-1 Section I.7.1)"""
 
         data = self.boxContents
 
@@ -2077,15 +2094,16 @@ class BoxValidator:
         self.testFor("containsWellformedXML", containsWellformedXML)
 
     def validate_uuidBox(self):
-        # UUID Box (ISO/IEC 15444-1 Section I.7.2)
-        # For details on UUIDs see: http://tools.ietf.org/html/rfc4122.html
+        """UUID Box (ISO/IEC 15444-1 Section I.7.2)
+        For details on UUIDs see: http://tools.ietf.org/html/rfc4122.html
 
-        # Box contains 16-byte identifier, followed by block of data.
-        # Format of data is defined outside of the scope of JPEG 2000,
-        # so in most cases there's not much to validate here. Exception:
-        # if uuid = be7acfcb-97a9-42e8-9c71-999491e3afac this indicates
-        # presence of XMP metadata
-
+        Box contains 16-byte identifier, followed by block of data.
+        Format of data is defined outside of the scope of JPEG 2000,
+        so in most cases there's not much to validate here. Exception:
+        if uuid = be7acfcb-97a9-42e8-9c71-999491e3afac this indicates
+        presence of XMP metadata
+        """
+         
         boxLength = len(self.boxContents)
 
         # Check box size, which should be greater than 16 bytes
@@ -2130,10 +2148,9 @@ class BoxValidator:
             self.addCharacteristic("uuid", boxUUID)
 
     def validate_uuidInfoBox(self):
-        # UUID Info box (superbox)(ISO/IEC 15444-1 Section I.7.3)
-        # Provides additional information on vendor-specific UUIDs
-
-        # NOTE: Untested at this stage due to lack of suitable test files!!!
+        """UUID Info box (superbox)(ISO/IEC 15444-1 Section I.7.3)
+        Provides additional information on vendor-specific UUIDs
+        """
 
         # Marker tags/codes that identify sub-boxes as hexadecimal strings
         tagListBox = b'\x75\x6c\x73\x74'
@@ -2173,10 +2190,9 @@ class BoxValidator:
         self.testFor("containsOneURLBox", subBoxTypes.count(tagURLBox) == 1)
 
     def validate_uuidListBox(self):
-        # UUID List box (ISO/IEC 15444-1 Section I.7.3.1)
-        # Contains a list of UUIDs
-
-        # NOTE: Untested at this stage due to lack of suitable test files!!!
+        """UUID List box (ISO/IEC 15444-1 Section I.7.3.1)
+        Contains a list of UUIDs
+        """
 
         # Number of UUIDs
         nU = bc.bytesToUShortInt(self.boxContents[0:2])
@@ -2193,9 +2209,10 @@ class BoxValidator:
             offset += 16
 
     def validate_urlBox(self):
-        # Data Entry URL box (ISO/IEC 15444-1 Section I.7.3.2)
-        # Contains URL that can be used to obtain more information
-        # about UUIDs in UUID List box
+        """Data Entry URL box (ISO/IEC 15444-1 Section I.7.3.2)
+        Contains URL that can be used to obtain more information
+        about UUIDs in UUID List box
+        """
 
         # Version number (1 byte unsigned integer)
         version = bc.bytesToUnsignedChar(self.boxContents[0:1])
@@ -2238,13 +2255,14 @@ class BoxValidator:
         self.addCharacteristic("loc", loc)
 
     def validate_JP2(self):
-        # Top-level function for JP2 validation:
-        #
-        # 1. Parses all top-level boxes in JP2 byte object, and calls separate validator
-        # -- function for each of these
-        # 2. Checks for presence of all required top-level boxes
-        # 3. Checks if JP2 header properties are consistent with corresponding properties
-        # -- in codestream header
+        """Top-level function for JP2 validation:
+        
+        1. Parses all top-level boxes in JP2 byte object, and calls separate validator
+           function for each of these
+        2. Checks for presence of all required top-level boxes
+        3. Checks if JP2 header properties are consistent with corresponding properties
+           in codestream header
+        """
 
         # Marker tags/codes that identify all top level boxes as hexadecimal strings
         # (Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
