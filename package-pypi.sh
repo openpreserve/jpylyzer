@@ -23,7 +23,6 @@ if [ $? -eq 0 ]; then
     twine upload --repository $repository  dist/*
 else
     echo "Wheel build not successful quitting now ..."
-
 fi
 
 
