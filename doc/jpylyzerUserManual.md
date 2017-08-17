@@ -141,10 +141,11 @@ links at the *jpylyzer* homepage:
 
 You have three options:
 
-1. Use the Python source code. This allows you to run the software as a
-Python script on most popular platforms (Windows, Linux, Mac, etc.).
-However, this requires that you have a recent version of the Python
-interpreter available on your system.
+1. Install the software with the *Pip* package manager. This works on
+all platforms (Windows, Linux, Mac, etc.), but it requires that you have
+the Python interpreter available on your system. Jpylyzer is compatible with
+Python 2.7, and Python 3.2 and more recent (Python 3.0 and 3.1 are not
+supported).
 
 2. Alternatively, for Windows users there is also a set of stand-alone
 binaries[^1]. These allow you to run *jpylyzer* as an
@@ -157,67 +158,68 @@ don’t want to) install software on their system.
 
 These options are described in the following sections.
 
-Installation of Python script (Linux/Unix, Windows, Mac OS X) {#installation-python}
+Installation with Pip (Linux/Unix, Windows, Mac OS X) {#installation-pip}
 -----------------------------------------------------------------
 
-First, download the source files using one of the ‘Source Code
-Downloads’ links on the OPF *jpylyzer* page.
+### General installation procedure
 
-Then unzip the contents of the ZIP file to an empty directory. If you
-are working on a Linux/Unix based system you may need to make the
-scripts executable, and convert any line breaks to Unix-style ones. To
-do this, use the following commands:
+First make sure you have a recent version of *pip*. Then install *jpylyzer*
+with the following command:
 
-    chmod 755 *.py
-    dos2unix *.py
+    pip install jpylyzer
 
-In order to run the script you will need either Python 2.7, or Python
-3.2 (or more recent)[^2]. Python can be downloaded from:
+### Single user installation (Linux)
 
-[http://python.org/](http://python.org/)
+On most Linux systems the above command needs to be run as super user (see below).
+If you don't want this use the below command for a single-user install:
 
-### Testing the installation
+    pip install jpylyzer --user
 
-To test your installation, open a console window (or command prompt) and
-type:
+This will install the software to the `.local` folder (hidden by default!) in your
+home directory (`~/.local`). Next try to run *jpylyzer* by entering:
 
-    %jpylyzerPath%/jpylyzer.py -h
+    jpylyzer
 
-In the above command, replace *%jpylyzerPath%* with the full path to the
-*jpylyzer* installation directory (i.e. the directory that contains
-‘jpylyzer.py’ and its associated files). For example, if you extracted
-the files to directory ‘/home/jpylyzer’, the command would become:
+Most likely this will result in:
 
-    /home/jpylyzer/jpylyzer.py -h
+    jpylyzer: command not found
 
-Executing this command should result in the following screen output:
+If this happens, add the directory `~/.local/bin` (which is where the jpylyzer command-line
+tool is installed) to the `PATH` environment variable (you only need to do this once).
+To do this, locate the (hidden) file `.profile` in you home directory (`~/`), and open it in
+a text editor. Then add the following lines at the end of the file:
 
-    usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                       [--nopretty] [--version] jp2In [jp2In ...]
+    # set PATH so it includes the user's .local bin if it exists
+    if [ -d "$HOME/.local/bin" ] ; then
+        PATH="$HOME/.local/bin:$PATH"
+    fi
 
+Save the file, log out of your session and then log in again. Open a command terminal and type:
 
-### Troubleshooting
+     jpylyzer
 
-If the above test didn’t run successfully, first verify the following
-possible causes:
+If all went well you now see this:
 
-* On Windows: check if files with a *.py* extension are associated with
-the Python interpreter. If you have multiple versions of Python on your
-system, make sure that the association does not link to a Python version
-that is incompatible with *jpylyzer* (e.g. Python 2.6 or older, or
-Python 3.0/3.1).
+    usage: jpylyzer [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+                    [--nopretty] [--version]
+                    jp2In [jp2In ...]
+    jpylyzer: error: the following arguments are required: jp2In
 
-* On Unix/Linux: by default, *jpylyzer* uses the command interpreter
-that is defined by the ‘python’ environment variable. If this is linked
-to some (very) old version of Python, things may not work as expected.
-If you run into problems because of this, update the command interpreter
-references in *jpylyzer.py*, i.e. change:
+Which means that the installation was successful!
 
-<pre>#! /usr/bin/env python</pre>
+### Global installation (Linux)
 
-into:
+Simply enter:
 
-<pre>#! /usr/bin/env python27</pre>
+    sudo -H pip install isolyzer
+
+No further configuration is needed in this case.
+
+### Note on pre-releases
+
+The above command lines will only install stable versions of jpylyzer. In order to install the latest pre-release, add the `--pre` switch. For example:
+
+    sudo -H pip install jpylyzer --pre
 
 
 Installation of Windows binaries (Windows only) {#installation-windows}
@@ -232,20 +234,21 @@ now be ready for use.
 To test your installation, open a Command Prompt (‘DOS prompt’) and
 type:
 
-    %jpylyzerPath%\jpylyzer -h
+    %jpylyzerPath%\jpylyzer
 
 In the above command, replace *%jpylyzerPath%* with the full path to the
 *jpylyzer* installation directory (i.e. the directory that contains
 ‘jpylyzer.exe’ and its associated files). For example, if you extracted
 the files to directory `c:\tools\jpylyzer`, the command would become:
 
-    c:\tools\jpylyzer\jpylyzer -h
+    c:\tools\jpylyzer\jpylyzer
 
 Executing this command should result in the following screen output:
 
-    usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                       [--nopretty] [--version] jp2In [jp2In ...]
-
+    usage: jpylyzer [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+                    [--nopretty] [--version]
+                    jp2In [jp2In ...]
+    jpylyzer: error: the following arguments are required: jp2In
 
 ### Running jpylyzer without typing the full path
 
@@ -272,6 +275,11 @@ command terminal by typing:
 
 In both cases you need to have administrative privileges.
 
+For *Ubuntu* and *Debian* alternative packages are available in the
+official release channels. To install simply run the following commands:
+
+    sudo apt-get update
+    sudo apt-get install python-jpylyzer
 
 Using *jpylyzer* {#using-jpylyzer}
 ==================
@@ -476,32 +484,25 @@ Using *jpylyzer* as a Python module {#using-as-python-module}
 ---------------------------------------
 
 Instead of using *jpylyzer* from the command-line, you can also import
-it as a module in your own Python programs. To do so, put all the
-*jpylyzer* source files in the same directory as your own code. Then
-import *jpylyzer* into your code by adding:
+it as a module in your own Python programs. To do so, install jpylyzer
+with *pip*. Then import *jpylyzer* into your code by adding:
 
-    import jpylyzer
+    from jpylyzer import jpylyzer
 
 Subsequently you can call any function that is defined in *jpylyzer.py*.
-In practice you will most likely only need the *checkOneFile* function,
-which can be called in the following way:
+In practice you will most likely only need the *checkOneFile* function. 
+The following minimal script shows how this works:
 
-    jpylyzer.checkOneFile(file)
+    #! /usr/bin/env python
 
-Here, *file* is the path to a file object. The function returns an
-element object that can either be used directly, or converted to XML
-using the *ElementTree* module[^3]. The structure of the
+    from jpylyzer import jpylyzer
+
+    myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
+    myResult = jpylyzer.checkOneFile(myFile)
+
+Here, *myResult* is an *Element* object that can either be used directly, 
+or converted to XML using the *ElementTree* module[^3]. The structure of the
 element object follows the XML output that described in [Chapter 5](#output-format).
-
-Alternatively, you may only want to import the *checkOneFile* function,
-in which case the import statement becomes:
-
-    from jpylyzer import checkOneFile
-
-This will allow you to call the function as follows:
-
-    checkOneFile(file)
-
 
 Structure of a JP2 file {#structure-jp2}
 =========================
