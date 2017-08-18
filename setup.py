@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 """Setup script for jpylyzer"""
-from setuptools import setup, find_packages
 import codecs
 import os
 import re
-
+from setuptools import setup, find_packages
 
 def read(*parts):
     """Read file and return contents"""
@@ -20,8 +19,8 @@ def find_version(*file_paths):
         return version_match.group(1)
     raise RuntimeError("Unable to find version string.")
 
-INSTALL_REQUIRES = ['setuptools','six']
-]
+INSTALL_REQUIRES = ['setuptools', 'six']
+
 PYTHON_REQUIRES = '>=2.7, !=3.0.*, !=3.1.*, <4'
 
 README = open('README.md', 'r')

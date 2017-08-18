@@ -12,8 +12,16 @@
 #repository=testpypi
 repository=pypi
 
-# Clear contents of dist dir
-rm ./dist/*
+# Working directory
+workDir=$PWD
+
+# Dist directory
+distDir=$workDir"/dist/"
+
+# Clear contents of dist dir if it exists
+if [ -d "$distDir" ]; then
+    rm -r "$distDir"
+fi
 
 # Create wheel
 python setup.py sdist bdist_wheel --universal
