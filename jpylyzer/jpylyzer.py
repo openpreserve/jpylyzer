@@ -44,17 +44,17 @@ from xml.dom import minidom
 import xml.etree.ElementTree as ETree
 from six import u
 
-if __package__ is None:
-    import config
+if __package__ == None:
+    import config as config
     import etpatch as ET
-    from boxvalidator import BoxValidator
-    from shared import printWarning
+    import boxvalidator as bv
+    import shared as shared
 else:
     # Use relative imports if run from package
-    from . import config
+    from . import config as config
     from . import etpatch as ET
-    from .boxvalidator import BoxValidator
-    from .shared import printWarning
+    from . import boxvalidator as bv
+    from . import shared as shared
 
 
 scriptPath, scriptName = os.path.split(sys.argv[0])
@@ -63,7 +63,7 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 if len(scriptName) == 0:
     scriptName = 'jpylyzer'
 
-__version__ = "1.18.0b5"
+__version__ = "1.18.0b6"
 
 # Create parser
 parser = argparse.ArgumentParser(
@@ -327,7 +327,7 @@ def checkOneFile(path):
     try:
         # Contents of file to memory map object
         fileData = fileToMemoryMap(path)
-        isValidJP2, tests, characteristics = BoxValidator("JP2", fileData).validate()
+        isValidJP2, tests, characteristics = bv.BoxValidator("JP2", fileData).validate()
 
         if fileData != "":
             fileData.close()
@@ -352,7 +352,7 @@ def checkOneFile(path):
         else:
             failureMessage = "unknown error (please report to developers)"
 
-        printWarning(failureMessage)
+        shared.printWarning(failureMessage)
         tests = ET.Element("tests")
         characteristics = ET.Element('properties')
 
@@ -390,7 +390,7 @@ def checkNoInput(files):
     """
 
     if len(files) == 0:
-        printWarning("no images to check!")
+        shared.printWarning("no images to check!")
         sys.exit(config.ERR_CODE_NO_IMAGES)
 
 
@@ -526,7 +526,7 @@ def findFiles(recurse, paths):
         elif not os.path.isdir(root) and not os.path.isfile(root):
             # One or more (but not all) paths do no exist - print a warning
             msg = root + " does not exist"
-            printWarning(msg)
+            shared.printWarning(msg)
 
         # RECURSION and WILDCARD IN RECURSION
         # Check if recurse in the input path
@@ -690,7 +690,7 @@ def parseCommandLine():
 
 def main():
     """Main command line application"""
-
+       
     # Get input from command line
     args = parseCommandLine()
 

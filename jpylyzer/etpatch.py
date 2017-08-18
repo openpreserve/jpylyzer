@@ -17,13 +17,11 @@ import xml.etree.ElementTree as ET
 
 if __package__ == "jpylyzer":
     # Use relative imports if run from package
-    from .byteconv import bytesToText
-    from .byteconv import removeControlCharacters
-    from . import config
+    from . import byteconv as bc
+    from . import config as config
 else:
-    from byteconv import bytesToText
-    from byteconv import removeControlCharacters
-    import config
+    import byteconv as bc
+    import config as config
 
 # TODO:
 # 1) Find out whether these patches are necessary
@@ -129,11 +127,11 @@ class Element(ET.Element):
 
                 # Convert text field, depending on type
                 if textType == bytes:
-                    textOut = bytesToText(remappedValue)
+                    textOut = bc.bytesToText(remappedValue)
                 elif textType in numericTypes:
                     textOut = str(remappedValue)
                 else:
-                    textOut = removeControlCharacters(remappedValue)
+                    textOut = bc.removeControlCharacters(remappedValue)
 
                 # Update output tree
                 elt.text = textOut

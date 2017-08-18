@@ -20,17 +20,15 @@ import math
 
 if __package__ == "jpylyzer":
     # Use relative imports if run from package
-    from . import config
+    from . import config as config
     from . import etpatch as ET
     from . import byteconv as bc
-    from .shared import listOccurrencesAreContiguous
-    from .shared import printWarning
+    from . import shared as shared
 else:
-    import config
+    import config as config
     import etpatch as ET
     import byteconv as bc
-    from shared import listOccurrencesAreContiguous
-    from shared import printWarning
+    import shared as shared
 
 
 class BoxValidator:
@@ -103,7 +101,7 @@ class BoxValidator:
         try:
             to_call = getattr(self, "validate_" + self.boxType)
         except AttributeError:
-            printWarning(
+            shared.printWarning(
                 "ignoring '" + self.boxType + "' (validator function not yet implemented)")
 
         else:
@@ -263,7 +261,7 @@ class BoxValidator:
         self.addCharacteristic("boxType", boxType)
 
         # Print warning message to screen
-        printWarning("ignoring unknown box")
+        shared.printWarning("ignoring unknown box")
 
     def validate_signatureBox(self):
         """Signature box (ISO/IEC 15444-1 Section I.5.2)"""
@@ -390,7 +388,7 @@ class BoxValidator:
 
         # In case of multiple colour specification boxes, they should appear contiguously
         # within the header box
-        colourSpecificationBoxesAreContiguous = listOccurrencesAreContiguous(
+        colourSpecificationBoxesAreContiguous = shared.listOccurrencesAreContiguous(
             subBoxTypes, self.boxTagMap['colourSpecificationBox'])
         self.testFor("colourSpecificationBoxesAreContiguous",
                      colourSpecificationBoxesAreContiguous)
