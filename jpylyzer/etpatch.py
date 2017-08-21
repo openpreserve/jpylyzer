@@ -14,14 +14,8 @@
 #
 
 import xml.etree.ElementTree as ET
-
-if __package__ == "jpylyzer":
-    # Use relative imports if run from package
-    from . import byteconv as bc
-    from . import config as config
-else:
-    import byteconv as bc
-    import config as config
+from . import byteconv as bc
+from . import config as config
 
 # TODO:
 # 1) Find out whether these patches are necessary

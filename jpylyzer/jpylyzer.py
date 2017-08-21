@@ -43,18 +43,10 @@ import re
 from xml.dom import minidom
 import xml.etree.ElementTree as ETree
 from six import u
-
-if __package__ == None:
-    import config as config
-    import etpatch as ET
-    import boxvalidator as bv
-    import shared as shared
-else:
-    # Use relative imports if run from package
-    from . import config as config
-    from . import etpatch as ET
-    from . import boxvalidator as bv
-    from . import shared as shared
+from . import config as config
+from . import etpatch as ET
+from . import boxvalidator as bv
+from . import shared as shared
 
 
 scriptPath, scriptName = os.path.split(sys.argv[0])
@@ -63,7 +55,7 @@ scriptPath, scriptName = os.path.split(sys.argv[0])
 if len(scriptName) == 0:
     scriptName = 'jpylyzer'
 
-__version__ = "1.18.0b7"
+__version__ = "1.18.0b8"
 
 # Create parser
 parser = argparse.ArgumentParser(

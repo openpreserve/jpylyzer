@@ -17,19 +17,10 @@
 from __future__ import division
 import uuid
 import math
-
-if __package__ == "jpylyzer":
-    # Use relative imports if run from package
-    from . import config as config
-    from . import etpatch as ET
-    from . import byteconv as bc
-    from . import shared as shared
-else:
-    import config as config
-    import etpatch as ET
-    import byteconv as bc
-    import shared as shared
-
+from . import config as config
+from . import etpatch as ET
+from . import byteconv as bc
+from . import shared as shared
 
 class BoxValidator:
     """Marker tags/codes that identify all sub-boxes as hexadecimal strings
