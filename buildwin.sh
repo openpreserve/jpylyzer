@@ -71,7 +71,7 @@ buildBinaries(){
     # Executes jpylyzer with -v option and stores output to 
     # env variable 'version'
     # Also trim trailing EOL character and replace '.' by '_' 
-    WINEDEBUG=$WineDebug wine $pythonWine $workDir"/$scriptBaseName/$scriptBaseName.py" -v 2> temp.txt
+    WINEDEBUG=$WineDebug wine $pythonWine -m $scriptBaseName -v 2> temp.txt
     version=$(head -n 1 temp.txt | tr -d '\r' |tr '.' '_' )
     rm temp.txt
 
