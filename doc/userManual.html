@@ -6,7 +6,6 @@ title: User Manual
 
 <header>
 <h1 class="title">Jpylyzer User Manual</h1>
-<p class="author"></p>
 </header>
 <nav id="TOC">
 <ul>
@@ -301,8 +300,15 @@ User warning: unknown error (please report to developers)</code></pre>
 
 from jpylyzer import jpylyzer
 
+# Define JP2
 myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
-myResult = jpylyzer.checkOneFile(myFile)</code></pre>
+
+# Analyse with jpylyzer, result to Element object
+myResult = jpylyzer.checkOneFile(myFile)
+
+# Return image height value
+imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
+print(imageHeight)</code></pre>
 <p>Here, <em>myResult</em> is an <em>Element</em> object that can either be used directly, or converted to XML using the <em>ElementTree</em> module<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>. The structure of the element object follows the XML output that described in <a href="#output-format">Chapter 5</a>.</p>
 <h1 id="structure-jp2"><span class="header-section-number">4</span> Structure of a JP2 file</h1>
 <h2 id="structure-scope"><span class="header-section-number">4.1</span> Scope of this chapter</h2>

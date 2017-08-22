@@ -498,8 +498,15 @@ The following minimal script shows how this works:
 
     from jpylyzer import jpylyzer
 
+    # Define JP2
     myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
+
+    # Analyse with jpylyzer, result to Element object
     myResult = jpylyzer.checkOneFile(myFile)
+
+    # Return image height value
+    imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
+    print(imageHeight)
 
 Here, *myResult* is an *Element* object that can either be used directly, 
 or converted to XML using the *ElementTree* module[^3]. The structure of the
