@@ -1,11 +1,9 @@
-jpylyzer (1.18.0b5) UNRELEASED; urgency=medium
+jpylyzer (1.18.0b9) UNRELEASED; urgency=medium
 
-  * Fixed missing tagIntellectualPropertyBox
-  * PyPi install
-  * Windows binaries built with Wine
-  * Overall cleanup of repo and code
+  * Restructured repo to make packaging more straightforward
+  * Updated build scripts
 
- -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Thu, 17 Aug 2017 20:11:10 +0200
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Tue, 22 Aug 2017 14:44:38 +0200
 
 jpylyzer (1.17.0) precise; urgency=medium
 
