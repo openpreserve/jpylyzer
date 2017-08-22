@@ -14,6 +14,8 @@ title: Release of jpylyzer 1.18.0
 
 * The build process for building the Windows binaries has been simplified; Windows binaries can now be built under Linux using [Wine](https://www.winehq.org/) with no need for a dedicated Windows machine.
 
+* To avoid problems with relative imports for the different packaging methods, some modifications were made to the file and directory structure of the repo.
+
 * A bug that would cause *jpylyzer* to report an internal error for images with an Intellectual Property Box is now fixed.
 
 * Improved behaviour for codestream comments with binary content (patch by Adam Fritzler).
