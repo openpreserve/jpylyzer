@@ -1,3 +1,4 @@
 #!/bin/sh 
-python Makespec.py --onefile ./jpylyzer/jpylyzer.py
-python pyinstaller.py jpylyzer.spec
+pyi-makespec --onefile --name=jpylyzer ./cli.py
+pyinstaller jpylyzer.spec
+
