@@ -1,5 +1,5 @@
 # -*- mode: python -*-
-a = Analysis(['.\jpylyzer\jpylyzer.py'],
+a = Analysis(['.\cli.py'],
              pathex=['.\jpylyzer'],
              hiddenimports=[],
              hookspath=None)
