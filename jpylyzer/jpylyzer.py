@@ -405,7 +405,7 @@ def stripSurrogatePairs(ustring):
             ustring.encode('utf-8')
         except UnicodeEncodeError:
             # Strip away surrogate pairs
-            tmp = ustring.encode('utf-8', 'surrogateescape')
+            tmp = ustring.encode('utf-8', 'replace')
             ustring = tmp.decode('utf-8', 'ignore')
 
     # In Python 2.x we need to use regex
