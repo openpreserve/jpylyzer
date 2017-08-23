@@ -5,9 +5,10 @@
 
 ## Jpylyzer homepage
 
+Please visit the jpylyzer homepage for links to the most recent package downloads (Debian packages and Windows binaries), and a User Manual which documents all aspects of the software:
+
 <http://jpylyzer.openpreservation.org/>
 
-The homepage also has links to the most recent package downloads (Debian packages and Windows binaries).
 
 ## Cd Status
 
