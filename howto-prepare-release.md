@@ -21,6 +21,7 @@
         git tag -a 1.x.x -m "release that fixes everything"
 
 1. Push tags:
+
         git push --tags
         
 1. Create and upload PyPi packages by running:
