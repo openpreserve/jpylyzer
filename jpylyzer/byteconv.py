@@ -28,7 +28,7 @@ def _doConv(bytestr, bOrder, formatCharacter):
         result = struct.unpack(formatStr, bytestr)[0]
     except:
         result = -9999
-    return(result)
+    return result
 
 
 def bytesToULongLong(bytestring):
@@ -77,14 +77,13 @@ def bytesToInteger(bytestring):
     except:
         result = -9999
 
-    return (result)
+    return result
 
 
 def isctrl(c):
     # Returns True if byte corresponds to device control character
     # (See also: http://www.w3schools.com/tags/ref_ascii.asp)
-    return (ord(c) < 32 or ord(c) == 127)
-    # return (0 <= ord(c) <= 8) or (ord(c) == 12) or (14 <= ord(c) < 32)
+    return ord(c) < 32 or ord(c) == 127
 
 
 def bytesToHex(bytestring):
@@ -97,8 +96,8 @@ def containsControlCharacters(bytestring):
 
     for i in range(len(bytestring)):
         if isctrl(bytestring[i:i + 1]):
-            return(True)
-    return(False)
+            return True
+    return False
 
 
 def removeControlCharacters(string):
@@ -114,7 +113,7 @@ def removeNullTerminator(bytestring):
     # Remove null terminator from bytestring
 
     bytesOut = bytestring.rstrip(b'\x00')
-    return(bytesOut)
+    return bytesOut
 
 
 def bytesToText(bytestring):
@@ -136,4 +135,4 @@ def bytesToText(bytestring):
         # Return empty string if bytestring cannot be decoded
         result = ""
 
-    return(result)
+    return result

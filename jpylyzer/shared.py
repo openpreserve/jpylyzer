@@ -27,8 +27,8 @@ def consecutive(lst):
     # Returns True if items in lst are consecutive numbers
     for i in range(1, len(lst)):
         if lst[i] - lst[i - 1] != 1:
-            return(False)
-    return(True)
+            return False
+    return True
 
 
 def listOccurrencesAreContiguous(lst, value):

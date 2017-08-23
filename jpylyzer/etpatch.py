@@ -43,9 +43,9 @@ class Element(ET.Element):
     def findElementText(self, match):
         elt = self.find(match)
         if elt is not None:
-            return(elt.text)
+            return elt.text
         else:
-            return(None)
+            return None
 
     def findAllText(self, match):
         # Searches element and returns list that contains 'Text' attribute
@@ -131,7 +131,7 @@ class Element(ET.Element):
                 elt.text = textOut
 
     def toxml(self, indent="  "):
-        return(ET.tostring(self, 'UTF-8', 'xml'))
+        return ET.tostring(self, 'UTF-8', 'xml')
 
         # Disabled pretty-printing for now as minidom appears to choke on
         # entity references, i.e. code below will go wrong:
