@@ -1,9 +1,16 @@
-jpylyzer (1.18.0b9) UNRELEASED; urgency=medium
+jpylyzer (1.18.0) UNRELEASED; urgency=medium
 
   * Restructured repo to make packaging more straightforward
   * Updated build scripts
+  * Windows binaries now built on Linux using Wine
+  * Added installation with pip
+  * Fixed detection of surrogate pairs in Py3
+  * Fixed exception with images with Intellectual Property Box
+  * Improved handling of codestream comments with non-text data
+  * Various code clean-ups based on PEP8 and PyLint analysis
+  * Removed outdated build scripts (esp. Windows batch files)
 
- -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Tue, 22 Aug 2017 14:44:38 +0200
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Wed, 23 Aug 2017 13:34:42 +0200
 
 jpylyzer (1.17.0) precise; urgency=medium
 
