@@ -72,7 +72,7 @@ buildBinaries(){
     # env variable 'version'
     # Also trim trailing EOL character and replace '.' by '_' 
     WINEDEBUG=$WineDebug wine $pythonWine -m $scriptBaseName -v 2> temp.txt
-    version=$(head -n 1 temp.txt | tr -d '\r' |tr '.' '_' )
+    version=$(head -n 1 temp.txt | tr -d '\r')
     rm temp.txt
 
     echo "Building binaries"
