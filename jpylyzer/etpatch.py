@@ -1,3 +1,8 @@
+"""Patch for 'findtext' bug in ElementTree
+TODO:
+1) Find out whether these patches are necessary
+2) learn how to write and test patches properly
+"""
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -17,30 +22,30 @@ import xml.etree.ElementTree as ET
 from . import byteconv as bc
 from . import config as config
 
-# TODO:
-# 1) Find out whether these patches are necessary
-# 2) learn how to write and test patches properly
 
-
-# I don't want to mess with ANYthing :)
 def tostring(elem, enc, meth):
+    """Return string representation of Element object with user-defined encoding and method"""
     return ET.tostring(elem, enc, meth)
 
 
 def fromstring(text):
+    """Convert string to Element object"""
     return ET.fromstring(text)
 
 
 def SubElement(parent, tag):
+    """Return sub-element from parent element"""
     return ET.SubElement(parent, tag)
 
 
 class Element(ET.Element):
+    """Element class"""
 
-    # Replacement for ET's 'findtext' function, which has a bug
-    # that will return empty string if text field contains integer with
-    # value of zero (0); If there is no match, return None
     def findElementText(self, match):
+        """Replacement for ET's 'findtext' function, which has a bug
+        that will return empty string if text field contains integer with
+        value of zero (0); If there is no match, return None
+        """
         elt = self.find(match)
         if elt is not None:
             return elt.text
@@ -48,9 +53,10 @@ class Element(ET.Element):
             return None
 
     def findAllText(self, match):
-        # Searches element and returns list that contains 'Text' attribute
-        # of all matching sub-elements. Returns empty list if element
-        # does not exist
+        """Searches element and returns list that contains 'Text' attribute
+        of all matching sub-elements. Returns empty list if element
+        does not exist
+        """
 
         try:
             return [result.text for result in self.findall(match)]
@@ -58,24 +64,25 @@ class Element(ET.Element):
             return []
 
     def appendChildTagWithText(self, tag, text):
-        # Append childnode with text
+        """Append childnode with text"""
 
         el = ET.SubElement(self, tag)
         el.text = text
 
     def appendIfNotEmpty(self, subelement):
-        # Append sub-element, but only if subelement is not empty
+        """Append sub-element, but only if subelement is not empty"""
 
         if len(subelement) != 0:
             self.append(subelement)
 
     def makeHumanReadable(self, remapTable={}):
-        # Takes element object, and returns a modified version in which all
-        # non-printable 'text' fields (which may contain numeric data or binary strings)
-        # are replaced by printable strings
-        #
-        # Property values in original tree may be mapped to alternative (more user-friendly)
-        # reportable values using a remapTable, which is a nested dictionary.
+        """Takes element object, and returns a modified version in which all
+        non-printable 'text' fields (which may contain numeric data or binary strings)
+        are replaced by printable strings
+
+        Property values in original tree may be mapped to alternative (more user-friendly)
+        reportable values using a remapTable, which is a nested dictionary.
+        """
 
         for elt in self.iter():
             # Text field of this element
@@ -131,9 +138,5 @@ class Element(ET.Element):
                 elt.text = textOut
 
     def toxml(self, indent="  "):
+        """Convert Element object to XML"""
         return ET.tostring(self, 'UTF-8', 'xml')
-
-        # Disabled pretty-printing for now as minidom appears to choke on
-        # entity references, i.e. code below will go wrong:
-        #
-        # return minidom.parseString(selfAsString).toprettyxml(indent)
