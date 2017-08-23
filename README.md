@@ -75,24 +75,7 @@ The [Vagrant directory](vagrant) of this repo contains instructions on how to bu
 
 ## Steps in preparing a jpylyzer release
 
-(Outline only, this section is under development and needs more detail!).
-
-1. Make changes to code
-1. Update version number in *jpylyzer.py*, and *sonar-project.properties* (do we really need last file?)
-1. In case of changes to command-line interface, update [jpylyzer.pod](debian/jpylyzer.pod) file in *Debian* folder.
-1. Create new entry in changelog using `dch -i`; then manually update version number, and create list of changes.
-1. Update [User Manual](doc/jpylyzerUserManual.md) if necessary
-1. Commit all changes
-1. Add tag and commit
-1. Create and upload PyPi packages by running [`package-pypi.sh`](./package-pypi.sh) 
-1. Build Linux packages using [instructions here](vagrant)
-1. Build Windows binaries using [instructions here](./BUILD_HOWTO_WINDOWS.md)
-1. Go to [*Latest Release*](https://github.com/openpreserve/jpylyzer/releases/latest) and click on the *Edit* button
-1. Upload Linux/Windows packages to the release by dragging them to the *Attach Binaries* field at the bottom
-1. Website: update *binVersion* in *_config.yml* (this updates the links to all packages to the correct version)
-1. Website: write short release note
-1. Commit changes to website
-1. Spread the word!
+[See instructions here](./howto-prepare-release.md)
 
 [1]: http://jpylyzer.openpreservation.org//jpylyzerUserManual.html
 [2]: http://www.jpeg.org/public/15444-1annexi.pdf
