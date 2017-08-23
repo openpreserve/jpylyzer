@@ -4,11 +4,17 @@ title: Release of jpylyzer 1.18.0
 ---
 {% include JB/setup %}
 
-*Jpylyzer* 1.18.0 (AKA the "delayed 2017 spring clean-up release") is out now. The most notable change is that it is now possible to install *jpylyzer* with the [*pip*](https://en.wikipedia.org/wiki/Pip_(package_manager)) package manager. This makes installing *jpylyzer* on any platform as simple as typing:
+*Jpylyzer* 1.18.0 (AKA the "delayed 2017 spring clean-up release") is out now. This is mainly a maintenance release.
+
+## Installation with pip
+
+The most notable change is that it is now possible to install *jpylyzer* with the [*pip*](https://en.wikipedia.org/wiki/Pip_(package_manager)) package manager. This makes installing *jpylyzer* on any platform as simple as typing:
 
     pip install jpylyzer
 
 More details can be found in the [User Manual]({{ BASE_PATH }}/userManual.html). Note that all previous installation methods (Debian packages, stand-alone Windows binaries) are still supported, and will remain so.
+
+## Other changes
 
 Most other changes in this release are 'under the hood' and therefore less notable to most users:
 
@@ -20,12 +26,18 @@ Most other changes in this release are 'under the hood' and therefore less notab
 
 * Thanks to a patch by Adam Fritzler the behaviour for codestream comments with binary content has been improved.
 
+## Bug fixes
+
 Finally this release fixes two bugs:
 
 * A bug that would cause *jpylyzer* to report an internal error for images with an Intellectual Property Box is now fixed.
 
 * Another bug that would cause a Unicode error in Python 3 for filenames with [surrogate pair characters](http://unicodebook.readthedocs.io/unicode_encodings.html#surrogates) is fixed as well.
 
-As always, any feedback on this new *jpylyzer* is appreciated. 
+## Feedback
+
+As always, feedback on this new *jpylyzer* release is appreciated. Also don't hesitate to contact us if any of the (new) packages for some reason do not behave as expected (preferrably using the [issue tracker](https://github.com/openpreserve/jpylyzer/issues)).
+
+Happy jpylyzing!
 
 
