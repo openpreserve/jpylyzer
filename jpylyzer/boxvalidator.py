@@ -22,6 +22,7 @@ from . import etpatch as ET
 from . import byteconv as bc
 from . import shared as shared
 
+
 class BoxValidator:
     """Marker tags/codes that identify all sub-boxes as hexadecimal strings
     (Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)"""

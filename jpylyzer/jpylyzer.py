@@ -682,7 +682,7 @@ def parseCommandLine():
 
 def main():
     """Main command line application"""
-       
+
     # Get input from command line
     args = parseCommandLine()
 
