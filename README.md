@@ -7,20 +7,13 @@
 
 <http://jpylyzer.openpreservation.org/>
 
+The homepage also has links to the most recent package downloads (Debian packages and Windows binaries).
 
 ## Cd Status
 
 - [![Build Status](https://travis-ci.org/openpreserve/jpylyzer.svg?branch=master)](https://travis-ci.org/openpreserve/jpylyzer "Jpylyzer Travis-CI integration build") Travis-CI
 
 - [![Build Status](http://jenkins.opf-labs.org/buildStatus/icon?job=jpylyser)](http://jenkins.opf-labs.org/job/jpylyser/) OPF Jenkins
-
-## Downloads
-
-* [User Manual][1] - exhaustive documentation of all aspects of *jpylyzer*
-* [Windows binaries][5] - stand-alone Windows binaries that allow you to run *jpylyzer* without any *Python* dependencies
-* [Debian packages][6] - i386 (32 bit) architecture
-* [Debian packages][7] - Amd 64 (64 bit) architecture
-
 
 ## Command line use
 
@@ -68,6 +61,32 @@ In the above example, output is redirected to the file 'rubbish.xml'.
 4. *tests*: tree of test outcomes, expressed as *True* / *False* flags.
    A file is considered valid JP2 only if all tests return *True*. Tree follows JP2 box structure. By default only tests that returned *False* are reported, which results in an empty *tests*  element for files that are valid JP2. Use the  `--verbose` flag to get *all* test results.
 5. *properties*: tree of image properties. Follows JP2 box structure. Naming of properties follows [ISO/IEC 15444-1 Annex I][2] (JP2 file format syntax) and [Annex A][3] (Codestream syntax).
+
+## Using jpylyzer as a Python module
+
+In order to use *jpylyzer* in your own Python programs, first install it
+with *pip*. Then import *jpylyzer* into your code by adding:
+
+```python
+from jpylyzer import jpylyzer
+```
+
+Subsequently you can call any function that is defined in *jpylyzer.py*.
+In practice you will most likely only need the *checkOneFile* function. 
+The following minimal script shows how this works:
+
+```python
+from jpylyzer import jpylyzer
+# Define JP2
+myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
+
+# Analyse with jpylyzer, result to Element object
+myResult = jpylyzer.checkOneFile(myFile)
+
+# Return image height value
+imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
+print(imageHeight)
+```
 
 ## Debian packages build process
 
