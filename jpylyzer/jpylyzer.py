@@ -268,7 +268,7 @@ def fileToMemoryMap(filename):
     return fileData
 
 
-def checkOneFile(path):
+def checkOneFile(path, fileDataBuffer=None):
     """Process one file and return analysis result as element object"""
 
     # Create output elementtree object
@@ -289,39 +289,51 @@ def checkOneFile(path):
     statusInfo = ET.Element('statusInfo')
 
     # File name and path
-    fileName = os.path.basename(path)
-    filePath = os.path.abspath(path)
+    if path:
+        fileName = os.path.basename(path)
+        filePath = os.path.abspath(path)
 
-    # If file name / path contain any surrogate pairs, remove them to
-    # avoid problems when writing to XML
-    fileNameCleaned = stripSurrogatePairs(fileName)
-    filePathCleaned = stripSurrogatePairs(filePath)
+        # If file name / path contain any surrogate pairs, remove them to
+        # avoid problems when writing to XML
+        fileNameCleaned = stripSurrogatePairs(fileName)
+        filePathCleaned = stripSurrogatePairs(filePath)
+    else:
+        fileNameCleaned = None
+        filePathCleaned = None
+
 
     # Produce some general tool and file meta info
     toolInfo.appendChildTagWithText("toolName", scriptName)
     toolInfo.appendChildTagWithText("toolVersion", __version__)
     fileInfo.appendChildTagWithText("fileName", fileNameCleaned)
     fileInfo.appendChildTagWithText("filePath", filePathCleaned)
-    fileInfo.appendChildTagWithText(
-        "fileSizeInBytes", str(os.path.getsize(path)))
-    try:
-        lastModifiedDate = time.ctime(os.path.getmtime(path))
-    except ValueError:
-        # Dates earlier than 1 Jan 1970 can raise ValueError on Windows
-        # Workaround: replace by lowest possible value (typically 1 Jan 1970)
-        lastModifiedDate = time.ctime(0)
-    fileInfo.appendChildTagWithText(
-        "fileLastModified", lastModifiedDate)
+    if path:
+        fileInfo.appendChildTagWithText(
+            "fileSizeInBytes", str(os.path.getsize(path)))
+        try:
+            lastModifiedDate = time.ctime(os.path.getmtime(path))
+        except ValueError:
+            # Dates earlier than 1 Jan 1970 can raise ValueError on Windows
+            # Workaround: replace by lowest possible value (typically 1 Jan 1970)
+            lastModifiedDate = time.ctime(0)
+        fileInfo.appendChildTagWithText(
+            "fileLastModified", lastModifiedDate)
 
     # Initialise success flag
     success = True
 
     try:
         # Contents of file to memory map object
-        fileData = fileToMemoryMap(path)
+        if fileDataBuffer:
+            fileData = fileDataBuffer
+        elif path:
+            fileData = fileToMemoryMap(path)
+        else:
+            raise Exception("Either a path or file buffer must be provided!")
+        
         isValidJP2, tests, characteristics = bv.BoxValidator("JP2", fileData).validate()
 
-        if fileData != "":
+        if not fileDataBuffer and fileData != "":
             fileData.close()
 
         # Generate property values remap table
