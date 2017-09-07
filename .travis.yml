@@ -7,12 +7,8 @@ python:
 before_install:
   - sudo -H pip install pyinstaller
 
-install:
-  - dpkg-buildpackage -tc -uc -us
-
 script:
-  - python -m unittest discover
+  - ./build-with-pyinstaller.sh
 
 after_success:
-  - sudo dpkg -i ../jpylyzer_1.10.1_amd64.deb
-  - jpylyzer --version
+  - ./pyi-build/dist/jpylyzer --version
