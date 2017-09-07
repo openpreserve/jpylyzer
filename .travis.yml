@@ -6,6 +6,7 @@ python:
 
 before_install:
   - sudo -H pip install pyinstaller
+  - sudo apt-get install fakeroot
 
 install:
   - dpkg-buildpackage -tc -uc -us
