@@ -7,7 +7,7 @@ python:
 before_install:
   - sudo -H pip install pyinstaller
 
-install:
+script:
   - ./build-with-pyinstaller.sh
 
 after_success:
