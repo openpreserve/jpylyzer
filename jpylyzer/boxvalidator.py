@@ -1198,7 +1198,7 @@ class BoxValidator:
             elif marker == b'\xff\x90':
                 # Start of tile (SOT) marker segment; don't update offset as this
                 # will get us of out of this loop (for functional readability):
-                offset = offset
+                pass
 
             elif marker in[b'\xff\x53', b'\xff\x5d', b'\xff\x5e',
                            b'\xff\x5f', b'\xff\x55', b'\xff\x57', b'\xff\x60', b'\xff\x63']:
