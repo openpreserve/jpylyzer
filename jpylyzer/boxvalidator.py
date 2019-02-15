@@ -99,12 +99,7 @@ class BoxValidator:
         else:
             to_call()
 
-        if self.isValid is not None:
-            return (self.isValid, self.tests, self.characteristics)
-        elif self.returnOffset is None:
-            return (self.tests, self.characteristics)
-        else:
-            return (self.tests, self.characteristics, self.returnOffset)
+        return self
 
     def _isValid(self):
         for elt in self.tests.iter():
