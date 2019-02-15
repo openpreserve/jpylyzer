@@ -86,6 +86,7 @@ class BoxValidator:
         self.startOffset = startOffset
         self.returnOffset = None
         self.isValid = None
+        self.tilePartLength = None
         self.bTypeString = bType
 
     def validate(self):
@@ -319,9 +320,10 @@ class BoxValidator:
                 byteStart, noBytes)
 
             # Validate sub-boxes
-            testsBox, characteristicsBox = BoxValidator(
-                boxType, subBoxContents).validate()
-
+            resultsBox = BoxValidator(boxType, subBoxContents).validate()
+            testsBox = resultsBox.tests
+            characteristicsBox = resultsBox.characteristics
+            
             byteStart = byteEnd
 
             # Add to list of box types
@@ -542,8 +544,8 @@ class BoxValidator:
             profile = self.boxContents[3:length]
 
             # Extract ICC profile properties as element object
-            # self.getICCCharacteristics(profile)
-            tests, iccCharacteristics = BoxValidator('icc', profile).validate()
+            iccResults = BoxValidator('icc', profile).validate()
+            iccCharacteristics = iccResults.characteristics
             self.characteristics.append(iccCharacteristics)
 
             # Profile size property should equal actual profile size
@@ -578,7 +580,8 @@ class BoxValidator:
 
             # Extract ICC profile properties as element object
             # self.getICCCharacteristics(profile)
-            tests, iccCharacteristics = BoxValidator('icc', profile).validate()
+            iccResults = BoxValidator('icc', profile).validate()
+            iccCharacteristics = iccResults.characteristics
             self.characteristics.append(iccCharacteristics)
 
     def validate_icc(self):
@@ -956,8 +959,9 @@ class BoxValidator:
                 byteStart, noBytes)
 
             # validate sub boxes
-            testsBox, characteristicsBox = BoxValidator(
-                boxType, subBoxContents).validate()
+            resultsBox = BoxValidator(boxType, subBoxContents).validate()
+            testsBox = resultsBox.tests
+            characteristicsBox = resultsBox.characteristics
 
             byteStart = byteEnd
 
@@ -1129,14 +1133,11 @@ class BoxValidator:
 
         if foundSIZMarker:
             # Validate SIZ segment
-            testsSIZ, characteristicsSIZ = BoxValidator(
-                marker, segContents).validate()  # validateSIZ(segContents)
-
+            resultsSIZ = BoxValidator(marker, segContents).validate()
+            testsSIZ = resultsSIZ.tests
+            characteristicsSIZ = resultsSIZ.characteristics
             # Add analysis results to test results tree
-            # self.tests.appendIfNotEmpty(resultSIZ)
-
             self.tests.appendIfNotEmpty(testsSIZ)
-
             # Add extracted characteristics to characteristics tree
             self.characteristics.append(characteristicsSIZ)
 
@@ -1161,8 +1162,9 @@ class BoxValidator:
                 foundCODMarker = True
 
                 # Validate COD segment
-                testsCOD, characteristicsCOD = BoxValidator(
-                    marker, segContents).validate()
+                resultsCOD = BoxValidator(marker, segContents).validate()
+                testsCOD = resultsCOD.tests
+                characteristicsCOD = resultsCOD.characteristics
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsCOD)
                 # Add extracted characteristics to characteristics tree
@@ -1173,8 +1175,9 @@ class BoxValidator:
                 # QCD is required
                 foundQCDMarker = True
                 # Validate QCD segment
-                testsQCD, characteristicsQCD = BoxValidator(
-                    marker, segContents).validate()
+                resultsQCD = BoxValidator(marker, segContents).validate()
+                testsQCD = resultsQCD.tests
+                characteristicsQCD = resultsQCD.characteristics
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsQCD)
                 # Add extracted characteristics to characteristics tree
@@ -1182,9 +1185,10 @@ class BoxValidator:
                 offset = offsetNext
             elif marker == b'\xff\x64':
                 # COM (codestream comment) marker segment
-                # Validate QCD segment
-                testsCOM, characteristicsCOM = BoxValidator(
-                    marker, segContents).validate()
+                # Validate COM segment
+                resultsCOM = BoxValidator(marker, segContents).validate()
+                testsCOM = resultsCOM.tests
+                characteristicsCOM = resultsCOM.characteristics
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsCOM)
                 # Add extracted characteristics to characteristics tree
@@ -1201,9 +1205,9 @@ class BoxValidator:
                 # move on to next one
                 # Bugfix 1.5.2: COC marker was previously missing (changed x52
                 # to x53!)
-
-                testsOther, characteristicsOther = BoxValidator(
-                    marker, segContents).validate()
+                resultsOther = BoxValidator(marker, segContents).validate()
+                testsOther = resultsOther.tests
+                characteristicsOther = resultsOther.characteristics
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsOther)
                 # Add extracted characteristics to characteristics tree
@@ -1285,30 +1289,26 @@ class BoxValidator:
             # TEST
 
             if marker == b'\xff\x90':
-                testsTilePart, characteristicsTilePart, offsetNext = BoxValidator(
-                    marker, self.boxContents, offset).validate()
+                resultsTilePart = BoxValidator(marker, self.boxContents, offset).validate()
+                testsTilePart = resultsTilePart.tests
+                characteristicsTilePart = resultsTilePart.characteristics
+                offsetNext = resultsTilePart.returnOffset
                 # Add analysis results to test results tree
                 tilePartTests.appendIfNotEmpty(testsTilePart)
-
                 # Add extracted characteristics to characteristics tree
                 tilePartCharacteristics.append(characteristicsTilePart)
-
                 tileIndex = characteristicsTilePart.findElementText('sot/isot')
                 tilePartsOfTile = characteristicsTilePart.findElementText(
                     'sot/tnsot')
-
                 # Add tileIndex to tileIndices, if it doesn't exist already
                 if tileIndex not in tileIndices:
                     tileIndices.append(tileIndex)
-
                 # Expected number of tile-parts for each tile to dictionary
                 if tilePartsOfTile != 0:
                     tilePartsPerTileExpected[tileIndex] = tilePartsOfTile
-
                 # Increase found number of tile-parts for this tile by 1
                 tilePartsPerTileFound[
                     tileIndex] = tilePartsPerTileFound[tileIndex] + 1
-
                 if offsetNext != offset:
                     offset = offsetNext
                 else:
@@ -1810,8 +1810,8 @@ class BoxValidator:
         A.4.2)
         """
 
-        # Note that unlike other marker validation functions this one returns a
-        # third result, which is the total tile-part length (psot)!
+        # Note that this validation function sets the value
+        # of psot (total tile-part length) as tilePartLength!
 
         # Length of SOT marker
         lsot = bc.bytesToUShortInt(self.boxContents[0:2])
@@ -1851,7 +1851,7 @@ class BoxValidator:
         # is not defined in this header; otherwise value in range 1-255
         tnsot = bc.bytesToUnsignedChar(self.boxContents[9:10])
         self.addCharacteristic("tnsot", tnsot)
-        self.returnOffset = psot
+        self.tilePartLength = psot
 
     # The following validator functions cover those marker segments that
     # are not yet supported, however including them has the effect that their
@@ -1921,9 +1921,11 @@ class BoxValidator:
         # Validate start of tile (SOT) marker segment
         # tilePartLength is value of psot, which is the total length of this tile
         # including the SOT marker. Note that psot may be 0 for last tile!
-        testsSOT, characteristicsSOT, tilePartLength = BoxValidator(
-            'startOfTile', segContents).validate()
-
+        resultsSOT = BoxValidator('startOfTile', segContents).validate()
+        testsSOT = resultsSOT.tests
+        characteristicsSOT = resultsSOT.characteristics
+        tilePartLength = resultsSOT.tilePartLength
+        
         # Add analysis results to test results tree
         self.tests.appendIfNotEmpty(testsSOT)
 
@@ -1950,9 +1952,10 @@ class BoxValidator:
                 # COD (coding style default) marker segment
 
                 # Validate COD segment
-                testsCOD, characteristicsCOD = BoxValidator(
-                    marker, segContents).validate()
-
+                resultsCOD = BoxValidator(marker, segContents).validate()
+                testsCOD = resultsCOD.tests
+                characteristicsCOD = resultsCOD.characteristics
+                
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsCOD)
 
@@ -1965,8 +1968,9 @@ class BoxValidator:
                 # QCD (quantization default) marker segment
 
                 # Validate QCD segment
-                testsQCD, characteristicsQCD = BoxValidator(
-                    marker, segContents).validate()
+                resultsQCD = BoxValidator(marker, segContents).validate()
+                testsQCD = resultsQCD.tests
+                characteristicsQCD = resultsQCD.characteristics
 
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsQCD)
@@ -1980,8 +1984,9 @@ class BoxValidator:
                 # COM (codestream comment) marker segment
 
                 # Validate COM segment
-                testsCOM, characteristicsCOM = BoxValidator(
-                    marker, segContents).validate()
+                resultsCOM = BoxValidator(marker, segContents).validate()
+                testsCOM = resultsCOM.tests
+                characteristicsCOM = resultsCOM.characteristics
 
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsCOM)
@@ -1997,9 +2002,9 @@ class BoxValidator:
                 # move on to next one
                 # Bugfix 1.5.2: COC marker was previously missing (changed x52
                 # to x53!)
-
-                testsOther, characteristicsOther = BoxValidator(
-                    marker, segContents).validate()
+                resultsOther = BoxValidator(marker, segContents).validate()
+                testsOther = resultsOther.tests
+                characteristicsOther = resultsOther.characteristics
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsOther)
                 # Add extracted characteristics to characteristics tree
@@ -2143,8 +2148,9 @@ class BoxValidator:
                 byteStart, noBytes)
 
             # validate sub boxes
-            testsBox, characteristicsBox = BoxValidator(
-                boxType, subBoxContents).validate()
+            resultsBox = BoxValidator(boxType, subBoxContents).validate()
+            testsBox = resultsBox.tests
+            characteristicsBox = resultsBox.characteristics
 
             byteStart = byteEnd
 
@@ -2252,8 +2258,9 @@ class BoxValidator:
                 byteStart, noBytes)
 
             # Validate current top level box
-            testsBox, characteristicsBox = BoxValidator(
-                boxType, boxContents).validate()
+            resultsBox = BoxValidator(boxType, boxContents).validate()
+            testsBox = resultsBox.tests
+            characteristicsBox = resultsBox.characteristics
 
             byteStart = byteEnd
 
