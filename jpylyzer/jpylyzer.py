@@ -319,7 +319,11 @@ def checkOneFile(path):
     try:
         # Contents of file to memory map object
         fileData = fileToMemoryMap(path)
-        isValidJP2, tests, characteristics = bv.BoxValidator("JP2", fileData).validate()
+        resultJP2 = bv.BoxValidator("JP2", fileData).validate()
+        isValidJP2 = resultJP2.isValid
+        tests = resultJP2.tests
+        characteristics = resultJP2.characteristics
+        #isValidJP2, tests, characteristics = bv.BoxValidator("JP2", fileData).validate()
 
         if fileData != "":
             fileData.close()
