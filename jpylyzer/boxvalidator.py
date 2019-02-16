@@ -75,10 +75,15 @@ class BoxValidator:
             self.characteristics = ET.Element("properties")
             self.tests = ET.Element("tests")
             self.boxType = "JP2"
+        elif bType == "contiguousCodestreamBox":
+            self.characteristics = ET.Element("properties")
+            self.tests = ET.Element("tests")
+            self.boxType = 'contiguousCodestreamBox'
         else:
             self.boxType = 'unknownBox'
-
-        if self.boxType != "JP2":
+            
+        #if self.boxType != "JP2":
+        if self.boxType not in ["JP2", "contiguousCodestreamBox"]:
             self.characteristics = ET.Element(self.boxType)
             self.tests = ET.Element(self.boxType)
 
