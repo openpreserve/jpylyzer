@@ -15,6 +15,7 @@
 #
 import sys
 
+validationFormat = 'jp2' 
 outputVerboseFlag = False
 extractNullTerminatedXMLFlag = False
 inputRecursiveFlag = False

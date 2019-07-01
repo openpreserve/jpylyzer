@@ -319,8 +319,16 @@ def checkOneFile(path):
     try:
         # Contents of file to memory map object
         fileData = fileToMemoryMap(path)
-        #resultsJP2 = bv.BoxValidator("JP2", fileData).validate()
-        resultsJP2 = bv.BoxValidator("contiguousCodestreamBox", fileData).validate()
+
+        # Validate
+        if config.validationFormat.lower() == 'jp2':
+            resultsJP2 = bv.BoxValidator("JP2", fileData).validate()
+        elif config.validationFormat.lower()  == 'j2c':
+            resultsJP2 = bv.BoxValidator("contiguousCodestreamBox", fileData).validate()
+        else:
+            # TODO add handler for unknown format
+            pass
+
         isValidJP2 = resultsJP2.isValid
         tests = resultsJP2.tests
         characteristics = resultsJP2.characteristics
@@ -645,7 +653,6 @@ def parseCommandLine():
                         dest="outputVerboseFlag",
                         default=False,
                         help="report test results in verbose format")
-
     parser.add_argument('--recurse', '-r',
                         action="store_true",
                         dest="inputRecursiveFlag",
@@ -668,6 +675,12 @@ def parseCommandLine():
                         dest="noPrettyXMLFlag",
                         default=False,
                         help="suppress pretty-printing of XML output")
+    parser.add_argument('--format', '-f',
+                        action="store",
+                        type=str,
+                        dest="validationFormat",
+                        default="jp2",
+                        help="validation format; allowed values: jp2, j2c (default: jp2)")
     parser.add_argument('jp2In',
                         action="store",
                         type=str,
@@ -705,6 +718,7 @@ def main():
     config.inputWrapperFlag = args.inputWrapperFlag
     config.extractNullTerminatedXMLFlag = args.extractNullTerminatedXMLFlag
     config.noPrettyXMLFlag = args.noPrettyXMLFlag
+    config.validationFormat = args.validationFormat
 
     # Check files
     checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
