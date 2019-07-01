@@ -343,8 +343,10 @@ def checkOneFile(path, validationFormat):
         isValidJP2 = False
         success = False
         exceptionType = type(ex)
-        print(type(ex))
-
+        ## TEST
+        raise
+        ## TEST
+    
         if exceptionType == MemoryError:
             failureMessage = "memory error (file size too large)"
         elif exceptionType == IOError:
@@ -367,7 +369,9 @@ def checkOneFile(path, validationFormat):
     root.append(toolInfo)
     root.append(fileInfo)
     root.append(statusInfo)
-    root.appendChildTagWithText("isValidJP2", str(isValidJP2))
+    root.appendChildTagWithText("isValid", str(isValidJP2))
+    # Set 'format' attribute of isValid element
+    root.findall(".//isValid")[0].set("format", config.validationFormat)
     root.append(tests)
     root.append(characteristics)
 
