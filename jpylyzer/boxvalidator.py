@@ -1337,6 +1337,9 @@ class BoxValidator:
         self.testFor(
             "foundEOCMarker", self.boxContents[length - 2:length] == b'\xff\xd9')
 
+        # Valid codestream only if all tests returned True
+        self.isValid = self._isValid()
+
     # Validator functions for codestream elements
 
     def validate_siz(self):
