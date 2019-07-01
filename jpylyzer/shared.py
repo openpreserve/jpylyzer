@@ -25,6 +25,13 @@ def printWarning(msg):
     sys.stderr.write(msgString)
 
 
+def errorExit(msg):
+    """Print error message to stderr and exit"""
+    msgString = ("Error: " + msg + "\n")
+    sys.stderr.write(msgString)
+    sys.exit()
+
+
 def consecutive(lst):
     """Returns True if items in lst are consecutive numbers"""
     for i in range(1, len(lst)):

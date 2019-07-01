@@ -320,14 +320,11 @@ def checkOneFile(path):
         # Contents of file to memory map object
         fileData = fileToMemoryMap(path)
 
-        # Validate
-        if config.validationFormat.lower() == 'jp2':
+        # Validate according to value of validationFormat
+        if config.validationFormat == 'jp2':
             resultsJP2 = bv.BoxValidator("JP2", fileData).validate()
-        elif config.validationFormat.lower()  == 'j2c':
+        elif config.validationFormat == 'j2c':
             resultsJP2 = bv.BoxValidator("contiguousCodestreamBox", fileData).validate()
-        else:
-            # TODO add handler for unknown format
-            pass
 
         isValidJP2 = resultsJP2.isValid
         tests = resultsJP2.tests
@@ -346,6 +343,7 @@ def checkOneFile(path):
         isValidJP2 = False
         success = False
         exceptionType = type(ex)
+        print(type(ex))
 
         if exceptionType == MemoryError:
             failureMessage = "memory error (file size too large)"
@@ -710,6 +708,11 @@ def main():
     if len(jp2In) == 0:
         printHelpAndExit()
 
+    # Print help message and exit if validationFormat is unknown
+    if args.validationFormat.lower() not in ['jp2', 'j2c']:
+        msg = "'" + args.validationFormat + "'  is not a supported value for --format"
+        shared.errorExit(msg)
+
     # Makes user-specified flags available to any module that imports 'config.py'
     # (here: 'boxvalidator.py')
     config.outputVerboseFlag = args.outputVerboseFlag
@@ -718,7 +721,7 @@ def main():
     config.inputWrapperFlag = args.inputWrapperFlag
     config.extractNullTerminatedXMLFlag = args.extractNullTerminatedXMLFlag
     config.noPrettyXMLFlag = args.noPrettyXMLFlag
-    config.validationFormat = args.validationFormat
+    config.validationFormat = args.validationFormat.lower()
 
     # Check files
     checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
