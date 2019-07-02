@@ -320,7 +320,7 @@ def checkOneFile(path, validationFormat):
         # Contents of file to memory map object
         fileData = fileToMemoryMap(path)
 
-        # Validate according to value of validationFormat
+        # Validate according to value of validation format
         if validationFormat == 'jp2':
             resultsJP2 = bv.BoxValidator("JP2", fileData).validate()
         elif validationFormat == 'j2c':
@@ -677,7 +677,7 @@ def parseCommandLine():
     parser.add_argument('--format', '-f',
                         action="store",
                         type=str,
-                        dest="validationFormat",
+                        dest="fmt",
                         default="jp2",
                         help="validation format; allowed values: jp2, j2c (default: jp2)")
     parser.add_argument('jp2In',
@@ -709,9 +709,9 @@ def main():
     if len(jp2In) == 0:
         printHelpAndExit()
 
-    # Print help message and exit if validationFormat is unknown
-    if args.validationFormat.lower() not in ['jp2', 'j2c']:
-        msg = "'" + args.validationFormat + "'  is not a supported value for --format"
+    # Print help message and exit if validation format is unknown
+    if args.fmt.lower() not in ['jp2', 'j2c']:
+        msg = "'" + args.fmt + "'  is not a supported value for --format"
         shared.errorExit(msg)
 
     # Makes user-specified flags available to any module that imports 'config.py'
@@ -722,7 +722,7 @@ def main():
     config.inputWrapperFlag = args.inputWrapperFlag
     config.extractNullTerminatedXMLFlag = args.extractNullTerminatedXMLFlag
     config.noPrettyXMLFlag = args.noPrettyXMLFlag
-    config.validationFormat = args.validationFormat.lower()
+    config.validationFormat = args.fmt.lower()
 
     # Check files
     checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
