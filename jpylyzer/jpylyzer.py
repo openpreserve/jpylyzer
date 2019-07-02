@@ -273,13 +273,18 @@ def checkOneFile(path, validationFormat):
 
     # Create output elementtree object
 
+    if config.legacyXMLFlag:
+        elementRootName = 'jpylyzer'
+    else:
+        elementRootName = 'file'
+
     if config.inputRecursiveFlag or config.inputWrapperFlag:
         # Name space already declared in results element, so no need to do it
         # here
-        root = ET.Element('jpylyzer')
+        root = ET.Element(elementRootName)
     else:
         root = ET.Element(
-            'jpylyzer', {'xmlns': nsString,
+            elementRootName, {'xmlns': nsString,
                          'xmlns:xsi': xsiNsString,
                          'xsi:schemaLocation': locSchemaString})
 
@@ -634,7 +639,10 @@ def checkFiles(recurse, wrap, paths):
     # Wrap the xml output in <results> element, if wrapper flag is true
     if wrap or recurse:
         xmlHead = "<?xml version='1.0' encoding='UTF-8'?>\n"
-        xmlHead += "<results xmlns=\"" + nsString + "\" "
+        if not config.legacyXMLFlag:
+            xmlHead += "<jpylyzer xmlns=\"" + nsString + "\" "
+        else:
+            xmlHead += "<results xmlns=\"" + nsString + "\" "
         xmlHead += "xmlns:xsi=\"" + xsiNsString + "\" "
         xmlHead += "xsi:schemaLocation=\"" + locSchemaString + "\">\n"
     else:
@@ -661,7 +669,10 @@ def checkFiles(recurse, wrap, paths):
 
     # Close </results> element if wrapper flag is true
     if wrap or recurse:
-        out.write("</results>\n")
+        if not config.legacyXMLFlag:
+            out.write("</jpylyzer>\n")
+        else:
+            out.write("</results>\n")
 
 
 def parseCommandLine():
@@ -758,7 +769,6 @@ def main():
         shared.errorExit(msg)
     # Ignore entered value of inputWrapperFlag, unless legacyXML flag id set
     if not config.legacyXMLFlag:
-        shared.printWarning("ignoring deprecated --wrapper option")
         config.inputWrapperFlag = True
 
     # Check files
