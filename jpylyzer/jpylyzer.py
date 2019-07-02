@@ -283,8 +283,10 @@ def checkOneFile(path, validationFormat):
                          'xmlns:xsi': xsiNsString,
                          'xsi:schemaLocation': locSchemaString})
 
-    # Create elements for storing tool, file and status meta info
-    toolInfo = ET.Element('toolInfo')
+    # Create elements for file and status meta info
+    if config.legacyXMLFlag:
+        # Jpylyzer 1.x format also stores tool info at this level!
+        toolInfo = ET.Element('toolInfo')
     fileInfo = ET.Element('fileInfo')
     statusInfo = ET.Element('statusInfo')
 
@@ -298,8 +300,9 @@ def checkOneFile(path, validationFormat):
     filePathCleaned = stripSurrogatePairs(filePath)
 
     # Produce some general tool and file meta info
-    toolInfo.appendChildTagWithText("toolName", scriptName)
-    toolInfo.appendChildTagWithText("toolVersion", __version__)
+    if config.legacyXMLFlag:
+        toolInfo.appendChildTagWithText("toolName", scriptName)
+        toolInfo.appendChildTagWithText("toolVersion", __version__)
     fileInfo.appendChildTagWithText("fileName", fileNameCleaned)
     fileInfo.appendChildTagWithText("filePath", filePathCleaned)
     fileInfo.appendChildTagWithText(
@@ -363,12 +366,21 @@ def checkOneFile(path, validationFormat):
         statusInfo.appendChildTagWithText("failureMessage", failureMessage)
 
     # Append all results to root
-    root.append(toolInfo)
+    if config.legacyXMLFlag:
+        # Jpylyzer 1.x format
+        root.append(toolInfo)
     root.append(fileInfo)
     root.append(statusInfo)
-    root.appendChildTagWithText("isValid", str(isValidJP2))
-    # Set 'format' attribute of isValid element
-    root.findall(".//isValid")[0].set("format", config.validationFormat)
+
+    if config.legacyXMLFlag:
+        # Jpylyzer 1.x format
+        root.appendChildTagWithText("isValidJP2", str(isValidJP2))
+    else:
+        # Jpylyzer 2.x format
+        root.appendChildTagWithText("isValid", str(isValidJP2))
+        # Set 'format' attribute of isValid element
+        root.findall(".//isValid")[0].set("format", config.validationFormat)
+
     root.append(tests)
     root.append(characteristics)
 
@@ -629,6 +641,15 @@ def checkFiles(recurse, wrap, paths):
         xmlHead = "<?xml version='1.0' encoding='UTF-8'?>\n"
     out.write(xmlHead)
 
+    # Create toolInfo element
+
+    if not config.legacyXMLFlag:
+        toolInfo = ET.Element('toolInfo')
+        toolInfo.appendChildTagWithText("toolName", scriptName)
+        toolInfo.appendChildTagWithText("toolVersion", __version__)
+        # Write toolInfo to stdout
+        writeElement(toolInfo, out)
+
     # Process the input files
     for path in existingFiles:
 
@@ -688,7 +709,8 @@ def parseCommandLine():
                         '-w', action="store_true",
                         dest="inputWrapperFlag",
                         default=False,
-                        help="wrap output for individual image(s) in 'results' XML element")
+                        help="wrap output for individual image(s) in 'results' XML element (deprecated \
+                                in jpylyzer 2.x, only takes effect in combination with --legacyout)")
     parser.add_argument('jp2In',
                         action="store",
                         type=str,
@@ -715,11 +737,6 @@ def main():
     if len(jp2In) == 0:
         printHelpAndExit()
 
-    # Print help message and exit if validation format is unknown
-    if args.fmt.lower() not in ['jp2', 'j2c']:
-        msg = "'" + args.fmt + "'  is not a supported value for --format"
-        shared.errorExit(msg)
-
     # Makes user-specified flags available to any module that imports 'config.py'
     # (here: 'boxvalidator.py')
     config.outputVerboseFlag = args.outputVerboseFlag
@@ -731,9 +748,21 @@ def main():
     config.validationFormat = args.fmt.lower()
     config.legacyXMLFlag = args.legacyXMLFlag
 
+    # Exit if validation format is unknown
+    if config.validationFormat not in ['jp2', 'j2c']:
+        msg = "'" + config.validationFormat + "'  is not a supported value for --format"
+        shared.errorExit(msg)
+    # Exit if validation format is 'j2c' and legacyXML flag is set
+    if config.legacyXMLFlag and config.validationFormat == 'j2c':
+        msg = " j2c format is supported if --legacyout is set"
+        shared.errorExit(msg)
+    # Ignore entered value of inputWrapperFlag, unless legacyXML flag id set
+    if not config.legacyXMLFlag:
+        shared.printWarning("ignoring deprecated --wrapper option")
+        config.inputWrapperFlag = True
+
     # Check files
-    checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
-    # checkFiles(False, args.inputWrapperFlag, jp2In)
+    checkFiles(config.inputRecursiveFlag, config.inputWrapperFlag, jp2In)
 
 if __name__ == "__main__":
     main()
