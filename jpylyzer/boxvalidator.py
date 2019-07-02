@@ -81,7 +81,7 @@ class BoxValidator:
             self.boxType = 'contiguousCodestreamBox'
         else:
             self.boxType = 'unknownBox'
-        
+
         if bType not in ["JP2", "contiguousCodestreamBox"]:
             self.characteristics = ET.Element(self.boxType)
             self.tests = ET.Element(self.boxType)
@@ -327,7 +327,7 @@ class BoxValidator:
             resultsBox = BoxValidator(boxType, subBoxContents).validate()
             testsBox = resultsBox.tests
             characteristicsBox = resultsBox.characteristics
-            
+
             byteStart = byteEnd
 
             # Add to list of box types
@@ -1932,7 +1932,7 @@ class BoxValidator:
         testsSOT = resultsSOT.tests
         characteristicsSOT = resultsSOT.characteristics
         tilePartLength = resultsSOT.tilePartLength
-        
+
         # Add analysis results to test results tree
         self.tests.appendIfNotEmpty(testsSOT)
 
@@ -1962,7 +1962,7 @@ class BoxValidator:
                 resultsCOD = BoxValidator(marker, segContents).validate()
                 testsCOD = resultsCOD.tests
                 characteristicsCOD = resultsCOD.characteristics
-                
+
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsCOD)
 

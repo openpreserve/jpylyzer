@@ -288,8 +288,8 @@ def checkOneFile(path, validationFormat):
     else:
         root = ET.Element(
             elementRootName, {'xmlns': nsString,
-                         'xmlns:xsi': xsiNsString,
-                         'xsi:schemaLocation': locSchemaString})
+                              'xmlns:xsi': xsiNsString,
+                              'xsi:schemaLocation': locSchemaString})
 
     # Create elements for file and status meta info
     if config.legacyXMLFlag:
@@ -731,8 +731,9 @@ def parseCommandLine():
                         '-w', action="store_true",
                         dest="inputWrapperFlag",
                         default=False,
-                        help="wrap output for individual image(s) in 'results' XML element (deprecated \
-                                in jpylyzer 2.x, only takes effect in combination with --legacyout)")
+                        help="wrap output for individual image(s) in 'results' XML element \
+                                (deprecated in jpylyzer 2.x, only takes effect when combined \
+                                with --legacyout)")
     parser.add_argument('jp2In',
                         action="store",
                         type=str,
