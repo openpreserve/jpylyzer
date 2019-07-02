@@ -67,9 +67,10 @@ existingFiles = []
 # Name space and schema strings
 nsString = 'http://openpreservation.org/ns/jpylyzer/'
 xsiNsString = 'http://www.w3.org/2001/XMLSchema-instance'
-locSchemaString = 'http://openpreservation.org/ns/jpylyzer/ \
+locSchemaString1 = 'http://openpreservation.org/ns/jpylyzer/ \
 http://jpylyzer.openpreservation.org/jpylyzer-v-1-1.xsd'
-
+locSchemaString2 = 'http://openpreservation.org/ns/jpylyzer/ \
+http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd'
 
 def generatePropertiesRemapTable():
     """Generates nested dictionary which is used to map 'raw' property values
@@ -271,13 +272,15 @@ def fileToMemoryMap(filename):
 def checkOneFile(path, validationFormat):
     """Process one file and return analysis result as element object"""
 
-    # Create output elementtree object
-
+    # Element root name and Schema location (legacy, current)
     if config.legacyXMLFlag:
         elementRootName = 'jpylyzer'
+        locSchemaString = locSchemaString1
     else:
         elementRootName = 'file'
+        locSchemaString = locSchemaString2
 
+    # Create output elementtree object
     if config.inputRecursiveFlag or config.inputWrapperFlag:
         # Name space already declared in results element, so no need to do it
         # here
@@ -624,6 +627,12 @@ def checkFiles(recurse, wrap, paths):
     analyses them
     """
 
+    # Schema location (legacy, current)
+    if config.legacyXMLFlag:
+        locSchemaString = locSchemaString1
+    else:
+        locSchemaString = locSchemaString2
+
     # Find existing files in the given input path(s)
     findFiles(recurse, paths)
 
@@ -636,7 +645,9 @@ def checkFiles(recurse, wrap, paths):
     elif config.PYTHON_VERSION.startswith(config.PYTHON_3):
         out = codecs.getwriter(config.UTF8_ENCODING)(sys.stdout.buffer)
 
-    # Wrap the xml output in <results> element, if wrapper flag is true
+    # Wrap the xml output in <jpylyzer> element, if wrapper flag is true
+    # Note: this is the default behaviour in jpylyzer 2.x. Wrap
+    # option now ONLY takes effect for legacy (1.x) output!
     if wrap or recurse:
         xmlHead = "<?xml version='1.0' encoding='UTF-8'?>\n"
         if not config.legacyXMLFlag:
