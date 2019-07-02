@@ -732,8 +732,8 @@ def parseCommandLine():
                         dest="inputWrapperFlag",
                         default=False,
                         help="wrap output for individual image(s) in 'results' XML element \
-                                (deprecated in jpylyzer 2.x, only takes effect when combined \
-                                with --legacyout)")
+                                (deprecated in jpylyzer 2.x, only takes effect if \
+                                --legacyout is used)")
     parser.add_argument('jp2In',
                         action="store",
                         type=str,

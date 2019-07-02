@@ -196,14 +196,14 @@ a text editor. Then add the following lines at the end of the file:
 
 Save the file, log out of your session and then log in again. Open a command terminal and type:
 
-     jpylyzer
+    jpylyzer
 
 If all went well you now see this:
 
-    usage: jpylyzer [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                    [--nopretty] [--version]
-                    jp2In [jp2In ...]
-    jpylyzer: error: the following arguments are required: jp2In
+    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
+                  [--recurse] [--verbose] [--version] [--wrapper]
+                  jp2In [jp2In ...]
+    cli.py: error: the following arguments are required: jp2In
 
 Which means that the installation was successful!
 
@@ -245,8 +245,8 @@ the files to directory `c:\tools\jpylyzer`, the command would become:
 
 Executing this command should result in the following screen output:
 
-    usage: jpylyzer [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                    [--nopretty] [--version]
+    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
+                    [--recurse] [--verbose] [--version] [--wrapper]
                     jp2In [jp2In ...]
     jpylyzer: error: the following arguments are required: jp2In
 
@@ -314,9 +314,9 @@ brackets (example: `[-h]`) are optional.
 
 *Jpylyzer* can be invoked using the following command-line arguments:
 
-    usage: jpylyzer [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                       [--nopretty] [--version] jp2In [jp2In ...]
-
+    usage: cli.py [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
+                  [--recurse] [--verbose] [--version] [--wrapper]
+                  jp2In [jp2In ...]
 
 With:
 
@@ -326,23 +326,30 @@ With:
 `[-h, --help]`
 :   show help message and exit
 
-`[--verbose]`
-:   report test results in verbose format
+`[--format FMT]`
+:   validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)
 
-`[--recurse, -r]`
-:   when analysing a directory, recurse into subdirectories (implies --wrapper)
-
-`[--wrapper, -w]`
-:   wraps the output for individual image(s) in 'results' XML element
-
-`[--nullxml]`
-:   extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)
+`[--legacyout]`
+:   report output in jpylyzer 1.x format (provided for backward compatibility only)
 
 `[--nopretty]`
 :   suppress pretty-printing of XML output
 
+`[--nullxml]`
+:   extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)
+
+`[--recurse, -r]`
+:   when analysing a directory, recurse into subdirectories (implies `--wrapper` if `--legacyout` is used)
+
+`[--verbose]`
+:   report test results in verbose format
+
 `[-v, --version]`
 :   show program's version number and exit
+
+`[--wrapper, -w]`
+:   wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect
+    if `--legacyout` is used)
 
 Note that the input can either be a single image, a space-separated
 sequence of images, a pathname expression that includes multiple images,
@@ -379,6 +386,22 @@ redirects the output to file ‘rubbish.xml’:
 
 The format of the XML output is described in [Chapter 5](#output-format).
 
+### ‘format’ option
+
+By default, *jpylyzer* validates against the *JP2* format specification. Starting
+with version 2.0, *jpylyzer* can also validate raw JPEG 2000 codestreams that are
+not wrapped inside a *JP2* container. For codestream validation, use the *--format*
+option with value `j2c`, e.g.:
+
+    jpylyzer --format j2c rubbish.j2c > rubbish.xml
+
+### ‘legacyout’ option
+
+The output format of *jpylyzer* has changed in version 2.0, which may break existing
+workflows that expect output in 1.x format. For backward compatibility the *--legacyout*
+option results in output that follows the old 1.x format. Note that codestream validation
+is disabled if you use this option.
+
 ### ‘recurse’ option
 
 If the *--recurse* option is used, *jpylyzer* will recursively traverse all
@@ -389,27 +412,29 @@ subdirectories of a filepath expression. E.g:
 In this case *jpylyzer* analyses all files that have a *.jp2* extension in 
 directory */home/myJP2s* and all its subdirectories.
 
-### Creating valid XML with multiple images
+### ‘wrapper’ option (deprecated)
 
-By default, *jpylyzer* creates a separate XML tree for each analysed
-image, without any overarching hierarchy. If you use a pathname
-expression to process multiple images and redirect the output to a file,
-the resulting file will **not** be a well-formed XML document. An
-example:
+This deprecated option is included for backward-compatibility, and only takes effect if *--legacyout*
+(see above) is used.By default, the *jpylyzer* 1.x releases would create a separate XML tree for each
+analysed image, without any overarching hierarchy. For multiple-image pathname expressions this resulted
+in output that was **not** well-formed XML. The *--legacyout* option still results in this is behaviour.
+For example:
 
-    jpylyzer rubbish.jp2 garbage.jp2 > rubbish.xml
+    jpylyzer --legacyout rubbish.jp2 garbage.jp2 > rubbish.xml
 
-In this case, the output for these 2 images is redirected to
-‘rubbish.xml’, but the file will be a succession of two XML trees, which
-by itself is not well-formed XML. Use the *--wrapper* option if you want
-to create valid XML instead:
+In this case, the file ‘rubbish.xml’ contains a succession of two XML trees, which
+by itself is not well-formed XML. The *--wrapper* option is provided to create valid XML instead:
 
-    jpylyzer --wrapper rubbish.jp2 garbage.jp2 > rubbish.xml
+    jpylyzer --legacyout --wrapper rubbish.jp2 garbage.jp2 > rubbish.xml
 
 In the above case the XML trees of the individual images are wrapped
 inside a ‘results’ element. When the *--recurse* option is used, jpylyzer
 will automatically wrap the output in a ‘results’ element, so there's no
 need to specify *--wrapper* in that case.
+
+Starting with version 2.0, *jpylyzer* *always* generates well-formed XML (unless the *--legacyout*
+option is used), which makes the  *--wrapper* option largely obsolete, apart from cases where
+the 'old' behaviour is needed for backward-compatibility reasons. 
 
 ### ‘nullxml’ option
 
