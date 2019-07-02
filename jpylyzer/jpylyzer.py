@@ -647,48 +647,54 @@ def parseCommandLine():
     """Parse command line arguments"""
 
     # Add arguments
-    parser.add_argument('--verbose',
-                        action="store_true",
-                        dest="outputVerboseFlag",
-                        default=False,
-                        help="report test results in verbose format")
-    parser.add_argument('--recurse', '-r',
-                        action="store_true",
-                        dest="inputRecursiveFlag",
-                        default=False,
-                        help="when analysing a directory, recurse into subdirectories \
-                                (implies --wrapper)")
-    parser.add_argument('--wrapper',
-                        '-w', action="store_true",
-                        dest="inputWrapperFlag",
-                        default=False,
-                        help="wrap output for individual image(s) in 'results' XML element")
-    parser.add_argument('--nullxml',
-                        action="store_true",
-                        dest="extractNullTerminatedXMLFlag",
-                        default=False,
-                        help="extract null-terminated XML content from XML and UUID boxes \
-                                (doesn't affect validation)")
-    parser.add_argument('--nopretty',
-                        action="store_true",
-                        dest="noPrettyXMLFlag",
-                        default=False,
-                        help="suppress pretty-printing of XML output")
     parser.add_argument('--format', '-f',
                         action="store",
                         type=str,
                         dest="fmt",
                         default="jp2",
                         help="validation format; allowed values: jp2, j2c (default: jp2)")
+    parser.add_argument('--legacyout', '-l',
+                        action="store_true",
+                        dest="legacyXMLFlag",
+                        default=False,
+                        help="report output in jpylyzer 1.x format (provided for backward \
+                                compatibility only)")
+    parser.add_argument('--nopretty',
+                        action="store_true",
+                        dest="noPrettyXMLFlag",
+                        default=False,
+                        help="suppress pretty-printing of XML output")
+    parser.add_argument('--nullxml',
+                        action="store_true",
+                        dest="extractNullTerminatedXMLFlag",
+                        default=False,
+                        help="extract null-terminated XML content from XML and UUID boxes \
+                                (doesn't affect validation)")
+    parser.add_argument('--recurse', '-r',
+                        action="store_true",
+                        dest="inputRecursiveFlag",
+                        default=False,
+                        help="when analysing a directory, recurse into subdirectories \
+                                (implies --wrapper)")
+    parser.add_argument('--verbose',
+                        action="store_true",
+                        dest="outputVerboseFlag",
+                        default=False,
+                        help="report test results in verbose format")
+    parser.add_argument('--version', '-v',
+                        action='version',
+                        version=__version__)
+    parser.add_argument('--wrapper',
+                        '-w', action="store_true",
+                        dest="inputWrapperFlag",
+                        default=False,
+                        help="wrap output for individual image(s) in 'results' XML element")
     parser.add_argument('jp2In',
                         action="store",
                         type=str,
                         nargs='+',
                         help="input JP2 image(s), may be one or more (whitespace-separated) path \
                                 expressions; prefix wildcard (*) with backslash (\\) in Linux")
-    parser.add_argument('--version', '-v',
-                        action='version',
-                        version=__version__)
 
     # Parse arguments
     args = parser.parse_args()
@@ -723,6 +729,7 @@ def main():
     config.extractNullTerminatedXMLFlag = args.extractNullTerminatedXMLFlag
     config.noPrettyXMLFlag = args.noPrettyXMLFlag
     config.validationFormat = args.fmt.lower()
+    config.legacyXMLFlag = args.legacyXMLFlag
 
     # Check files
     checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
