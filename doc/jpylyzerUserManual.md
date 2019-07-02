@@ -296,16 +296,15 @@ Command-line usage {#command-line-usage}
 ----------------------
 
 This section explains *jpylyzer*’s general command-line interface. For
-the sake of brevity, all command-line examples assume the use of the
-Python script; moreover, full paths are omitted. This means that,
+the sake of brevity, full paths to *jpylyzer* are omitted. This means that,
 depending on your system and settings, you may have to substitute each
-occurrence of ‘jpylyzer.py’ with its full path, the corresponding
+occurrence of ‘jpylyzer’ with its full path, the corresponding
 Windows binary, or a combination of both. The following examples
 illustrate this:
 
-|This User Manual|jpylyzer.py|
+|This User Manual|jpylyzer|
 |:---------------|:----------|
-|Substitution example Linux|`/home/jpylyzer/jpylyzer.py`|
+|Substitution example Linux|`/home/jpylyzer/jpylyzer`|
 |Substitution example Windows binaries|`c:\tools\jpylyzer\jpylyzer`|
 
 Furthermore, command line arguments that are given between square
@@ -315,7 +314,7 @@ brackets (example: `[-h]`) are optional.
 
 *Jpylyzer* can be invoked using the following command-line arguments:
 
-    usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+    usage: jpylyzer [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
                        [--nopretty] [--version] jp2In [jp2In ...]
 
 
@@ -350,17 +349,17 @@ sequence of images, a pathname expression that includes multiple images,
 or any combination of the above. For example, the following command will
 process one single image:
 
-    jpylyzer.py rubbish.jp2
+    jpylyzer rubbish.jp2
 
 The next example shows how to process all files with a ‘jp2’ extension
 in the current directory:
 
-    jpylyzer.py *.jp2
+    jpylyzer *.jp2
 
 Note that on Unix/Linux based systems pathname expressions may not work
 properly unless you wrap them in quotation marks:
 
-    jpylyzer.py "*.jp2"
+    jpylyzer "*.jp2"
 
 ### Output redirection
 
@@ -371,12 +370,12 @@ output to a file. The most common situation will be to redirect the
 output of one invocation of *jpylyzer* to an XML file, which can be done
 with the ‘\>’ operator (both under Windows and Linux):
 
-    jpylyzer.py jp2In > outputFile
+    jpylyzer jp2In > outputFile
 
 E.g. the following command will run *jpylyzer* on image ‘rubbish.jp2’ and
 redirects the output to file ‘rubbish.xml’:
 
-    jpylyzer.py rubbish.jp2 > rubbish.xml
+    jpylyzer rubbish.jp2 > rubbish.xml
 
 The format of the XML output is described in [Chapter 5](#output-format).
 
@@ -385,7 +384,7 @@ The format of the XML output is described in [Chapter 5](#output-format).
 If the *--recurse* option is used, *jpylyzer* will recursively traverse all
 subdirectories of a filepath expression. E.g:
 
-    jpylyzer.py /home/myJP2s/*.jp2 > rubbish.xml
+    jpylyzer /home/myJP2s/*.jp2 > rubbish.xml
 
 In this case *jpylyzer* analyses all files that have a *.jp2* extension in 
 directory */home/myJP2s* and all its subdirectories.
@@ -398,14 +397,14 @@ expression to process multiple images and redirect the output to a file,
 the resulting file will **not** be a well-formed XML document. An
 example:
 
-    jpylyzer.py rubbish.jp2 garbage.jp2 > rubbish.xml
+    jpylyzer rubbish.jp2 garbage.jp2 > rubbish.xml
 
 In this case, the output for these 2 images is redirected to
 ‘rubbish.xml’, but the file will be a succession of two XML trees, which
 by itself is not well-formed XML. Use the *--wrapper* option if you want
 to create valid XML instead:
 
-    jpylyzer.py --wrapper rubbish.jp2 garbage.jp2 > rubbish.xml
+    jpylyzer --wrapper rubbish.jp2 garbage.jp2 > rubbish.xml
 
 In the above case the XML trees of the individual images are wrapped
 inside a ‘results’ element. When the *--recurse* option is used, jpylyzer
@@ -658,9 +657,8 @@ toolInfo element {#toolinfo-element}
 This element holds information about *jpylyzer*. Currently it contains
 the following sub-elements:
 
-* *toolName*: name of the analysis tool (i.e. *jpylyzer.py* or
-*jpylyzer*, depending on whether the Python script or the Windows
-binaries were used)
+* *toolName*: name of the analysis tool (i.e. *jpylyzer* or
+*jpylyzer.exe*, depending on the platform used)
 
 * *toolVersion*: version of *jpylyzer* (*jpylyzer* uses a date
 versioning scheme)
