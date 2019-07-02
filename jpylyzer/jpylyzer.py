@@ -343,10 +343,7 @@ def checkOneFile(path, validationFormat):
         isValidJP2 = False
         success = False
         exceptionType = type(ex)
-        ## TEST
-        raise
-        ## TEST
-    
+
         if exceptionType == MemoryError:
             failureMessage = "memory error (file size too large)"
         elif exceptionType == IOError:
