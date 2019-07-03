@@ -536,6 +536,15 @@ Here, *myResult* is an *Element* object that can either be used directly,
 or converted to XML using the *ElementTree* module[^3]. The structure of the
 element object follows the XML output that described in [Chapter 5](#output-format).
 
+For validation a raw JPEG 2000 codestreams, call the *checkOneFile* function with the additional
+*validationFormat* argument, and set it to `j2c`:
+
+    # Define Codestream
+    myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
+
+    # Analyse with jpylyzer, result to Element object
+    myResult = jpylyzer.checkOneFile(myFile, 'j2c')
+
 Structure of a JP2 file {#structure-jp2}
 =========================
 
