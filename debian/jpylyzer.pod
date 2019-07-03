@@ -17,31 +17,40 @@ JP2 (JPEG 2000 Part 1) image validator and properties extractor
 
 =item B<-h, --help>
 
-Show a help message and exit.
+Show this help message and exit
 
-=item B<-v, --version>
+=item B<--format FMT, -f FMT>
 
-Show program's version number and exit.
+Validation format; allowed values: jp2, j2c (default: jp2)
 
-=item B<--verbose>
+=item B<--legacyout, -l>
 
-Report test results in verbose format.
-
-=item B<--recurse, -r>
-
-When analysing a directory, recurse into subdirectories (implies --wrapper).
-
-=item B<--wrapper, -w>
-
-Wrap output for individual image(s) in 'results' XML element.
-
-=item B<--nullxml>
-
-Extract null-terminated XML content from XML and UUID boxes(doesn't affect validation).
+Report output in jpylyzer 1.x format (provided for backward compatibility only)
 
 =item B<--nopretty>
 
-Suppress pretty-printing of XML output.
+Suppress pretty-printing of XML output
+
+=item B<--nullxml>
+
+Extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)
+
+=item B<--recurse, -r>
+
+When analysing a directory, recurse into subdirectories (implies --wrapper)
+
+=item B<--verbose>
+
+Report test results in verbose format
+
+=item B<-v, --version>
+
+Show program's version number and exit
+
+=item B<--wrapper, -w>
+
+Wrap output for individual image(s) in 'results' XML element (deprecated in jpylyzer 2.x,
+only takes effect if --legacyout is used)
 
 =back
 
