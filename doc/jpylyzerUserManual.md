@@ -314,7 +314,7 @@ brackets (example: `[-h]`) are optional.
 
 *Jpylyzer* can be invoked using the following command-line arguments:
 
-    usage: cli.py [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
+    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
                   [--recurse] [--verbose] [--version] [--wrapper]
                   jp2In [jp2In ...]
 

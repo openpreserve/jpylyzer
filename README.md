@@ -20,8 +20,9 @@ Please visit the jpylyzer homepage for links to the most recent package download
 
 ### Usage
 
-    usage: jpylyzer [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                       [--nopretty] [--version] jp2In [jp2In ...]
+    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
+                  [--recurse] [--verbose] [--version] [--wrapper]
+                  jp2In [jp2In ...]
 
 ### Positional arguments
 
@@ -29,19 +30,23 @@ Please visit the jpylyzer homepage for links to the most recent package download
 
 ### Optional arguments
 
-`-h, --help` : show this help message and exit;
+`[-h, --help]` : show help message and exit
 
-`-v, --version` : show program's version number and exit;
+`[--format FMT]`: validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)
 
-`--verbose` : report test results in verbose format;
+`[--legacyout]`: report output in jpylyzer 1.x format (provided for backward compatibility only)
 
-`--recurse, -r` : when analysing a directory, recurse into subdirectories (implies `--wrapper`)
+`[--nopretty]`: suppress pretty-printing of XML output
 
-`--wrapper, -w` : wrap the output for individual image(s) in 'results' XML element.
+`[--nullxml]`: extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)
 
-`--nullxml` : extract null-terminated XML content from XML and UUID boxes (doesn't affect validation)
+`[--recurse, -r]`: when analysing a directory, recurse into subdirectories (implies `--wrapper` if `--legacyout` is used)
 
-`--nopretty` : suppress pretty-printing of XML output
+`[--verbose]`: report test results in verbose format
+
+`[-v, --version]`: show program's version number and exit
+
+`[--wrapper, -w]`: wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect if `--legacyout` is used)
 
 ## Output 
 
@@ -49,10 +54,9 @@ Output is directed to the standard output device (*stdout*).
 
 ### Example
 
-`jpylyzer.py rubbish.jp2 > rubbish.xml`
+`jpylyzer rubbish.jp2 > rubbish.xml`
 
 In the above example, output is redirected to the file 'rubbish.xml'.
-
 
 ### Outline of output elements
 
@@ -65,19 +69,22 @@ In the above example, output is redirected to the file 'rubbish.xml'.
 
 ## Using jpylyzer as a Python module
 
-In order to use *jpylyzer* in your own Python programs, first install it
+Instead of using *jpylyzer* from the command-line, you can also import
+it as a module in your own Python programs. To do so, install jpylyzer
 with *pip*. Then import *jpylyzer* into your code by adding:
 
 ```python
 from jpylyzer import jpylyzer
 ```
-
 Subsequently you can call any function that is defined in *jpylyzer.py*.
 In practice you will most likely only need the *checkOneFile* function. 
 The following minimal script shows how this works:
 
 ```python
+#! /usr/bin/env python
+
 from jpylyzer import jpylyzer
+
 # Define JP2
 myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
 
@@ -87,6 +94,21 @@ myResult = jpylyzer.checkOneFile(myFile)
 # Return image height value
 imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
 print(imageHeight)
+```
+
+Here, *myResult* is an *Element* object that can either be used directly, 
+or converted to XML using the *ElementTree* module[^3]. The structure of the
+element object follows the XML output that described in [Chapter 5](#output-format).
+
+For validation a raw JPEG 2000 codestreams, call the *checkOneFile* function with the additional
+*validationFormat* argument, and set it to `j2c`:
+
+```python
+# Define Codestream
+myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
+
+# Analyse with jpylyzer, result to Element object
+myResult = jpylyzer.checkOneFile(myFile, 'j2c')
 ```
 
 ## Debian packages build process
