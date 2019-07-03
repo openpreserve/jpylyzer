@@ -269,7 +269,7 @@ def fileToMemoryMap(filename):
     return fileData
 
 
-def checkOneFile(path, validationFormat):
+def checkOneFile(path, validationFormat='jp2'):
     """Process one file and return analysis result as element object"""
 
     # Element root name and Schema location (legacy, current)
