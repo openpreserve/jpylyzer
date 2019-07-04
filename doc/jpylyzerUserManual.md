@@ -658,30 +658,19 @@ This chapter explains *jpylyzer*’s output format.
 Overview {#output-format-overview}
 ------------
 
-*Jpylyzer* generates its output in XML format, which is defined by [the schema that can be found here](http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd). The following Figure shows the
+*Jpylyzer* generates its output in XML format, which is defined by [the schema that can be found here](http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd). The following Figure shows the
 output structure:
 
+<!-- TODO update figure to 2.0 format -->
 ![Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements.](images/outputStructure.png)
 
-The root element (*jpylyzer*) contains 5 child elements:
+The root element (*jpylyzer*) contains the following child elements:
 
-1. *toolInfo*: information about *jpylyzer*
+1. one *toolInfo* element, which contains information about *jpylyzer*
 
-2. *fileInfo*: general information about the analysed file
+2. one or more *file* elements, each of which contain information about about the analysed files
 
-3. *statusInfo*: information about the status of *jpylyzer*'s validation attempt
-
-4. *isValidJP2*: outcome of the validation
-
-5. *tests*: outcome of the individual tests that are part of the
-validation process (organised by box)
-
-6. *properties*: image properties (organised by box)
-
-If *jpylyzer* is executed with the *--wrapper* option, the root element
-is *results*, which contains one or more *jpylyzer* elements which
-otherwise follow the above structure. From version 1.12 onward, the XML
-output is pretty-printed. You can use the *--nopretty* switch to disable
+The XML output is pretty-printed. You can use the *--nopretty* switch to disable
 pretty-printing (this produces smaller files and may give a slightly
 better performance).
 
@@ -696,6 +685,22 @@ the following sub-elements:
 
 * *toolVersion*: version of *jpylyzer* (*jpylyzer* uses a date
 versioning scheme)
+
+file element {#file-element}
+--------------------
+
+The *file* element contains the following sub-elements:
+
+1. *fileInfo*: general information about the analysed file
+
+2. *statusInfo*: information about the status of *jpylyzer*'s validation attempt
+
+3. *isValid*: outcome of the validation
+
+4. *tests*: outcome of the individual tests that are part of the
+validation process (organised by box)
+
+5. *properties*: image properties (organised by box)
 
 fileInfo element {#fileinfo-element}
 --------------------
@@ -736,13 +741,17 @@ Examples are:
         unknown error (please report to developers)
 
 
-isValidJP2 element {#isvalidjp2-element}
+isValid element {#isvalid-element}
 ----------------------
 
 This element contains the results of the validation. If a file passed
 all the tests (i.e. all tests returned “True”, see [section 5.5](#tests-element)) it is
-most likely valid JP2, and the value of isValidJP2 will be “True”. Its
-value is “False” otherwise.
+most valid, and the value of *isValid* will be “True”. Its value is “False” otherwise.
+The element has a *format* attribute, which defines the validation format (set by the
+`--format` command-line option). The *format* attribute can have the following values:
+
+* “jp2” (JP2 validation)
+* “j2c” (raw codestream validation)
 
 tests element {#tests-element}
 -----------------
