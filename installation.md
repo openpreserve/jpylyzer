@@ -61,7 +61,7 @@ this page, and then open it with your package manager (which can be invoked by d
 or right-clicking on the *.deb* file). Alternatively you can also do this in the
 command terminal by typing:
 
-    sudo dpkg -i jpylyzer_1.18.0_amd64.deb
+    sudo dpkg -i jpylyzer_2.0.0_amd64.deb
 
 For *Ubuntu* and *Debian*, alternative packages are available in the
 official release channels. To install simply run the following commands:
