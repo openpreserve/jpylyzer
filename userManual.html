@@ -6,6 +6,7 @@ title: User Manual
 
 <header>
 <h1 class="title">Jpylyzer User Manual</h1>
+<p class="author"></p>
 </header>
 <nav id="TOC">
 <ul>
@@ -36,11 +37,12 @@ title: User Manual
 <li><a href="#output-format"><span class="toc-section-number">5</span> Output format</a><ul>
 <li><a href="#output-format-overview"><span class="toc-section-number">5.1</span> Overview</a></li>
 <li><a href="#toolinfo-element"><span class="toc-section-number">5.2</span> toolInfo element</a></li>
-<li><a href="#fileinfo-element"><span class="toc-section-number">5.3</span> fileInfo element</a></li>
-<li><a href="#statusinfo-element"><span class="toc-section-number">5.4</span> statusInfo element</a></li>
-<li><a href="#isvalidjp2-element"><span class="toc-section-number">5.5</span> isValidJP2 element</a></li>
-<li><a href="#tests-element"><span class="toc-section-number">5.6</span> tests element</a></li>
-<li><a href="#properties-element"><span class="toc-section-number">5.7</span> properties element</a></li>
+<li><a href="#file-element"><span class="toc-section-number">5.3</span> file element</a></li>
+<li><a href="#fileinfo-element"><span class="toc-section-number">5.4</span> fileInfo element</a></li>
+<li><a href="#statusinfo-element"><span class="toc-section-number">5.5</span> statusInfo element</a></li>
+<li><a href="#isvalid-element"><span class="toc-section-number">5.6</span> isValid element</a></li>
+<li><a href="#tests-element"><span class="toc-section-number">5.7</span> tests element</a></li>
+<li><a href="#properties-element"><span class="toc-section-number">5.8</span> properties element</a></li>
 </ul></li>
 <li><a href="#jp2-box-by-box"><span class="toc-section-number">6</span> JP2: box by box</a><ul>
 <li><a href="#about-properties-tests-trees"><span class="toc-section-number">6.1</span> About the properties and tests trees</a></li>
@@ -95,7 +97,7 @@ title: User Manual
 <h2 id="about-jpylyzer"><span class="header-section-number">1.1</span> About jpylyzer</h2>
 <p>This User Manual documents <em>jpylyzer</em>, a validator and feature extractor for JP2 images. JP2 is the still image format that is defined by JPEG 2000 Part 1 (ISO/IEC 15444-1). <em>Jpylyzer</em> was specifically created to answer the following questions that you might have about any JP2 file:</p>
 <ol type="1">
-<li><p>Is this really a JP2 and does it really conform to the format's specifications (validation)?</p></li>
+<li><p>Is this really a JP2 and does it really conform to the format’s specifications (validation)?</p></li>
 <li><p>What are the technical characteristics of this image (feature extraction)?</p></li>
 </ol>
 <h2 id="validation-scope-and-restrictions"><span class="header-section-number">1.2</span> Validation: scope and restrictions</h2>
@@ -103,16 +105,16 @@ title: User Manual
 <h3 id="valid-means-probably-valid"><span class="header-section-number">1.2.1</span> ‘Valid’ means ‘probably valid’</h3>
 <p>If a file passes all tests, this is an indication that it is <em>probably</em> valid JP2. This (intentionally) implies a certain degree of remaining uncertainty, which is related to the following.</p>
 <p>First of all, <em>jpylyzer</em> (or any other format validator for that matter) ‘validates’ a file by trying to prove that it does <em>not</em> conform to the standard. It cannot prove that that a file <em>does</em> conform to the standard.</p>
-<p>Related to this, even though <em>jpylyzer</em>’s validation process is very comprehensive, it is not complete. For instance, the validation of JPEG 2000 codestreams at this moment is still somewhat limited. <a href="#limitations-codestream-validation">Section 7.2</a> discusses these limitations in detail. Some of these limitations (e.g. optional codestream segment markers that are only minimally supported at this stage) may be taken away in upcoming versions of the tool.</p>
+<p>Related to this, even though <em>jpylyzer</em>’s validation process is very comprehensive, it is not complete. For instance, the validation of JPEG 2000 codestreams at this moment is still somewhat limited. <a href="#limitations-codestream-validation">Section 7.2</a> discusses these limitations in detail. Some of these limitations ( e.g. optional codestream segment markers that are only minimally supported at this stage) may be taken away in upcoming versions of the tool.</p>
 <h3 id="no-check-on-compressed-bitstreams"><span class="header-section-number">1.2.2</span> No check on compressed bitstreams</h3>
 <p>One important limitation that most certainly will <em>not</em> be addressed in any upcoming versions is that <em>jpylyzer</em> does not analyse the data in the compressed bitstream segments. Doing so would involve decoding the whole image, and this is completely out of <em>jpylyzer</em>’s scope. As a result, it is possible that a JP2 that passes each of <em>jpylyzer</em>’s tests will nevertheless fail to render correctly in a viewer application.</p>
 <h3 id="recommendations-for-use-in-quality-assurance-workflows"><span class="header-section-number">1.2.3</span> Recommendations for use in quality assurance workflows</h3>
 <p>Because of the foregoing, a thorough JP2 quality assurance workflow should not rely on <em>jpylyzer</em> (or any other format validator) alone, but it should include other tests as well. Some obvious examples are:</p>
 <ul>
 <li><p>A rendering test that checks if a file renders at all</p></li>
-<li><p>Format migration workflows (e.g. TIFF to JP2) should ideally also include some comparison between source and destination images (e.g. a pixel-wise comparison)</p></li>
+<li><p>Format migration workflows (e.g. TIFF to JP2) should ideally also include some comparison between source and destination images (e.g. a pixel-wise comparison)</p></li>
 </ul>
-<p>Conversely, an image that successfully passes a rendering test or pixel-wise comparison may still contain problematic features (e.g. incorrect colour space information), so validation, rendering tests and pixel-wise comparisons are really complementary to each other.</p>
+<p>Conversely, an image that successfully passes a rendering test or pixel-wise comparison may still contain problematic features ( e.g. incorrect colour space information), so validation, rendering tests and pixel-wise comparisons are really complementary to each other.</p>
 <h3 id="note-on-icc-profile-support"><span class="header-section-number">1.2.4</span> Note on ICC profile support</h3>
 <p>The support of ICC profiles in JP2 was recently extended through an <a href="http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard. These changes are taken into account by <em>jpylyzer</em>, which is in line with the most recent version of the (updated) standard.</p>
 <h2 id="outline"><span class="header-section-number">1.3</span> Outline of this User Manual</h2>
@@ -132,7 +134,7 @@ title: User Manual
 <p>You have three options:</p>
 <ol type="1">
 <li><p>Install the software with the <em>Pip</em> package manager. This works on all platforms (Windows, Linux, Mac, etc.), but you need to have the Python interpreter available on your system. Jpylyzer is compatible with Python 2.7, and Python 3.2 and more recent (Python 3.0 and 3.1 are not supported).</p></li>
-<li><p>Alternatively, for Windows users there is also a set of stand-alone binaries<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. These allow you to run <em>jpylyzer</em> as an executable Windows application, without any need for installing Python. This option is particularly useful for Windows users who cannot (or don’t want to) install software on their system.</p></li>
+<li><p>Alternatively, for Windows users there is also a set of stand-alone binaries<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. These allow you to run <em>jpylyzer</em> as an executable Windows application, without any need for installing Python. This option is particularly useful for Windows users who cannot (or don’t want to) install software on their system.</p></li>
 <li><p>For Linux users Debian packages are available. These allow you to run <em>jpylyzer</em> without any need for installing Python.</p></li>
 </ol>
 <p>These options are described in the following sections.</p>
@@ -141,7 +143,7 @@ title: User Manual
 <p>First make sure you have a recent version of <em>pip</em>. Then install <em>jpylyzer</em> with the following command:</p>
 <pre><code>pip install jpylyzer</code></pre>
 <h3 id="single-user-installation-linux"><span class="header-section-number">2.2.2</span> Single user installation (Linux)</h3>
-<p>On most Linux systems the above command needs to be run as super user (see below). If you don't want this use the below command for a single-user install:</p>
+<p>On most Linux systems the above command needs to be run as super user (see below). If you don’t want this use the below command for a single-user install:</p>
 <pre><code>pip install jpylyzer --user</code></pre>
 <p>This will install the software to the <code>.local</code> folder (hidden by default!) in your home directory (<code>~/.local</code>). Next try to run <em>jpylyzer</em> by entering:</p>
 <pre><code>jpylyzer</code></pre>
@@ -153,11 +155,11 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi</code></pre>
 <p>Save the file, log out of your session and then log in again. Open a command terminal and type:</p>
-<pre><code> jpylyzer</code></pre>
+<pre><code>jpylyzer</code></pre>
 <p>If all went well you now see this:</p>
-<pre><code>usage: jpylyzer [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                [--nopretty] [--version]
-                jp2In [jp2In ...]
+<pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
+              [--recurse] [--verbose] [--version] [--wrapper]
+              jp2In [jp2In ...]
 jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <p>Which means that the installation was successful!</p>
 <h3 id="global-installation-linux"><span class="header-section-number">2.2.3</span> Global installation (Linux)</h3>
@@ -172,11 +174,11 @@ jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <h3 id="testing-the-installation"><span class="header-section-number">2.3.1</span> Testing the installation</h3>
 <p>To test your installation, open a Command Prompt (‘DOS prompt’) and type:</p>
 <pre><code>%jpylyzerPath%\jpylyzer</code></pre>
-<p>In the above command, replace <em>%jpylyzerPath%</em> with the full path to the <em>jpylyzer</em> installation directory (i.e. the directory that contains ‘jpylyzer.exe’ and its associated files). For example, if you extracted the files to directory <code>c:\tools\jpylyzer</code>, the command would become:</p>
+<p>In the above command, replace <em>%jpylyzerPath%</em> with the full path to the <em>jpylyzer</em> installation directory (i.e. the directory that contains ‘jpylyzer.exe’ and its associated files). For example, if you extracted the files to directory <code>c:\tools\jpylyzer</code>, the command would become:</p>
 <pre><code>c:\tools\jpylyzer\jpylyzer</code></pre>
 <p>Executing this command should result in the following screen output:</p>
-<pre><code>usage: jpylyzer [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                [--nopretty] [--version]
+<pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
+                [--recurse] [--verbose] [--version] [--wrapper]
                 jp2In [jp2In ...]
 jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <h3 id="running-jpylyzer-without-typing-the-full-path"><span class="header-section-number">2.3.2</span> Running jpylyzer without typing the full path</h3>
@@ -192,18 +194,18 @@ sudo apt-get install python-jpylyzer</code></pre>
 <h2 id="using-overview"><span class="header-section-number">3.1</span> Overview</h2>
 <p>This chapter describes the general use of <em>jpylyzer</em>. The first sections cover the use of <em>jpylyzer</em> as a command-line tool and as an importable Python module.</p>
 <h2 id="command-line-usage"><span class="header-section-number">3.2</span> Command-line usage</h2>
-<p>This section explains <em>jpylyzer</em>’s general command-line interface. For the sake of brevity, all command-line examples assume the use of the Python script; moreover, full paths are omitted. This means that, depending on your system and settings, you may have to substitute each occurrence of ‘jpylyzer.py’ with its full path, the corresponding Windows binary, or a combination of both. The following examples illustrate this:</p>
+<p>This section explains <em>jpylyzer</em>’s general command-line interface. For the sake of brevity, full paths to <em>jpylyzer</em> are omitted. This means that, depending on your system and settings, you may have to substitute each occurrence of ‘jpylyzer’ with its full path, the corresponding Windows binary, or a combination of both. The following examples illustrate this:</p>
 <table>
 <thead>
 <tr class="header">
 <th style="text-align: left;">This User Manual</th>
-<th style="text-align: left;">jpylyzer.py</th>
+<th style="text-align: left;">jpylyzer</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Substitution example Linux</td>
-<td style="text-align: left;"><code>/home/jpylyzer/jpylyzer.py</code></td>
+<td style="text-align: left;"><code>/home/jpylyzer/jpylyzer</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Substitution example Windows binaries</td>
@@ -214,8 +216,9 @@ sudo apt-get install python-jpylyzer</code></pre>
 <p>Furthermore, command line arguments that are given between square brackets (example: <code>[-h]</code>) are optional.</p>
 <h3 id="synopsis"><span class="header-section-number">3.2.1</span> Synopsis</h3>
 <p><em>Jpylyzer</em> can be invoked using the following command-line arguments:</p>
-<pre><code>usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
-                   [--nopretty] [--version] jp2In [jp2In ...]</code></pre>
+<pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
+              [--recurse] [--verbose] [--version] [--wrapper]
+              jp2In [jp2In ...]</code></pre>
 <p>With:</p>
 <dl>
 <dt><code>jp2In</code></dt>
@@ -224,62 +227,74 @@ sudo apt-get install python-jpylyzer</code></pre>
 <dt><code>[-h, --help]</code></dt>
 <dd>show help message and exit
 </dd>
-<dt><code>[--verbose]</code></dt>
-<dd>report test results in verbose format
+<dt><code>[--format FMT]</code></dt>
+<dd>validation format; allowed values are <code>jp2</code> (used by default) and <code>j2c</code> (which activates raw codestream validation)
 </dd>
-<dt><code>[--recurse, -r]</code></dt>
-<dd>when analysing a directory, recurse into subdirectories (implies --wrapper)
-</dd>
-<dt><code>[--wrapper, -w]</code></dt>
-<dd>wraps the output for individual image(s) in 'results' XML element
-</dd>
-<dt><code>[--nullxml]</code></dt>
-<dd>extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)
+<dt><code>[--legacyout]</code></dt>
+<dd>report output in jpylyzer 1.x format (provided for backward compatibility only)
 </dd>
 <dt><code>[--nopretty]</code></dt>
 <dd>suppress pretty-printing of XML output
 </dd>
+<dt><code>[--nullxml]</code></dt>
+<dd>extract null-terminated XML content from XML and UUID boxes(doesn’t affect validation)
+</dd>
+<dt><code>[--recurse, -r]</code></dt>
+<dd>when analysing a directory, recurse into subdirectories (implies <code>--wrapper</code> if <code>--legacyout</code> is used)
+</dd>
+<dt><code>[--verbose]</code></dt>
+<dd>report test results in verbose format
+</dd>
 <dt><code>[-v, --version]</code></dt>
-<dd>show program's version number and exit
+<dd>show program’s version number and exit
+</dd>
+<dt><code>[--wrapper, -w]</code></dt>
+<dd>wrap output for individual image(s) in ‘results’ XML element (deprecated from jpylyzer 2.x onward, only takes effect if <code>--legacyout</code> is used)
 </dd>
 </dl>
 <p>Note that the input can either be a single image, a space-separated sequence of images, a pathname expression that includes multiple images, or any combination of the above. For example, the following command will process one single image:</p>
-<pre><code>jpylyzer.py rubbish.jp2</code></pre>
+<pre><code>jpylyzer rubbish.jp2</code></pre>
 <p>The next example shows how to process all files with a ‘jp2’ extension in the current directory:</p>
-<pre><code>jpylyzer.py *.jp2</code></pre>
+<pre><code>jpylyzer *.jp2</code></pre>
 <p>Note that on Unix/Linux based systems pathname expressions may not work properly unless you wrap them in quotation marks:</p>
-<pre><code>jpylyzer.py "*.jp2"</code></pre>
+<pre><code>jpylyzer "*.jp2"</code></pre>
 <h3 id="output-redirection"><span class="header-section-number">3.2.2</span> Output redirection</h3>
 <p>All output (except warning and system error messages) is directed to the standard output device (stdout). By default this is the console screen. Use your platform’s standard output redirection operators to redirect output to a file. The most common situation will be to redirect the output of one invocation of <em>jpylyzer</em> to an XML file, which can be done with the ‘&gt;’ operator (both under Windows and Linux):</p>
-<pre><code>jpylyzer.py jp2In &gt; outputFile</code></pre>
+<pre><code>jpylyzer jp2In &gt; outputFile</code></pre>
 <p>E.g. the following command will run <em>jpylyzer</em> on image ‘rubbish.jp2’ and redirects the output to file ‘rubbish.xml’:</p>
-<pre><code>jpylyzer.py rubbish.jp2 &gt; rubbish.xml</code></pre>
+<pre><code>jpylyzer rubbish.jp2 &gt; rubbish.xml</code></pre>
 <p>The format of the XML output is described in <a href="#output-format">Chapter 5</a>.</p>
-<h3 id="recurse-option"><span class="header-section-number">3.2.3</span> ‘recurse’ option</h3>
-<p>If the <em>--recurse</em> option is used, <em>jpylyzer</em> will recursively traverse all subdirectories of a filepath expression. E.g:</p>
-<pre><code>jpylyzer.py /home/myJP2s/*.jp2 &gt; rubbish.xml</code></pre>
+<h3 id="format-option"><span class="header-section-number">3.2.3</span> ‘format’ option</h3>
+<p>By default, <em>jpylyzer</em> validates against the <em>JP2</em> format specification. Starting with version 2.0, <em>jpylyzer</em> can also validate raw JPEG 2000 codestreams that are not wrapped inside a <em>JP2</em> container. For codestream validation, use the <code>--format</code> option with value <code>j2c</code>, e.g.:</p>
+<pre><code>jpylyzer --format j2c rubbish.j2c &gt; rubbish.xml</code></pre>
+<h3 id="legacyout-option"><span class="header-section-number">3.2.4</span> ‘legacyout’ option</h3>
+<p>The output format of <em>jpylyzer</em> has changed in version 2.0, which may break existing workflows that expect output in 1.x format. For backward compatibility the <code>--legacyout</code> option results in output that follows the old 1.x format. Note that codestream validation is disabled if you use this option.</p>
+<h3 id="recurse-option"><span class="header-section-number">3.2.5</span> ‘recurse’ option</h3>
+<p>If the <code>--recurse</code> option is used, <em>jpylyzer</em> will recursively traverse all subdirectories of a filepath expression. E.g:</p>
+<pre><code>jpylyzer /home/myJP2s/*.jp2 &gt; rubbish.xml</code></pre>
 <p>In this case <em>jpylyzer</em> analyses all files that have a <em>.jp2</em> extension in directory <em>/home/myJP2s</em> and all its subdirectories.</p>
-<h3 id="creating-valid-xml-with-multiple-images"><span class="header-section-number">3.2.4</span> Creating valid XML with multiple images</h3>
-<p>By default, <em>jpylyzer</em> creates a separate XML tree for each analysed image, without any overarching hierarchy. If you use a pathname expression to process multiple images and redirect the output to a file, the resulting file will <strong>not</strong> be a well-formed XML document. An example:</p>
-<pre><code>jpylyzer.py rubbish.jp2 garbage.jp2 &gt; rubbish.xml</code></pre>
-<p>In this case, the output for these 2 images is redirected to ‘rubbish.xml’, but the file will be a succession of two XML trees, which by itself is not well-formed XML. Use the <em>--wrapper</em> option if you want to create valid XML instead:</p>
-<pre><code>jpylyzer.py --wrapper rubbish.jp2 garbage.jp2 &gt; rubbish.xml</code></pre>
-<p>In the above case the XML trees of the individual images are wrapped inside a ‘results’ element. When the <em>--recurse</em> option is used, jpylyzer will automatically wrap the output in a ‘results’ element, so there's no need to specify <em>--wrapper</em> in that case.</p>
-<h3 id="nullxml-option"><span class="header-section-number">3.2.5</span> ‘nullxml’ option</h3>
+<h3 id="wrapper-option-deprecated"><span class="header-section-number">3.2.6</span> ‘wrapper’ option (deprecated)</h3>
+<p>This deprecated option is included for backward-compatibility, and only takes effect if <code>--legacyout</code> (see above) is used.By default, the <em>jpylyzer</em> 1.x releases would create a separate XML tree for each analysed image, without any overarching hierarchy. For multiple-image pathname expressions this resulted in output that was <strong>not</strong> well-formed XML. The <code>--legacyout</code> option still results in this is behaviour. For example:</p>
+<pre><code>jpylyzer --legacyout rubbish.jp2 garbage.jp2 &gt; rubbish.xml</code></pre>
+<p>In this case, the file ‘rubbish.xml’ contains a succession of two XML trees, which by itself is not well-formed XML. The <code>--wrapper</code> option is provided to create valid XML instead:</p>
+<pre><code>jpylyzer --legacyout --wrapper rubbish.jp2 garbage.jp2 &gt; rubbish.xml</code></pre>
+<p>In the above case the XML trees of the individual images are wrapped inside a ‘results’ element. When the <code>--recurse</code> option is used, jpylyzer will automatically wrap the output in a ‘results’ element, so there’s no need to specify <code>--wrapper</code> in that case.</p>
+<p>Starting with version 2.0, <em>jpylyzer</em> <em>always</em> generates well-formed XML (unless the <code>--legacyout</code> option is used), which makes the <code>--wrapper</code> option largely obsolete, apart from cases where the ‘old’ behaviour is needed for backward-compatibility reasons.</p>
+<h3 id="nullxml-option"><span class="header-section-number">3.2.7</span> ‘nullxml’ option</h3>
 <p>The <em>nullxml</em> option was added to enable extraction of XML content that is terminated by a null-byte. By default <em>jpylyzer</em> doesn’t report the XML in that case, because it throws an exception in the XML parser. Apparently some old versions of the Kakadu demo applications would erroneously add a null-byte to embedded XML, so this option can be used to force extraction for images that are affected by this.</p>
-<h3 id="user-warnings"><span class="header-section-number">3.2.6</span> User warnings</h3>
+<h3 id="user-warnings"><span class="header-section-number">3.2.8</span> User warnings</h3>
 <p>Under the following conditions <em>jpylyzer</em> will print a user warning to the standard error device (typically the console screen):</p>
-<h4 id="no-images-to-check"><span class="header-section-number">3.2.6.1</span> No images to check</h4>
+<h4 id="no-images-to-check"><span class="header-section-number">3.2.8.1</span> No images to check</h4>
 <p>If there are no input images to check (typically because the value of jp2In refers to a non-existent file), the following warning message is shown:</p>
 <pre><code>User warning: no images to check!</code></pre>
-<h4 id="unsupported-box"><span class="header-section-number">3.2.6.2</span> Unsupported box</h4>
+<h4 id="unsupported-box"><span class="header-section-number">3.2.8.2</span> Unsupported box</h4>
 <p>In some cases you will see the following warning message:</p>
 <pre><code>User warning: ignoring 'boxName' (validator function not yet implemented)</code></pre>
 <p>The reason for this: a JP2 file is made up of units that are called ‘boxes’. This is explained in more detail in <a href="#structure-jp2">Chapter 4</a>. Each ‘box’ has its own dedicated validator function. At this stage validator functions are still missing for a small number of (optional) boxes. <em>Jpylyzer</em> will display the above warning message if it encounters a (yet) unsupported box. Any unsupported boxes are simply ignored, and the remainder of the file will be analyzed (and validated) normally.</p>
-<h4 id="error-while-processing-a-file"><span class="header-section-number">3.2.6.3</span> Error while processing a file</h4>
+<h4 id="error-while-processing-a-file"><span class="header-section-number">3.2.8.3</span> Error while processing a file</h4>
 <p>In rare cases you may come across one of the following messages:</p>
 <pre><code>User warning: memory error (file size too large)</code></pre>
-<p>Memory errors may occur for (very) large images. If you get this warning, try using a machine with more RAM. Also, a machine's chip architecture and the operating system may put constraints on the amount of memory that can be allocated.</p>
+<p>Memory errors may occur for (very) large images. If you get this warning, try using a machine with more RAM. Also, a machine’s chip architecture and the operating system may put constraints on the amount of memory that can be allocated.</p>
 <p>The following warning indicates an input error:</p>
 <pre><code>User warning: I/O error (cannot open file)</code></pre>
 <p>Finally, the following messages most likely indicate a jpylyzer bug:</p>
@@ -288,28 +303,34 @@ sudo apt-get install python-jpylyzer</code></pre>
 User warning: unknown error (please report to developers)</code></pre>
 <p>If you ever run into either of these two errors, please get in touch with the jpylyzer developers. The easiest way to do this is to create a new issue at:</p>
 <p><a href="https://github.com/openpreserve/jpylyzer/issues" class="uri">https://github.com/openpreserve/jpylyzer/issues</a></p>
-<h4 id="unknown-box"><span class="header-section-number">3.2.6.4</span> Unknown box</h4>
+<h4 id="unknown-box"><span class="header-section-number">3.2.8.4</span> Unknown box</h4>
 <p>Occasionally, you may see this warning message:</p>
 <pre><code>User warning: ignoring unknown box</code></pre>
 <p>This happens if <em>jpylyzer</em> encounters a box that is not defined by JPEG 2000 Part 1. It should be noted that, to a large extent, JPEG 2000 Part 1 permits the presence of boxes that are defined outside the standard. Again, <em>jpylyzer</em> will simply ignore these and process all other boxes normally.</p>
 <h2 id="using-as-python-module"><span class="header-section-number">3.3</span> Using <em>jpylyzer</em> as a Python module</h2>
 <p>Instead of using <em>jpylyzer</em> from the command-line, you can also import it as a module in your own Python programs. To do so, install jpylyzer with <em>pip</em>. Then import <em>jpylyzer</em> into your code by adding:</p>
-<pre><code>from jpylyzer import jpylyzer</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</a></code></pre></div>
 <p>Subsequently you can call any function that is defined in <em>jpylyzer.py</em>. In practice you will most likely only need the <em>checkOneFile</em> function. The following minimal script shows how this works:</p>
-<pre><code>#! /usr/bin/env python
-
-from jpylyzer import jpylyzer
-
-# Define JP2
-myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
-
-# Analyse with jpylyzer, result to Element object
-myResult = jpylyzer.checkOneFile(myFile)
-
-# Return image height value
-imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
-print(imageHeight)</code></pre>
-<p>Here, <em>myResult</em> is an <em>Element</em> object that can either be used directly, or converted to XML using the <em>ElementTree</em> module<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>. The structure of the element object follows the XML output that described in <a href="#output-format">Chapter 5</a>.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb33-1" data-line-number="1">  <span class="co">#! /usr/bin/env python</span></a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb33-3" data-line-number="3">  <span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</a>
+<a class="sourceLine" id="cb33-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb33-5" data-line-number="5">  <span class="co"># Define JP2</span></a>
+<a class="sourceLine" id="cb33-6" data-line-number="6">  myFile <span class="op">=</span> <span class="st">"/home/johan/jpylyzer-test-files/aware.jp2"</span></a>
+<a class="sourceLine" id="cb33-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb33-8" data-line-number="8">  <span class="co"># Analyse with jpylyzer, result to Element object</span></a>
+<a class="sourceLine" id="cb33-9" data-line-number="9">  myResult <span class="op">=</span> jpylyzer.checkOneFile(myFile)</a>
+<a class="sourceLine" id="cb33-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb33-11" data-line-number="11">  <span class="co"># Return image height value</span></a>
+<a class="sourceLine" id="cb33-12" data-line-number="12">  imageHeight <span class="op">=</span> myResult.findtext(<span class="st">'./properties/jp2HeaderBox/imageHeaderBox/height'</span>)</a>
+<a class="sourceLine" id="cb33-13" data-line-number="13">  <span class="bu">print</span>(imageHeight)</a></code></pre></div>
+<p>Here, <em>myResult</em> is an <em>Element</em> object that can either be used directly, or converted to XML using the <em>ElementTree</em> module<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. The structure of the element object follows the XML output that described in <a href="#output-format">Chapter 5</a>.</p>
+<p>For validation a raw JPEG 2000 codestreams, call the <em>checkOneFile</em> function with the additional <em>validationFormat</em> argument, and set it to <code>j2c</code>:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co"># Define Codestream</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">myFile <span class="op">=</span> <span class="st">"/home/johan/jpylyzer-test-files/rubbish.j2c"</span></a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="co"># Analyse with jpylyzer, result to Element object</span></a>
+<a class="sourceLine" id="cb34-5" data-line-number="5">myResult <span class="op">=</span> jpylyzer.checkOneFile(myFile, <span class="st">'j2c'</span>)</a></code></pre></div>
 <h1 id="structure-jp2"><span class="header-section-number">4</span> Structure of a JP2 file</h1>
 <h2 id="structure-scope"><span class="header-section-number">4.1</span> Scope of this chapter</h2>
 <p>This chapter gives a brief overview of the JP2 file format. A basic understanding of the general structure of JP2 is helpful for appreciating how <em>jpylyzer</em> performs its validation. It will also make it easier to understand <em>jpylyzer</em>‘s extracted properties, as these are reported as a hierarchical tree that corresponds to the internal structure of JP2.</p>
@@ -322,7 +343,7 @@ print(imageHeight)</code></pre>
 <p>A number of things here are noteworthy to point out:</p>
 <ul>
 <li><p>Some of these boxes are required, whereas others (indicated with dashed lines in the Figure) are optional.</p></li>
-<li><p>The order in which the boxes appear in the file is subject to some constraints (e.g. the first box in a JP2 must always be a ‘Signature’ box, followed by a ‘File Type’ box).</p></li>
+<li><p>The order in which the boxes appear in the file is subject to some constraints (e.g. the first box in a JP2 must always be a ‘Signature’ box, followed by a ‘File Type’ box).</p></li>
 <li><p>Some boxes may have multiple instances (e.g. ‘Contiguous Codestream’ box), whereas others must be unique (e.g. ‘JP2 Header’ box).</p></li>
 </ul>
 <p>More specific details can be found in the standard. The important thing here is that requirements like the above are something that should be verified by a validator, and this is exactly what <em>jpylyzer</em> does at the highest level of its validation procedure.</p>
@@ -470,27 +491,32 @@ print(imageHeight)</code></pre>
 <h1 id="output-format"><span class="header-section-number">5</span> Output format</h1>
 <p>This chapter explains <em>jpylyzer</em>’s output format.</p>
 <h2 id="output-format-overview"><span class="header-section-number">5.1</span> Overview</h2>
-<p><em>Jpylyzer</em> generates its output in XML format, which is defined by <a href="http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd">the schema that can be found here</a>. The following Figure shows the output structure:</p>
+<p><em>Jpylyzer</em> generates its output in XML format, which is defined by <a href="http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd">the schema that can be found here</a>. The following Figure shows the output structure:</p>
 <figure>
 <img src="images/outputStructure.png" alt="Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements."><figcaption>Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements.</figcaption>
 </figure>
-<p>The root element (<em>jpylyzer</em>) contains 5 child elements:</p>
+<p>The root element (<em>jpylyzer</em>) contains the following child elements:</p>
 <ol type="1">
-<li><p><em>toolInfo</em>: information about <em>jpylyzer</em></p></li>
-<li><p><em>fileInfo</em>: general information about the analysed file</p></li>
-<li><p><em>statusInfo</em>: information about the status of <em>jpylyzer</em>'s validation attempt</p></li>
-<li><p><em>isValidJP2</em>: outcome of the validation</p></li>
-<li><p><em>tests</em>: outcome of the individual tests that are part of the validation process (organised by box)</p></li>
-<li><p><em>properties</em>: image properties (organised by box)</p></li>
+<li><p>one <em>toolInfo</em> element, which contains information about <em>jpylyzer</em></p></li>
+<li><p>one or more <em>file</em> elements, each of which contain information about about the analysed files</p></li>
 </ol>
-<p>If <em>jpylyzer</em> is executed with the <em>--wrapper</em> option, the root element is <em>results</em>, which contains one or more <em>jpylyzer</em> elements which otherwise follow the above structure. From version 1.12 onward, the XML output is pretty-printed. You can use the <em>--nopretty</em> switch to disable pretty-printing (this produces smaller files and may give a slightly better performance).</p>
+<p>The XML output is pretty-printed. You can use the <code>--nopretty</code> switch to disable pretty-printing (this produces smaller files and may give a slightly better performance).</p>
 <h2 id="toolinfo-element"><span class="header-section-number">5.2</span> toolInfo element</h2>
 <p>This element holds information about <em>jpylyzer</em>. Currently it contains the following sub-elements:</p>
 <ul>
-<li><p><em>toolName</em>: name of the analysis tool (i.e. <em>jpylyzer.py</em> or <em>jpylyzer</em>, depending on whether the Python script or the Windows binaries were used)</p></li>
+<li><p><em>toolName</em>: name of the analysis tool (i.e. <em>jpylyzer</em> or <em>jpylyzer.exe</em>, depending on the platform used)</p></li>
 <li><p><em>toolVersion</em>: version of <em>jpylyzer</em> (<em>jpylyzer</em> uses a date versioning scheme)</p></li>
 </ul>
-<h2 id="fileinfo-element"><span class="header-section-number">5.3</span> fileInfo element</h2>
+<h2 id="file-element"><span class="header-section-number">5.3</span> file element</h2>
+<p>The <em>file</em> element contains the following sub-elements:</p>
+<ol type="1">
+<li><p><em>fileInfo</em>: general information about the analysed file</p></li>
+<li><p><em>statusInfo</em>: information about the status of <em>jpylyzer</em>’s validation attempt</p></li>
+<li><p><em>isValid</em>: outcome of the validation</p></li>
+<li><p><em>tests</em>: outcome of the individual tests that are part of the validation process (organised by box)</p></li>
+<li><p><em>properties</em>: image properties (organised by box)</p></li>
+</ol>
+<h2 id="fileinfo-element"><span class="header-section-number">5.4</span> fileInfo element</h2>
 <p>This element holds general information about the analysed file. Currently it contains the following sub-elements:</p>
 <ul>
 <li><p><em>filename</em>: name of the analysed file without its path (e.g. “rubbish.jp2”)</p></li>
@@ -498,29 +524,33 @@ print(imageHeight)</code></pre>
 <li><p><em>fileSizeInBytes</em>: file size in bytes</p></li>
 <li><p><em>fileLastModified</em>: last modified date and time</p></li>
 </ul>
-<h2 id="statusinfo-element"><span class="header-section-number">5.4</span> statusInfo element</h2>
-<p>This element holds general information about about the status of <em>jpylyzer</em>'s attempt at validating a file. It tells you whether the validation process could be completed without any internal <em>jpylyzer</em> errors. It contains the following sub-elements:</p>
+<h2 id="statusinfo-element"><span class="header-section-number">5.5</span> statusInfo element</h2>
+<p>This element holds general information about about the status of <em>jpylyzer</em>’s attempt at validating a file. It tells you whether the validation process could be completed without any internal <em>jpylyzer</em> errors. It contains the following sub-elements:</p>
 <ul>
 <li><p><em>success</em>: a Boolean flag that indicates whether the validation attempt completed normally (“True”) or not (“False”). A value of “False” indicates an internal error that prevented <em>jpylyzer</em> from validating the file.</p></li>
 <li><p><em>failureMessage</em>: if the validation attempt failed (value of <em>success</em> equals “False”), this field gives further details about the reason of the failure. Examples are:</p>
-<pre><code>memory error (file size too large)
+<pre><code>  memory error (file size too large)
 
-runtime error (please report to developers)
+  runtime error (please report to developers)
 
-unknown error (please report to developers)</code></pre></li>
+  unknown error (please report to developers)</code></pre></li>
 </ul>
-<h2 id="isvalidjp2-element"><span class="header-section-number">5.5</span> isValidJP2 element</h2>
-<p>This element contains the results of the validation. If a file passed all the tests (i.e. all tests returned “True”, see <a href="#tests-element">section 5.5</a>) it is most likely valid JP2, and the value of isValidJP2 will be “True”. Its value is “False” otherwise.</p>
-<h2 id="tests-element"><span class="header-section-number">5.6</span> tests element</h2>
+<h2 id="isvalid-element"><span class="header-section-number">5.6</span> isValid element</h2>
+<p>This element contains the results of the validation. If a file passed all the tests (i.e. all tests returned “True”, see <a href="#tests-element">section 5.5</a>) it is most valid, and the value of <em>isValid</em> will be “True”. Its value is “False” otherwise. The element has a <em>format</em> attribute, which defines the validation format (set by the <code>--format</code> command-line option). The <em>format</em> attribute can have the following values:</p>
+<ul>
+<li>“jp2” (JP2 validation)</li>
+<li>“j2c” (raw codestream validation)</li>
+</ul>
+<h2 id="tests-element"><span class="header-section-number">5.7</span> tests element</h2>
 <p>This element is reserved to hold the outcomes of all the individual tests that <em>jpylyzer</em> performs to assess whether a file is valid JP2. The results are organised in a hierarchical tree that corresponds to JP2’s box structure. Each individual test can have two values:</p>
 <ul>
 <li><p>“True” if a file passed the test.</p></li>
 <li><p>“False” if a file failed the test.</p></li>
 </ul>
 <p>If a file passed <em>all</em> tests, this is an indication that it is most likely valid JP2. In that case, the <em>isValidJP2</em> element (<a href="#isvalidjp2-element">section 5.4</a>) has a value of “True” (and “False” in all other cases). These tests are all explained in chapters <a href="#jp2-box-by-box">6</a> and <a href="#contiguous-codestream-box-chapter">7</a>.</p>
-<h3 id="default-and-verbose-reporting-of-test-results"><span class="header-section-number">5.6.1</span> Default and verbose reporting of test results</h3>
-<p>By default, <em>jpylyzer</em> only reports any tests that failed (i.e. returned “False”), including the corresponding part of the box structure. For a valid JP2 the tests element will be empty. If the --verbose flag is used, the results of <em>all</em> tests are included (including those that returned “True”)<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>.</p>
-<h2 id="properties-element"><span class="header-section-number">5.7</span> properties element</h2>
+<h3 id="default-and-verbose-reporting-of-test-results"><span class="header-section-number">5.7.1</span> Default and verbose reporting of test results</h3>
+<p>By default, <em>jpylyzer</em> only reports any tests that failed (i.e. returned “False”), including the corresponding part of the box structure. For a valid JP2 the tests element will be empty. If the –verbose flag is used, the results of <em>all</em> tests are included (including those that returned “True”)<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
+<h2 id="properties-element"><span class="header-section-number">5.8</span> properties element</h2>
 <p>This element contains the extracted image properties, which are organised in a hierarchical tree that corresponds to JP2’s box structure. See chapters <a href="#jp2-box-by-box">6</a> and <a href="#contiguous-codestream-box-chapter">7</a> for a description of the reported properties.</p>
 <h1 id="jp2-box-by-box"><span class="header-section-number">6</span> JP2: box by box</h1>
 <p>The following two chapters provide a detailed explanation of <em>jpylyzer</em>’s functionality and its output. In particular, the following two aspects are addressed:</p>
@@ -599,7 +629,7 @@ unknown error (please report to developers)</code></pre></li>
 </tr>
 <tr class="even">
 <td style="text-align: left;">brandIsValid</td>
-<td style="text-align: left;"><em>br</em> equals 0x6a703220 (“jp2 ”)</td>
+<td style="text-align: left;"><em>br</em> equals 0x6a703220 (“jp2”)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">minorVersionIsValid</td>
@@ -607,7 +637,7 @@ unknown error (please report to developers)</code></pre></li>
 </tr>
 <tr class="even">
 <td style="text-align: left;">compatibilityListIsValid</td>
-<td style="text-align: left;">Sequence of compatibility (<em>cL</em>) fields includes one entry that equals 0x6a703220 (“jp2 ”)</td>
+<td style="text-align: left;">Sequence of compatibility (<em>cL</em>) fields includes one entry that equals 0x6a703220 (“jp2”)</td>
 </tr>
 </tbody>
 </table>
@@ -872,7 +902,7 @@ unknown error (please report to developers)</code></pre></li>
 <td style="text-align: left;">Enumerated colourspace (as descriptive text string)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">icc (if meth equals “Restricted ICC” or “Any ICC”<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>)</td>
+<td style="text-align: left;">icc (if meth equals “Restricted ICC” or “Any ICC”<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>)</td>
 <td style="text-align: left;">Properties of ICC profile as child element (see below)</td>
 </tr>
 </tbody>
@@ -1020,7 +1050,7 @@ unknown error (please report to developers)</code></pre></li>
 </tr>
 <tr class="even">
 <td style="text-align: left;">iccPermittedProfileClass (if meth equals “Restricted ICC”)</td>
-<td style="text-align: left;">ICC profile class is “input device” or “display device”<a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a></td>
+<td style="text-align: left;">ICC profile class is “input device” or “display device”<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">iccNoLUTBasedProfile (if meth equals “Restricted ICC”)</td>
@@ -1285,19 +1315,19 @@ unknown error (please report to developers)</code></pre></li>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vRescInPixelsPerMeter</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hRescInPixelsPerMeter</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vRescInPixelsPerInch</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hRescInPixelsPerInch</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a></td>
 </tr>
 </tbody>
 </table>
@@ -1380,19 +1410,19 @@ unknown error (please report to developers)</code></pre></li>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vResdInPixelsPerMeter</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn10" class="footnoteRef" id="fnref10"><sup>10</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hResdInPixelsPerMeter</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn11" class="footnoteRef" id="fnref11"><sup>11</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vResdInPixelsPerInch</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn12" class="footnoteRef" id="fnref12"><sup>12</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hResdInPixelsPerInch</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn13" class="footnoteRef" id="fnref13"><sup>13</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a></td>
 </tr>
 </tbody>
 </table>
@@ -1462,7 +1492,7 @@ unknown error (please report to developers)</code></pre></li>
 </table>
 <p>Note that <em>jpylyzer</em> does not check whether the XML is <em>valid</em>, as this is not required by the standard. Besides, doing so would make <em>jpylyzer</em> significantly slower for XML that contains references to external schemas and DTDs.</p>
 <h2 id="uuid-box"><span class="header-section-number">6.17</span> UUID box</h2>
-<p>This (optional) box contains additional (binary) information, which may be vendor-specific. Some applications (e.g. Kakadu and ExifTool) also use this box for storing XMP metadata (see Section 1.1.4 in Part 3 of the XMP specification<a href="#fn14" class="footnoteRef" id="fnref14"><sup>14</sup></a>).</p>
+<p>This (optional) box contains additional (binary) information, which may be vendor-specific. Some applications (e.g. Kakadu and ExifTool) also use this box for storing XMP metadata (see Section 1.1.4 in Part 3 of the XMP specification<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>).</p>
 <h3 id="element-name-13"><span class="header-section-number">6.17.1</span> Element name</h3>
 <p>uuidBox</p>
 <h3 id="reported-properties-13"><span class="header-section-number">6.17.2</span> Reported properties</h3>
@@ -1477,7 +1507,7 @@ unknown error (please report to developers)</code></pre></li>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">uuid</td>
-<td style="text-align: left;">Standard string representation of UUID (<strong>only</strong> if uuid has value other than <em>be7acfcb-97a9-42e8-9c71-999491e3afac</em>). For an explanation of UUIDs see e.g. Leach <em>et al</em>., 2005.</td>
+<td style="text-align: left;">Standard string representation of UUID (<strong>only</strong> if uuid has value other than <em>be7acfcb-97a9-42e8-9c71-999491e3afac</em>). For an explanation of UUIDs see e.g. Leach <em>et al</em>., 2005.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">XMP data</td>
@@ -1842,7 +1872,7 @@ unknown error (please report to developers)</code></pre></li>
 <h2 id="limitations-codestream-validation"><span class="header-section-number">7.2</span> Limitations of codestream validation</h2>
 <p>It is important to stress here that <em>jpylyzer</em> currently doesn’t support the full set of marker segments that can occur in a codestream. As a result, the validation of codestreams is somewhat limited. These limitations are discussed in this section.</p>
 <h3 id="main-codestream-header"><span class="header-section-number">7.2.1</span> Main codestream header</h3>
-<p>Annex A of ISO/IEC 15444-1 lists a total of 13 marker segments that can occur in the main codestream header. Most of these are optional. The current version of <em>jpylyzer</em> only offers full support (i.e. reads and validates) for the following main header marker segments (which includes all the required ones):</p>
+<p>Annex A of ISO/IEC 15444-1 lists a total of 13 marker segments that can occur in the main codestream header. Most of these are optional. The current version of <em>jpylyzer</em> only offers full support (i.e. reads and validates) for the following main header marker segments (which includes all the required ones):</p>
 <ul>
 <li><p>Start of codestream (SOC) marker segment (required)</p></li>
 <li><p>Image and tile size (SIZ) marker segment (required)</p></li>
@@ -1882,9 +1912,9 @@ unknown error (please report to developers)</code></pre></li>
 </ul>
 <p>These marker segments (which are marked with an asterisk) are only minimally supported at this stage: if <em>jpylyzer</em> encounters any of them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> currently does not analyse their contents, and the respective elements in the output will be empty.</p>
 <h3 id="bit-streams"><span class="header-section-number">7.2.3</span> Bit streams</h3>
-<p>In addition to the above limitations, <em>jpylyzer</em> can <em>not</em> be used to establish whether the data in the bitstream are correct (this would require decoding the compressed image data, which is completely out of <em>jpylyzer</em>’s scope)<a href="#fn15" class="footnoteRef" id="fnref15"><sup>15</sup></a>. As a result, if <em>jpylyzer</em> is used as part of a quality assurance workflow, it is recommended to also include an additional check on the image contents<a href="#fn16" class="footnoteRef" id="fnref16"><sup>16</sup></a>. Also, <em>jpylyzer</em> does not perform any checks on marker segments within the bit-stream: start-of packet (SOP) and end-of-packet (EPH) markers.</p>
+<p>In addition to the above limitations, <em>jpylyzer</em> can <em>not</em> be used to establish whether the data in the bitstream are correct (this would require decoding the compressed image data, which is completely out of <em>jpylyzer</em>’s scope)<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>. As a result, if <em>jpylyzer</em> is used as part of a quality assurance workflow, it is recommended to also include an additional check on the image contents<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a>. Also, <em>jpylyzer</em> does not perform any checks on marker segments within the bit-stream: start-of packet (SOP) and end-of-packet (EPH) markers.</p>
 <h3 id="detection-of-incomplete-or-truncated-codestreams"><span class="header-section-number">7.2.4</span> Detection of incomplete or truncated codestreams</h3>
-<p>A JP2’s tile part header contains information that makes it possible to detect incomplete and truncated codestreams in most cases. Depending on the encoder software used, this method may fail for images that only contain one single tile part (i.e. images that do not contain tiling).</p>
+<p>A JP2’s tile part header contains information that makes it possible to detect incomplete and truncated codestreams in most cases. Depending on the encoder software used, this method may fail for images that only contain one single tile part (i.e. images that do not contain tiling).</p>
 <h3 id="current-limitations-of-comment-extraction"><span class="header-section-number">7.2.5</span> Current limitations of comment extraction</h3>
 <p>Both the codestream header and the tile part header can contain comment marker segments, which are used for embedding arbitrary binary data or text. <em>Jpylyzer</em> will extract the contents of any comments that are text.</p>
 <h2 id="structure-reported-output"><span class="header-section-number">7.3</span> Structure of reported output</h2>
@@ -1955,7 +1985,7 @@ unknown error (please report to developers)</code></pre></li>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">quantizationConsistentWithLevels</td>
-<td style="text-align: left;">Values of quantization parameters from QCD marker segment are consistent with <em>levels</em> from COD marker segment<a href="#fn17" class="footnoteRef" id="fnref17"><sup>17</sup></a></td>
+<td style="text-align: left;">Values of quantization parameters from QCD marker segment are consistent with <em>levels</em> from COD marker segment<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">foundExpectedNumberOfTiles</td>
@@ -2025,7 +2055,7 @@ unknown error (please report to developers)</code></pre></li>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">numberOfTiles</td>
-<td style="text-align: left;">Number of tiles<a href="#fn18" class="footnoteRef" id="fnref18"><sup>18</sup></a></td>
+<td style="text-align: left;">Number of tiles<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">csiz</td>
@@ -2898,23 +2928,23 @@ unknown error (please report to developers)</code></pre></li>
 <section class="footnotes">
 <hr>
 <ol>
-<li id="fn1"><p>The <em>jpylyzer</em> binaries were created using the <em>PyInstaller</em> package: <a href="http://www.pyinstaller.org/" class="uri">http://www.pyinstaller.org/</a><a href="#fnref1">↩</a></p></li>
-<li id="fn2"><p>Note that <em>jpylyzer</em> versions 1.8 and earlier returned a formatted XML string instead of an element object!<a href="#fnref2">↩</a></p></li>
-<li id="fn3"><p>Note that <em>jpylyzer</em> versions 1.4 and earlier used the verbose output format by default. This behaviour has changed in version 1.5 onwards, as the lengthy output turned out to be slightly confusing to some users.<a href="#fnref3">↩</a></p></li>
-<li id="fn4"><p>The “Any ICC” method is defined in ISO/IEC 15444-2 (the JPX format), and is not allowed in JP2. However, <em>jpylyzer</em> offers limited support for JPX here by also reporting the properties of ICC profiles that were embedded using this method. Note that any file that uses this method will fail the “methIsValid” test (and thereby the validation).<a href="#fnref4">↩</a></p></li>
-<li id="fn5"><p>Originally ISO/IEC 15444-1 only allowed “input device” profiles. Support of “display device” profiles was added through an <a href="http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard in 2013. The behaviour of <em>jpylyzer</em> is consistent with this amendment.<a href="#fnref5">↩</a></p></li>
-<li id="fn6"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRcN</mi> </mrow> <mrow> <mi>vRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRcE</mi> </msup> </mrow> </math><a href="#fnref6">↩</a></p></li>
-<li id="fn7"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRcN</mi> </mrow> <mrow> <mi>hRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRcE</mi> </msup> </mrow> </math><a href="#fnref7">↩</a></p></li>
-<li id="fn8"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref8">↩</a></p></li>
-<li id="fn9"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref9">↩</a></p></li>
-<li id="fn10"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRdN</mi> </mrow> <mrow> <mi>vRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRdE</mi> </msup> </mrow> </math><a href="#fnref10">↩</a></p></li>
-<li id="fn11"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRdN</mi> </mrow> <mrow> <mi>hRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRdE</mi> </msup> </mrow> </math><a href="#fnref11">↩</a></p></li>
-<li id="fn12"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref12">↩</a></p></li>
-<li id="fn13"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref13">↩</a></p></li>
-<li id="fn14"><p>Link: <a href="http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf" class="uri">http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf</a><a href="#fnref14">↩</a></p></li>
-<li id="fn15"><p>However, support for start of packet (SOP) and end of packet (EPH) markers may be included in future versions.<a href="#fnref15">↩</a></p></li>
-<li id="fn16"><p>For example, in a TIFF to JP2 conversion workflow one could include a pixel-by-pixel comparison of the values in the TIFF and the JP2.<a href="#fnref16">↩</a></p></li>
-<li id="fn17"><p>The consistency check verifies if the length of the quantization default marker segment (<em>lqcd</em> from <em>qcd</em>) is consistent with the quantization style (<em>qStyle</em> from <em>qcd</em>) and the number of decomposition levels (<em>levels</em> from <em>cod</em>). They are consistent if the following equation is true:<a href="#fnref17">↩</a></p></li>
-<li id="fn18"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>numberOfTiles</mi> <mo>=</mo> <mo>[</mo> <mfrac> <mrow> <mi>xsiz</mi> <mo>-</mo> <mi>xOsiz</mi> </mrow> <mrow> <mi>xTsiz</mi> </mrow> </mfrac> <mo>]</mo> <mo>•</mo> <mo>[</mo> <mfrac> <mrow> <mi>ysiz</mi> <mo>-</mo> <mi>yOsiz</mi> </mrow> <mrow> <mi>yTsiz</mi> </mrow> </mfrac> <mo>]</mo> </mrow> </math><a href="#fnref18">↩</a></p></li>
+<li id="fn1"><p>The <em>jpylyzer</em> binaries were created using the <em>PyInstaller</em> package: <a href="http://www.pyinstaller.org/" class="uri">http://www.pyinstaller.org/</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Note that <em>jpylyzer</em> versions 1.8 and earlier returned a formatted XML string instead of an element object!<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>Note that <em>jpylyzer</em> versions 1.4 and earlier used the verbose output format by default. This behaviour has changed in version 1.5 onwards, as the lengthy output turned out to be slightly confusing to some users.<a href="#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p>The “Any ICC” method is defined in ISO/IEC 15444-2 (the JPX format), and is not allowed in JP2. However, <em>jpylyzer</em> offers limited support for JPX here by also reporting the properties of ICC profiles that were embedded using this method. Note that any file that uses this method will fail the “methIsValid” test (and thereby the validation).<a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>Originally ISO/IEC 15444-1 only allowed “input device” profiles. Support of “display device” profiles was added through an <a href="http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard in 2013. The behaviour of <em>jpylyzer</em> is consistent with this amendment.<a href="#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRcN</mi> </mrow> <mrow> <mi>vRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRcE</mi> </msup> </mrow> </math><a href="#fnref6" class="footnote-back">↩</a></p></li>
+<li id="fn7"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRcN</mi> </mrow> <mrow> <mi>hRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRcE</mi> </msup> </mrow> </math><a href="#fnref7" class="footnote-back">↩</a></p></li>
+<li id="fn8"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref8" class="footnote-back">↩</a></p></li>
+<li id="fn9"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref9" class="footnote-back">↩</a></p></li>
+<li id="fn10"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRdN</mi> </mrow> <mrow> <mi>vRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRdE</mi> </msup> </mrow> </math><a href="#fnref10" class="footnote-back">↩</a></p></li>
+<li id="fn11"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRdN</mi> </mrow> <mrow> <mi>hRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRdE</mi> </msup> </mrow> </math><a href="#fnref11" class="footnote-back">↩</a></p></li>
+<li id="fn12"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref12" class="footnote-back">↩</a></p></li>
+<li id="fn13"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref13" class="footnote-back">↩</a></p></li>
+<li id="fn14"><p>Link: <a href="http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf" class="uri">http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf</a><a href="#fnref14" class="footnote-back">↩</a></p></li>
+<li id="fn15"><p>However, support for start of packet (SOP) and end of packet (EPH) markers may be included in future versions.<a href="#fnref15" class="footnote-back">↩</a></p></li>
+<li id="fn16"><p>For example, in a TIFF to JP2 conversion workflow one could include a pixel-by-pixel comparison of the values in the TIFF and the JP2.<a href="#fnref16" class="footnote-back">↩</a></p></li>
+<li id="fn17"><p>The consistency check verifies if the length of the quantization default marker segment (<em>lqcd</em> from <em>qcd</em>) is consistent with the quantization style (<em>qStyle</em> from <em>qcd</em>) and the number of decomposition levels (<em>levels</em> from <em>cod</em>). They are consistent if the following equation is true:<a href="#fnref17" class="footnote-back">↩</a></p></li>
+<li id="fn18"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>numberOfTiles</mi> <mo>=</mo> <mo>[</mo> <mfrac> <mrow> <mi>xsiz</mi> <mo>-</mo> <mi>xOsiz</mi> </mrow> <mrow> <mi>xTsiz</mi> </mrow> </mfrac> <mo>]</mo> <mo>•</mo> <mo>[</mo> <mfrac> <mrow> <mi>ysiz</mi> <mo>-</mo> <mi>yOsiz</mi> </mrow> <mrow> <mi>yTsiz</mi> </mrow> </mfrac> <mo>]</mo> </mrow> </math><a href="#fnref18" class="footnote-back">↩</a></p></li>
 </ol>
 </section>
