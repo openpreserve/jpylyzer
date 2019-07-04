@@ -265,21 +265,21 @@ sudo apt-get install python-jpylyzer</code></pre>
 <pre><code>jpylyzer rubbish.jp2 &gt; rubbish.xml</code></pre>
 <p>The format of the XML output is described in <a href="#output-format">Chapter 5</a>.</p>
 <h3 id="format-option"><span class="header-section-number">3.2.3</span> ‘format’ option</h3>
-<p>By default, <em>jpylyzer</em> validates against the <em>JP2</em> format specification. Starting with version 2.0, <em>jpylyzer</em> can also validate raw JPEG 2000 codestreams that are not wrapped inside a <em>JP2</em> container. For codestream validation, use the <em>–format</em> option with value <code>j2c</code>, e.g.:</p>
+<p>By default, <em>jpylyzer</em> validates against the <em>JP2</em> format specification. Starting with version 2.0, <em>jpylyzer</em> can also validate raw JPEG 2000 codestreams that are not wrapped inside a <em>JP2</em> container. For codestream validation, use the <code>--format</code> option with value <code>j2c</code>, e.g.:</p>
 <pre><code>jpylyzer --format j2c rubbish.j2c &gt; rubbish.xml</code></pre>
 <h3 id="legacyout-option"><span class="header-section-number">3.2.4</span> ‘legacyout’ option</h3>
-<p>The output format of <em>jpylyzer</em> has changed in version 2.0, which may break existing workflows that expect output in 1.x format. For backward compatibility the <em>–legacyout</em> option results in output that follows the old 1.x format. Note that codestream validation is disabled if you use this option.</p>
+<p>The output format of <em>jpylyzer</em> has changed in version 2.0, which may break existing workflows that expect output in 1.x format. For backward compatibility the <code>--legacyout</code> option results in output that follows the old 1.x format. Note that codestream validation is disabled if you use this option.</p>
 <h3 id="recurse-option"><span class="header-section-number">3.2.5</span> ‘recurse’ option</h3>
-<p>If the <em>–recurse</em> option is used, <em>jpylyzer</em> will recursively traverse all subdirectories of a filepath expression. E.g:</p>
+<p>If the <code>--recurse</code> option is used, <em>jpylyzer</em> will recursively traverse all subdirectories of a filepath expression. E.g:</p>
 <pre><code>jpylyzer /home/myJP2s/*.jp2 &gt; rubbish.xml</code></pre>
 <p>In this case <em>jpylyzer</em> analyses all files that have a <em>.jp2</em> extension in directory <em>/home/myJP2s</em> and all its subdirectories.</p>
 <h3 id="wrapper-option-deprecated"><span class="header-section-number">3.2.6</span> ‘wrapper’ option (deprecated)</h3>
-<p>This deprecated option is included for backward-compatibility, and only takes effect if <em>–legacyout</em> (see above) is used.By default, the <em>jpylyzer</em> 1.x releases would create a separate XML tree for each analysed image, without any overarching hierarchy. For multiple-image pathname expressions this resulted in output that was <strong>not</strong> well-formed XML. The <em>–legacyout</em> option still results in this is behaviour. For example:</p>
+<p>This deprecated option is included for backward-compatibility, and only takes effect if <code>--legacyout</code> (see above) is used.By default, the <em>jpylyzer</em> 1.x releases would create a separate XML tree for each analysed image, without any overarching hierarchy. For multiple-image pathname expressions this resulted in output that was <strong>not</strong> well-formed XML. The <code>--legacyout</code> option still results in this is behaviour. For example:</p>
 <pre><code>jpylyzer --legacyout rubbish.jp2 garbage.jp2 &gt; rubbish.xml</code></pre>
-<p>In this case, the file ‘rubbish.xml’ contains a succession of two XML trees, which by itself is not well-formed XML. The <em>–wrapper</em> option is provided to create valid XML instead:</p>
+<p>In this case, the file ‘rubbish.xml’ contains a succession of two XML trees, which by itself is not well-formed XML. The <code>--wrapper</code> option is provided to create valid XML instead:</p>
 <pre><code>jpylyzer --legacyout --wrapper rubbish.jp2 garbage.jp2 &gt; rubbish.xml</code></pre>
-<p>In the above case the XML trees of the individual images are wrapped inside a ‘results’ element. When the <em>–recurse</em> option is used, jpylyzer will automatically wrap the output in a ‘results’ element, so there’s no need to specify <em>–wrapper</em> in that case.</p>
-<p>Starting with version 2.0, <em>jpylyzer</em> <em>always</em> generates well-formed XML (unless the <em>–legacyout</em> option is used), which makes the <em>–wrapper</em> option largely obsolete, apart from cases where the ‘old’ behaviour is needed for backward-compatibility reasons.</p>
+<p>In the above case the XML trees of the individual images are wrapped inside a ‘results’ element. When the <code>--recurse</code> option is used, jpylyzer will automatically wrap the output in a ‘results’ element, so there’s no need to specify <code>--wrapper</code> in that case.</p>
+<p>Starting with version 2.0, <em>jpylyzer</em> <em>always</em> generates well-formed XML (unless the <code>--legacyout</code> option is used), which makes the <code>--wrapper</code> option largely obsolete, apart from cases where the ‘old’ behaviour is needed for backward-compatibility reasons.</p>
 <h3 id="nullxml-option"><span class="header-section-number">3.2.7</span> ‘nullxml’ option</h3>
 <p>The <em>nullxml</em> option was added to enable extraction of XML content that is terminated by a null-byte. By default <em>jpylyzer</em> doesn’t report the XML in that case, because it throws an exception in the XML parser. Apparently some old versions of the Kakadu demo applications would erroneously add a null-byte to embedded XML, so this option can be used to force extraction for images that are affected by this.</p>
 <h3 id="user-warnings"><span class="header-section-number">3.2.8</span> User warnings</h3>
@@ -500,7 +500,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <li><p>one <em>toolInfo</em> element, which contains information about <em>jpylyzer</em></p></li>
 <li><p>one or more <em>file</em> elements, each of which contain information about about the analysed files</p></li>
 </ol>
-<p>The XML output is pretty-printed. You can use the <em>–nopretty</em> switch to disable pretty-printing (this produces smaller files and may give a slightly better performance).</p>
+<p>The XML output is pretty-printed. You can use the <code>--nopretty</code> switch to disable pretty-printing (this produces smaller files and may give a slightly better performance).</p>
 <h2 id="toolinfo-element"><span class="header-section-number">5.2</span> toolInfo element</h2>
 <p>This element holds information about <em>jpylyzer</em>. Currently it contains the following sub-elements:</p>
 <ul>

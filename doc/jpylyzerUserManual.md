@@ -390,7 +390,7 @@ The format of the XML output is described in [Chapter 5](#output-format).
 
 By default, *jpylyzer* validates against the *JP2* format specification. Starting
 with version 2.0, *jpylyzer* can also validate raw JPEG 2000 codestreams that are
-not wrapped inside a *JP2* container. For codestream validation, use the *--format*
+not wrapped inside a *JP2* container. For codestream validation, use the `--format`
 option with value `j2c`, e.g.:
 
     jpylyzer --format j2c rubbish.j2c > rubbish.xml
@@ -398,13 +398,13 @@ option with value `j2c`, e.g.:
 ### ‘legacyout’ option
 
 The output format of *jpylyzer* has changed in version 2.0, which may break existing
-workflows that expect output in 1.x format. For backward compatibility the *--legacyout*
+workflows that expect output in 1.x format. For backward compatibility the `--legacyout`
 option results in output that follows the old 1.x format. Note that codestream validation
 is disabled if you use this option.
 
 ### ‘recurse’ option
 
-If the *--recurse* option is used, *jpylyzer* will recursively traverse all
+If the `--recurse` option is used, *jpylyzer* will recursively traverse all
 subdirectories of a filepath expression. E.g:
 
     jpylyzer /home/myJP2s/*.jp2 > rubbish.xml
@@ -414,26 +414,26 @@ directory */home/myJP2s* and all its subdirectories.
 
 ### ‘wrapper’ option (deprecated)
 
-This deprecated option is included for backward-compatibility, and only takes effect if *--legacyout*
+This deprecated option is included for backward-compatibility, and only takes effect if `--legacyout`
 (see above) is used.By default, the *jpylyzer* 1.x releases would create a separate XML tree for each
 analysed image, without any overarching hierarchy. For multiple-image pathname expressions this resulted
-in output that was **not** well-formed XML. The *--legacyout* option still results in this is behaviour.
+in output that was **not** well-formed XML. The `--legacyout` option still results in this is behaviour.
 For example:
 
     jpylyzer --legacyout rubbish.jp2 garbage.jp2 > rubbish.xml
 
 In this case, the file ‘rubbish.xml’ contains a succession of two XML trees, which
-by itself is not well-formed XML. The *--wrapper* option is provided to create valid XML instead:
+by itself is not well-formed XML. The `--wrapper` option is provided to create valid XML instead:
 
     jpylyzer --legacyout --wrapper rubbish.jp2 garbage.jp2 > rubbish.xml
 
 In the above case the XML trees of the individual images are wrapped
-inside a ‘results’ element. When the *--recurse* option is used, jpylyzer
+inside a ‘results’ element. When the `--recurse` option is used, jpylyzer
 will automatically wrap the output in a ‘results’ element, so there's no
-need to specify *--wrapper* in that case.
+need to specify `--wrapper` in that case.
 
-Starting with version 2.0, *jpylyzer* *always* generates well-formed XML (unless the *--legacyout*
-option is used), which makes the  *--wrapper* option largely obsolete, apart from cases where
+Starting with version 2.0, *jpylyzer* *always* generates well-formed XML (unless the `--legacyout`
+option is used), which makes the  `--wrapper` option largely obsolete, apart from cases where
 the 'old' behaviour is needed for backward-compatibility reasons. 
 
 ### ‘nullxml’ option
@@ -669,7 +669,7 @@ The root element (*jpylyzer*) contains the following child elements:
 
 2. one or more *file* elements, each of which contain information about about the analysed files
 
-The XML output is pretty-printed. You can use the *--nopretty* switch to disable
+The XML output is pretty-printed. You can use the `--nopretty` switch to disable
 pretty-printing (this produces smaller files and may give a slightly
 better performance).
 
