@@ -661,7 +661,6 @@ Overview {#output-format-overview}
 *Jpylyzer* generates its output in XML format, which is defined by [the schema that can be found here](http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd). The following Figure shows the
 output structure:
 
-<!-- TODO update figure to 2.0 format -->
 ![Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements.](images/outputStructure.png)
 
 The root element (*jpylyzer*) contains the following child elements:
