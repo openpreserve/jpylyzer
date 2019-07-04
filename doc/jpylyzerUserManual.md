@@ -203,7 +203,7 @@ If all went well you now see this:
     usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
                   [--recurse] [--verbose] [--version] [--wrapper]
                   jp2In [jp2In ...]
-    cli.py: error: the following arguments are required: jp2In
+    jpylyzer: error: the following arguments are required: jp2In
 
 Which means that the installation was successful!
 
@@ -512,25 +512,29 @@ Instead of using *jpylyzer* from the command-line, you can also import
 it as a module in your own Python programs. To do so, install jpylyzer
 with *pip*. Then import *jpylyzer* into your code by adding:
 
-    from jpylyzer import jpylyzer
+```python
+from jpylyzer import jpylyzer
+```
 
 Subsequently you can call any function that is defined in *jpylyzer.py*.
 In practice you will most likely only need the *checkOneFile* function. 
 The following minimal script shows how this works:
 
-    #! /usr/bin/env python
+```python
+  #! /usr/bin/env python
 
-    from jpylyzer import jpylyzer
+  from jpylyzer import jpylyzer
 
-    # Define JP2
-    myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
+  # Define JP2
+  myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
 
-    # Analyse with jpylyzer, result to Element object
-    myResult = jpylyzer.checkOneFile(myFile)
+  # Analyse with jpylyzer, result to Element object
+  myResult = jpylyzer.checkOneFile(myFile)
 
-    # Return image height value
-    imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
-    print(imageHeight)
+  # Return image height value
+  imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
+  print(imageHeight)
+```
 
 Here, *myResult* is an *Element* object that can either be used directly, 
 or converted to XML using the *ElementTree* module[^3]. The structure of the
@@ -539,11 +543,13 @@ element object follows the XML output that described in [Chapter 5](#output-form
 For validation a raw JPEG 2000 codestreams, call the *checkOneFile* function with the additional
 *validationFormat* argument, and set it to `j2c`:
 
-    # Define Codestream
-    myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
+```python
+# Define Codestream
+myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
 
-    # Analyse with jpylyzer, result to Element object
-    myResult = jpylyzer.checkOneFile(myFile, 'j2c')
+# Analyse with jpylyzer, result to Element object
+myResult = jpylyzer.checkOneFile(myFile, 'j2c')
+```
 
 Structure of a JP2 file {#structure-jp2}
 =========================
