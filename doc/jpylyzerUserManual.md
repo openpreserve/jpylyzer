@@ -320,36 +320,16 @@ brackets (example: `[-h]`) are optional.
 
 With:
 
-`jp2In`
-:   input JP2 image(s)
-
-`[-h, --help]`
-:   show help message and exit
-
-`[--format FMT]`
-:   validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)
-
-`[--legacyout]`
-:   report output in jpylyzer 1.x format (provided for backward compatibility only)
-
-`[--nopretty]`
-:   suppress pretty-printing of XML output
-
-`[--nullxml]`
-:   extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)
-
-`[--recurse, -r]`
-:   when analysing a directory, recurse into subdirectories (implies `--wrapper` if `--legacyout` is used)
-
-`[--verbose]`
-:   report test results in verbose format
-
-`[-v, --version]`
-:   show program's version number and exit
-
-`[--wrapper, -w]`
-:   wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect
-    if `--legacyout` is used)
+|:--|:--|
+|`[-h, --help]`|show help message and exit|
+|`[--format FMT]`|validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)|
+|`[--legacyout]`|report output in jpylyzer 1.x format (provided for backward compatibility only)|
+|`[--nopretty]`|suppress pretty-printing of XML output|
+|`[--nullxml]`|extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)|
+|`[--recurse, -r]`|when analysing a directory, recurse into subdirectories (implies `--wrapper` if `--legacyout` is used)|
+|`[--verbose]`|report test results in verbose format|
+|`[-v, --version]`|show program's version number and exit|
+|`[--wrapper, -w]`|wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect if `--legacyout` is used)|
 
 Note that the input can either be a single image, a space-separated
 sequence of images, a pathname expression that includes multiple images,
@@ -521,19 +501,19 @@ In practice you will most likely only need the *checkOneFile* function.
 The following minimal script shows how this works:
 
 ```python
-  #! /usr/bin/env python
+#! /usr/bin/env python
 
-  from jpylyzer import jpylyzer
+from jpylyzer import jpylyzer
 
-  # Define JP2
-  myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
+# Define JP2
+myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
 
-  # Analyse with jpylyzer, result to Element object
-  myResult = jpylyzer.checkOneFile(myFile)
+# Analyse with jpylyzer, result to Element object
+myResult = jpylyzer.checkOneFile(myFile)
 
-  # Return image height value
-  imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
-  print(imageHeight)
+# Return image height value
+imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
+print(imageHeight)
 ```
 
 Here, *myResult* is an *Element* object that can either be used directly, 

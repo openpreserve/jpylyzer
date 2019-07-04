@@ -598,38 +598,7 @@ sudo apt-get install python-jpylyzer</code></pre>
               [--recurse] [--verbose] [--version] [--wrapper]
               jp2In [jp2In ...]</code></pre>
 <p>With:</p>
-<dl>
-<dt><code>jp2In</code></dt>
-<dd>input JP2 image(s)
-</dd>
-<dt><code>[-h, --help]</code></dt>
-<dd>show help message and exit
-</dd>
-<dt><code>[--format FMT]</code></dt>
-<dd>validation format; allowed values are <code>jp2</code> (used by default) and <code>j2c</code> (which activates raw codestream validation)
-</dd>
-<dt><code>[--legacyout]</code></dt>
-<dd>report output in jpylyzer 1.x format (provided for backward compatibility only)
-</dd>
-<dt><code>[--nopretty]</code></dt>
-<dd>suppress pretty-printing of XML output
-</dd>
-<dt><code>[--nullxml]</code></dt>
-<dd>extract null-terminated XML content from XML and UUID boxes(doesn’t affect validation)
-</dd>
-<dt><code>[--recurse, -r]</code></dt>
-<dd>when analysing a directory, recurse into subdirectories (implies <code>--wrapper</code> if <code>--legacyout</code> is used)
-</dd>
-<dt><code>[--verbose]</code></dt>
-<dd>report test results in verbose format
-</dd>
-<dt><code>[-v, --version]</code></dt>
-<dd>show program’s version number and exit
-</dd>
-<dt><code>[--wrapper, -w]</code></dt>
-<dd>wrap output for individual image(s) in ‘results’ XML element (deprecated from jpylyzer 2.x onward, only takes effect if <code>--legacyout</code> is used)
-</dd>
-</dl>
+<p>|:–|:–| |<code>[-h, --help]</code>|show help message and exit| |<code>[--format FMT]</code>|validation format; allowed values are <code>jp2</code> (used by default) and <code>j2c</code> (which activates raw codestream validation)| |<code>[--legacyout]</code>|report output in jpylyzer 1.x format (provided for backward compatibility only)| |<code>[--nopretty]</code>|suppress pretty-printing of XML output| |<code>[--nullxml]</code>|extract null-terminated XML content from XML and UUID boxes(doesn’t affect validation)| |<code>[--recurse, -r]</code>|when analysing a directory, recurse into subdirectories (implies <code>--wrapper</code> if <code>--legacyout</code> is used)| |<code>[--verbose]</code>|report test results in verbose format| |<code>[-v, --version]</code>|show program’s version number and exit| |<code>[--wrapper, -w]</code>|wrap output for individual image(s) in ‘results’ XML element (deprecated from jpylyzer 2.x onward, only takes effect if <code>--legacyout</code> is used)|</p>
 <p>Note that the input can either be a single image, a space-separated sequence of images, a pathname expression that includes multiple images, or any combination of the above. For example, the following command will process one single image:</p>
 <pre><code>jpylyzer rubbish.jp2</code></pre>
 <p>The next example shows how to process all files with a ‘jp2’ extension in the current directory:</p>
@@ -689,19 +658,19 @@ User warning: unknown error (please report to developers)</code></pre>
 <p>Instead of using <em>jpylyzer</em> from the command-line, you can also import it as a module in your own Python programs. To do so, install jpylyzer with <em>pip</em>. Then import <em>jpylyzer</em> into your code by adding:</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</a></code></pre></div>
 <p>Subsequently you can call any function that is defined in <em>jpylyzer.py</em>. In practice you will most likely only need the <em>checkOneFile</em> function. The following minimal script shows how this works:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb33-1" data-line-number="1">  <span class="co">#! /usr/bin/env python</span></a>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co">#! /usr/bin/env python</span></a>
 <a class="sourceLine" id="cb33-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb33-3" data-line-number="3">  <span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</a>
+<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</a>
 <a class="sourceLine" id="cb33-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb33-5" data-line-number="5">  <span class="co"># Define JP2</span></a>
-<a class="sourceLine" id="cb33-6" data-line-number="6">  myFile <span class="op">=</span> <span class="st">&quot;/home/johan/jpylyzer-test-files/aware.jp2&quot;</span></a>
+<a class="sourceLine" id="cb33-5" data-line-number="5"><span class="co"># Define JP2</span></a>
+<a class="sourceLine" id="cb33-6" data-line-number="6">myFile <span class="op">=</span> <span class="st">&quot;/home/johan/jpylyzer-test-files/aware.jp2&quot;</span></a>
 <a class="sourceLine" id="cb33-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb33-8" data-line-number="8">  <span class="co"># Analyse with jpylyzer, result to Element object</span></a>
-<a class="sourceLine" id="cb33-9" data-line-number="9">  myResult <span class="op">=</span> jpylyzer.checkOneFile(myFile)</a>
+<a class="sourceLine" id="cb33-8" data-line-number="8"><span class="co"># Analyse with jpylyzer, result to Element object</span></a>
+<a class="sourceLine" id="cb33-9" data-line-number="9">myResult <span class="op">=</span> jpylyzer.checkOneFile(myFile)</a>
 <a class="sourceLine" id="cb33-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb33-11" data-line-number="11">  <span class="co"># Return image height value</span></a>
-<a class="sourceLine" id="cb33-12" data-line-number="12">  imageHeight <span class="op">=</span> myResult.findtext(<span class="st">'./properties/jp2HeaderBox/imageHeaderBox/height'</span>)</a>
-<a class="sourceLine" id="cb33-13" data-line-number="13">  <span class="bu">print</span>(imageHeight)</a></code></pre></div>
+<a class="sourceLine" id="cb33-11" data-line-number="11"><span class="co"># Return image height value</span></a>
+<a class="sourceLine" id="cb33-12" data-line-number="12">imageHeight <span class="op">=</span> myResult.findtext(<span class="st">'./properties/jp2HeaderBox/imageHeaderBox/height'</span>)</a>
+<a class="sourceLine" id="cb33-13" data-line-number="13"><span class="bu">print</span>(imageHeight)</a></code></pre></div>
 <p>Here, <em>myResult</em> is an <em>Element</em> object that can either be used directly, or converted to XML using the <em>ElementTree</em> module<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. The structure of the element object follows the XML output that described in <a href="#output-format">Chapter 5</a>.</p>
 <p>For validation a raw JPEG 2000 codestreams, call the <em>checkOneFile</em> function with the additional <em>validationFormat</em> argument, and set it to <code>j2c</code>:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co"># Define Codestream</span></a>
