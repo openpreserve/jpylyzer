@@ -203,7 +203,7 @@ If all went well you now see this:
     usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
                   [--recurse] [--verbose] [--version] [--wrapper]
                   jp2In [jp2In ...]
-    cli.py: error: the following arguments are required: jp2In
+    jpylyzer: error: the following arguments are required: jp2In
 
 Which means that the installation was successful!
 
@@ -320,36 +320,16 @@ brackets (example: `[-h]`) are optional.
 
 With:
 
-`jp2In`
-:   input JP2 image(s)
-
-`[-h, --help]`
-:   show help message and exit
-
-`[--format FMT]`
-:   validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)
-
-`[--legacyout]`
-:   report output in jpylyzer 1.x format (provided for backward compatibility only)
-
-`[--nopretty]`
-:   suppress pretty-printing of XML output
-
-`[--nullxml]`
-:   extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)
-
-`[--recurse, -r]`
-:   when analysing a directory, recurse into subdirectories (implies `--wrapper` if `--legacyout` is used)
-
-`[--verbose]`
-:   report test results in verbose format
-
-`[-v, --version]`
-:   show program's version number and exit
-
-`[--wrapper, -w]`
-:   wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect
-    if `--legacyout` is used)
+|:--|:--|
+|`[-h, --help]`|show help message and exit|
+|`[--format FMT]`|validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)|
+|`[--legacyout]`|report output in jpylyzer 1.x format (provided for backward compatibility only)|
+|`[--nopretty]`|suppress pretty-printing of XML output|
+|`[--nullxml]`|extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)|
+|`[--recurse, -r]`|when analysing a directory, recurse into subdirectories (implies `--wrapper` if `--legacyout` is used)|
+|`[--verbose]`|report test results in verbose format|
+|`[-v, --version]`|show program's version number and exit|
+|`[--wrapper, -w]`|wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect if `--legacyout` is used)|
 
 Note that the input can either be a single image, a space-separated
 sequence of images, a pathname expression that includes multiple images,
@@ -390,7 +370,7 @@ The format of the XML output is described in [Chapter 5](#output-format).
 
 By default, *jpylyzer* validates against the *JP2* format specification. Starting
 with version 2.0, *jpylyzer* can also validate raw JPEG 2000 codestreams that are
-not wrapped inside a *JP2* container. For codestream validation, use the *--format*
+not wrapped inside a *JP2* container. For codestream validation, use the `--format`
 option with value `j2c`, e.g.:
 
     jpylyzer --format j2c rubbish.j2c > rubbish.xml
@@ -398,13 +378,13 @@ option with value `j2c`, e.g.:
 ### ‘legacyout’ option
 
 The output format of *jpylyzer* has changed in version 2.0, which may break existing
-workflows that expect output in 1.x format. For backward compatibility the *--legacyout*
+workflows that expect output in 1.x format. For backward compatibility the `--legacyout`
 option results in output that follows the old 1.x format. Note that codestream validation
 is disabled if you use this option.
 
 ### ‘recurse’ option
 
-If the *--recurse* option is used, *jpylyzer* will recursively traverse all
+If the `--recurse` option is used, *jpylyzer* will recursively traverse all
 subdirectories of a filepath expression. E.g:
 
     jpylyzer /home/myJP2s/*.jp2 > rubbish.xml
@@ -414,26 +394,26 @@ directory */home/myJP2s* and all its subdirectories.
 
 ### ‘wrapper’ option (deprecated)
 
-This deprecated option is included for backward-compatibility, and only takes effect if *--legacyout*
+This deprecated option is included for backward-compatibility, and only takes effect if `--legacyout`
 (see above) is used.By default, the *jpylyzer* 1.x releases would create a separate XML tree for each
 analysed image, without any overarching hierarchy. For multiple-image pathname expressions this resulted
-in output that was **not** well-formed XML. The *--legacyout* option still results in this is behaviour.
+in output that was **not** well-formed XML. The `--legacyout` option still results in this is behaviour.
 For example:
 
     jpylyzer --legacyout rubbish.jp2 garbage.jp2 > rubbish.xml
 
 In this case, the file ‘rubbish.xml’ contains a succession of two XML trees, which
-by itself is not well-formed XML. The *--wrapper* option is provided to create valid XML instead:
+by itself is not well-formed XML. The `--wrapper` option is provided to create valid XML instead:
 
     jpylyzer --legacyout --wrapper rubbish.jp2 garbage.jp2 > rubbish.xml
 
 In the above case the XML trees of the individual images are wrapped
-inside a ‘results’ element. When the *--recurse* option is used, jpylyzer
+inside a ‘results’ element. When the `--recurse` option is used, jpylyzer
 will automatically wrap the output in a ‘results’ element, so there's no
-need to specify *--wrapper* in that case.
+need to specify `--wrapper` in that case.
 
-Starting with version 2.0, *jpylyzer* *always* generates well-formed XML (unless the *--legacyout*
-option is used), which makes the  *--wrapper* option largely obsolete, apart from cases where
+Starting with version 2.0, *jpylyzer* *always* generates well-formed XML (unless the `--legacyout`
+option is used), which makes the  `--wrapper` option largely obsolete, apart from cases where
 the 'old' behaviour is needed for backward-compatibility reasons. 
 
 ### ‘nullxml’ option
@@ -512,25 +492,29 @@ Instead of using *jpylyzer* from the command-line, you can also import
 it as a module in your own Python programs. To do so, install jpylyzer
 with *pip*. Then import *jpylyzer* into your code by adding:
 
-    from jpylyzer import jpylyzer
+```python
+from jpylyzer import jpylyzer
+```
 
 Subsequently you can call any function that is defined in *jpylyzer.py*.
 In practice you will most likely only need the *checkOneFile* function. 
 The following minimal script shows how this works:
 
-    #! /usr/bin/env python
+```python
+#! /usr/bin/env python
 
-    from jpylyzer import jpylyzer
+from jpylyzer import jpylyzer
 
-    # Define JP2
-    myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
+# Define JP2
+myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
 
-    # Analyse with jpylyzer, result to Element object
-    myResult = jpylyzer.checkOneFile(myFile)
+# Analyse with jpylyzer, result to Element object
+myResult = jpylyzer.checkOneFile(myFile)
 
-    # Return image height value
-    imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
-    print(imageHeight)
+# Return image height value
+imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
+print(imageHeight)
+```
 
 Here, *myResult* is an *Element* object that can either be used directly, 
 or converted to XML using the *ElementTree* module[^3]. The structure of the
@@ -539,11 +523,13 @@ element object follows the XML output that described in [Chapter 5](#output-form
 For validation a raw JPEG 2000 codestreams, call the *checkOneFile* function with the additional
 *validationFormat* argument, and set it to `j2c`:
 
-    # Define Codestream
-    myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
+```python
+# Define Codestream
+myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
 
-    # Analyse with jpylyzer, result to Element object
-    myResult = jpylyzer.checkOneFile(myFile, 'j2c')
+# Analyse with jpylyzer, result to Element object
+myResult = jpylyzer.checkOneFile(myFile, 'j2c')
+```
 
 Structure of a JP2 file {#structure-jp2}
 =========================
@@ -658,30 +644,18 @@ This chapter explains *jpylyzer*’s output format.
 Overview {#output-format-overview}
 ------------
 
-*Jpylyzer* generates its output in XML format, which is defined by [the schema that can be found here](http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd). The following Figure shows the
+*Jpylyzer* generates its output in XML format, which is defined by [the schema that can be found here](http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd). The following Figure shows the
 output structure:
 
 ![Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements.](images/outputStructure.png)
 
-The root element (*jpylyzer*) contains 5 child elements:
+The root element (*jpylyzer*) contains the following child elements:
 
-1. *toolInfo*: information about *jpylyzer*
+1. one *toolInfo* element, which contains information about *jpylyzer*
 
-2. *fileInfo*: general information about the analysed file
+2. one or more *file* elements, each of which contain information about about the analysed files
 
-3. *statusInfo*: information about the status of *jpylyzer*'s validation attempt
-
-4. *isValidJP2*: outcome of the validation
-
-5. *tests*: outcome of the individual tests that are part of the
-validation process (organised by box)
-
-6. *properties*: image properties (organised by box)
-
-If *jpylyzer* is executed with the *--wrapper* option, the root element
-is *results*, which contains one or more *jpylyzer* elements which
-otherwise follow the above structure. From version 1.12 onward, the XML
-output is pretty-printed. You can use the *--nopretty* switch to disable
+The XML output is pretty-printed. You can use the `--nopretty` switch to disable
 pretty-printing (this produces smaller files and may give a slightly
 better performance).
 
@@ -696,6 +670,22 @@ the following sub-elements:
 
 * *toolVersion*: version of *jpylyzer* (*jpylyzer* uses a date
 versioning scheme)
+
+file element {#file-element}
+--------------------
+
+The *file* element contains the following sub-elements:
+
+1. *fileInfo*: general information about the analysed file
+
+2. *statusInfo*: information about the status of *jpylyzer*'s validation attempt
+
+3. *isValid*: outcome of the validation
+
+4. *tests*: outcome of the individual tests that are part of the
+validation process (organised by box)
+
+5. *properties*: image properties (organised by box)
 
 fileInfo element {#fileinfo-element}
 --------------------
@@ -736,13 +726,17 @@ Examples are:
         unknown error (please report to developers)
 
 
-isValidJP2 element {#isvalidjp2-element}
+isValid element {#isvalid-element}
 ----------------------
 
 This element contains the results of the validation. If a file passed
 all the tests (i.e. all tests returned “True”, see [section 5.5](#tests-element)) it is
-most likely valid JP2, and the value of isValidJP2 will be “True”. Its
-value is “False” otherwise.
+most valid, and the value of *isValid* will be “True”. Its value is “False” otherwise.
+The element has a *format* attribute, which defines the validation format (set by the
+`--format` command-line option). The *format* attribute can have the following values:
+
+* “jp2” (JP2 validation)
+* “j2c” (raw codestream validation)
 
 tests element {#tests-element}
 -----------------
