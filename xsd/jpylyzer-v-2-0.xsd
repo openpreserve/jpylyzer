@@ -108,22 +108,27 @@
   <xs:element name="failureMessage" type="xs:string"/>  
 
   <!-- isValid element -->
-  <!-- TODO: define constraints for 'format' attribute-->
   <xs:element name="isValid">
-    <xs:complexType>
-      <xs:simpleContent>
-        <xs:extension base="xs:string">
-          <xs:attribute name="format" type="format" use="required"/>
-        </xs:extension>
-      </xs:simpleContent>
-    </xs:complexType>
+  <xs:complexType>
+    <xs:simpleContent>
+      <xs:extension base="isValidEnum">
+        <xs:attribute name="format" type="formatEnum" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
   </xs:element>
 
-  <!-- format attribute -->
-  <xs:simpleType name="format">
+  <xs:simpleType name="isValidEnum">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="jp2"/>
-      <xs:enumeration value="j2c"/>
+      <xs:enumeration value="True" />
+      <xs:enumeration value="False" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="formatEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="jp2" />
+      <xs:enumeration value="j2c" />
     </xs:restriction>
   </xs:simpleType>
 
