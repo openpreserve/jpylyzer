@@ -111,15 +111,22 @@
   <!-- TODO: define constraints for 'format' attribute-->
   <xs:element name="isValid">
     <xs:complexType>
-      <xs:complexContent>
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="True"/>
-          <xs:enumeration value="False"/>
-        </xs:restriction>
-      </xs:complexContent>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="format" type="format" use="required"/>
+        </xs:extension>
+      </xs:simpleContent>
     </xs:complexType>
   </xs:element>
-  
+
+  <!-- format attribute -->
+  <xs:simpleType name="format">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="jp2"/>
+      <xs:enumeration value="j2c"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <!-- Tests element -->  
   <xs:element name="tests">
     <xs:complexType>
