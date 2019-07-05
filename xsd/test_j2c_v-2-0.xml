@@ -1,0 +1,1188 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jpylyzer xmlns="http://openpreservation.org/ns/jpylyzer/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd">
+<toolInfo>
+    <toolName>cli.py</toolName>
+    <toolVersion>2.0.0a1</toolVersion>
+</toolInfo>
+<file>
+    <fileInfo>
+        <fileName>aware.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/aware.jp2</filePath>
+        <fileSizeInBytes>662735</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-codestreamheader-corrupted-xsiz-10918.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-codestreamheader-corrupted-xsiz-10918.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-codestreamheader-corrupted-xsiz-10928.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-codestreamheader-corrupted-xsiz-10928.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-codestreamheader-corrupted-xsiz-10937.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-codestreamheader-corrupted-xsiz-10937.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-codestreamheader-corrupted-xsiz-10946.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-codestreamheader-corrupted-xsiz-10946.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-codestreamheader-corrupted-xsiz-10955.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-codestreamheader-corrupted-xsiz-10955.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-codestreamheader-corrupted-ysiz-11208.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-codestreamheader-corrupted-ysiz-11208.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-codestreamheader-corrupted-ysiz-11218.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-codestreamheader-corrupted-ysiz-11218.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-codestreamheader-corrupted-ysiz-11227.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-codestreamheader-corrupted-ysiz-11227.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-codestreamheader-corrupted-ysiz-11238.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-codestreamheader-corrupted-ysiz-11238.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-codestreamheader-corrupted-ysiz-11252.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-codestreamheader-corrupted-ysiz-11252.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-headerbox-corrupted-boxlength-22181.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-headerbox-corrupted-boxlength-22181.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-icc-corrupted-tagcount-1911.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-icc-corrupted-tagcount-1911.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-icc-corrupted-tagcount-1920.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-icc-corrupted-tagcount-1920.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-icc-corrupted-tagcount-1937.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-icc-corrupted-tagcount-1937.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-icc-corrupted-tagcount-1951.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-icc-corrupted-tagcount-1951.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-icc-corrupted-tagcount-1961.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-icc-corrupted-tagcount-1961.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-icc-corrupted-tagcount-1971.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-icc-corrupted-tagcount-1971.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-icc-corrupted-tagcount-1984.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-icc-corrupted-tagcount-1984.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-icc-corrupted-tagcount-1999.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-icc-corrupted-tagcount-1999.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-icc-corrupted-tagcount-2011.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-icc-corrupted-tagcount-2011.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-icc-corrupted-tagcount-2021.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-icc-corrupted-tagcount-2021.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-resolutionbox-corrupted-boxlength-8127.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-resolutionbox-corrupted-boxlength-8127.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-resolutionbox-corrupted-boxlength-8154.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-resolutionbox-corrupted-boxlength-8154.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>bitwiser-resolutionbox-corrupted-boxlength-8730.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/bitwiser-resolutionbox-corrupted-boxlength-8730.jp2</filePath>
+        <fileSizeInBytes>2916</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>data_missing_in_last_tilepart.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/data_missing_in_last_tilepart.jp2</filePath>
+        <fileSizeInBytes>645179</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>empty.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/empty.jp2</filePath>
+        <fileSizeInBytes>0</fileSizeInBytes>
+        <fileLastModified>Fri Dec  4 08:24:46 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+        <foundEOCMarker>False</foundEOCMarker>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>graphicsMagick.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/graphicsMagick.jp2</filePath>
+        <fileSizeInBytes>669683</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>height_image_header_damaged.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/height_image_header_damaged.jp2</filePath>
+        <fileSizeInBytes>670265</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>invalid_character_in_codestream_comment.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/invalid_character_in_codestream_comment.jp2</filePath>
+        <fileSizeInBytes>662735</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>invalid_character_in_xml.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/invalid_character_in_xml.jp2</filePath>
+        <fileSizeInBytes>670265</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>is_codestream.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/is_codestream.jp2</filePath>
+        <fileSizeInBytes>628385</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">True</isValid>
+    <tests/>
+    <properties>
+        <siz>
+            <lsiz>47</lsiz>
+            <rsiz>ISO/IEC 15444-1</rsiz>
+            <xsiz>2717</xsiz>
+            <ysiz>3701</ysiz>
+            <xOsiz>0</xOsiz>
+            <yOsiz>0</yOsiz>
+            <xTsiz>2717</xTsiz>
+            <yTsiz>3701</yTsiz>
+            <xTOsiz>0</xTOsiz>
+            <yTOsiz>0</yTOsiz>
+            <numberOfTiles>1</numberOfTiles>
+            <csiz>3</csiz>
+            <ssizSign>unsigned</ssizSign>
+            <ssizDepth>8</ssizDepth>
+            <xRsiz>1</xRsiz>
+            <yRsiz>1</yRsiz>
+            <ssizSign>unsigned</ssizSign>
+            <ssizDepth>8</ssizDepth>
+            <xRsiz>1</xRsiz>
+            <yRsiz>1</yRsiz>
+            <ssizSign>unsigned</ssizSign>
+            <ssizDepth>8</ssizDepth>
+            <xRsiz>1</xRsiz>
+            <yRsiz>1</yRsiz>
+        </siz>
+        <cod>
+            <lcod>12</lcod>
+            <precincts>no</precincts>
+            <sop>no</sop>
+            <eph>no</eph>
+            <order>LRCP</order>
+            <layers>1</layers>
+            <multipleComponentTransformation>yes</multipleComponentTransformation>
+            <levels>5</levels>
+            <codeBlockWidth>64</codeBlockWidth>
+            <codeBlockHeight>64</codeBlockHeight>
+            <codingBypass>no</codingBypass>
+            <resetOnBoundaries>no</resetOnBoundaries>
+            <termOnEachPass>no</termOnEachPass>
+            <vertCausalContext>no</vertCausalContext>
+            <predTermination>no</predTermination>
+            <segmentationSymbols>no</segmentationSymbols>
+            <transformation>9-7 irreversible</transformation>
+        </cod>
+        <qcd>
+            <lqcd>35</lqcd>
+            <qStyle>scalar expounded</qStyle>
+            <guardBits>1</guardBits>
+            <mu>1822</mu>
+            <epsilon>14</epsilon>
+            <mu>1770</mu>
+            <epsilon>14</epsilon>
+            <mu>1770</mu>
+            <epsilon>14</epsilon>
+            <mu>1724</mu>
+            <epsilon>14</epsilon>
+            <mu>1792</mu>
+            <epsilon>13</epsilon>
+        </qcd>
+        <com>
+            <lcom>15</lcom>
+            <rcom>ISO/IEC 8859-15 (Latin)</rcom>
+            <comment>Kakadu-v7.1</comment>
+        </com>
+        <com>
+            <lcom>92</lcom>
+            <rcom>ISO/IEC 8859-15 (Latin)</rcom>
+            <comment>Kdu-Layer-Info: log_2{Delta-D(squared-error)/Delta-L(bytes)}, L(bytes)
+ -22.3, 6.3e+005
+</comment>
+        </com>
+        <tileParts>
+            <tilePart>
+                <sot>
+                    <lsot>10</lsot>
+                    <isot>0</isot>
+                    <psot>628170</psot>
+                    <tpsot>0</tpsot>
+                    <tnsot>1</tnsot>
+                </sot>
+            </tilePart>
+        </tileParts>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>is_jpeg.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/is_jpeg.jp2</filePath>
+        <fileSizeInBytes>665968</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>is_jpm.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/is_jpm.jp2</filePath>
+        <fileSizeInBytes>888827</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <rgn/>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>is_jpx.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/is_jpx.jp2</filePath>
+        <fileSizeInBytes>628654</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>jpx_disguised_as_jp2.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/jpx_disguised_as_jp2.jp2</filePath>
+        <fileSizeInBytes>674424</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>kakadu61.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/kakadu61.jp2</filePath>
+        <fileSizeInBytes>653702</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>kakadu71.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/kakadu71.jp2</filePath>
+        <fileSizeInBytes>628496</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>last_byte_missing.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/last_byte_missing.jp2</filePath>
+        <fileSizeInBytes>670264</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+        <foundEOCMarker>False</foundEOCMarker>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>meth_is_2_no_icc.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/meth_is_2_no_icc.jp2</filePath>
+        <fileSizeInBytes>670265</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>missing_null_terminator_in_urlbox.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/missing_null_terminator_in_urlbox.jp2</filePath>
+        <fileSizeInBytes>670265</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>null_character_in_codestream_comment.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/null_character_in_codestream_comment.jp2</filePath>
+        <fileSizeInBytes>662735</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>null_terminated_content_in_xml_box.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/null_terminated_content_in_xml_box.jp2</filePath>
+        <fileSizeInBytes>1054826</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>openJPEG15.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/openJPEG15.jp2</filePath>
+        <fileSizeInBytes>670372</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>palettedImage.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/palettedImage.jp2</filePath>
+        <fileSizeInBytes>317550</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>reference.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/reference.jp2</filePath>
+        <fileSizeInBytes>670265</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>sentinel.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/sentinel.jp2</filePath>
+        <fileSizeInBytes>1233891</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>signature_corrupted.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/signature_corrupted.jp2</filePath>
+        <fileSizeInBytes>670265</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>triggerUnboundLocalError.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/triggerUnboundLocalError.jp2</filePath>
+        <fileSizeInBytes>111</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 09:38:34 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+        <foundEOCMarker>False</foundEOCMarker>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+<file>
+    <fileInfo>
+        <fileName>truncated_at_byte_5000.jp2</fileName>
+        <filePath>/home/johan/jpylyzer-test-files/truncated_at_byte_5000.jp2</filePath>
+        <fileSizeInBytes>5000</fileSizeInBytes>
+        <fileLastModified>Wed Dec  2 08:28:52 2015</fileLastModified>
+    </fileInfo>
+    <statusInfo>
+        <success>True</success>
+    </statusInfo>
+    <isValid format="j2c">False</isValid>
+    <tests>
+        <codestreamStartsWithSOCMarker>False</codestreamStartsWithSOCMarker>
+        <foundSIZMarker>False</foundSIZMarker>
+        <foundCODMarker>False</foundCODMarker>
+        <foundQCDMarker>False</foundQCDMarker>
+        <quantizationConsistentWithLevels>False</quantizationConsistentWithLevels>
+        <foundEOCMarker>False</foundEOCMarker>
+    </tests>
+    <properties>
+        <tileParts/>
+    </properties>
+</file>
+</jpylyzer>
