@@ -30,6 +30,21 @@
       <xs:element ref="uuidListBox"/>
       <xs:element ref="urlBox"/>
       <xs:element ref="unknownBox"/>
+      <!-- following are not box types, but for raw codestream validation 
+      the codestream marker elements are added directly under tests/properties -->
+      <xs:element ref="siz"/>
+      <xs:element ref="cod"/>
+      <xs:element ref="qcd"/>
+      <xs:element ref="com"/>
+      <xs:element ref="coc"/>
+      <xs:element ref="rgn"/>
+      <xs:element ref="qcc"/>
+      <xs:element ref="poc"/>
+      <xs:element ref="tlm"/>
+      <xs:element ref="plm"/>
+      <xs:element ref="ppm"/>
+      <xs:element ref="crg"/>
+      <xs:element ref="tileParts"/>
     </xs:choice>
   </xs:complexType>
  
