@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://openpreservation.org/ns/jpylyzer/"
+  xmlns="http://openpreservation.org/ns/jpylyzer/"
+  elementFormDefault="qualified">
+
+  <!-- Added definitions for StatusInfo element -->
+
+  <!-- All box types -->  
+  <xs:complexType name="allBoxes">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="intellectualPropertyBox"/>
+      <xs:element ref="xmlBox"/>
+      <xs:element ref="uuidBox"/>
+      <xs:element ref="uuidInfoBox"/>
+      <xs:element ref="signatureBox"/>
+      <xs:element ref="fileTypeBox"/>
+      <xs:element ref="jp2HeaderBox"/>
+      <xs:element ref="imageHeaderBox"/>
+      <xs:element ref="bitsPerComponentBox"/>
+      <xs:element ref="colourSpecificationBox"/>
+      <xs:element ref="paletteBox"/>
+      <xs:element ref="componentMappingBox"/>
+      <xs:element ref="channelDefinitionBox"/>
+      <xs:element ref="resolutionBox"/>
+      <xs:element ref="contiguousCodestreamBox"/>
+      <xs:element ref="captureResolutionBox"/>
+      <xs:element ref="displayResolutionBox"/>
+      <xs:element ref="uuidListBox"/>
+      <xs:element ref="urlBox"/>
+      <xs:element ref="unknownBox"/>
+      <!-- following are not box types, but for raw codestream validation 
+      the codestream marker elements are added directly under tests/properties -->
+      <xs:element ref="siz"/>
+      <xs:element ref="cod"/>
+      <xs:element ref="qcd"/>
+      <xs:element ref="com"/>
+      <xs:element ref="coc"/>
+      <xs:element ref="rgn"/>
+      <xs:element ref="qcc"/>
+      <xs:element ref="poc"/>
+      <xs:element ref="tlm"/>
+      <xs:element ref="plm"/>
+      <xs:element ref="ppm"/>
+      <xs:element ref="crg"/>
+      <xs:element ref="tileParts"/>
+    </xs:choice>
+  </xs:complexType>
+ 
+  <!-- Jpylyzer element -->
+  <xs:element name="jpylyzer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="toolInfo"/>
+        <xs:element ref="file" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <!-- Toolinfo element -->
+  <xs:element name="toolInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="toolName"/>
+        <xs:element ref="toolVersion"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="toolName" type="xs:string"/>
+  <xs:element name="toolVersion" type="xs:string"/>
+  
+  <!-- File element -->
+  <xs:element name="file">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="fileInfo"/>
+        <xs:element ref="statusInfo"/>
+        <xs:element ref="isValid"/>
+        <xs:element ref="tests"/>
+        <xs:element ref="properties"/>
+        </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Fileinfo element -->
+  <xs:element name="fileInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="fileName"/>
+        <xs:element ref="filePath"/>
+        <xs:element ref="fileSizeInBytes"/>
+        <xs:element ref="fileLastModified"/>
+      </xs:sequence>
+    </xs:complexType>
+    </xs:element>
+   
+  <xs:element name="fileName" type="xs:string"/>
+  <xs:element name="filePath" type="xs:string"/>
+  <xs:element name="fileSizeInBytes" type="xs:integer"/>
+  <xs:element name="fileLastModified" type="xs:string"/>
+
+  <!-- Statusinfo element -->
+  <xs:element name="statusInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="success"/>
+        <xs:element ref="failureMessage" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="success">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="True"/>
+        <xs:enumeration value="False"/>
+      </xs:restriction>
+    </xs:simpleType> 
+  </xs:element>
+
+  <xs:element name="failureMessage" type="xs:string"/>  
+
+  <!-- isValid element -->
+  <xs:element name="isValid">
+  <xs:complexType>
+    <xs:simpleContent>
+      <xs:extension base="isValidEnum">
+        <xs:attribute name="format" type="formatEnum" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="isValidEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="True" />
+      <xs:enumeration value="False" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="formatEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="jp2" />
+      <xs:enumeration value="j2c" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Tests element -->  
+  <xs:element name="tests">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="properties">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="allBoxes">
+          <xs:choice>
+            <xs:element ref="compressionRatio" minOccurs="0"/>
+          </xs:choice>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="signatureBox">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="0">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="fileTypeBox">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="br"/>
+        <xs:element ref="minV"/>
+        <xs:element ref="cL" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="br" type="xs:string"/>
+  <xs:element name="minV" type="xs:integer"/>
+  <xs:element name="cL" type="xs:string"/>
+
+  <xs:element name="jp2HeaderBox">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="allBoxes"/>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="imageHeaderBox">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="height"/>
+        <xs:element ref="width"/>
+        <xs:element ref="nC"/>
+        <xs:element ref="bPCSign"/>
+        <xs:element ref="bPCDepth"/>
+        <xs:element ref="c"/>
+        <xs:element ref="unkC"/>
+        <xs:element ref="iPR"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="height" type="xs:integer"/>
+  <xs:element name="width" type="xs:integer"/>
+  <xs:element name="nC" type="xs:integer"/>
+  <xs:element name="bPCSign" type="xs:string"/>
+  <xs:element name="bPCDepth" type="xs:integer"/>
+  <xs:element name="c" type="xs:string"/>
+  <xs:element name="unkC" type="xs:string"/>
+  <xs:element name="iPR" type="xs:string"/>
+
+  <xs:element name="bitsPerComponentBox">  
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="bPCSign" maxOccurs="unbounded"/>
+        <xs:element ref="bPCDepth" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="colourSpecificationBox">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="meth"/>
+        <xs:element ref="prec"/>
+        <xs:element ref="approx"/>
+        <xs:element ref="enumCS"  minOccurs="0"/>
+        <xs:element ref="icc"  minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="meth" type="xs:string"/>
+  <xs:element name="prec" type="xs:integer"/>
+  <xs:element name="approx" type="xs:integer"/>
+  <xs:element name="enumCS" type="xs:string"/>
+
+  <xs:element name="icc">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="profileSize"/>
+        <xs:element ref="preferredCMMType"/>
+        <xs:element ref="profileVersion"/>
+        <xs:element ref="profileClass"/>
+        <xs:element ref="colourSpace"/>
+        <xs:element ref="profileConnectionSpace"/>
+        <xs:element ref="dateTimeString"/>
+        <xs:element ref="profileSignature"/>
+        <xs:element ref="primaryPlatform"/>
+        <xs:element ref="embeddedProfile"/>
+        <xs:element ref="profileCannotBeUsedIndependently"/>
+        <xs:element ref="deviceManufacturer"/>
+        <xs:element ref="deviceModel"/>
+        <xs:element ref="transparency"/>
+        <xs:element ref="glossiness"/>
+        <xs:element ref="polarity"/>
+        <xs:element ref="colour"/>
+        <xs:element ref="renderingIntent"/>
+        <xs:element ref="connectionSpaceIlluminantX"/>
+        <xs:element ref="connectionSpaceIlluminantY"/>
+        <xs:element ref="connectionSpaceIlluminantZ"/>
+        <xs:element ref="profileCreator"/>
+        <xs:element ref="profileID"/>
+        <xs:element ref="tag" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="description"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="profileSize" type="xs:integer"/>
+  <xs:element name="preferredCMMType" type="xs:string"/>
+  <xs:element name="profileVersion" type="xs:string"/>
+  <xs:element name="profileClass" type="xs:string"/>
+  <xs:element name="colourSpace" type="xs:string"/>
+  <xs:element name="profileConnectionSpace" type="xs:string"/>
+  <xs:element name="dateTimeString" type="xs:string"/>
+  <xs:element name="profileSignature" type="xs:string"/>
+  <xs:element name="primaryPlatform" type="xs:string"/>
+  <xs:element name="embeddedProfile" type="xs:string"/>
+  <xs:element name="profileCannotBeUsedIndependently" type="xs:string"/>
+  <xs:element name="deviceManufacturer" type="xs:string"/>
+  <xs:element name="deviceModel" type="xs:string"/>
+  <xs:element name="transparency" type="xs:string"/>
+  <xs:element name="glossiness" type="xs:string"/>
+  <xs:element name="polarity" type="xs:string"/>
+  <xs:element name="colour" type="xs:string"/>
+  <xs:element name="renderingIntent" type="xs:string"/>
+  <xs:element name="connectionSpaceIlluminantX" type="xs:decimal"/>
+  <xs:element name="connectionSpaceIlluminantY" type="xs:decimal"/>
+  <xs:element name="connectionSpaceIlluminantZ" type="xs:decimal"/>
+  <xs:element name="profileCreator" type="xs:string"/>
+  <xs:element name="profileID" type="xs:string"/>
+  <xs:element name="tag" type="xs:string"/>
+  <xs:element name="description" type="xs:string"/>
+
+  <xs:element name="paletteBox">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="nE"/>
+        <xs:element ref="nPC"/>
+          <xs:sequence maxOccurs="unbounded">
+            <xs:element ref="bSign"/>
+            <xs:element ref="bDepth"/>
+            <xs:element ref="cP" maxOccurs="unbounded"/>
+          </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="nE" type="xs:integer"/>
+  <xs:element name="nPC" type="xs:integer"/>
+  <xs:element name="bSign" type="xs:string"/>
+  <xs:element name="bDepth" type="xs:integer"/>
+  <xs:element name="cP" type="xs:integer"/>
+
+  <xs:element name="componentMappingBox">
+    <xs:complexType>
+      <xs:sequence maxOccurs="unbounded">
+        <xs:element ref="cMP"/>
+        <xs:element ref="mTyp"/>
+        <xs:element ref="pCol"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="cMP" type="xs:integer"/>
+  <xs:element name="mTyp" type="xs:string"/>
+  <xs:element name="pCol" type="xs:integer"/>
+  
+  <xs:element name="channelDefinitionBox">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="n"/>
+        <xs:sequence maxOccurs="unbounded">
+          <xs:element ref="cN"/>
+          <xs:element ref="cTyp"/>
+          <xs:element ref="cAssoc"/>
+        </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="n" type="xs:integer"/>
+  <xs:element name="cN" type="xs:integer"/>
+  <xs:element name="cTyp" type="xs:string"/>
+  <xs:element name="cAssoc" type="xs:string"/>
+  
+  <xs:element name="resolutionBox">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="allBoxes"/>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="captureResolutionBox">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="vRcN"/>
+        <xs:element ref="vRcD"/>
+        <xs:element ref="hRcN"/>
+        <xs:element ref="hRcD"/>
+        <xs:element ref="vRcE"/>
+        <xs:element ref="hRcE"/>
+        <xs:element ref="vRescInPixelsPerMeter"/>
+        <xs:element ref="hRescInPixelsPerMeter"/>
+        <xs:element ref="vRescInPixelsPerInch"/>
+        <xs:element ref="hRescInPixelsPerInch"/>        
+        </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="vRcN" type="xs:integer"/>
+  <xs:element name="vRcD" type="xs:integer"/>
+  <xs:element name="hRcN" type="xs:integer"/>
+  <xs:element name="hRcD" type="xs:integer"/>
+  <xs:element name="vRcE" type="xs:integer"/>
+  <xs:element name="hRcE" type="xs:integer"/>
+  <xs:element name="vRescInPixelsPerMeter" type="xs:decimal"/>
+  <xs:element name="hRescInPixelsPerMeter" type="xs:decimal"/>
+  <xs:element name="vRescInPixelsPerInch" type="xs:decimal"/>
+  <xs:element name="hRescInPixelsPerInch" type="xs:decimal"/>  
+  
+  <xs:element name="displayResolutionBox">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="vRdN"/>
+        <xs:element ref="vRdD"/>
+        <xs:element ref="hRdN"/>
+        <xs:element ref="hRdD"/>
+        <xs:element ref="vRdE"/>
+        <xs:element ref="hRdE"/>
+        <xs:element ref="vResdInPixelsPerMeter"/>
+        <xs:element ref="hResdInPixelsPerMeter"/>
+        <xs:element ref="vResdInPixelsPerInch"/>
+        <xs:element ref="hResdInPixelsPerInch"/>        
+        </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="vRdN" type="xs:integer"/>
+  <xs:element name="vRdD" type="xs:integer"/>
+  <xs:element name="hRdN" type="xs:integer"/>
+  <xs:element name="hRdD" type="xs:integer"/>
+  <xs:element name="vRdE" type="xs:integer"/>
+  <xs:element name="hRdE" type="xs:integer"/>
+  <xs:element name="vResdInPixelsPerMeter" type="xs:decimal"/>
+  <xs:element name="hResdInPixelsPerMeter" type="xs:decimal"/>
+  <xs:element name="vResdInPixelsPerInch" type="xs:decimal"/>
+  <xs:element name="hResdInPixelsPerInch" type="xs:decimal"/>  
+  
+  <xs:element name="intellectualPropertyBox">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="xmlBox">
+    <xs:complexType>
+      <xs:sequence minOccurs="0">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="uuidBox">
+    <!-- Holds either uuid, or XMP metadata block if it can be identified from uuid  -->
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="uuidInfoBox">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="allBoxes"/>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="uuidListBox">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="nU"/>
+        <xs:element ref="uuid" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="nU" type="xs:integer"/>
+  <xs:element name="uuid" type="xs:string"/>
+  
+  <xs:element name="urlBox">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="version"/>
+        <xs:element ref="loc"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="version" type="xs:integer"/>
+  <xs:element name="loc" type="xs:string"/>
+  
+  <xs:element name="unknownBox">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="boxType"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="boxType" type="xs:string"/>
+    
+  <xs:element name="contiguousCodestreamBox">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="siz"/>
+        <xs:element ref="cod"/>
+        <xs:element ref="qcd"/>
+        <xs:element ref="com"/>
+        <xs:element ref="coc"/>
+        <xs:element ref="rgn"/>
+        <xs:element ref="qcc"/>
+        <xs:element ref="poc"/>
+        <xs:element ref="tlm"/>
+        <xs:element ref="plm"/>
+        <xs:element ref="ppm"/>
+        <xs:element ref="crg"/>
+        <xs:element ref="tileParts"/>
+      </xs:choice>
+    </xs:complexType>  
+  </xs:element>
+            
+  <xs:element name="siz">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lsiz"/>
+        <xs:element ref="rsiz"/>
+        <xs:element ref="xsiz"/>
+        <xs:element ref="ysiz"/>
+        <xs:element ref="xOsiz"/>
+        <xs:element ref="yOsiz"/>
+        <xs:element ref="xTsiz"/>
+        <xs:element ref="yTsiz"/>
+        <xs:element ref="xTOsiz"/>
+        <xs:element ref="yTOsiz"/>
+        <xs:element ref="numberOfTiles"/>
+        <xs:element ref="csiz"/>
+        <xs:sequence maxOccurs="unbounded">
+          <xs:element ref="ssizSign"/>
+          <xs:element ref="ssizDepth"/>
+          <xs:element ref="xRsiz"/>
+          <xs:element ref="yRsiz"/>
+        </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="lsiz" type="xs:integer"/>
+  <xs:element name="rsiz" type="xs:string"/>
+  <xs:element name="xsiz" type="xs:integer"/>
+  <xs:element name="ysiz" type="xs:integer"/>
+  <xs:element name="xOsiz" type="xs:integer"/>
+  <xs:element name="yOsiz" type="xs:integer"/>
+  <xs:element name="xTsiz" type="xs:integer"/>
+  <xs:element name="yTsiz" type="xs:integer"/>
+  <xs:element name="xTOsiz" type="xs:integer"/>
+  <xs:element name="yTOsiz" type="xs:integer"/>
+  <xs:element name="numberOfTiles" type="xs:integer"/>
+  <xs:element name="csiz" type="xs:integer"/>
+  <xs:element name="ssizSign" type="xs:string"/>
+  <xs:element name="ssizDepth" type="xs:integer"/>
+  <xs:element name="xRsiz" type="xs:integer"/>
+  <xs:element name="yRsiz" type="xs:integer"/>
+  
+  <xs:element name="cod">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lcod"/>
+        <xs:element ref="precincts"/>
+        <xs:element ref="sop"/>
+        <xs:element ref="eph"/>
+        <xs:element ref="order"/>
+        <xs:element ref="layers"/>
+        <xs:element ref="multipleComponentTransformation"/>
+        <xs:element ref="levels"/>
+        <xs:element ref="codeBlockWidth"/>
+        <xs:element ref="codeBlockHeight"/>
+        <xs:element ref="codingBypass"/>
+        <xs:element ref="resetOnBoundaries"/>
+        <xs:element ref="termOnEachPass"/>
+        <xs:element ref="vertCausalContext"/>
+        <xs:element ref="predTermination"/>
+        <xs:element ref="segmentationSymbols"/>
+        <xs:element ref="transformation"/>
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="precinctSizeX"/>
+          <xs:element ref="precinctSizeY"/>
+        </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="lcod" type="xs:integer"/>
+  <xs:element name="precincts" type="xs:string"/>
+  <xs:element name="sop" type="xs:string"/>
+  <xs:element name="eph" type="xs:string"/>
+  <xs:element name="order" type="xs:string"/>
+  <xs:element name="layers" type="xs:integer"/>
+  <xs:element name="multipleComponentTransformation" type="xs:string"/>
+  <xs:element name="levels" type="xs:integer"/>
+  <xs:element name="codeBlockWidth" type="xs:integer"/>
+  <xs:element name="codeBlockHeight" type="xs:integer"/>
+  <xs:element name="codingBypass" type="xs:string"/>
+  <xs:element name="resetOnBoundaries" type="xs:string"/>
+  <xs:element name="termOnEachPass" type="xs:string"/>
+  <xs:element name="vertCausalContext" type="xs:string"/>
+  <xs:element name="predTermination" type="xs:string"/>
+  <xs:element name="segmentationSymbols" type="xs:string"/>
+  <xs:element name="transformation" type="xs:string"/>
+  <xs:element name="precinctSizeX" type="xs:integer"/>
+  <xs:element name="precinctSizeY" type="xs:integer"/>
+
+  <xs:element name="qcd">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lqcd"/>
+        <xs:element ref="qStyle"/>
+        <xs:element ref="guardBits"/>
+        <xs:sequence maxOccurs="unbounded">
+          <xs:element ref="mu" minOccurs="0"/>
+          <xs:element ref="epsilon"/>
+        </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="lqcd" type="xs:integer"/>
+  <xs:element name="qStyle" type="xs:string"/>
+  <xs:element name="guardBits" type="xs:integer"/>
+  <xs:element name="mu" type="xs:integer"/>
+  <xs:element name="epsilon" type="xs:integer"/>
+  
+  <xs:element name="com">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lcom"/>
+        <xs:element ref="rcom"/>
+        <xs:element ref="comment" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="lcom" type="xs:integer"/>
+  <xs:element name="rcom" type="xs:string"/>
+  <xs:element name="comment" type="xs:string"/>
+
+  <xs:element name="tileParts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="tilePart" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="tilePart">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="sot"/>
+        <xs:element ref="cod"/>
+        <xs:element ref="qcd"/>
+        <xs:element ref="com"/>
+        <xs:element ref="coc"/>
+        <xs:element ref="rgn"/>
+        <xs:element ref="qcc"/>
+        <xs:element ref="poc"/>
+        <xs:element ref="plt"/>
+        <xs:element ref="ppt"/>
+        <xs:element ref="crg"/>
+      </xs:choice>
+    </xs:complexType>  
+  </xs:element>  
+  
+  <xs:element name="sot">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lsot"/>
+        <xs:element ref="isot"/>
+        <xs:element ref="psot"/>
+        <xs:element ref="tpsot"/>
+        <xs:element ref="tnsot"/>   
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="lsot" type="xs:integer"/>
+  <xs:element name="isot" type="xs:integer"/>
+  <xs:element name="psot" type="xs:integer"/>
+  <xs:element name="tpsot" type="xs:integer"/>
+  <xs:element name="tnsot" type="xs:integer"/> 
+
+  <!-- The following optional marker segments are only minimally supported by
+       jpylyzer at this stage (they are reported, but contents aren't analysed) -->
+  
+  <xs:element name="coc">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="rgn">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="qcc">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="poc">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="tlm">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="plm">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="plt">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="ppm">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ppt">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="crg">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Compression ratio element -->
+  <xs:element name="compressionRatio" type="xs:double"/>
+   
+</xs:schema> 
