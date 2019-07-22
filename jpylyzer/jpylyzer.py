@@ -36,6 +36,7 @@ import sys
 import mmap
 import os
 import time
+import datetime
 import glob
 import argparse
 import codecs
@@ -305,11 +306,13 @@ def checkOneFile(path):
     fileInfo.appendChildTagWithText(
         "fileSizeInBytes", str(os.path.getsize(path)))
     try:
-        lastModifiedDate = time.ctime(os.path.getmtime(path))
+        dt = os.path.getmtime(path)
+        lastModifiedDate = datetime.datetime.fromtimestamp(dt).isoformat()
     except ValueError:
         # Dates earlier than 1 Jan 1970 can raise ValueError on Windows
         # Workaround: replace by lowest possible value (typically 1 Jan 1970)
-        lastModifiedDate = time.ctime(0)
+        dt = time.ctime(0)
+        lastModifiedDate = datetime.datetime.fromtimestamp(dt).isoformat()
     fileInfo.appendChildTagWithText(
         "fileLastModified", lastModifiedDate)
 
