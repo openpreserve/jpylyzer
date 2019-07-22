@@ -35,7 +35,6 @@ Contributors:
 import sys
 import mmap
 import os
-import time
 import datetime
 import glob
 import argparse
@@ -272,7 +271,7 @@ def generateMixBasicDigitalObjectInformation(properties, mixFlag):
     """Generate a mix BasicDigitalObjectInformation
     """
     mixBdoi = ET.Element('mix:BasicDigitalObjectInformation')
-    
+
     mixFormatDesignation = ET.Element('mix:FormatDesignation')
     br = properties.find('fileTypeBox/br')
     if br is None:
@@ -362,7 +361,7 @@ def generateMixBasicImageInformation(properties, mixFlag):
         mixTiles.appendChildTagWithText('mix:tileWidth', str(tilesX))
         mixTiles.appendChildTagWithText('mix:tileHeight', str(tilesY))
         mixEncodingOptions.append(mixTiles)
-        
+
     layers = properties.find('contiguousCodestreamBox/cod/layers').text
     if str(layers) != "0":
         mixEncodingOptions.appendChildTagWithText('mix:qualityLayers', str(layers))
@@ -383,7 +382,7 @@ def findValueInRDF(prop, prefixPath, ns, tag):
     value = prop.find(path)
     if value is not None:
       return value.text
-    
+
     value = prop.find(prefixPath).attrib[ns + tag]
     if value and value is not None:
       return value
@@ -408,7 +407,7 @@ def generateMixImageCaptureMetadata(properties, mixFlag):
     if not rdfBox:
         return None
     mixGci = ET.Element('mix:GeneralCaptureInformation')
-    addIfExist(rdfBox, '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description', 
+    addIfExist(rdfBox, '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
         '{http://ns.adobe.com/xap/1.0/}', 'CreateDate',
         mixGci, 'mix:dateTimeCreated')
     addIfExist(rdfBox, '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
@@ -436,7 +435,7 @@ def generateMixImageCaptureMetadata(properties, mixFlag):
 
     creatorTool = findValueInRDF(rdfBox,
         '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
-        '{http://ns.adobe.com/xap/1.0/}', 
+        '{http://ns.adobe.com/xap/1.0/}',
         'CreatorTool')
     if creatorTool is not None :
         mixSss = ET.Element('mix:ScanningSystemSoftware')
@@ -451,7 +450,7 @@ def generateMixImageCaptureMetadata(properties, mixFlag):
 
     if fillSc :
       mixIcm.append(mixSc)
-    
+
     return mixIcm
 
 
@@ -493,7 +492,7 @@ def generateMixImageAssessmentMetadata(properties, mixFlag):
     if mixFlag == 1:
         mixBPS = ET.Element('mix:bitsPerSample')
         mixICE.append(mixBPS)
-        mixBPS.appendChildTagWithText('mix:bitsPerSampleValue', 
+        mixBPS.appendChildTagWithText('mix:bitsPerSampleValue',
             ','.join(map(lambda e : e.text, values)))
         mixBPS.appendChildTagWithText('mix:bitsPerSampleUnit', 'integer')
     else:
@@ -502,11 +501,11 @@ def generateMixImageAssessmentMetadata(properties, mixFlag):
         for e in values :
             mixBPS.appendChildTagWithText('mix:bitsPerSampleValue', e.text)
         mixBPS.appendChildTagWithText('mix:bitsPerSampleUnit', 'integer')
-    
+
     num = size.find('csiz').text
     mixICE.appendChildTagWithText('mix:samplesPerPixel', num)
     mixIam.append(mixICE)
-    
+
     return mixIam
 
 def generateMix(properties, mixFlag):
@@ -526,7 +525,7 @@ def generateMix(properties, mixFlag):
       mixRoot.append(mixIcm)
     mixIam = generateMixImageAssessmentMetadata(properties, mixFlag)
     mixRoot.append(mixIam)
-    
+
     return mixRoot
 
 
@@ -567,13 +566,11 @@ def checkOneFile(path):
     fileInfo.appendChildTagWithText(
         "fileSizeInBytes", str(os.path.getsize(path)))
     try:
-        #lastModifiedDate = time.ctime(os.path.getmtime(path))
         dt = os.path.getmtime(path)
         lastModifiedDate = datetime.datetime.fromtimestamp(dt).isoformat()
     except ValueError:
         # Dates earlier than 1 Jan 1970 can raise ValueError on Windows
         # Workaround: replace by lowest possible value (typically 1 Jan 1970)
-        #lastModifiedDate = time.ctime(0)
         dt = ctime(0)
         lastModifiedDate = datetime.datetime.fromtimestamp(dt).isoformat()
     fileInfo.appendChildTagWithText(
