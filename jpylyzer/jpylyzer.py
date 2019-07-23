@@ -630,10 +630,11 @@ def checkOneFile(path):
     root.appendChildTagWithText("isValidJP2", str(isValidJP2))
     root.append(tests)
     root.append(characteristics)
-    altOutput = ET.Element('alternativeOutput')
-    root.append(altOutput)
-    if config.mixFlag != 0 and isValidJP2:
-        altOutput.append(mix)
+    extension = ET.Element('propertiesExtension')
+    if config.mixFlag != 0:
+        root.append(extension)
+        if isValidJP2:
+            extension.append(mix)
 
     return root
 
