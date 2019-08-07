@@ -65,11 +65,12 @@ parser = argparse.ArgumentParser(
 existingFiles = []
 
 # Name space and schema strings
-nsString = 'http://openpreservation.org/ns/jpylyzer/'
+nsString1 = 'http://openpreservation.org/ns/jpylyzer/'
+nsString2 = 'http://openpreservation.org/ns/jpylyzer/v2/'
 xsiNsString = 'http://www.w3.org/2001/XMLSchema-instance'
 locSchemaString1 = 'http://openpreservation.org/ns/jpylyzer/ \
 http://jpylyzer.openpreservation.org/jpylyzer-v-1-1.xsd'
-locSchemaString2 = 'http://openpreservation.org/ns/jpylyzer/ \
+locSchemaString2 = 'http://openpreservation.org/ns/jpylyzer/v2/ \
 http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd'
 
 def generatePropertiesRemapTable():
@@ -272,12 +273,14 @@ def fileToMemoryMap(filename):
 def checkOneFile(path, validationFormat='jp2'):
     """Process one file and return analysis result as element object"""
 
-    # Element root name and Schema location (legacy, current)
+    # Element root name, name space and Schema location (legacy, current)
     if config.legacyXMLFlag:
         elementRootName = 'jpylyzer'
+        nsString = nsString1
         locSchemaString = locSchemaString1
     else:
         elementRootName = 'file'
+        nsString = nsString2
         locSchemaString = locSchemaString2
 
     # Create output elementtree object
@@ -648,6 +651,12 @@ def checkFiles(recurse, wrap, paths):
     # Wrap the xml output in <jpylyzer> element, if wrapper flag is true
     # Note: this is the default behaviour in jpylyzer 2.x. Wrap
     # option now ONLY takes effect for legacy (1.x) output!
+
+    if config.legacyXMLFlag:
+        nsString = nsString1
+    else:
+        nsString = nsString2
+
     if wrap or recurse:
         xmlHead = "<?xml version='1.0' encoding='UTF-8'?>\n"
         if not config.legacyXMLFlag:
