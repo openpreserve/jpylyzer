@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema 
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  targetNamespace="http://openpreservation.org/ns/jpylyzer/"
-  xmlns="http://openpreservation.org/ns/jpylyzer/"
+  targetNamespace="http://openpreservation.org/ns/jpylyzer/v2/"
+  xmlns="http://openpreservation.org/ns/jpylyzer/v2/"
   elementFormDefault="qualified">
 
   <!-- Added definitions for StatusInfo element -->
