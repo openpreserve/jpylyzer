@@ -376,7 +376,7 @@ def checkOneFile(path, validationFormat='jp2'):
         tests = ET.Element("tests")
         characteristics = ET.Element('properties')
 
-    if config.mixFlag != 0 and validationFormat == "jp2" and isValidJP2:
+    if config.mixFlag != 0 and isValidJP2:
         mix = mixp.MixProperty(config.mixFlag).generateMix(characteristics)
 
     # Add status info
@@ -809,6 +809,11 @@ def main():
     # Ignore entered value of inputWrapperFlag, unless legacyXML flag id set
     if not config.legacyXMLFlag:
         config.inputWrapperFlag = True
+    # Reset value of mixFlag to 0 if legacyXMLFlag is set or format is 'j2c'
+    if config.legacyXMLFlag:
+        config.mixFlag = 0
+    if config.validationFormat == 'j2c':
+        config.mixFlag = 0
 
     # Check files
     checkFiles(config.inputRecursiveFlag, config.inputWrapperFlag, jp2In)
