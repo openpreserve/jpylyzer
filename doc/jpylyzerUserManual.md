@@ -200,8 +200,8 @@ Save the file, log out of your session and then log in again. Open a command ter
 
 If all went well you now see this:
 
-    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
-                  [--recurse] [--verbose] [--version] [--wrapper]
+    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
+                  [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
                   jp2In [jp2In ...]
     jpylyzer: error: the following arguments are required: jp2In
 
@@ -245,9 +245,9 @@ the files to directory `c:\tools\jpylyzer`, the command would become:
 
 Executing this command should result in the following screen output:
 
-    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
-                    [--recurse] [--verbose] [--version] [--wrapper]
-                    jp2In [jp2In ...]
+    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
+                  [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
+                  jp2In [jp2In ...]
     jpylyzer: error: the following arguments are required: jp2In
 
 ### Running jpylyzer without typing the full path
@@ -314,15 +314,15 @@ brackets (example: `[-h]`) are optional.
 
 *Jpylyzer* can be invoked using the following command-line arguments:
 
-    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
-                  [--recurse] [--verbose] [--version] [--wrapper]
+    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
+                  [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
                   jp2In [jp2In ...]
-
 With:
 
 |:--|:--|
 |`[-h, --help]`|show help message and exit|
 |`[--format FMT]`|validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)|
+|`[--mix {1,2}]`|report additional output in NISO MIX format (version 1.0 or 2.0)|
 |`[--legacyout]`|report output in jpylyzer 1.x format (provided for backward compatibility only)|
 |`[--nopretty]`|suppress pretty-printing of XML output|
 |`[--nullxml]`|extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)|
@@ -330,6 +330,7 @@ With:
 |`[--verbose]`|report test results in verbose format|
 |`[-v, --version]`|show program's version number and exit|
 |`[--wrapper, -w]`|wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect if `--legacyout` is used)|
+|`jp2In`|input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux.|
 
 Note that the input can either be a single image, a space-separated
 sequence of images, a pathname expression that includes multiple images,
@@ -374,6 +375,20 @@ not wrapped inside a *JP2* container. For codestream validation, use the `--form
 option with value `j2c`, e.g.:
 
     jpylyzer --format j2c rubbish.j2c > rubbish.xml
+
+### ‘mix’ option
+
+When this option is used, *jpylyzer* reports additional output in
+[*NISO MIX*](http://www.loc.gov/standards/mix/) format. This option takes one argument
+that defines whether *MIX* 1.0 or *MIX* 2.0 is used. For example, the following command
+will result in *MIX* 2.0 output:
+
+    jpylyzer --mix 2 rubbish.jp2 > rubbish.xml
+
+The *MIX* output is wrapped inside a *file/propertiesExtension* element. Note that *MIX*
+output is *only* written for files that are valid JP2 (files that are not valid result in
+an empty *propertiesExtension* element). Also, the `--mix` option is ignored if `--format`
+is set to `j2c`, or if `--legacyout` (see below) is used.
 
 ### ‘legacyout’ option
 
@@ -687,6 +702,8 @@ validation process (organised by box)
 
 5. *properties*: image properties (organised by box)
 
+6. *propertiesExtension*: wrapper element for NIDSO *MIX* output (only if the `--mix` option is used)
+
 fileInfo element {#fileinfo-element}
 --------------------
 
@@ -770,6 +787,12 @@ This element contains the extracted image properties, which are
 organised in a hierarchical tree that corresponds to JP2’s box
 structure. See chapters [6](#jp2-box-by-box) and [7](#contiguous-codestream-box-chapter) for a description of the reported
 properties.
+
+propertiesExtension element {#propertiesExtension-element}
+----------------------
+
+This optional element is reserved for output in alternative formats. Currently it is used to wrap output in NISO *MIX* format
+if the `--mix` option is used. See the [*MIX* documentation](http://www.loc.gov/standards/mix/) for a description of the reported elements.
 
 JP2: box by box {#jp2-box-by-box}
 =================

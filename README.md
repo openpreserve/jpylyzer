@@ -20,33 +20,24 @@ Please visit the jpylyzer homepage for links to the most recent package download
 
 ### Usage
 
-    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
-                  [--recurse] [--verbose] [--version] [--wrapper]
-                  jp2In [jp2In ...]
+    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
+              [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
+              jp2In [jp2In ...]
 
-### Positional arguments
+With:
 
-`jp2In` : input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux.
-
-### Optional arguments
-
-`[-h, --help]` : show help message and exit
-
-`[--format FMT]`: validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)
-
-`[--legacyout]`: report output in jpylyzer 1.x format (provided for backward compatibility only)
-
-`[--nopretty]`: suppress pretty-printing of XML output
-
-`[--nullxml]`: extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)
-
-`[--recurse, -r]`: when analysing a directory, recurse into subdirectories (implies `--wrapper` if `--legacyout` is used)
-
-`[--verbose]`: report test results in verbose format
-
-`[-v, --version]`: show program's version number and exit
-
-`[--wrapper, -w]`: wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect if `--legacyout` is used)
+|:--|:--|
+|`[-h, --help]`|show help message and exit|
+|`[--format FMT]`|validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)|
+|`[--mix {1,2}]`|report additional output in NISO MIX format (version 1.0 or 2.0)|
+|`[--legacyout]`|report output in jpylyzer 1.x format (provided for backward compatibility only)|
+|`[--nopretty]`|suppress pretty-printing of XML output|
+|`[--nullxml]`|extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)|
+|`[--recurse, -r]`|when analysing a directory, recurse into subdirectories (implies `--wrapper` if `--legacyout` is used)|
+|`[--verbose]`|report test results in verbose format|
+|`[-v, --version]`|show program's version number and exit|
+|`[--wrapper, -w]`|wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect if `--legacyout` is used)|
+|`jp2In`|input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux.|
 
 ## Output 
 
@@ -58,14 +49,28 @@ Output is directed to the standard output device (*stdout*).
 
 In the above example, output is redirected to the file 'rubbish.xml'.
 
-### Outline of output elements
+## Output format
 
-1. *toolInfo*: tool name (jpylyzer) + version.
-2. *fileInfo*: name, path, size and last modified time/date of input file.
-3. *isValidJP2*: *True* / *False* flag indicating whether file is valid JP2.
-4. *tests*: tree of test outcomes, expressed as *True* / *False* flags.
-   A file is considered valid JP2 only if all tests return *True*. Tree follows JP2 box structure. By default only tests that returned *False* are reported, which results in an empty *tests*  element for files that are valid JP2. Use the  `--verbose` flag to get *all* test results.
-5. *properties*: tree of image properties. Follows JP2 box structure. Naming of properties follows [ISO/IEC 15444-1 Annex I][2] (JP2 file format syntax) and [Annex A][3] (Codestream syntax).
+The output file contains the following top-level elements:
+
+1. One *toolInfo* element, which contains information about *jpylyzer* (its name and version number)
+
+2. One or more *file* elements, each of which contain information about about the analysed files
+
+In turn, each *file element contains the following sub-elements:
+
+1. *fileInfo*: general information about the analysed file
+
+2. *statusInfo*: information about the status of *jpylyzer*'s validation attempt
+
+3. *isValid*: outcome of the validation
+
+4. *tests*: outcome of the individual tests that are part of the
+validation process (organised by box)
+
+5. *properties*: image properties (organised by box)
+
+6. *propertiesExtension*: wrapper element for NISO *MIX* output (only if the `--mix` option is used)
 
 ## Using jpylyzer as a Python module
 
