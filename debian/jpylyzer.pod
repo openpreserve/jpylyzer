@@ -23,6 +23,10 @@ Show this help message and exit
 
 Validation format; allowed values: jp2, j2c (default: jp2)
 
+=item B<--mix {1,2}>
+
+Report additional output in NISO MIX format (version 1.0 or 2.0)
+
 =item B<--legacyout, -l>
 
 Report output in jpylyzer 1.x format (provided for backward compatibility only)
