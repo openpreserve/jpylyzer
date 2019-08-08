@@ -17,6 +17,7 @@ Contributors:
    Carl Wilson, Open Planets Foundation, UK.
    Stefan Weil, UB Mannheim, DE.
    Adam Fritzler, Planet Labs, USA.
+   Thomas Ledoux, Bibliotheque Nationale de France
 """
 
 # This program is free software: you can redistribute it and/or modify
