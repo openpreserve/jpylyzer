@@ -376,7 +376,7 @@ def checkOneFile(path, validationFormat='jp2'):
         tests = ET.Element("tests")
         characteristics = ET.Element('properties')
 
-    if config.mixFlag != 0 and validationFormat == "JP2" and isValidJP2:
+    if config.mixFlag != 0 and validationFormat == "jp2" and isValidJP2:
         mix = mixp.MixProperty(config.mixFlag).generateMix(characteristics)
 
     # Add status info
@@ -405,7 +405,7 @@ def checkOneFile(path, validationFormat='jp2'):
     extension = ET.Element('propertiesExtension')
     if config.mixFlag != 0:
         root.append(extension)
-        if validationFormat == "JP2" and isValidJP2:
+        if validationFormat == "jp2" and isValidJP2:
             extension.append(mix)
 
     return root
@@ -727,7 +727,7 @@ def parseCommandLine():
                         type=int, choices=[0, 1, 2],
                         dest="mixFlag",
                         default=False,
-                        help="add a mix output in version 1.0 or 2.0")
+                        help="report additional output NISO MIX format (version 1.0 or 2.0)")
     parser.add_argument('--nopretty',
                         action="store_true",
                         dest="noPrettyXMLFlag",
