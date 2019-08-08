@@ -375,7 +375,7 @@ def checkOneFile(path, validationFormat='jp2'):
         tests = ET.Element("tests")
         characteristics = ET.Element('properties')
 
-    if config.mixFlag != 0 and isValidJP2:
+    if config.mixFlag != 0 and validationFormat == "JP2" and isValidJP2:
         mix = mixp.MixProperty(config.mixFlag).generateMix(characteristics)
 
     # Add status info
@@ -404,7 +404,7 @@ def checkOneFile(path, validationFormat='jp2'):
     extension = ET.Element('propertiesExtension')
     if config.mixFlag != 0:
         root.append(extension)
-        if isValidJP2:
+        if validationFormat == "JP2" and isValidJP2:
             extension.append(mix)
 
     return root
