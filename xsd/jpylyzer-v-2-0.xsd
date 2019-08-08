@@ -80,6 +80,7 @@
         <xs:element ref="isValid"/>
         <xs:element ref="tests"/>
         <xs:element ref="properties"/>
+        <xs:element ref="propertiesExtension" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -156,6 +157,7 @@
     </xs:complexType>
   </xs:element>
 
+  <!-- Properties element --> 
   <xs:element name="properties">
     <xs:complexType>
       <xs:complexContent>
@@ -762,5 +764,14 @@
 
   <!-- Compression ratio element -->
   <xs:element name="compressionRatio" type="xs:double"/>
-   
+
+  <!-- Properties extension element --> 
+  <xs:element name="propertiesExtension">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
 </xs:schema> 
