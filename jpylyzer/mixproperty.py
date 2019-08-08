@@ -127,7 +127,8 @@ class MixProperty:
         mixBio.append(mixSFC)
         return mixBio
 
-    def findValueInRDF(self, prop, prefixPath, ns, tag):
+    @staticmethod
+    def findValueInRDF(prop, prefixPath, ns, tag):
         """Find a value in RDF : first as an element
         then as an attribute
         """
@@ -141,10 +142,11 @@ class MixProperty:
           return value
         return None
 
-    def addIfExist(self, prop, prefixPath, ns, tag, destEl, destTagName):
+    @staticmethod
+    def addIfExist(prop, prefixPath, ns, tag, destEl, destTagName):
         """Look for a value in RDF and build a element, if found
         """
-        value = self.findValueInRDF(prop, prefixPath, ns, tag)
+        value = MixProperty.findValueInRDF(prop, prefixPath, ns, tag)
         if value is not None:
             destEl.appendChildTagWithText(destTagName, value.strip())
             return True
@@ -153,6 +155,10 @@ class MixProperty:
     def generateMixImageCaptureMetadata(self, properties):
         """Generate a mix ImageCaptureMetadata
         """
+        if self.mixFlag == 0:
+            # Avoid a static method using self
+            return None
+
         mixIcm = ET.Element('mix:ImageCaptureMetadata')
         rdfBox = properties.find('xmlBox/{adobe:ns:meta/}xmpmeta/{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF')
         if not rdfBox:
@@ -160,25 +166,25 @@ class MixProperty:
         if not rdfBox:
             return None
         mixGci = ET.Element('mix:GeneralCaptureInformation')
-        self.addIfExist(rdfBox, '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
+        MixProperty.addIfExist(rdfBox, '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
             '{http://ns.adobe.com/xap/1.0/}', 'CreateDate',
             mixGci, 'mix:dateTimeCreated')
-        self.addIfExist(rdfBox, '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
+        MixProperty.addIfExist(rdfBox, '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
             '{http://ns.adobe.com/tiff/1.0/}', 'Artist',
             mixGci, 'mix:imageProducer')
         mixIcm.append(mixGci)
         fillSc = False
         mixSc = ET.Element('mix:ScannerCapture')
-        fillSc = self.addIfExist(rdfBox,
+        fillSc = MixProperty.addIfExist(rdfBox,
             '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
             '{http://ns.adobe.com/tiff/1.0/}', 'Make',
             mixSc, 'mix:scannerManufacturer') or fillSc
         fillSm = False
         mixSm = ET.Element('mix:ScannerModel')
-        fillSm = self.addIfExist(rdfBox, '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
+        fillSm = MixProperty.addIfExist(rdfBox, '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
             '{http://ns.adobe.com/tiff/1.0/}', 'Model',
             mixSm, 'mix:scannerModelName')
-        fillSm = self.addIfExist(rdfBox,
+        fillSm = MixProperty.addIfExist(rdfBox,
             '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
             '{http://ns.adobe.com/exif/1.0/aux/}', 'SerialNumber',
             mixSm, 'mix:scannerModelSerialNo') or fillSm
@@ -186,7 +192,7 @@ class MixProperty:
           mixSc.append(mixSm)
           fillSc = True
 
-        creatorTool = self.findValueInRDF(rdfBox,
+        creatorTool = MixProperty.findValueInRDF(rdfBox,
             '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
             '{http://ns.adobe.com/xap/1.0/}',
             'CreatorTool')
