@@ -18,6 +18,8 @@ import re
 from . import etpatch as ET
 
 class MixProperty:
+    """Class for generating NISO MIX image metadata
+    """
     def __init__(self, mixFlag):
         self.mixFlag = mixFlag
 
