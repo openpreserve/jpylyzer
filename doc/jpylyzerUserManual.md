@@ -319,6 +319,7 @@ brackets (example: `[-h]`) are optional.
                   jp2In [jp2In ...]
 With:
 
+|Argument|Description|
 |:--|:--|
 |`[-h, --help]`|show help message and exit|
 |`[--format FMT]`|validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)|

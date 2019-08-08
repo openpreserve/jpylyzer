@@ -26,6 +26,7 @@ Please visit the jpylyzer homepage for links to the most recent package download
 
 With:
 
+|Argument|Description|
 |:--|:--|
 |`[-h, --help]`|show help message and exit|
 |`[--format FMT]`|validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)|
