@@ -48,7 +48,7 @@ from six import u
 from . import config as config
 from . import etpatch as ET
 from . import boxvalidator as bv
-from . import mixproperty as mixp
+from . import mix as mix
 from . import shared as shared
 
 
@@ -377,7 +377,7 @@ def checkOneFile(path, validationFormat='jp2'):
         characteristics = ET.Element('properties')
 
     if config.mixFlag != 0 and isValidJP2:
-        mix = mixp.MixProperty(config.mixFlag).generateMix(characteristics)
+        mixProperties = mix.Mix(config.mixFlag).generateMix(characteristics)
 
     # Add status info
     statusInfo.appendChildTagWithText("success", str(success))
@@ -406,7 +406,7 @@ def checkOneFile(path, validationFormat='jp2'):
     if config.mixFlag != 0:
         root.append(extension)
         if validationFormat == "jp2" and isValidJP2:
-            extension.append(mix)
+            extension.append(mixProperties)
 
     return root
 
