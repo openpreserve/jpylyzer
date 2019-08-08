@@ -2,10 +2,10 @@
 #
 """Jpylyzer validator for JPEG 200 Part 1 (JP2) images
 
- Requires: Python 2.7 (older versions won't work) OR Python 3.2 or more recent
+Requires: Python 2.7 (older versions won't work) OR Python 3.2 or more recent
   (Python 3.0 and 3.1 won't work either!)
 
- Copyright (C) 2011 - 2017 Johan van der Knijff, Koninklijke Bibliotheek -
+Copyright (C) 2011 - 2017 Johan van der Knijff, Koninklijke Bibliotheek -
   National Library of the Netherlands
 
 Contributors:
@@ -35,7 +35,6 @@ Contributors:
 import sys
 import mmap
 import os
-import time
 import datetime
 import glob
 import argparse
@@ -47,6 +46,7 @@ from six import u
 from . import config as config
 from . import etpatch as ET
 from . import boxvalidator as bv
+from . import mixproperty as mixp
 from . import shared as shared
 
 
@@ -269,6 +269,7 @@ def fileToMemoryMap(filename):
     return fileData
 
 
+
 def checkOneFile(path):
     """Process one file and return analysis result as element object"""
 
@@ -311,7 +312,7 @@ def checkOneFile(path):
     except ValueError:
         # Dates earlier than 1 Jan 1970 can raise ValueError on Windows
         # Workaround: replace by lowest possible value (typically 1 Jan 1970)
-        dt = time.ctime(0)
+        dt = ctime(0)
         lastModifiedDate = datetime.datetime.fromtimestamp(dt).isoformat()
     fileInfo.appendChildTagWithText(
         "fileLastModified", lastModifiedDate)
@@ -355,6 +356,9 @@ def checkOneFile(path):
         tests = ET.Element("tests")
         characteristics = ET.Element('properties')
 
+    if config.mixFlag != 0 and isValidJP2:
+        mix = mixp.MixProperty(config.mixFlag).generateMix(characteristics)
+
     # Add status info
     statusInfo.appendChildTagWithText("success", str(success))
     if not success:
@@ -367,9 +371,13 @@ def checkOneFile(path):
     root.appendChildTagWithText("isValidJP2", str(isValidJP2))
     root.append(tests)
     root.append(characteristics)
+    extension = ET.Element('propertiesExtension')
+    if config.mixFlag != 0:
+        root.append(extension)
+        if isValidJP2:
+            extension.append(mix)
 
     return root
-
 
 def checkNullArgs(args):
     """This method checks if the input arguments list and exits program if
@@ -671,6 +679,11 @@ def parseCommandLine():
                         dest="noPrettyXMLFlag",
                         default=False,
                         help="suppress pretty-printing of XML output")
+    parser.add_argument('--mix',
+                        type=int, choices=[0, 1, 2],
+                        dest="mixFlag",
+                        default=False,
+                        help="add a mix output in version 1.0 or 2.0")
     parser.add_argument('jp2In',
                         action="store",
                         type=str,
@@ -708,6 +721,7 @@ def main():
     config.inputWrapperFlag = args.inputWrapperFlag
     config.extractNullTerminatedXMLFlag = args.extractNullTerminatedXMLFlag
     config.noPrettyXMLFlag = args.noPrettyXMLFlag
+    config.mixFlag = args.mixFlag
 
     # Check files
     checkFiles(args.inputRecursiveFlag, args.inputWrapperFlag, jp2In)
@@ -715,3 +729,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
