@@ -35,6 +35,7 @@ Contributors:
 import sys
 import mmap
 import os
+import time
 import datetime
 import glob
 import argparse
@@ -312,7 +313,7 @@ def checkOneFile(path):
     except ValueError:
         # Dates earlier than 1 Jan 1970 can raise ValueError on Windows
         # Workaround: replace by lowest possible value (typically 1 Jan 1970)
-        dt = ctime(0)
+        dt = time.ctime(0)
         lastModifiedDate = datetime.datetime.fromtimestamp(dt).isoformat()
     fileInfo.appendChildTagWithText(
         "fileLastModified", lastModifiedDate)
