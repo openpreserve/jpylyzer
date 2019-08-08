@@ -724,10 +724,10 @@ def parseCommandLine():
                         help="report output in jpylyzer 1.x format (provided for backward \
                                 compatibility only)")
     parser.add_argument('--mix',
-                        type=int, choices=[0, 1, 2],
+                        type=int, choices=[1, 2],
                         dest="mixFlag",
-                        default=False,
-                        help="report additional output NISO MIX format (version 1.0 or 2.0)")
+                        default=0,
+                        help="report additional output in NISO MIX format (version 1.0 or 2.0)")
     parser.add_argument('--nopretty',
                         action="store_true",
                         dest="noPrettyXMLFlag",
