@@ -97,7 +97,7 @@ class MixProperty:
         if comment is not None:
             commentText = comment.text
             m = re.search(r'(.*)-v([0-9\.]*)', commentText)
-            if m :
+            if m:
                 # generate CodecCompliance only if it matches the regex
                 mixCodecCompliance = ET.Element('mix:CodecCompliance')
                 mixCodecCompliance.appendChildTagWithText('mix:codec', m.group(1))
@@ -135,11 +135,11 @@ class MixProperty:
         path = prefixPath + "/" + ns + tag
         value = prop.find(path)
         if value is not None:
-          return value.text
+            return value.text
 
         value = prop.find(prefixPath).attrib.get(ns + tag, None)
         if value and value is not None:
-          return value
+            return value
         return None
 
     @staticmethod
@@ -166,40 +166,51 @@ class MixProperty:
         if not rdfBox:
             return None
         mixGci = ET.Element('mix:GeneralCaptureInformation')
+        MixProperty.addIfExist(rdfBox,
+                               '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
+                               '{http://ns.adobe.com/xap/1.0/}', 'CreateDate',
+                               mixGci,
+                               'mix:dateTimeCreated')
         MixProperty.addIfExist(rdfBox, '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
-            '{http://ns.adobe.com/xap/1.0/}', 'CreateDate',
-            mixGci, 'mix:dateTimeCreated')
-        MixProperty.addIfExist(rdfBox, '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
-            '{http://ns.adobe.com/tiff/1.0/}', 'Artist',
-            mixGci, 'mix:imageProducer')
+                               '{http://ns.adobe.com/tiff/1.0/}',
+                               'Artist',
+                               mixGci,
+                               'mix:imageProducer')
         mixIcm.append(mixGci)
         fillSc = False
         mixSc = ET.Element('mix:ScannerCapture')
         fillSc = MixProperty.addIfExist(rdfBox,
-            '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
-            '{http://ns.adobe.com/tiff/1.0/}', 'Make',
-            mixSc, 'mix:scannerManufacturer') or fillSc
+                                        '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
+                                        '{http://ns.adobe.com/tiff/1.0/}',
+                                        'Make',
+                                        mixSc,
+                                        'mix:scannerManufacturer') or fillSc
         fillSm = False
         mixSm = ET.Element('mix:ScannerModel')
-        fillSm = MixProperty.addIfExist(rdfBox, '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
-            '{http://ns.adobe.com/tiff/1.0/}', 'Model',
-            mixSm, 'mix:scannerModelName')
         fillSm = MixProperty.addIfExist(rdfBox,
-            '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
-            '{http://ns.adobe.com/exif/1.0/aux/}', 'SerialNumber',
-            mixSm, 'mix:scannerModelSerialNo') or fillSm
-        if fillSm :
-          mixSc.append(mixSm)
-          fillSc = True
+                                        '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
+                                        '{http://ns.adobe.com/tiff/1.0/}',
+                                        'Model',
+                                        mixSm,
+                                        'mix:scannerModelName')
+        fillSm = MixProperty.addIfExist(rdfBox,
+                                        '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
+                                        '{http://ns.adobe.com/exif/1.0/aux/}',
+                                        'SerialNumber',
+                                        mixSm,
+                                        'mix:scannerModelSerialNo') or fillSm
+        if fillSm:
+            mixSc.append(mixSm)
+            fillSc = True
 
         creatorTool = MixProperty.findValueInRDF(rdfBox,
-            '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
-            '{http://ns.adobe.com/xap/1.0/}',
-            'CreatorTool')
-        if creatorTool is not None :
+                                                 '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
+                                                 '{http://ns.adobe.com/xap/1.0/}',
+                                                 'CreatorTool')
+        if creatorTool is not None:
             mixSss = ET.Element('mix:ScanningSystemSoftware')
             m = re.search(r'^(.*) ([0-9\.]*)$', creatorTool)
-            if m :
+            if m:
                 mixSss.appendChildTagWithText('mix:scanningSoftwareName', m.group(1))
                 mixSss.appendChildTagWithText('mix:scanningSoftwareVersionNo', m.group(2))
             else:
@@ -207,8 +218,8 @@ class MixProperty:
             mixSc.append(mixSss)
             fillSc = True
 
-        if fillSc :
-          mixIcm.append(mixSc)
+        if fillSc:
+            mixIcm.append(mixSc)
 
         return mixIcm
 
@@ -223,7 +234,7 @@ class MixProperty:
         if resolutionBox is not None:
             numX = int(float(resolutionBox.find('hRescInPixelsPerMeter').text) * 100)
             numY = int(float(resolutionBox.find('vRescInPixelsPerMeter').text) * 100)
-        else :
+        else:
             # Then try the displayResolutionBox
             resolutionBox = properties.find('jp2HeaderBox/resolutionBox/displayResolutionBox')
             if resolutionBox is not None:
@@ -252,12 +263,12 @@ class MixProperty:
             mixBPS = ET.Element('mix:bitsPerSample')
             mixICE.append(mixBPS)
             mixBPS.appendChildTagWithText('mix:bitsPerSampleValue',
-                ','.join(map(lambda e : e.text, values)))
+                                          ','.join(map(lambda e: e.text, values)))
             mixBPS.appendChildTagWithText('mix:bitsPerSampleUnit', 'integer')
         else:
             mixBPS = ET.Element('mix:BitsPerSample')
             mixICE.append(mixBPS)
-            for e in values :
+            for e in values:
                 mixBPS.appendChildTagWithText('mix:bitsPerSampleValue', e.text)
             mixBPS.appendChildTagWithText('mix:bitsPerSampleUnit', 'integer')
 
@@ -280,8 +291,8 @@ class MixProperty:
 
         mixRoot = ET.Element(
             'mix:mix', {'xmlns:mix': nsString,
-                         'xmlns:xsi': xsiNsString,
-                         'xsi:schemaLocation': locSchemaString})
+                        'xmlns:xsi': xsiNsString,
+                        'xsi:schemaLocation': locSchemaString})
 
         mixBdoi = self.generateMixBasicDigitalObjectInformation(properties)
         mixRoot.append(mixBdoi)
@@ -289,7 +300,7 @@ class MixProperty:
         mixRoot.append(mixBio)
         mixIcm = self.generateMixImageCaptureMetadata(properties)
         if mixIcm and mixIcm is not None:
-          mixRoot.append(mixIcm)
+            mixRoot.append(mixIcm)
         mixIam = self.generateMixImageAssessmentMetadata(properties)
         mixRoot.append(mixIam)
 
