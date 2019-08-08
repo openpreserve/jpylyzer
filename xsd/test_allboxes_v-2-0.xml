@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <jpylyzer 
-  xmlns="http://openpreservation.org/ns/jpylyzer/"
+  xmlns="http://openpreservation.org/ns/jpylyzer/v2/"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xsi:schemaLocation="http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-1-1.xsd" 
+  xsi:schemaLocation="http://openpreservation.org/ns/jpylyzer/v2/ http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd" 
   xmlns:dc="http://purl.org/dc/elements/1.1/"
   xmlns:ns0="adobe:ns:meta/" 
   xmlns:ns3="http://ns.adobe.com/exif/1.0/"

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<jpylyzer xmlns="http://openpreservation.org/ns/jpylyzer/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://openpreservation.org/ns/jpylyzer/ http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd">
+<jpylyzer xmlns="http://openpreservation.org/ns/jpylyzer/v2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://openpreservation.org/ns/jpylyzer/v2/ http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd">
 <toolInfo>
     <toolName>cli.py</toolName>
     <toolVersion>2.0.0a1</toolVersion>
