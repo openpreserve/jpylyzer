@@ -4,27 +4,29 @@ title: Using jpylyzer
 ---
 {% include JB/setup %}
 
+<!-- Start of text to be copied from jpylyzer README.md -->
+
 ## Using jpylyzer from the command line
 
 Calling *jpylyzer* in a command window without any arguments results in the following helper message:
 
-{% highlight console %}
-usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
-                [--recurse] [--verbose] [--version] [--wrapper]
-                jp2In [jp2In ...]
-{% endhighlight %}
+    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
+              [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
+              jp2In [jp2In ...]
 
 ### Positional arguments
 
+|Argument|Description|
 |:--|:--|
 |`jp2In`|input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux|
 
-
 ### Optional arguments
 
+|Argument|Description|
 |:--|:--|
 |`[-h, --help]`|show help message and exit|
 |`[--format FMT]`|validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)|
+|`[--mix {1,2}]`|report additional output in NISO MIX format (version 1.0 or 2.0)|
 |`[--legacyout]`|report output in jpylyzer 1.x format (provided for backward compatibility only)|
 |`[--nopretty]`|suppress pretty-printing of XML output|
 |`[--nullxml]`|extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)|
@@ -37,51 +39,63 @@ usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
 
 Output is directed to the standard output device (*stdout*).
 
-## Example
+### Example
 
-{% highlight console %}
-jpylyzer rubbish.jp2 > rubbish.xml
-{% endhighlight %}
+`jpylyzer rubbish.jp2 > rubbish.xml`
 
 In the above example, output is redirected to the file &#8216;rubbish.xml&#8217;. By default *jpylyzer*&#8217;s XML is pretty-printed, so you should be able to view the file using your favourite text editor. Alternatively use a dedicated XML editor, or open the file in your web browser.
 
-## Overview of output elements
+## Output format
 
-A *jpylyzer* output file contains the following top-level output elements:
+The output file contains the following top-level elements:
 
-1. *toolInfo* element: tool name (jpylyzer) + version.
-2. one or more *file* elements: holds all information about the analysed file(s)
+1. One *toolInfo* element, which contains information about *jpylyzer* (its name and version number)
 
-in turn, each *file* element holds the following child elements:
+2. One or more *file* elements, each of which contain information about about the analysed files
 
-1. *fileInfo*: name, path, size and last modified time/date of input file.
-2. *isValid*: *True* / *False* flag indicating whether file is valid.
-4. *tests*: tree of test outcomes, expressed as *True* / *False* flags.
-   A file is considered valid only if all tests return *True*. Tree follows JP2 box structure. By default only tests that returned *False* are reported, which results in an empty *tests*  element for files that are valid JP2. Use the  `--verbose` flag to get *all* test results.
-5. *properties*: tree of image properties. Follows JP2 box structure. Naming of properties follows [ISO/IEC 15444-1 Annex I](https://web.archive.org/web/20100926184120/http://www.jpeg.org/public/15444-1annexi.pdf) (JP2 file format syntax) and [Annex A](http://www.itu.int/rec/T-REC-T.800/en) (Codestream syntax).
+In turn, each *file element contains the following sub-elements:
+
+1. *fileInfo*: general information about the analysed file
+
+2. *statusInfo*: information about the status of *jpylyzer*'s validation attempt
+
+3. *isValid*: outcome of the validation
+
+4. *tests*: outcome of the individual tests that are part of the
+validation process (organised by box)
+
+5. *properties*: image properties (organised by box)
+
+6. *propertiesExtension*: wrapper element for NISO *MIX* output (only if the `--mix` option is used)
 
 ## Using jpylyzer as a Python module
 
-In order to use *jpylyzer* in your own Python programs, first install it
+Instead of using *jpylyzer* from the command-line, you can also import
+it as a module in your own Python programs. To do so, install jpylyzer
 with *pip*. Then import *jpylyzer* into your code by adding:
 
-    from jpylyzer import jpylyzer
-
+```python
+from jpylyzer import jpylyzer
+```
 Subsequently you can call any function that is defined in *jpylyzer.py*.
 In practice you will most likely only need the *checkOneFile* function. 
 The following minimal script shows how this works:
 
-    from jpylyzer import jpylyzer
+```python
+#! /usr/bin/env python
 
-    # Define JP2
-    myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
+from jpylyzer import jpylyzer
 
-    # Analyse with jpylyzer, result to Element object
-    myResult = jpylyzer.checkOneFile(myFile)
+# Define JP2
+myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
 
-    # Return image height value
-    imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
-    print(imageHeight)
+# Analyse with jpylyzer, result to Element object
+myResult = jpylyzer.checkOneFile(myFile)
+
+# Return image height value
+imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
+print(imageHeight)
+```
 
 Here, *myResult* is an *Element* object that can either be used directly, 
 or converted to XML using the *ElementTree* module[^3]. The structure of the
@@ -90,11 +104,15 @@ element object follows the XML output that described in [Chapter 5](#output-form
 For validation a raw JPEG 2000 codestreams, call the *checkOneFile* function with the additional
 *validationFormat* argument, and set it to `j2c`:
 
-    # Define Codestream
-    myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
+```python
+# Define Codestream
+myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
 
-    # Analyse with jpylyzer, result to Element object
-    myResult = jpylyzer.checkOneFile(myFile, 'j2c')
+# Analyse with jpylyzer, result to Element object
+myResult = jpylyzer.checkOneFile(myFile, 'j2c')
+```
+
+<!-- End of text to be copied from jpylyzer README.md -->
 
 ## Demonstration video
 
