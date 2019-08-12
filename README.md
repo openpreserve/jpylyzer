@@ -16,15 +16,23 @@ Please visit the jpylyzer homepage for links to the most recent package download
 
 - [![Build Status](http://jenkins.opf-labs.org/buildStatus/icon?job=jpylyser)](http://jenkins.opf-labs.org/job/jpylyser/) OPF Jenkins
 
-## Command line use
+<!-- Start of text to be copied to usage.md of jpylyzer website -->
 
-### Usage
+## Using jpylyzer from the command line
+
+Calling *jpylyzer* in a command window without any arguments results in the following helper message:
 
     usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
               [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
               jp2In [jp2In ...]
 
-With:
+### Positional arguments
+
+|Argument|Description|
+|:--|:--|
+|`jp2In`|input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux|
+
+### Optional arguments
 
 |Argument|Description|
 |:--|:--|
@@ -38,9 +46,8 @@ With:
 |`[--verbose]`|report test results in verbose format|
 |`[-v, --version]`|show program's version number and exit|
 |`[--wrapper, -w]`|wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect if `--legacyout` is used)|
-|`jp2In`|input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux.|
 
-## Output 
+## Output
 
 Output is directed to the standard output device (*stdout*).
 
@@ -48,7 +55,7 @@ Output is directed to the standard output device (*stdout*).
 
 `jpylyzer rubbish.jp2 > rubbish.xml`
 
-In the above example, output is redirected to the file 'rubbish.xml'.
+In the above example, output is redirected to the file &#8216;rubbish.xml&#8217;. By default *jpylyzer*&#8217;s XML is pretty-printed, so you should be able to view the file using your favourite text editor. Alternatively use a dedicated XML editor, or open the file in your web browser.
 
 ## Output format
 
@@ -116,6 +123,8 @@ myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
 # Analyse with jpylyzer, result to Element object
 myResult = jpylyzer.checkOneFile(myFile, 'j2c')
 ```
+
+<!-- End of text to be copied to usage.md of jpylyzer website -->
 
 ## Debian packages build process
 
