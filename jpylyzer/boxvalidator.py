@@ -68,7 +68,7 @@ class BoxValidator:
     # Reverse access of typemap for quick lookup
     boxTagMap = {v: k for k, v in typeMap.items()}
 
-    def __init__(self, bType, boxContents, startOffset=None, csiz=None):
+    def __init__(self, bType, boxContents, startOffset=None, components=None):
         if bType in self.typeMap:
             self.boxType = self.typeMap[bType]
         elif bType == "JP2":
@@ -91,7 +91,7 @@ class BoxValidator:
         self.returnOffset = None
         self.isValid = None
         self.tilePartLength = None
-        self.csiz = None
+        self.csiz = components
         self.bTypeString = bType
 
     def validate(self):
@@ -1147,7 +1147,6 @@ class BoxValidator:
             self.characteristics.append(characteristicsSIZ)
             # Get csiz value, which is needed later on by the COC validation function
             csiz = characteristicsSIZ.findElementText('csiz')
-            print("csiz = " + str(csiz))
 
         offset = offsetNext
 
@@ -1182,7 +1181,7 @@ class BoxValidator:
                 # COC (coding style component) marker segment
                 # COC is optional
                 # Validate COC segment
-                resultsCOC = BoxValidator(marker, segContents, csiz).validate()
+                resultsCOC = BoxValidator(marker, segContents, components=csiz).validate()
                 testsCOC = resultsCOC.tests
                 characteristicsCOC = resultsCOC.characteristics
                 # Add analysis results to test results tree
@@ -1304,11 +1303,10 @@ class BoxValidator:
 
             # TEST
             # print("Offset: " + str(offset))
-            csize=3
             # TEST
 
             if marker == b'\xff\x90':
-                resultsTilePart = BoxValidator(marker, self.boxContents, startOffset=offset, csiz=csize).validate()
+                resultsTilePart = BoxValidator(marker, self.boxContents, startOffset=offset, components=csiz).validate()
                 testsTilePart = resultsTilePart.tests
                 characteristicsTilePart = resultsTilePart.characteristics
                 offsetNext = resultsTilePart.returnOffset
@@ -1882,7 +1880,7 @@ class BoxValidator:
     # apart from the SOP/EPH markers (not sure if I even *want* to see those reported
     # because there will be either lots of them or none at all!).
 
-    def validate_coc(self, csiz):
+    def validate_coc(self):
         """Coding style component (COD) header fields (ISO/IEC 15444-1 Section
         A.6.2)
         """
@@ -1896,7 +1894,7 @@ class BoxValidator:
         self.testFor("lcocIsValid", lcocIsValid)
 
         # Size of following field and offset of fields that follow it depend on csiz value
-        if csiz < 257:
+        if self.csiz < 257:
             # Index of component to which this marker relates
             ccoc = bc.bytesToUnsignedChar(self.boxContents[2:3])
             # Coding style for this component
@@ -2126,7 +2124,7 @@ class BoxValidator:
         """Empty function"""
         pass
 
-    def validate_tilePart(self, csiz):
+    def validate_tilePart(self):
         """Analyse tile part that starts at offsetStart and perform cursory validation
 
         Precondition: offsetStart points to SOT marker
@@ -2195,7 +2193,7 @@ class BoxValidator:
                 # COC is optional
 
                 # Validate COC segment
-                resultsCOC = BoxValidator(marker, segContents, csiz).validate()
+                resultsCOC = BoxValidator(marker, segContents, components=self.csiz).validate()
                 testsCOC = resultsCOC.tests
                 characteristicsCOC = resultsCOC.characteristics
 
