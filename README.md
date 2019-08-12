@@ -65,7 +65,9 @@ The output file contains the following top-level elements:
 
 2. One or more *file* elements, each of which contain information about about the analysed files
 
-In turn, each *file element contains the following sub-elements:
+
+In turn, each *file* element contains the following sub-elements:
+
 
 1. *fileInfo*: general information about the analysed file
 

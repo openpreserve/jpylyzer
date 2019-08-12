@@ -421,6 +421,7 @@ background-color: aqua
 <li><a href="#isvalid-element"><span class="toc-section-number">5.6</span> isValid element</a></li>
 <li><a href="#tests-element"><span class="toc-section-number">5.7</span> tests element</a></li>
 <li><a href="#properties-element"><span class="toc-section-number">5.8</span> properties element</a></li>
+<li><a href="#propertiesExtension-element"><span class="toc-section-number">5.9</span> propertiesExtension element</a></li>
 </ul></li>
 <li><a href="#jp2-box-by-box"><span class="toc-section-number">6</span> JP2: box by box</a><ul>
 <li><a href="#about-properties-tests-trees"><span class="toc-section-number">6.1</span> About the properties and tests trees</a></li>
@@ -535,8 +536,8 @@ fi</code></pre>
 <p>Save the file, log out of your session and then log in again. Open a command terminal and type:</p>
 <pre><code>jpylyzer</code></pre>
 <p>If all went well you now see this:</p>
-<pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
-              [--recurse] [--verbose] [--version] [--wrapper]
+<pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
+              [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
               jp2In [jp2In ...]
 jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <p>Which means that the installation was successful!</p>
@@ -555,9 +556,9 @@ jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <p>In the above command, replace <em>%jpylyzerPath%</em> with the full path to the <em>jpylyzer</em> installation directory (i.e. the directory that contains ‘jpylyzer.exe’ and its associated files). For example, if you extracted the files to directory <code>c:\tools\jpylyzer</code>, the command would become:</p>
 <pre><code>c:\tools\jpylyzer\jpylyzer</code></pre>
 <p>Executing this command should result in the following screen output:</p>
-<pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
-                [--recurse] [--verbose] [--version] [--wrapper]
-                jp2In [jp2In ...]
+<pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
+              [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
+              jp2In [jp2In ...]
 jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <h3 id="running-jpylyzer-without-typing-the-full-path"><span class="header-section-number">2.3.2</span> Running jpylyzer without typing the full path</h3>
 <p>Optionally, you may also want to add the full path of the <em>jpylyzer</em> installation directory to the Windows ’Path’ environment variable. Doing so allows you to run <em>jpylyzer</em> from any directory on your PC without having to type the full path. In Windows 7 you can do this by selecting ‘settings’ from the ‘Start’ menu; then go to ‘control panel’/’system’ and go to the ‘advanced’ tab. Click on the ‘environment variables’ button. Finally, locate the ‘Path’ variable in the ‘system variables’ window, click on ‘Edit’ and add the full <em>jpylyzer</em> path (this requires local Administrator privileges). The settings take effect on any newly opened command prompt.</p>
@@ -594,11 +595,75 @@ sudo apt-get install python-jpylyzer</code></pre>
 <p>Furthermore, command line arguments that are given between square brackets (example: <code>[-h]</code>) are optional.</p>
 <h3 id="synopsis"><span class="header-section-number">3.2.1</span> Synopsis</h3>
 <p><em>Jpylyzer</em> can be invoked using the following command-line arguments:</p>
-<pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--nopretty] [--nullxml]
-              [--recurse] [--verbose] [--version] [--wrapper]
+<pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
+              [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
               jp2In [jp2In ...]</code></pre>
-<p>With:</p>
-<p>|:–|:–| |<code>[-h, --help]</code>|show help message and exit| |<code>[--format FMT]</code>|validation format; allowed values are <code>jp2</code> (used by default) and <code>j2c</code> (which activates raw codestream validation)| |<code>[--legacyout]</code>|report output in jpylyzer 1.x format (provided for backward compatibility only)| |<code>[--nopretty]</code>|suppress pretty-printing of XML output| |<code>[--nullxml]</code>|extract null-terminated XML content from XML and UUID boxes(doesn’t affect validation)| |<code>[--recurse, -r]</code>|when analysing a directory, recurse into subdirectories (implies <code>--wrapper</code> if <code>--legacyout</code> is used)| |<code>[--verbose]</code>|report test results in verbose format| |<code>[-v, --version]</code>|show program’s version number and exit| |<code>[--wrapper, -w]</code>|wrap output for individual image(s) in ‘results’ XML element (deprecated from jpylyzer 2.x onward, only takes effect if <code>--legacyout</code> is used)|</p>
+<h4 id="positional-arguments"><span class="header-section-number">3.2.1.1</span> Positional arguments</h4>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Argument</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>jp2In</code></td>
+<td style="text-align: left;">input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (*) with backslash (\) in Linux</td>
+</tr>
+</tbody>
+</table>
+<h4 id="optional-arguments"><span class="header-section-number">3.2.1.2</span> Optional arguments</h4>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Argument</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>[-h, --help]</code></td>
+<td style="text-align: left;">show help message and exit</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>[--format FMT]</code></td>
+<td style="text-align: left;">validation format; allowed values are <code>jp2</code> (used by default) and <code>j2c</code> (which activates raw codestream validation)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>[--mix {1,2}]</code></td>
+<td style="text-align: left;">report additional output in NISO MIX format (version 1.0 or 2.0)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>[--legacyout]</code></td>
+<td style="text-align: left;">report output in jpylyzer 1.x format (provided for backward compatibility only)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>[--nopretty]</code></td>
+<td style="text-align: left;">suppress pretty-printing of XML output</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>[--nullxml]</code></td>
+<td style="text-align: left;">extract null-terminated XML content from XML and UUID boxes(doesn’t affect validation)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>[--recurse, -r]</code></td>
+<td style="text-align: left;">when analysing a directory, recurse into subdirectories (implies <code>--wrapper</code> if <code>--legacyout</code> is used)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>[--verbose]</code></td>
+<td style="text-align: left;">report test results in verbose format</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>[-v, --version]</code></td>
+<td style="text-align: left;">show program’s version number and exit</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>[--wrapper, -w]</code></td>
+<td style="text-align: left;">wrap output for individual image(s) in ‘results’ XML element (deprecated from jpylyzer 2.x onward, only takes effect if <code>--legacyout</code> is used)</td>
+</tr>
+</tbody>
+</table>
 <p>Note that the input can either be a single image, a space-separated sequence of images, a pathname expression that includes multiple images, or any combination of the above. For example, the following command will process one single image:</p>
 <pre><code>jpylyzer rubbish.jp2</code></pre>
 <p>The next example shows how to process all files with a ‘jp2’ extension in the current directory:</p>
@@ -614,31 +679,35 @@ sudo apt-get install python-jpylyzer</code></pre>
 <h3 id="format-option"><span class="header-section-number">3.2.3</span> ‘format’ option</h3>
 <p>By default, <em>jpylyzer</em> validates against the <em>JP2</em> format specification. Starting with version 2.0, <em>jpylyzer</em> can also validate raw JPEG 2000 codestreams that are not wrapped inside a <em>JP2</em> container. For codestream validation, use the <code>--format</code> option with value <code>j2c</code>, e.g.:</p>
 <pre><code>jpylyzer --format j2c rubbish.j2c &gt; rubbish.xml</code></pre>
-<h3 id="legacyout-option"><span class="header-section-number">3.2.4</span> ‘legacyout’ option</h3>
+<h3 id="mix-option"><span class="header-section-number">3.2.4</span> ‘mix’ option</h3>
+<p>When this option is used, <em>jpylyzer</em> reports additional output in <a href="http://www.loc.gov/standards/mix/"><em>NISO MIX</em></a> format. This option takes one argument that defines whether <em>MIX</em> 1.0 or <em>MIX</em> 2.0 is used. For example, the following command will result in <em>MIX</em> 2.0 output:</p>
+<pre><code>jpylyzer --mix 2 rubbish.jp2 &gt; rubbish.xml</code></pre>
+<p>The <em>MIX</em> output is wrapped inside a <em>file/propertiesExtension</em> element. Note that <em>MIX</em> output is <em>only</em> written for files that are valid JP2 (files that are not valid result in an empty <em>propertiesExtension</em> element). Also, the <code>--mix</code> option is ignored if <code>--format</code> is set to <code>j2c</code>, or if <code>--legacyout</code> (see below) is used.</p>
+<h3 id="legacyout-option"><span class="header-section-number">3.2.5</span> ‘legacyout’ option</h3>
 <p>The output format of <em>jpylyzer</em> has changed in version 2.0, which may break existing workflows that expect output in 1.x format. For backward compatibility the <code>--legacyout</code> option results in output that follows the old 1.x format. Note that codestream validation is disabled if you use this option.</p>
-<h3 id="recurse-option"><span class="header-section-number">3.2.5</span> ‘recurse’ option</h3>
+<h3 id="recurse-option"><span class="header-section-number">3.2.6</span> ‘recurse’ option</h3>
 <p>If the <code>--recurse</code> option is used, <em>jpylyzer</em> will recursively traverse all subdirectories of a filepath expression. E.g:</p>
 <pre><code>jpylyzer /home/myJP2s/*.jp2 &gt; rubbish.xml</code></pre>
 <p>In this case <em>jpylyzer</em> analyses all files that have a <em>.jp2</em> extension in directory <em>/home/myJP2s</em> and all its subdirectories.</p>
-<h3 id="wrapper-option-deprecated"><span class="header-section-number">3.2.6</span> ‘wrapper’ option (deprecated)</h3>
+<h3 id="wrapper-option-deprecated"><span class="header-section-number">3.2.7</span> ‘wrapper’ option (deprecated)</h3>
 <p>This deprecated option is included for backward-compatibility, and only takes effect if <code>--legacyout</code> (see above) is used.By default, the <em>jpylyzer</em> 1.x releases would create a separate XML tree for each analysed image, without any overarching hierarchy. For multiple-image pathname expressions this resulted in output that was <strong>not</strong> well-formed XML. The <code>--legacyout</code> option still results in this is behaviour. For example:</p>
 <pre><code>jpylyzer --legacyout rubbish.jp2 garbage.jp2 &gt; rubbish.xml</code></pre>
 <p>In this case, the file ‘rubbish.xml’ contains a succession of two XML trees, which by itself is not well-formed XML. The <code>--wrapper</code> option is provided to create valid XML instead:</p>
 <pre><code>jpylyzer --legacyout --wrapper rubbish.jp2 garbage.jp2 &gt; rubbish.xml</code></pre>
 <p>In the above case the XML trees of the individual images are wrapped inside a ‘results’ element. When the <code>--recurse</code> option is used, jpylyzer will automatically wrap the output in a ‘results’ element, so there’s no need to specify <code>--wrapper</code> in that case.</p>
 <p>Starting with version 2.0, <em>jpylyzer</em> <em>always</em> generates well-formed XML (unless the <code>--legacyout</code> option is used), which makes the <code>--wrapper</code> option largely obsolete, apart from cases where the ‘old’ behaviour is needed for backward-compatibility reasons.</p>
-<h3 id="nullxml-option"><span class="header-section-number">3.2.7</span> ‘nullxml’ option</h3>
+<h3 id="nullxml-option"><span class="header-section-number">3.2.8</span> ‘nullxml’ option</h3>
 <p>The <em>nullxml</em> option was added to enable extraction of XML content that is terminated by a null-byte. By default <em>jpylyzer</em> doesn’t report the XML in that case, because it throws an exception in the XML parser. Apparently some old versions of the Kakadu demo applications would erroneously add a null-byte to embedded XML, so this option can be used to force extraction for images that are affected by this.</p>
-<h3 id="user-warnings"><span class="header-section-number">3.2.8</span> User warnings</h3>
+<h3 id="user-warnings"><span class="header-section-number">3.2.9</span> User warnings</h3>
 <p>Under the following conditions <em>jpylyzer</em> will print a user warning to the standard error device (typically the console screen):</p>
-<h4 id="no-images-to-check"><span class="header-section-number">3.2.8.1</span> No images to check</h4>
+<h4 id="no-images-to-check"><span class="header-section-number">3.2.9.1</span> No images to check</h4>
 <p>If there are no input images to check (typically because the value of jp2In refers to a non-existent file), the following warning message is shown:</p>
 <pre><code>User warning: no images to check!</code></pre>
-<h4 id="unsupported-box"><span class="header-section-number">3.2.8.2</span> Unsupported box</h4>
+<h4 id="unsupported-box"><span class="header-section-number">3.2.9.2</span> Unsupported box</h4>
 <p>In some cases you will see the following warning message:</p>
 <pre><code>User warning: ignoring 'boxName' (validator function not yet implemented)</code></pre>
 <p>The reason for this: a JP2 file is made up of units that are called ‘boxes’. This is explained in more detail in <a href="#structure-jp2">Chapter 4</a>. Each ‘box’ has its own dedicated validator function. At this stage validator functions are still missing for a small number of (optional) boxes. <em>Jpylyzer</em> will display the above warning message if it encounters a (yet) unsupported box. Any unsupported boxes are simply ignored, and the remainder of the file will be analyzed (and validated) normally.</p>
-<h4 id="error-while-processing-a-file"><span class="header-section-number">3.2.8.3</span> Error while processing a file</h4>
+<h4 id="error-while-processing-a-file"><span class="header-section-number">3.2.9.3</span> Error while processing a file</h4>
 <p>In rare cases you may come across one of the following messages:</p>
 <pre><code>User warning: memory error (file size too large)</code></pre>
 <p>Memory errors may occur for (very) large images. If you get this warning, try using a machine with more RAM. Also, a machine’s chip architecture and the operating system may put constraints on the amount of memory that can be allocated.</p>
@@ -650,34 +719,34 @@ sudo apt-get install python-jpylyzer</code></pre>
 User warning: unknown error (please report to developers)</code></pre>
 <p>If you ever run into either of these two errors, please get in touch with the jpylyzer developers. The easiest way to do this is to create a new issue at:</p>
 <p><a href="https://github.com/openpreserve/jpylyzer/issues" class="uri">https://github.com/openpreserve/jpylyzer/issues</a></p>
-<h4 id="unknown-box"><span class="header-section-number">3.2.8.4</span> Unknown box</h4>
+<h4 id="unknown-box"><span class="header-section-number">3.2.9.4</span> Unknown box</h4>
 <p>Occasionally, you may see this warning message:</p>
 <pre><code>User warning: ignoring unknown box</code></pre>
 <p>This happens if <em>jpylyzer</em> encounters a box that is not defined by JPEG 2000 Part 1. It should be noted that, to a large extent, JPEG 2000 Part 1 permits the presence of boxes that are defined outside the standard. Again, <em>jpylyzer</em> will simply ignore these and process all other boxes normally.</p>
 <h2 id="using-as-python-module"><span class="header-section-number">3.3</span> Using <em>jpylyzer</em> as a Python module</h2>
 <p>Instead of using <em>jpylyzer</em> from the command-line, you can also import it as a module in your own Python programs. To do so, install jpylyzer with <em>pip</em>. Then import <em>jpylyzer</em> into your code by adding:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</a></code></pre></div>
 <p>Subsequently you can call any function that is defined in <em>jpylyzer.py</em>. In practice you will most likely only need the <em>checkOneFile</em> function. The following minimal script shows how this works:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co">#! /usr/bin/env python</span></a>
-<a class="sourceLine" id="cb33-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</a>
-<a class="sourceLine" id="cb33-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb33-5" data-line-number="5"><span class="co"># Define JP2</span></a>
-<a class="sourceLine" id="cb33-6" data-line-number="6">myFile <span class="op">=</span> <span class="st">&quot;/home/johan/jpylyzer-test-files/aware.jp2&quot;</span></a>
-<a class="sourceLine" id="cb33-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb33-8" data-line-number="8"><span class="co"># Analyse with jpylyzer, result to Element object</span></a>
-<a class="sourceLine" id="cb33-9" data-line-number="9">myResult <span class="op">=</span> jpylyzer.checkOneFile(myFile)</a>
-<a class="sourceLine" id="cb33-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb33-11" data-line-number="11"><span class="co"># Return image height value</span></a>
-<a class="sourceLine" id="cb33-12" data-line-number="12">imageHeight <span class="op">=</span> myResult.findtext(<span class="st">'./properties/jp2HeaderBox/imageHeaderBox/height'</span>)</a>
-<a class="sourceLine" id="cb33-13" data-line-number="13"><span class="bu">print</span>(imageHeight)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co">#! /usr/bin/env python</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</a>
+<a class="sourceLine" id="cb34-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb34-5" data-line-number="5"><span class="co"># Define JP2</span></a>
+<a class="sourceLine" id="cb34-6" data-line-number="6">myFile <span class="op">=</span> <span class="st">&quot;/home/johan/jpylyzer-test-files/aware.jp2&quot;</span></a>
+<a class="sourceLine" id="cb34-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb34-8" data-line-number="8"><span class="co"># Analyse with jpylyzer, result to Element object</span></a>
+<a class="sourceLine" id="cb34-9" data-line-number="9">myResult <span class="op">=</span> jpylyzer.checkOneFile(myFile)</a>
+<a class="sourceLine" id="cb34-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb34-11" data-line-number="11"><span class="co"># Return image height value</span></a>
+<a class="sourceLine" id="cb34-12" data-line-number="12">imageHeight <span class="op">=</span> myResult.findtext(<span class="st">'./properties/jp2HeaderBox/imageHeaderBox/height'</span>)</a>
+<a class="sourceLine" id="cb34-13" data-line-number="13"><span class="bu">print</span>(imageHeight)</a></code></pre></div>
 <p>Here, <em>myResult</em> is an <em>Element</em> object that can either be used directly, or converted to XML using the <em>ElementTree</em> module<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. The structure of the element object follows the XML output that described in <a href="#output-format">Chapter 5</a>.</p>
 <p>For validation a raw JPEG 2000 codestreams, call the <em>checkOneFile</em> function with the additional <em>validationFormat</em> argument, and set it to <code>j2c</code>:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co"># Define Codestream</span></a>
-<a class="sourceLine" id="cb34-2" data-line-number="2">myFile <span class="op">=</span> <span class="st">&quot;/home/johan/jpylyzer-test-files/rubbish.j2c&quot;</span></a>
-<a class="sourceLine" id="cb34-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="co"># Analyse with jpylyzer, result to Element object</span></a>
-<a class="sourceLine" id="cb34-5" data-line-number="5">myResult <span class="op">=</span> jpylyzer.checkOneFile(myFile, <span class="st">'j2c'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># Define Codestream</span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">myFile <span class="op">=</span> <span class="st">&quot;/home/johan/jpylyzer-test-files/rubbish.j2c&quot;</span></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="co"># Analyse with jpylyzer, result to Element object</span></a>
+<a class="sourceLine" id="cb35-5" data-line-number="5">myResult <span class="op">=</span> jpylyzer.checkOneFile(myFile, <span class="st">'j2c'</span>)</a></code></pre></div>
 <h1 id="structure-jp2"><span class="header-section-number">4</span> Structure of a JP2 file</h1>
 <h2 id="structure-scope"><span class="header-section-number">4.1</span> Scope of this chapter</h2>
 <p>This chapter gives a brief overview of the JP2 file format. A basic understanding of the general structure of JP2 is helpful for appreciating how <em>jpylyzer</em> performs its validation. It will also make it easier to understand <em>jpylyzer</em>‘s extracted properties, as these are reported as a hierarchical tree that corresponds to the internal structure of JP2.</p>
@@ -862,6 +931,7 @@ User warning: unknown error (please report to developers)</code></pre>
 <li><p><em>isValid</em>: outcome of the validation</p></li>
 <li><p><em>tests</em>: outcome of the individual tests that are part of the validation process (organised by box)</p></li>
 <li><p><em>properties</em>: image properties (organised by box)</p></li>
+<li><p><em>propertiesExtension</em>: wrapper element for NIDSO <em>MIX</em> output (only if the <code>--mix</code> option is used)</p></li>
 </ol>
 <h2 id="fileinfo-element"><span class="header-section-number">5.4</span> fileInfo element</h2>
 <p>This element holds general information about the analysed file. Currently it contains the following sub-elements:</p>
@@ -899,6 +969,8 @@ User warning: unknown error (please report to developers)</code></pre>
 <p>By default, <em>jpylyzer</em> only reports any tests that failed (i.e. returned “False”), including the corresponding part of the box structure. For a valid JP2 the tests element will be empty. If the –verbose flag is used, the results of <em>all</em> tests are included (including those that returned “True”)<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
 <h2 id="properties-element"><span class="header-section-number">5.8</span> properties element</h2>
 <p>This element contains the extracted image properties, which are organised in a hierarchical tree that corresponds to JP2’s box structure. See chapters <a href="#jp2-box-by-box">6</a> and <a href="#contiguous-codestream-box-chapter">7</a> for a description of the reported properties.</p>
+<h2 id="propertiesExtension-element"><span class="header-section-number">5.9</span> propertiesExtension element</h2>
+<p>This optional element is reserved for output in alternative formats. Currently it is used to wrap output in NISO <em>MIX</em> format if the <code>--mix</code> option is used. See the <a href="http://www.loc.gov/standards/mix/"><em>MIX</em> documentation</a> for a description of the reported elements.</p>
 <h1 id="jp2-box-by-box"><span class="header-section-number">6</span> JP2: box by box</h1>
 <p>The following two chapters provide a detailed explanation of <em>jpylyzer</em>’s functionality and its output. In particular, the following two aspects are addressed:</p>
 <ol type="1">

@@ -317,7 +317,14 @@ brackets (example: `[-h]`) are optional.
     usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
                   [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
                   jp2In [jp2In ...]
-With:
+
+#### Positional arguments
+
+|Argument|Description|
+|:--|:--|
+|`jp2In`|input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux|
+
+#### Optional arguments
 
 |Argument|Description|
 |:--|:--|
@@ -331,7 +338,6 @@ With:
 |`[--verbose]`|report test results in verbose format|
 |`[-v, --version]`|show program's version number and exit|
 |`[--wrapper, -w]`|wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect if `--legacyout` is used)|
-|`jp2In`|input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux.|
 
 Note that the input can either be a single image, a space-separated
 sequence of images, a pathname expression that includes multiple images,
