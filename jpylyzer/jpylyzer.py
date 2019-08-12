@@ -371,6 +371,9 @@ def checkOneFile(path, validationFormat='jp2'):
             failureMessage = "runtime error (please report to developers)"
         else:
             failureMessage = "unknown error (please report to developers)"
+            ## TEST
+            raise
+            ## TEST
 
         shared.printWarning(failureMessage)
         tests = ET.Element("tests")
