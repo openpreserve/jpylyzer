@@ -743,12 +743,9 @@ an internal error that prevented *jpylyzer* from validating the file.
 equals “False”), this field gives further details about the reason of the failure.
 Examples are:
 
-        memory error (file size too large)
-
-        runtime error (please report to developers)
-
-        unknown error (please report to developers)
-
+  * `memory error (file size too large)`
+  * `runtime error (please report to developers)`
+  * `unknown error (please report to developers)`
 
 isValid element {#isvalid-element}
 ----------------------

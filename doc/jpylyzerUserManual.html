@@ -946,11 +946,11 @@ User warning: unknown error (please report to developers)</code></pre>
 <ul>
 <li><p><em>success</em>: a Boolean flag that indicates whether the validation attempt completed normally (“True”) or not (“False”). A value of “False” indicates an internal error that prevented <em>jpylyzer</em> from validating the file.</p></li>
 <li><p><em>failureMessage</em>: if the validation attempt failed (value of <em>success</em> equals “False”), this field gives further details about the reason of the failure. Examples are:</p>
-<pre><code>  memory error (file size too large)
-
-  runtime error (please report to developers)
-
-  unknown error (please report to developers)</code></pre></li>
+<ul>
+<li><code>memory error (file size too large)</code></li>
+<li><code>runtime error (please report to developers)</code></li>
+<li><code>unknown error (please report to developers)</code></li>
+</ul></li>
 </ul>
 <h2 id="isvalid-element"><span class="header-section-number">5.6</span> isValid element</h2>
 <p>This element contains the results of the validation. If a file passed all the tests (i.e. all tests returned “True”, see <a href="#tests-element">section 5.5</a>) it is most valid, and the value of <em>isValid</em> will be “True”. Its value is “False” otherwise. The element has a <em>format</em> attribute, which defines the validation format (set by the <code>--format</code> command-line option). The <em>format</em> attribute can have the following values:</p>
