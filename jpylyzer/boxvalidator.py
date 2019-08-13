@@ -1346,6 +1346,15 @@ class BoxValidator:
         self.characteristics.append(tilePartCharacteristics)
         self.tests.appendIfNotEmpty(tilePartTests)
 
+        # Test if all ccoc values are unique (no more than one COC per any given component)
+        # First we put all occurrences of ccoc to a list
+        ccocElements = self.characteristics.findall('coc/ccoc') + \
+            self.characteristics.findall('tileParts/tilePart/coc/ccoc')
+        ## TEST
+        print(ccocElements)
+        ## TODO: all ccoc values to list, then check if values are unique.
+        #ccocValues =  ccocElements.findAllText('ccoc')
+
         # Last 2 bytes should be end-of-codestream marker
         self.testFor(
             "foundEOCMarker", self.boxContents[length - 2:length] == b'\xff\xd9')
@@ -1691,6 +1700,179 @@ class BoxValidator:
                 self.testFor("precinctSizeYIsValid", precinctSizeYIsValid)
                 offset += 1
 
+    def validate_coc(self):
+        """Coding style component (COC) header fields (ISO/IEC 15444-1 Section
+        A.6.2)
+        """
+
+        # Length of COC marker
+        lcoc = bc.bytesToUShortInt(self.boxContents[0:2])
+        self.addCharacteristic("lcoc", lcoc)
+
+        # lcod should be in range 9-43
+        lcocIsValid = 9 <= lcoc <= 43
+        self.testFor("lcocIsValid", lcocIsValid)
+
+        # Size of following field and offset of fields that follow it depend on csiz value
+        if self.csiz < 257:
+            # Index of component to which this marker relates
+            ccoc = bc.bytesToUnsignedChar(self.boxContents[2:3])
+            offset = 3
+        else:
+            ccoc = bc.bytesToUShortInt(self.boxContents[2:4])
+            offset = 4
+
+        self.addCharacteristic("ccoc", ccoc)
+
+        # Coding style for this component
+        scoc = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
+        # Last bit of scoc: 0 in case of default precincts (ppx/ppy=15), 1 in case precincts
+        # are defined in sPcoc parameter
+        precincts = self._getBitValue(scoc, 8)
+        self.addCharacteristic("precincts", precincts)
+        offset += 1
+
+        # Coding parameters that are component-specific (grouped as sPCoc)
+        # in standard)
+
+        # Number of decomposition levels
+        levels = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
+        self.addCharacteristic("levels", levels)
+
+        # levels should be within range 0-32
+        levelsIsValid = 0 <= levels <= 32
+        self.testFor("levelsIsValid", levelsIsValid)
+
+        # Check lcoc is consistent with levels and precincts (eq A-# )
+        if precincts == 0 and self.csiz < 257:
+            lcocExpected = 9
+        elif precincts == 0 and self.csiz >= 257:
+            lcocExpected = 10
+        elif precincts == 1 and self.csiz < 257:
+            lcocExpected = 10 + levels
+        else:
+            lcocExpected = 11 + levels
+
+        lcocConsistentWithLevelsPrecincts = lcoc == lcocExpected
+        self.testFor(
+            "lcocConsistentWithLevelsPrecincts", lcocConsistentWithLevelsPrecincts)
+
+        offset += 1
+
+        # Code block width exponent (stored as offsets, add 2 to get actual
+        # value)
+        codeBlockWidthExponent = bc.bytesToUnsignedChar(
+            self.boxContents[offset:offset + 1]) + 2
+        self.addCharacteristic("codeBlockWidth", 2 ** codeBlockWidthExponent)
+
+        # Value within range 2-10
+        codeBlockWidthExponentIsValid = 2 <= codeBlockWidthExponent <= 10
+        self.testFor(
+            "codeBlockWidthExponentIsValid", codeBlockWidthExponentIsValid)
+
+        offset += 1
+
+        # Code block height exponent (stored as offsets, add 2 to get actual
+        # value)
+        codeBlockHeightExponent = bc.bytesToUnsignedChar(
+            self.boxContents[offset:offset + 1]) + 2
+        self.addCharacteristic("codeBlockHeight", 2 ** codeBlockHeightExponent)
+
+        # Value within range 2-10
+        codeBlockHeightExponentIsValid = 2 <= codeBlockHeightExponent <= 10
+        self.testFor(
+            "codeBlockHeightExponentIsValid", codeBlockHeightExponentIsValid)
+
+        # Sum of width + height exponents shouldn't exceed 12
+        sumHeightWidthExponentIsValid = codeBlockWidthExponent + \
+            codeBlockHeightExponent <= 12
+        self.testFor(
+            "sumHeightWidthExponentIsValid", sumHeightWidthExponentIsValid)
+
+        offset += 1
+
+        # Code block style, contains 6 boolean switches
+        codeBlockStyle = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
+
+        # Bit 8: selective arithmetic coding bypass
+        codingBypass = self._getBitValue(codeBlockStyle, 8)
+        self.addCharacteristic("codingBypass", codingBypass)
+
+        # Bit 7: reset of context probabilities on coding pass boundaries
+        resetOnBoundaries = self._getBitValue(codeBlockStyle, 7)
+        self.addCharacteristic("resetOnBoundaries", resetOnBoundaries)
+
+        # Bit 6: termination on each coding pass
+        termOnEachPass = self._getBitValue(codeBlockStyle, 6)
+        self.addCharacteristic("termOnEachPass", termOnEachPass)
+
+        # Bit 5: vertically causal context
+        vertCausalContext = self._getBitValue(codeBlockStyle, 5)
+        self.addCharacteristic("vertCausalContext", vertCausalContext)
+
+        # Bit 4: predictable termination
+        predTermination = self._getBitValue(codeBlockStyle, 4)
+        self.addCharacteristic("predTermination", predTermination)
+
+        # Bit 3: segmentation symbols are used
+        segmentationSymbols = self._getBitValue(codeBlockStyle, 3)
+        self.addCharacteristic("segmentationSymbols", segmentationSymbols)
+    
+        offset += 1
+
+        # Wavelet transformation: 9-7 irreversible (0) or 5-3 reversible (1)
+        transformation = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
+        self.addCharacteristic("transformation", transformation)
+
+        transformationIsValid = transformation in [0, 1]
+        self.testFor("transformationIsValid", transformationIsValid)
+
+        if precincts == 1:
+
+            # Precinct size for each resolution level (=decomposition levels +1)
+            # Order: low to high (lowest first)
+            # TODO: the behaviour in the case of precincts is untested at this stage
+            # due to a lack of test files! 
+
+            offset += 1
+
+            for i in range(levels + 1):
+                # Precinct byte
+                precinctByte = bc.bytesToUnsignedChar(
+                    self.boxContents[offset:offset + 1])
+
+                # Precinct width exponent: least significant 4 bytes (apply bit
+                # mask)
+                ppx = precinctByte & 15
+                precinctSizeX = 2 ** ppx
+                self.addCharacteristic("precinctSizeX", precinctSizeX)
+
+                # Precinct size of 1 (exponent 0) only allowed for lowest
+                # resolution level
+                if i != 0:
+                    precinctSizeXIsValid = precinctSizeX >= 2
+                else:
+                    precinctSizeXIsValid = True
+
+                self.testFor("precinctSizeXIsValid", precinctSizeXIsValid)
+
+                # Precinct height exponent: most significant 4 bytes (shift 4
+                # to right and apply bit mask)
+                ppy = (precinctByte >> 4) & 15
+                precinctSizeY = 2 ** ppy
+                self.addCharacteristic("precinctSizeY", precinctSizeY)
+
+                # Precinct size of 1 (exponent 0) only allowed for lowest
+                # resolution level
+                if i != 0:
+                    precinctSizeYIsValid = precinctSizeY >= 2
+                else:
+                    precinctSizeYIsValid = True
+
+                self.testFor("precinctSizeYIsValid", precinctSizeYIsValid)
+                offset += 1
+
+
     def validate_qcd(self):
         """Quantization default  (QCD) header fields (ISO/IEC 15444-1 Section
         A.6.4)
@@ -1879,214 +2061,6 @@ class BoxValidator:
     # Together these cover *all* the marker segments defined in ISO/IEC 15444-1,
     # apart from the SOP/EPH markers (not sure if I even *want* to see those reported
     # because there will be either lots of them or none at all!).
-
-    def validate_coc(self):
-        """Coding style component (COD) header fields (ISO/IEC 15444-1 Section
-        A.6.2)
-        """
-
-        # Length of COC marker
-        lcoc = bc.bytesToUShortInt(self.boxContents[0:2])
-        self.addCharacteristic("lcoc", lcoc)
-
-        # lcod should be in range 9-43
-        lcocIsValid = 9 <= lcoc <= 43
-        self.testFor("lcocIsValid", lcocIsValid)
-
-        # Size of following field and offset of fields that follow it depend on csiz value
-        if self.csiz < 257:
-            # Index of component to which this marker relates
-            ccoc = bc.bytesToUnsignedChar(self.boxContents[2:3])
-            # Coding style for this component
-            scoc = bc.bytesToUnsignedChar(self.boxContents[3:4])
-        else:
-            # Index of component to which this marker relates
-            ccoc = bc.bytesToUShortInt(self.boxContents[2:4])
-            # Coding style for this component
-            scoc = bc.bytesToUnsignedChar(self.boxContents[4:5])
-
-        self.addCharacteristic("ccoc", ccoc)
-        """
-        # Coding style
-        scod = bc.bytesToUnsignedChar(self.boxContents[2:3])
-
-        # scod contains 3 coding style parameters that follow from  its 3 least
-        # significant bits
-
-        # Last bit: 0 in case of default precincts (ppx/ppy=15), 1 in case precincts
-        # are defined in sPcod parameter
-        precincts = self._getBitValue(scod, 8)
-        self.addCharacteristic("precincts", precincts)
-
-        # 7th bit: 0: no start of packet marker segments; 1: start of packet marker
-        # segments may be used
-        sop = self._getBitValue(scod, 7)
-        self.addCharacteristic("sop", sop)
-
-        # 6th bit: 0: no end of packet marker segments; 1: end of packet marker
-        # segments shall be used
-        eph = self._getBitValue(scod, 6)
-        self.addCharacteristic("eph", eph)
-
-        # Coding parameters that are independent of components (grouped as sGCod)
-        # in standard)
-
-        sGcod = self.boxContents[3:7]
-
-        # Progression order
-        order = bc.bytesToUnsignedChar(sGcod[0:1])
-        self.addCharacteristic("order", order)
-
-        # Allowed values: 0 (LRCP), 1 (RLCP), 2 (RPCL), 3 (PCRL), 4(CPRL)
-        orderIsValid = order in [0, 1, 2, 3, 4]
-        self.testFor("orderIsValid", orderIsValid)
-
-        # Number of layers
-        layers = bc.bytesToUShortInt(sGcod[1:3])
-        self.addCharacteristic("layers", layers)
-
-        # layers should be in range 1-65535
-        layersIsValid = 1 <= layers <= 65535
-        self.testFor("layersIsValid", layersIsValid)
-
-        # Multiple component transformation
-        multipleComponentTransformation = bc.bytesToUnsignedChar(sGcod[3:4])
-        self.addCharacteristic(
-            "multipleComponentTransformation", multipleComponentTransformation)
-
-        # Value should be 0 (no transformation) or 1 (transformation on components
-        # 0,1 and 2)
-        multipleComponentTransformationIsValid = multipleComponentTransformation in [
-            0, 1]
-        self.testFor("multipleComponentTransformationIsValid",
-                     multipleComponentTransformationIsValid)
-
-        # Coding parameters that are component-specific (grouped as sPCod)
-        # in standard)
-
-        # Number of decomposition levels
-        levels = bc.bytesToUnsignedChar(self.boxContents[7:8])
-        self.addCharacteristic("levels", levels)
-
-        # levels should be within range 0-32
-        levelsIsValid = 0 <= levels <= 32
-        self.testFor("levelsIsValid", levelsIsValid)
-
-        # Check lcod is consistent with levels and precincts (eq A-2 )
-        if precincts == 0:
-            lcodExpected = 12
-        else:
-            lcodExpected = 13 + levels
-
-        lcodConsistentWithLevelsPrecincts = lcod == lcodExpected
-        self.testFor(
-            "lcodConsistentWithLevelsPrecincts", lcodConsistentWithLevelsPrecincts)
-
-        # Code block width exponent (stored as offsets, add 2 to get actual
-        # value)
-        codeBlockWidthExponent = bc.bytesToUnsignedChar(
-            self.boxContents[8:9]) + 2
-        self.addCharacteristic("codeBlockWidth", 2 ** codeBlockWidthExponent)
-
-        # Value within range 2-10
-        codeBlockWidthExponentIsValid = 2 <= codeBlockWidthExponent <= 10
-        self.testFor(
-            "codeBlockWidthExponentIsValid", codeBlockWidthExponentIsValid)
-
-        # Code block height exponent (stored as offsets, add 2 to get actual
-        # value)
-        codeBlockHeightExponent = bc.bytesToUnsignedChar(
-            self.boxContents[9:10]) + 2
-        self.addCharacteristic("codeBlockHeight", 2 ** codeBlockHeightExponent)
-
-        # Value within range 2-10
-        codeBlockHeightExponentIsValid = 2 <= codeBlockHeightExponent <= 10
-        self.testFor(
-            "codeBlockHeightExponentIsValid", codeBlockHeightExponentIsValid)
-
-        # Sum of width + height exponents shouldn't exceed 12
-        sumHeightWidthExponentIsValid = codeBlockWidthExponent + \
-            codeBlockHeightExponent <= 12
-        self.testFor(
-            "sumHeightWidthExponentIsValid", sumHeightWidthExponentIsValid)
-
-        # Code block style, contains 6 boolean switches
-        codeBlockStyle = bc.bytesToUnsignedChar(self.boxContents[10:11])
-
-        # Bit 8: selective arithmetic coding bypass
-        codingBypass = self._getBitValue(codeBlockStyle, 8)
-        self.addCharacteristic("codingBypass", codingBypass)
-
-        # Bit 7: reset of context probabilities on coding pass boundaries
-        resetOnBoundaries = self._getBitValue(codeBlockStyle, 7)
-        self.addCharacteristic("resetOnBoundaries", resetOnBoundaries)
-
-        # Bit 6: termination on each coding pass
-        termOnEachPass = self._getBitValue(codeBlockStyle, 6)
-        self.addCharacteristic("termOnEachPass", termOnEachPass)
-
-        # Bit 5: vertically causal context
-        vertCausalContext = self._getBitValue(codeBlockStyle, 5)
-        self.addCharacteristic("vertCausalContext", vertCausalContext)
-
-        # Bit 4: predictable termination
-        predTermination = self._getBitValue(codeBlockStyle, 4)
-        self.addCharacteristic("predTermination", predTermination)
-
-        # Bit 3: segmentation symbols are used
-        segmentationSymbols = self._getBitValue(codeBlockStyle, 3)
-        self.addCharacteristic("segmentationSymbols", segmentationSymbols)
-
-        # Wavelet transformation: 9-7 irreversible (0) or 5-3 reversible (1)
-        transformation = bc.bytesToUnsignedChar(self.boxContents[11:12])
-        self.addCharacteristic("transformation", transformation)
-
-        transformationIsValid = transformation in [0, 1]
-        self.testFor("transformationIsValid", transformationIsValid)
-
-        if precincts == 1:
-
-            # Precinct size for each resolution level (=decomposition levels +1)
-            # Order: low to high (lowest first)
-
-            offset = 12
-
-            for i in range(levels + 1):
-                # Precinct byte
-                precinctByte = bc.bytesToUnsignedChar(
-                    self.boxContents[offset:offset + 1])
-
-                # Precinct width exponent: least significant 4 bytes (apply bit
-                # mask)
-                ppx = precinctByte & 15
-                precinctSizeX = 2 ** ppx
-                self.addCharacteristic("precinctSizeX", precinctSizeX)
-
-                # Precinct size of 1 (exponent 0) only allowed for lowest
-                # resolution level
-                if i != 0:
-                    precinctSizeXIsValid = precinctSizeX >= 2
-                else:
-                    precinctSizeXIsValid = True
-
-                self.testFor("precinctSizeXIsValid", precinctSizeXIsValid)
-
-                # Precinct height exponent: most significant 4 bytes (shift 4
-                # to right and apply bit mask)
-                ppy = (precinctByte >> 4) & 15
-                precinctSizeY = 2 ** ppy
-                self.addCharacteristic("precinctSizeY", precinctSizeY)
-
-                # Precinct size of 1 (exponent 0) only allowed for lowest
-                # resolution level
-                if i != 0:
-                    precinctSizeYIsValid = precinctSizeY >= 2
-                else:
-                    precinctSizeYIsValid = True
-
-                self.testFor("precinctSizeYIsValid", precinctSizeYIsValid)
-                offset += 1
-        """
 
     def validate_rgn(self):
         """Empty function"""
