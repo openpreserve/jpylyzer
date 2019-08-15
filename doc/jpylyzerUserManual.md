@@ -1790,6 +1790,7 @@ which are represented as child elements in the properties tree:
 |quantizationConsistentWithLevels|Values of quantization parameters from QCD marker segment are consistent with *levels* from COD marker segment[^18]|
 |foundExpectedNumberOfTiles|Number of encountered tiles is consistent with expected number of tiles (as calculated from SIZ marker, see [section 7.5](#siz-marker))|
 |foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from SOT marker, see [section 7.10](#sot-marker))|
+|maxOneCcocPerComponent|No more than one *ccoc* value for each component (only reported if codestream contains any COC marker segments))|
 |foundEOCMarker|Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment|
 
 Image and tile size (SIZ) marker segment (child of Contiguous Codestream box) {#siz-marker}

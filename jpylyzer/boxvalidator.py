@@ -1346,14 +1346,17 @@ class BoxValidator:
         self.characteristics.append(tilePartCharacteristics)
         self.tests.appendIfNotEmpty(tilePartTests)
 
-        # Test if all ccoc values are unique (no more than one COC per any given component)
+        # Test if all ccoc values are unique (A.6.2 - no more than one COC per any given component)
         # First we put all occurrences of ccoc to a list
         ccocElements = self.characteristics.findall('coc/ccoc') + \
             self.characteristics.findall('tileParts/tilePart/coc/ccoc')
-        ## TEST
-        print(ccocElements)
-        ## TODO: all ccoc values to list, then check if values are unique.
-        #ccocValues =  ccocElements.findAllText('ccoc')
+        # List with all ccoc values
+        ccocValues = []
+        for ccocElement in ccocElements:
+            ccocValues.append(ccocElement.text)
+        
+        if len(ccocValues) > 0:
+            self.testFor("maxOneCcocPerComponent", len(set(ccocValues)) == len(ccocValues))
 
         # Last 2 bytes should be end-of-codestream marker
         self.testFor(
