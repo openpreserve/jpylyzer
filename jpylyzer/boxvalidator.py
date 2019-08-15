@@ -1301,10 +1301,6 @@ class BoxValidator:
         while marker == b'\xff\x90':
             marker = self.boxContents[offset:offset + 2]
 
-            # TEST
-            # print("Offset: " + str(offset))
-            # TEST
-
             if marker == b'\xff\x90':
                 resultsTilePart = BoxValidator(marker, self.boxContents, startOffset=offset, components=csiz).validate()
                 testsTilePart = resultsTilePart.tests
@@ -1323,11 +1319,7 @@ class BoxValidator:
                 # Expected number of tile-parts for each tile to dictionary
                 if tilePartsOfTile != 0:
                     tilePartsPerTileExpected[tileIndex] = tilePartsOfTile
-                ## TEST
-                #print("tileIndex = " + str(tileIndex))
-                #print("tilePartsPerTileFound:")
-                #print(tilePartsPerTileFound)
-                ## TEST
+
                 # Increase found number of tile-parts for this tile by 1
                 try:
                     tilePartsPerTileFound[
