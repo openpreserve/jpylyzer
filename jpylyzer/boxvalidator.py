@@ -2006,6 +2006,11 @@ class BoxValidator:
             else:
                 commentIsValid = False
 
+        else:
+
+            # Value of rcom value that is nor defined by the standard
+            commentIsValid = False
+
         self.testFor("commentIsValid", commentIsValid)
 
         # any non-printable data should have been removed.
