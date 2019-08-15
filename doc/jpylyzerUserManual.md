@@ -1769,7 +1769,6 @@ contiguousCodestreamBox
 The reported properties for this box are organised into a number groups,
 which are represented as child elements in the properties tree:
 
-  
 
 |Child element|Description|
 |:------------|:----------|
@@ -1778,6 +1777,7 @@ which are represented as child elements in the properties tree:
 |qcd ([section 7.7](#qcd-marker))|Properties from the quantization default (QCD) marker segment (codestream main header)|
 |com ([section 7.8](#com-marker))|Properties from the (optional) comment (COM) marker segment (codestream main header)|
 |tileParts ([section 7.9](#tile-part))|Properties from individual tile parts|
+|coc ([section 7.11](#coc-marker))|Properties from the coding (optional) style component (COC) marker segment (codestream main header)|
 
 ### Tests
 
@@ -1957,6 +1957,7 @@ Each tile part element can contain a number of child elements:
 |cod ([section 7.6](#cod-marker))|Properties from the (optional) coding style default (COD) marker segment (tile part header)|
 |qcd ([section 7.7](#qcd-marker))|Properties from the (optional) quantization default (QCD) marker segment (tile part header)|
 |com ([section 7.8](#com-marker))|Properties from the (optional) comment (COM) marker segment (tile part header)|
+|coc ([section 7.11](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (tile part header)|
 
 ### Tests
 
