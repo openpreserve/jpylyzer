@@ -1148,221 +1148,221 @@ class BoxValidator:
             # Get csiz value, which is needed later on by the COC validation function
             csiz = characteristicsSIZ.findElementText('csiz')
 
-        offset = offsetNext
+            offset = offsetNext
 
-        # Loop through remaining marker segments in main header; first SOT (start of
-        # tile-part marker) indicates end of main header. For now only validate
-        # COD and QCD segments (which are both required) and extract contents of
-        # COM segments. Any other marker segments are ignored.
+            # Loop through remaining marker segments in main header; first SOT (start of
+            # tile-part marker) indicates end of main header. For now only validate
+            # COD and QCD segments (which are both required) and extract contents of
+            # COM segments. Any other marker segments are ignored.
 
-        # Initial values for foundCODMarker and foundQCDMarker
-        foundCODMarker = False
-        foundQCDMarker = False
+            # Initial values for foundCODMarker and foundQCDMarker
+            foundCODMarker = False
+            foundQCDMarker = False
 
-        while marker != b'\xff\x90' and offsetNext != -9999:
-            marker, segLength, segContents, offsetNext = self._getMarkerSegment(
-                offset)
+            while marker != b'\xff\x90' and offsetNext != -9999:
+                marker, segLength, segContents, offsetNext = self._getMarkerSegment(
+                    offset)
 
-            if marker == b'\xff\x52':
-                # COD (coding style default) marker segment
-                # COD is required
-                foundCODMarker = True
+                if marker == b'\xff\x52':
+                    # COD (coding style default) marker segment
+                    # COD is required
+                    foundCODMarker = True
 
-                # Validate COD segment
-                resultsCOD = BoxValidator(marker, segContents).validate()
-                testsCOD = resultsCOD.tests
-                characteristicsCOD = resultsCOD.characteristics
-                # Add analysis results to test results tree
-                self.tests.appendIfNotEmpty(testsCOD)
-                # Add extracted characteristics to characteristics tree
-                self.characteristics.append(characteristicsCOD)
-                offset = offsetNext
-            elif marker == b'\xff\x53':
-                # COC (coding style component) marker segment
-                # COC is optional
-                # Validate COC segment
-                resultsCOC = BoxValidator(marker, segContents, components=csiz).validate()
-                testsCOC = resultsCOC.tests
-                characteristicsCOC = resultsCOC.characteristics
-                # Add analysis results to test results tree
-                self.tests.appendIfNotEmpty(testsCOC)
-                # Add extracted characteristics to characteristics tree
-                self.characteristics.append(characteristicsCOC)
-                offset = offsetNext
-            elif marker == b'\xff\x5c':
-                # QCD (quantization default) marker segment
-                # QCD is required
-                foundQCDMarker = True
-                # Validate QCD segment
-                resultsQCD = BoxValidator(marker, segContents).validate()
-                testsQCD = resultsQCD.tests
-                characteristicsQCD = resultsQCD.characteristics
-                # Add analysis results to test results tree
-                self.tests.appendIfNotEmpty(testsQCD)
-                # Add extracted characteristics to characteristics tree
-                self.characteristics.append(characteristicsQCD)
-                offset = offsetNext
-            elif marker == b'\xff\x64':
-                # COM (codestream comment) marker segment
-                # Validate COM segment
-                resultsCOM = BoxValidator(marker, segContents).validate()
-                testsCOM = resultsCOM.tests
-                characteristicsCOM = resultsCOM.characteristics
-                # Add analysis results to test results tree
-                self.tests.appendIfNotEmpty(testsCOM)
-                # Add extracted characteristics to characteristics tree
-                self.characteristics.append(characteristicsCOM)
-                offset = offsetNext
-            elif marker == b'\xff\x90':
-                # Start of tile (SOT) marker segment; don't update offset as this
-                # will get us of out of this loop (for functional readability):
-                pass
+                    # Validate COD segment
+                    resultsCOD = BoxValidator(marker, segContents).validate()
+                    testsCOD = resultsCOD.tests
+                    characteristicsCOD = resultsCOD.characteristics
+                    # Add analysis results to test results tree
+                    self.tests.appendIfNotEmpty(testsCOD)
+                    # Add extracted characteristics to characteristics tree
+                    self.characteristics.append(characteristicsCOD)
+                    offset = offsetNext
+                elif marker == b'\xff\x53':
+                    # COC (coding style component) marker segment
+                    # COC is optional
+                    # Validate COC segment
+                    resultsCOC = BoxValidator(marker, segContents, components=csiz).validate()
+                    testsCOC = resultsCOC.tests
+                    characteristicsCOC = resultsCOC.characteristics
+                    # Add analysis results to test results tree
+                    self.tests.appendIfNotEmpty(testsCOC)
+                    # Add extracted characteristics to characteristics tree
+                    self.characteristics.append(characteristicsCOC)
+                    offset = offsetNext
+                elif marker == b'\xff\x5c':
+                    # QCD (quantization default) marker segment
+                    # QCD is required
+                    foundQCDMarker = True
+                    # Validate QCD segment
+                    resultsQCD = BoxValidator(marker, segContents).validate()
+                    testsQCD = resultsQCD.tests
+                    characteristicsQCD = resultsQCD.characteristics
+                    # Add analysis results to test results tree
+                    self.tests.appendIfNotEmpty(testsQCD)
+                    # Add extracted characteristics to characteristics tree
+                    self.characteristics.append(characteristicsQCD)
+                    offset = offsetNext
+                elif marker == b'\xff\x64':
+                    # COM (codestream comment) marker segment
+                    # Validate COM segment
+                    resultsCOM = BoxValidator(marker, segContents).validate()
+                    testsCOM = resultsCOM.tests
+                    characteristicsCOM = resultsCOM.characteristics
+                    # Add analysis results to test results tree
+                    self.tests.appendIfNotEmpty(testsCOM)
+                    # Add extracted characteristics to characteristics tree
+                    self.characteristics.append(characteristicsCOM)
+                    offset = offsetNext
+                elif marker == b'\xff\x90':
+                    # Start of tile (SOT) marker segment; don't update offset as this
+                    # will get us of out of this loop (for functional readability):
+                    pass
 
-            elif marker in[b'\xff\x5d', b'\xff\x5e',
-                           b'\xff\x5f', b'\xff\x55', b'\xff\x57', b'\xff\x60', b'\xff\x63']:
-                # QCC, RGN, POC, TLM, PLM ,PPM, CRG marker: ignore and
-                # move on to next one
-                resultsOther = BoxValidator(marker, segContents).validate()
-                testsOther = resultsOther.tests
-                characteristicsOther = resultsOther.characteristics
-                # Add analysis results to test results tree
-                self.tests.appendIfNotEmpty(testsOther)
-                # Add extracted characteristics to characteristics tree
-                self.characteristics.append(characteristicsOther)
-                offset = offsetNext
-            else:
-                # Any other marker segment: ignore and move on to next one
-                # Note that this should result in validation error as all
-                # marker segments are covered above!!
-                offset = offsetNext
-
-        # Add foundCODMarker / foundQCDMarker outcome to tests
-        self.testFor("foundCODMarker", foundCODMarker)
-        self.testFor("foundQCDMarker", foundQCDMarker)
-
-        # Check if quantization parameters are consistent with levels (section A.6.4, eq A-4)
-        # Note: this check may be performed at tile-part level as well (not
-        # included now)
-        if foundCODMarker:
-            lqcd = self.characteristics.findElementText('qcd/lqcd')
-            qStyle = self.characteristics.findElementText('qcd/qStyle')
-            levels = self.characteristics.findElementText('cod/levels')
-        else:
-            lqcd = -9998
-            qStyle = -9999
-
-        # Expected lqcd as a function of qStyle and levels
-        if qStyle == 0:
-            lqcdExpected = 4 + 3 * levels
-        elif qStyle == 1:
-            lqcdExpected = 5
-        elif qStyle == 2:
-            lqcdExpected = 5 + 6 * levels
-        else:
-            # Dummy value in case of non-legal value of qStyle
-            lqcdExpected = -9999
-
-        # lqcd should equal expected value
-        self.testFor("quantizationConsistentWithLevels", lqcd == lqcdExpected)
-
-        # Remainder of codestream is a sequence of tile parts, followed by one
-        # end-of-codestream marker
-
-        # Expected number of tiles (as calculated from info in SIZ marker)
-        numberOfTilesExpected = self.characteristics.findElementText(
-            'siz/numberOfTiles')
-
-        # If we did not get the number of tiles, assume it is zero
-        if not numberOfTilesExpected:
-            numberOfTilesExpected = 0
-
-        # Impose upper limit on numberOfTilesExpected to avoid misbehaviour
-        # in case of corrupted files. Value of 65535 equals upper value imposed by Kakadu
-        # (can't find this  anywhere the standard though)
-        numberOfTilesExpected = min(numberOfTilesExpected, 65535)
-
-        # Create list with one entry for each tile
-        tileIndices = []
-
-        # Dictionary that contains expected number of tile parts for each tile
-        tilePartsPerTileExpected = {}
-
-        # Dictionary that contains found number of tile parts for each tile
-        tilePartsPerTileFound = {}
-
-        # Create entry for each tile part and initialise value at 0
-        for i in range(numberOfTilesExpected):
-            tilePartsPerTileFound[i] = 0
-
-        # Create sub-elements to store tile-part characteristics and tests
-        tilePartCharacteristics = ET.Element('tileParts')
-        tilePartTests = ET.Element('tileParts')
-
-        while marker == b'\xff\x90':
-            marker = self.boxContents[offset:offset + 2]
-
-            if marker == b'\xff\x90':
-                resultsTilePart = BoxValidator(marker, self.boxContents, startOffset=offset, components=csiz).validate()
-                testsTilePart = resultsTilePart.tests
-                characteristicsTilePart = resultsTilePart.characteristics
-                offsetNext = resultsTilePart.returnOffset
-                # Add analysis results to test results tree
-                tilePartTests.appendIfNotEmpty(testsTilePart)
-                # Add extracted characteristics to characteristics tree
-                tilePartCharacteristics.append(characteristicsTilePart)
-                tileIndex = characteristicsTilePart.findElementText('sot/isot')
-                tilePartsOfTile = characteristicsTilePart.findElementText(
-                    'sot/tnsot')
-                # Add tileIndex to tileIndices, if it doesn't exist already
-                if tileIndex not in tileIndices:
-                    tileIndices.append(tileIndex)
-                # Expected number of tile-parts for each tile to dictionary
-                if tilePartsOfTile != 0:
-                    tilePartsPerTileExpected[tileIndex] = tilePartsOfTile
-
-                # Increase found number of tile-parts for this tile by 1
-                try:
-                    tilePartsPerTileFound[
-                        tileIndex] = tilePartsPerTileFound[tileIndex] + 1
-                except KeyError:
-                    # Get the f**k out of here if tileIndex is not in
-                    # tilePartsPerTileFound (e.g. because the isot field is damaged)
-                    break
-                if offsetNext != offset:
+                elif marker in[b'\xff\x5d', b'\xff\x5e',
+                            b'\xff\x5f', b'\xff\x55', b'\xff\x57', b'\xff\x60', b'\xff\x63']:
+                    # QCC, RGN, POC, TLM, PLM ,PPM, CRG marker: ignore and
+                    # move on to next one
+                    resultsOther = BoxValidator(marker, segContents).validate()
+                    testsOther = resultsOther.tests
+                    characteristicsOther = resultsOther.characteristics
+                    # Add analysis results to test results tree
+                    self.tests.appendIfNotEmpty(testsOther)
+                    # Add extracted characteristics to characteristics tree
+                    self.characteristics.append(characteristicsOther)
                     offset = offsetNext
                 else:
-                    # offsetNext same as offset: this happens if image only contains
-                    # one single tile-part (psot=0), in which case we break out of
-                    # this loop
-                    break
+                    # Any other marker segment: ignore and move on to next one
+                    # Note that this should result in validation error as all
+                    # marker segments are covered above!!
+                    offset = offsetNext
 
-        # Length of tileIndices should equal numberOfTilesExpected
-        self.testFor("foundExpectedNumberOfTiles", len(
-            tileIndices) == numberOfTilesExpected)
+            # Add foundCODMarker / foundQCDMarker outcome to tests
+            self.testFor("foundCODMarker", foundCODMarker)
+            self.testFor("foundQCDMarker", foundQCDMarker)
 
-        # Found numbers of tile	parts per tile should match expected
-        self.testFor("foundExpectedNumberOfTileParts", len(
-            set(tilePartsPerTileExpected.items()) - set(tilePartsPerTileFound.items())) == 0)
+            # Check if quantization parameters are consistent with levels (section A.6.4, eq A-4)
+            # Note: this check may be performed at tile-part level as well (not
+            # included now)
+            if foundCODMarker:
+                lqcd = self.characteristics.findElementText('qcd/lqcd')
+                qStyle = self.characteristics.findElementText('qcd/qStyle')
+                levels = self.characteristics.findElementText('cod/levels')
+            else:
+                lqcd = -9998
+                qStyle = -9999
 
-        # Add tile-part characteristics and tests to characteristics / tests
-        self.characteristics.append(tilePartCharacteristics)
-        self.tests.appendIfNotEmpty(tilePartTests)
+            # Expected lqcd as a function of qStyle and levels
+            if qStyle == 0:
+                lqcdExpected = 4 + 3 * levels
+            elif qStyle == 1:
+                lqcdExpected = 5
+            elif qStyle == 2:
+                lqcdExpected = 5 + 6 * levels
+            else:
+                # Dummy value in case of non-legal value of qStyle
+                lqcdExpected = -9999
 
-        # Test if all ccoc values are unique (A.6.2 - no more than one COC per any given component)
-        # First we put all occurrences of ccoc to a list
-        ccocElements = self.characteristics.findall('coc/ccoc') + \
-            self.characteristics.findall('tileParts/tilePart/coc/ccoc')
-        # List with all ccoc values
-        ccocValues = []
-        for ccocElement in ccocElements:
-            ccocValues.append(ccocElement.text)
-        
-        if len(ccocValues) > 0:
-            self.testFor("maxOneCcocPerComponent", len(set(ccocValues)) == len(ccocValues))
+            # lqcd should equal expected value
+            self.testFor("quantizationConsistentWithLevels", lqcd == lqcdExpected)
 
-        # Last 2 bytes should be end-of-codestream marker
-        self.testFor(
-            "foundEOCMarker", self.boxContents[length - 2:length] == b'\xff\xd9')
+            # Remainder of codestream is a sequence of tile parts, followed by one
+            # end-of-codestream marker
+
+            # Expected number of tiles (as calculated from info in SIZ marker)
+            numberOfTilesExpected = self.characteristics.findElementText(
+                'siz/numberOfTiles')
+
+            # If we did not get the number of tiles, assume it is zero
+            if not numberOfTilesExpected:
+                numberOfTilesExpected = 0
+
+            # Impose upper limit on numberOfTilesExpected to avoid misbehaviour
+            # in case of corrupted files. Value of 65535 equals upper value imposed by Kakadu
+            # (can't find this  anywhere the standard though)
+            numberOfTilesExpected = min(numberOfTilesExpected, 65535)
+
+            # Create list with one entry for each tile
+            tileIndices = []
+
+            # Dictionary that contains expected number of tile parts for each tile
+            tilePartsPerTileExpected = {}
+
+            # Dictionary that contains found number of tile parts for each tile
+            tilePartsPerTileFound = {}
+
+            # Create entry for each tile part and initialise value at 0
+            for i in range(numberOfTilesExpected):
+                tilePartsPerTileFound[i] = 0
+
+            # Create sub-elements to store tile-part characteristics and tests
+            tilePartCharacteristics = ET.Element('tileParts')
+            tilePartTests = ET.Element('tileParts')
+
+            while marker == b'\xff\x90':
+                marker = self.boxContents[offset:offset + 2]
+
+                if marker == b'\xff\x90':
+                    resultsTilePart = BoxValidator(marker, self.boxContents, startOffset=offset, components=csiz).validate()
+                    testsTilePart = resultsTilePart.tests
+                    characteristicsTilePart = resultsTilePart.characteristics
+                    offsetNext = resultsTilePart.returnOffset
+                    # Add analysis results to test results tree
+                    tilePartTests.appendIfNotEmpty(testsTilePart)
+                    # Add extracted characteristics to characteristics tree
+                    tilePartCharacteristics.append(characteristicsTilePart)
+                    tileIndex = characteristicsTilePart.findElementText('sot/isot')
+                    tilePartsOfTile = characteristicsTilePart.findElementText(
+                        'sot/tnsot')
+                    # Add tileIndex to tileIndices, if it doesn't exist already
+                    if tileIndex not in tileIndices:
+                        tileIndices.append(tileIndex)
+                    # Expected number of tile-parts for each tile to dictionary
+                    if tilePartsOfTile != 0:
+                        tilePartsPerTileExpected[tileIndex] = tilePartsOfTile
+
+                    # Increase found number of tile-parts for this tile by 1
+                    try:
+                        tilePartsPerTileFound[
+                            tileIndex] = tilePartsPerTileFound[tileIndex] + 1
+                    except KeyError:
+                        # Get the f**k out of here if tileIndex is not in
+                        # tilePartsPerTileFound (e.g. because the isot field is damaged)
+                        break
+                    if offsetNext != offset:
+                        offset = offsetNext
+                    else:
+                        # offsetNext same as offset: this happens if image only contains
+                        # one single tile-part (psot=0), in which case we break out of
+                        # this loop
+                        break
+
+            # Length of tileIndices should equal numberOfTilesExpected
+            self.testFor("foundExpectedNumberOfTiles", len(
+                tileIndices) == numberOfTilesExpected)
+
+            # Found numbers of tile	parts per tile should match expected
+            self.testFor("foundExpectedNumberOfTileParts", len(
+                set(tilePartsPerTileExpected.items()) - set(tilePartsPerTileFound.items())) == 0)
+
+            # Add tile-part characteristics and tests to characteristics / tests
+            self.characteristics.append(tilePartCharacteristics)
+            self.tests.appendIfNotEmpty(tilePartTests)
+
+            # Test if all ccoc values are unique (A.6.2 - no more than one COC per any given component)
+            # First we put all occurrences of ccoc to a list
+            ccocElements = self.characteristics.findall('coc/ccoc') + \
+                self.characteristics.findall('tileParts/tilePart/coc/ccoc')
+            # List with all ccoc values
+            ccocValues = []
+            for ccocElement in ccocElements:
+                ccocValues.append(ccocElement.text)
+            
+            if len(ccocValues) > 0:
+                self.testFor("maxOneCcocPerComponent", len(set(ccocValues)) == len(ccocValues))
+
+            # Last 2 bytes should be end-of-codestream marker
+            self.testFor(
+                "foundEOCMarker", self.boxContents[length - 2:length] == b'\xff\xd9')
 
         # Valid codestream only if all tests returned True
         self.isValid = self._isValid()
