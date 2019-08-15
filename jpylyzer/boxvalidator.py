@@ -1276,10 +1276,10 @@ class BoxValidator:
         if not numberOfTilesExpected:
             numberOfTilesExpected = 0
 
-        # Impose upper limit on numberOfTilesExpected to avoid misbehaviour in case of corrupted
-        # files. Value of 65535 equals upper value imposed by Kakadu (can't find this  anywhere
-        # in the standard though)
-        numberOfTilesExpected = min(numberOfTilesExpected, 65535)
+        # Impose upper and lower limits on numberOfTilesExpected to avoid misbehaviour
+        # in case of corrupted files. Value of 65535 equals upper value imposed by Kakadu
+        # (can't find this  anywhere the standard though)
+        numberOfTilesExpected = max(1, min(numberOfTilesExpected, 65535))
 
         # Create list with one entry for each tile
         tileIndices = []
@@ -1323,9 +1323,19 @@ class BoxValidator:
                 # Expected number of tile-parts for each tile to dictionary
                 if tilePartsOfTile != 0:
                     tilePartsPerTileExpected[tileIndex] = tilePartsOfTile
+                ## TEST
+                #print("tileIndex = " + str(tileIndex))
+                #print("tilePartsPerTileFound:")
+                #print(tilePartsPerTileFound)
+                ## TEST
                 # Increase found number of tile-parts for this tile by 1
-                tilePartsPerTileFound[
-                    tileIndex] = tilePartsPerTileFound[tileIndex] + 1
+                try:
+                    tilePartsPerTileFound[
+                        tileIndex] = tilePartsPerTileFound[tileIndex] + 1
+                except KeyError:
+                    # Get the f**k out of here if tileIndex is not in
+                    # tilePartsPerTileFound (e.g. because the isot field is damaged)
+                    break
                 if offsetNext != offset:
                     offset = offsetNext
                 else:
