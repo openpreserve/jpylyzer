@@ -601,6 +601,33 @@
   <xs:element name="precinctSizeX" type="xs:integer"/>
   <xs:element name="precinctSizeY" type="xs:integer"/>
 
+  <xs:element name="coc">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lcoc"/>
+        <xs:element ref="ccoc"/>
+        <xs:element ref="precincts"/>
+        <xs:element ref="levels"/>
+        <xs:element ref="codeBlockWidth"/>
+        <xs:element ref="codeBlockHeight"/>
+        <xs:element ref="codingBypass"/>
+        <xs:element ref="resetOnBoundaries"/>
+        <xs:element ref="termOnEachPass"/>
+        <xs:element ref="vertCausalContext"/>
+        <xs:element ref="predTermination"/>
+        <xs:element ref="segmentationSymbols"/>
+        <xs:element ref="transformation"/>
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="precinctSizeX"/>
+          <xs:element ref="precinctSizeY"/>
+        </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="lcoc" type="xs:integer"/>
+  <xs:element name="ccoc" type="xs:integer"/>
+
   <xs:element name="qcd">
     <xs:complexType>
       <xs:sequence>
@@ -681,14 +708,6 @@
 
   <!-- The following optional marker segments are only minimally supported by
        jpylyzer at this stage (they are reported, but contents aren't analysed) -->
-  
-  <xs:element name="coc">
-    <xs:complexType>
-      <xs:sequence minOccurs="0" maxOccurs="unbounded">
-        <xs:any processContents="skip"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
   
   <xs:element name="rgn">
     <xs:complexType>
