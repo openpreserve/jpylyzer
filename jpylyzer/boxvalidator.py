@@ -1276,10 +1276,10 @@ class BoxValidator:
         if not numberOfTilesExpected:
             numberOfTilesExpected = 0
 
-        # Impose upper and lower limits on numberOfTilesExpected to avoid misbehaviour
+        # Impose upper limit on numberOfTilesExpected to avoid misbehaviour
         # in case of corrupted files. Value of 65535 equals upper value imposed by Kakadu
         # (can't find this  anywhere the standard though)
-        numberOfTilesExpected = max(1, min(numberOfTilesExpected, 65535))
+        numberOfTilesExpected = min(numberOfTilesExpected, 65535)
 
         # Create list with one entry for each tile
         tileIndices = []
