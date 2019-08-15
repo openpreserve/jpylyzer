@@ -1887,8 +1887,7 @@ cod
 |sumHeightWidthExponentIsValid|*codeBlockWidthExponent* + *codeBlockHeightExponent* ≤ 12|
 |precinctSizeXIsValid<sup>\*</sup>|*precinctSizeX* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
 |precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
-
-  
+ 
 Quantization default (QCD) marker segment {#qcd-marker}
 ---------------------------------------------
 
@@ -2009,6 +2008,46 @@ coc
 
 |Property|Description|
 |:-------|:----------|
+|lcoc|Length of COC marker segment in bytes|
+|ccoc|Index of the component to which this marker segment relates|
+|precincts|Indicates use of precincts (“yes”/“no”)|
+|levels|Number of decomposition levels|
+|codeBlockWidth|Code block width|
+|codeBlockHeight|Code block height|
+|codingBypass|Indicates use of coding bypass (“yes”/“no”)|
+|resetOnBoundaries|Indicates reset of context probabilities on coding pass boundaries (“yes”/“no”)|
+|termOnEachPass|Indicates termination on each coding pass (“yes”/“no”)|
+|vertCausalContext|Indicates vertically causal context (“yes”/“no”)|
+|predTermination|Indicates predictable termination (“yes”/“no”)|
+|segmentationSymbols|Indicates use of segmentation symbols (“yes”/“no”)|
+|transformation|Wavelet transformation: “9-7 irreversible” or “5-3 reversible”|
+|precinctSizeX<sup>\*</sup>|Precinct width (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeY<sup>\*</sup>|Precinct heigth (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
+
+### Tests
+
+|Test name|True if|
+|:--------|:------|
+|lcocIsValid|*lcod* is within range [9,43]|
+|levelsIsValid|*levels* is within range [0,32]|
+|lcocConsistentWithLevelsPrecincts|*lcoc* equals 9 (*csiz* < 257, *precincts* = “no”), 10 (*csiz* >= 257, *precincts* = “no”), 10 + *levels* (*csiz* < 257,*precincts* = “yes”) or 11 (*csiz* >= 257,*precincts* = “yes”)|
+|codeBlockWidthExponentIsValid|*codeBlockWidthExponent* is within range [2,10]|
+|codeBlockHeightExponentIsValid|*codeBlockHeightExponent* is within range [2,10]|
+|sumHeightWidthExponentIsValid|*codeBlockWidthExponent* + *codeBlockHeightExponent* ≤ 12|
+|precinctSizeXIsValid<sup>\*</sup>|*precinctSizeX* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
+
+Quantization component (QCC) marker segment {#qcc-marker}
+------------------------------------------------
+
+### Element name
+
+qcc
+
+### Reported properties
+
+|Property|Description|
+|:-------|:----------|
 |||
 |||
 
@@ -2040,26 +2079,6 @@ rgn
 |||
 |||
 
-Quantization component (QCC) marker segment {#qcc-marker}
-------------------------------------------------
-
-### Element name
-
-qcc
-
-### Reported properties
-
-|Property|Description|
-|:-------|:----------|
-|||
-|||
-
-### Tests
-
-|Test name|True if|
-|:--------|:------|
-|||
-|||
 
 Progression order change (POC) marker segment {#poc-marker}
 --------------------------------------------------
