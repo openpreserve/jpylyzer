@@ -1257,31 +1257,6 @@ class BoxValidator:
             self.testFor("foundCODMarker", foundCODMarker)
             self.testFor("foundQCDMarker", foundQCDMarker)
 
-            # Check if quantization parameters are consistent with levels (section A.6.4, eq A-4)
-            # Note: this check may be performed at tile-part level as well (not
-            # included now)
-            if foundCODMarker:
-                lqcd = self.characteristics.findElementText('qcd/lqcd')
-                qStyle = self.characteristics.findElementText('qcd/qStyle')
-                levels = self.characteristics.findElementText('cod/levels')
-            else:
-                lqcd = -9998
-                qStyle = -9999
-
-            # Expected lqcd as a function of qStyle and levels
-            if qStyle == 0:
-                lqcdExpected = 4 + 3 * levels
-            elif qStyle == 1:
-                lqcdExpected = 5
-            elif qStyle == 2:
-                lqcdExpected = 5 + 6 * levels
-            else:
-                # Dummy value in case of non-legal value of qStyle
-                lqcdExpected = -9999
-
-            # lqcd should equal expected value
-            self.testFor("quantizationConsistentWithLevels", lqcd == lqcdExpected)
-
             # Remainder of codestream is a sequence of tile parts, followed by one
             # end-of-codestream marker
 

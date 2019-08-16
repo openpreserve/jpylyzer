@@ -1788,7 +1788,6 @@ which are represented as child elements in the properties tree:
 |foundSIZMarker|Second marker segment in codestream is image and tile size (SIZ) marker segment|
 |foundCODMarker|Codestream main header contains coding style default (COD) marker segment|
 |foundQCDMarker|Codestream main header contains quantization default (QCD) marker segment|
-|quantizationConsistentWithLevels|Values of quantization parameters from QCD marker segment are consistent with *levels* from COD marker segment[^18]|
 |foundExpectedNumberOfTiles|Number of encountered tiles is consistent with expected number of tiles (as calculated from SIZ marker, see [section 7.5](#siz-marker))|
 |foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from SOT marker, see [section 7.12](#sot-marker))|
 |maxOneCcocPerComponent|No more than one *ccoc* value for each component (only reported if codestream contains any COC marker segments)|
@@ -2427,12 +2426,6 @@ packet (EPH) markers may be included in future versions.
 [^17]: For example, in a TIFF to JP2 conversion workflow one
 could include a pixel-by-pixel comparison of the values in the TIFF and
 the JP2.
-
-[^18]: The consistency check verifies if the length of the
-quantization default marker segment (*lqcd* from *qcd*) is consistent
-with the quantization style (*qStyle* from *qcd*) and the number of
-decomposition levels (*levels* from *cod*). They are consistent if the
-following equation is true:
 
 [^19]: Calculated as:
 <math xmlns="http://www.w3.org/1998/Math/MathML">
