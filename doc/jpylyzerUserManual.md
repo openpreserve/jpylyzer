@@ -1883,7 +1883,7 @@ cod
 |layersIsValid|*layers* is within range [1,65535]|
 |multipleComponentTransformation|IsValid|*multipleComponentTransformation* equals 0 or 1|
 |levelsIsValid|*levels* is within range [0,32]|
-|lcodConsistentWithLevelsPrecincts|*lcod* equals 12 (*precincts* = “no”) or *lcod* equals 13 + *levels* (*precincts* = “yes”)|
+|lcodConsistencyCheck|*lcod* value is consistent with *precincts* and *levels* (Eq A-2 in specification)|
 |codeBlockWidthExponentIsValid|*codeBlockWidthExponent* is within range [2,10]|
 |codeBlockHeightExponentIsValid|*codeBlockHeightExponent* is within range [2,10]|
 |sumHeightWidthExponentIsValid|*codeBlockWidthExponent* + *codeBlockHeightExponent* ≤ 12|
@@ -1913,6 +1913,7 @@ qcd
 |:--------|:------|
 |lqcdIsValid|*lqcd* is within range [4,197]|
 |qStyleIsValid|*qStyle* equals 0 (“no quantization”), 1 (“scalar derived”), or 2 (“scalar expounded”)|
+|lqcdConsistencyCheck|*lqcd* value is consistent with *levels* and *qStyle* (Eq A-4 in specification)|
 
 
 Comment (COM) marker segment {#com-marker}
@@ -2033,7 +2034,7 @@ coc
 |:--------|:------|
 |lcocIsValid|*lcod* is within range [9,43]|
 |levelsIsValid|*levels* is within range [0,32]|
-|lcocConsistentWithLevelsPrecincts|*lcoc* equals 9 (*csiz* < 257, *precincts* = “no”), 10 (*csiz* >= 257, *precincts* = “no”), 10 + *levels* (*csiz* < 257,*precincts* = “yes”) or 11 (*csiz* >= 257,*precincts* = “yes”)|
+|lcocConsistencyCheck|*lcoc* value is consistent with *levels*, *csiz* and *precincts* (Eq A-3 in specification)|
 |codeBlockWidthExponentIsValid|*codeBlockWidthExponent* is within range [2,10]|
 |codeBlockHeightExponentIsValid|*codeBlockHeightExponent* is within range [2,10]|
 |sumHeightWidthExponentIsValid|*codeBlockWidthExponent* + *codeBlockHeightExponent* ≤ 12|
@@ -2059,7 +2060,7 @@ qcc
 |Test name|True if|
 |:--------|:------|
 |||
-|||
+|lqccConsistencyCheck|*lqcc* value is consistent with *levels*, *qStyle* and *csiz* (Eq A-5 in specification)|
 
 Region-of-interest (RGN) marker segment {#rgn-marker}
 --------------------------------------------

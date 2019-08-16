@@ -1618,14 +1618,15 @@ class BoxValidator:
         self.testFor("levelsIsValid", levelsIsValid)
 
         # Check lcod is consistent with levels and precincts (eq A-2 )
-        if precincts == 0:
-            lcodExpected = 12
-        else:
-            lcodExpected = 13 + levels
 
-        lcodConsistentWithLevelsPrecincts = lcod == lcodExpected
+        if precincts == 1:
+            lcodExpected = 13 + levels
+        else:
+            lcodExpected = 12
+
+        lcodConsistencyCheck = lcod == lcodExpected
         self.testFor(
-            "lcodConsistentWithLevelsPrecincts", lcodConsistentWithLevelsPrecincts)
+            "lcodConsistencyCheck", lcodConsistencyCheck)
 
         # Code block width exponent (stored as offsets, add 2 to get actual
         # value)
@@ -1775,19 +1776,19 @@ class BoxValidator:
         levelsIsValid = 0 <= levels <= 32
         self.testFor("levelsIsValid", levelsIsValid)
 
-        # Check lcoc is consistent with levels and precincts (eq A-# )
-        if precincts == 0 and self.csiz < 257:
-            lcocExpected = 9
-        elif precincts == 0 and self.csiz >= 257:
-            lcocExpected = 10
-        elif precincts == 1 and self.csiz < 257:
+        # Check lcoc is consistent with levels and precincts (eq A-3)
+        if precincts == 1 and self.csiz < 257:
             lcocExpected = 10 + levels
-        else:
+        elif precincts == 1 and self.csiz >= 257:
             lcocExpected = 11 + levels
+        elif precincts == 0 and self.csiz < 257:
+            lcocExpected = 9
+        else:
+            lcocExpected = 10
 
-        lcocConsistentWithLevelsPrecincts = lcoc == lcocExpected
+        lcocConsistencyCheck = lcoc == lcocExpected
         self.testFor(
-            "lcocConsistentWithLevelsPrecincts", lcocConsistentWithLevelsPrecincts)
+            "lcocConsistencyCheck", lcocConsistencyCheck)
 
         offset += 1
 
@@ -1849,7 +1850,7 @@ class BoxValidator:
         # Bit 3: segmentation symbols are used
         segmentationSymbols = self._getBitValue(codeBlockStyle, 3)
         self.addCharacteristic("segmentationSymbols", segmentationSymbols)
-    
+
         offset += 1
 
         # Wavelet transformation: 9-7 irreversible (0) or 5-3 reversible (1)
@@ -1918,8 +1919,6 @@ class BoxValidator:
         lqcdIsValid = 4 <= lqcd <= 197
         self.testFor("lqcdIsValid", lqcdIsValid)
 
-        # Note: lqcd should also be consistent with no. decomp.levels and sqcd!
-
         # Quantization style for all components
         sqcd = bc.bytesToUnsignedChar(self.boxContents[2:3])
 
@@ -1943,6 +1942,18 @@ class BoxValidator:
             levels = int((lqcd - 4) / 3)
         elif qStyle == 2:
             levels = int((lqcd - 5) / 6)
+
+        # Check lqcd is consistent with levels and quantization style (eq A-4)
+        if qStyle == 0:
+            lqcdExpected = 4 + 3 * levels
+        elif qStyle == 2:
+            lqcdExpected = 5 + 6 * levels
+        else:
+            lqcdExpected = 5
+
+        lqcdConsistencyCheck = lqcd == lqcdExpected
+        self.testFor(
+            "lqcdConsistencyCheck", lqcdConsistencyCheck)
 
         offset = 3
 
@@ -2032,6 +2043,25 @@ class BoxValidator:
             levels = int((lqcc - 4) / 3)
         elif qStyle == 2:
             levels = int((lqcc - 5) / 6)
+
+        # Check lqcc is consistent with levels, number of components and
+        # quantization style (eq A-5)
+        if qStyle == 0 and self.csiz < 257:
+            lqccExpected = 5 + 3 * levels
+        elif qStyle == 1 and self.csiz < 257:
+            lqccExpected = 6
+        elif qStyle == 2 and self.csiz < 257:
+            lqccExpected = 6 + 6 * levels
+        elif qStyle == 0 and self.csiz >= 257:
+            lqccExpected = 6 + 3 * levels
+        elif qStyle == 2 and self.csiz >= 257:
+            lqccExpected = 7 + 6 * levels
+        else:
+            lqccExpected = 7
+
+        lqccConsistencyCheck = lqcc == lqccExpected
+        self.testFor(
+            "lqccConsistencyCheck", lqccConsistencyCheck)
 
         if qStyle == 0:
             for i in range(levels):
