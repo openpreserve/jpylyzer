@@ -308,6 +308,10 @@ def checkOneFile(path, validationFormat='jp2'):
     fileName = os.path.basename(path)
     filePath = os.path.abspath(path)
 
+    ## TEST
+    #print(fileName)
+    ## TEST
+
     # If file name / path contain any surrogate pairs, remove them to
     # avoid problems when writing to XML
     fileNameCleaned = stripSurrogatePairs(fileName)

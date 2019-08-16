@@ -1167,7 +1167,6 @@ class BoxValidator:
                     # COD (coding style default) marker segment
                     # COD is required
                     foundCODMarker = True
-
                     # Validate COD segment
                     resultsCOD = BoxValidator(marker, segContents).validate()
                     testsCOD = resultsCOD.tests
@@ -1177,6 +1176,7 @@ class BoxValidator:
                     # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsCOD)
                     offset = offsetNext
+
                 elif marker == b'\xff\x53':
                     # COC (coding style component) marker segment
                     # COC is optional
@@ -1189,6 +1189,7 @@ class BoxValidator:
                     # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsCOC)
                     offset = offsetNext
+
                 elif marker == b'\xff\x5c':
                     # QCD (quantization default) marker segment
                     # QCD is required
@@ -1202,6 +1203,20 @@ class BoxValidator:
                     # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsQCD)
                     offset = offsetNext
+
+                elif marker == b'\xff\x5d':
+                    # QCC (quantization component) marker segment
+                    # QCC is optional
+                    # Validate QCC segment
+                    resultsQCC = BoxValidator(marker, segContents, components=csiz).validate()
+                    testsQCC = resultsQCC.tests
+                    characteristicsQCC = resultsQCC.characteristics
+                    # Add analysis results to test results tree
+                    self.tests.appendIfNotEmpty(testsQCC)
+                    # Add extracted characteristics to characteristics tree
+                    self.characteristics.append(characteristicsQCC)
+                    offset = offsetNext
+
                 elif marker == b'\xff\x64':
                     # COM (codestream comment) marker segment
                     # Validate COM segment
@@ -1213,14 +1228,15 @@ class BoxValidator:
                     # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsCOM)
                     offset = offsetNext
+
                 elif marker == b'\xff\x90':
                     # Start of tile (SOT) marker segment; don't update offset as this
                     # will get us of out of this loop (for functional readability):
                     pass
 
-                elif marker in[b'\xff\x5d', b'\xff\x5e',
-                            b'\xff\x5f', b'\xff\x55', b'\xff\x57', b'\xff\x60', b'\xff\x63']:
-                    # QCC, RGN, POC, TLM, PLM ,PPM, CRG marker: ignore and
+                elif marker in[b'\xff\x5e', b'\xff\x5f', b'\xff\x55', b'\xff\x57',
+                               b'\xff\x60', b'\xff\x63']:
+                    # RGN, POC, TLM, PLM ,PPM, CRG marker: ignore and
                     # move on to next one
                     resultsOther = BoxValidator(marker, segContents).validate()
                     testsOther = resultsOther.tests
@@ -1230,6 +1246,7 @@ class BoxValidator:
                     # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsOther)
                     offset = offsetNext
+
                 else:
                     # Any other marker segment: ignore and move on to next one
                     # Note that this should result in validation error as all
@@ -1356,9 +1373,19 @@ class BoxValidator:
             ccocValues = []
             for ccocElement in ccocElements:
                 ccocValues.append(ccocElement.text)
-            
             if len(ccocValues) > 0:
                 self.testFor("maxOneCcocPerComponent", len(set(ccocValues)) == len(ccocValues))
+
+            # Test if all cqcc values are unique (A.6.5 - no more than one QCC per any given component)
+            # First we put all occurrences of cqcc to a list
+            cqccElements = self.characteristics.findall('qcc/cqcc') + \
+                self.characteristics.findall('tileParts/tilePart/qcc/cqcc')
+            # List with all cqcc values
+            cqccValues = []
+            for cqccElement in cqccElements:
+                cqccValues.append(cqccElement.text)
+            if len(cqccValues) > 0:
+                self.testFor("maxOneCqccPerComponent", len(set(cqccValues)) == len(cqccValues))
 
             # Last 2 bytes should be end-of-codestream marker
             self.testFor(
@@ -1958,6 +1985,93 @@ class BoxValidator:
         # Possible enhancement here: instead of reporting coefficients, report result
         # of corresponding equations (need Annex E from standard for that)
 
+    def validate_qcc(self):
+        """Quantization component (QCD) header fields (ISO/IEC 15444-1 Section
+        A.6.5)
+        """
+
+        # Length of QCC marker
+        lqcc = bc.bytesToUShortInt(self.boxContents[0:2])
+        self.addCharacteristic("lqcc", lqcc)
+
+        # lqcc should be in range 5-199
+        lqccIsValid = 5 <= lqcc <= 199
+        self.testFor("lqccIsValid", lqccIsValid)
+
+        # Size of following field and offset of fields that follow it depend on csiz value
+        if self.csiz < 257:
+            # Index of component to which this marker relates
+            cqcc = bc.bytesToUnsignedChar(self.boxContents[2:3])
+            offset = 3
+        else:
+            cqcc = bc.bytesToUShortInt(self.boxContents[2:4])
+            offset = 4
+
+        self.addCharacteristic("cqcc", cqcc)
+
+        # Quantization style for this component
+        sqcc = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
+
+        # sqcc contains 2 quantization parameters: style + no of guard bits
+
+        # Style: least significant 5 bytes (apply bit mask)
+        qStyle = sqcc & 31
+        self.addCharacteristic("qStyle", qStyle)
+
+        # Allowed values: 0 (no quantization), 1 (scalar derived), 2 (scalar
+        # expounded)
+        qStyleIsValid = qStyle in [0, 1, 2]
+        self.testFor("qStyleIsValid", qStyleIsValid)
+
+        # Number of guard bits (3 most significant bits, shift + bit mask)
+        guardBits = (sqcc >> 5) & 7
+        self.addCharacteristic("guardBits", guardBits)
+
+        # No. of decomposition levels --> cross-check with info from COD!!
+        if qStyle == 0:
+            levels = int((lqcc - 4) / 3)
+        elif qStyle == 2:
+            levels = int((lqcc - 5) / 6)
+
+        if qStyle == 0:
+            for i in range(levels):
+                spqcc = bc.bytesToUnsignedChar(
+                    self.boxContents[offset:offset + 1])
+
+                # 5 most significant bits -> exponent epsilon in Eq E-5
+                epsilon = (spqcc >> 3) & 31
+                self.addCharacteristic("epsilon", epsilon)
+
+                offset += 1
+
+        elif qStyle == 2:
+            for i in range(levels):
+                spqcc = bc.bytesToUShortInt(
+                    self.boxContents[offset:offset + 2])
+
+                # 11 least significant bits: mu in Eq E-3
+                mu = spqcc & 2047
+                self.addCharacteristic("mu", mu)
+
+                # 5 most significant bits: exponent epsilon in Eq E-3
+                epsilon = (spqcc >> 11) & 31
+                self.addCharacteristic("epsilon", epsilon)
+
+                offset += 2
+
+        else:
+            spqcc = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
+            # 11 least significant bits: mu in Eq E-3
+            mu = spqcc & 2047
+            self.addCharacteristic("mu", mu)
+
+            # 5 most significant bits: exponent epsilon in Eq E-3
+            epsilon = (spqcc >> 11) & 31
+            self.addCharacteristic("epsilon", epsilon)
+
+        # Possible enhancement here: instead of reporting coefficients, report result
+        # of corresponding equations (need Annex E from standard for that)
+
     def validate_com(self):
         """Codestream comment (COM) (ISO/IEC 15444-1 Section A.9.2)"""
 
@@ -2076,10 +2190,6 @@ class BoxValidator:
         """Empty function"""
         pass
 
-    def validate_qcc(self):
-        """Empty function"""
-        pass
-
     def validate_poc(self):
         """Empty function"""
         pass
@@ -2158,72 +2268,68 @@ class BoxValidator:
 
             if marker == b'\xff\x52':
                 # COD (coding style default) marker segment
-
                 # Validate COD segment
                 resultsCOD = BoxValidator(marker, segContents).validate()
                 testsCOD = resultsCOD.tests
                 characteristicsCOD = resultsCOD.characteristics
-
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsCOD)
-
                 # Add extracted characteristics to characteristics tree
                 self.characteristics.append(characteristicsCOD)
-
                 offset = offsetNext
             
             elif marker == b'\xff\x53':
                 # COC (coding style component) marker segment
                 # COC is optional
-
                 # Validate COC segment
                 resultsCOC = BoxValidator(marker, segContents, components=self.csiz).validate()
                 testsCOC = resultsCOC.tests
                 characteristicsCOC = resultsCOC.characteristics
-
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsCOC)
-
                 # Add extracted characteristics to characteristics tree
                 self.characteristics.append(characteristicsCOC)
-
                 offset = offsetNext
 
             elif marker == b'\xff\x5c':
                 # QCD (quantization default) marker segment
-
                 # Validate QCD segment
                 resultsQCD = BoxValidator(marker, segContents).validate()
                 testsQCD = resultsQCD.tests
                 characteristicsQCD = resultsQCD.characteristics
-
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsQCD)
-
                 # Add extracted characteristics to characteristics tree
                 self.characteristics.append(characteristicsQCD)
+                offset = offsetNext
 
+            elif marker == b'\xff\x5d':
+                # QCC (quantization component) marker segment
+                # QCC is optional
+                # Validate QCC segment
+                resultsQCC = BoxValidator(marker, segContents, components=self.csiz).validate()
+                testsQCC = resultsQCC.tests
+                characteristicsQCC = resultsQCC.characteristics
+                # Add analysis results to test results tree
+                self.tests.appendIfNotEmpty(testsQCC)
+                # Add extracted characteristics to characteristics tree
+                self.characteristics.append(characteristicsQCC)
                 offset = offsetNext
 
             elif marker == b'\xff\x64':
                 # COM (codestream comment) marker segment
-
                 # Validate COM segment
                 resultsCOM = BoxValidator(marker, segContents).validate()
                 testsCOM = resultsCOM.tests
                 characteristicsCOM = resultsCOM.characteristics
-
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsCOM)
-
                 # Add extracted characteristics to characteristics tree
                 self.characteristics.append(characteristicsCOM)
-
                 offset = offsetNext
 
-            elif marker in[b'\xff\x5d', b'\xff\x5e',
-                           b'\xff\x5f', b'\xff\x61', b'\xff\x58']:
-                # COC, QCC, RGN, POC, PPT or PLT marker: ignore and
+            elif marker in[b'\xff\x5e', b'\xff\x5f', b'\xff\x61', b'\xff\x58']:
+                # RGN, POC, PPT or PLT marker: ignore and
                 # move on to next one
                 resultsOther = BoxValidator(marker, segContents).validate()
                 testsOther = resultsOther.tests
