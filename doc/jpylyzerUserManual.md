@@ -1774,11 +1774,11 @@ which are represented as child elements in the properties tree:
 |:------------|:----------|
 |siz ([section 7.5](#siz-marker))|Properties from the image and tile size (SIZ) marker segment (codestream main header)|
 |cod ([section 7.6](#cod-marker))|Properties from the coding style default (COD) marker segment (codestream main header)|
-|qcd ([section 7.7](#qcd-marker))|Properties from the quantization default (QCD) marker segment (codestream main header)|
-|com ([section 7.8](#com-marker))|Properties from the (optional) comment (COM) marker segment (codestream main header)|
-|tileParts ([section 7.9](#tile-part))|Properties from individual tile parts|
-|coc ([section 7.11](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (codestream main header)|
-|qcc ([section 7.12](#qcc-marker))|Properties from the (optional) quantization component (QCC) marker segment (codestream main header)|
+|coc ([section 7.7](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (codestream main header)|
+|qcd ([section 7.8](#qcd-marker))|Properties from the quantization default (QCD) marker segment (codestream main header)|
+|qcc ([section 7.9](#qcc-marker))|Properties from the (optional) quantization component (QCC) marker segment (codestream main header)|
+|com ([section 7.10](#com-marker))|Properties from the (optional) comment (COM) marker segment (codestream main header)|
+|tileParts ([section 7.11](#tile-part))|Properties from individual tile parts|
 
 ### Tests
 
@@ -1790,9 +1790,9 @@ which are represented as child elements in the properties tree:
 |foundQCDMarker|Codestream main header contains quantization default (QCD) marker segment|
 |quantizationConsistentWithLevels|Values of quantization parameters from QCD marker segment are consistent with *levels* from COD marker segment[^18]|
 |foundExpectedNumberOfTiles|Number of encountered tiles is consistent with expected number of tiles (as calculated from SIZ marker, see [section 7.5](#siz-marker))|
-|foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from SOT marker, see [section 7.10](#sot-marker))|
-|maxOneCcocPerComponent|No more than one *ccoc* value for each component (only reported if codestream contains any COC marker segments))|
-|maxOneCqccPerComponent|No more than one *cqcc* value for each component (only reported if codestream contains any QCC marker segments))|
+|foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from SOT marker, see [section 7.12](#sot-marker))|
+|maxOneCcocPerComponent|No more than one *ccoc* value for each component (only reported if codestream contains any COC marker segments)|
+|maxOneCqccPerComponent|No more than one *cqcc* value for each component (only reported if codestream contains any QCC marker segments)|
 |foundEOCMarker|Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment|
 
 Image and tile size (SIZ) marker segment (child of Contiguous Codestream box) {#siz-marker}
@@ -1883,13 +1883,54 @@ cod
 |layersIsValid|*layers* is within range [1,65535]|
 |multipleComponentTransformation|IsValid|*multipleComponentTransformation* equals 0 or 1|
 |levelsIsValid|*levels* is within range [0,32]|
-|lcodConsistencyCheck|*lcod* value is consistent with *precincts* and *levels* (Eq A-2 in specification)|
+|lcodConsistencyCheck|*lcod* value is consistent with *precincts* and *levels* (Eq A-2 in ISO/IEC 15444-1)|
+|codeBlockWidthExponentIsValid|*codeBlockWidthExponent* is within range [2,10]|
+|codeBlockHeightExponentIsValid|*codeBlockHeightExponent* is within range [2,10]|
+|sumHeightWidthExponentIsValid|*codeBlockWidthExponent* + *codeBlockHeightExponent* ≤ 12|
+|precinctSizeXIsValid<sup>\*</sup>|*precinctSizeX* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
+
+Coding style component (COC) marker segment {#coc-marker}
+------------------------------------------------
+
+### Element name
+
+coc
+
+### Reported properties
+
+|Property|Description|
+|:-------|:----------|
+|lcoc|Length of COC marker segment in bytes|
+|ccoc|Index of the component to which this marker segment relates|
+|precincts|Indicates use of precincts (“yes”/“no”)|
+|levels|Number of decomposition levels|
+|codeBlockWidth|Code block width|
+|codeBlockHeight|Code block height|
+|codingBypass|Indicates use of coding bypass (“yes”/“no”)|
+|resetOnBoundaries|Indicates reset of context probabilities on coding pass boundaries (“yes”/“no”)|
+|termOnEachPass|Indicates termination on each coding pass (“yes”/“no”)|
+|vertCausalContext|Indicates vertically causal context (“yes”/“no”)|
+|predTermination|Indicates predictable termination (“yes”/“no”)|
+|segmentationSymbols|Indicates use of segmentation symbols (“yes”/“no”)|
+|transformation|Wavelet transformation: “9-7 irreversible” or “5-3 reversible”|
+|precinctSizeX<sup>\*</sup>|Precinct width (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeY<sup>\*</sup>|Precinct heigth (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
+
+### Tests
+
+|Test name|True if|
+|:--------|:------|
+|lcocIsValid|*lcod* is within range [9,43]|
+|levelsIsValid|*levels* is within range [0,32]|
+|lcocConsistencyCheck|*lcoc* value is consistent with *levels*, *csiz* and *precincts* (Eq A-3 in ISO/IEC 15444-1)|
 |codeBlockWidthExponentIsValid|*codeBlockWidthExponent* is within range [2,10]|
 |codeBlockHeightExponentIsValid|*codeBlockHeightExponent* is within range [2,10]|
 |sumHeightWidthExponentIsValid|*codeBlockWidthExponent* + *codeBlockHeightExponent* ≤ 12|
 |precinctSizeXIsValid<sup>\*</sup>|*precinctSizeX* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
 |precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
  
+
 Quantization default (QCD) marker segment {#qcd-marker}
 ---------------------------------------------
 
@@ -1913,7 +1954,33 @@ qcd
 |:--------|:------|
 |lqcdIsValid|*lqcd* is within range [4,197]|
 |qStyleIsValid|*qStyle* equals 0 (“no quantization”), 1 (“scalar derived”), or 2 (“scalar expounded”)|
-|lqcdConsistencyCheck|*lqcd* value is consistent with *levels* and *qStyle* (Eq A-4 in specification)|
+|lqcdConsistencyCheck|*lqcd* value is consistent with *levels* and *qStyle* (Eq A-4 in ISO/IEC 15444-1)|
+
+Quantization component (QCC) marker segment {#qcc-marker}
+------------------------------------------------
+
+### Element name
+
+qcc
+
+### Reported properties
+
+|Property|Description|
+|:-------|:----------|
+|lqcc|Length of QCC marker segment in bytes|
+|cqcc|Index of the component to which this marker segment relates|
+|qStyle|Quantization style for all components|
+|guardBits|Number of guard bits|
+|epsilon<sup>\*</sup>|- If *qStyle* equals 0 (“no quantization”): *Epsilon* exponent in Eq E-5 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)<br/>- If *qStyle* equals 1 (“scalar derived”): *Epsilon* exponent in Eq E-3 of ISO/IEC 15444-1<br/>- If *qStyle* equals 2 (“scalar expounded”): *Epsilon* exponent in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)|
+|mu<sup>\*</sup>|- If *qStyle* equals 1 (“scalar derived”): *mu* constant in Eq E-3 of ISO/IEC 15444-1<br/>- if *qStyle* equals 2 (“scalar expounded”) : *mu* constant in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)|
+
+### Tests
+
+|Test name|True if|
+|:--------|:------|
+|lqccIsValid|*lqcc* is within range [5,199]|
+|qStyleIsValid|*qStyle* equals 0 (“no quantization”), 1 (“scalar derived”), or 2 (“scalar expounded”)|
+|lqccConsistencyCheck|*lqcc* value is consistent with *levels*, *qStyle* and *csiz* (Eq A-5 in ISO/IEC 15444-1)|
 
 
 Comment (COM) marker segment {#com-marker}
@@ -1956,10 +2023,12 @@ Each tile part element can contain a number of child elements:
 
 |Child element|Description|
 |:------------|:----------|
-|sot ([section 7.10](#sot-marker))|Properties from start of tile (SOT) marker segment|
+|sot ([section 7.12](#sot-marker))|Properties from start of tile (SOT) marker segment|
 |cod ([section 7.6](#cod-marker))|Properties from the (optional) coding style default (COD) marker segment (tile part header)|
-|qcd ([section 7.7](#qcd-marker))|Properties from the (optional) quantization default (QCD) marker segment (tile part header)|
-|com ([section 7.8](#com-marker))|Properties from the (optional) comment (COM) marker segment (tile part header)|
+|coc ([section 7.7](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (codestream main header)|
+|qcd ([section 7.8](#qcd-marker))|Properties from the (optional) quantization default (QCD) marker segment (tile part header)|
+|qcc ([section 7.9](#qcc-marker))|Properties from the (optional) quantization component (QCC) marker segment (tile part header)|
+|com ([section 7.10](#com-marker))|Properties from the (optional) comment (COM) marker segment (tile part header)|
 |coc ([section 7.11](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (tile part header)|
 
 ### Tests
@@ -2001,71 +2070,6 @@ will report their presence in the *properties* element, but it does not
 perform any further tests or analyses. This may change in upcoming
 versions of the software.
 
-Coding style component (COC) marker segment {#coc-marker}
-------------------------------------------------
-
-### Element name
-
-coc
-
-### Reported properties
-
-|Property|Description|
-|:-------|:----------|
-|lcoc|Length of COC marker segment in bytes|
-|ccoc|Index of the component to which this marker segment relates|
-|precincts|Indicates use of precincts (“yes”/“no”)|
-|levels|Number of decomposition levels|
-|codeBlockWidth|Code block width|
-|codeBlockHeight|Code block height|
-|codingBypass|Indicates use of coding bypass (“yes”/“no”)|
-|resetOnBoundaries|Indicates reset of context probabilities on coding pass boundaries (“yes”/“no”)|
-|termOnEachPass|Indicates termination on each coding pass (“yes”/“no”)|
-|vertCausalContext|Indicates vertically causal context (“yes”/“no”)|
-|predTermination|Indicates predictable termination (“yes”/“no”)|
-|segmentationSymbols|Indicates use of segmentation symbols (“yes”/“no”)|
-|transformation|Wavelet transformation: “9-7 irreversible” or “5-3 reversible”|
-|precinctSizeX<sup>\*</sup>|Precinct width (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
-|precinctSizeY<sup>\*</sup>|Precinct heigth (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
-
-### Tests
-
-|Test name|True if|
-|:--------|:------|
-|lcocIsValid|*lcod* is within range [9,43]|
-|levelsIsValid|*levels* is within range [0,32]|
-|lcocConsistencyCheck|*lcoc* value is consistent with *levels*, *csiz* and *precincts* (Eq A-3 in specification)|
-|codeBlockWidthExponentIsValid|*codeBlockWidthExponent* is within range [2,10]|
-|codeBlockHeightExponentIsValid|*codeBlockHeightExponent* is within range [2,10]|
-|sumHeightWidthExponentIsValid|*codeBlockWidthExponent* + *codeBlockHeightExponent* ≤ 12|
-|precinctSizeXIsValid<sup>\*</sup>|*precinctSizeX* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
-|precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
-
-Quantization component (QCC) marker segment {#qcc-marker}
-------------------------------------------------
-
-### Element name
-
-qcc
-
-### Reported properties
-
-|Property|Description|
-|:-------|:----------|
-|lqcc|Length of QCC marker segment in bytes|
-|cqcc|Index of the component to which this marker segment relates|
-|qStyle|Quantization style for all components|
-|guardBits|Number of guard bits|
-|epsilon<sup>\*</sup>|- If *qStyle* equals 0 (“no quantization”): *Epsilon* exponent in Eq E-5 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)<br/>- If *qStyle* equals 1 (“scalar derived”): *Epsilon* exponent in Eq E-3 of ISO/IEC 15444-1<br/>- If *qStyle* equals 2 (“scalar expounded”): *Epsilon* exponent in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)|
-|mu<sup>\*</sup>|- If *qStyle* equals 1 (“scalar derived”): *mu* constant in Eq E-3 of ISO/IEC 15444-1<br/>- if *qStyle* equals 2 (“scalar expounded”) : *mu* constant in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)|
-
-### Tests
-
-|Test name|True if|
-|:--------|:------|
-|lqccIsValid|*lqcc* is within range [5,199]|
-|qStyleIsValid|*qStyle* equals 0 (“no quantization”), 1 (“scalar derived”), or 2 (“scalar expounded”)|
-|lqccConsistencyCheck|*lqcc* value is consistent with *levels*, *qStyle* and *csiz* (Eq A-5 in specification)|
 
 Region-of-interest (RGN) marker segment {#rgn-marker}
 --------------------------------------------
