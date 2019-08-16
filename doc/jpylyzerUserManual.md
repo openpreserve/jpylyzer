@@ -1655,11 +1655,11 @@ all the required ones):
 In addition the codestream header may also contain any of the following
 marker segments, which are all optional:
 
-* Coding style component (COC) marker segment (optional)<sup>\*</sup>
+* Coding style component (COC) marker segment (optional)
+
+* Quantization component (QCC) marker segment (optional)
 
 * Region-of-interest (RGN) marker segment (optional) <sup>\*</sup>
-
-* Quantization component (QCC) marker segment (optional) <sup>\*</sup>
 
 * Progression order change (POC) marker segment (optional) <sup>\*</sup>
 
@@ -1673,12 +1673,12 @@ marker segments, which are all optional:
 
 * Component registration (CRG) marker segment (optional) <sup>\*</sup>
 
-The above marker segments (which are marked with an asterisk) are only
-minimally supported at this stage: if *jpylyzer* encounters any of them,
-it will include the corresponding element in the *properties* element of
-the output. However, *jpylyzer* currently does not analyse the contents
-of these marker segments, which means that the respective elements in
-the output will be empty.
+Currently not all of these optional marker segments are fully supported.
+Those that are marked with an asterisk above are only minimally supported
+at this stage: if *jpylyzer* encounters them, it will include the corresponding
+element in the *properties* element of the output. However, *jpylyzer* does not
+analyse the contents of these marker segments, which means that the respective
+elements in the output will be empty.
 
 ### Tile parts
 
@@ -1698,11 +1698,11 @@ marker segments that can occur in the tile part header. Currently,
 
 In addition the following optional marker segments may also occur:
 
-* Coding style component (COC) marker segment (optional)<sup>\*</sup>
+* Coding style component (COC) marker segment (optional)
+
+* Quantization component (QCC) marker segment (optional)
 
 * Region-of-interest (RGN) marker segment (optional) <sup>\*</sup>
-
-* Quantization component (QCC) marker segment (optional) <sup>\*</sup>
 
 * Progression order change (POC) marker segment (optional) <sup>\*</sup>
 
@@ -1712,7 +1712,7 @@ In addition the following optional marker segments may also occur:
 * Packed packet headers, tile-part header (PPT) marker segment
 (optional) <sup>\*</sup>
 
-These marker segments (which are marked with an asterisk) are only
+These marker segments that are marked with an asterisk above are only
 minimally supported at this stage: if *jpylyzer* encounters any of them,
 it will include the corresponding element in the *properties* element of
 the output. However, *jpylyzer* currently does not analyse their
@@ -1777,7 +1777,8 @@ which are represented as child elements in the properties tree:
 |qcd ([section 7.7](#qcd-marker))|Properties from the quantization default (QCD) marker segment (codestream main header)|
 |com ([section 7.8](#com-marker))|Properties from the (optional) comment (COM) marker segment (codestream main header)|
 |tileParts ([section 7.9](#tile-part))|Properties from individual tile parts|
-|coc ([section 7.11](#coc-marker))|Properties from the coding (optional) style component (COC) marker segment (codestream main header)|
+|coc ([section 7.11](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (codestream main header)|
+|qcc ([section 7.12](#qcc-marker))|Properties from the (optional) quantization component (QCC) marker segment (codestream main header)|
 
 ### Tests
 
@@ -1791,6 +1792,7 @@ which are represented as child elements in the properties tree:
 |foundExpectedNumberOfTiles|Number of encountered tiles is consistent with expected number of tiles (as calculated from SIZ marker, see [section 7.5](#siz-marker))|
 |foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from SOT marker, see [section 7.10](#sot-marker))|
 |maxOneCcocPerComponent|No more than one *ccoc* value for each component (only reported if codestream contains any COC marker segments))|
+|maxOneCqccPerComponent|No more than one *cqcc* value for each component (only reported if codestream contains any QCC marker segments))|
 |foundEOCMarker|Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment|
 
 Image and tile size (SIZ) marker segment (child of Contiguous Codestream box) {#siz-marker}
