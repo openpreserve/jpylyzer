@@ -443,7 +443,7 @@
   <xs:element name="uuidBox">
     <!-- Holds either uuid, or XMP metadata block if it can be identified from uuid  -->
     <xs:complexType>
-      <xs:sequence>
+      <xs:sequence minOccurs="0">
         <xs:any processContents="skip"/>
       </xs:sequence>
     </xs:complexType>
@@ -648,6 +648,24 @@
   <xs:element name="mu" type="xs:integer"/>
   <xs:element name="epsilon" type="xs:integer"/>
   
+  <xs:element name="qcc">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lqcc"/>
+        <xs:element ref="cqcc"/>
+        <xs:element ref="qStyle"/>
+        <xs:element ref="guardBits"/>
+        <xs:sequence maxOccurs="unbounded">
+          <xs:element ref="mu" minOccurs="0"/>
+          <xs:element ref="epsilon"/>
+        </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="lqcc" type="xs:integer"/>
+  <xs:element name="cqcc" type="xs:integer"/>
+
   <xs:element name="com">
     <xs:complexType>
       <xs:sequence>
@@ -716,15 +734,7 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-
-  <xs:element name="qcc">
-    <xs:complexType>
-      <xs:sequence minOccurs="0" maxOccurs="unbounded">
-        <xs:any processContents="skip"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  
+ 
   <xs:element name="poc">
     <xs:complexType>
       <xs:sequence minOccurs="0" maxOccurs="unbounded">
