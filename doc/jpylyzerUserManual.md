@@ -2052,14 +2052,19 @@ qcc
 
 |Property|Description|
 |:-------|:----------|
-|||
-|||
+|lqcc|Length of QCC marker segment in bytes|
+|cqcc|Index of the component to which this marker segment relates|
+|qStyle|Quantization style for all components|
+|guardBits|Number of guard bits|
+|epsilon<sup>\*</sup>|- If *qStyle* equals 0 (“no quantization”): *Epsilon* exponent in Eq E-5 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)<br/>- If *qStyle* equals 1 (“scalar derived”): *Epsilon* exponent in Eq E-3 of ISO/IEC 15444-1<br/>- If *qStyle* equals 2 (“scalar expounded”): *Epsilon* exponent in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)|
+|mu<sup>\*</sup>|- If *qStyle* equals 1 (“scalar derived”): *mu* constant in Eq E-3 of ISO/IEC 15444-1<br/>- if *qStyle* equals 2 (“scalar expounded”) : *mu* constant in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)|
 
 ### Tests
 
 |Test name|True if|
 |:--------|:------|
-|||
+|lqccIsValid|*lqcc* is within range [5,199]|
+|qStyleIsValid|*qStyle* equals 0 (“no quantization”), 1 (“scalar derived”), or 2 (“scalar expounded”)|
 |lqccConsistencyCheck|*lqcc* value is consistent with *levels*, *qStyle* and *csiz* (Eq A-5 in specification)|
 
 Region-of-interest (RGN) marker segment {#rgn-marker}
