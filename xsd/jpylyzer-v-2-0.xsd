@@ -226,9 +226,9 @@
 
   <xs:element name="bitsPerComponentBox">  
     <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="bPCSign" maxOccurs="unbounded"/>
-        <xs:element ref="bPCDepth" maxOccurs="unbounded"/>
+      <xs:sequence maxOccurs="unbounded">
+        <xs:element ref="bPCSign"/>
+        <xs:element ref="bPCDepth"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
