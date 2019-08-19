@@ -634,10 +634,15 @@
         <xs:element ref="lqcd"/>
         <xs:element ref="qStyle"/>
         <xs:element ref="guardBits"/>
-        <xs:sequence maxOccurs="unbounded">
-          <xs:element ref="mu" minOccurs="0"/>
-          <xs:element ref="epsilon"/>
-        </xs:sequence>
+          <xs:choice>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:element ref="epsilon"/>
+            </xs:sequence>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:element ref="mu"/>
+              <xs:element ref="epsilon"/>
+            </xs:sequence>
+          </xs:choice>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
