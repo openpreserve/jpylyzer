@@ -316,7 +316,7 @@
           <xs:sequence maxOccurs="unbounded">
             <xs:element ref="bSign"/>
             <xs:element ref="bDepth"/>
-            <xs:element ref="cP" maxOccurs="unbounded"/>
+            <xs:element ref="cP" minOccurs="0" maxOccurs="unbounded"/>
           </xs:sequence>
       </xs:sequence>
     </xs:complexType>
