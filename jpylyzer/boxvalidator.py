@@ -1912,23 +1912,13 @@ class BoxValidator:
         guardBits = (sqcd >> 5) & 7
         self.addCharacteristic("guardBits", guardBits)
 
-        # No. of decomposition levels --> cross-check with info from COD!!
+        # Get number of decomposition levels from re-arrranged form of Eq A-4
+        # (TODO: cross-check with info from COD, COC, see:
+        # https://github.com/openpreserve/jpylyzer/issues/132)
         if qStyle == 0:
             levels = int((lqcd - 4) / 3)
         elif qStyle == 2:
             levels = int((lqcd - 5) / 6)
-
-        # Check lqcd is consistent with levels and quantization style (eq A-4)
-        if qStyle == 0:
-            lqcdExpected = 4 + 3 * levels
-        elif qStyle == 2:
-            lqcdExpected = 5 + 6 * levels
-        else:
-            lqcdExpected = 5
-
-        lqcdConsistencyCheck = lqcd == lqcdExpected
-        self.testFor(
-            "lqcdConsistencyCheck", lqcdConsistencyCheck)
 
         offset = 3
 
@@ -1942,6 +1932,16 @@ class BoxValidator:
                 self.addCharacteristic("epsilon", epsilon)
 
                 offset += 1
+
+        elif qStyle == 1:
+            spqcd = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
+            # 11 least significant bits: mu in Eq E-3
+            mu = spqcd & 2047
+            self.addCharacteristic("mu", mu)
+
+            # 5 most significant bits: exponent epsilon in Eq E-3
+            epsilon = (spqcd >> 11) & 31
+            self.addCharacteristic("epsilon", epsilon)
 
         elif qStyle == 2:
             for i in range(levels):
@@ -1957,16 +1957,6 @@ class BoxValidator:
                 self.addCharacteristic("epsilon", epsilon)
 
                 offset += 2
-
-        else:
-            spqcd = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
-            # 11 least significant bits: mu in Eq E-3
-            mu = spqcd & 2047
-            self.addCharacteristic("mu", mu)
-
-            # 5 most significant bits: exponent epsilon in Eq E-3
-            epsilon = (spqcd >> 11) & 31
-            self.addCharacteristic("epsilon", epsilon)
 
         # Possible enhancement here: instead of reporting coefficients, report result
         # of corresponding equations (need Annex E from standard for that)
@@ -2013,30 +2003,22 @@ class BoxValidator:
         guardBits = (sqcc >> 5) & 7
         self.addCharacteristic("guardBits", guardBits)
 
-        # No. of decomposition levels --> cross-check with info from COD!!
-        if qStyle == 0:
+        # Get number of decomposition levels from re-arrranged form of Eq A-5
+        # (TODO: cross-check with info from COD, COC, see:
+        # https://github.com/openpreserve/jpylyzer/issues/132)
+        if qStyle == 0 and self.csiz < 257:
             levels = int((lqcc - 4) / 3)
         elif qStyle == 2:
             levels = int((lqcc - 5) / 6)
 
-        # Check lqcc is consistent with levels, number of components and
-        # quantization style (eq A-5)
         if qStyle == 0 and self.csiz < 257:
-            lqccExpected = 5 + 3 * levels
-        elif qStyle == 1 and self.csiz < 257:
-            lqccExpected = 6
+            levels = int((lqcc - 5) / 3)
         elif qStyle == 2 and self.csiz < 257:
-            lqccExpected = 6 + 6 * levels
+            levels = int((lqcc - 6) / 6)
         elif qStyle == 0 and self.csiz >= 257:
-            lqccExpected = 6 + 3 * levels
+            levels = int((lqcc - 6) / 3)
         elif qStyle == 2 and self.csiz >= 257:
-            lqccExpected = 7 + 6 * levels
-        else:
-            lqccExpected = 7
-
-        lqccConsistencyCheck = lqcc == lqccExpected
-        self.testFor(
-            "lqccConsistencyCheck", lqccConsistencyCheck)
+            levels = int((lqcc - 7) / 6)
 
         if qStyle == 0:
             for i in range(levels):
@@ -2048,6 +2030,16 @@ class BoxValidator:
                 self.addCharacteristic("epsilon", epsilon)
 
                 offset += 1
+
+        elif qStyle == 1:
+            spqcc = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
+            # 11 least significant bits: mu in Eq E-3
+            mu = spqcc & 2047
+            self.addCharacteristic("mu", mu)
+
+            # 5 most significant bits: exponent epsilon in Eq E-3
+            epsilon = (spqcc >> 11) & 31
+            self.addCharacteristic("epsilon", epsilon)
 
         elif qStyle == 2:
             for i in range(levels):
@@ -2063,16 +2055,6 @@ class BoxValidator:
                 self.addCharacteristic("epsilon", epsilon)
 
                 offset += 2
-
-        else:
-            spqcc = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
-            # 11 least significant bits: mu in Eq E-3
-            mu = spqcc & 2047
-            self.addCharacteristic("mu", mu)
-
-            # 5 most significant bits: exponent epsilon in Eq E-3
-            epsilon = (spqcc >> 11) & 31
-            self.addCharacteristic("epsilon", epsilon)
 
         # Possible enhancement here: instead of reporting coefficients, report result
         # of corresponding equations (need Annex E from standard for that)

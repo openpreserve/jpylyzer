@@ -1953,7 +1953,6 @@ qcd
 |:--------|:------|
 |lqcdIsValid|*lqcd* is within range [4,197]|
 |qStyleIsValid|*qStyle* equals 0 (“no quantization”), 1 (“scalar derived”), or 2 (“scalar expounded”)|
-|lqcdConsistencyCheck|*lqcd* value is consistent with *levels* and *qStyle* (Eq A-4 in ISO/IEC 15444-1)|
 
 Quantization component (QCC) marker segment {#qcc-marker}
 ------------------------------------------------
@@ -1979,8 +1978,6 @@ qcc
 |:--------|:------|
 |lqccIsValid|*lqcc* is within range [5,199]|
 |qStyleIsValid|*qStyle* equals 0 (“no quantization”), 1 (“scalar derived”), or 2 (“scalar expounded”)|
-|lqccConsistencyCheck|*lqcc* value is consistent with *levels*, *qStyle* and *csiz* (Eq A-5 in ISO/IEC 15444-1)|
-
 
 Comment (COM) marker segment {#com-marker}
 --------------------------------
