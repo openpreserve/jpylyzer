@@ -1217,6 +1217,19 @@ class BoxValidator:
                     self.characteristics.append(characteristicsQCC)
                     offset = offsetNext
 
+                elif marker == b'\xff\x5f':
+                    # POC (progression order change) marker segment
+                    # POC is optional
+                    # Validate QCC segment
+                    resultsPOC = BoxValidator(marker, segContents, components=csiz).validate()
+                    testsPOC = resultsPOC.tests
+                    characteristicsPOC = resultsPOC.characteristics
+                    # Add analysis results to test results tree
+                    self.tests.appendIfNotEmpty(testsPOC)
+                    # Add extracted characteristics to characteristics tree
+                    self.characteristics.append(characteristicsPOC)
+                    offset = offsetNext
+
                 elif marker == b'\xff\x64':
                     # COM (codestream comment) marker segment
                     # Validate COM segment
@@ -1234,9 +1247,9 @@ class BoxValidator:
                     # will get us of out of this loop (for functional readability):
                     pass
 
-                elif marker in[b'\xff\x5e', b'\xff\x5f', b'\xff\x55', b'\xff\x57',
+                elif marker in[b'\xff\x5e', b'\xff\x55', b'\xff\x57',
                                b'\xff\x60', b'\xff\x63']:
-                    # RGN, POC, TLM, PLM ,PPM, CRG marker: ignore and
+                    # RGN, TLM, PLM ,PPM, CRG marker: ignore and
                     # move on to next one
                     resultsOther = BoxValidator(marker, segContents).validate()
                     testsOther = resultsOther.tests
@@ -1880,7 +1893,6 @@ class BoxValidator:
                 self.testFor("precinctSizeYIsValid", precinctSizeYIsValid)
                 offset += 1
 
-
     def validate_qcd(self):
         """Quantization default  (QCD) header fields (ISO/IEC 15444-1 Section
         A.6.4)
@@ -2059,6 +2071,89 @@ class BoxValidator:
         # Possible enhancement here: instead of reporting coefficients, report result
         # of corresponding equations (need Annex E from standard for that)
 
+    def validate_poc(self):
+        """Progression order change (POC) header fields (ISO/IEC 15444-1 Section
+        A.6.6)
+        """
+
+        # Length of POC marker
+        lpoc = bc.bytesToUShortInt(self.boxContents[0:2])
+        self.addCharacteristic("lpoc", lpoc)
+
+        # lpoc must be in range 9-65,535
+        lpocIsValid = 9 <= lpoc <= 65535
+        self.testFor("lpocIsValid", lpocIsValid)
+
+        # Get number of progression order changes from re-arranged form of Eq A-6
+        if self.csiz < 257:
+            progOrderChanges = int((lpoc - 2) / 7)
+        else:
+            progOrderChanges = int((lpoc - 2) / 9)
+
+        offset = 2
+
+        for i in range(progOrderChanges):
+            # Resolution index for the start of a progression
+            rspoc = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
+            self.addCharacteristic("rspoc", rspoc)
+
+            # rspoc must be within range 0-32
+            rspocIsValid = 0 <= rspoc <= 32
+            self.testFor("rspocIsValid", rspocIsValid)
+
+            offset += 1
+
+            # Component index for start of progression. Has 1 or 2 bytes size, depending
+            # on csiz
+            if self.csiz < 257:
+                cspoc = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
+                cspocIsValid = 0 <= cspoc <= 255
+                offset += 1
+            else:
+                cspoc = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
+                cspocIsValid = 0 <= cspoc <= 16383
+                offset += 2
+
+            self.addCharacteristic("cspoc", cspoc)
+            self.testFor("cspocIsValid", cspocIsValid)
+
+            # Layer index for end of progression
+            lyepoc = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
+            self.addCharacteristic("lyepoc", lyepoc)
+            lyepocIsValid = 1 <= lyepoc <= 65535
+            self.testFor("lyepocIsValid", lyepocIsValid)
+            offset += 2
+
+            # Resolution level index for end of progression
+            repoc = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
+            self.addCharacteristic("repoc", repoc)
+            repocIsValid = (rspoc + 1) <= repoc <= 33
+            self.testFor("repocIsValid", repocIsValid)
+            offset += 1
+
+            # Component index for end of progression. Has 1 or 2 bytes size, depending
+            # on csiz
+            if self.csiz < 257:
+                cepoc = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
+                cepocIsValid = (cspoc + 1) <= cepoc <= 255
+                offset += 1
+            else:
+                cepoc = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
+                cepocIsValid = (cspoc +1) <= cepoc <= 16384
+                offset += 2
+
+            self.addCharacteristic("cepoc", cepoc)
+            self.testFor("cepocIsValid", cepocIsValid)
+            
+            # Progression order
+            order = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
+            self.addCharacteristic("order", order)
+
+            # Allowed values: 0 (LRCP), 1 (RLCP), 2 (RPCL), 3 (PCRL), 4(CPRL)
+            orderIsValid = order in [0, 1, 2, 3, 4]
+            self.testFor("orderIsValid", orderIsValid)
+            offset +=1
+
     def validate_com(self):
         """Codestream comment (COM) (ISO/IEC 15444-1 Section A.9.2)"""
 
@@ -2174,10 +2269,6 @@ class BoxValidator:
     # because there will be either lots of them or none at all!).
 
     def validate_rgn(self):
-        """Empty function"""
-        pass
-
-    def validate_poc(self):
         """Empty function"""
         pass
 
@@ -2303,6 +2394,19 @@ class BoxValidator:
                 self.characteristics.append(characteristicsQCC)
                 offset = offsetNext
 
+            elif marker == b'\xff\x5f':
+                # POC (progression order change) marker segment
+                # POC is optional
+                # Validate QCC segment
+                resultsPOC = BoxValidator(marker, segContents, components=csiz).validate()
+                testsPOC = resultsPOC.tests
+                characteristicsPOC = resultsPOC.characteristics
+                # Add analysis results to test results tree
+                self.tests.appendIfNotEmpty(testsPOC)
+                # Add extracted characteristics to characteristics tree
+                self.characteristics.append(characteristicsPOC)
+                offset = offsetNext
+
             elif marker == b'\xff\x64':
                 # COM (codestream comment) marker segment
                 # Validate COM segment
@@ -2315,8 +2419,8 @@ class BoxValidator:
                 self.characteristics.append(characteristicsCOM)
                 offset = offsetNext
 
-            elif marker in[b'\xff\x5e', b'\xff\x5f', b'\xff\x61', b'\xff\x58']:
-                # RGN, POC, PPT or PLT marker: ignore and
+            elif marker in[b'\xff\x5e', b'\xff\x61', b'\xff\x58']:
+                # RGN, PPT or PLT marker: ignore and
                 # move on to next one
                 resultsOther = BoxValidator(marker, segContents).validate()
                 testsOther = resultsOther.tests
