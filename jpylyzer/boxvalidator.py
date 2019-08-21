@@ -1850,7 +1850,7 @@ class BoxValidator:
 
         if precincts == 1:
 
-            # Precinct size for each resolution level (=decomposition levels +1)
+            # Precinct size for each resolution level (= decomposition levels + 1)
             # Order: low to high (lowest first)
             # TODO: the behaviour in the case of precincts is untested at this stage
             # due to a lack of test files! 
