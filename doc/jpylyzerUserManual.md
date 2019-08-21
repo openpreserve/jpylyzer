@@ -1921,7 +1921,8 @@ coc
 
 |Test name|True if|
 |:--------|:------|
-|lcocIsValid|*lcod* is within range [9,43]|
+|lcocIsValid|*lcoc* is within range [9,43]|
+|ccocIsValid|*ccoc* is within range [0,255] (*csiz* < 257) or [0,16383] (*csiz* >= 257)|
 |levelsIsValid|*levels* is within range [0,32]|
 |lcocConsistencyCheck|*lcoc* value is consistent with *levels*, *csiz* and *precincts* (Eq A-3 in ISO/IEC 15444-1)|
 |codeBlockWidthExponentIsValid|*codeBlockWidthExponent* is within range [2,10]|
