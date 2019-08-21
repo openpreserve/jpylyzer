@@ -1243,6 +1243,18 @@ class BoxValidator:
                     self.characteristics.append(characteristicsPOC)
                     offset = offsetNext
 
+                elif marker == b'\xff\x63':
+                    # CRG (component registration) marker segment
+                    # Validate CRG segment
+                    resultsCRG = BoxValidator(marker, segContents, components=csiz).validate()
+                    testsCRG = resultsCRG.tests
+                    characteristicsCRG = resultsCRG.characteristics
+                    # Add analysis results to test results tree
+                    self.tests.appendIfNotEmpty(testsCRG)
+                    # Add extracted characteristics to characteristics tree
+                    self.characteristics.append(characteristicsCRG)
+                    offset = offsetNext
+
                 elif marker == b'\xff\x64':
                     # COM (codestream comment) marker segment
                     # Validate COM segment
@@ -1261,8 +1273,8 @@ class BoxValidator:
                     pass
 
                 elif marker in[b'\xff\x55', b'\xff\x57',
-                               b'\xff\x60', b'\xff\x63']:
-                    # TLM, PLM ,PPM, CRG marker: ignore and
+                               b'\xff\x60']:
+                    # TLM, PLM ,PPM marker: ignore and
                     # move on to next one
                     resultsOther = BoxValidator(marker, segContents).validate()
                     testsOther = resultsOther.tests
@@ -2213,6 +2225,33 @@ class BoxValidator:
             self.testFor("orderIsValid", orderIsValid)
             offset +=1
 
+    def validate_crg(self):
+        """Component registration (CRG) marker (ISO/IEC 15444-1 Section A.9.1)"""
+
+        # Length of CRGM marker
+        lcrg = bc.bytesToUShortInt(self.boxContents[0:2])
+        self.addCharacteristic("lcrg", lcrg)
+
+        # lcrg must be in range 6-65534
+        lcrgIsValid = 6 <= lcrg <= 65534
+        self.testFor("lcrgIsValid", lcrgIsValid)
+
+        offset = 2
+        
+        for i in range(self.csiz):
+            # Horizontal offset value, in units of 1/65535 of xRsiz
+            xcrg = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
+            self.addCharacteristic("xcrg", xcrg)
+            xcrgIsValid = 0 <= xcrg <= 65535
+            self.testFor("xcrgIsValid", xcrgIsValid)
+            offset += 2
+            # Vertical offset value, in units of 1/65535 of yRsiz
+            ycrg = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
+            self.addCharacteristic("ycrg", ycrg)
+            ycrgIsValid = 0 <= ycrg <= 65535
+            self.testFor("ycrgIsValid", ycrgIsValid)
+            offset += 2
+
     def validate_com(self):
         """Codestream comment (COM) (ISO/IEC 15444-1 Section A.9.2)"""
 
@@ -2344,10 +2383,6 @@ class BoxValidator:
         pass
 
     def validate_ppt(self):
-        """Empty function"""
-        pass
-
-    def validate_crg(self):
         """Empty function"""
         pass
 
