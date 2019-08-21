@@ -1775,7 +1775,7 @@ which are represented as child elements in the properties tree:
 |siz ([section 7.5](#siz-marker))|Properties from the image and tile size (SIZ) marker segment (codestream main header)|
 |cod ([section 7.6](#cod-marker))|Properties from the coding style default (COD) marker segment (codestream main header)|
 |coc ([section 7.7](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (codestream main header)|
-|coc ([section 7.8](#rgn-marker))|Properties from the (optional) region of interest (RGN) marker segment (codestream main header)|
+|rgn ([section 7.8](#rgn-marker))|Properties from the (optional) region of interest (RGN) marker segment (codestream main header)|
 |qcd ([section 7.9](#qcd-marker))|Properties from the quantization default (QCD) marker segment (codestream main header)|
 |qcc ([section 7.10](#qcc-marker))|Properties from the (optional) quantization component (QCC) marker segment (codestream main header)|
 |poc ([section 7.11](#poc-marker))|Properties from the (optional) progression order change (POC) marker segment (codestream main header)|
@@ -2078,10 +2078,10 @@ Each tile part element can contain a number of child elements:
 
 |Child element|Description|
 |:------------|:----------|
-|sot ([section 7.13](#sot-marker))|Properties from start of tile (SOT) marker segment|
+|sot ([section 7.14](#sot-marker))|Properties from start of tile (SOT) marker segment|
 |cod ([section 7.6](#cod-marker))|Properties from the (optional) coding style default (COD) marker segment (tile part header)|
 |coc ([section 7.7](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (tile part header)|
-|coc ([section 7.8](#rgn-marker))|Properties from the (optional) region of interest (RGN) marker segment (tile part header)|
+|rgn ([section 7.8](#rgn-marker))|Properties from the (optional) region of interest (RGN) marker segment (tile part header)|
 |qcd ([section 7.9](#qcd-marker))|Properties from the (optional) quantization default (QCD) marker segment (tile part header)|
 |qcc ([section 7.10](#qcc-marker))|Properties from the (optional) quantization component (QCC) marker segment (tile part header)|
 |poc ([section 7.11](#poc-marker))|Properties from the (optional) progression order change (POC) marker segment (tile part header)|
