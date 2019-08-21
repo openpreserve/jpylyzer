@@ -628,6 +628,22 @@
   <xs:element name="lcoc" type="xs:integer"/>
   <xs:element name="ccoc" type="xs:integer"/>
 
+  <xs:element name="rgn">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lrgn"/>
+        <xs:element ref="crgn"/>
+        <xs:element ref="srgn"/>
+        <xs:element ref="sprgn"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="lrgn" type="xs:integer"/>
+  <xs:element name="crgn" type="xs:integer"/>
+  <xs:element name="srgn" type="xs:string"/>
+  <xs:element name="sprgn" type="xs:integer"/>
+
   <xs:element name="qcd">
     <xs:complexType>
       <xs:sequence>
@@ -759,15 +775,7 @@
 
   <!-- The following optional marker segments are only minimally supported by
        jpylyzer at this stage (they are reported, but contents aren't analysed) -->
-  
-  <xs:element name="rgn">
-    <xs:complexType>
-      <xs:sequence minOccurs="0" maxOccurs="unbounded">
-        <xs:any processContents="skip"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
- 
+   
   <xs:element name="tlm">
     <xs:complexType>
       <xs:sequence minOccurs="0" maxOccurs="unbounded">
