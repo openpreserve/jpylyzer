@@ -1777,8 +1777,9 @@ which are represented as child elements in the properties tree:
 |coc ([section 7.7](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (codestream main header)|
 |qcd ([section 7.8](#qcd-marker))|Properties from the quantization default (QCD) marker segment (codestream main header)|
 |qcc ([section 7.9](#qcc-marker))|Properties from the (optional) quantization component (QCC) marker segment (codestream main header)|
-|com ([section 7.10](#com-marker))|Properties from the (optional) comment (COM) marker segment (codestream main header)|
-|tileParts ([section 7.11](#tile-part))|Properties from individual tile parts|
+|poc ([section 7.10](#poc-marker))|Properties from the (optional) progression order change (POC) marker segment (codestream main header)|
+|com ([section 7.11](#com-marker))|Properties from the (optional) comment (COM) marker segment (codestream main header)|
+|tileParts ([section 7.12](#tile-part))|Properties from individual tile parts|
 
 ### Tests
 
@@ -1979,6 +1980,37 @@ qcc
 |lqccIsValid|*lqcc* is within range [5,199]|
 |qStyleIsValid|*qStyle* equals 0 (“no quantization”), 1 (“scalar derived”), or 2 (“scalar expounded”)|
 
+Progression order change (POC) marker segment {#poc-marker}
+------------------------------------------------
+
+### Element name
+
+poc
+
+### Reported properties
+
+|Property|Description|
+|:-------|:----------|
+|lpoc|Length of POC marker segment in bytes|
+|rspoc<sup>\*</sup>|Resolution level index for the start of a progression (repeated for all progression order changes)|
+|cspoc<sup>\*</sup>|Component index for the start of a progression (repeated for all progression order changes)|
+|lyepoc<sup>\*</sup>|Layer index for the end of a progression (repeated for all progression order changes)|
+|repoc<sup>\*</sup>|Resolution level index for the end of a progression (repeated for all progression order changes)|
+|cepoc<sup>\*</sup>|Component index for the end of a progression (repeated for all progression order changes)|
+|order<sup>\*</sup>|Progression order (repeated for all progression order changes)|
+
+### Tests
+
+|Test name|True if|
+|:--------|:------|
+|lpocIsValid|*lpoc* is within range [9,65535]|
+|rspocIsValid|*rspoc* is within range [0,32]|
+|cspocIsValid|*cspoc* is within range [0,255] (*csiz* < 257) or [0,16383] (*csiz >= 257)|
+|lyepocIsValid|*lyepoc* is within range [1,65535]|
+|repocIsValid|*repoc* is within range [(*rspoc* + 1),65535]|
+|cepocIsValid|*cepoc* is within range [(*cspoc* + 1),255] (*csiz* < 257) or [(*cspoc* + 1),16384] (*csiz >= 257), or 0|
+|orderIsValid|*order* equals 0 (“LRCP”), 1 (“RLCP”), 2 (“RPCL”), 3 (“PCRL”) or 4 (“CPRL”)|
+
 Comment (COM) marker segment {#com-marker}
 --------------------------------
 
@@ -2024,8 +2056,9 @@ Each tile part element can contain a number of child elements:
 |coc ([section 7.7](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (codestream main header)|
 |qcd ([section 7.8](#qcd-marker))|Properties from the (optional) quantization default (QCD) marker segment (tile part header)|
 |qcc ([section 7.9](#qcc-marker))|Properties from the (optional) quantization component (QCC) marker segment (tile part header)|
-|com ([section 7.10](#com-marker))|Properties from the (optional) comment (COM) marker segment (tile part header)|
-|coc ([section 7.11](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (tile part header)|
+|poc ([section 7.10](#poc-marker))|Properties from the (optional) progression order change (POC) marker segment (tile part header)|
+|com ([section 7.11](#com-marker))|Properties from the (optional) comment (COM) marker segment (tile part header)|
+|coc ([section 7.12](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (tile part header)|
 
 ### Tests
 
