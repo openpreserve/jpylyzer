@@ -2135,11 +2135,11 @@ class BoxValidator:
             # on csiz
             if self.csiz < 257:
                 cepoc = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
-                cepocIsValid = (cspoc + 1) <= cepoc <= 255
+                cepocIsValid = (cspoc + 1) <= cepoc <= 255 or cepoc == 0
                 offset += 1
             else:
                 cepoc = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
-                cepocIsValid = (cspoc +1) <= cepoc <= 16384
+                cepocIsValid = (cspoc +1) <= cepoc <= 16384 or cepoc == 0
                 offset += 2
 
             self.addCharacteristic("cepoc", cepoc)
