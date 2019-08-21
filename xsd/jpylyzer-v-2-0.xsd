@@ -676,6 +676,29 @@
   <xs:element name="lqcc" type="xs:integer"/>
   <xs:element name="cqcc" type="xs:integer"/>
 
+  <xs:element name="poc">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lpoc"/>
+        <xs:sequence maxOccurs="unbounded">
+          <xs:element ref="rspoc"/>
+          <xs:element ref="cspoc"/>
+          <xs:element ref="lyepoc"/>
+          <xs:element ref="repoc"/>
+          <xs:element ref="cepoc"/>
+          <xs:element ref="order"/>
+        </xs:sequence>
+    </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="lpoc" type="xs:integer"/>
+  <xs:element name="rspoc" type="xs:integer"/>
+  <xs:element name="cspoc" type="xs:integer"/>
+  <xs:element name="lyepoc" type="xs:integer"/>
+  <xs:element name="repoc" type="xs:integer"/>
+  <xs:element name="cepoc" type="xs:integer"/>
+
   <xs:element name="com">
     <xs:complexType>
       <xs:sequence>
@@ -745,14 +768,6 @@
     </xs:complexType>
   </xs:element>
  
-  <xs:element name="poc">
-    <xs:complexType>
-      <xs:sequence minOccurs="0" maxOccurs="unbounded">
-        <xs:any processContents="skip"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-
   <xs:element name="tlm">
     <xs:complexType>
       <xs:sequence minOccurs="0" maxOccurs="unbounded">
