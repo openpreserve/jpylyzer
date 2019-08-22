@@ -362,7 +362,7 @@ def checkOneFile(path, validationFormat='jp2'):
         elif validationFormat == 'j2c':
             resultsJP2 = bv.BoxValidator("contiguousCodestreamBox", fileData).validate()
 
-        isValidJP2 = resultsJP2.isValid
+        fileIsValid = resultsJP2.isValid
         tests = resultsJP2.tests
         characteristics = resultsJP2.characteristics
 
@@ -376,7 +376,7 @@ def checkOneFile(path, validationFormat='jp2'):
         tests.makeHumanReadable()
         characteristics.makeHumanReadable(remapTable)
     except Exception as ex:
-        isValidJP2 = False
+        fileIsValid = False
         success = False
         exceptionType = type(ex)
 
@@ -396,7 +396,7 @@ def checkOneFile(path, validationFormat='jp2'):
         tests = ET.Element("tests")
         characteristics = ET.Element('properties')
 
-    if config.mixFlag != 0 and isValidJP2:
+    if config.mixFlag != 0 and fileIsValid:
         mixProperties = mix.Mix(config.mixFlag).generateMix(characteristics)
 
     # Add status info
@@ -413,10 +413,10 @@ def checkOneFile(path, validationFormat='jp2'):
 
     if config.legacyXMLFlag:
         # Jpylyzer 1.x format
-        root.appendChildTagWithText("isValidJP2", str(isValidJP2))
+        root.appendChildTagWithText("isValidJP2", str(fileIsValid))
     else:
         # Jpylyzer 2.x format
-        root.appendChildTagWithText("isValid", str(isValidJP2))
+        root.appendChildTagWithText("isValid", str(fileIsValid))
         # Set 'format' attribute of isValid element
         root.findall(".//isValid")[0].set("format", config.validationFormat)
 
@@ -425,7 +425,7 @@ def checkOneFile(path, validationFormat='jp2'):
     extension = ET.Element('propertiesExtension')
     if config.mixFlag != 0:
         root.append(extension)
-        if validationFormat == "jp2" and isValidJP2:
+        if validationFormat == "jp2" and fileIsValid:
             extension.append(mixProperties)
 
     return root
