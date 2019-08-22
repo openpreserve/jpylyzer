@@ -715,6 +715,22 @@
   <xs:element name="repoc" type="xs:integer"/>
   <xs:element name="cepoc" type="xs:integer"/>
 
+  <xs:element name="crg">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lcrg"/>
+        <xs:sequence maxOccurs="unbounded">
+          <xs:element ref="xcrg"/>
+          <xs:element ref="ycrg"/>
+        </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="lcrg" type="xs:integer"/>
+  <xs:element name="xcrg" type="xs:integer"/>
+  <xs:element name="ycrg" type="xs:integer"/>
+
   <xs:element name="com">
     <xs:complexType>
       <xs:sequence>
@@ -816,14 +832,6 @@
     </xs:complexType>
   </xs:element>
   
-  <xs:element name="crg">
-    <xs:complexType>
-      <xs:sequence minOccurs="0" maxOccurs="unbounded">
-        <xs:any processContents="skip"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-
   <!-- Compression ratio element -->
   <xs:element name="compressionRatio" type="xs:double"/>
 
