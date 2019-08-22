@@ -1946,8 +1946,8 @@ rgn
 |:-------|:----------|
 |lrgn|Length of RGN marker segment in bytes|
 |crgn|Index of the component to which this marker segment relates|
-|srgn|ROI style for the current ROI|
-|sprgn|Implicit ROI shift|
+|roiStyle|ROI style for the current ROI|
+|roiShift|Implicit ROI shift|
 
 ### Tests
 
@@ -1955,8 +1955,8 @@ rgn
 |:--------|:------|
 |lrgnIsValid|*lrgn* is within range [5,6]|
 |crgnIsValid|*crgn* is within range [0,255] (*csiz* < 257) or [0,16383] (*csiz* >= 257)|
-|srgnIsValid|*srgn* equals 0 (“Implicit ROI (maximum shift)”)|
-|sprgnIsValid|*sprgn* is within range [0,255]|
+|roiStyleIsValid|*roiStyle* equals 0 (“Implicit ROI (maximum shift)”)|
+|roiShiftIsValid|*roiShift* is within range [0,255]|
 
 Quantization default (QCD) marker segment {#qcd-marker}
 ---------------------------------------------

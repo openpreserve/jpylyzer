@@ -1949,20 +1949,20 @@ class BoxValidator:
         self.testFor("crgnIsValid", crgnIsValid)
 
         # ROI style for the current ROI
-        srgn = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
-        self.addCharacteristic("srgn", srgn)
+        roiStyle = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
+        self.addCharacteristic("roiStyle", roiStyle)
 
-        srgnIsValid = srgn == 0
-        self.testFor("srgnIsValid", srgnIsValid)
+        roiStyleIsValid = roiStyle == 0
+        self.testFor("roiStyleIsValid", roiStyleIsValid)
 
         offset += 1
 
         # Implicit ROI shift
-        sprgn = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
-        self.addCharacteristic("sprgn", sprgn)
+        roiShift = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
+        self.addCharacteristic("roiShift", roiShift)
 
-        sprgnIsValid = 0 <= sprgn <= 255
-        self.testFor("sprgnIsValid", sprgnIsValid)
+        roiShiftIsValid = 0 <= roiShift <= 255
+        self.testFor("roiShiftIsValid", roiShiftIsValid)
 
     def validate_qcd(self):
         """Quantization default  (QCD) header fields (ISO/IEC 15444-1 Section

@@ -633,16 +633,16 @@
       <xs:sequence>
         <xs:element ref="lrgn"/>
         <xs:element ref="crgn"/>
-        <xs:element ref="srgn"/>
-        <xs:element ref="sprgn"/>
+        <xs:element ref="roiStyle"/>
+        <xs:element ref="roiShift"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
 
   <xs:element name="lrgn" type="xs:integer"/>
   <xs:element name="crgn" type="xs:integer"/>
-  <xs:element name="srgn" type="xs:string"/>
-  <xs:element name="sprgn" type="xs:integer"/>
+  <xs:element name="roiStyle" type="xs:string"/>
+  <xs:element name="roiShift" type="xs:integer"/>
 
   <xs:element name="qcd">
     <xs:complexType>

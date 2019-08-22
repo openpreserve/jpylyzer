@@ -196,9 +196,9 @@ def generatePropertiesRemapTable():
     transformationMap[0] = "9-7 irreversible"
     transformationMap[1] = "5-3 reversible"
 
-    # Srgn parameter (Codestream, RGN)
-    srgnMap = {}
-    srgnMap[0] = "Implicit ROI (maximum shift)"
+    # roiStyle parameter (Codestream, RGN)
+    roiStyleMap = {}
+    roiStyleMap[0] = "Implicit ROI (maximum shift)"
 
     # Quantization style (Codestream, QCD)
     qStyleMap = {}
@@ -243,7 +243,7 @@ def generatePropertiesRemapTable():
     enumerationsMap['cTyp'] = cTypMap
     enumerationsMap['cAssoc'] = cAssocMap
     enumerationsMap['order'] = orderMap
-    enumerationsMap['srgn'] = srgnMap
+    enumerationsMap['roiStyle'] = roiStyleMap
     enumerationsMap['transformation'] = transformationMap
     enumerationsMap['rsiz'] = rsizMap
     enumerationsMap['qStyle'] = qStyleMap
