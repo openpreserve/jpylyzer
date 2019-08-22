@@ -985,14 +985,14 @@ bitsPerComponentBox
 
 |Property|Description|
 |:-------|:----------|
-|bPCSign<sup>\*</sup>|Indicates whether image component is signed or unsigned (repeated for each component)|
-|bPCDepth<sup>\*</sup>|Number of bits for this component (repeated for each component)|
+|bPCSign<sup>\*</sup>|Indicates whether image component is signed or unsigned (repeated for all components)|
+|bPCDepth<sup>\*</sup>|Number of bits for this component (repeated for all components)|
 
 ### Tests
 
 |Test name|True if|
 |:--------|:------|
-|bPCIsValid<sup>\*</sup>|*bPCDepth* is within range [1,38] (repeated for each component)|
+|bPCIsValid<sup>\*</sup>|*bPCDepth* is within range [1,38] (repeated for all components)|
 
 Colour Specification box (child of JP2 Header box) {#colour-specification-box}
 ------------------------------------------------------
@@ -1048,7 +1048,7 @@ profile is allowed in JP2)!
 |connectionSpaceIlluminantZ|Profile connection space illuminant Z|
 |profileCreator|Identifies creator of profile|
 |profileID|Profile checksum (as hexadecimal string)|
-|tag<sup>\*</sup>|Signature of profile tag (repeated for each tag in the profile)|
+|tag<sup>\*</sup>|Signature of profile tag (repeated for all tags in the profile)|
 |description|Profile description (extracted from ‘desc’ tag)|
 
 ### Tests
@@ -1079,9 +1079,9 @@ paletteBox
 |:-------|:----------|
 |nE|Number of entries in the table|
 |nPC|Number of palette columns|
-|bSign<sup>\*</sup>|Indicates whether values created by this palette column are signed or unsigned (repeated for each column)|
-|bDepth<sup>\*</sup>|Bit depth of values created by this palette column (repeated for each column)|
-|cP<sup>\*\*</sup>|Value for this entry (repeated for each column, and for the number of entries)|
+|bSign<sup>\*</sup>|Indicates whether values created by this palette column are signed or unsigned (repeated for all columns)|
+|bDepth<sup>\*</sup>|Bit depth of values created by this palette column (repeated for all columns)|
+|cP<sup>\*\*</sup>|Value for this entry (repeated for all columns, and for the number of entries)|
 
 ### Tests
 
@@ -1089,7 +1089,7 @@ paletteBox
 |:--------|:------|
 |nEIsValid|*nE* is within range [0,1024]|
 |nPCIsValid|*nPC* is within range [1,255]|
-|bDepthIsValid<sup>\*</sup>|*bDepth* is within range [1,38] (repeated for each column)|
+|bDepthIsValid<sup>\*</sup>|*bDepth* is within range [1,38] (repeated for all columns)|
 
 Component Mapping box (child of JP2 Header box) {#component-mapping-box}
 ---------------------------------------------------
@@ -1105,17 +1105,17 @@ componentMappingBox
 
 |Property|Description|
 |:-------|:----------|
-|cMP<sup>\*</sup>|Component index (repeated for each channel)|
-|mTyp<sup>\*</sup>|Specifies how channel is generated from codestream component (repeated for each channel)|
-|pCol<sup>\*</sup>|Palette component index (repeated for each channel)|
+|cMP<sup>\*</sup>|Component index (repeated for all channels)|
+|mTyp<sup>\*</sup>|Specifies how channel is generated from codestream component (repeated for all channels)|
+|pCol<sup>\*</sup>|Palette component index (repeated for all channels)|
 
 ### Tests
 
 |Test name|True if|
 |:--------|:------|
 |cMPIsValid|*cMP* is within range [0,16384]|
-|mTypIsValid<sup>\*</sup>|*mTyp* is within range [0,1] (repeated for each channel)|
-|pColIsValid<sup>\*</sup>|*pCol* is 0 if *mTyp* is 0 (repeated for each channel)|
+|mTypIsValid<sup>\*</sup>|*mTyp* is within range [0,1] (repeated for all channels)|
+|pColIsValid<sup>\*</sup>|*pCol* is 0 if *mTyp* is 0 (repeated for all channels)|
 
 Channel Definition box (child of JP2 Header box) {#channel-definition-box}
 -----------------------------------------------------
@@ -1133,9 +1133,9 @@ channelDefinitionBox
 |Property|Description|
 |:-------|:----------|
 |n|Number of channel descriptions|
-|cN<sup>\*</sup>|Channel index (repeated for each channel)|
-|cTyp<sup>\*</sup>|Channel type (repeated for each channel)|
-|cAssoc<sup>\*</sup>|Channel association (repeated for each channel)|
+|cN<sup>\*</sup>|Channel index (repeated for all channels)|
+|cTyp<sup>\*</sup>|Channel type (repeated for all channels)|
+|cAssoc<sup>\*</sup>|Channel association (repeated for all channels)|
 
 ### Tests
 
@@ -1143,9 +1143,9 @@ channelDefinitionBox
 |:--------|:------|
 |nIsValid|*n* is within range [1, 65535]|
 |boxLengthIsValid|(Size of box – 2) / equals 6\**n*|
-|cNIsValid<sup>\*</sup>|*cN* is within range [0, 65535] (repeated for each channel)|
-|cTypIsValid<sup>\*</sup>|*cType* is within range [0, 65535] (repeated for each channel)|
-|cAssocIsValid<sup>\*</sup>|*cAssoc* is within range [0, 65535] (repeated for each channel)|
+|cNIsValid<sup>\*</sup>|*cN* is within range [0, 65535] (repeated for all channels)|
+|cTypIsValid<sup>\*</sup>|*cType* is within range [0, 65535] (repeated for all channels)|
+|cAssocIsValid<sup>\*</sup>|*cAssoc* is within range [0, 65535] (repeated for all channels)|
 
 Resolution box (child of JP2 Header box, superbox) {#resolution-box}
 -------------------------------------------------------
@@ -1779,8 +1779,9 @@ which are represented as child elements in the properties tree:
 |qcd ([section 7.9](#qcd-marker))|Properties from the quantization default (QCD) marker segment (codestream main header)|
 |qcc ([section 7.10](#qcc-marker))|Properties from the (optional) quantization component (QCC) marker segment (codestream main header)|
 |poc ([section 7.11](#poc-marker))|Properties from the (optional) progression order change (POC) marker segment (codestream main header)|
-|com ([section 7.12](#com-marker))|Properties from the (optional) comment (COM) marker segment (codestream main header)|
-|tileParts ([section 7.13](#tile-part))|Properties from individual tile parts|
+|crg ([section 7.12](#crg-marker))|Properties from the (optional) component registration (CRG) marker segment (codestream main header)|
+|com ([section 7.13](#com-marker))|Properties from the (optional) comment (COM) marker segment (codestream main header)|
+|tileParts ([section 7.14](#tile-part))|Properties from individual tile parts|
 
 ### Tests
 
@@ -1819,10 +1820,10 @@ siz
 |yTOsiz|Vertical offset from origin of reference grid to top side of first tile|
 |numberOfTiles|Number of tiles[^19]|
 |csiz|Number of components|
-|ssizSign<sup>\*</sup>|Indicates whether image component is signed or unsigned (repeated for each component)|
-|ssizDepth<sup>\*</sup>|Number of bits for this component (repeated for each component)|
-|xRsiz<sup>\*</sup>|Horizontal separation of sample of this component with respect to reference grid (repeated for each component)|
-|yRsiz<sup>\*</sup>|Vertical separation of sample of this component with respect to reference grid (repeated for each component)|
+|ssizSign<sup>\*</sup>|Indicates whether image component is signed or unsigned (repeated for all components)|
+|ssizDepth<sup>\*</sup>|Number of bits for this component (repeated for all components)|
+|xRsiz<sup>\*</sup>|Horizontal separation of sample of this component with respect to reference grid (repeated for all components)|
+|yRsiz<sup>\*</sup>|Vertical separation of sample of this component with respect to reference grid (repeated for all components)|
 
 ### Tests
 
@@ -1840,9 +1841,9 @@ siz
 |yTOsizIsValid|*yTOsiz* is within range [0,2<sup>32</sup> - 2]|
 |csizIsValid|*csiz* is within range [1,16384]|
 |lsizConsistentWithCsiz|*lsiz* equals 38 + 3\**csiz*|
-|ssizIsValid<sup>\*</sup>|*ssizDepth* is within range [1,38] (repeated for each component)|
-|xRsizIsValid<sup>\*</sup>|*xRsiz* is within range [1,255] (repeated for each component)|
-|yRsizIsValid<sup>\*</sup>|*yRsiz* is within range [1,255] (repeated for each component)|
+|ssizIsValid<sup>\*</sup>|*ssizDepth* is within range [1,38] (repeated for all components)|
+|xRsizIsValid<sup>\*</sup>|*xRsiz* is within range [1,255] (repeated for all components)|
+|yRsizIsValid<sup>\*</sup>|*yRsiz* is within range [1,255] (repeated for all components)|
 
 Coding style default (COD) marker segment {#cod-marker}
 ---------------------------------------------
@@ -1872,8 +1873,8 @@ cod
 |predTermination|Indicates predictable termination (“yes”/“no”)|
 |segmentationSymbols|Indicates use of segmentation symbols (“yes”/“no”)|
 |transformation|Wavelet transformation: “9-7 irreversible” or “5-3 reversible”|
-|precinctSizeX<sup>\*</sup>|Precinct width (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
-|precinctSizeY<sup>\*</sup>|Precinct heigth (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeX<sup>\*</sup>|Precinct width (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeY<sup>\*</sup>|Precinct heigth (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
 
 ### Tests
 
@@ -1888,8 +1889,8 @@ cod
 |codeBlockWidthExponentIsValid|*codeBlockWidthExponent* is within range [2,10]|
 |codeBlockHeightExponentIsValid|*codeBlockHeightExponent* is within range [2,10]|
 |sumHeightWidthExponentIsValid|*codeBlockWidthExponent* + *codeBlockHeightExponent* ≤ 12|
-|precinctSizeXIsValid<sup>\*</sup>|*precinctSizeX* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
-|precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeXIsValid<sup>\*</sup>|*precinctSizeX* ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
 
 Coding style component (COC) marker segment {#coc-marker}
 ------------------------------------------------
@@ -1915,8 +1916,8 @@ coc
 |predTermination|Indicates predictable termination (“yes”/“no”)|
 |segmentationSymbols|Indicates use of segmentation symbols (“yes”/“no”)|
 |transformation|Wavelet transformation: “9-7 irreversible” or “5-3 reversible”|
-|precinctSizeX<sup>\*</sup>|Precinct width (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
-|precinctSizeY<sup>\*</sup>|Precinct heigth (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeX<sup>\*</sup>|Precinct width (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeY<sup>\*</sup>|Precinct heigth (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
 
 ### Tests
 
@@ -1929,8 +1930,8 @@ coc
 |codeBlockWidthExponentIsValid|*codeBlockWidthExponent* is within range [2,10]|
 |codeBlockHeightExponentIsValid|*codeBlockHeightExponent* is within range [2,10]|
 |sumHeightWidthExponentIsValid|*codeBlockWidthExponent* + *codeBlockHeightExponent* ≤ 12|
-|precinctSizeXIsValid<sup>\*</sup>|*precinctSizeX* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
-|precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeXIsValid<sup>\*</sup>|*precinctSizeX* ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
  
 
 Region-of-interest (RGN) marker segment {#rgn-marker}
@@ -2031,12 +2032,35 @@ poc
 |Test name|True if|
 |:--------|:------|
 |lpocIsValid|*lpoc* is within range [9,65535]|
-|rspocIsValid|*rspoc* is within range [0,32]|
-|cspocIsValid|*cspoc* is within range [0,255] (*csiz* < 257) or [0,16383] (*csiz >= 257)|
-|lyepocIsValid|*lyepoc* is within range [1,65535]|
-|repocIsValid|*repoc* is within range [(*rspoc* + 1),65535]|
-|cepocIsValid|*cepoc* is within range [(*cspoc* + 1),255] (*csiz* < 257) or [(*cspoc* + 1),16384] (*csiz >= 257), or 0|
-|orderIsValid|*order* equals 0 (“LRCP”), 1 (“RLCP”), 2 (“RPCL”), 3 (“PCRL”) or 4 (“CPRL”)|
+|rspocIsValid<sup>\*</sup>|*rspoc* is within range [0,32] (repeated for all progression order changes)|
+|cspocIsValid<sup>\*</sup>|*cspoc* is within range [0,255] (*csiz* < 257) or [0,16383] (*csiz >= 257) (repeated for all progression order changes)|
+|lyepocIsValid<sup>\*</sup>|*lyepoc* is within range [1,65535] (repeated for all progression order changes)|
+|repocIsValid<sup>\*</sup>|*repoc* is within range [(*rspoc* + 1),65535] (repeated for all progression order changes)|
+|cepocIsValid<sup>\*</sup>|*cepoc* is within range [(*cspoc* + 1),255] (*csiz* < 257) or [(*cspoc* + 1),16384] (*csiz >= 257), or 0 (repeated for all progression order changes)|
+|orderIsValid<sup>\*</sup>|*order* equals 0 (“LRCP”), 1 (“RLCP”), 2 (“RPCL”), 3 (“PCRL”) or 4 (“CPRL”) (repeated for all progression order changes)|
+
+Component registration (CRG) marker segment {#crg-marker}
+------------------------------------------------
+
+### Element name
+
+crg
+
+### Reported properties
+
+|Property|Description|
+|:-------|:----------|
+|lcrg|Length of CRG marker segment in bytes|
+|xrg<sup>\*</sup>|Horizontal offset, in units of 1/65536 of *xRsiz* (repeated for all components)|
+|yrg<sup>\*</sup>|Vertical offset, in units of 1/65536 of *yRsiz* (repeated for all components)|
+
+### Tests
+
+|Test name|True if|
+|:--------|:------|
+|lcrgIsValid|*lcrg* is within range [6,65534]|
+|xcrgIsValid<sup>\*</sup>|*xcrg* is within range [0,65535] (repeated for all components)|
+|ycrgIsValid<sup>\*</sup>|*ycrg* is within range [0,65535] (repeated for all components)|
 
 Comment (COM) marker segment {#com-marker}
 --------------------------------
@@ -2078,14 +2102,14 @@ Each tile part element can contain a number of child elements:
 
 |Child element|Description|
 |:------------|:----------|
-|sot ([section 7.14](#sot-marker))|Properties from start of tile (SOT) marker segment|
+|sot ([section 7.15](#sot-marker))|Properties from start of tile (SOT) marker segment|
 |cod ([section 7.6](#cod-marker))|Properties from the (optional) coding style default (COD) marker segment (tile part header)|
 |coc ([section 7.7](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (tile part header)|
 |rgn ([section 7.8](#rgn-marker))|Properties from the (optional) region of interest (RGN) marker segment (tile part header)|
 |qcd ([section 7.9](#qcd-marker))|Properties from the (optional) quantization default (QCD) marker segment (tile part header)|
 |qcc ([section 7.10](#qcc-marker))|Properties from the (optional) quantization component (QCC) marker segment (tile part header)|
 |poc ([section 7.11](#poc-marker))|Properties from the (optional) progression order change (POC) marker segment (tile part header)|
-|com ([section 7.12](#com-marker))|Properties from the (optional) comment (COM) marker segment (tile part header)|
+|com ([section 7.13](#com-marker))|Properties from the (optional) comment (COM) marker segment (tile part header)|
 
 ### Tests
 
@@ -2174,27 +2198,6 @@ Tile-part lengths (TLM) marker segment {#tlm-marker}
 ### Element name
 
 tlm
-
-### Reported properties
-
-|Property|Description|
-|:-------|:----------|
-|||
-|||
-
-### Tests
-
-|Test name|True if|
-|:--------|:------|
-|||
-|||
-
-Component registration (CRG) marker segment {#crg-marker}
-------------------------------------------------
-
-### Element name
-
-crg
 
 ### Reported properties
 
