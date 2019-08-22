@@ -129,7 +129,7 @@ class BoxValidator:
         contentsStartOffset = 8
 
         # Read extended box length if box length value equals 1
-        # In that case contentsStartOffset should also be 16 (not 8!)
+        # In that case contentsStartOffset must also be 16 (not 8!)
         # (See ISO/IEC 15444-1 Section I.4)
         if boxLengthValue == 1:
             boxLengthValue = bc.bytesToULongLong(
@@ -259,7 +259,7 @@ class BoxValidator:
     def validate_signatureBox(self):
         """Signature box (ISO/IEC 15444-1 Section I.5.2)"""
 
-        # Check box size, which should be 4 bytes
+        # Check box size, which must be 4 bytes
         self.testFor("boxLengthIsValid", len(self.boxContents) == 4)
 
         # Signature *not* added to characteristics output, because it contains
@@ -289,9 +289,9 @@ class BoxValidator:
         minV = bc.bytesToUInt(self.boxContents[4:8])
         self.addCharacteristic("minV", minV)
 
-        # Value should be 0
+        # Value must be 0
         # Note that conforming readers should continue to process the file
-        # even if this field contains siome other value
+        # even if this field contains some other value
         self.testFor("minorVersionIsValid", minV == 0)
 
         # Compatibility list (one or more 4-byte fields)
@@ -305,7 +305,7 @@ class BoxValidator:
             cLList.append(cL)
             offset += 4
 
-        # Compatibility list should contain at least one field with mandatory value.
+        # Compatibility list must contain at least one field with mandatory value.
         # List is considered valid if this value is found.
         self.testFor("compatibilityListIsValid", b'\x6a\x70\x32\x20' in cLList)
 
@@ -347,7 +347,7 @@ class BoxValidator:
             'colourSpecificationBox'] in subBoxTypes)
 
         # If bPCSign equals 1 and bPCDepth equals 128 (equivalent to bPC field being
-        # 255), this box should contain a Bits Per Components box
+        # 255), this box must contain a Bits Per Components box
         sign = self.characteristics.findElementText('imageHeaderBox/bPCSign')
         depth = self.characteristics.findElementText('imageHeaderBox/bPCDepth')
 
@@ -380,14 +380,14 @@ class BoxValidator:
         self.testFor("noMoreThanOneResolutionBox", subBoxTypes.count(
             self.boxTagMap['resolutionBox']) <= 1)
 
-        # In case of multiple colour specification boxes, they should appear contiguously
+        # In case of multiple colour specification boxes, they must appear contiguously
         # within the header box
         colourSpecificationBoxesAreContiguous = shared.listOccurrencesAreContiguous(
             subBoxTypes, self.boxTagMap['colourSpecificationBox'])
         self.testFor("colourSpecificationBoxesAreContiguous",
                      colourSpecificationBoxesAreContiguous)
 
-        # If JP2 Header box contains a Palette Box, it should also contain a component
+        # If JP2 Header box contains a Palette Box, it must also contain a component
         # mapping box, and vice versa
         if ((self.boxTagMap['paletteBox'] in subBoxTypes and self.boxTagMap['componentMappingBox']
              not in subBoxTypes) or (self.boxTagMap['componentMappingBox'] in subBoxTypes and
@@ -414,7 +414,7 @@ class BoxValidator:
         width = bc.bytesToUInt(self.boxContents[4:8])
         self.addCharacteristic("width", width)
 
-        # Height and width should be within range 1 - (2**32)-1
+        # Height and width must be within range 1 - (2**32)-1
         self.testFor("heightIsValid", 1 <= height <= (2 ** 32) - 1)
         self.testFor("widthIsValid", 1 <= width <= (2 ** 32) - 1)
 
@@ -422,7 +422,7 @@ class BoxValidator:
         nC = bc.bytesToUShortInt(self.boxContents[8:10])
         self.addCharacteristic("nC", nC)
 
-        # Number of components should be in range 1 - 16384 (including limits)
+        # Number of components must be in range 1 - 16384 (including limits)
         self.testFor("nCIsValid", 1 <= nC <= 16384)
 
         # Bits per component (unsigned character)
@@ -455,21 +455,21 @@ class BoxValidator:
         c = bc.bytesToUnsignedChar(self.boxContents[11:12])
         self.addCharacteristic("c", c)
 
-        # Value should always be 7
+        # Value must always be 7
         self.testFor("cIsValid", c == 7)
 
         # Colourspace unknown field (unsigned character)
         unkC = bc.bytesToUnsignedChar(self.boxContents[12:13])
         self.addCharacteristic("unkC", unkC)
 
-        # Value should be 0 or 1
+        # Value must be 0 or 1
         self.testFor("unkCIsValid", 0 <= unkC <= 1)
 
         # Intellectual Property field (unsigned character)
         iPR = bc.bytesToUnsignedChar(self.boxContents[13:14])
         self.addCharacteristic("iPR", iPR)
 
-        # Value should be 0 or 1
+        # Value must be 0 or 1
         self.testFor("iPRIsValid", 0 <= iPR <= 1)
 
     def validate_bitsPerComponentBox(self):
@@ -512,7 +512,7 @@ class BoxValidator:
         meth = bc.bytesToUnsignedChar(self.boxContents[0:1])
         self.addCharacteristic("meth", meth)
 
-        # Value should be 1 (enumerated colourspace) or 2 (restricted ICC
+        # Value must be 1 (enumerated colourspace) or 2 (restricted ICC
         # profile)
         self.testFor("methIsValid", 1 <= meth <= 2)
 
@@ -553,7 +553,7 @@ class BoxValidator:
             iccCharacteristics = iccResults.characteristics
             self.characteristics.append(iccCharacteristics)
 
-            # Profile size property should equal actual profile size
+            # Profile size property must equal actual profile size
             profileSize = iccCharacteristics.findElementText('profileSize')
             self.testFor("iccSizeIsValid", profileSize == len(profile))
 
@@ -884,7 +884,7 @@ class BoxValidator:
                 self.boxContents[offset + 3:offset + 4])
             self.addCharacteristic("pCol", pCol)
 
-            # If mTyp equals 0, pCol should be 0 as well
+            # If mTyp equals 0, pCol must be 0 as well
             if mTyp == 0:
                 pColIsValid = pCol == 0
             else:
@@ -994,7 +994,7 @@ class BoxValidator:
     def validate_captureResolutionBox(self):
         """Capture  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.1)"""
 
-        # Check box size, which should be 10 bytes
+        # Check box size, which must be 10 bytes
         self.testFor("boxLengthIsValid", len(self.boxContents) == 10)
 
         # Vertical / horizontal grid resolution numerators and denominators:
@@ -1054,7 +1054,7 @@ class BoxValidator:
     def validate_displayResolutionBox(self):
         """Default Display  Resolution Box (ISO/IEC 15444-1 Section I.5.3.7.2)"""
 
-        # Check box size, which should be 10 bytes
+        # Check box size, which must be 10 bytes
         self.testFor("boxLengthIsValid", len(self.boxContents) == 10)
 
         # Vertical / horizontal grid resolution numerators and denominators:
@@ -1120,16 +1120,16 @@ class BoxValidator:
         # Keep track of byte offsets
         offset = 0
 
-        # Read first marker segment. This should be the start-of-codestream
+        # Read first marker segment. This must be the start-of-codestream
         # marker
         marker, segLength, segContents, offsetNext = self._getMarkerSegment(
             offset)
 
-        # Marker should be start-of-codestream marker
+        # Marker must be start-of-codestream marker
         self.testFor("codestreamStartsWithSOCMarker", marker == b'\xff\x4f')
         offset = offsetNext
 
-        # Read next marker segment. This should be the SIZ (image and tile
+        # Read next marker segment. This must be the SIZ (image and tile
         # size) marker
         marker, segLength, segContents, offsetNext = self._getMarkerSegment(
             offset)
@@ -1366,11 +1366,11 @@ class BoxValidator:
                         # this loop
                         break
 
-            # Length of tileIndices should equal numberOfTilesExpected
+            # Length of tileIndices must equal numberOfTilesExpected
             self.testFor("foundExpectedNumberOfTiles", len(
                 tileIndices) == numberOfTilesExpected)
 
-            # Found numbers of tile	parts per tile should match expected
+            # Found numbers of tile	parts per tile must match expected
             self.testFor("foundExpectedNumberOfTileParts", len(
                 set(tilePartsPerTileExpected.items()) - set(tilePartsPerTileFound.items())) == 0)
 
@@ -1400,7 +1400,7 @@ class BoxValidator:
             if len(cqccValues) > 0:
                 self.testFor("maxOneCqccPerComponent", len(set(cqccValues)) == len(cqccValues))
 
-            # Last 2 bytes should be end-of-codestream marker
+            # Last 2 bytes must be end-of-codestream marker
             self.testFor(
                 "foundEOCMarker", self.boxContents[length - 2:length] == b'\xff\xd9')
 
@@ -1418,56 +1418,56 @@ class BoxValidator:
         lsiz = bc.bytesToUShortInt(self.boxContents[0:2])
         self.addCharacteristic("lsiz", lsiz)
 
-        # lsiz should be within range 41-49190
+        # lsiz must be within range 41-49190
         self.testFor("lsizIsValid", 41 <= lsiz <= 49190)
 
         # Decoder capabilities
         rsiz = bc.bytesToUShortInt(self.boxContents[2:4])
         self.addCharacteristic("rsiz", rsiz)
 
-        # rsiz should be either 0, 1 or 2
+        # rsiz must be either 0, 1 or 2
         self.testFor("rsizIsValid", rsiz in [0, 1, 2])
 
         # Width of reference grid
         xsiz = bc.bytesToUInt(self.boxContents[4:8])
         self.addCharacteristic("xsiz", xsiz)
 
-        # xsiz should be within range 1 - (2**32)-1
+        # xsiz must be within range 1 - (2**32)-1
         self.testFor("xsizIsValid", 1 <= xsiz <= (2 ** 32) - 1)
 
         # Heigth of reference grid
         ysiz = bc.bytesToUInt(self.boxContents[8:12])
         self.addCharacteristic("ysiz", ysiz)
 
-        # ysiz should be within range 1 - (2**32)-1
+        # ysiz must be within range 1 - (2**32)-1
         self.testFor("ysizIsValid", 1 <= ysiz <= (2 ** 32) - 1)
 
         # Horizontal offset from origin of reference grid to left of image area
         xOsiz = bc.bytesToUInt(self.boxContents[12:16])
         self.addCharacteristic("xOsiz", xOsiz)
 
-        # xOsiz should be within range 0 - (2**32)-2
+        # xOsiz must be within range 0 - (2**32)-2
         self.testFor("xOsizIsValid", 0 <= xOsiz <= (2 ** 32) - 2)
 
         # Vertical offset from origin of reference grid to top of image area
         yOsiz = bc.bytesToUInt(self.boxContents[16:20])
         self.addCharacteristic("yOsiz", yOsiz)
 
-        # yOsiz should be within range 0 - (2**32)-2
+        # yOsiz must be within range 0 - (2**32)-2
         self.testFor("yOsizIsValid", 0 <= yOsiz <= (2 ** 32) - 2)
 
         # Width of one reference tile with respect to the reference grid
         xTsiz = bc.bytesToUInt(self.boxContents[20:24])
         self.addCharacteristic("xTsiz", xTsiz)
 
-        # xTsiz should be within range 1 - (2**32)- 1
+        # xTsiz must be within range 1 - (2**32)- 1
         self.testFor("xTsizIsValid", 1 <= xTsiz <= (2 ** 32) - 1)
 
         # Height of one reference tile with respect to the reference grid
         yTsiz = bc.bytesToUInt(self.boxContents[24:28])
         self.addCharacteristic("yTsiz", yTsiz)
 
-        # yTsiz should be within range 1 - (2**32)- 1
+        # yTsiz must be within range 1 - (2**32)- 1
         self.testFor("yTsizIsValid", 1 <= yTsiz <= (2 ** 32) - 1)
 
         # Horizontal offset from origin of reference grid to left side of first
@@ -1475,7 +1475,7 @@ class BoxValidator:
         xTOsiz = bc.bytesToUInt(self.boxContents[28:32])
         self.addCharacteristic("xTOsiz", xTOsiz)
 
-        # xTOsiz should be within range 0 - (2**32)-2
+        # xTOsiz must be within range 0 - (2**32)-2
         self.testFor("xTOsizIsValid", 0 <= xTOsiz <= (2 ** 32) - 2)
 
         # Vertical offset from origin of reference grid to top side of first
@@ -1483,7 +1483,7 @@ class BoxValidator:
         yTOsiz = bc.bytesToUInt(self.boxContents[32:36])
         self.addCharacteristic("yTOsiz", yTOsiz)
 
-        # yTOsiz should be within range 0 - (2**32)-2
+        # yTOsiz must be within range 0 - (2**32)-2
         self.testFor("yTOsizIsValid", 0 <= yTOsiz <= (2 ** 32) - 2)
 
         # Number of tiles
@@ -1503,7 +1503,7 @@ class BoxValidator:
         csiz = bc.bytesToUShortInt(self.boxContents[36:38])
         self.addCharacteristic("csiz", csiz)
 
-        # Number of components should be in range 1 - 16384 (including limits)
+        # Number of components must be in range 1 - 16384 (including limits)
         self.testFor("csizIsValid", 1 <= csiz <= 16384)
 
         # Check if codestream header size is consistent with csiz
@@ -1561,7 +1561,7 @@ class BoxValidator:
         lcod = bc.bytesToUShortInt(self.boxContents[0:2])
         self.addCharacteristic("lcod", lcod)
 
-        # lcod should be in range 12-45
+        # lcod must be in range 12-45
         lcodIsValid = 12 <= lcod <= 45
         self.testFor("lcodIsValid", lcodIsValid)
 
@@ -1603,7 +1603,7 @@ class BoxValidator:
         layers = bc.bytesToUShortInt(sGcod[1:3])
         self.addCharacteristic("layers", layers)
 
-        # layers should be in range 1-65535
+        # layers must be in range 1-65535
         layersIsValid = 1 <= layers <= 65535
         self.testFor("layersIsValid", layersIsValid)
 
@@ -1612,7 +1612,7 @@ class BoxValidator:
         self.addCharacteristic(
             "multipleComponentTransformation", multipleComponentTransformation)
 
-        # Value should be 0 (no transformation) or 1 (transformation on components
+        # Value must be 0 (no transformation) or 1 (transformation on components
         # 0,1 and 2)
         multipleComponentTransformationIsValid = multipleComponentTransformation in [
             0, 1]
@@ -1626,7 +1626,7 @@ class BoxValidator:
         levels = bc.bytesToUnsignedChar(self.boxContents[7:8])
         self.addCharacteristic("levels", levels)
 
-        # levels should be within range 0-32
+        # levels must be within range 0-32
         levelsIsValid = 0 <= levels <= 32
         self.testFor("levelsIsValid", levelsIsValid)
 
@@ -1663,7 +1663,7 @@ class BoxValidator:
         self.testFor(
             "codeBlockHeightExponentIsValid", codeBlockHeightExponentIsValid)
 
-        # Sum of width + height exponents shouldn't exceed 12
+        # Sum of width + height exponents mustn't exceed 12
         sumHeightWidthExponentIsValid = codeBlockWidthExponent + \
             codeBlockHeightExponent <= 12
         self.testFor(
@@ -1764,7 +1764,7 @@ class BoxValidator:
         lcoc = bc.bytesToUShortInt(self.boxContents[0:2])
         self.addCharacteristic("lcoc", lcoc)
 
-        # lcod should be in range 9-43
+        # lcod must be in range 9-43
         lcocIsValid = 9 <= lcoc <= 43
         self.testFor("lcocIsValid", lcocIsValid)
 
@@ -1797,7 +1797,7 @@ class BoxValidator:
         levels = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
         self.addCharacteristic("levels", levels)
 
-        # levels should be within range 0-32
+        # levels must be within range 0-32
         levelsIsValid = 0 <= levels <= 32
         self.testFor("levelsIsValid", levelsIsValid)
 
@@ -1841,7 +1841,7 @@ class BoxValidator:
         self.testFor(
             "codeBlockHeightExponentIsValid", codeBlockHeightExponentIsValid)
 
-        # Sum of width + height exponents shouldn't exceed 12
+        # Sum of width + height exponents mustn't exceed 12
         sumHeightWidthExponentIsValid = codeBlockWidthExponent + \
             codeBlockHeightExponent <= 12
         self.testFor(
@@ -1991,7 +1991,7 @@ class BoxValidator:
         lqcd = bc.bytesToUShortInt(self.boxContents[0:2])
         self.addCharacteristic("lqcd", lqcd)
 
-        # lqcd should be in range 4-197
+        # lqcd must be in range 4-197
         lqcdIsValid = 4 <= lqcd <= 197
         self.testFor("lqcdIsValid", lqcdIsValid)
 
@@ -2071,7 +2071,7 @@ class BoxValidator:
         lqcc = bc.bytesToUShortInt(self.boxContents[0:2])
         self.addCharacteristic("lqcc", lqcc)
 
-        # lqcc should be in range 5-199
+        # lqcc must be in range 5-199
         lqccIsValid = 5 <= lqcc <= 199
         self.testFor("lqccIsValid", lqccIsValid)
 
@@ -2277,7 +2277,7 @@ class BoxValidator:
         lcom = bc.bytesToUShortInt(self.boxContents[0:2])
         self.addCharacteristic("lcom", lcom)
 
-        # lcom should be in range 5-65535
+        # lcom must be in range 5-65535
         lcomIsValid = 5 <= lcom <= 65535
         self.testFor("lcomIsValid", lcomIsValid)
 
@@ -2285,7 +2285,7 @@ class BoxValidator:
         rcom = bc.bytesToUShortInt(self.boxContents[2:4])
         self.addCharacteristic("rcom", rcom)
 
-        # rcom should be either 0 (binary values) or 1 (ISO/IEC 8859-15 (Latin)
+        # rcom must be either 0 (binary values) or 1 (ISO/IEC 8859-15 (Latin)
         # values)
         rcomIsValid = 0 <= rcom <= 1
         self.testFor("rcomIsValid", rcomIsValid)
@@ -2341,7 +2341,7 @@ class BoxValidator:
         lsot = bc.bytesToUShortInt(self.boxContents[0:2])
         self.addCharacteristic("lsot", lsot)
 
-        # lsot should be 10
+        # lsot must be 10
         lsotIsValid = lsot == 10
         self.testFor("lsotIsValid", lsotIsValid)
 
@@ -2349,7 +2349,7 @@ class BoxValidator:
         isot = bc.bytesToUShortInt(self.boxContents[2:4])
         self.addCharacteristic("isot", isot)
 
-        # Tile index should be in range 0-65534
+        # Tile index must be in range 0-65534
         isotIsValid = 0 <= isot <= 65534
         self.testFor("isotIsValid", isotIsValid)
 
@@ -2558,7 +2558,7 @@ class BoxValidator:
                 # not allowed here!!
                 offset = offsetNext
 
-        # Last marker segment should be start-of-data (SOD) marker
+        # Last marker segment must be start-of-data (SOD) marker
         self.testFor("foundSODMarker", marker == b'\xff\x93')
 
         # Bugfix 1.5.2: previous versions mistakenly assumed SOD at self.startOffset + 12!
@@ -2585,7 +2585,7 @@ class BoxValidator:
 
         data = self.boxContents
 
-        # Data should be well-formed XML. Try to parse data to Element
+        # Data must be well-formed XML. Try to parse data to Element
         # instance.
 
         try:
@@ -2624,7 +2624,7 @@ class BoxValidator:
 
         boxLength = len(self.boxContents)
 
-        # Check box size, which should be greater than 16 bytes
+        # Check box size, which must be greater than 16 bytes
         self.testFor("boxLengthIsValid", boxLength > 16)
 
         # First 16 bytes contain UUID, convert to string of hex digits
@@ -2635,7 +2635,7 @@ class BoxValidator:
             # XMP packet
             data = self.boxContents[16:boxLength]
 
-            # Data should be well-formed XML. Try to parse data to Element
+            # Data must be well-formed XML. Try to parse data to Element
             # instance.
 
             try:
@@ -2745,7 +2745,7 @@ class BoxValidator:
         # readily supported in Python we'll treat it as a bytes object)
         flag = self.boxContents[1:4]
 
-        # All bytes should be 0
+        # All bytes must be 0
         self.testFor("flagIsValid", flag == b'\x00\x00\x00')
 
         # Location: this is the actual URL, encoded as a UTF-8 string
@@ -2827,7 +2827,7 @@ class BoxValidator:
             "containsContiguousCodestreamBox", containsContiguousCodestreamBox)
 
         # If iPR field in image header box equals 1, intellectual property box
-        # should exist as well
+        # must exist as well
         iPR = self.characteristics.findElementText(
             'jp2HeaderBox/imageHeaderBox/iPR')
 
@@ -2899,7 +2899,7 @@ class BoxValidator:
 
         if jp2ImageHeader is not None and sizHeader is not None:
 
-            # Height should be equal to ysiz -yOsiz
+            # Height must be equal to ysiz -yOsiz
 
             height = jp2ImageHeader.findElementText('height')
             ysiz = sizHeader.findElementText('ysiz')
@@ -2908,7 +2908,7 @@ class BoxValidator:
             heightConsistentWithSIZ = height == (ysiz - yOsiz)
             self.testFor("heightConsistentWithSIZ", heightConsistentWithSIZ)
 
-            # Width should be equal to xsiz - xOsiz
+            # Width must be equal to xsiz - xOsiz
             width = jp2ImageHeader.findElementText('width')
             xsiz = sizHeader.findElementText('xsiz')
             xOsiz = sizHeader.findElementText('xOsiz')
@@ -2916,14 +2916,14 @@ class BoxValidator:
             widthConsistentWithSIZ = width == (xsiz - xOsiz)
             self.testFor("widthConsistentWithSIZ", widthConsistentWithSIZ)
 
-            # nC should be equal to csiz
+            # nC must be equal to csiz
             nC = jp2ImageHeader.findElementText('nC')
             csiz = sizHeader.findElementText('csiz')
 
             nCConsistentWithSIZ = nC == csiz
             self.testFor("nCConsistentWithSIZ", nCConsistentWithSIZ)
 
-            # Bits per component: bPCSign should be equal to ssizSign,
+            # Bits per component: bPCSign must be equal to ssizSign,
             # and bPCDepth to ssizDepth
             #
             # There can be 2 situations here:
@@ -2981,11 +2981,11 @@ class BoxValidator:
             # All occurrences of ssizDepth to list
             ssizDepthValues = sizHeader.findAllText('ssizDepth')
 
-            # bPCSignValues should be equal to ssizSignValues
+            # bPCSignValues must be equal to ssizSignValues
             bPCSignConsistentWithSIZ = bPCSignValues == ssizSignValues
             self.testFor("bPCSignConsistentWithSIZ", bPCSignConsistentWithSIZ)
 
-            # bPCDepthValues should be equal to ssizDepthValues
+            # bPCDepthValues must be equal to ssizDepthValues
             bPCDepthConsistentWithSIZ = bPCDepthValues == ssizDepthValues
             self.testFor(
                 "bPCDepthConsistentWithSIZ", bPCDepthConsistentWithSIZ)
