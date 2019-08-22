@@ -81,13 +81,13 @@ title: User Manual
 <li><a href="#qcd-marker"><span class="toc-section-number">7.9</span> Quantization default (QCD) marker segment</a></li>
 <li><a href="#qcc-marker"><span class="toc-section-number">7.10</span> Quantization component (QCC) marker segment</a></li>
 <li><a href="#poc-marker"><span class="toc-section-number">7.11</span> Progression order change (POC) marker segment</a></li>
-<li><a href="#com-marker"><span class="toc-section-number">7.12</span> Comment (COM) marker segment</a></li>
-<li><a href="#tile-part"><span class="toc-section-number">7.13</span> Tile part (child of Contiguous Codestream box)</a></li>
-<li><a href="#sot-marker"><span class="toc-section-number">7.14</span> Start of tile part (SOT) marker segment (child of tile part)</a></li>
-<li><a href="#plm-marker"><span class="toc-section-number">7.15</span> Packet length, main header (PLM) marker segment</a></li>
-<li><a href="#ppm-marker"><span class="toc-section-number">7.16</span> Packed packet headers, main header (PPM) marker segment</a></li>
-<li><a href="#tlm-marker"><span class="toc-section-number">7.17</span> Tile-part lengths (TLM) marker segment</a></li>
-<li><a href="#crg-marker"><span class="toc-section-number">7.18</span> Component registration (CRG) marker segment</a></li>
+<li><a href="#crg-marker"><span class="toc-section-number">7.12</span> Component registration (CRG) marker segment</a></li>
+<li><a href="#com-marker"><span class="toc-section-number">7.13</span> Comment (COM) marker segment</a></li>
+<li><a href="#tile-part"><span class="toc-section-number">7.14</span> Tile part (child of Contiguous Codestream box)</a></li>
+<li><a href="#sot-marker"><span class="toc-section-number">7.15</span> Start of tile part (SOT) marker segment (child of tile part)</a></li>
+<li><a href="#plm-marker"><span class="toc-section-number">7.16</span> Packet length, main header (PLM) marker segment</a></li>
+<li><a href="#ppm-marker"><span class="toc-section-number">7.17</span> Packed packet headers, main header (PPM) marker segment</a></li>
+<li><a href="#tlm-marker"><span class="toc-section-number">7.18</span> Tile-part lengths (TLM) marker segment</a></li>
 <li><a href="#plt-marker"><span class="toc-section-number">7.19</span> Packet length, tile-part header (PLT) marker segment</a></li>
 <li><a href="#ppt-marker"><span class="toc-section-number">7.20</span> Packed packet headers, tile-part header (PPT) marker segment</a></li>
 </ul></li>
@@ -890,11 +890,11 @@ User warning: unknown error (please report to developers)</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">bPCSign<sup>*</sup></td>
-<td style="text-align: left;">Indicates whether image component is signed or unsigned (repeated for each component)</td>
+<td style="text-align: left;">Indicates whether image component is signed or unsigned (repeated for all components)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">bPCDepth<sup>*</sup></td>
-<td style="text-align: left;">Number of bits for this component (repeated for each component)</td>
+<td style="text-align: left;">Number of bits for this component (repeated for all components)</td>
 </tr>
 </tbody>
 </table>
@@ -909,7 +909,7 @@ User warning: unknown error (please report to developers)</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">bPCIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>bPCDepth</em> is within range [1,38] (repeated for each component)</td>
+<td style="text-align: left;"><em>bPCDepth</em> is within range [1,38] (repeated for all components)</td>
 </tr>
 </tbody>
 </table>
@@ -1052,7 +1052,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">tag<sup>*</sup></td>
-<td style="text-align: left;">Signature of profile tag (repeated for each tag in the profile)</td>
+<td style="text-align: left;">Signature of profile tag (repeated for all tags in the profile)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">description</td>
@@ -1122,15 +1122,15 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">bSign<sup>*</sup></td>
-<td style="text-align: left;">Indicates whether values created by this palette column are signed or unsigned (repeated for each column)</td>
+<td style="text-align: left;">Indicates whether values created by this palette column are signed or unsigned (repeated for all columns)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">bDepth<sup>*</sup></td>
-<td style="text-align: left;">Bit depth of values created by this palette column (repeated for each column)</td>
+<td style="text-align: left;">Bit depth of values created by this palette column (repeated for all columns)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">cP<sup>**</sup></td>
-<td style="text-align: left;">Value for this entry (repeated for each column, and for the number of entries)</td>
+<td style="text-align: left;">Value for this entry (repeated for all columns, and for the number of entries)</td>
 </tr>
 </tbody>
 </table>
@@ -1153,7 +1153,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">bDepthIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>bDepth</em> is within range [1,38] (repeated for each column)</td>
+<td style="text-align: left;"><em>bDepth</em> is within range [1,38] (repeated for all columns)</td>
 </tr>
 </tbody>
 </table>
@@ -1172,15 +1172,15 @@ User warning: unknown error (please report to developers)</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">cMP<sup>*</sup></td>
-<td style="text-align: left;">Component index (repeated for each channel)</td>
+<td style="text-align: left;">Component index (repeated for all channels)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">mTyp<sup>*</sup></td>
-<td style="text-align: left;">Specifies how channel is generated from codestream component (repeated for each channel)</td>
+<td style="text-align: left;">Specifies how channel is generated from codestream component (repeated for all channels)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">pCol<sup>*</sup></td>
-<td style="text-align: left;">Palette component index (repeated for each channel)</td>
+<td style="text-align: left;">Palette component index (repeated for all channels)</td>
 </tr>
 </tbody>
 </table>
@@ -1199,11 +1199,11 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">mTypIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>mTyp</em> is within range [0,1] (repeated for each channel)</td>
+<td style="text-align: left;"><em>mTyp</em> is within range [0,1] (repeated for all channels)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">pColIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>pCol</em> is 0 if <em>mTyp</em> is 0 (repeated for each channel)</td>
+<td style="text-align: left;"><em>pCol</em> is 0 if <em>mTyp</em> is 0 (repeated for all channels)</td>
 </tr>
 </tbody>
 </table>
@@ -1226,15 +1226,15 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">cN<sup>*</sup></td>
-<td style="text-align: left;">Channel index (repeated for each channel)</td>
+<td style="text-align: left;">Channel index (repeated for all channels)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">cTyp<sup>*</sup></td>
-<td style="text-align: left;">Channel type (repeated for each channel)</td>
+<td style="text-align: left;">Channel type (repeated for all channels)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">cAssoc<sup>*</sup></td>
-<td style="text-align: left;">Channel association (repeated for each channel)</td>
+<td style="text-align: left;">Channel association (repeated for all channels)</td>
 </tr>
 </tbody>
 </table>
@@ -1257,15 +1257,15 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">cNIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>cN</em> is within range [0, 65535] (repeated for each channel)</td>
+<td style="text-align: left;"><em>cN</em> is within range [0, 65535] (repeated for all channels)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">cTypIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>cType</em> is within range [0, 65535] (repeated for each channel)</td>
+<td style="text-align: left;"><em>cType</em> is within range [0, 65535] (repeated for all channels)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">cAssocIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>cAssoc</em> is within range [0, 65535] (repeated for each channel)</td>
+<td style="text-align: left;"><em>cAssoc</em> is within range [0, 65535] (repeated for all channels)</td>
 </tr>
 </tbody>
 </table>
@@ -1990,7 +1990,7 @@ User warning: unknown error (please report to developers)</code></pre>
 <td style="text-align: left;">Properties from the (optional) coding style component (COC) marker segment (codestream main header)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">coc (<a href="#rgn-marker">section 7.8</a>)</td>
+<td style="text-align: left;">rgn (<a href="#rgn-marker">section 7.8</a>)</td>
 <td style="text-align: left;">Properties from the (optional) region of interest (RGN) marker segment (codestream main header)</td>
 </tr>
 <tr class="odd">
@@ -2006,11 +2006,15 @@ User warning: unknown error (please report to developers)</code></pre>
 <td style="text-align: left;">Properties from the (optional) progression order change (POC) marker segment (codestream main header)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">com (<a href="#com-marker">section 7.12</a>)</td>
-<td style="text-align: left;">Properties from the (optional) comment (COM) marker segment (codestream main header)</td>
+<td style="text-align: left;">crg (<a href="#crg-marker">section 7.12</a>)</td>
+<td style="text-align: left;">Properties from the (optional) component registration (CRG) marker segment (codestream main header)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">tileParts (<a href="#tile-part">section 7.13</a>)</td>
+<td style="text-align: left;">com (<a href="#com-marker">section 7.13</a>)</td>
+<td style="text-align: left;">Properties from the (optional) comment (COM) marker segment (codestream main header)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tileParts (<a href="#tile-part">section 7.14</a>)</td>
 <td style="text-align: left;">Properties from individual tile parts</td>
 </tr>
 </tbody>
@@ -2124,19 +2128,19 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">ssizSign<sup>*</sup></td>
-<td style="text-align: left;">Indicates whether image component is signed or unsigned (repeated for each component)</td>
+<td style="text-align: left;">Indicates whether image component is signed or unsigned (repeated for all components)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">ssizDepth<sup>*</sup></td>
-<td style="text-align: left;">Number of bits for this component (repeated for each component)</td>
+<td style="text-align: left;">Number of bits for this component (repeated for all components)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">xRsiz<sup>*</sup></td>
-<td style="text-align: left;">Horizontal separation of sample of this component with respect to reference grid (repeated for each component)</td>
+<td style="text-align: left;">Horizontal separation of sample of this component with respect to reference grid (repeated for all components)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">yRsiz<sup>*</sup></td>
-<td style="text-align: left;">Vertical separation of sample of this component with respect to reference grid (repeated for each component)</td>
+<td style="text-align: left;">Vertical separation of sample of this component with respect to reference grid (repeated for all components)</td>
 </tr>
 </tbody>
 </table>
@@ -2199,15 +2203,15 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">ssizIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>ssizDepth</em> is within range [1,38] (repeated for each component)</td>
+<td style="text-align: left;"><em>ssizDepth</em> is within range [1,38] (repeated for all components)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">xRsizIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>xRsiz</em> is within range [1,255] (repeated for each component)</td>
+<td style="text-align: left;"><em>xRsiz</em> is within range [1,255] (repeated for all components)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">yRsizIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>yRsiz</em> is within range [1,255] (repeated for each component)</td>
+<td style="text-align: left;"><em>yRsiz</em> is within range [1,255] (repeated for all components)</td>
 </tr>
 </tbody>
 </table>
@@ -2293,11 +2297,11 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">precinctSizeX<sup>*</sup></td>
-<td style="text-align: left;">Precinct width (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;">Precinct width (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">precinctSizeY<sup>*</sup></td>
-<td style="text-align: left;">Precinct heigth (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;">Precinct heigth (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
 </tr>
 </tbody>
 </table>
@@ -2348,11 +2352,11 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">precinctSizeXIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>precinctSizeX</em> ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;"><em>precinctSizeX</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">precinctSizeYIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>precinctSizeY</em> ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;"><em>precinctSizeY</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
 </tr>
 </tbody>
 </table>
@@ -2422,11 +2426,11 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">precinctSizeX<sup>*</sup></td>
-<td style="text-align: left;">Precinct width (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;">Precinct width (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">precinctSizeY<sup>*</sup></td>
-<td style="text-align: left;">Precinct heigth (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;">Precinct heigth (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
 </tr>
 </tbody>
 </table>
@@ -2469,11 +2473,11 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">precinctSizeXIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>precinctSizeX</em> ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;"><em>precinctSizeX</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">precinctSizeYIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>precinctSizeY</em> ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;"><em>precinctSizeY</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
 </tr>
 </tbody>
 </table>
@@ -2498,11 +2502,11 @@ User warning: unknown error (please report to developers)</code></pre>
 <td style="text-align: left;">Index of the component to which this marker segment relates</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">srgn</td>
+<td style="text-align: left;">roiStyle</td>
 <td style="text-align: left;">ROI style for the current ROI</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">sprgn</td>
+<td style="text-align: left;">roiShift</td>
 <td style="text-align: left;">Implicit ROI shift</td>
 </tr>
 </tbody>
@@ -2525,12 +2529,12 @@ User warning: unknown error (please report to developers)</code></pre>
 <td style="text-align: left;"><em>crgn</em> is within range [0,255] (<em>csiz</em> &lt; 257) or [0,16383] (<em>csiz</em> &gt;= 257)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">srgnIsValid</td>
-<td style="text-align: left;"><em>srgn</em> equals 0 (“Implicit ROI (maximum shift)”)</td>
+<td style="text-align: left;">roiStyleIsValid</td>
+<td style="text-align: left;"><em>roiStyle</em> equals 0 (“Implicit ROI (maximum shift)”)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">sprgnIsValid</td>
-<td style="text-align: left;"><em>sprgn</em> is within range [0,255]</td>
+<td style="text-align: left;">roiShiftIsValid</td>
+<td style="text-align: left;"><em>roiShift</em> is within range [0,255]</td>
 </tr>
 </tbody>
 </table>
@@ -2700,35 +2704,84 @@ User warning: unknown error (please report to developers)</code></pre>
 <td style="text-align: left;"><em>lpoc</em> is within range [9,65535]</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">rspocIsValid</td>
-<td style="text-align: left;"><em>rspoc</em> is within range [0,32]</td>
+<td style="text-align: left;">rspocIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>rspoc</em> is within range [0,32] (repeated for all progression order changes)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">cspocIsValid</td>
-<td style="text-align: left;"><em>cspoc</em> is within range [0,255] (<em>csiz</em> &lt; 257) or [0,16383] (*csiz &gt;= 257)</td>
+<td style="text-align: left;">cspocIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>cspoc</em> is within range [0,255] (<em>csiz</em> &lt; 257) or [0,16383] (*csiz &gt;= 257) (repeated for all progression order changes)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">lyepocIsValid</td>
-<td style="text-align: left;"><em>lyepoc</em> is within range [1,65535]</td>
+<td style="text-align: left;">lyepocIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>lyepoc</em> is within range [1,65535] (repeated for all progression order changes)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">repocIsValid</td>
-<td style="text-align: left;"><em>repoc</em> is within range [(<em>rspoc</em> + 1),65535]</td>
+<td style="text-align: left;">repocIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>repoc</em> is within range [(<em>rspoc</em> + 1),65535] (repeated for all progression order changes)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">cepocIsValid</td>
-<td style="text-align: left;"><em>cepoc</em> is within range [(<em>cspoc</em> + 1),255] (<em>csiz</em> &lt; 257) or [(<em>cspoc</em> + 1),16384] (*csiz &gt;= 257), or 0</td>
+<td style="text-align: left;">cepocIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>cepoc</em> is within range [(<em>cspoc</em> + 1),255] (<em>csiz</em> &lt; 257) or [(<em>cspoc</em> + 1),16384] (*csiz &gt;= 257), or 0 (repeated for all progression order changes)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">orderIsValid</td>
-<td style="text-align: left;"><em>order</em> equals 0 (“LRCP”), 1 (“RLCP”), 2 (“RPCL”), 3 (“PCRL”) or 4 (“CPRL”)</td>
+<td style="text-align: left;">orderIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>order</em> equals 0 (“LRCP”), 1 (“RLCP”), 2 (“RPCL”), 3 (“PCRL”) or 4 (“CPRL”) (repeated for all progression order changes)</td>
 </tr>
 </tbody>
 </table>
-<h2 id="com-marker"><span class="header-section-number">7.12</span> Comment (COM) marker segment</h2>
+<h2 id="crg-marker"><span class="header-section-number">7.12</span> Component registration (CRG) marker segment</h2>
 <h3 id="element-name-27"><span class="header-section-number">7.12.1</span> Element name</h3>
-<p>com</p>
+<p>crg</p>
 <h3 id="reported-properties-27"><span class="header-section-number">7.12.2</span> Reported properties</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lcrg</td>
+<td style="text-align: left;">Length of CRG marker segment in bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">xrg<sup>*</sup></td>
+<td style="text-align: left;">Horizontal offset, in units of 1/65536 of <em>xRsiz</em> (repeated for all components)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">yrg<sup>*</sup></td>
+<td style="text-align: left;">Vertical offset, in units of 1/65536 of <em>yRsiz</em> (repeated for all components)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-26"><span class="header-section-number">7.12.3</span> Tests</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lcrgIsValid</td>
+<td style="text-align: left;"><em>lcrg</em> is within range [6,65534]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">xcrgIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>xcrg</em> is within range [0,65535] (repeated for all components)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ycrgIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>ycrg</em> is within range [0,65535] (repeated for all components)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="com-marker"><span class="header-section-number">7.13</span> Comment (COM) marker segment</h2>
+<h3 id="element-name-28"><span class="header-section-number">7.13.1</span> Element name</h3>
+<p>com</p>
+<h3 id="reported-properties-28"><span class="header-section-number">7.13.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2751,7 +2804,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
-<h3 id="tests-26"><span class="header-section-number">7.12.3</span> Tests</h3>
+<h3 id="tests-27"><span class="header-section-number">7.13.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2774,11 +2827,11 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
-<h2 id="tile-part"><span class="header-section-number">7.13</span> Tile part (child of Contiguous Codestream box)</h2>
+<h2 id="tile-part"><span class="header-section-number">7.14</span> Tile part (child of Contiguous Codestream box)</h2>
 <p>Tile-part level properties and tests. This is not a box or a marker segment!</p>
-<h3 id="element-name-28"><span class="header-section-number">7.13.1</span> Element name</h3>
+<h3 id="element-name-29"><span class="header-section-number">7.14.1</span> Element name</h3>
 <p>tilePart (child of tileParts)</p>
-<h3 id="reported-properties-28"><span class="header-section-number">7.13.2</span> Reported properties</h3>
+<h3 id="reported-properties-29"><span class="header-section-number">7.14.2</span> Reported properties</h3>
 <p>Each tile part element can contain a number of child elements:</p>
 <table>
 <thead>
@@ -2789,7 +2842,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">sot (<a href="#sot-marker">section 7.13</a>)</td>
+<td style="text-align: left;">sot (<a href="#sot-marker">section 7.15</a>)</td>
 <td style="text-align: left;">Properties from start of tile (SOT) marker segment</td>
 </tr>
 <tr class="even">
@@ -2801,7 +2854,7 @@ User warning: unknown error (please report to developers)</code></pre>
 <td style="text-align: left;">Properties from the (optional) coding style component (COC) marker segment (tile part header)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">coc (<a href="#rgn-marker">section 7.8</a>)</td>
+<td style="text-align: left;">rgn (<a href="#rgn-marker">section 7.8</a>)</td>
 <td style="text-align: left;">Properties from the (optional) region of interest (RGN) marker segment (tile part header)</td>
 </tr>
 <tr class="odd">
@@ -2817,12 +2870,12 @@ User warning: unknown error (please report to developers)</code></pre>
 <td style="text-align: left;">Properties from the (optional) progression order change (POC) marker segment (tile part header)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">com (<a href="#com-marker">section 7.12</a>)</td>
+<td style="text-align: left;">com (<a href="#com-marker">section 7.13</a>)</td>
 <td style="text-align: left;">Properties from the (optional) comment (COM) marker segment (tile part header)</td>
 </tr>
 </tbody>
 </table>
-<h3 id="tests-27"><span class="header-section-number">7.13.3</span> Tests</h3>
+<h3 id="tests-28"><span class="header-section-number">7.14.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2841,10 +2894,10 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
-<h2 id="sot-marker"><span class="header-section-number">7.14</span> Start of tile part (SOT) marker segment (child of tile part)</h2>
-<h3 id="element-name-29"><span class="header-section-number">7.14.1</span> Element name</h3>
+<h2 id="sot-marker"><span class="header-section-number">7.15</span> Start of tile part (SOT) marker segment (child of tile part)</h2>
+<h3 id="element-name-30"><span class="header-section-number">7.15.1</span> Element name</h3>
 <p>sot</p>
-<h3 id="reported-properties-29"><span class="header-section-number">7.14.2</span> Reported properties</h3>
+<h3 id="reported-properties-30"><span class="header-section-number">7.15.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2875,7 +2928,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
-<h3 id="tests-28"><span class="header-section-number">7.14.3</span> Tests</h3>
+<h3 id="tests-29"><span class="header-section-number">7.15.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2903,50 +2956,9 @@ User warning: unknown error (please report to developers)</code></pre>
 </tbody>
 </table>
 <p>The following marker segments are only minimally supported: <em>jpylyzer</em> will report their presence in the <em>properties</em> element, but it does not perform any further tests or analyses. This may change in upcoming versions of the software.</p>
-<h2 id="plm-marker"><span class="header-section-number">7.15</span> Packet length, main header (PLM) marker segment</h2>
-<h3 id="element-name-30"><span class="header-section-number">7.15.1</span> Element name</h3>
-<p>plm</p>
-<h3 id="reported-properties-30"><span class="header-section-number">7.15.2</span> Reported properties</h3>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Property</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<h3 id="tests-29"><span class="header-section-number">7.15.3</span> Tests</h3>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Test name</th>
-<th style="text-align: left;">True if</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<h2 id="ppm-marker"><span class="header-section-number">7.16</span> Packed packet headers, main header (PPM) marker segment</h2>
+<h2 id="plm-marker"><span class="header-section-number">7.16</span> Packet length, main header (PLM) marker segment</h2>
 <h3 id="element-name-31"><span class="header-section-number">7.16.1</span> Element name</h3>
-<p>ppm</p>
+<p>plm</p>
 <h3 id="reported-properties-31"><span class="header-section-number">7.16.2</span> Reported properties</h3>
 <table>
 <thead>
@@ -2985,9 +2997,9 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
-<h2 id="tlm-marker"><span class="header-section-number">7.17</span> Tile-part lengths (TLM) marker segment</h2>
+<h2 id="ppm-marker"><span class="header-section-number">7.17</span> Packed packet headers, main header (PPM) marker segment</h2>
 <h3 id="element-name-32"><span class="header-section-number">7.17.1</span> Element name</h3>
-<p>tlm</p>
+<p>ppm</p>
 <h3 id="reported-properties-32"><span class="header-section-number">7.17.2</span> Reported properties</h3>
 <table>
 <thead>
@@ -3026,9 +3038,9 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
-<h2 id="crg-marker"><span class="header-section-number">7.18</span> Component registration (CRG) marker segment</h2>
+<h2 id="tlm-marker"><span class="header-section-number">7.18</span> Tile-part lengths (TLM) marker segment</h2>
 <h3 id="element-name-33"><span class="header-section-number">7.18.1</span> Element name</h3>
-<p>crg</p>
+<p>tlm</p>
 <h3 id="reported-properties-33"><span class="header-section-number">7.18.2</span> Reported properties</h3>
 <table>
 <thead>

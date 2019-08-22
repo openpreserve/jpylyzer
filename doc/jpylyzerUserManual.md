@@ -1648,20 +1648,22 @@ all the required ones):
 
 * Coding style default (COD) marker segment (required)
 
+* Coding style component (COC) marker segment (optional)
+
+* Region-of-interest (RGN) marker segment (optional)
+
 * Quantization default (QCD) marker segment (required)
+
+* Quantization component (QCC) marker segment (optional)
+
+* Progression order change (POC) marker segment (optional)
+
+* Component registration (CRG) marker segment (optional)
 
 * Comment (COM) marker segment (optional)
 
 In addition the codestream header may also contain any of the following
 marker segments, which are all optional:
-
-* Coding style component (COC) marker segment (optional)
-
-* Quantization component (QCC) marker segment (optional)
-
-* Region-of-interest (RGN) marker segment (optional) <sup>\*</sup>
-
-* Progression order change (POC) marker segment (optional) <sup>\*</sup>
 
 * Packet length, main header (PLM) marker segment (optional)
 <sup>\*</sup>
@@ -1671,13 +1673,10 @@ marker segments, which are all optional:
 
 * Tile-part lengths (TLM) marker segment (optional) <sup>\*</sup>
 
-* Component registration (CRG) marker segment (optional) <sup>\*</sup>
-
-Currently not all of these optional marker segments are fully supported.
-Those that are marked with an asterisk above are only minimally supported
-at this stage: if *jpylyzer* encounters them, it will include the corresponding
-element in the *properties* element of the output. However, *jpylyzer* does not
-analyse the contents of these marker segments, which means that the respective
+The optional markers that are marked with an asterisk above are only
+minimally supported at this stage: if *jpylyzer* encounters them, it will include
+the corresponding element in the *properties* element of the output. However, *jpylyzer*
+does not analyse the contents of these marker segments, which means that the respective
 elements in the output will be empty.
 
 ### Tile parts
@@ -1690,7 +1689,15 @@ marker segments that can occur in the tile part header. Currently,
 
 * Coding style default (COD) marker segment (optional)
 
+* Coding style component (COC) marker segment (optional)
+
+* Region-of-interest (RGN) marker segment (optional)
+
 * Quantization default (QCD) marker segment (optional)
+
+* Quantization component (QCC) marker segment (optional)
+
+* Progression order change (POC) marker segment (optional)
 
 * Comment (COM) marker segment (optional)
 
@@ -1698,25 +1705,17 @@ marker segments that can occur in the tile part header. Currently,
 
 In addition the following optional marker segments may also occur:
 
-* Coding style component (COC) marker segment (optional)
-
-* Quantization component (QCC) marker segment (optional)
-
-* Region-of-interest (RGN) marker segment (optional) <sup>\*</sup>
-
-* Progression order change (POC) marker segment (optional) <sup>\*</sup>
-
 * Packet length, tile-part header (PLT) marker segment (optional)
 <sup>\*</sup>
 
 * Packed packet headers, tile-part header (PPT) marker segment
 (optional) <sup>\*</sup>
 
-These marker segments that are marked with an asterisk above are only
-minimally supported at this stage: if *jpylyzer* encounters any of them,
-it will include the corresponding element in the *properties* element of
-the output. However, *jpylyzer* currently does not analyse their
-contents, and the respective elements in the output will be empty.
+The optional markers that are marked with an asterisk above are only
+minimally supported at this stage: if *jpylyzer* encounters them, it will include
+the corresponding element in the *properties* element of the output. However, *jpylyzer*
+does not analyse the contents of these marker segments, which means that the respective
+elements in the output will be empty.
 
 ### Bit streams
 
