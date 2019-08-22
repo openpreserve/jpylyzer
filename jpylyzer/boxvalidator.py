@@ -1745,6 +1745,15 @@ class BoxValidator:
 
                 self.testFor("precinctSizeYIsValid", precinctSizeYIsValid)
                 offset += 1
+        
+        else:
+
+            # Default size for all precincts
+            for i in range(levels + 1):
+                precinctSizeX = 2 ** 15
+                self.addCharacteristic("precinctSizeX", precinctSizeX)
+                precinctSizeY = 2 ** 15
+                self.addCharacteristic("precinctSizeY", precinctSizeY)
 
     def validate_coc(self):
         """Coding style component (COC) header fields (ISO/IEC 15444-1 Section
@@ -1920,6 +1929,15 @@ class BoxValidator:
 
                 self.testFor("precinctSizeYIsValid", precinctSizeYIsValid)
                 offset += 1
+
+        else:
+
+            # Default size for all precincts
+            for i in range(levels + 1):
+                precinctSizeX = 2 ** 15
+                self.addCharacteristic("precinctSizeX", precinctSizeX)
+                precinctSizeY = 2 ** 15
+                self.addCharacteristic("precinctSizeY", precinctSizeY)
 
     def validate_rgn(self):
         """Region of interest (RGN) header fields (ISO/IEC 15444-1 Section

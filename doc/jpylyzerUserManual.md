@@ -1856,7 +1856,7 @@ cod
 |Property|Description|
 |:-------|:----------|
 |lcod|Length of COD marker segment in bytes|
-|precincts|Indicates use of precincts (“yes”/“no”)|
+|precincts|Indicates default or user-defined precinct size (“default”/“user defined”)|
 |sop|Indicates use of start of packet marker segments (“yes”/“no”)|
 |eph|Indicates use of end of packet marker segments (“yes”/“no”)|
 |order|Progression order|
@@ -1872,8 +1872,8 @@ cod
 |predTermination|Indicates predictable termination (“yes”/“no”)|
 |segmentationSymbols|Indicates use of segmentation symbols (“yes”/“no”)|
 |transformation|Wavelet transformation: “9-7 irreversible” or “5-3 reversible”|
-|precinctSizeX<sup>\*</sup>|Precinct width (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
-|precinctSizeY<sup>\*</sup>|Precinct heigth (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeX<sup>\*</sup>|Precinct width (repeated for all resolution levels; order: low to high). Equals 32768 if *precincts* is “default”|
+|precinctSizeY<sup>\*</sup>|Precinct heigth (repeated for all resolution levels; order: low to high). Equals 32768 if *precincts* is “default”|
 
 ### Tests
 
@@ -1888,8 +1888,8 @@ cod
 |codeBlockWidthExponentIsValid|*codeBlockWidthExponent* is within range [2,10]|
 |codeBlockHeightExponentIsValid|*codeBlockHeightExponent* is within range [2,10]|
 |sumHeightWidthExponentIsValid|*codeBlockWidthExponent* + *codeBlockHeightExponent* ≤ 12|
-|precinctSizeXIsValid<sup>\*</sup>|*precinctSizeX* ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
-|precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeXIsValid<sup>\*</sup>|*precinctSizeX* ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if *precincts* is “user defined”)|
+|precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if *precincts* is “user defined”)|
 
 Coding style component (COC) marker segment {#coc-marker}
 ------------------------------------------------
@@ -1904,7 +1904,7 @@ coc
 |:-------|:----------|
 |lcoc|Length of COC marker segment in bytes|
 |ccoc|Index of the component to which this marker segment relates|
-|precincts|Indicates use of precincts (“yes”/“no”)|
+|precincts|Indicates default or user-defined precinct size (“default”/“user defined”)|
 |levels|Number of decomposition levels|
 |codeBlockWidth|Code block width|
 |codeBlockHeight|Code block height|
@@ -1915,8 +1915,8 @@ coc
 |predTermination|Indicates predictable termination (“yes”/“no”)|
 |segmentationSymbols|Indicates use of segmentation symbols (“yes”/“no”)|
 |transformation|Wavelet transformation: “9-7 irreversible” or “5-3 reversible”|
-|precinctSizeX<sup>\*</sup>|Precinct width (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
-|precinctSizeY<sup>\*</sup>|Precinct heigth (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeX<sup>\*</sup>|Precinct width (repeated for all resolution levels; order: low to high). Equals 32768 if *precincts* is “default”|
+|precinctSizeY<sup>\*</sup>|Precinct heigth (repeated for all resolution levels; order: low to high). Equals 32768 if *precincts* is “default”|
 
 ### Tests
 
@@ -1929,8 +1929,8 @@ coc
 |codeBlockWidthExponentIsValid|*codeBlockWidthExponent* is within range [2,10]|
 |codeBlockHeightExponentIsValid|*codeBlockHeightExponent* is within range [2,10]|
 |sumHeightWidthExponentIsValid|*codeBlockWidthExponent* + *codeBlockHeightExponent* ≤ 12|
-|precinctSizeXIsValid<sup>\*</sup>|*precinctSizeX* ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
-|precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if *precincts* is “yes”)|
+|precinctSizeXIsValid<sup>\*</sup>|*precinctSizeX* ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if *precincts* is “user defined”)|
+|precinctSizeYIsValid<sup>\*</sup>|*precinctSizeY* ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if *precincts* is “user defined”)|
  
 
 Region-of-interest (RGN) marker segment {#rgn-marker}

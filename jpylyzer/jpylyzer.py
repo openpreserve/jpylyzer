@@ -183,6 +183,11 @@ def generatePropertiesRemapTable():
     rsizMap[1] = "Profile 0"
     rsizMap[2] = "Profile 1"
 
+    # Precincts (Codestream, COD)
+    precinctsMap = {}
+    precinctsMap[0] = "default"
+    precinctsMap[1] = "user defined"
+
     # Progression order (Codestream, COD)
     orderMap = {}
     orderMap[0] = "LRCP"
@@ -225,7 +230,10 @@ def generatePropertiesRemapTable():
     enumerationsMap['renderingIntent'] = renderingIntentMap
     enumerationsMap['bSign'] = signMap
     enumerationsMap['mTyp'] = mTypMap
-    enumerationsMap['precincts'] = yesNoMap
+    if not config.legacyXMLFlag:
+        enumerationsMap['precincts'] = precinctsMap
+    else:
+        enumerationsMap['precincts'] = yesNoMap
     enumerationsMap['sop'] = yesNoMap
     enumerationsMap['eph'] = yesNoMap
     enumerationsMap['multipleComponentTransformation'] = yesNoMap
