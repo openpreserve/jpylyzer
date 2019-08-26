@@ -385,9 +385,11 @@ def checkOneFile(path, validationFormat='jp2'):
         elif exceptionType == IOError:
             failureMessage = "I/O error (cannot open file)"
         elif exceptionType == RuntimeError:
-            failureMessage = "runtime error (please report to developers)"
+            failureMessage = "runtime error, please report to developers by creating " + \
+                             "an issue at https://github.com/openpreserve/jpylyzer/issues"
         else:
-            failureMessage = "unknown error (please report to developers)"
+            failureMessage = "unknown error, please report to developers by creating " + \
+                             "an issue at https://github.com/openpreserve/jpylyzer/issues"
             ## TEST
             raise
             ## TEST
