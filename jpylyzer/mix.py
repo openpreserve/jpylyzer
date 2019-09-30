@@ -17,6 +17,8 @@
 import re
 from . import etpatch as ET
 
+from . import mix_constants as MIX
+
 class Mix:
     """Class for generating NISO MIX image metadata
     """
@@ -26,39 +28,39 @@ class Mix:
     def generateMixBasicDigitalObjectInformation(self, properties):
         """Generate a mix BasicDigitalObjectInformation
         """
-        mixBdoi = ET.Element('mix:BasicDigitalObjectInformation')
+        mixBdoi = ET.Element(MIX.BASIC_DIGITAL_OB_INFO)
 
-        mixFormatDesignation = ET.Element('mix:FormatDesignation')
+        mixFormatDesignation = ET.Element(MIX.FORMAT_DES)
         br = properties.find('fileTypeBox/br')
         if br is None:
             formatName = 'image/jp2'
         else:
             value = br.text
             formatName = 'image/' + value.strip()
-        mixFormatDesignation.appendChildTagWithText('mix:formatName', formatName)
+        mixFormatDesignation.appendChildTagWithText(MIX.FORMAT_NAME, formatName)
         mixBdoi.append(mixFormatDesignation)
         if self.mixFlag == 1:
-            mixBdoi.appendChildTagWithText('mix:byteOrder', 'big_endian')
+            mixBdoi.appendChildTagWithText(MIX.BYTE_ORDER, 'big_endian')
         else:
-            mixBdoi.appendChildTagWithText('mix:byteOrder', 'big endian')
+            mixBdoi.appendChildTagWithText(MIX.BYTE_ORDER, 'big endian')
 
-        mixComp = ET.Element('mix:Compression')
+        mixComp = ET.Element(MIX.COMPRESSION)
         compression = properties.find('contiguousCodestreamBox/cod/transformation').text
         if compression == '5-3 reversible':
             compressionScheme = 'JPEG 2000 Lossless'
         else:
             compressionScheme = 'JPEG 2000 Lossy'
-        mixComp.appendChildTagWithText('mix:compressionScheme', compressionScheme)
+        mixComp.appendChildTagWithText(MIX.COMPRESSION_SCHEME, compressionScheme)
         if self.mixFlag == 1:
             # compressionRatio is a int in mix 1...
             compressionRatio = int(round(float(properties.find('compressionRatio').text), 0))
-            mixComp.appendChildTagWithText('mix:compressionRatio', str(compressionRatio))
+            mixComp.appendChildTagWithText(MIX.COMPRESSION_RATIO, str(compressionRatio))
         else:
             # compressionRatio is a Rational in mix 2.0 (keep only 2 digits)
             value = int(round(float(properties.find('compressionRatio').text) * 100, 0))
-            mixCompRatio = ET.Element('mix:compressionRatio')
-            mixCompRatio.appendChildTagWithText('mix:numerator', str(value))
-            mixCompRatio.appendChildTagWithText('mix:denominator', '100')
+            mixCompRatio = ET.Element(MIX.COMPRESSION_RATIO)
+            mixCompRatio.appendChildTagWithText(MIX.NUMERATOR, str(value))
+            mixCompRatio.appendChildTagWithText(MIX.DENOMINATOR, '100')
             mixComp.append(mixCompRatio)
         mixBdoi.append(mixComp)
 
@@ -67,62 +69,62 @@ class Mix:
     def generateMixBasicImageInformation(self, properties):
         """Generate a mix BasicImageInformation
         """
-        mixBio = ET.Element('mix:BasicImageInformation')
-        mixBic = ET.Element('mix:BasicImageCharacteristics')
+        mixBio = ET.Element(MIX.BASIC_IMAGE_INFO)
+        mixBic = ET.Element(MIX.BASIC_IMAGE_CHAR)
         width = str(properties.find('jp2HeaderBox/imageHeaderBox/width').text)
         height = str(properties.find('jp2HeaderBox/imageHeaderBox/height').text)
-        mixBic.appendChildTagWithText('mix:imageWidth', width)
-        mixBic.appendChildTagWithText('mix:imageHeight', height)
+        mixBic.appendChildTagWithText(MIX.IMAGE_WIDTH, width)
+        mixBic.appendChildTagWithText(MIX.IMAGE_HEIGHT, height)
         # Try ICC first
         iccElement = properties.find('jp2HeaderBox/colourSpecificationBox/icc')
         if iccElement:
-            mixPI = ET.Element('mix:PhotometricInterpretation')
+            mixPI = ET.Element(MIX.PHOTOMETRIC_INT)
             colorSpace = properties.find('jp2HeaderBox/colourSpecificationBox/icc/colourSpace').text
-            mixPI.appendChildTagWithText('mix:colorSpace', colorSpace.strip())
+            mixPI.appendChildTagWithText(MIX.COLOR_SPACE, colorSpace.strip())
             iccProfile = properties.find('jp2HeaderBox/colourSpecificationBox/icc/description').text
-            mixColorProfile = ET.Element('mix:ColorProfile')
-            mixIccProfile = ET.Element('mix:IccProfile')
-            mixIccProfile.appendChildTagWithText('mix:iccProfileName', iccProfile)
+            mixColorProfile = ET.Element(MIX.COLOR_PROFILE)
+            mixIccProfile = ET.Element(MIX.ICC_PROFILE)
+            mixIccProfile.appendChildTagWithText(MIX.ICC_PROFILE_NAME, iccProfile)
             mixColorProfile.append(mixIccProfile)
             mixPI.append(mixColorProfile)
             mixBic.append(mixPI)
         else:
-            mixPI = ET.Element('mix:PhotometricInterpretation')
+            mixPI = ET.Element(MIX.PHOTOMETRIC_INT)
             colorSpace = properties.find('jp2HeaderBox/colourSpecificationBox/enumCS').text
-            mixPI.appendChildTagWithText('mix:colorSpace', colorSpace.strip())
+            mixPI.appendChildTagWithText(MIX.COLOR_SPACE, colorSpace.strip())
             mixBic.append(mixPI)
         mixBio.append(mixBic)
 
-        mixSFC = ET.Element('mix:SpecialFormatCharacteristics')
-        mixJP2 = ET.Element('mix:JPEG2000')
+        mixSFC = ET.Element(MIX.SPECIAL_FORMAT_CHARS)
+        mixJP2 = ET.Element(MIX.JPEG_2000)
         comment = properties.find('contiguousCodestreamBox/com/comment')
         if comment is not None:
             commentText = comment.text
             m = re.search(r'(.*)-v([0-9\.]*)', commentText)
             if m:
                 # generate CodecCompliance only if it matches the regex
-                mixCodecCompliance = ET.Element('mix:CodecCompliance')
-                mixCodecCompliance.appendChildTagWithText('mix:codec', m.group(1))
-                mixCodecCompliance.appendChildTagWithText('mix:codecVersion', m.group(2))
+                mixCodecCompliance = ET.Element(MIX.CODEC_COMPLIANCE)
+                mixCodecCompliance.appendChildTagWithText(MIX.CODEC, m.group(1))
+                mixCodecCompliance.appendChildTagWithText(MIX.CODEC_VERSION, m.group(2))
                 mixJP2.append(mixCodecCompliance)
-        mixEncodingOptions = ET.Element('mix:EncodingOptions')
+        mixEncodingOptions = ET.Element(MIX.ENCODING_OPTIONS)
         tilesX = properties.find('contiguousCodestreamBox/siz/xTsiz').text
         tilesY = properties.find('contiguousCodestreamBox/siz/yTsiz').text
         if self.mixFlag == 1:
             tilesString = str(tilesX) + 'x' + str(tilesY)
-            mixEncodingOptions.appendChildTagWithText('mix:tiles', tilesString)
+            mixEncodingOptions.appendChildTagWithText(MIX.TILES, tilesString)
         else:
             mixTiles = ET.Element('mix:Tiles')
-            mixTiles.appendChildTagWithText('mix:tileWidth', str(tilesX))
-            mixTiles.appendChildTagWithText('mix:tileHeight', str(tilesY))
+            mixTiles.appendChildTagWithText(MIX.TILE_WIDTH, str(tilesX))
+            mixTiles.appendChildTagWithText(MIX.TILE_HEIGHT, str(tilesY))
             mixEncodingOptions.append(mixTiles)
 
         layers = properties.find('contiguousCodestreamBox/cod/layers').text
         if str(layers) != "0":
-            mixEncodingOptions.appendChildTagWithText('mix:qualityLayers', str(layers))
+            mixEncodingOptions.appendChildTagWithText(MIX.QUALITY_LAYERS, str(layers))
         levels = properties.find('contiguousCodestreamBox/cod/levels').text
         if str(levels) != "0":
-            mixEncodingOptions.appendChildTagWithText('mix:resolutionLevels', str(levels))
+            mixEncodingOptions.appendChildTagWithText(MIX.RESOLUTION_LEVELS, str(levels))
 
         mixJP2.append(mixEncodingOptions)
         mixSFC.append(mixJP2)
@@ -161,32 +163,32 @@ class Mix:
             # Avoid a static method using self
             return None
 
-        mixIcm = ET.Element('mix:ImageCaptureMetadata')
+        mixIcm = ET.Element(MIX.IMAGE_CAPTURE_MD)
         rdfBox = properties.find('xmlBox/{adobe:ns:meta/}xmpmeta/{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF')
         if not rdfBox:
             rdfBox = properties.find('uuidBox/{adobe:ns:meta/}xmpmeta/{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF')
         if not rdfBox:
             return None
-        mixGci = ET.Element('mix:GeneralCaptureInformation')
+        mixGci = ET.Element(MIX.GENERAL_CAPTURE_INFO)
         Mix.addIfExist(rdfBox,
                        '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
                        '{http://ns.adobe.com/xap/1.0/}', 'CreateDate',
                        mixGci,
-                       'mix:dateTimeCreated')
+                       MIX.DATE_TIME_CREATED)
         Mix.addIfExist(rdfBox, '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
                        '{http://ns.adobe.com/tiff/1.0/}',
                        'Artist',
                        mixGci,
-                       'mix:imageProducer')
+                       MIX.IMAGE_PRODUCER)
         mixIcm.append(mixGci)
         fillSc = False
-        mixSc = ET.Element('mix:ScannerCapture')
+        mixSc = ET.Element(MIX.SCANNER_CAPTURE)
         fillSc = Mix.addIfExist(rdfBox,
                                 '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
                                 '{http://ns.adobe.com/tiff/1.0/}',
                                 'Make',
                                 mixSc,
-                                'mix:scannerManufacturer') or fillSc
+                                MIX.SCANNER_MAN) or fillSc
         fillSm = False
         mixSm = ET.Element('mix:ScannerModel')
         fillSm = Mix.addIfExist(rdfBox,
@@ -194,13 +196,13 @@ class Mix:
                                 '{http://ns.adobe.com/tiff/1.0/}',
                                 'Model',
                                 mixSm,
-                                'mix:scannerModelName')
+                                MIX.SCANNER_MODEL)
         fillSm = Mix.addIfExist(rdfBox,
                                 '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description',
                                 '{http://ns.adobe.com/exif/1.0/aux/}',
                                 'SerialNumber',
                                 mixSm,
-                                'mix:scannerModelSerialNo') or fillSm
+                                MIX.SCANNER_SERIAL_NO) or fillSm
         if fillSm:
             mixSc.append(mixSm)
             fillSc = True
@@ -210,13 +212,13 @@ class Mix:
                                          '{http://ns.adobe.com/xap/1.0/}',
                                          'CreatorTool')
         if creatorTool is not None:
-            mixSss = ET.Element('mix:ScanningSystemSoftware')
+            mixSss = ET.Element(MIX.SCANNING_SYS_SOFTWARE)
             m = re.search(r'^(.*) ([0-9\.]*)$', creatorTool)
             if m:
-                mixSss.appendChildTagWithText('mix:scanningSoftwareName', m.group(1))
-                mixSss.appendChildTagWithText('mix:scanningSoftwareVersionNo', m.group(2))
+                mixSss.appendChildTagWithText(MIX.SCANNING_SOFTWARE_NAME, m.group(1))
+                mixSss.appendChildTagWithText(MIX.SCANNING_SOFTWARE_VERSION, m.group(2))
             else:
-                mixSss.appendChildTagWithText('mix:scanningSoftwareName', creatorTool)
+                mixSss.appendChildTagWithText(MIX.SCANNING_SOFTWARE_NAME, creatorTool)
             mixSc.append(mixSss)
             fillSc = True
 
@@ -229,7 +231,7 @@ class Mix:
     def generateMixImageAssessmentMetadata(self, properties):
         """Generate a mix ImageAssessmentMetadata
         """
-        mixIam = ET.Element('mix:ImageAssessmentMetadata')
+        mixIam = ET.Element(MIX.IMAGE_ASSESMENT_MD)
 
         # Get the resolution in the captureResolutionBox first
         resolutionBox = properties.find('jp2HeaderBox/resolutionBox/captureResolutionBox')
@@ -243,39 +245,39 @@ class Mix:
                 numX = int(float(resolutionBox.find('hResdInPixelsPerMeter').text) * 100)
                 numY = int(float(resolutionBox.find('vResdInPixelsPerMeter').text) * 100)
         if resolutionBox is not None:
-            mixSm = ET.Element('mix:SpatialMetrics')
+            mixSm = ET.Element(MIX.SPATIAL_METRICS)
             if self.mixFlag == 1:
-                mixSm.appendChildTagWithText('mix:samplingFrequencyUnit', '3') # always in S.I.
+                mixSm.appendChildTagWithText(MIX.SAMPLING_FREQ_UNIT, '3') # always in S.I.
             else:
-                mixSm.appendChildTagWithText('mix:samplingFrequencyUnit', 'cm') # always in S.I.
-            mixXSamplingFrequency = ET.Element('mix:xSamplingFrequency')
-            mixXSamplingFrequency.appendChildTagWithText('mix:numerator', str(numX))
-            mixXSamplingFrequency.appendChildTagWithText('mix:denominator', '10000')
+                mixSm.appendChildTagWithText(MIX.SAMPLING_FREQ_UNIT, 'cm') # always in S.I.
+            mixXSamplingFrequency = ET.Element(MIX.X_SAMPLING_FREQUENCY)
+            mixXSamplingFrequency.appendChildTagWithText(MIX.NUMERATOR, str(numX))
+            mixXSamplingFrequency.appendChildTagWithText(MIX.DENOMINATOR, '10000')
             mixSm.append(mixXSamplingFrequency)
-            mixYSamplingFrequency = ET.Element('mix:ySamplingFrequency')
-            mixYSamplingFrequency.appendChildTagWithText('mix:numerator', str(numY))
-            mixYSamplingFrequency.appendChildTagWithText('mix:denominator', '10000')
+            mixYSamplingFrequency = ET.Element(MIX.Y_SAMPLING_FREQUENCY)
+            mixYSamplingFrequency.appendChildTagWithText(MIX.NUMERATOR, str(numY))
+            mixYSamplingFrequency.appendChildTagWithText(MIX.DENOMINATOR, '10000')
             mixSm.append(mixYSamplingFrequency)
             mixIam.append(mixSm)
 
         size = properties.find('contiguousCodestreamBox/siz')
         values = size.findall('ssizDepth')
-        mixICE = ET.Element('mix:ImageColorEncoding')
+        mixICE = ET.Element(MIX.IMAGE_COLOR_ENCODING)
         if self.mixFlag == 1:
-            mixBPS = ET.Element('mix:bitsPerSample')
+            mixBPS = ET.Element(MIX.BITS_PER_SAMPLE)
             mixICE.append(mixBPS)
-            mixBPS.appendChildTagWithText('mix:bitsPerSampleValue',
+            mixBPS.appendChildTagWithText(MIX.BITS_PER_SAMPLE_VALUE,
                                           ','.join(map(lambda e: e.text, values)))
-            mixBPS.appendChildTagWithText('mix:bitsPerSampleUnit', 'integer')
+            mixBPS.appendChildTagWithText(MIX.BITS_PER_SAMPLE_UNIT, 'integer')
         else:
-            mixBPS = ET.Element('mix:BitsPerSample')
+            mixBPS = ET.Element(MIX.BITS_PER_SAMPLE)
             mixICE.append(mixBPS)
             for e in values:
-                mixBPS.appendChildTagWithText('mix:bitsPerSampleValue', e.text)
-            mixBPS.appendChildTagWithText('mix:bitsPerSampleUnit', 'integer')
+                mixBPS.appendChildTagWithText(MIX.BITS_PER_SAMPLE_VALUE, e.text)
+            mixBPS.appendChildTagWithText(MIX.BITS_PER_SAMPLE_UNIT, 'integer')
 
         num = size.find('csiz').text
-        mixICE.appendChildTagWithText('mix:samplesPerPixel', num)
+        mixICE.appendChildTagWithText(MIX.SAMPLES_PER_PIXEL, num)
         mixIam.append(mixICE)
 
         return mixIam
