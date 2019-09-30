@@ -45,11 +45,11 @@ import re
 from xml.dom import minidom
 import xml.etree.ElementTree as ETree
 from six import u
-from . import config as config
+from . import config
 from . import etpatch as ET
 from . import boxvalidator as bv
-from . import mix as mix
-from . import shared as shared
+from . import mix
+from . import shared
 
 
 scriptPath, scriptName = os.path.split(sys.argv[0])
@@ -514,7 +514,7 @@ def getFilesWithPatternFromTree(rootDir, pattern):
     """Recurse into directory tree and return list of all files
     NOTE: directory names are disabled here!!
     """
-    for dirname, dirnames, filenames in os.walk(rootDir):
+    for dirname, dirnames, _ in os.walk(rootDir):
         # Suppress directory names
         for subdirname in dirnames:
             thisDirectory = os.path.join(dirname, subdirname)

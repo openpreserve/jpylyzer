@@ -17,10 +17,10 @@
 from __future__ import division
 import uuid
 import math
-from . import config as config
+from . import config
 from . import etpatch as ET
 from . import byteconv as bc
-from . import shared as shared
+from . import shared
 
 
 class BoxValidator:
@@ -299,7 +299,7 @@ class BoxValidator:
         cLList = []
         offset = 8
 
-        for i in range(int(numberOfCompatibilityFields)):
+        for _ in range(int(numberOfCompatibilityFields)):
             cL = self.boxContents[offset:offset + 4]
             self.addCharacteristic("cL", cL)
             cLList.append(cL)
@@ -839,7 +839,7 @@ class BoxValidator:
             # Start offset of cP entries for this column
             offset = nPC + 3 + i * (nE * bytesPadded)
 
-            for j in range(nE):
+            for _ in range(nE):
                 # Get bytes for this entry
                 cPAsBytes = self.boxContents[offset:offset + bytesPadded]
 
@@ -862,7 +862,7 @@ class BoxValidator:
         offset = 0
 
         # Loop through box contents and validate fields
-        for i in range(numberOfChannels):
+        for _ in range(numberOfChannels):
 
             # Component index
             cMP = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
@@ -914,7 +914,7 @@ class BoxValidator:
 
         # Loop through box contents and validate fields
         offset = 2
-        for i in range(n):
+        for _ in range(n):
             # Channel index
             cN = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
             self.addCharacteristic("cN", cN)
@@ -1378,7 +1378,8 @@ class BoxValidator:
             self.characteristics.append(tilePartCharacteristics)
             self.tests.appendIfNotEmpty(tilePartTests)
 
-            # Test if all ccoc values are unique (A.6.2 - no more than one COC per any given component)
+            # Test if all ccoc values are unique
+            # (A.6.2 - no more than one COC per any given component)
             # First we put all occurrences of ccoc to a list
             ccocElements = self.characteristics.findall('coc/ccoc') + \
                 self.characteristics.findall('tileParts/tilePart/coc/ccoc')
@@ -1389,7 +1390,8 @@ class BoxValidator:
             if len(ccocValues) > 0:
                 self.testFor("maxOneCcocPerComponent", len(set(ccocValues)) == len(ccocValues))
 
-            # Test if all cqcc values are unique (A.6.5 - no more than one QCC per any given component)
+            # Test if all cqcc values are unique
+            # (A.6.5 - no more than one QCC per any given component)
             # First we put all occurrences of cqcc to a list
             cqccElements = self.characteristics.findall('qcc/cqcc') + \
                 self.characteristics.findall('tileParts/tilePart/qcc/cqcc')
@@ -1514,7 +1516,7 @@ class BoxValidator:
 
         offset = 38
 
-        for i in range(csiz):
+        for _ in range(csiz):
             # ssiz (=bits per component)
             ssiz = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
 
@@ -1745,7 +1747,7 @@ class BoxValidator:
 
                 self.testFor("precinctSizeYIsValid", precinctSizeYIsValid)
                 offset += 1
-        
+
         else:
 
             # Default size for all precincts
@@ -1890,7 +1892,7 @@ class BoxValidator:
             # Precinct size for each resolution level (= decomposition levels + 1)
             # Order: low to high (lowest first)
             # TODO: the behaviour in the case of precincts is untested at this stage
-            # due to a lack of test files! 
+            # due to a lack of test files!
 
             offset += 1
 
@@ -2024,7 +2026,7 @@ class BoxValidator:
         offset = 3
 
         if qStyle == 0:
-            for i in range(levels):
+            for _ in range(levels):
                 spqcd = bc.bytesToUnsignedChar(
                     self.boxContents[offset:offset + 1])
 
@@ -2122,7 +2124,7 @@ class BoxValidator:
             levels = int((lqcc - 7) / 6)
 
         if qStyle == 0:
-            for i in range(levels):
+            for _ in range(levels):
                 spqcc = bc.bytesToUnsignedChar(
                     self.boxContents[offset:offset + 1])
 
@@ -2181,7 +2183,7 @@ class BoxValidator:
 
         offset = 2
 
-        for i in range(progOrderChanges):
+        for _ in range(progOrderChanges):
             # Resolution index for the start of a progression
             rspoc = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
             self.addCharacteristic("rspoc", rspoc)
@@ -2233,7 +2235,7 @@ class BoxValidator:
 
             self.addCharacteristic("cepoc", cepoc)
             self.testFor("cepocIsValid", cepocIsValid)
-            
+
             # Progression order
             order = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
             self.addCharacteristic("order", order)
@@ -2255,8 +2257,8 @@ class BoxValidator:
         self.testFor("lcrgIsValid", lcrgIsValid)
 
         offset = 2
-        
-        for i in range(self.csiz):
+
+        for _ in range(self.csiz):
             # Horizontal offset value, in units of 1/65535 of xRsiz
             xcrg = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
             self.addCharacteristic("xcrg", xcrg)
@@ -2386,23 +2388,18 @@ class BoxValidator:
 
     def validate_tlm(self):
         """Empty function"""
-        pass
 
     def validate_plm(self):
         """Empty function"""
-        pass
 
     def validate_plt(self):
         """Empty function"""
-        pass
 
     def validate_ppm(self):
         """Empty function"""
-        pass
 
     def validate_ppt(self):
         """Empty function"""
-        pass
 
     def validate_tilePart(self):
         """Analyse tile part that starts at offsetStart and perform cursory validation
@@ -2463,7 +2460,7 @@ class BoxValidator:
                 # Add extracted characteristics to characteristics tree
                 self.characteristics.append(characteristicsCOD)
                 offset = offsetNext
-            
+
             elif marker == b'\xff\x53':
                 # COC (coding style component) marker segment
                 # COC is optional
@@ -2722,7 +2719,7 @@ class BoxValidator:
 
         # Loop through all UUIDs
         offset = 2
-        for i in range(nU):
+        for _ in range(nU):
             boxUUID = str(uuid.UUID(bytes=self.boxContents[offset:offset + 16]))
             self.addCharacteristic("uuid", boxUUID)
             offset += 16
@@ -2965,7 +2962,7 @@ class BoxValidator:
                 # value for each component)
                 bPCSignValues = []
 
-                for i in range(nC):
+                for _ in range(nC):
                     bPCSignValues.append(bPCSign)
 
                 # Create list of bPCDepth values(i.e. duplicate fixed

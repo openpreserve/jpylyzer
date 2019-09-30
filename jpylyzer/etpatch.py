@@ -20,7 +20,7 @@ TODO:
 
 import xml.etree.ElementTree as ET
 from . import byteconv as bc
-from . import config as config
+from . import config
 
 
 def tostring(elem, enc, meth):
@@ -49,8 +49,7 @@ class Element(ET.Element):
         elt = self.find(match)
         if elt is not None:
             return elt.text
-        else:
-            return None
+        return None
 
     def findAllText(self, match):
         """Searches element and returns list that contains 'Text' attribute
@@ -75,7 +74,7 @@ class Element(ET.Element):
         if len(subelement) != 0:
             self.append(subelement)
 
-    def makeHumanReadable(self, remapTable={}):
+    def makeHumanReadable(self, remapTable=None):
         """Takes element object, and returns a modified version in which all
         non-printable 'text' fields (which may contain numeric data or binary strings)
         are replaced by printable strings
@@ -83,7 +82,7 @@ class Element(ET.Element):
         Property values in original tree may be mapped to alternative (more user-friendly)
         reportable values using a remapTable, which is a nested dictionary.
         """
-
+        remapTable = remapTable or {}
         for elt in self.iter():
             # Text field of this element
             textIn = elt.text
