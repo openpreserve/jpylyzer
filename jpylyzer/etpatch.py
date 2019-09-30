@@ -115,6 +115,7 @@ class Element(ET.Element):
 
             if config.PYTHON_VERSION.startswith(config.PYTHON_2):
                 # Python 2.x
+                # pylint: disable=E0602
                 numericTypes = [int, long, float, bool]
                 # Long type is deprecated in Python 3.x!
             else:

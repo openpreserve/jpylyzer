@@ -93,3 +93,6 @@ Thumbs.db
 # Files from gh-pages #
 #######################
 /_site
+
+# Pytest coverage file
+.coverage

@@ -1,13 +1,20 @@
 language: python
+
 python:
   - "2.7"
   - "3.4"
   - "3.5"
 
 before_install:
-  - sudo -H pip install pyinstaller
+  - pip install .[testing]
+  - pip install pyinstaller
+
+before_script:
+  - pylint ./jpylyzer
 
 script:
+  - pre-commit run --all-files --verbose
+  - pytest --cov=jpylyzer
   - ./build-with-pyinstaller.sh
 
 after_success:

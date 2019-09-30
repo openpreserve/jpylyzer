@@ -548,6 +548,7 @@ def findFiles(recurse, paths):
 
         if config.PYTHON_VERSION.startswith(config.PYTHON_2):
             # Convert root to UTF-8 (only needed for Python 2.x)
+            # pylint: disable=E0602
             root = unicode(root, 'utf-8')
 
         # WILDCARD IN PATH OR FILENAME

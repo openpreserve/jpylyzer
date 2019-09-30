@@ -22,6 +22,16 @@ def find_version(*file_paths):
 INSTALL_REQUIRES = ['setuptools', 'six']
 PYTHON_REQUIRES = '>=2.7, !=3.0.*, !=3.1.*, <4'
 
+TEST_DEPS = [
+    'pre-commit',
+    'pytest',
+    'pylint',
+    'pytest-coverage'
+]
+EXTRAS = {
+    'testing': TEST_DEPS,
+}
+
 README = open('README.md', 'r')
 README_TEXT = README.read()
 README.close()
@@ -31,6 +41,8 @@ setup(name='jpylyzer',
       version=find_version('jpylyzer', 'jpylyzer.py'),
       license='LGPL',
       install_requires=INSTALL_REQUIRES,
+      tests_requires=TEST_DEPS,
+      extras_require=EXTRAS,
       python_requires=PYTHON_REQUIRES,
       platforms=['POSIX', 'Windows'],
       description='JP2 (JPEG 2000 Part 1) image validator and properties extractor',
