@@ -1160,7 +1160,7 @@ class BoxValidator:
             foundQCDMarker = False
 
             while marker != b'\xff\x90' and offsetNext != -9999:
-                marker, segLength, segContents, offsetNext = self._getMarkerSegment(
+                marker, _, segContents, offsetNext = self._getMarkerSegment(
                     offset)
 
                 if marker == b'\xff\x52':
@@ -1373,8 +1373,9 @@ class BoxValidator:
                 tileIndices) == numberOfTilesExpected)
 
             # Found numbers of tile	parts per tile must match expected
-            self.testFor("foundExpectedNumberOfTileParts", len(
-                set(tilePartsPerTileExpected.items()) - set(tilePartsPerTileFound.items())) == 0)
+            self.testFor("foundExpectedNumberOfTileParts",
+                         len(set(tilePartsPerTileExpected.items())) ==
+                         len(set(tilePartsPerTileFound.items())))
 
             # Add tile-part characteristics and tests to characteristics / tests
             self.characteristics.append(tilePartCharacteristics)
@@ -1389,7 +1390,7 @@ class BoxValidator:
             ccocValues = []
             for ccocElement in ccocElements:
                 ccocValues.append(ccocElement.text)
-            if len(ccocValues) > 0:
+            if ccocValues:
                 self.testFor("maxOneCcocPerComponent", len(set(ccocValues)) == len(ccocValues))
 
             # Test if all cqcc values are unique
@@ -1401,7 +1402,7 @@ class BoxValidator:
             cqccValues = []
             for cqccElement in cqccElements:
                 cqccValues.append(cqccElement.text)
-            if len(cqccValues) > 0:
+            if cqccValues:
                 self.testFor("maxOneCqccPerComponent", len(set(cqccValues)) == len(cqccValues))
 
             # Last 2 bytes must be end-of-codestream marker
@@ -2245,7 +2246,7 @@ class BoxValidator:
             # Allowed values: 0 (LRCP), 1 (RLCP), 2 (RPCL), 3 (PCRL), 4(CPRL)
             orderIsValid = order in [0, 1, 2, 3, 4]
             self.testFor("orderIsValid", orderIsValid)
-            offset +=1
+            offset += 1
 
     def validate_crg(self):
         """Component registration (CRG) marker (ISO/IEC 15444-1 Section A.9.1)"""
@@ -2448,7 +2449,7 @@ class BoxValidator:
         # this)
 
         while marker != b'\xff\x93' and offsetNext != -9999:
-            marker, segLength, segContents, offsetNext = self._getMarkerSegment(
+            marker, _, segContents, offsetNext = self._getMarkerSegment(
                 offset)
 
             if marker == b'\xff\x52':

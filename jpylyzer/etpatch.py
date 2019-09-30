@@ -71,7 +71,7 @@ class Element(ET.Element):
     def appendIfNotEmpty(self, subelement):
         """Append sub-element, but only if subelement is not empty"""
 
-        if len(subelement) != 0:
+        if subelement:
             self.append(subelement)
 
     def makeHumanReadable(self, remapTable=None):
@@ -137,6 +137,6 @@ class Element(ET.Element):
                 # Update output tree
                 elt.text = textOut
 
-    def toxml(self, indent="  "):
+    def toxml(self):
         """Convert Element object to XML"""
         return ET.tostring(self, 'UTF-8', 'xml')

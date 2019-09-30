@@ -55,7 +55,7 @@ from . import shared
 SCRIPT_PATH, SCRIPT_NAME = os.path.split(sys.argv[0])
 
 # SCRIPT_NAME is empty when called from Java/Jython, so this needs a fix
-if len(SCRIPT_NAME) == 0:
+if not SCRIPT_NAME:
     SCRIPT_NAME = 'jpylyzer'
 
 __version__ = "2.0.0a1"
@@ -437,8 +437,7 @@ def checkNullArgs(args):
     invalid or no input argument is supplied.
     """
 
-    if len(args) == 0:
-
+    if not args:
         print('')
         PARSER.print_help()
         sys.exit(config.ERR_CODE_NO_IMAGES)
@@ -449,7 +448,7 @@ def checkNoInput(files):
     (and exits if not)
     """
 
-    if len(files) == 0:
+    if not files:
         shared.printWarning("no images to check!")
         sys.exit(config.ERR_CODE_NO_IMAGES)
 
@@ -531,6 +530,7 @@ def getFilesFromTree(rootDir):
     for dirname, dirnames, filenames in os.walk(rootDir):
         # Suppress directory names
         for subdirname in dirnames:
+            # pylint: disable=W0612
             thisDirectory = os.path.join(dirname, subdirname)
 
         for filename in filenames:
@@ -806,7 +806,7 @@ def main():
     jp2In = args.jp2In
 
     # Print help message and exit if jp2In is empty
-    if len(jp2In) == 0:
+    if not jp2In:
         printHelpAndExit()
 
     # Makes user-specified flags available to any module that imports 'config.py'

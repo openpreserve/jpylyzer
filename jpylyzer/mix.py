@@ -162,9 +162,11 @@ class Mix:
             return None
 
         mixIcm = ET.Element('mix:ImageCaptureMetadata')
-        rdfBox = properties.find('xmlBox/{adobe:ns:meta/}xmpmeta/{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF')
+        rdfBox = properties.find('xmlBox/{adobe:ns:meta/}xmpmeta/'
+                                 '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF')
         if not rdfBox:
-            rdfBox = properties.find('uuidBox/{adobe:ns:meta/}xmpmeta/{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF')
+            rdfBox = properties.find('uuidBox/{adobe:ns:meta/}xmpmeta/'
+                                     '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF')
         if not rdfBox:
             return None
         mixGci = ET.Element('mix:GeneralCaptureInformation')
@@ -286,10 +288,12 @@ class Mix:
         xsiNsString = 'http://www.w3.org/2001/XMLSchema-instance'
         if self.mixFlag == 1:
             nsString = 'http://www.loc.gov/mix/v10'
-            locSchemaString = 'http://www.loc.gov/mix/v10 http://www.loc.gov/standards/mix/mix10/mix10.xsd'
+            locSchemaString = ('http://www.loc.gov/mix/v10 '
+                               'http://www.loc.gov/standards/mix/mix10/mix10.xsd')
         else:
             nsString = 'http://www.loc.gov/mix/v20'
-            locSchemaString = 'http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix.xsd'
+            locSchemaString = ('http://www.loc.gov/mix/v20 '
+                               'http://www.loc.gov/standards/mix/mix.xsd')
 
         mixRoot = ET.Element(
             'mix:mix', {'xmlns:mix': nsString,
