@@ -1122,7 +1122,7 @@ class BoxValidator:
 
         # Read first marker segment. This must be the start-of-codestream
         # marker
-        marker, segLength, segContents, offsetNext = self._getMarkerSegment(
+        marker, _, segContents, offsetNext = self._getMarkerSegment(
             offset)
 
         # Marker must be start-of-codestream marker
@@ -1131,7 +1131,7 @@ class BoxValidator:
 
         # Read next marker segment. This must be the SIZ (image and tile
         # size) marker
-        marker, segLength, segContents, offsetNext = self._getMarkerSegment(
+        marker, _, segContents, offsetNext = self._getMarkerSegment(
             offset)
         foundSIZMarker = (marker == b'\xff\x51')
         self.testFor("foundSIZMarker", foundSIZMarker)
@@ -1332,7 +1332,9 @@ class BoxValidator:
                 marker = self.boxContents[offset:offset + 2]
 
                 if marker == b'\xff\x90':
-                    resultsTilePart = BoxValidator(marker, self.boxContents, startOffset=offset, components=csiz).validate()
+                    resultsTilePart = BoxValidator(marker, self.boxContents,
+                                                   startOffset=offset,
+                                                   components=csiz).validate()
                     testsTilePart = resultsTilePart.tests
                     characteristicsTilePart = resultsTilePart.characteristics
                     offsetNext = resultsTilePart.returnOffset
@@ -2047,7 +2049,7 @@ class BoxValidator:
             self.addCharacteristic("epsilon", epsilon)
 
         elif qStyle == 2:
-            for i in range(levels):
+            for _ in range(levels):
                 spqcd = bc.bytesToUShortInt(
                     self.boxContents[offset:offset + 2])
 
@@ -2145,7 +2147,7 @@ class BoxValidator:
             self.addCharacteristic("epsilon", epsilon)
 
         elif qStyle == 2:
-            for i in range(levels):
+            for _ in range(levels):
                 spqcc = bc.bytesToUShortInt(
                     self.boxContents[offset:offset + 2])
 
@@ -2416,7 +2418,7 @@ class BoxValidator:
 
         # Read first marker segment, which is a  start of tile (SOT) marker
         # segment
-        marker, segLength, segContents, offsetNext = self._getMarkerSegment(
+        marker, _, segContents, offsetNext = self._getMarkerSegment(
             offset)
 
         # Validate start of tile (SOT) marker segment
@@ -2969,7 +2971,7 @@ class BoxValidator:
                 # value for each component)
                 bPCDepthValues = []
 
-                for i in range(nC):
+                for _ in range(nC):
                     bPCDepthValues.append(bPCDepth)
 
             # All occurrences of ssizSign to list

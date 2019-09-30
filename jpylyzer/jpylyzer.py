@@ -52,28 +52,28 @@ from . import mix
 from . import shared
 
 
-scriptPath, scriptName = os.path.split(sys.argv[0])
+SCRIPT_PATH, SCRIPT_NAME = os.path.split(sys.argv[0])
 
-# scriptName is empty when called from Java/Jython, so this needs a fix
-if len(scriptName) == 0:
-    scriptName = 'jpylyzer'
+# SCRIPT_NAME is empty when called from Java/Jython, so this needs a fix
+if len(SCRIPT_NAME) == 0:
+    SCRIPT_NAME = 'jpylyzer'
 
 __version__ = "2.0.0a1"
 
-# Create parser
-parser = argparse.ArgumentParser(
+# Create PARSER
+PARSER = argparse.ArgumentParser(
     description="JP2 image validator and properties extractor")
 
 # list of existing files to be analysed
-existingFiles = []
+EXISTING_FILES = []
 
 # Name space and schema strings
-nsString1 = 'http://openpreservation.org/ns/jpylyzer/'
-nsString2 = 'http://openpreservation.org/ns/jpylyzer/v2/'
-xsiNsString = 'http://www.w3.org/2001/XMLSchema-instance'
-locSchemaString1 = 'http://openpreservation.org/ns/jpylyzer/ \
+NS_STRING_1 = 'http://openpreservation.org/ns/jpylyzer/'
+NS_STRING_2 = 'http://openpreservation.org/ns/jpylyzer/v2/'
+XSI_NS_STRING = 'http://www.w3.org/2001/XMLSchema-instance'
+LOC_SCHEMA_STRING_1 = 'http://openpreservation.org/ns/jpylyzer/ \
 http://jpylyzer.openpreservation.org/jpylyzer-v-1-1.xsd'
-locSchemaString2 = 'http://openpreservation.org/ns/jpylyzer/v2/ \
+LOC_SCHEMA_STRING_2 = 'http://openpreservation.org/ns/jpylyzer/v2/ \
 http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd'
 
 def generatePropertiesRemapTable():
@@ -230,7 +230,7 @@ def generatePropertiesRemapTable():
     enumerationsMap['renderingIntent'] = renderingIntentMap
     enumerationsMap['bSign'] = signMap
     enumerationsMap['mTyp'] = mTypMap
-    if not config.legacyXMLFlag:
+    if not config.LEGACY_XML_FLAG:
         enumerationsMap['precincts'] = precinctsMap
     else:
         enumerationsMap['precincts'] = yesNoMap
@@ -290,28 +290,28 @@ def checkOneFile(path, validationFormat='jp2'):
     """Process one file and return analysis result as element object"""
 
     # Element root name, name space and Schema location (legacy, current)
-    if config.legacyXMLFlag:
+    if config.LEGACY_XML_FLAG:
         elementRootName = 'jpylyzer'
-        nsString = nsString1
-        locSchemaString = locSchemaString1
+        nsString = NS_STRING_1
+        locSchemaString = LOC_SCHEMA_STRING_1
     else:
         elementRootName = 'file'
-        nsString = nsString2
-        locSchemaString = locSchemaString2
+        nsString = NS_STRING_2
+        locSchemaString = LOC_SCHEMA_STRING_2
 
     # Create output elementtree object
-    if config.inputRecursiveFlag or config.inputWrapperFlag:
+    if config.INPUT_RECURSIVE_FLAG or config.INPUT_WRAPPER_FLAG:
         # Name space already declared in results element, so no need to do it
         # here
         root = ET.Element(elementRootName)
     else:
         root = ET.Element(
             elementRootName, {'xmlns': nsString,
-                              'xmlns:xsi': xsiNsString,
+                              'xmlns:xsi': XSI_NS_STRING,
                               'xsi:schemaLocation': locSchemaString})
 
     # Create elements for file and status meta info
-    if config.legacyXMLFlag:
+    if config.LEGACY_XML_FLAG:
         # Jpylyzer 1.x format also stores tool info at this level!
         toolInfo = ET.Element('toolInfo')
     fileInfo = ET.Element('fileInfo')
@@ -331,8 +331,8 @@ def checkOneFile(path, validationFormat='jp2'):
     filePathCleaned = stripSurrogatePairs(filePath)
 
     # Produce some general tool and file meta info
-    if config.legacyXMLFlag:
-        toolInfo.appendChildTagWithText("toolName", scriptName)
+    if config.LEGACY_XML_FLAG:
+        toolInfo.appendChildTagWithText("toolName", SCRIPT_NAME)
         toolInfo.appendChildTagWithText("toolVersion", __version__)
     fileInfo.appendChildTagWithText("fileName", fileNameCleaned)
     fileInfo.appendChildTagWithText("filePath", filePathCleaned)
@@ -398,8 +398,8 @@ def checkOneFile(path, validationFormat='jp2'):
         tests = ET.Element("tests")
         characteristics = ET.Element('properties')
 
-    if config.mixFlag != 0 and fileIsValid:
-        mixProperties = mix.Mix(config.mixFlag).generateMix(characteristics)
+    if config.MIX_FLAG != 0 and fileIsValid:
+        mixProperties = mix.Mix(config.MIX_FLAG).generateMix(characteristics)
 
     # Add status info
     statusInfo.appendChildTagWithText("success", str(success))
@@ -407,25 +407,25 @@ def checkOneFile(path, validationFormat='jp2'):
         statusInfo.appendChildTagWithText("failureMessage", failureMessage)
 
     # Append all results to root
-    if config.legacyXMLFlag:
+    if config.LEGACY_XML_FLAG:
         # Jpylyzer 1.x format
         root.append(toolInfo)
     root.append(fileInfo)
     root.append(statusInfo)
 
-    if config.legacyXMLFlag:
+    if config.LEGACY_XML_FLAG:
         # Jpylyzer 1.x format
         root.appendChildTagWithText("isValidJP2", str(fileIsValid))
     else:
         # Jpylyzer 2.x format
         root.appendChildTagWithText("isValid", str(fileIsValid))
         # Set 'format' attribute of isValid element
-        root.findall(".//isValid")[0].set("format", config.validationFormat)
+        root.findall(".//isValid")[0].set("format", config.VALIDATION_FORMAT)
 
     root.append(tests)
     root.append(characteristics)
     extension = ET.Element('propertiesExtension')
-    if config.mixFlag != 0:
+    if config.MIX_FLAG != 0:
         root.append(extension)
         if validationFormat == "jp2" and fileIsValid:
             extension.append(mixProperties)
@@ -440,7 +440,7 @@ def checkNullArgs(args):
     if len(args) == 0:
 
         print('')
-        parser.print_help()
+        PARSER.print_help()
         sys.exit(config.ERR_CODE_NO_IMAGES)
 
 
@@ -457,7 +457,7 @@ def checkNoInput(files):
 def printHelpAndExit():
     """Print help message and exit"""
     print('')
-    parser.print_help()
+    PARSER.print_help()
     sys.exit()
 
 
@@ -503,11 +503,11 @@ def stripSurrogatePairs(ustring):
 
 
 def getFiles(searchpattern):
-    """Append paths of all files that match search pattern to existingFiles"""
+    """Append paths of all files that match search pattern to EXISTING_FILES"""
     results = glob.glob(searchpattern)
     for f in results:
         if os.path.isfile(f):
-            existingFiles.append(f)
+            EXISTING_FILES.append(f)
 
 
 def getFilesWithPatternFromTree(rootDir, pattern):
@@ -535,11 +535,11 @@ def getFilesFromTree(rootDir):
 
         for filename in filenames:
             thisFile = os.path.join(dirname, filename)
-            existingFiles.append(thisFile)
+            EXISTING_FILES.append(thisFile)
 
 
 def findFiles(recurse, paths):
-    """Find all files that match a wildcard expression and add their paths to existingFiles"""
+    """Find all files that match a wildcard expression and add their paths to EXISTING_FILES"""
 
     WILDCARD = "*"
 
@@ -548,12 +548,13 @@ def findFiles(recurse, paths):
 
         if config.PYTHON_VERSION.startswith(config.PYTHON_2):
             # Convert root to UTF-8 (only needed for Python 2.x)
+            # pylint: disable=E0602
             root = unicode(root, 'utf-8')
 
         # WILDCARD IN PATH OR FILENAME
         # In Linux wilcard expansion done by bash so, add file to list
         if os.path.isfile(root):
-            existingFiles.append(root)
+            EXISTING_FILES.append(root)
         # Windows (& Linux with backslash prefix) does not expand wildcard '*'
         # Find files in the input path and add to list
         elif WILDCARD in root:
@@ -576,12 +577,12 @@ def findFiles(recurse, paths):
             # If the input path returned files list, add files to List
 
             if len(filesList) == 1 and os.path.isfile(filesList[0]):
-                existingFiles.append(filesList[0])
+                EXISTING_FILES.append(filesList[0])
 
             if len(filesList) > 1:
                 for f in filesList:
                     if os.path.isfile(f):
-                        existingFiles.append(f)
+                        EXISTING_FILES.append(f)
 
         elif not os.path.isdir(root) and not os.path.isfile(root):
             # One or more (but not all) paths do no exist - print a warning
@@ -633,7 +634,7 @@ def writeElement(elt, codec):
     if config.PYTHON_VERSION.startswith(config.PYTHON_3):
         xmlOut = ET.tostring(elt, 'unicode', 'xml')
 
-    if not config.noPrettyXMLFlag:
+    if not config.NO_PRETTY_XML_FLAG:
         # Make xml pretty
         xmlPretty = minidom.parseString(xmlOut).toprettyxml('    ')
 
@@ -665,16 +666,16 @@ def checkFiles(recurse, wrap, paths):
     """
 
     # Schema location (legacy, current)
-    if config.legacyXMLFlag:
-        locSchemaString = locSchemaString1
+    if config.LEGACY_XML_FLAG:
+        locSchemaString = LOC_SCHEMA_STRING_1
     else:
-        locSchemaString = locSchemaString2
+        locSchemaString = LOC_SCHEMA_STRING_2
 
     # Find existing files in the given input path(s)
     findFiles(recurse, paths)
 
     # If there are no valid input files then exit program
-    checkNoInput(existingFiles)
+    checkNoInput(EXISTING_FILES)
 
     # Set encoding of the terminal to UTF-8
     if config.PYTHON_VERSION.startswith(config.PYTHON_2):
@@ -686,18 +687,18 @@ def checkFiles(recurse, wrap, paths):
     # Note: this is the default behaviour in jpylyzer 2.x. Wrap
     # option now ONLY takes effect for legacy (1.x) output!
 
-    if config.legacyXMLFlag:
-        nsString = nsString1
+    if config.LEGACY_XML_FLAG:
+        nsString = NS_STRING_1
     else:
-        nsString = nsString2
+        nsString = NS_STRING_2
 
     if wrap or recurse:
         xmlHead = "<?xml version='1.0' encoding='UTF-8'?>\n"
-        if not config.legacyXMLFlag:
+        if not config.LEGACY_XML_FLAG:
             xmlHead += "<jpylyzer xmlns=\"" + nsString + "\" "
         else:
             xmlHead += "<results xmlns=\"" + nsString + "\" "
-        xmlHead += "xmlns:xsi=\"" + xsiNsString + "\" "
+        xmlHead += "xmlns:xsi=\"" + XSI_NS_STRING + "\" "
         xmlHead += "xsi:schemaLocation=\"" + locSchemaString + "\">\n"
     else:
         xmlHead = "<?xml version='1.0' encoding='UTF-8'?>\n"
@@ -705,25 +706,25 @@ def checkFiles(recurse, wrap, paths):
 
     # Create toolInfo element
 
-    if not config.legacyXMLFlag:
+    if not config.LEGACY_XML_FLAG:
         toolInfo = ET.Element('toolInfo')
-        toolInfo.appendChildTagWithText("toolName", scriptName)
+        toolInfo.appendChildTagWithText("toolName", SCRIPT_NAME)
         toolInfo.appendChildTagWithText("toolVersion", __version__)
         # Write toolInfo to stdout
         writeElement(toolInfo, out)
 
     # Process the input files
-    for path in existingFiles:
+    for path in EXISTING_FILES:
 
         # Analyse file
-        xmlElement = checkOneFile(path, config.validationFormat)
+        xmlElement = checkOneFile(path, config.VALIDATION_FORMAT)
 
         # Write output to stdout
         writeElement(xmlElement, out)
 
     # Close </results> element if wrapper flag is true
     if wrap or recurse:
-        if not config.legacyXMLFlag:
+        if not config.LEGACY_XML_FLAG:
             out.write("</jpylyzer>\n")
         else:
             out.write("</results>\n")
@@ -733,56 +734,56 @@ def parseCommandLine():
     """Parse command line arguments"""
 
     # Add arguments
-    parser.add_argument('--format', '-f',
+    PARSER.add_argument('--format', '-f',
                         action="store",
                         type=str,
                         dest="fmt",
                         default="jp2",
                         help="validation format; allowed values: jp2, j2c (default: jp2)")
-    parser.add_argument('--legacyout', '-l',
+    PARSER.add_argument('--legacyout', '-l',
                         action="store_true",
                         dest="legacyXMLFlag",
                         default=False,
                         help="report output in jpylyzer 1.x format (provided for backward \
                                 compatibility only)")
-    parser.add_argument('--mix',
+    PARSER.add_argument('--mix',
                         type=int, choices=[1, 2],
                         dest="mixFlag",
                         default=0,
                         help="report additional output in NISO MIX format (version 1.0 or 2.0)")
-    parser.add_argument('--nopretty',
+    PARSER.add_argument('--nopretty',
                         action="store_true",
                         dest="noPrettyXMLFlag",
                         default=False,
                         help="suppress pretty-printing of XML output")
-    parser.add_argument('--nullxml',
+    PARSER.add_argument('--nullxml',
                         action="store_true",
                         dest="extractNullTerminatedXMLFlag",
                         default=False,
                         help="extract null-terminated XML content from XML and UUID boxes \
                                 (doesn't affect validation)")
-    parser.add_argument('--recurse', '-r',
+    PARSER.add_argument('--recurse', '-r',
                         action="store_true",
                         dest="inputRecursiveFlag",
                         default=False,
                         help="when analysing a directory, recurse into subdirectories \
                                 (implies --wrapper)")
-    parser.add_argument('--verbose',
+    PARSER.add_argument('--verbose',
                         action="store_true",
                         dest="outputVerboseFlag",
                         default=False,
                         help="report test results in verbose format")
-    parser.add_argument('--version', '-v',
+    PARSER.add_argument('--version', '-v',
                         action='version',
                         version=__version__)
-    parser.add_argument('--wrapper',
+    PARSER.add_argument('--wrapper',
                         '-w', action="store_true",
                         dest="inputWrapperFlag",
                         default=False,
                         help="wrap output for individual image(s) in 'results' XML element \
                                 (deprecated in jpylyzer 2.x, only takes effect if \
                                 --legacyout is used)")
-    parser.add_argument('jp2In',
+    PARSER.add_argument('jp2In',
                         action="store",
                         type=str,
                         nargs='+',
@@ -790,7 +791,7 @@ def parseCommandLine():
                                 expressions; prefix wildcard (*) with backslash (\\) in Linux")
 
     # Parse arguments
-    args = parser.parse_args()
+    args = PARSER.parse_args()
 
     return args
 
@@ -810,35 +811,34 @@ def main():
 
     # Makes user-specified flags available to any module that imports 'config.py'
     # (here: 'boxvalidator.py')
-    config.outputVerboseFlag = args.outputVerboseFlag
-    config.extractNullTerminatedXMLFlag = args.extractNullTerminatedXMLFlag
-    config.inputRecursiveFlag = args.inputRecursiveFlag
-    config.inputWrapperFlag = args.inputWrapperFlag
-    config.extractNullTerminatedXMLFlag = args.extractNullTerminatedXMLFlag
-    config.noPrettyXMLFlag = args.noPrettyXMLFlag
-    config.validationFormat = args.fmt.lower()
-    config.legacyXMLFlag = args.legacyXMLFlag
-    config.mixFlag = args.mixFlag
+    config.OUTPUT_VERBOSE_FLAG = args.outputVerboseFlag
+    config.EXTRACT_NULL_TERMINATED_XML_FLAG = args.extractNullTerminatedXMLFlag
+    config.INPUT_RECURSIVE_FLAG = args.inputRecursiveFlag
+    config.INPUT_WRAPPER_FLAG = args.inputWrapperFlag
+    config.NO_PRETTY_XML_FLAG = args.noPrettyXMLFlag
+    config.VALIDATION_FORMAT = args.fmt.lower()
+    config.LEGACY_XML_FLAG = args.legacyXMLFlag
+    config.MIX_FLAG = args.mixFlag
 
     # Exit if validation format is unknown
-    if config.validationFormat not in ['jp2', 'j2c']:
-        msg = "'" + config.validationFormat + "'  is not a supported value for --format"
+    if config.VALIDATION_FORMAT not in ['jp2', 'j2c']:
+        msg = "'" + config.VALIDATION_FORMAT + "'  is not a supported value for --format"
         shared.errorExit(msg)
     # Exit if validation format is 'j2c' and legacyXML flag is set
-    if config.legacyXMLFlag and config.validationFormat == 'j2c':
+    if config.LEGACY_XML_FLAG and config.VALIDATION_FORMAT == 'j2c':
         msg = " j2c format is supported if --legacyout is set"
         shared.errorExit(msg)
     # Ignore entered value of inputWrapperFlag, unless legacyXML flag id set
-    if not config.legacyXMLFlag:
-        config.inputWrapperFlag = True
+    if not config.LEGACY_XML_FLAG:
+        config.INPUT_WRAPPER_FLAG = True
     # Reset value of mixFlag to 0 if legacyXMLFlag is set or format is 'j2c'
-    if config.legacyXMLFlag:
-        config.mixFlag = 0
-    if config.validationFormat == 'j2c':
-        config.mixFlag = 0
+    if config.LEGACY_XML_FLAG:
+        config.MIX_FLAG = 0
+    if config.VALIDATION_FORMAT == 'j2c':
+        config.MIX_FLAG = 0
 
     # Check files
-    checkFiles(config.inputRecursiveFlag, config.inputWrapperFlag, jp2In)
+    checkFiles(config.INPUT_RECURSIVE_FLAG, config.INPUT_WRAPPER_FLAG, jp2In)
 
 if __name__ == "__main__":
     main()
