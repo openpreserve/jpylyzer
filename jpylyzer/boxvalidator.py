@@ -227,7 +227,7 @@ class BoxValidator:
     def testFor(self, testType, testResult):
         """Add testResult node to tests element tree"""
 
-        if config.outputVerboseFlag is False:
+        if config.OUTPUT_VERBOSE_FLAG is False:
             # Non-verbose output: only add results of tests that failed
             if testResult is False:
                 self.tests.appendChildTagWithText(testType, testResult)
@@ -2600,7 +2600,7 @@ class BoxValidator:
             containsWellformedXML = False
 
             # Useful for extracting null-terminated XML (older Kakadu versions)
-            if config.extractNullTerminatedXMLFlag:
+            if config.EXTRACT_NULL_TERMINATED_XML_FLAG:
                 try:
                     data = bc.removeNullTerminator(data)
                     dataAsElement = ET.fromstring(data)
@@ -2651,7 +2651,7 @@ class BoxValidator:
 
                 # Useful for extracting null-terminated XML (older Kakadu
                 # versions)
-                if config.extractNullTerminatedXMLFlag:
+                if config.EXTRACT_NULL_TERMINATED_XML_FLAG:
                     try:
                         data = bc.removeNullTerminator(data)
                         dataAsElement = ET.fromstring(data)
