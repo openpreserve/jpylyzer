@@ -11,6 +11,7 @@ before_install:
   - pip install -U pytest
   - pip install -U pyinstaller
   - pip install -U codacy-coverage
+  - pip install -U twine
 
 install:
   - pip install .[testing]
@@ -21,6 +22,8 @@ before_script:
 script:
   - pre-commit run --all-files --verbose
   - pytest --cov=jpylyzer
+  - ./setup.py sdist
+  - twine check dist/*
   - ./build-with-pyinstaller.sh
 
 after_success:
