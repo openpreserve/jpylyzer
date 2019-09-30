@@ -53,4 +53,3 @@ setup(name='jpylyzer',
           'Programming Language :: Python :: 3',
       ]
      )
-
