@@ -96,3 +96,4 @@ Thumbs.db
 
 # Pytest coverage file
 .coverage
+coverage.xml

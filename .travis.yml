@@ -6,8 +6,14 @@ python:
   - "3.5"
 
 before_install:
+  - python --version
+  - pip install -U pip
+  - pip install -U pytest
+  - pip install -U pyinstaller
+  - pip install -U codacy-coverage
+
+install:
   - pip install .[testing]
-  - pip install pyinstaller
 
 before_script:
   - pylint ./jpylyzer
@@ -18,4 +24,6 @@ script:
   - ./build-with-pyinstaller.sh
 
 after_success:
+  - coverage xml
+  - python-codacy-coverage -r coverage.xml
   - ./pyi-build/dist/jpylyzer --version
