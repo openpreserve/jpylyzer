@@ -14,7 +14,7 @@ Contributors:
    Adam Retter, The National Archives, UK.
    Jaishree Davey, The National Archives, UK.
    Laura Damian, The National Archives, UK.
-   Carl Wilson, Open Planets Foundation, UK.
+   Carl Wilson, Open Preservation Foundation, UK.
    Stefan Weil, UB Mannheim, DE.
    Adam Fritzler, Planet Labs, USA.
    Thomas Ledoux, Bibliotheque Nationale de France
