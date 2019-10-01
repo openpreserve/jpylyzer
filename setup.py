@@ -1,18 +1,18 @@
 #!/usr/bin/env python
-"""Setup script for jpylyzer"""
+"""Setup script for jpylyzer."""
 import codecs
 import os
 import re
 from setuptools import setup, find_packages
 
 def read(*parts):
-    """Read file and return contents"""
+    """Read file and return contents."""
     path = os.path.join(os.path.dirname(__file__), *parts)
     with codecs.open(path, encoding='utf-8') as fobj:
         return fobj.read()
 
 def find_version(*file_paths):
-    """Find and return version number"""
+    """Find and return version number."""
     version_file = read(*file_paths)
     version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", version_file, re.M)
     if version_match:

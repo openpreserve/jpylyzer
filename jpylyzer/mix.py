@@ -1,4 +1,4 @@
-"""Mix Property class to generate the mix property"""
+"""Mix Property class to generate the mix property."""
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -18,14 +18,14 @@ import re
 from . import etpatch as ET
 
 class Mix:
-    """Class for generating NISO MIX image metadata
-    """
+    """Class for generating NISO MIX image metadata."""
+
     def __init__(self, mixFlag):
+        """Initialise the Mix instance with a mixFlag."""
         self.mixFlag = mixFlag
 
     def generateMixBasicDigitalObjectInformation(self, properties):
-        """Generate a mix BasicDigitalObjectInformation
-        """
+        """Generate a mix BasicDigitalObjectInformation."""
         mixBdoi = ET.Element('mix:BasicDigitalObjectInformation')
 
         mixFormatDesignation = ET.Element('mix:FormatDesignation')
@@ -65,8 +65,7 @@ class Mix:
         return mixBdoi
 
     def generateMixBasicImageInformation(self, properties):
-        """Generate a mix BasicImageInformation
-        """
+        """Generate a mix BasicImageInformation."""
         mixBio = ET.Element('mix:BasicImageInformation')
         mixBic = ET.Element('mix:BasicImageCharacteristics')
         width = str(properties.find('jp2HeaderBox/imageHeaderBox/width').text)
@@ -131,9 +130,7 @@ class Mix:
 
     @staticmethod
     def findValueInRDF(prop, prefixPath, ns, tag):
-        """Find a value in RDF : first as an element
-        then as an attribute
-        """
+        """Find a value in RDF : first as an element then as an attribute."""
         path = prefixPath + "/" + ns + tag
         value = prop.find(path)
         if value is not None:
@@ -146,8 +143,7 @@ class Mix:
 
     @staticmethod
     def addIfExist(prop, prefixPath, ns, tag, destEl, destTagName):
-        """Look for a value in RDF and build a element, if found
-        """
+        """Look for a value in RDF and build a element, if found."""
         value = Mix.findValueInRDF(prop, prefixPath, ns, tag)
         if value is not None:
             destEl.appendChildTagWithText(destTagName, value.strip())
@@ -155,8 +151,7 @@ class Mix:
         return False
 
     def generateMixImageCaptureMetadata(self, properties):
-        """Generate a mix ImageCaptureMetadata
-        """
+        """Generate a mix ImageCaptureMetadata."""
         if self.mixFlag == 0:
             # Avoid a static method using self
             return None
@@ -229,8 +224,7 @@ class Mix:
 
 
     def generateMixImageAssessmentMetadata(self, properties):
-        """Generate a mix ImageAssessmentMetadata
-        """
+        """Generate a mix ImageAssessmentMetadata."""
         mixIam = ET.Element('mix:ImageAssessmentMetadata')
 
         # Get the resolution in the captureResolutionBox first
@@ -283,8 +277,7 @@ class Mix:
         return mixIam
 
     def generateMix(self, properties):
-        """Generate a mix representation
-        """
+        """Generate a mix representation."""
         xsiNsString = 'http://www.w3.org/2001/XMLSchema-instance'
         if self.mixFlag == 1:
             nsString = 'http://www.loc.gov/mix/v10'
