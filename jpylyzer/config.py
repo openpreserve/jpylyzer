@@ -15,15 +15,14 @@
 #
 import sys
 
-validationFormat = 'jp2'
-outputVerboseFlag = False
-extractNullTerminatedXMLFlag = False
-inputRecursiveFlag = False
-inputWrapperFlag = False
-extractNullTerminatedXMLFlag = False
-noPrettyXMLFlag = False
-legacyXMLFlag = False
-mixFlag = 0
+VALIDATION_FORMAT = 'jp2'
+OUTPUT_VERBOSE_FLAG = False
+EXTRACT_NULL_TERMINATED_XML_FLAG = False
+INPUT_RECURSIVE_FLAG = False
+INPUT_WRAPPER_FLAG = False
+NO_PRETTY_XML_FLAG = False
+LEGACY_XML_FLAG = False
+MIX_FLAG = 0
 ERR_CODE_NO_IMAGES = -7
 UTF8_ENCODING = "UTF-8"
 PLATFORM = sys.platform

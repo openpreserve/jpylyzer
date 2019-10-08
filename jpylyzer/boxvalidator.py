@@ -17,10 +17,10 @@
 from __future__ import division
 import uuid
 import math
-from . import config as config
+from . import config
 from . import etpatch as ET
 from . import byteconv as bc
-from . import shared as shared
+from . import shared
 
 
 class BoxValidator:
@@ -227,7 +227,7 @@ class BoxValidator:
     def testFor(self, testType, testResult):
         """Add testResult node to tests element tree"""
 
-        if config.outputVerboseFlag is False:
+        if config.OUTPUT_VERBOSE_FLAG is False:
             # Non-verbose output: only add results of tests that failed
             if testResult is False:
                 self.tests.appendChildTagWithText(testType, testResult)
@@ -299,7 +299,7 @@ class BoxValidator:
         cLList = []
         offset = 8
 
-        for i in range(int(numberOfCompatibilityFields)):
+        for _ in range(int(numberOfCompatibilityFields)):
             cL = self.boxContents[offset:offset + 4]
             self.addCharacteristic("cL", cL)
             cLList.append(cL)
@@ -839,7 +839,7 @@ class BoxValidator:
             # Start offset of cP entries for this column
             offset = nPC + 3 + i * (nE * bytesPadded)
 
-            for j in range(nE):
+            for _ in range(nE):
                 # Get bytes for this entry
                 cPAsBytes = self.boxContents[offset:offset + bytesPadded]
 
@@ -862,7 +862,7 @@ class BoxValidator:
         offset = 0
 
         # Loop through box contents and validate fields
-        for i in range(numberOfChannels):
+        for _ in range(numberOfChannels):
 
             # Component index
             cMP = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
@@ -914,7 +914,7 @@ class BoxValidator:
 
         # Loop through box contents and validate fields
         offset = 2
-        for i in range(n):
+        for _ in range(n):
             # Channel index
             cN = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
             self.addCharacteristic("cN", cN)
@@ -1122,7 +1122,7 @@ class BoxValidator:
 
         # Read first marker segment. This must be the start-of-codestream
         # marker
-        marker, segLength, segContents, offsetNext = self._getMarkerSegment(
+        marker, _, segContents, offsetNext = self._getMarkerSegment(
             offset)
 
         # Marker must be start-of-codestream marker
@@ -1131,7 +1131,7 @@ class BoxValidator:
 
         # Read next marker segment. This must be the SIZ (image and tile
         # size) marker
-        marker, segLength, segContents, offsetNext = self._getMarkerSegment(
+        marker, _, segContents, offsetNext = self._getMarkerSegment(
             offset)
         foundSIZMarker = (marker == b'\xff\x51')
         self.testFor("foundSIZMarker", foundSIZMarker)
@@ -1160,7 +1160,7 @@ class BoxValidator:
             foundQCDMarker = False
 
             while marker != b'\xff\x90' and offsetNext != -9999:
-                marker, segLength, segContents, offsetNext = self._getMarkerSegment(
+                marker, _, segContents, offsetNext = self._getMarkerSegment(
                     offset)
 
                 if marker == b'\xff\x52':
@@ -1332,7 +1332,9 @@ class BoxValidator:
                 marker = self.boxContents[offset:offset + 2]
 
                 if marker == b'\xff\x90':
-                    resultsTilePart = BoxValidator(marker, self.boxContents, startOffset=offset, components=csiz).validate()
+                    resultsTilePart = BoxValidator(marker, self.boxContents,
+                                                   startOffset=offset,
+                                                   components=csiz).validate()
                     testsTilePart = resultsTilePart.tests
                     characteristicsTilePart = resultsTilePart.characteristics
                     offsetNext = resultsTilePart.returnOffset
@@ -1371,14 +1373,16 @@ class BoxValidator:
                 tileIndices) == numberOfTilesExpected)
 
             # Found numbers of tile	parts per tile must match expected
-            self.testFor("foundExpectedNumberOfTileParts", len(
-                set(tilePartsPerTileExpected.items()) - set(tilePartsPerTileFound.items())) == 0)
+            self.testFor("foundExpectedNumberOfTileParts",
+                         len(set(tilePartsPerTileExpected.items())) ==
+                         len(set(tilePartsPerTileFound.items())))
 
             # Add tile-part characteristics and tests to characteristics / tests
             self.characteristics.append(tilePartCharacteristics)
             self.tests.appendIfNotEmpty(tilePartTests)
 
-            # Test if all ccoc values are unique (A.6.2 - no more than one COC per any given component)
+            # Test if all ccoc values are unique
+            # (A.6.2 - no more than one COC per any given component)
             # First we put all occurrences of ccoc to a list
             ccocElements = self.characteristics.findall('coc/ccoc') + \
                 self.characteristics.findall('tileParts/tilePart/coc/ccoc')
@@ -1386,10 +1390,11 @@ class BoxValidator:
             ccocValues = []
             for ccocElement in ccocElements:
                 ccocValues.append(ccocElement.text)
-            if len(ccocValues) > 0:
+            if ccocValues:
                 self.testFor("maxOneCcocPerComponent", len(set(ccocValues)) == len(ccocValues))
 
-            # Test if all cqcc values are unique (A.6.5 - no more than one QCC per any given component)
+            # Test if all cqcc values are unique
+            # (A.6.5 - no more than one QCC per any given component)
             # First we put all occurrences of cqcc to a list
             cqccElements = self.characteristics.findall('qcc/cqcc') + \
                 self.characteristics.findall('tileParts/tilePart/qcc/cqcc')
@@ -1397,7 +1402,7 @@ class BoxValidator:
             cqccValues = []
             for cqccElement in cqccElements:
                 cqccValues.append(cqccElement.text)
-            if len(cqccValues) > 0:
+            if cqccValues:
                 self.testFor("maxOneCqccPerComponent", len(set(cqccValues)) == len(cqccValues))
 
             # Last 2 bytes must be end-of-codestream marker
@@ -1514,7 +1519,7 @@ class BoxValidator:
 
         offset = 38
 
-        for i in range(csiz):
+        for _ in range(csiz):
             # ssiz (=bits per component)
             ssiz = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
 
@@ -1745,7 +1750,7 @@ class BoxValidator:
 
                 self.testFor("precinctSizeYIsValid", precinctSizeYIsValid)
                 offset += 1
-        
+
         else:
 
             # Default size for all precincts
@@ -1890,7 +1895,7 @@ class BoxValidator:
             # Precinct size for each resolution level (= decomposition levels + 1)
             # Order: low to high (lowest first)
             # TODO: the behaviour in the case of precincts is untested at this stage
-            # due to a lack of test files! 
+            # due to a lack of test files!
 
             offset += 1
 
@@ -2024,7 +2029,7 @@ class BoxValidator:
         offset = 3
 
         if qStyle == 0:
-            for i in range(levels):
+            for _ in range(levels):
                 spqcd = bc.bytesToUnsignedChar(
                     self.boxContents[offset:offset + 1])
 
@@ -2045,7 +2050,7 @@ class BoxValidator:
             self.addCharacteristic("epsilon", epsilon)
 
         elif qStyle == 2:
-            for i in range(levels):
+            for _ in range(levels):
                 spqcd = bc.bytesToUShortInt(
                     self.boxContents[offset:offset + 2])
 
@@ -2122,7 +2127,7 @@ class BoxValidator:
             levels = int((lqcc - 7) / 6)
 
         if qStyle == 0:
-            for i in range(levels):
+            for _ in range(levels):
                 spqcc = bc.bytesToUnsignedChar(
                     self.boxContents[offset:offset + 1])
 
@@ -2143,7 +2148,7 @@ class BoxValidator:
             self.addCharacteristic("epsilon", epsilon)
 
         elif qStyle == 2:
-            for i in range(levels):
+            for _ in range(levels):
                 spqcc = bc.bytesToUShortInt(
                     self.boxContents[offset:offset + 2])
 
@@ -2181,7 +2186,7 @@ class BoxValidator:
 
         offset = 2
 
-        for i in range(progOrderChanges):
+        for _ in range(progOrderChanges):
             # Resolution index for the start of a progression
             rspoc = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
             self.addCharacteristic("rspoc", rspoc)
@@ -2233,7 +2238,7 @@ class BoxValidator:
 
             self.addCharacteristic("cepoc", cepoc)
             self.testFor("cepocIsValid", cepocIsValid)
-            
+
             # Progression order
             order = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
             self.addCharacteristic("order", order)
@@ -2241,7 +2246,7 @@ class BoxValidator:
             # Allowed values: 0 (LRCP), 1 (RLCP), 2 (RPCL), 3 (PCRL), 4(CPRL)
             orderIsValid = order in [0, 1, 2, 3, 4]
             self.testFor("orderIsValid", orderIsValid)
-            offset +=1
+            offset += 1
 
     def validate_crg(self):
         """Component registration (CRG) marker (ISO/IEC 15444-1 Section A.9.1)"""
@@ -2255,8 +2260,8 @@ class BoxValidator:
         self.testFor("lcrgIsValid", lcrgIsValid)
 
         offset = 2
-        
-        for i in range(self.csiz):
+
+        for _ in range(self.csiz):
             # Horizontal offset value, in units of 1/65535 of xRsiz
             xcrg = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
             self.addCharacteristic("xcrg", xcrg)
@@ -2386,23 +2391,18 @@ class BoxValidator:
 
     def validate_tlm(self):
         """Empty function"""
-        pass
 
     def validate_plm(self):
         """Empty function"""
-        pass
 
     def validate_plt(self):
         """Empty function"""
-        pass
 
     def validate_ppm(self):
         """Empty function"""
-        pass
 
     def validate_ppt(self):
         """Empty function"""
-        pass
 
     def validate_tilePart(self):
         """Analyse tile part that starts at offsetStart and perform cursory validation
@@ -2419,7 +2419,7 @@ class BoxValidator:
 
         # Read first marker segment, which is a  start of tile (SOT) marker
         # segment
-        marker, segLength, segContents, offsetNext = self._getMarkerSegment(
+        marker, _, segContents, offsetNext = self._getMarkerSegment(
             offset)
 
         # Validate start of tile (SOT) marker segment
@@ -2449,7 +2449,7 @@ class BoxValidator:
         # this)
 
         while marker != b'\xff\x93' and offsetNext != -9999:
-            marker, segLength, segContents, offsetNext = self._getMarkerSegment(
+            marker, _, segContents, offsetNext = self._getMarkerSegment(
                 offset)
 
             if marker == b'\xff\x52':
@@ -2463,7 +2463,7 @@ class BoxValidator:
                 # Add extracted characteristics to characteristics tree
                 self.characteristics.append(characteristicsCOD)
                 offset = offsetNext
-            
+
             elif marker == b'\xff\x53':
                 # COC (coding style component) marker segment
                 # COC is optional
@@ -2601,7 +2601,7 @@ class BoxValidator:
             containsWellformedXML = False
 
             # Useful for extracting null-terminated XML (older Kakadu versions)
-            if config.extractNullTerminatedXMLFlag:
+            if config.EXTRACT_NULL_TERMINATED_XML_FLAG:
                 try:
                     data = bc.removeNullTerminator(data)
                     dataAsElement = ET.fromstring(data)
@@ -2652,7 +2652,7 @@ class BoxValidator:
 
                 # Useful for extracting null-terminated XML (older Kakadu
                 # versions)
-                if config.extractNullTerminatedXMLFlag:
+                if config.EXTRACT_NULL_TERMINATED_XML_FLAG:
                     try:
                         data = bc.removeNullTerminator(data)
                         dataAsElement = ET.fromstring(data)
@@ -2722,7 +2722,7 @@ class BoxValidator:
 
         # Loop through all UUIDs
         offset = 2
-        for i in range(nU):
+        for _ in range(nU):
             boxUUID = str(uuid.UUID(bytes=self.boxContents[offset:offset + 16]))
             self.addCharacteristic("uuid", boxUUID)
             offset += 16
@@ -2965,14 +2965,14 @@ class BoxValidator:
                 # value for each component)
                 bPCSignValues = []
 
-                for i in range(nC):
+                for _ in range(nC):
                     bPCSignValues.append(bPCSign)
 
                 # Create list of bPCDepth values(i.e. duplicate fixed
                 # value for each component)
                 bPCDepthValues = []
 
-                for i in range(nC):
+                for _ in range(nC):
                     bPCDepthValues.append(bPCDepth)
 
             # All occurrences of ssizSign to list
