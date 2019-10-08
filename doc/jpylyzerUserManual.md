@@ -102,7 +102,7 @@ Funding {#funding}
 -----------
 
 The development of *jpylyzer* was funded by the EU FP 7 project SCAPE
-(SCAlabable Preservation Environments). More information about this
+(SCAlable Preservation Environments). More information about this
 project can be found here:
 
 [http://www.scape-project.eu/](http://www.scape-project.eu/)
@@ -1810,7 +1810,7 @@ siz
 |lsiz|Length of SIZ marker segment in bytes|
 |rsiz|Decoder capabilities|
 |xsiz|Width of reference grid|
-|ysiz|Heigth of reference grid|
+|ysiz|Height of reference grid|
 |xOsiz|Horizontal offset from origin of reference grid to left of image area|
 |yOsiz|Vertical offset from origin of reference grid to top of image area|
 |xTsiz|Width of one reference tile with respect to the reference grid|
@@ -1873,7 +1873,8 @@ cod
 |segmentationSymbols|Indicates use of segmentation symbols (“yes”/“no”)|
 |transformation|Wavelet transformation: “9-7 irreversible” or “5-3 reversible”|
 |precinctSizeX<sup>\*</sup>|Precinct width (repeated for all resolution levels; order: low to high). Equals 32768 if *precincts* is “default”|
-|precinctSizeY<sup>\*</sup>|Precinct heigth (repeated for all resolution levels; order: low to high). Equals 32768 if *precincts* is “default”|
+|precinctSizeY<sup>\*</sup>|Precinct height (repeated for all resolution levels; order: low to high). Equals 32768 if *precincts* is “default”|
+
 
 ### Tests
 
