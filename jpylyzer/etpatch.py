@@ -1,4 +1,5 @@
-"""Patch for 'findtext' bug in ElementTree
+"""Patch for 'findtext' bug in ElementTree.
+
 TODO:
 1) Find out whether these patches are necessary
 2) learn how to write and test patches properly
@@ -24,27 +25,28 @@ from . import config
 
 
 def tostring(elem, enc, meth):
-    """Return string representation of Element object with user-defined encoding and method"""
+    """Return string representation of Element object with user-defined encoding and method."""
     return ET.tostring(elem, enc, meth)
 
 
 def fromstring(text):
-    """Convert string to Element object"""
+    """Convert string to Element object."""
     return ET.fromstring(text)
 
 
 def SubElement(parent, tag):
-    """Return sub-element from parent element"""
+    """Return sub-element from parent element."""
     return ET.SubElement(parent, tag)
 
 
 class Element(ET.Element):
-    """Element class"""
+    """Element class."""
 
     def findElementText(self, match):
-        """Replacement for ET's 'findtext' function, which has a bug
-        that will return empty string if text field contains integer with
-        value of zero (0); If there is no match, return None
+        """Replacement for ET's 'findtext' function.
+
+        This has a bug that will return empty string if text field contains
+        integer with value of zero (0); If there is no match, return None
         """
         elt = self.find(match)
         if elt is not None:
@@ -52,32 +54,31 @@ class Element(ET.Element):
         return None
 
     def findAllText(self, match):
-        """Searches element and returns list that contains 'Text' attribute
-        of all matching sub-elements. Returns empty list if element
-        does not exist
-        """
+        """Search element and return list.
 
+        Returned list contains 'Text' attribute of all matching sub-elements.
+        Return empty list if element does not exist
+        """
         try:
             return [result.text for result in self.findall(match)]
         except:
             return []
 
     def appendChildTagWithText(self, tag, text):
-        """Append childnode with text"""
-
+        """Append childnode with text."""
         el = ET.SubElement(self, tag)
         el.text = text
 
     def appendIfNotEmpty(self, subelement):
-        """Append sub-element, but only if subelement is not empty"""
-
+        """Append sub-element, but only if subelement is not empty."""
         if subelement:
             self.append(subelement)
 
     def makeHumanReadable(self, remapTable=None):
-        """Takes element object, and returns a modified version in which all
-        non-printable 'text' fields (which may contain numeric data or binary strings)
-        are replaced by printable strings
+        """Take element object, and return a modified version.
+
+        All non-printable 'text' fields (which may contain numeric data or binary
+        strings) are replaced by printable strings.
 
         Property values in original tree may be mapped to alternative (more user-friendly)
         reportable values using a remapTable, which is a nested dictionary.
@@ -138,5 +139,5 @@ class Element(ET.Element):
                 elt.text = textOut
 
     def toxml(self):
-        """Convert Element object to XML"""
+        """Convert Element object to XML."""
         return ET.tostring(self, 'UTF-8', 'xml')

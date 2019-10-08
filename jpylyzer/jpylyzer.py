@@ -1,6 +1,5 @@
 #! /usr/bin/env python
-#
-"""Jpylyzer validator for JPEG 200 Part 1 (JP2) images
+"""Jpylyzer validator for JPEG 200 Part 1 (JP2) images.
 
 Requires: Python 2.7 (older versions won't work) OR Python 3.2 or more recent
   (Python 3.0 and 3.1 won't work either!)
@@ -19,7 +18,6 @@ Contributors:
    Adam Fritzler, Planet Labs, USA.
    Thomas Ledoux, Bibliotheque Nationale de France
 """
-
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -77,10 +75,11 @@ LOC_SCHEMA_STRING_2 = 'http://openpreservation.org/ns/jpylyzer/v2/ \
 http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd'
 
 def generatePropertiesRemapTable():
-    """Generates nested dictionary which is used to map 'raw' property values
-    (mostly integer values) to corresponding text descriptions
-    """
+    """Generate nested dictionary.
 
+    Dictionary is used to map 'raw' property values (mostly integer values)
+    to corresponding text descriptions.
+    """
     # Master dictionary for mapping of text descriptions to enumerated values
     # Key: corresponds to parameter tag name
     # Value: sub-dictionary with mappings for all property values
@@ -261,8 +260,7 @@ def generatePropertiesRemapTable():
 
 
 def fileToMemoryMap(filename):
-    """Read contents of filename to memory map object"""
-
+    """Read contents of filename to memory map object."""
     # Open filename
     f = open(filename, "rb")
 
@@ -287,8 +285,7 @@ def fileToMemoryMap(filename):
 
 
 def checkOneFile(path, validationFormat='jp2'):
-    """Process one file and return analysis result as element object"""
-
+    """Process one file and return analysis result as element object."""
     # Element root name, name space and Schema location (legacy, current)
     if config.LEGACY_XML_FLAG:
         elementRootName = 'jpylyzer'
@@ -433,10 +430,10 @@ def checkOneFile(path, validationFormat='jp2'):
     return root
 
 def checkNullArgs(args):
-    """This method checks if the input arguments list and exits program if
-    invalid or no input argument is supplied.
-    """
+    """Check if the passed args list.
 
+    Exits program if invalid or no input argument is supplied.
+    """
     if not args:
         print('')
         PARSER.print_help()
@@ -444,26 +441,24 @@ def checkNullArgs(args):
 
 
 def checkNoInput(files):
-    """Check if input arguments list results in any existing input files at all
-    (and exits if not)
-    """
+    """Check passed input files list.
 
+    Results in any existing input files at all (and exits if not).
+    """
     if not files:
         shared.printWarning("no images to check!")
         sys.exit(config.ERR_CODE_NO_IMAGES)
 
 
 def printHelpAndExit():
-    """Print help message and exit"""
+    """Print help message and exit."""
     print('')
     PARSER.print_help()
     sys.exit()
 
 
 def stripSurrogatePairs(ustring):
-
-    """Removes surrogate pairs from a Unicode string"""
-
+    """Remove surrogate pairs from a Unicode string."""
     # This works for Python 3.x, but not for 2.x!
     # Source: http://stackoverflow.com/q/19649463/1209004
 
@@ -502,7 +497,7 @@ def stripSurrogatePairs(ustring):
 
 
 def getFiles(searchpattern):
-    """Append paths of all files that match search pattern to EXISTING_FILES"""
+    """Append paths of all files that match search pattern to EXISTING_FILES."""
     results = glob.glob(searchpattern)
     for f in results:
         if os.path.isfile(f):
@@ -510,7 +505,8 @@ def getFiles(searchpattern):
 
 
 def getFilesWithPatternFromTree(rootDir, pattern):
-    """Recurse into directory tree and return list of all files
+    """Recurse into directory tree and return list of all files.
+
     NOTE: directory names are disabled here!!
     """
     for dirname, dirnames, _ in os.walk(rootDir):
@@ -523,10 +519,10 @@ def getFilesWithPatternFromTree(rootDir, pattern):
 
 
 def getFilesFromTree(rootDir):
-    """Recurse into directory tree and return list of all files
+    """Recurse into directory tree and return list of all files.
+
     NOTE: directory names are disabled here!!
     """
-
     for dirname, dirnames, filenames in os.walk(rootDir):
         # Suppress directory names
         for subdirname in dirnames:
@@ -539,8 +535,7 @@ def getFilesFromTree(rootDir):
 
 
 def findFiles(recurse, paths):
-    """Find all files that match a wildcard expression and add their paths to EXISTING_FILES"""
-
+    """Find all files that match a wildcard expression and add their paths to EXISTING_FILES."""
     WILDCARD = "*"
 
     # process the list of input paths
@@ -626,8 +621,7 @@ def findFiles(recurse, paths):
 
 
 def writeElement(elt, codec):
-    """Writes element as XML to stdout using defined codec"""
-
+    """Write element as XML to stdout using defined codec."""
     # Element to string
     if config.PYTHON_VERSION.startswith(config.PYTHON_2):
         xmlOut = ET.tostring(elt, 'UTF-8', 'xml')
@@ -659,12 +653,8 @@ def writeElement(elt, codec):
         if config.PYTHON_VERSION.startswith(config.PYTHON_3):
             codec.write(xmlOut)
 
-
 def checkFiles(recurse, wrap, paths):
-    """This method checks the input argument path(s) for existing files and
-    analyses them
-    """
-
+    """Check the input argument path(s) for existing files and analyse them."""
     # Schema location (legacy, current)
     if config.LEGACY_XML_FLAG:
         locSchemaString = LOC_SCHEMA_STRING_1
@@ -731,8 +721,7 @@ def checkFiles(recurse, wrap, paths):
 
 
 def parseCommandLine():
-    """Parse command line arguments"""
-
+    """Parse command line arguments."""
     # Add arguments
     PARSER.add_argument('--format', '-f',
                         action="store",
@@ -797,8 +786,7 @@ def parseCommandLine():
 
 
 def main():
-    """Main command line application"""
-
+    """Main command line application."""
     # Get input from command line
     args = parseCommandLine()
 
