@@ -76,18 +76,18 @@ title: User Manual
 <li><a href="#contiguous-codestream-box"><span class="toc-section-number">7.4</span> Contiguous Codestream box</a></li>
 <li><a href="#siz-marker"><span class="toc-section-number">7.5</span> Image and tile size (SIZ) marker segment (child of Contiguous Codestream box)</a></li>
 <li><a href="#cod-marker"><span class="toc-section-number">7.6</span> Coding style default (COD) marker segment</a></li>
-<li><a href="#qcd-marker"><span class="toc-section-number">7.7</span> Quantization default (QCD) marker segment</a></li>
-<li><a href="#com-marker"><span class="toc-section-number">7.8</span> Comment (COM) marker segment</a></li>
-<li><a href="#tile-part"><span class="toc-section-number">7.9</span> Tile part (child of Contiguous Codestream box)</a></li>
-<li><a href="#sot-marker"><span class="toc-section-number">7.10</span> Start of tile part (SOT) marker segment (child of tile part)</a></li>
-<li><a href="#coc-marker"><span class="toc-section-number">7.11</span> Coding style component (COC) marker segment</a></li>
-<li><a href="#rgn-marker"><span class="toc-section-number">7.12</span> Region-of-interest (RGN) marker segment</a></li>
-<li><a href="#qcc-marker"><span class="toc-section-number">7.13</span> Quantization component (QCC) marker segment</a></li>
-<li><a href="#poc-marker"><span class="toc-section-number">7.14</span> Progression order change (POC) marker segment</a></li>
-<li><a href="#plm-marker"><span class="toc-section-number">7.15</span> Packet length, main header (PLM) marker segment</a></li>
-<li><a href="#ppm-marker"><span class="toc-section-number">7.16</span> Packed packet headers, main header (PPM) marker segment</a></li>
-<li><a href="#tlm-marker"><span class="toc-section-number">7.17</span> Tile-part lengths (TLM) marker segment</a></li>
-<li><a href="#crg-marker"><span class="toc-section-number">7.18</span> Component registration (CRG) marker segment</a></li>
+<li><a href="#coc-marker"><span class="toc-section-number">7.7</span> Coding style component (COC) marker segment</a></li>
+<li><a href="#rgn-marker"><span class="toc-section-number">7.8</span> Region-of-interest (RGN) marker segment</a></li>
+<li><a href="#qcd-marker"><span class="toc-section-number">7.9</span> Quantization default (QCD) marker segment</a></li>
+<li><a href="#qcc-marker"><span class="toc-section-number">7.10</span> Quantization component (QCC) marker segment</a></li>
+<li><a href="#poc-marker"><span class="toc-section-number">7.11</span> Progression order change (POC) marker segment</a></li>
+<li><a href="#crg-marker"><span class="toc-section-number">7.12</span> Component registration (CRG) marker segment</a></li>
+<li><a href="#com-marker"><span class="toc-section-number">7.13</span> Comment (COM) marker segment</a></li>
+<li><a href="#tile-part"><span class="toc-section-number">7.14</span> Tile part (child of Contiguous Codestream box)</a></li>
+<li><a href="#sot-marker"><span class="toc-section-number">7.15</span> Start of tile part (SOT) marker segment (child of tile part)</a></li>
+<li><a href="#plm-marker"><span class="toc-section-number">7.16</span> Packet length, main header (PLM) marker segment</a></li>
+<li><a href="#ppm-marker"><span class="toc-section-number">7.17</span> Packed packet headers, main header (PPM) marker segment</a></li>
+<li><a href="#tlm-marker"><span class="toc-section-number">7.18</span> Tile-part lengths (TLM) marker segment</a></li>
 <li><a href="#plt-marker"><span class="toc-section-number">7.19</span> Packet length, tile-part header (PLT) marker segment</a></li>
 <li><a href="#ppt-marker"><span class="toc-section-number">7.20</span> Packed packet headers, tile-part header (PPT) marker segment</a></li>
 </ul></li>
@@ -121,7 +121,7 @@ title: User Manual
 <h2 id="outline"><span class="header-section-number">1.3</span> Outline of this User Manual</h2>
 <p><a href="#installation">Chapter 2</a> describes the installation process of <em>jpylyzer</em> for Windows and Unix-based systems. <a href="#using-jpylyzer">Chapter 3</a> explains the usage of <em>jpylyzer</em> as a command-line tool, or as an importable Python module. <a href="#structure-jp2">Chapter 4</a> gives a brief overview of the structure of JP2 and its ‘box’ structure. <em>Jpylyzer</em>’s output format is explained in <a href="#output-format">chapter 5</a>. The final chapters give a detailed description of the tests that <em>jpylyzer</em> performs for validation, and its reported properties. <a href="#jp2-box-by-box">Chapter 6</a> does this for all ‘boxes’, except for the ‘Contiguous Codestream’ box, which is given a <a href="#contiguous-codestream-box-chapter">Chapter (7)</a> of its own.</p>
 <h2 id="funding"><span class="header-section-number">1.4</span> Funding</h2>
-<p>The development of <em>jpylyzer</em> was funded by the EU FP 7 project SCAPE (SCAlabable Preservation Environments). More information about this project can be found here:</p>
+<p>The development of <em>jpylyzer</em> was funded by the EU FP 7 project SCAPE (SCAlable Preservation Environments). More information about this project can be found here:</p>
 <p><a href="http://www.scape-project.eu/" class="uri">http://www.scape-project.eu/</a></p>
 <h2 id="license"><span class="header-section-number">1.5</span> License</h2>
 <p><em>Jpylyzer</em> is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this program. If not, see:</p>
@@ -890,11 +890,11 @@ User warning: unknown error (please report to developers)</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">bPCSign<sup>*</sup></td>
-<td style="text-align: left;">Indicates whether image component is signed or unsigned (repeated for each component)</td>
+<td style="text-align: left;">Indicates whether image component is signed or unsigned (repeated for all components)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">bPCDepth<sup>*</sup></td>
-<td style="text-align: left;">Number of bits for this component (repeated for each component)</td>
+<td style="text-align: left;">Number of bits for this component (repeated for all components)</td>
 </tr>
 </tbody>
 </table>
@@ -909,7 +909,7 @@ User warning: unknown error (please report to developers)</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">bPCIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>bPCDepth</em> is within range [1,38] (repeated for each component)</td>
+<td style="text-align: left;"><em>bPCDepth</em> is within range [1,38] (repeated for all components)</td>
 </tr>
 </tbody>
 </table>
@@ -1052,7 +1052,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">tag<sup>*</sup></td>
-<td style="text-align: left;">Signature of profile tag (repeated for each tag in the profile)</td>
+<td style="text-align: left;">Signature of profile tag (repeated for all tags in the profile)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">description</td>
@@ -1122,15 +1122,15 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">bSign<sup>*</sup></td>
-<td style="text-align: left;">Indicates whether values created by this palette column are signed or unsigned (repeated for each column)</td>
+<td style="text-align: left;">Indicates whether values created by this palette column are signed or unsigned (repeated for all columns)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">bDepth<sup>*</sup></td>
-<td style="text-align: left;">Bit depth of values created by this palette column (repeated for each column)</td>
+<td style="text-align: left;">Bit depth of values created by this palette column (repeated for all columns)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">cP<sup>**</sup></td>
-<td style="text-align: left;">Value for this entry (repeated for each column, and for the number of entries)</td>
+<td style="text-align: left;">Value for this entry (repeated for all columns, and for the number of entries)</td>
 </tr>
 </tbody>
 </table>
@@ -1153,7 +1153,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">bDepthIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>bDepth</em> is within range [1,38] (repeated for each column)</td>
+<td style="text-align: left;"><em>bDepth</em> is within range [1,38] (repeated for all columns)</td>
 </tr>
 </tbody>
 </table>
@@ -1172,15 +1172,15 @@ User warning: unknown error (please report to developers)</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">cMP<sup>*</sup></td>
-<td style="text-align: left;">Component index (repeated for each channel)</td>
+<td style="text-align: left;">Component index (repeated for all channels)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">mTyp<sup>*</sup></td>
-<td style="text-align: left;">Specifies how channel is generated from codestream component (repeated for each channel)</td>
+<td style="text-align: left;">Specifies how channel is generated from codestream component (repeated for all channels)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">pCol<sup>*</sup></td>
-<td style="text-align: left;">Palette component index (repeated for each channel)</td>
+<td style="text-align: left;">Palette component index (repeated for all channels)</td>
 </tr>
 </tbody>
 </table>
@@ -1199,11 +1199,11 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">mTypIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>mTyp</em> is within range [0,1] (repeated for each channel)</td>
+<td style="text-align: left;"><em>mTyp</em> is within range [0,1] (repeated for all channels)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">pColIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>pCol</em> is 0 if <em>mTyp</em> is 0 (repeated for each channel)</td>
+<td style="text-align: left;"><em>pCol</em> is 0 if <em>mTyp</em> is 0 (repeated for all channels)</td>
 </tr>
 </tbody>
 </table>
@@ -1226,15 +1226,15 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">cN<sup>*</sup></td>
-<td style="text-align: left;">Channel index (repeated for each channel)</td>
+<td style="text-align: left;">Channel index (repeated for all channels)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">cTyp<sup>*</sup></td>
-<td style="text-align: left;">Channel type (repeated for each channel)</td>
+<td style="text-align: left;">Channel type (repeated for all channels)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">cAssoc<sup>*</sup></td>
-<td style="text-align: left;">Channel association (repeated for each channel)</td>
+<td style="text-align: left;">Channel association (repeated for all channels)</td>
 </tr>
 </tbody>
 </table>
@@ -1257,15 +1257,15 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">cNIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>cN</em> is within range [0, 65535] (repeated for each channel)</td>
+<td style="text-align: left;"><em>cN</em> is within range [0, 65535] (repeated for all channels)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">cTypIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>cType</em> is within range [0, 65535] (repeated for each channel)</td>
+<td style="text-align: left;"><em>cType</em> is within range [0, 65535] (repeated for all channels)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">cAssocIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>cAssoc</em> is within range [0, 65535] (repeated for each channel)</td>
+<td style="text-align: left;"><em>cAssoc</em> is within range [0, 65535] (repeated for all channels)</td>
 </tr>
 </tbody>
 </table>
@@ -1918,40 +1918,40 @@ User warning: unknown error (please report to developers)</code></pre>
 <li><p>Start of codestream (SOC) marker segment (required)</p></li>
 <li><p>Image and tile size (SIZ) marker segment (required)</p></li>
 <li><p>Coding style default (COD) marker segment (required)</p></li>
+<li><p>Coding style component (COC) marker segment (optional)</p></li>
+<li><p>Region-of-interest (RGN) marker segment (optional)</p></li>
 <li><p>Quantization default (QCD) marker segment (required)</p></li>
+<li><p>Quantization component (QCC) marker segment (optional)</p></li>
+<li><p>Progression order change (POC) marker segment (optional)</p></li>
+<li><p>Component registration (CRG) marker segment (optional)</p></li>
 <li><p>Comment (COM) marker segment (optional)</p></li>
 </ul>
 <p>In addition the codestream header may also contain any of the following marker segments, which are all optional:</p>
 <ul>
-<li><p>Coding style component (COC) marker segment (optional)<sup>*</sup></p></li>
-<li><p>Region-of-interest (RGN) marker segment (optional) <sup>*</sup></p></li>
-<li><p>Quantization component (QCC) marker segment (optional) <sup>*</sup></p></li>
-<li><p>Progression order change (POC) marker segment (optional) <sup>*</sup></p></li>
 <li><p>Packet length, main header (PLM) marker segment (optional) <sup>*</sup></p></li>
 <li><p>Packed packet headers, main header (PPM) marker segment (optional) <sup>*</sup></p></li>
 <li><p>Tile-part lengths (TLM) marker segment (optional) <sup>*</sup></p></li>
-<li><p>Component registration (CRG) marker segment (optional) <sup>*</sup></p></li>
 </ul>
-<p>The above marker segments (which are marked with an asterisk) are only minimally supported at this stage: if <em>jpylyzer</em> encounters any of them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> currently does not analyse the contents of these marker segments, which means that the respective elements in the output will be empty.</p>
+<p>The optional markers that are marked with an asterisk above are only minimally supported at this stage: if <em>jpylyzer</em> encounters them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> does not analyse the contents of these marker segments, which means that the respective elements in the output will be empty.</p>
 <h3 id="tile-parts"><span class="header-section-number">7.2.2</span> Tile parts</h3>
 <p>The tile part validation has similar limitations. The standard lists 11 marker segments that can occur in the tile part header. Currently, <em>jpylyzer</em> only fully supports the following ones:</p>
 <ul>
 <li><p>Start of tile part (SOT) marker segment (required)</p></li>
 <li><p>Coding style default (COD) marker segment (optional)</p></li>
+<li><p>Coding style component (COC) marker segment (optional)</p></li>
+<li><p>Region-of-interest (RGN) marker segment (optional)</p></li>
 <li><p>Quantization default (QCD) marker segment (optional)</p></li>
+<li><p>Quantization component (QCC) marker segment (optional)</p></li>
+<li><p>Progression order change (POC) marker segment (optional)</p></li>
 <li><p>Comment (COM) marker segment (optional)</p></li>
 <li><p>Start of data (SOD) marker segment (required)</p></li>
 </ul>
 <p>In addition the following optional marker segments may also occur:</p>
 <ul>
-<li><p>Coding style component (COC) marker segment (optional)<sup>*</sup></p></li>
-<li><p>Region-of-interest (RGN) marker segment (optional) <sup>*</sup></p></li>
-<li><p>Quantization component (QCC) marker segment (optional) <sup>*</sup></p></li>
-<li><p>Progression order change (POC) marker segment (optional) <sup>*</sup></p></li>
 <li><p>Packet length, tile-part header (PLT) marker segment (optional) <sup>*</sup></p></li>
 <li><p>Packed packet headers, tile-part header (PPT) marker segment (optional) <sup>*</sup></p></li>
 </ul>
-<p>These marker segments (which are marked with an asterisk) are only minimally supported at this stage: if <em>jpylyzer</em> encounters any of them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> currently does not analyse their contents, and the respective elements in the output will be empty.</p>
+<p>The optional markers that are marked with an asterisk above are only minimally supported at this stage: if <em>jpylyzer</em> encounters them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> does not analyse the contents of these marker segments, which means that the respective elements in the output will be empty.</p>
 <h3 id="bit-streams"><span class="header-section-number">7.2.3</span> Bit streams</h3>
 <p>In addition to the above limitations, <em>jpylyzer</em> can <em>not</em> be used to establish whether the data in the bitstream are correct (this would require decoding the compressed image data, which is completely out of <em>jpylyzer</em>’s scope)<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>. As a result, if <em>jpylyzer</em> is used as part of a quality assurance workflow, it is recommended to also include an additional check on the image contents<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a>. Also, <em>jpylyzer</em> does not perform any checks on marker segments within the bit-stream: start-of packet (SOP) and end-of-packet (EPH) markers.</p>
 <h3 id="detection-of-incomplete-or-truncated-codestreams"><span class="header-section-number">7.2.4</span> Detection of incomplete or truncated codestreams</h3>
@@ -1986,15 +1986,35 @@ User warning: unknown error (please report to developers)</code></pre>
 <td style="text-align: left;">Properties from the coding style default (COD) marker segment (codestream main header)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">qcd (<a href="#qcd-marker">section 7.7</a>)</td>
+<td style="text-align: left;">coc (<a href="#coc-marker">section 7.7</a>)</td>
+<td style="text-align: left;">Properties from the (optional) coding style component (COC) marker segment (codestream main header)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rgn (<a href="#rgn-marker">section 7.8</a>)</td>
+<td style="text-align: left;">Properties from the (optional) region of interest (RGN) marker segment (codestream main header)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">qcd (<a href="#qcd-marker">section 7.9</a>)</td>
 <td style="text-align: left;">Properties from the quantization default (QCD) marker segment (codestream main header)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">com (<a href="#com-marker">section 7.8</a>)</td>
-<td style="text-align: left;">Properties from the (optional) comment (COM) marker segment (codestream main header)</td>
+<td style="text-align: left;">qcc (<a href="#qcc-marker">section 7.10</a>)</td>
+<td style="text-align: left;">Properties from the (optional) quantization component (QCC) marker segment (codestream main header)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">tileParts (<a href="#tile-part">section 7.9</a>)</td>
+<td style="text-align: left;">poc (<a href="#poc-marker">section 7.11</a>)</td>
+<td style="text-align: left;">Properties from the (optional) progression order change (POC) marker segment (codestream main header)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">crg (<a href="#crg-marker">section 7.12</a>)</td>
+<td style="text-align: left;">Properties from the (optional) component registration (CRG) marker segment (codestream main header)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">com (<a href="#com-marker">section 7.13</a>)</td>
+<td style="text-align: left;">Properties from the (optional) comment (COM) marker segment (codestream main header)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tileParts (<a href="#tile-part">section 7.14</a>)</td>
 <td style="text-align: left;">Properties from individual tile parts</td>
 </tr>
 </tbody>
@@ -2025,18 +2045,22 @@ User warning: unknown error (please report to developers)</code></pre>
 <td style="text-align: left;">Codestream main header contains quantization default (QCD) marker segment</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">quantizationConsistentWithLevels</td>
-<td style="text-align: left;">Values of quantization parameters from QCD marker segment are consistent with <em>levels</em> from COD marker segment<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a></td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">foundExpectedNumberOfTiles</td>
 <td style="text-align: left;">Number of encountered tiles is consistent with expected number of tiles (as calculated from SIZ marker, see <a href="#siz-marker">section 7.5</a>)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">foundExpectedNumberOfTileParts</td>
-<td style="text-align: left;">For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of <em>tnsot</em> from SOT marker, see <a href="#sot-marker">section 7.10</a>)</td>
+<td style="text-align: left;">For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of <em>tnsot</em> from SOT marker, see <a href="#sot-marker">section 7.12</a>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">maxOneCcocPerComponent</td>
+<td style="text-align: left;">No more than one <em>ccoc</em> value for each component (only reported if codestream contains any COC marker segments)</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">maxOneCqccPerComponent</td>
+<td style="text-align: left;">No more than one <em>cqcc</em> value for each component (only reported if codestream contains any QCC marker segments)</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">foundEOCMarker</td>
 <td style="text-align: left;">Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment</td>
 </tr>
@@ -2068,7 +2092,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">ysiz</td>
-<td style="text-align: left;">Heigth of reference grid</td>
+<td style="text-align: left;">Height of reference grid</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">xOsiz</td>
@@ -2096,7 +2120,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">numberOfTiles</td>
-<td style="text-align: left;">Number of tiles<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a></td>
+<td style="text-align: left;">Number of tiles<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">csiz</td>
@@ -2104,19 +2128,19 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">ssizSign<sup>*</sup></td>
-<td style="text-align: left;">Indicates whether image component is signed or unsigned (repeated for each component)</td>
+<td style="text-align: left;">Indicates whether image component is signed or unsigned (repeated for all components)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">ssizDepth<sup>*</sup></td>
-<td style="text-align: left;">Number of bits for this component (repeated for each component)</td>
+<td style="text-align: left;">Number of bits for this component (repeated for all components)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">xRsiz<sup>*</sup></td>
-<td style="text-align: left;">Horizontal separation of sample of this component with respect to reference grid (repeated for each component)</td>
+<td style="text-align: left;">Horizontal separation of sample of this component with respect to reference grid (repeated for all components)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">yRsiz<sup>*</sup></td>
-<td style="text-align: left;">Vertical separation of sample of this component with respect to reference grid (repeated for each component)</td>
+<td style="text-align: left;">Vertical separation of sample of this component with respect to reference grid (repeated for all components)</td>
 </tr>
 </tbody>
 </table>
@@ -2179,15 +2203,15 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">ssizIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>ssizDepth</em> is within range [1,38] (repeated for each component)</td>
+<td style="text-align: left;"><em>ssizDepth</em> is within range [1,38] (repeated for all components)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">xRsizIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>xRsiz</em> is within range [1,255] (repeated for each component)</td>
+<td style="text-align: left;"><em>xRsiz</em> is within range [1,255] (repeated for all components)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">yRsizIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>yRsiz</em> is within range [1,255] (repeated for each component)</td>
+<td style="text-align: left;"><em>yRsiz</em> is within range [1,255] (repeated for all components)</td>
 </tr>
 </tbody>
 </table>
@@ -2209,7 +2233,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">precincts</td>
-<td style="text-align: left;">Indicates use of precincts (“yes”/“no”)</td>
+<td style="text-align: left;">Indicates default or user-defined precinct size (“default”/“user defined”)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">sop</td>
@@ -2273,11 +2297,11 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">precinctSizeX<sup>*</sup></td>
-<td style="text-align: left;">Precinct width (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;">Precinct width (repeated for all resolution levels; order: low to high). Equals 32768 if <em>precincts</em> is “default”</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">precinctSizeY<sup>*</sup></td>
-<td style="text-align: left;">Precinct heigth (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;">Precinct height (repeated for all resolution levels; order: low to high). Equals 32768 if <em>precincts</em> is “default”</td>
 </tr>
 </tbody>
 </table>
@@ -2311,8 +2335,8 @@ User warning: unknown error (please report to developers)</code></pre>
 <td style="text-align: left;"><em>levels</em> is within range [0,32]</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">lcodConsistentWithLevelsPrecincts</td>
-<td style="text-align: left;"><em>lcod</em> equals 12 (<em>precincts</em> = “no”) or <em>lcod</em> equals 13 + <em>levels</em> (<em>precincts</em> = “yes”)</td>
+<td style="text-align: left;">lcodConsistencyCheck</td>
+<td style="text-align: left;"><em>lcod</em> value is consistent with <em>precincts</em> and <em>levels</em> (Eq A-2 in ISO/IEC 15444-1)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">codeBlockWidthExponentIsValid</td>
@@ -2328,18 +2352,196 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">precinctSizeXIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>precinctSizeX</em> ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;"><em>precinctSizeX</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “user defined”)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">precinctSizeYIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>precinctSizeY</em> ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;"><em>precinctSizeY</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “user defined”)</td>
 </tr>
 </tbody>
 </table>
-<h2 id="qcd-marker"><span class="header-section-number">7.7</span> Quantization default (QCD) marker segment</h2>
+<h2 id="coc-marker"><span class="header-section-number">7.7</span> Coding style component (COC) marker segment</h2>
 <h3 id="element-name-22"><span class="header-section-number">7.7.1</span> Element name</h3>
-<p>qcd</p>
+<p>coc</p>
 <h3 id="reported-properties-22"><span class="header-section-number">7.7.2</span> Reported properties</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lcoc</td>
+<td style="text-align: left;">Length of COC marker segment in bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ccoc</td>
+<td style="text-align: left;">Index of the component to which this marker segment relates</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">precincts</td>
+<td style="text-align: left;">Indicates default or user-defined precinct size (“default”/“user defined”)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">levels</td>
+<td style="text-align: left;">Number of decomposition levels</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">codeBlockWidth</td>
+<td style="text-align: left;">Code block width</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">codeBlockHeight</td>
+<td style="text-align: left;">Code block height</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">codingBypass</td>
+<td style="text-align: left;">Indicates use of coding bypass (“yes”/“no”)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">resetOnBoundaries</td>
+<td style="text-align: left;">Indicates reset of context probabilities on coding pass boundaries (“yes”/“no”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">termOnEachPass</td>
+<td style="text-align: left;">Indicates termination on each coding pass (“yes”/“no”)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vertCausalContext</td>
+<td style="text-align: left;">Indicates vertically causal context (“yes”/“no”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">predTermination</td>
+<td style="text-align: left;">Indicates predictable termination (“yes”/“no”)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">segmentationSymbols</td>
+<td style="text-align: left;">Indicates use of segmentation symbols (“yes”/“no”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">transformation</td>
+<td style="text-align: left;">Wavelet transformation: “9-7 irreversible” or “5-3 reversible”</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">precinctSizeX<sup>*</sup></td>
+<td style="text-align: left;">Precinct width (repeated for all resolution levels; order: low to high). Equals 32768 if <em>precincts</em> is “default”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">precinctSizeY<sup>*</sup></td>
+<td style="text-align: left;">Precinct heigth (repeated for all resolution levels; order: low to high). Equals 32768 if <em>precincts</em> is “default”</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-21"><span class="header-section-number">7.7.3</span> Tests</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lcocIsValid</td>
+<td style="text-align: left;"><em>lcoc</em> is within range [9,43]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ccocIsValid</td>
+<td style="text-align: left;"><em>ccoc</em> is within range [0,255] (<em>csiz</em> &lt; 257) or [0,16383] (<em>csiz</em> &gt;= 257)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">levelsIsValid</td>
+<td style="text-align: left;"><em>levels</em> is within range [0,32]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lcocConsistencyCheck</td>
+<td style="text-align: left;"><em>lcoc</em> value is consistent with <em>levels</em>, <em>csiz</em> and <em>precincts</em> (Eq A-3 in ISO/IEC 15444-1)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">codeBlockWidthExponentIsValid</td>
+<td style="text-align: left;"><em>codeBlockWidthExponent</em> is within range [2,10]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">codeBlockHeightExponentIsValid</td>
+<td style="text-align: left;"><em>codeBlockHeightExponent</em> is within range [2,10]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sumHeightWidthExponentIsValid</td>
+<td style="text-align: left;"><em>codeBlockWidthExponent</em> + <em>codeBlockHeightExponent</em> ≤ 12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">precinctSizeXIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>precinctSizeX</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “user defined”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">precinctSizeYIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>precinctSizeY</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “user defined”)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rgn-marker"><span class="header-section-number">7.8</span> Region-of-interest (RGN) marker segment</h2>
+<h3 id="element-name-23"><span class="header-section-number">7.8.1</span> Element name</h3>
+<p>rgn</p>
+<h3 id="reported-properties-23"><span class="header-section-number">7.8.2</span> Reported properties</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lrgn</td>
+<td style="text-align: left;">Length of RGN marker segment in bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">crgn</td>
+<td style="text-align: left;">Index of the component to which this marker segment relates</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">roiStyle</td>
+<td style="text-align: left;">ROI style for the current ROI</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">roiShift</td>
+<td style="text-align: left;">Implicit ROI shift</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-22"><span class="header-section-number">7.8.3</span> Tests</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lrgnIsValid</td>
+<td style="text-align: left;"><em>lrgn</em> is within range [5,6]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">crgnIsValid</td>
+<td style="text-align: left;"><em>crgn</em> is within range [0,255] (<em>csiz</em> &lt; 257) or [0,16383] (<em>csiz</em> &gt;= 257)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">roiStyleIsValid</td>
+<td style="text-align: left;"><em>roiStyle</em> equals 0 (“Implicit ROI (maximum shift)”)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">roiShiftIsValid</td>
+<td style="text-align: left;"><em>roiShift</em> is within range [0,255]</td>
+</tr>
+</tbody>
+</table>
+<h2 id="qcd-marker"><span class="header-section-number">7.9</span> Quantization default (QCD) marker segment</h2>
+<h3 id="element-name-24"><span class="header-section-number">7.9.1</span> Element name</h3>
+<p>qcd</p>
+<h3 id="reported-properties-24"><span class="header-section-number">7.9.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2370,7 +2572,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
-<h3 id="tests-21"><span class="header-section-number">7.7.3</span> Tests</h3>
+<h3 id="tests-23"><span class="header-section-number">7.9.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2389,10 +2591,197 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
-<h2 id="com-marker"><span class="header-section-number">7.8</span> Comment (COM) marker segment</h2>
-<h3 id="element-name-23"><span class="header-section-number">7.8.1</span> Element name</h3>
+<h2 id="qcc-marker"><span class="header-section-number">7.10</span> Quantization component (QCC) marker segment</h2>
+<h3 id="element-name-25"><span class="header-section-number">7.10.1</span> Element name</h3>
+<p>qcc</p>
+<h3 id="reported-properties-25"><span class="header-section-number">7.10.2</span> Reported properties</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lqcc</td>
+<td style="text-align: left;">Length of QCC marker segment in bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cqcc</td>
+<td style="text-align: left;">Index of the component to which this marker segment relates</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">qStyle</td>
+<td style="text-align: left;">Quantization style for all components</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">guardBits</td>
+<td style="text-align: left;">Number of guard bits</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">epsilon<sup>*</sup></td>
+<td style="text-align: left;">- If <em>qStyle</em> equals 0 (“no quantization”): <em>Epsilon</em> exponent in Eq E-5 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)<br>- If <em>qStyle</em> equals 1 (“scalar derived”): <em>Epsilon</em> exponent in Eq E-3 of ISO/IEC 15444-1<br>- If <em>qStyle</em> equals 2 (“scalar expounded”): <em>Epsilon</em> exponent in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mu<sup>*</sup></td>
+<td style="text-align: left;">- If <em>qStyle</em> equals 1 (“scalar derived”): <em>mu</em> constant in Eq E-3 of ISO/IEC 15444-1<br>- if <em>qStyle</em> equals 2 (“scalar expounded”) : <em>mu</em> constant in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-24"><span class="header-section-number">7.10.3</span> Tests</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lqccIsValid</td>
+<td style="text-align: left;"><em>lqcc</em> is within range [5,199]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">qStyleIsValid</td>
+<td style="text-align: left;"><em>qStyle</em> equals 0 (“no quantization”), 1 (“scalar derived”), or 2 (“scalar expounded”)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="poc-marker"><span class="header-section-number">7.11</span> Progression order change (POC) marker segment</h2>
+<h3 id="element-name-26"><span class="header-section-number">7.11.1</span> Element name</h3>
+<p>poc</p>
+<h3 id="reported-properties-26"><span class="header-section-number">7.11.2</span> Reported properties</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lpoc</td>
+<td style="text-align: left;">Length of POC marker segment in bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rspoc<sup>*</sup></td>
+<td style="text-align: left;">Resolution level index for the start of a progression (repeated for all progression order changes)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cspoc<sup>*</sup></td>
+<td style="text-align: left;">Component index for the start of a progression (repeated for all progression order changes)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lyepoc<sup>*</sup></td>
+<td style="text-align: left;">Layer index for the end of a progression (repeated for all progression order changes)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">repoc<sup>*</sup></td>
+<td style="text-align: left;">Resolution level index for the end of a progression (repeated for all progression order changes)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cepoc<sup>*</sup></td>
+<td style="text-align: left;">Component index for the end of a progression (repeated for all progression order changes)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">order<sup>*</sup></td>
+<td style="text-align: left;">Progression order (repeated for all progression order changes)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-25"><span class="header-section-number">7.11.3</span> Tests</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lpocIsValid</td>
+<td style="text-align: left;"><em>lpoc</em> is within range [9,65535]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rspocIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>rspoc</em> is within range [0,32] (repeated for all progression order changes)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cspocIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>cspoc</em> is within range [0,255] (<em>csiz</em> &lt; 257) or [0,16383] (*csiz &gt;= 257) (repeated for all progression order changes)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lyepocIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>lyepoc</em> is within range [1,65535] (repeated for all progression order changes)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">repocIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>repoc</em> is within range [(<em>rspoc</em> + 1),65535] (repeated for all progression order changes)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cepocIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>cepoc</em> is within range [(<em>cspoc</em> + 1),255] (<em>csiz</em> &lt; 257) or [(<em>cspoc</em> + 1),16384] (*csiz &gt;= 257), or 0 (repeated for all progression order changes)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">orderIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>order</em> equals 0 (“LRCP”), 1 (“RLCP”), 2 (“RPCL”), 3 (“PCRL”) or 4 (“CPRL”) (repeated for all progression order changes)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="crg-marker"><span class="header-section-number">7.12</span> Component registration (CRG) marker segment</h2>
+<h3 id="element-name-27"><span class="header-section-number">7.12.1</span> Element name</h3>
+<p>crg</p>
+<h3 id="reported-properties-27"><span class="header-section-number">7.12.2</span> Reported properties</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lcrg</td>
+<td style="text-align: left;">Length of CRG marker segment in bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">xrg<sup>*</sup></td>
+<td style="text-align: left;">Horizontal offset, in units of 1/65536 of <em>xRsiz</em> (repeated for all components)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">yrg<sup>*</sup></td>
+<td style="text-align: left;">Vertical offset, in units of 1/65536 of <em>yRsiz</em> (repeated for all components)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-26"><span class="header-section-number">7.12.3</span> Tests</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lcrgIsValid</td>
+<td style="text-align: left;"><em>lcrg</em> is within range [6,65534]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">xcrgIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>xcrg</em> is within range [0,65535] (repeated for all components)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ycrgIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>ycrg</em> is within range [0,65535] (repeated for all components)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="com-marker"><span class="header-section-number">7.13</span> Comment (COM) marker segment</h2>
+<h3 id="element-name-28"><span class="header-section-number">7.13.1</span> Element name</h3>
 <p>com</p>
-<h3 id="reported-properties-23"><span class="header-section-number">7.8.2</span> Reported properties</h3>
+<h3 id="reported-properties-28"><span class="header-section-number">7.13.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2415,7 +2804,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
-<h3 id="tests-22"><span class="header-section-number">7.8.3</span> Tests</h3>
+<h3 id="tests-27"><span class="header-section-number">7.13.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2438,11 +2827,11 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
-<h2 id="tile-part"><span class="header-section-number">7.9</span> Tile part (child of Contiguous Codestream box)</h2>
+<h2 id="tile-part"><span class="header-section-number">7.14</span> Tile part (child of Contiguous Codestream box)</h2>
 <p>Tile-part level properties and tests. This is not a box or a marker segment!</p>
-<h3 id="element-name-24"><span class="header-section-number">7.9.1</span> Element name</h3>
+<h3 id="element-name-29"><span class="header-section-number">7.14.1</span> Element name</h3>
 <p>tilePart (child of tileParts)</p>
-<h3 id="reported-properties-24"><span class="header-section-number">7.9.2</span> Reported properties</h3>
+<h3 id="reported-properties-29"><span class="header-section-number">7.14.2</span> Reported properties</h3>
 <p>Each tile part element can contain a number of child elements:</p>
 <table>
 <thead>
@@ -2453,7 +2842,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">sot (<a href="#sot-marker">section 7.10</a>)</td>
+<td style="text-align: left;">sot (<a href="#sot-marker">section 7.15</a>)</td>
 <td style="text-align: left;">Properties from start of tile (SOT) marker segment</td>
 </tr>
 <tr class="even">
@@ -2461,16 +2850,32 @@ User warning: unknown error (please report to developers)</code></pre>
 <td style="text-align: left;">Properties from the (optional) coding style default (COD) marker segment (tile part header)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">qcd (<a href="#qcd-marker">section 7.7</a>)</td>
+<td style="text-align: left;">coc (<a href="#coc-marker">section 7.7</a>)</td>
+<td style="text-align: left;">Properties from the (optional) coding style component (COC) marker segment (tile part header)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rgn (<a href="#rgn-marker">section 7.8</a>)</td>
+<td style="text-align: left;">Properties from the (optional) region of interest (RGN) marker segment (tile part header)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">qcd (<a href="#qcd-marker">section 7.9</a>)</td>
 <td style="text-align: left;">Properties from the (optional) quantization default (QCD) marker segment (tile part header)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">com (<a href="#com-marker">section 7.8</a>)</td>
+<td style="text-align: left;">qcc (<a href="#qcc-marker">section 7.10</a>)</td>
+<td style="text-align: left;">Properties from the (optional) quantization component (QCC) marker segment (tile part header)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">poc (<a href="#poc-marker">section 7.11</a>)</td>
+<td style="text-align: left;">Properties from the (optional) progression order change (POC) marker segment (tile part header)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">com (<a href="#com-marker">section 7.13</a>)</td>
 <td style="text-align: left;">Properties from the (optional) comment (COM) marker segment (tile part header)</td>
 </tr>
 </tbody>
 </table>
-<h3 id="tests-23"><span class="header-section-number">7.9.3</span> Tests</h3>
+<h3 id="tests-28"><span class="header-section-number">7.14.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2489,10 +2894,10 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
-<h2 id="sot-marker"><span class="header-section-number">7.10</span> Start of tile part (SOT) marker segment (child of tile part)</h2>
-<h3 id="element-name-25"><span class="header-section-number">7.10.1</span> Element name</h3>
+<h2 id="sot-marker"><span class="header-section-number">7.15</span> Start of tile part (SOT) marker segment (child of tile part)</h2>
+<h3 id="element-name-30"><span class="header-section-number">7.15.1</span> Element name</h3>
 <p>sot</p>
-<h3 id="reported-properties-25"><span class="header-section-number">7.10.2</span> Reported properties</h3>
+<h3 id="reported-properties-30"><span class="header-section-number">7.15.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2523,7 +2928,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
-<h3 id="tests-24"><span class="header-section-number">7.10.3</span> Tests</h3>
+<h3 id="tests-29"><span class="header-section-number">7.15.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2551,214 +2956,9 @@ User warning: unknown error (please report to developers)</code></pre>
 </tbody>
 </table>
 <p>The following marker segments are only minimally supported: <em>jpylyzer</em> will report their presence in the <em>properties</em> element, but it does not perform any further tests or analyses. This may change in upcoming versions of the software.</p>
-<h2 id="coc-marker"><span class="header-section-number">7.11</span> Coding style component (COC) marker segment</h2>
-<h3 id="element-name-26"><span class="header-section-number">7.11.1</span> Element name</h3>
-<p>coc</p>
-<h3 id="reported-properties-26"><span class="header-section-number">7.11.2</span> Reported properties</h3>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Property</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<h3 id="tests-25"><span class="header-section-number">7.11.3</span> Tests</h3>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Test name</th>
-<th style="text-align: left;">True if</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<h2 id="rgn-marker"><span class="header-section-number">7.12</span> Region-of-interest (RGN) marker segment</h2>
-<h3 id="element-name-27"><span class="header-section-number">7.12.1</span> Element name</h3>
-<p>rgn</p>
-<h3 id="reported-properties-27"><span class="header-section-number">7.12.2</span> Reported properties</h3>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Property</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<h3 id="tests-26"><span class="header-section-number">7.12.3</span> Tests</h3>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Test name</th>
-<th style="text-align: left;">True if</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<h2 id="qcc-marker"><span class="header-section-number">7.13</span> Quantization component (QCC) marker segment</h2>
-<h3 id="element-name-28"><span class="header-section-number">7.13.1</span> Element name</h3>
-<p>qcc</p>
-<h3 id="reported-properties-28"><span class="header-section-number">7.13.2</span> Reported properties</h3>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Property</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<h3 id="tests-27"><span class="header-section-number">7.13.3</span> Tests</h3>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Test name</th>
-<th style="text-align: left;">True if</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<h2 id="poc-marker"><span class="header-section-number">7.14</span> Progression order change (POC) marker segment</h2>
-<h3 id="element-name-29"><span class="header-section-number">7.14.1</span> Element name</h3>
-<p>poc</p>
-<h3 id="reported-properties-29"><span class="header-section-number">7.14.2</span> Reported properties</h3>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Property</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<h3 id="tests-28"><span class="header-section-number">7.14.3</span> Tests</h3>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Test name</th>
-<th style="text-align: left;">True if</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<h2 id="plm-marker"><span class="header-section-number">7.15</span> Packet length, main header (PLM) marker segment</h2>
-<h3 id="element-name-30"><span class="header-section-number">7.15.1</span> Element name</h3>
-<p>plm</p>
-<h3 id="reported-properties-30"><span class="header-section-number">7.15.2</span> Reported properties</h3>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Property</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<h3 id="tests-29"><span class="header-section-number">7.15.3</span> Tests</h3>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Test name</th>
-<th style="text-align: left;">True if</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<h2 id="ppm-marker"><span class="header-section-number">7.16</span> Packed packet headers, main header (PPM) marker segment</h2>
+<h2 id="plm-marker"><span class="header-section-number">7.16</span> Packet length, main header (PLM) marker segment</h2>
 <h3 id="element-name-31"><span class="header-section-number">7.16.1</span> Element name</h3>
-<p>ppm</p>
+<p>plm</p>
 <h3 id="reported-properties-31"><span class="header-section-number">7.16.2</span> Reported properties</h3>
 <table>
 <thead>
@@ -2797,9 +2997,9 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
-<h2 id="tlm-marker"><span class="header-section-number">7.17</span> Tile-part lengths (TLM) marker segment</h2>
+<h2 id="ppm-marker"><span class="header-section-number">7.17</span> Packed packet headers, main header (PPM) marker segment</h2>
 <h3 id="element-name-32"><span class="header-section-number">7.17.1</span> Element name</h3>
-<p>tlm</p>
+<p>ppm</p>
 <h3 id="reported-properties-32"><span class="header-section-number">7.17.2</span> Reported properties</h3>
 <table>
 <thead>
@@ -2838,9 +3038,9 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
-<h2 id="crg-marker"><span class="header-section-number">7.18</span> Component registration (CRG) marker segment</h2>
+<h2 id="tlm-marker"><span class="header-section-number">7.18</span> Tile-part lengths (TLM) marker segment</h2>
 <h3 id="element-name-33"><span class="header-section-number">7.18.1</span> Element name</h3>
-<p>crg</p>
+<p>tlm</p>
 <h3 id="reported-properties-33"><span class="header-section-number">7.18.2</span> Reported properties</h3>
 <table>
 <thead>
@@ -2985,7 +3185,6 @@ User warning: unknown error (please report to developers)</code></pre>
 <li id="fn14"><p>Link: <a href="http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf" class="uri">http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf</a><a href="#fnref14" class="footnote-back">↩</a></p></li>
 <li id="fn15"><p>However, support for start of packet (SOP) and end of packet (EPH) markers may be included in future versions.<a href="#fnref15" class="footnote-back">↩</a></p></li>
 <li id="fn16"><p>For example, in a TIFF to JP2 conversion workflow one could include a pixel-by-pixel comparison of the values in the TIFF and the JP2.<a href="#fnref16" class="footnote-back">↩</a></p></li>
-<li id="fn17"><p>The consistency check verifies if the length of the quantization default marker segment (<em>lqcd</em> from <em>qcd</em>) is consistent with the quantization style (<em>qStyle</em> from <em>qcd</em>) and the number of decomposition levels (<em>levels</em> from <em>cod</em>). They are consistent if the following equation is true:<a href="#fnref17" class="footnote-back">↩</a></p></li>
-<li id="fn18"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>numberOfTiles</mi> <mo>=</mo> <mo>[</mo> <mfrac> <mrow> <mi>xsiz</mi> <mo>-</mo> <mi>xOsiz</mi> </mrow> <mrow> <mi>xTsiz</mi> </mrow> </mfrac> <mo>]</mo> <mo>•</mo> <mo>[</mo> <mfrac> <mrow> <mi>ysiz</mi> <mo>-</mo> <mi>yOsiz</mi> </mrow> <mrow> <mi>yTsiz</mi> </mrow> </mfrac> <mo>]</mo> </mrow> </math><a href="#fnref18" class="footnote-back">↩</a></p></li>
+<li id="fn17"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>numberOfTiles</mi> <mo>=</mo> <mo>[</mo> <mfrac> <mrow> <mi>xsiz</mi> <mo>-</mo> <mi>xOsiz</mi> </mrow> <mrow> <mi>xTsiz</mi> </mrow> </mfrac> <mo>]</mo> <mo>•</mo> <mo>[</mo> <mfrac> <mrow> <mi>ysiz</mi> <mo>-</mo> <mi>yOsiz</mi> </mrow> <mrow> <mi>yTsiz</mi> </mrow> </mfrac> <mo>]</mo> </mrow> </math><a href="#fnref17" class="footnote-back">↩</a></p></li>
 </ol>
 </section>
