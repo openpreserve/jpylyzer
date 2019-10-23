@@ -388,7 +388,7 @@ def checkOneFile(path, validationFormat='jp2'):
             failureMessage = "unknown error, please report to developers by creating " + \
                              "an issue at https://github.com/openpreserve/jpylyzer/issues"
             ## TEST
-            raise
+            # raise
             ## TEST
 
         shared.printWarning(failureMessage)
