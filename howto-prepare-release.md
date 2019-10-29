@@ -9,11 +9,11 @@
 1. Create new entry in changelog using:
 
         dch -i
-        
+
     then manually update the version number, and create list of changes. Also make sure the e-mail address is a valid e-mail address.
-    
-1. Update  User Manual if necessary and export the Markdow file to HTML. See [instructions here](./doc).
- 
+
+1. Update  User Manual if necessary and export the Markdown file to HTML. See [instructions here](./doc).
+
 1. Commit all changes and push to the *master* branch.
 
 1. Add tag:
@@ -23,17 +23,17 @@
 1. Push tags:
 
         git push --tags
-        
+
 1. Create and upload PyPi packages by running:
 
         ./package-pypi.sh
-         
+
 1. Build Windows binaries by running:
 
         ./buildwin.sh
-        
+
     (This requires *Wine* and a recent version of the *winbind* package; see also the more detailed instructions [here](./BUILD_HOWTO_WINDOWS.md).)
-    
+
 1. Build Debian packages for Linux using the [instructions here](vagrant).
 
 1. Go to [*Latest Release*](https://github.com/openpreserve/jpylyzer/releases/latest) and click on the *Edit* button.
