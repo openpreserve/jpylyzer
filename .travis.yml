@@ -13,12 +13,11 @@ before_install:
   - pip install -U pep257
   - pip install -U twine
   - pip install -U codacy-coverage
+  # Make the Jpylyzer test files available by cloning the repo as a sibling directory
   - git clone https://github.com/openpreserve/jpylyzer-test-files.git ../jpylyzer-test-files
 
 install:
   - pip install .[testing]
-  - ls -alh
-  - ls -alh ../jpylyzer-test-files
 
 before_script:
   # Pylint everything with the following tests disabled for now:
