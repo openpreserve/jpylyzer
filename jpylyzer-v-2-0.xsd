@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema 
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  targetNamespace="http://openpreservation.org/ns/jpylyzer/"
-  xmlns="http://openpreservation.org/ns/jpylyzer/"
+  targetNamespace="http://openpreservation.org/ns/jpylyzer/v2/"
+  xmlns="http://openpreservation.org/ns/jpylyzer/v2/"
   elementFormDefault="qualified">
 
   <!-- Added definitions for StatusInfo element -->
@@ -80,6 +80,7 @@
         <xs:element ref="isValid"/>
         <xs:element ref="tests"/>
         <xs:element ref="properties"/>
+        <xs:element ref="propertiesExtension" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -156,6 +157,7 @@
     </xs:complexType>
   </xs:element>
 
+  <!-- Properties element --> 
   <xs:element name="properties">
     <xs:complexType>
       <xs:complexContent>
@@ -224,9 +226,9 @@
 
   <xs:element name="bitsPerComponentBox">  
     <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="bPCSign" maxOccurs="unbounded"/>
-        <xs:element ref="bPCDepth" maxOccurs="unbounded"/>
+      <xs:sequence maxOccurs="unbounded">
+        <xs:element ref="bPCSign"/>
+        <xs:element ref="bPCDepth"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -314,7 +316,7 @@
           <xs:sequence maxOccurs="unbounded">
             <xs:element ref="bSign"/>
             <xs:element ref="bDepth"/>
-            <xs:element ref="cP" maxOccurs="unbounded"/>
+            <xs:element ref="cP" minOccurs="0" maxOccurs="unbounded"/>
           </xs:sequence>
       </xs:sequence>
     </xs:complexType>
@@ -441,7 +443,7 @@
   <xs:element name="uuidBox">
     <!-- Holds either uuid, or XMP metadata block if it can be identified from uuid  -->
     <xs:complexType>
-      <xs:sequence>
+      <xs:sequence minOccurs="0">
         <xs:any processContents="skip"/>
       </xs:sequence>
     </xs:complexType>
@@ -599,16 +601,64 @@
   <xs:element name="precinctSizeX" type="xs:integer"/>
   <xs:element name="precinctSizeY" type="xs:integer"/>
 
+  <xs:element name="coc">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lcoc"/>
+        <xs:element ref="ccoc"/>
+        <xs:element ref="precincts"/>
+        <xs:element ref="levels"/>
+        <xs:element ref="codeBlockWidth"/>
+        <xs:element ref="codeBlockHeight"/>
+        <xs:element ref="codingBypass"/>
+        <xs:element ref="resetOnBoundaries"/>
+        <xs:element ref="termOnEachPass"/>
+        <xs:element ref="vertCausalContext"/>
+        <xs:element ref="predTermination"/>
+        <xs:element ref="segmentationSymbols"/>
+        <xs:element ref="transformation"/>
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="precinctSizeX"/>
+          <xs:element ref="precinctSizeY"/>
+        </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="lcoc" type="xs:integer"/>
+  <xs:element name="ccoc" type="xs:integer"/>
+
+  <xs:element name="rgn">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lrgn"/>
+        <xs:element ref="crgn"/>
+        <xs:element ref="roiStyle"/>
+        <xs:element ref="roiShift"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="lrgn" type="xs:integer"/>
+  <xs:element name="crgn" type="xs:integer"/>
+  <xs:element name="roiStyle" type="xs:string"/>
+  <xs:element name="roiShift" type="xs:integer"/>
+
   <xs:element name="qcd">
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="lqcd"/>
         <xs:element ref="qStyle"/>
         <xs:element ref="guardBits"/>
-        <xs:sequence maxOccurs="unbounded">
-          <xs:element ref="mu" minOccurs="0"/>
-          <xs:element ref="epsilon"/>
-        </xs:sequence>
+          <xs:choice>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:element ref="epsilon"/>
+            </xs:sequence>
+            <xs:sequence  minOccurs="0" maxOccurs="unbounded">
+              <xs:element ref="mu"/>
+              <xs:element ref="epsilon"/>
+            </xs:sequence>
+          </xs:choice>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -619,6 +669,68 @@
   <xs:element name="mu" type="xs:integer"/>
   <xs:element name="epsilon" type="xs:integer"/>
   
+  <xs:element name="qcc">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lqcc"/>
+        <xs:element ref="cqcc"/>
+        <xs:element ref="qStyle"/>
+        <xs:element ref="guardBits"/>
+          <xs:choice>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:element ref="epsilon"/>
+            </xs:sequence>
+            <xs:sequence  minOccurs="0" maxOccurs="unbounded">
+              <xs:element ref="mu"/>
+              <xs:element ref="epsilon"/>
+            </xs:sequence>
+          </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="lqcc" type="xs:integer"/>
+  <xs:element name="cqcc" type="xs:integer"/>
+
+  <xs:element name="poc">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lpoc"/>
+        <xs:sequence maxOccurs="unbounded">
+          <xs:element ref="rspoc"/>
+          <xs:element ref="cspoc"/>
+          <xs:element ref="lyepoc"/>
+          <xs:element ref="repoc"/>
+          <xs:element ref="cepoc"/>
+          <xs:element ref="order"/>
+        </xs:sequence>
+    </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="lpoc" type="xs:integer"/>
+  <xs:element name="rspoc" type="xs:integer"/>
+  <xs:element name="cspoc" type="xs:integer"/>
+  <xs:element name="lyepoc" type="xs:integer"/>
+  <xs:element name="repoc" type="xs:integer"/>
+  <xs:element name="cepoc" type="xs:integer"/>
+
+  <xs:element name="crg">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lcrg"/>
+        <xs:sequence maxOccurs="unbounded">
+          <xs:element ref="xcrg"/>
+          <xs:element ref="ycrg"/>
+        </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="lcrg" type="xs:integer"/>
+  <xs:element name="xcrg" type="xs:integer"/>
+  <xs:element name="ycrg" type="xs:integer"/>
+
   <xs:element name="com">
     <xs:complexType>
       <xs:sequence>
@@ -679,39 +791,7 @@
 
   <!-- The following optional marker segments are only minimally supported by
        jpylyzer at this stage (they are reported, but contents aren't analysed) -->
-  
-  <xs:element name="coc">
-    <xs:complexType>
-      <xs:sequence minOccurs="0" maxOccurs="unbounded">
-        <xs:any processContents="skip"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  
-  <xs:element name="rgn">
-    <xs:complexType>
-      <xs:sequence minOccurs="0" maxOccurs="unbounded">
-        <xs:any processContents="skip"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-
-  <xs:element name="qcc">
-    <xs:complexType>
-      <xs:sequence minOccurs="0" maxOccurs="unbounded">
-        <xs:any processContents="skip"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  
-  <xs:element name="poc">
-    <xs:complexType>
-      <xs:sequence minOccurs="0" maxOccurs="unbounded">
-        <xs:any processContents="skip"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-
+   
   <xs:element name="tlm">
     <xs:complexType>
       <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -752,15 +832,16 @@
     </xs:complexType>
   </xs:element>
   
-  <xs:element name="crg">
+  <!-- Compression ratio element -->
+  <xs:element name="compressionRatio" type="xs:double"/>
+
+  <!-- Properties extension element --> 
+  <xs:element name="propertiesExtension">
     <xs:complexType>
-      <xs:sequence minOccurs="0" maxOccurs="unbounded">
-        <xs:any processContents="skip"/>
+      <xs:sequence>
+        <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
 
-  <!-- Compression ratio element -->
-  <xs:element name="compressionRatio" type="xs:double"/>
-   
 </xs:schema> 
