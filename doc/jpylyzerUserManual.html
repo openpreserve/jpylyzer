@@ -499,7 +499,7 @@ background-color: aqua
 <h2 id="outline"><span class="header-section-number">1.3</span> Outline of this User Manual</h2>
 <p><a href="#installation">Chapter 2</a> describes the installation process of <em>jpylyzer</em> for Windows and Unix-based systems. <a href="#using-jpylyzer">Chapter 3</a> explains the usage of <em>jpylyzer</em> as a command-line tool, or as an importable Python module. <a href="#structure-jp2">Chapter 4</a> gives a brief overview of the structure of JP2 and its ‘box’ structure. <em>Jpylyzer</em>’s output format is explained in <a href="#output-format">chapter 5</a>. The final chapters give a detailed description of the tests that <em>jpylyzer</em> performs for validation, and its reported properties. <a href="#jp2-box-by-box">Chapter 6</a> does this for all ‘boxes’, except for the ‘Contiguous Codestream’ box, which is given a <a href="#contiguous-codestream-box-chapter">Chapter (7)</a> of its own.</p>
 <h2 id="funding"><span class="header-section-number">1.4</span> Funding</h2>
-<p>The development of <em>jpylyzer</em> was funded by the EU FP 7 project SCAPE (SCAlabable Preservation Environments). More information about this project can be found here:</p>
+<p>The development of <em>jpylyzer</em> was funded by the EU FP 7 project SCAPE (SCAlable Preservation Environments). More information about this project can be found here:</p>
 <p><a href="http://www.scape-project.eu/" class="uri">http://www.scape-project.eu/</a></p>
 <h2 id="license"><span class="header-section-number">1.5</span> License</h2>
 <p><em>Jpylyzer</em> is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this program. If not, see:</p>
@@ -2296,40 +2296,40 @@ User warning: unknown error (please report to developers)</code></pre>
 <li><p>Start of codestream (SOC) marker segment (required)</p></li>
 <li><p>Image and tile size (SIZ) marker segment (required)</p></li>
 <li><p>Coding style default (COD) marker segment (required)</p></li>
+<li><p>Coding style component (COC) marker segment (optional)</p></li>
+<li><p>Region-of-interest (RGN) marker segment (optional)</p></li>
 <li><p>Quantization default (QCD) marker segment (required)</p></li>
+<li><p>Quantization component (QCC) marker segment (optional)</p></li>
+<li><p>Progression order change (POC) marker segment (optional)</p></li>
+<li><p>Component registration (CRG) marker segment (optional)</p></li>
 <li><p>Comment (COM) marker segment (optional)</p></li>
 </ul>
 <p>In addition the codestream header may also contain any of the following marker segments, which are all optional:</p>
 <ul>
-<li><p>Coding style component (COC) marker segment (optional)</p></li>
-<li><p>Quantization component (QCC) marker segment (optional)</p></li>
-<li><p>Region-of-interest (RGN) marker segment (optional) <sup>*</sup></p></li>
-<li><p>Progression order change (POC) marker segment (optional) <sup>*</sup></p></li>
 <li><p>Packet length, main header (PLM) marker segment (optional) <sup>*</sup></p></li>
 <li><p>Packed packet headers, main header (PPM) marker segment (optional) <sup>*</sup></p></li>
 <li><p>Tile-part lengths (TLM) marker segment (optional) <sup>*</sup></p></li>
-<li><p>Component registration (CRG) marker segment (optional) <sup>*</sup></p></li>
 </ul>
-<p>Currently not all of these optional marker segments are fully supported. Those that are marked with an asterisk above are only minimally supported at this stage: if <em>jpylyzer</em> encounters them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> does not analyse the contents of these marker segments, which means that the respective elements in the output will be empty.</p>
+<p>The optional markers that are marked with an asterisk above are only minimally supported at this stage: if <em>jpylyzer</em> encounters them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> does not analyse the contents of these marker segments, which means that the respective elements in the output will be empty.</p>
 <h3 id="tile-parts"><span class="header-section-number">7.2.2</span> Tile parts</h3>
 <p>The tile part validation has similar limitations. The standard lists 11 marker segments that can occur in the tile part header. Currently, <em>jpylyzer</em> only fully supports the following ones:</p>
 <ul>
 <li><p>Start of tile part (SOT) marker segment (required)</p></li>
 <li><p>Coding style default (COD) marker segment (optional)</p></li>
+<li><p>Coding style component (COC) marker segment (optional)</p></li>
+<li><p>Region-of-interest (RGN) marker segment (optional)</p></li>
 <li><p>Quantization default (QCD) marker segment (optional)</p></li>
+<li><p>Quantization component (QCC) marker segment (optional)</p></li>
+<li><p>Progression order change (POC) marker segment (optional)</p></li>
 <li><p>Comment (COM) marker segment (optional)</p></li>
 <li><p>Start of data (SOD) marker segment (required)</p></li>
 </ul>
 <p>In addition the following optional marker segments may also occur:</p>
 <ul>
-<li><p>Coding style component (COC) marker segment (optional)</p></li>
-<li><p>Quantization component (QCC) marker segment (optional)</p></li>
-<li><p>Region-of-interest (RGN) marker segment (optional) <sup>*</sup></p></li>
-<li><p>Progression order change (POC) marker segment (optional) <sup>*</sup></p></li>
 <li><p>Packet length, tile-part header (PLT) marker segment (optional) <sup>*</sup></p></li>
 <li><p>Packed packet headers, tile-part header (PPT) marker segment (optional) <sup>*</sup></p></li>
 </ul>
-<p>These marker segments that are marked with an asterisk above are only minimally supported at this stage: if <em>jpylyzer</em> encounters any of them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> currently does not analyse their contents, and the respective elements in the output will be empty.</p>
+<p>The optional markers that are marked with an asterisk above are only minimally supported at this stage: if <em>jpylyzer</em> encounters them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> does not analyse the contents of these marker segments, which means that the respective elements in the output will be empty.</p>
 <h3 id="bit-streams"><span class="header-section-number">7.2.3</span> Bit streams</h3>
 <p>In addition to the above limitations, <em>jpylyzer</em> can <em>not</em> be used to establish whether the data in the bitstream are correct (this would require decoding the compressed image data, which is completely out of <em>jpylyzer</em>’s scope)<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>. As a result, if <em>jpylyzer</em> is used as part of a quality assurance workflow, it is recommended to also include an additional check on the image contents<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a>. Also, <em>jpylyzer</em> does not perform any checks on marker segments within the bit-stream: start-of packet (SOP) and end-of-packet (EPH) markers.</p>
 <h3 id="detection-of-incomplete-or-truncated-codestreams"><span class="header-section-number">7.2.4</span> Detection of incomplete or truncated codestreams</h3>
@@ -2470,7 +2470,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">ysiz</td>
-<td style="text-align: left;">Heigth of reference grid</td>
+<td style="text-align: left;">Height of reference grid</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">xOsiz</td>
@@ -2611,7 +2611,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">precincts</td>
-<td style="text-align: left;">Indicates use of precincts (“yes”/“no”)</td>
+<td style="text-align: left;">Indicates default or user-defined precinct size (“default”/“user defined”)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">sop</td>
@@ -2675,11 +2675,11 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">precinctSizeX<sup>*</sup></td>
-<td style="text-align: left;">Precinct width (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;">Precinct width (repeated for all resolution levels; order: low to high). Equals 32768 if <em>precincts</em> is “default”</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">precinctSizeY<sup>*</sup></td>
-<td style="text-align: left;">Precinct heigth (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;">Precinct height (repeated for all resolution levels; order: low to high). Equals 32768 if <em>precincts</em> is “default”</td>
 </tr>
 </tbody>
 </table>
@@ -2730,11 +2730,11 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">precinctSizeXIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>precinctSizeX</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;"><em>precinctSizeX</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “user defined”)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">precinctSizeYIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>precinctSizeY</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;"><em>precinctSizeY</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “user defined”)</td>
 </tr>
 </tbody>
 </table>
@@ -2760,7 +2760,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">precincts</td>
-<td style="text-align: left;">Indicates use of precincts (“yes”/“no”)</td>
+<td style="text-align: left;">Indicates default or user-defined precinct size (“default”/“user defined”)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">levels</td>
@@ -2804,11 +2804,11 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">precinctSizeX<sup>*</sup></td>
-<td style="text-align: left;">Precinct width (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;">Precinct width (repeated for all resolution levels; order: low to high). Equals 32768 if <em>precincts</em> is “default”</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">precinctSizeY<sup>*</sup></td>
-<td style="text-align: left;">Precinct heigth (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;">Precinct heigth (repeated for all resolution levels; order: low to high). Equals 32768 if <em>precincts</em> is “default”</td>
 </tr>
 </tbody>
 </table>
@@ -2851,11 +2851,11 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">precinctSizeXIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>precinctSizeX</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;"><em>precinctSizeX</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “user defined”)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">precinctSizeYIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>precinctSizeY</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+<td style="text-align: left;"><em>precinctSizeY</em> ≥ 2 (except lowest resolution level) (repeated for all resolution levels; order: low to high) (only if <em>precincts</em> is “user defined”)</td>
 </tr>
 </tbody>
 </table>

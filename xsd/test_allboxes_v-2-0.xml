@@ -15,7 +15,7 @@
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
     <toolInfo>
         <toolName>jpylyzer.exe</toolName>
-        <toolVersion>1.16.0</toolVersion>
+        <toolVersion>2.0.0</toolVersion>
     </toolInfo>
     <file>
     <fileInfo>
@@ -1392,7 +1392,7 @@
             </siz>
             <cod>
                 <lcod>18</lcod>
-                <precincts>yes</precincts>
+                <precincts>user defined</precincts>
                 <sop>yes</sop>
                 <eph>yes</eph>
                 <order>RPCL</order>
