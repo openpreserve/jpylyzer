@@ -71,7 +71,7 @@ class Element(ET.Element):
 
     def appendIfNotEmpty(self, subelement):
         """Append sub-element, but only if subelement is not empty."""
-        if subelement:
+        if len(subelement) != 0:
             self.append(subelement)
 
     def makeHumanReadable(self, remapTable=None):
