@@ -8,9 +8,11 @@
 
 # Uncomment this to turn on verbose mode.
 export DH_VERBOSE=1
+export DH_COMPAT=9
 export PYBUILD_NAME = jpylyzer
 %:
 	dh $@ --with python2,python3 --buildsystem=pybuild
+	pod2man --section=1 --release=$(VERSION) --center "" debian/jpylyzer.pod > jpylyzer.1
 
 DEB_INSTALL_MANPAGES_jpylyzer = jpylyzer.1
 
@@ -20,46 +22,8 @@ config.status:
 #	./configure
 
 build: build-stamp
-#	make build
 	pod2man --section=1 --release=$(VERSION) --center "" debian/jpylyzer.pod > jpylyzer.1
 
 build-stamp: config.status
 	dh_testdir
 	touch $@
-
-clean:
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp
-#	rm -f config.sub config.guess
-	rm -f jpylyzer.1
-	dh_clean
-
-install: build
-	dh_testdir
-	dh_testroot
-	dh_clean -k
-
-# Build architecture-dependent files here.
-binary-arch: build install
-# We have nothing to do by default.
-
-# Build architecture-independent files here.
-binary-indep: install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs
-	dh_installdocs
-	dh_installexamples
-#	dh_installdebconf
-	dh_installman
-	dh_link
-	dh_compress
-	dh_fixperms
-	dh_installdeb
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install

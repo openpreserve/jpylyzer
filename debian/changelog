@@ -1,8 +1,8 @@
-jpylyzer (2.0.0rc1) UNRELEASED; urgency=medium
+jpylyzer (2.0.0~rc1) UNRELEASED; urgency=medium
 
   * Update XML output format to handle multiple streams
 
- -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Thu, 31 Aug 2019 09:00:00 +0200
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Thu, 31 Oct 2019 09:00:00 +0200
 
 jpylyzer (1.18.0) precise; urgency=medium
 

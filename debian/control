@@ -2,8 +2,7 @@ Source: jpylyzer
 Section: utils
 Priority: extra
 Maintainer: Open Preservation Foundation <jpylyzer-dev@openpreservation.org>
-# Build-Depends: debhelper (>= 7), dh-python, python-all, python-setuptools, python3-all, python3-setuptools, perl
-Build-Depends: debhelper (>= 9), python3-setuptools, perl
+Build-Depends: debhelper (>= 9), dh-python, python-all, python-setuptools, python3-all, python3-setuptools, perl
 Standards-Version: 3.8.3
 Homepage: https://github.com/openpreserve/jpylyzer
 

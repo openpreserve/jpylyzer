@@ -11,6 +11,7 @@ dist_id=${image%%:*}
 codename=${image#*:}
 pypi_name="$(./setup.py --name)"
 pypi_version="$(./setup.py --version)"
+deb_version=2.0.0~rc1
 pkgname=$pypi_name
 tag=$pypi_name-$dist_id-$codename
 # Build in Docker container, save results, and show package info
@@ -23,7 +24,5 @@ docker build --tag $tag \
     -f Dockerfile.build \
     "$@" .
 mkdir -p dist
-docker run -v "$PWD/dist":/dist --rm $tag mv -f "../python-jpylyzer-doc_${pypi_version}_all.deb" /dist
-docker run -v "$PWD/dist":/dist --rm $tag mv -f "../python-jpylyzer_${pypi_version}_all.deb" /dist
-docker run -v "$PWD/dist":/dist --rm $tag mv -f "../python3-jpylyzer_${pypi_version}_all.deb" /dist
-ls -lh dist/python?*${pkgname}?*${pypi_version//./?}*.*
+docker run -v "$PWD/dist":/dist --rm $tag mv -f "../python-jpylyzer-doc_${deb_version}_all.deb" "../python-jpylyzer_${deb_version}_all.deb" "../python3-jpylyzer_${deb_version}_all.deb" /dist
+ls -lh dist/python?*${pkgname}?*${deb_version//./?}*.*
