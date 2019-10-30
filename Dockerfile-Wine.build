@@ -1,0 +1,39 @@
+# Build Debian package using dh-virtualenv
+#
+# To create a package for Stretch in `dist/`, call:
+#
+#   ./build.sh debian:stretch
+
+# Build arguments, as provided by 'build.sh'
+ARG DIST_ID="debian"
+ARG CODENAME="stretch"
+ARG PKGNAME
+
+## Start package builder image for the chosen platform
+FROM ${DIST_ID}:${CODENAME} AS dpkg-build
+
+# Pass build args into image scope
+ARG CODENAME
+ARG PKGNAME
+ARG VERSION
+
+RUN dpkg --add-architecture i386
+
+# Install build tools and package build deps including nodejs
+RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
+    && env LANG=C DEBIAN_FRONTEND=noninteractive apt-get install \
+        -yqq --no-install-recommends -o Dpkg::Options::=--force-unsafe-io \
+        \
+        apt-transport-https \
+        apt-utils \
+        p7zip-full \
+        tar \
+        wget \
+        wine \
+        zip
+
+ENV DISPLAY :0.0
+
+WORKDIR /dpkg-build
+COPY ./ ./
+RUN ./buildwin.sh
