@@ -5,6 +5,9 @@ python:
   - "3.4"
   - "3.5"
 
+services:
+  - docker
+
 before_install:
   - python --version
   - pip install -U pip
@@ -46,9 +49,12 @@ script:
   - pep257 jpylyzer setup.py
   - ./setup.py sdist
   - twine check dist/*
-  - ./build-with-pyinstaller.sh
+  - ./docker-package.sh debian:stretch
+# DISABLED - to make way for debian packaging above
+#  - ./build-with-pyinstaller.sh
 
 after_success:
+  - ls -alh ./dist
   - coverage xml
   - python-codacy-coverage -r coverage.xml
   - ./pyi-build/dist/jpylyzer --version

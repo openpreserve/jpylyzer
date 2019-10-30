@@ -1,17 +1,42 @@
 Source: jpylyzer
 Section: utils
 Priority: extra
-Maintainer: Open Preservation Foundation <jpylyzer-dev@openplanetsfounation.org>
-Build-Depends: debhelper (>= 7), perl
+Maintainer: Open Preservation Foundation <jpylyzer-dev@openpreservation.org>
+Build-Depends: debhelper (>= 9), dh-python, python-all, python-setuptools, python3-all, python3-setuptools, perl
 Standards-Version: 3.8.3
 Homepage: https://github.com/openpreserve/jpylyzer
 
-Package: jpylyzer
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Package: python-jpylyzer
+Architecture: all
+Depends: ${python:Depends}, ${misc:Depends}
+Suggests: python-jpylyzer-doc
 Description: JP2 (JPEG 2000 Part 1) validator and properties extractor.
  Validator and feature extractor for JP2 (JPEG 2000 Part 1 - ISO/IEC 15444‐1)
- images. Jpylyzer was specifically created to check that a JP2 file really 
- conforms to the format's specifications. Additionally jpylyzer is able to 
+ images. Jpylyzer was specifically created to check that a JP2 file really
+ conforms to the format's specifications. Additionally jpylyzer is able to
  extract the technical characteristics of each image.
- 
+ .
+ This package install the library for Python 2.
+
+Package: python3-jpylyzer
+Architecture: all
+Depends: ${python3:Depends}, ${misc:Depends}
+Suggests: python-jpylyzer-doc
+Description: JP2 (JPEG 2000 Part 1) validator and properties extractor.
+ Validator and feature extractor for JP2 (JPEG 2000 Part 1 - ISO/IEC 15444‐1)
+ images. Jpylyzer was specifically created to check that a JP2 file really
+ conforms to the format's specifications. Additionally jpylyzer is able to
+ extract the technical characteristics of each image.
+ .
+ This package install the library for Python 3.
+
+Package: python-jpylyzer-doc
+Architecture: all
+Depends: ${misc:Depends}
+Description: JP2 (JPEG 2000 Part 1) validator and properties extractor.
+ Validator and feature extractor for JP2 (JPEG 2000 Part 1 - ISO/IEC 15444‐1)
+ images. Jpylyzer was specifically created to check that a JP2 file really
+ conforms to the format's specifications. Additionally jpylyzer is able to
+ extract the technical characteristics of each image.
+ .
+ This is the common documentation package.
