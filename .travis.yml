@@ -50,6 +50,7 @@ script:
   - ./setup.py sdist
   - twine check dist/*
   - ./docker-package.sh debian:stretch
+  - ./docker-package-win.sh debian:stretch
 # DISABLED - to make way for debian packaging above
 #  - ./build-with-pyinstaller.sh
 
