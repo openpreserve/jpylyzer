@@ -68,8 +68,6 @@ Debian packages and Windows binaries for this release candidate are available fr
 
 <https://software.openpreservation.org/releases/jpylyzer>
 
-Note that at the moment we have separate Debian packages for Python versions 3 and 2.7. These will most likely be merged into a single package in the stable release that follows in November.
-
 ## Installation with pip
 
 If you want to install this release candidate with *pip*, make sure to run *pip* with the `--pre` option (by default *pip* ignores pre-leases, and the `--pre` switch overrides this behaviour).
