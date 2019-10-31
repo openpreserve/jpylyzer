@@ -6,38 +6,66 @@
 # Precondition: 64-bit version of Wine is already installed.
 export DISPLAY=:0.0
 # WinPython download URLS
-winPython2Major=2.7
-winPython3Major=3.5
-winPython2Ver="${winPython2Major}.13.1"
-winPython3Ver="${winPython3Major}.3.1"
-downloadURLP264bit="https://sourceforge.net/projects/winpython/files/WinPython_${winPython2Major}/${winPython2Ver}/WinPython-64bit-${winPython2Ver}Zero.exe/download"
-downloadURLP232bit="https://sourceforge.net/projects/winpython/files/WinPython_${winPython2Major}/${winPython2Ver}/WinPython-32bit-${winPython2Ver}Zero.exe/download"
-downloadURLP364bit="https://sourceforge.net/projects/winpython/files/WinPython_${winPython3Major}/${winPython3Ver}/WinPython-64bit-${winPython3Ver}Zero.exe/download"
-downloadURLP332bit="https://sourceforge.net/projects/winpython/files/WinPython_${winPython3Major}/${winPython3Ver}/WinPython-32bit-${winPython3Ver}Zero.exe/download"
-# PyInstaller spec files that defines build options
-specFile64bit=jpylyzer_win64.spec
-specFile32bit=jpylyzer_win32.spec
+python2Major=2
+python2Minor=7
+winPython2build="13.1"
+python3Major=3
+python3Minor=5
+winPython3build="4.2"
+sfWpRoot="https://sourceforge.net/projects/winpython/files/"
+sfWpPost="Zero.exe/download"
+winPyName="WinPython"
 
 # Script base name (i.e. script name minus .py extension)
 scriptBaseName=jpylyzer
 
 # Wine debug variable (suppresses garbage debugging messages)
-WineDebug="-msvcrt"
-#WineDebug="fixme-all"
+WineDebug="-msvcrt,-ntdll,-toolhelp"
+
+function winPyDownloadUrl() {
+  # - $1: bitness (32 or 64)
+  # - $2: Python major version
+  # - $3: Python minor version
+  # - $4: WinPython build number
+  if [ $2 == "2" ]; then
+    echo "${sfWpRoot}${winPyName}_${2}.${3}/${2}.${3}.${4}/${winPyName}-${1}bit-${2}.${3}.${4}${sfWpPost}"
+  else
+    echo "${sfWpRoot}${winPyName}_${2}.${3}/${2}.${3}.${4}/${winPyName}${1}-${2}.${3}.${4}${sfWpPost}"
+  fi
+}
+
+function winePythonHome() {
+  # - $1: bitness (32 or 64)
+  # - $2: Python major version
+  # - $3: Python minor version
+  echo "$(winePrefix $1)/drive_c/Python${2}${3}_${1}"
+}
+
+function winePrefix() {
+  # - $1: bitness (32 or 64)
+  echo "${HOME}/.$(winArch $1)"
+}
+
+function winArch() {
+  # - $1: bitness (32 or 64)
+  echo "win${1}"
+}
 
 installPython(){
     # Installs Python. Arguments:
     # - $1: bitness (32 or 64)
-    # - $2: download URL
-    echo "Downloading installer"
-    wget $2 -q --no-check-certificate -O pyTemp.exe
+    # - $2: Python major version
+    # - $3: Python minor version
+    # - $4: WinPython build number
+    downloadUrl=$(winPyDownloadUrl $1 $2 $3 $4)
+    winePythonHome=$(winePythonHome $1 $2 $3)
+    echo "Downloading installer from ${downloadUrl}"
+    wget $downloadUrl -q -O pyTemp.exe
     echo ""
-    echo "Installing Python. This requires some user input"
-    echo ""
-    echo "Follow installer instructions. For Destination Folder replace default path with C:\Python27_${1}"
+    echo "Installing Python."
     echo ""
 
-    7z x -o"$HOME/.wine/drive_c/Python27_$1" pyTemp.exe
+    7z x -o"${winePythonHome}" pyTemp.exe
 
     echo "Removing installer"
     rm pyTemp.exe
@@ -45,15 +73,18 @@ installPython(){
 
 installPyInstaller(){
     # Installs pyInstaller if it is not installed already. Argument:
-    # - $1: python (full path of python interpreter)
+    # - $1: Python path
+    # - $2: bitness
+    echo "Upgrading pip for ${1}"
+    WINEDEBUG=$WineDebug WINEPREFIX=$(winePrefix $2) wine $1 -m pip install --upgrade pip
     echo "Checking for pyinstaller ${1}"
-    WINEDEBUG=$WineDebug wine $1 -m pip show pyinstaller
+    WINEDEBUG=$WineDebug WINEPREFIX=$(winePrefix $2) wine $1 -m pip show pyinstaller
 
     if [ $? -eq 0 ]; then
         echo "Pyinstaller already installed"
     else
         echo "Installing pyinstaller"
-        WINEDEBUG=$WineDebug wine $1 -m pip install pyinstaller
+        WINEDEBUG=$WineDebug WINEPREFIX=$(winePrefix $2) wine $1 -m pip install pyinstaller
     fi
 }
 
@@ -66,6 +97,7 @@ buildBinaries(){
     pyInstallerWine="${pyRoot}/Scripts/pyinstaller.exe"
     pythonWine=$3
     specFile=$4
+    pythonMajor=$5
 
     # Working directory
     workDir=$PWD
@@ -76,67 +108,71 @@ buildBinaries(){
     # Executes jpylyzer with -v option and stores output to
     # env variable 'version'
     # Also trim trailing EOL character and replace '.' by '_'
-    WINEDEBUG=$WineDebug wine $pythonWine -m $scriptBaseName -v 2> temp.txt
-    version=$(head -n 1 temp.txt | tr -d '\r')
-    rm temp.txt
+    if [ $pythonMajor == "2" ]; then
+      WINEDEBUG=$WineDebug WINEPREFIX=$(winePrefix $bitness) wine $pythonWine -m $scriptBaseName -v 2> temp.txt
+      version=$(head -n 1 temp.txt | tr -d '\r')
+      rm temp.txt
+    else
+      version="$(WINEDEBUG="${WineDebug}" WINEPREFIX="$(winePrefix "${bitness}")" wine "${pythonWine}" -m "${scriptBaseName}" -v)"
+    fi
 
-    echo "Building binaries"
-    WINEDEBUG=$WineDebug wine $pyInstallerWine $specFile --distpath=$distDir
+    version="$(echo -e "${version}" | tr -d '[:space:]')"
+    echo "Building binaries ${version}"
+    WINEDEBUG=$WineDebug WINEPREFIX=$(winePrefix $bitness) wine $pyInstallerWine $specFile --distpath=$distDir
 
     # Generate name for ZIP file
-    zipName="${scriptBaseName}_${version}_win${bitness}.zip"
-    echo zipName
-
-    echo "Creating ZIP file"
-    cd $distDir
+    zipName="${scriptBaseName}_${version}_Python${pythonMajor}_win${bitness}.zip"
+    echo "Zip name is $zipName"
+    echo ""
+    echo "Creating ZIP file ${zipName} from ${scriptBaseName}"
+    echo ""
+    cd $distDir || exit
     zip -r $zipName $scriptBaseName
-    cd $workDir 
+    cd $workDir || exit
 
     echo "Deleting build directory"
-    rm -r $workDir"/build"
-    rm -r  "${distDir:?}/${scriptBaseName}"
+    rm -r "${workDir}/build"
+    rm -r "${distDir:?}/${scriptBaseName}"
 }
 
-echo "64 bit Python"
 
-if [ -d '${HOME}/.wine/drive_c/Python27_64' ]; then
-    echo "Python (64 bit) already installed"
-else
-    echo "Python (64 bit) not yet installed, installing now"
-    echo ""
-    installPython 64 $downloadURLP264bit
-fi
+installAndBuild(){
+    # Installs Python and builds the packages. Arguments:
+    # - $1: bitness (32 or 64)
+    # - $2: Python major version
+    # - $3: Python minor version
+    # - $4: WinPython build number
+    bitness=$1
+    pythonMajor=$2
+    pythonMinor=$3
+    winPythonBuild=$4
+    winPyHome=$(winePythonHome $bitness $pythonMajor $pythonMinor)
+    echo "${bitness} bit Python"
+    if [ -d "${winPyHome}" ]; then
+        echo "Python (${bitness} bit) already installed"
+    else
+        echo "Python (${bitness} bit) not yet installed, installing now"
+        echo ""
+        installPython $bitness $pythonMajor $pythonMinor $winPythonBuild
+    fi
 
-# Get path to Python root
-pyRoot64=$(ls -d ~/.wine/drive_c/Python27_64/python-*)
+    # Get path to Python root
+    pyRoot=$(ls -d $winPyHome/python-*)
 
-# Python interpreter
-python64="${pyRoot64}/python.exe"
+    # Python interpreter
+    python="${pyRoot}/python.exe"
 
-# Install PyInstaller (if not installed already)
-installPyInstaller $python64
+    # Install PyInstaller (if not installed already)
+    installPyInstaller $python $bitness
 
-echo "32 bit Python"
+    echo "Building Python${pythonMajor} binaries, ${bitness} bit"
+    buildBinaries $bitness $pyRoot $python "jpylyzer_win${bitness}.spec" $pythonMajor
+}
 
-if [ -d "$HOME/.wine/drive_c/Python27_32" ]; then
-    echo "Python (32 bit) already installed"
-else
-    echo "Python (32 bit) not yet installed, installing now"
-    echo ""
-    installPython 32 $downloadURLP232bit
-fi
-
-# Get path to Python root
-pyRoot32=$(ls -d ~/.wine/drive_c/Python27_32/python-*)
-
-# Python interpreter
-python32="${pyRoot32}/python.exe"
-
-# Install PyInstaller (if not installed already)
-installPyInstaller $python32
-
-echo "Building binaries, 64 bit"
-buildBinaries 64 $pyRoot64 $python64 $specFile64bit
-
-echo "Building binaries, 32 bit"
-buildBinaries 32 $pyRoot32 $python32 $specFile32bit
+# Create Win32 architecture
+WINEARCH=$(winArch 32) WINEPREFIX=$(winePrefix 32) winecfg
+WINEARCH=$(winArch 64) WINEPREFIX=$(winePrefix 64) winecfg
+installAndBuild 64 $python2Major $python2Minor $winPython2build
+installAndBuild 32 $python2Major $python2Minor $winPython2build
+installAndBuild 64 $python3Major $python3Minor $winPython3build
+installAndBuild 32 $python3Major $python3Minor $winPython3build

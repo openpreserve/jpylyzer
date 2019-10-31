@@ -21,4 +21,5 @@ docker build --tag $tag \
     --build-arg "VERSION=$pypi_version" \
     -f Dockerfile-Wine.build \
     "$@" .
-docker run -v "$PWD/dist":/dist $tag ls -alh ..\
+    mkdir -p dist
+docker run -v "$PWD/dist":/dist --rm $tag cp --force --recursive dist/win32 dist/win64 /dist

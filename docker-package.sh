@@ -24,5 +24,5 @@ docker build --tag $tag \
     -f Dockerfile.build \
     "$@" .
 mkdir -p dist
-docker run -v "$PWD/dist":/dist --rm $tag mv -f "../python-jpylyzer-doc_${deb_version}_all.deb" "../python-jpylyzer_${deb_version}_all.deb" "../python3-jpylyzer_${deb_version}_all.deb" /dist
+docker run -v "$PWD/dist":/dist --rm $tag cp --force "../python-jpylyzer-doc_${deb_version}_all.deb" "../python-jpylyzer_${deb_version}_all.deb" "../python3-jpylyzer_${deb_version}_all.deb" /dist
 ls -lh dist/python?*${pkgname}?*${deb_version//./?}*.*
