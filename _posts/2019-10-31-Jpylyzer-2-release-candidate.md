@@ -62,14 +62,13 @@ In addition to the above changes, which are all directly visible to the user of 
 
 The packaging workflows for both the Windows binaries and the Debian packages have been given an overhaul.
 
-## Download links
+## Package downloads
 
-Below are download links for Windows binaries and Debian packages: 
+Debian packages and Windows binaries for this release candidate are available from the link below:
 
-- [Windows binaries (64 bit)]()
-- [Windows binaries (32 bit)]()
-- [Debian package (Amd 64)]()
-- [Debian package (i386)]()
+<https://software.openpreservation.org/releases/jpylyzer>
+
+Note that at the moment we have separate Debian packages for Python versions 3 and 2.7. These will most likely be merged into a single package in the stable release that follows in November.
 
 ## Installation with pip
 
@@ -84,6 +83,6 @@ Full documentation can be found here:
 
 ## Feedback
 
-Any feedback on this *jpylyzer* release candidate is greatly appreciated. Also don't hesitate to contact us if any of the (new) packages for some reason do not behave as expected (preferrably using the [issue tracker](https://github.com/openpreserve/jpylyzer/issues)).
+Any feedback on this *jpylyzer* release candidate is greatly appreciated. Also, don't hesitate to contact us if any of the (new) packages for some reason do not behave as expected (preferrably using the [issue tracker](https://github.com/openpreserve/jpylyzer/issues)).
 
 Happy jpylyzing!
