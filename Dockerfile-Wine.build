@@ -17,7 +17,6 @@ ARG CODENAME
 ARG PKGNAME
 ARG VERSION
 
-RUN dpkg --add-architecture i386
 
 # Install build tools and package build deps including nodejs
 RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
@@ -26,11 +25,26 @@ RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
         \
         apt-transport-https \
         apt-utils \
+        ca-certificates \
+        gnupg \
         p7zip-full \
+        software-properties-common \
         tar \
+        unzip \
         wget \
-        wine \
         zip
+
+RUN dpkg --add-architecture i386
+
+RUN wget -nc https://dl.winehq.org/wine-builds/winehq.key
+RUN apt-key add winehq.key
+RUN apt-add-repository https://dl.winehq.org/wine-builds/debian/
+
+RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
+    && env LANG=C DEBIAN_FRONTEND=noninteractive apt-get install \
+        -yqq --install-recommends -o Dpkg::Options::=--force-unsafe-io \
+        \
+        winehq-stable
 
 ENV DISPLAY :0.0
 
