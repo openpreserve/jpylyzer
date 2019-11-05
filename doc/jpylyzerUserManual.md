@@ -709,7 +709,7 @@ validation process (organised by box)
 
 5. *properties*: image properties (organised by box)
 
-6. *propertiesExtension*: wrapper element for NIDSO *MIX* output (only if the `--mix` option is used)
+6. *propertiesExtension*: wrapper element for NISO *MIX* output (only if the `--mix` option is used)
 
 fileInfo element {#fileinfo-element}
 --------------------
@@ -751,8 +751,8 @@ isValid element {#isvalid-element}
 ----------------------
 
 This element contains the results of the validation. If a file passed
-all the tests (i.e. all tests returned “True”, see [section 5.5](#tests-element)) it is
-most valid, and the value of *isValid* will be “True”. Its value is “False” otherwise.
+all the tests (i.e. all tests returned “True”, see [section 5.7](#tests-element)) it is
+most likely valid, and the value of *isValid* will be “True”. Its value is “False” otherwise.
 The element has a *format* attribute, which defines the validation format (set by the
 `--format` command-line option). The *format* attribute can have the following values:
 
@@ -772,7 +772,7 @@ JP2’s box structure. Each individual test can have two values:
 * “False” if a file failed the test.
 
 If a file passed *all* tests, this is an indication that it is most
-likely valid JP2. In that case, the *isValidJP2* element ([section 5.4](#isvalidjp2-element))
+likely valid JP2. In that case, the *isValid* element ([section 5.6](#isvalid-element))
 has a value of “True” (and “False” in all other cases). These tests are
 all explained in chapters [6](#jp2-box-by-box) and [7](#contiguous-codestream-box-chapter).
 

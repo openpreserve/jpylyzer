@@ -553,7 +553,7 @@ User warning: unknown error (please report to developers)</code></pre>
 <li><p><em>isValid</em>: outcome of the validation</p></li>
 <li><p><em>tests</em>: outcome of the individual tests that are part of the validation process (organised by box)</p></li>
 <li><p><em>properties</em>: image properties (organised by box)</p></li>
-<li><p><em>propertiesExtension</em>: wrapper element for NIDSO <em>MIX</em> output (only if the <code>--mix</code> option is used)</p></li>
+<li><p><em>propertiesExtension</em>: wrapper element for NISO <em>MIX</em> output (only if the <code>--mix</code> option is used)</p></li>
 </ol>
 <h2 id="fileinfo-element"><span class="header-section-number">5.4</span> fileInfo element</h2>
 <p>This element holds general information about the analysed file. Currently it contains the following sub-elements:</p>
@@ -575,7 +575,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </ul></li>
 </ul>
 <h2 id="isvalid-element"><span class="header-section-number">5.6</span> isValid element</h2>
-<p>This element contains the results of the validation. If a file passed all the tests (i.e. all tests returned “True”, see <a href="#tests-element">section 5.5</a>) it is most valid, and the value of <em>isValid</em> will be “True”. Its value is “False” otherwise. The element has a <em>format</em> attribute, which defines the validation format (set by the <code>--format</code> command-line option). The <em>format</em> attribute can have the following values:</p>
+<p>This element contains the results of the validation. If a file passed all the tests (i.e. all tests returned “True”, see <a href="#tests-element">section 5.7</a>) it is most likely valid, and the value of <em>isValid</em> will be “True”. Its value is “False” otherwise. The element has a <em>format</em> attribute, which defines the validation format (set by the <code>--format</code> command-line option). The <em>format</em> attribute can have the following values:</p>
 <ul>
 <li>“jp2” (JP2 validation)</li>
 <li>“j2c” (raw codestream validation)</li>
@@ -586,7 +586,7 @@ User warning: unknown error (please report to developers)</code></pre>
 <li><p>“True” if a file passed the test.</p></li>
 <li><p>“False” if a file failed the test.</p></li>
 </ul>
-<p>If a file passed <em>all</em> tests, this is an indication that it is most likely valid JP2. In that case, the <em>isValidJP2</em> element (<a href="#isvalidjp2-element">section 5.4</a>) has a value of “True” (and “False” in all other cases). These tests are all explained in chapters <a href="#jp2-box-by-box">6</a> and <a href="#contiguous-codestream-box-chapter">7</a>.</p>
+<p>If a file passed <em>all</em> tests, this is an indication that it is most likely valid JP2. In that case, the <em>isValid</em> element (<a href="#isvalid-element">section 5.6</a>) has a value of “True” (and “False” in all other cases). These tests are all explained in chapters <a href="#jp2-box-by-box">6</a> and <a href="#contiguous-codestream-box-chapter">7</a>.</p>
 <h3 id="default-and-verbose-reporting-of-test-results"><span class="header-section-number">5.7.1</span> Default and verbose reporting of test results</h3>
 <p>By default, <em>jpylyzer</em> only reports any tests that failed (i.e. returned “False”), including the corresponding part of the box structure. For a valid JP2 the tests element will be empty. If the –verbose flag is used, the results of <em>all</em> tests are included (including those that returned “True”)<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
 <h2 id="properties-element"><span class="header-section-number">5.8</span> properties element</h2>
