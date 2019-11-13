@@ -9,6 +9,7 @@
 
 .top-area{
   background-color: #f0f0f0 ;
+  padding-top: 20px;
   margin-bottom: 20px;
 }
 
@@ -18,12 +19,12 @@
   }
   
 .banner-tagline{
-  font-size:26px;
-  letter-spacing:4px;
-  line-height:30px;
+  font-size:48px;
+  letter-spacing:2px;
+  line-height:60px;
   text-align:left;
   color:#708090;
-  margin-top: 0px;
+  margin-top: 10px;
   margin-bottom: 0px;
   }
 
