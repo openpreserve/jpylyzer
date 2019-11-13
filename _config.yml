@@ -22,20 +22,23 @@ author :
 # The following variables all point to URLs that are referenced
 
 # Version of binary release (update this for each new release!)
-binVersion: 1.18.0
+binVersion: 2.0.0
 
 # Name of downloadable User Manual file
 userManualName: jpylyzerUserManual.html
 
 # Prefixes/suffixes that define file paths to binary downloads
-win32Pre: https://github.com/openpreserve/jpylyzer/releases/download
+
+# https://software.openpreservation.org/releases/jpylyzer/jpylyzer_2.0.0rc1_win64.zip
+# https://software.openpreservation.org/releases/jpylyzer/jpylyzer_2.0.0rc1_win32.zip
+# https://software.openpreservation.org/releases/jpylyzer/opf-jpylyzer_2.0.0~rc1_all.deb
+
+win32Pre: https://software.openpreservation.org/releases/jpylyzer/jpylyzer_
 win32Suf: _win32.zip
-win64Pre: https://github.com/openpreserve/jpylyzer/releases/download
+win64Pre: https://software.openpreservation.org/releases/jpylyzer/jpylyzer_
 win64Suf: _win64.zip
-amd64Pre: https://github.com/openpreserve/jpylyzer/releases/download
-amd64Suf: _amd64.deb
-i386Pre: https://github.com/openpreserve/jpylyzer/releases/download
-i386Suf: _i386.deb
+debPre: https://software.openpreservation.org/releases/jpylyzer/opf-jpylyzer_
+debSuf: _all.deb
 
 # Remaining URLs
 gitURL: https://github.com/openpreserve/jpylyzer
