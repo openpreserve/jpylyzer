@@ -153,8 +153,7 @@ executable Windows application, without any need for installing Python.
 This option is particularly useful for Windows users who cannot (or
 don’t want to) install software on their system.
 
-3. For Linux users Debian packages are available. These allow you to run
-*jpylyzer* without any need for installing Python.
+3. For Linux users Debian packages are available.
 
 These options are described in the following sections.
 
@@ -266,12 +265,12 @@ opened command prompt.
 Installation of Debian packages (Ubuntu/Linux) {#installation-debian}
 --------------------------------------------------
 
-For a number of Linux architectures Debian packages of *jpylyzer* exist.
+For Linux, Debian packages of *jpylyzer* exist.
 To install, simply download the *.deb* file, double-click on it and
 select *Install Package*. Alternatively you can also do this in the
 command terminal by typing:
 
-    sudo dpkg -i jpylyzer_1.13.0_i386.deb
+    sudo dpkg -i opf-jpylyzer_2.0.0_all.deb
 
 In both cases you need to have administrative privileges.
 
