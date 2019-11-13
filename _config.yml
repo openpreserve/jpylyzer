@@ -29,10 +29,6 @@ userManualName: jpylyzerUserManual.html
 
 # Prefixes/suffixes that define file paths to binary downloads
 
-# https://software.openpreservation.org/releases/jpylyzer/jpylyzer_2.0.0rc1_win64.zip
-# https://software.openpreservation.org/releases/jpylyzer/jpylyzer_2.0.0rc1_win32.zip
-# https://software.openpreservation.org/releases/jpylyzer/opf-jpylyzer_2.0.0~rc1_all.deb
-
 win32Pre: https://software.openpreservation.org/releases/jpylyzer/jpylyzer_
 win32Suf: _win32.zip
 win64Pre: https://software.openpreservation.org/releases/jpylyzer/jpylyzer_
