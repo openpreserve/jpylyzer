@@ -41,11 +41,10 @@ i386Suf: _i386.deb
 gitURL: https://github.com/openpreserve/jpylyzer
 issuesURL: https://github.com/openpreserve/jpylyzer/issues
 testImagesURL: https://github.com/openpreserve/jpylyzer-test-files
-blogsOPF: http://openpreservation.org/knowledge/blogs/topic/jpylyzer/
+blogsOPF: https://openpreservation.org/knowledge/blogs/topic/jpylyzer/
 jpylyzerVideo: https://player.vimeo.com/video/53693082
-kbURL: http://kb.nl/en
-opfURL: http://www.openpreservation.org/
-scapeURL: http://www.scape-project.eu/
+kbURL: https://kb.nl/en
+opfURL: https://www.openpreservation.org/
 
 # The production_url is only used when full-domain names are needed
 # such as sitemap.txt 
