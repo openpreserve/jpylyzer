@@ -76,8 +76,8 @@ If you want to install this release candidate with *pip*, make sure to run *pip*
 
 Full documentation can be found here:
 
-- [Revised User Manual (online)]({{ BASE_PATH }}/userManual-2-0-0rc1.html)
-- [Revised User Manual (download)]({{ BASE_PATH }}/jpylyzerUserManual-2-0-0rc1.html)
+- [Revised User Manual (online)]({{ BASE_PATH }}/userManual.html)
+- [Revised User Manual (download)]({{ BASE_PATH }}/jpylyzerUserManual.html)
 
 ## Feedback
 
