@@ -114,14 +114,6 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')
 
 <!-- End of text to be copied from jpylyzer README.md -->
 
-## Demonstration video
-
-The following video gives an overview of what *jpylyzer* does, and how to use it:
-
-<iframe src="{{ site.jpylyzerVideo }}" width="500" height="281" allowfullscreen></iframe>
-
-Note that this video was based on an older *jpylyzer* version that didn&#8217;t support pretty-printed output. (From version 1.13.0 onward *jpylyzer* uses pretty-printing for its XML output.)
-
 ## User Manual
 
 For more detailed information on the use of *jpylyzer*, there&#8217;s an exhaustive [User Manual]({{ BASE_PATH }}/doc/current/userManual.html). It provides an in-depth coverage of the following topics:
