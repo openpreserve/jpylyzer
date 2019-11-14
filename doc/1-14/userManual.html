@@ -1,0 +1,2881 @@
+---
+layout: page
+title: User Manual
+---
+{% include JB/setup %}
+
+<header>
+<h1 class="title">Jpylyzer User Manual</h1>
+</header>
+<nav id="TOC">
+<ul>
+<li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
+<li><a href="#about-jpylyzer"><span class="toc-section-number">1.1</span> About jpylyzer</a></li>
+<li><a href="#validation-scope-and-restrictions"><span class="toc-section-number">1.2</span> Validation: scope and restrictions</a></li>
+<li><a href="#outline"><span class="toc-section-number">1.3</span> Outline of this User Manual</a></li>
+<li><a href="#funding"><span class="toc-section-number">1.4</span> Funding</a></li>
+<li><a href="#license"><span class="toc-section-number">1.5</span> License</a></li>
+</ul></li>
+<li><a href="#installation"><span class="toc-section-number">2</span> Installation and set-up</a><ul>
+<li><a href="#obtaining-the-software"><span class="toc-section-number">2.1</span> Obtaining the software</a></li>
+<li><a href="#installation-python"><span class="toc-section-number">2.2</span> Installation of Python script (Linux/Unix, Windows, Mac OS X)</a></li>
+<li><a href="#installation-windows"><span class="toc-section-number">2.3</span> Installation of Windows binaries (Windows only)</a></li>
+<li><a href="#installation-debian"><span class="toc-section-number">2.4</span> Installation of Debian packages (Ubuntu/Linux)</a></li>
+</ul></li>
+<li><a href="#using-jpylyzer"><span class="toc-section-number">3</span> Using <em>jpylyzer</em></a><ul>
+<li><a href="#using-overview"><span class="toc-section-number">3.1</span> Overview</a></li>
+<li><a href="#command-line-usage"><span class="toc-section-number">3.2</span> Command-line usage</a></li>
+<li><a href="#using-as-python-module"><span class="toc-section-number">3.3</span> Using <em>jpylyzer</em> as a Python module</a></li>
+</ul></li>
+<li><a href="#structure-jp2"><span class="toc-section-number">4</span> Structure of a JP2 file</a><ul>
+<li><a href="#structure-scope"><span class="toc-section-number">4.1</span> Scope of this chapter</a></li>
+<li><a href="#general-format-structure"><span class="toc-section-number">4.2</span> General format structure</a></li>
+<li><a href="#general-box-structure"><span class="toc-section-number">4.3</span> General structure of a box</a></li>
+<li><a href="#defined-boxes"><span class="toc-section-number">4.4</span> Defined boxes in JP2</a></li>
+</ul></li>
+<li><a href="#output-format"><span class="toc-section-number">5</span> Output format</a><ul>
+<li><a href="#output-format-overview"><span class="toc-section-number">5.1</span> Overview</a></li>
+<li><a href="#toolinfo-element"><span class="toc-section-number">5.2</span> toolInfo element</a></li>
+<li><a href="#fileinfo-element"><span class="toc-section-number">5.3</span> fileInfo element</a></li>
+<li><a href="#isvalidjp2-element"><span class="toc-section-number">5.4</span> isValidJP2 element</a></li>
+<li><a href="#tests-element"><span class="toc-section-number">5.5</span> tests element</a></li>
+<li><a href="#properties-element"><span class="toc-section-number">5.6</span> properties element</a></li>
+</ul></li>
+<li><a href="#jp2-box-by-box"><span class="toc-section-number">6</span> JP2: box by box</a><ul>
+<li><a href="#about-properties-tests-trees"><span class="toc-section-number">6.1</span> About the properties and tests trees</a></li>
+<li><a href="#jpeg2000-signature-box"><span class="toc-section-number">6.2</span> JPEG 2000 Signature box</a></li>
+<li><a href="#file-type-box"><span class="toc-section-number">6.3</span> File Type box</a></li>
+<li><a href="#jp2-header-box"><span class="toc-section-number">6.4</span> JP2 Header box (superbox)</a></li>
+<li><a href="#image-header-box"><span class="toc-section-number">6.5</span> Image Header box (child of JP2 Header box)</a></li>
+<li><a href="#bits-per-component-box"><span class="toc-section-number">6.6</span> Bits Per Component box (child of JP2 Header box)</a></li>
+<li><a href="#colour-specification-box"><span class="toc-section-number">6.7</span> Colour Specification box (child of JP2 Header box)</a></li>
+<li><a href="#palette-box"><span class="toc-section-number">6.8</span> Palette box (child of JP2 Header box)</a></li>
+<li><a href="#component-mapping-box"><span class="toc-section-number">6.9</span> Component Mapping box (child of JP2 Header box)</a></li>
+<li><a href="#channel-definition-box"><span class="toc-section-number">6.10</span> Channel Definition box (child of JP2 Header box)</a></li>
+<li><a href="#resolution-box"><span class="toc-section-number">6.11</span> Resolution box (child of JP2 Header box, superbox)</a></li>
+<li><a href="#capture-resolution-box"><span class="toc-section-number">6.12</span> Capture Resolution box (child of Resolution box)</a></li>
+<li><a href="#display-resolution-box"><span class="toc-section-number">6.13</span> Default Display Resolution box (child of Resolution box)</a></li>
+<li><a href="#codestream-box"><span class="toc-section-number">6.14</span> Contiguous Codestream box</a></li>
+<li><a href="#intellectual-property-box"><span class="toc-section-number">6.15</span> Intellectual Property box</a></li>
+<li><a href="#xml-box"><span class="toc-section-number">6.16</span> XML box</a></li>
+<li><a href="#uuid-box"><span class="toc-section-number">6.17</span> UUID box</a></li>
+<li><a href="#uuid-info-box"><span class="toc-section-number">6.18</span> UUID Info box (superbox)</a></li>
+<li><a href="#uuid-list-box"><span class="toc-section-number">6.19</span> UUID List box (child of UUID Info box)</a></li>
+<li><a href="#data-entry-url-box"><span class="toc-section-number">6.20</span> Data Entry URL box (child of UUID Info box)</a></li>
+<li><a href="#unknown-box-section"><span class="toc-section-number">6.21</span> Unknown box</a></li>
+<li><a href="#top-level-tests-properties"><span class="toc-section-number">6.22</span> Top-level tests and properties</a></li>
+</ul></li>
+<li><a href="#contiguous-codestream-box-chapter"><span class="toc-section-number">7</span> Contiguous Codestream box</a><ul>
+<li><a href="#codestream-structure"><span class="toc-section-number">7.1</span> General codestream structure</a></li>
+<li><a href="#limitations-codestream-validation"><span class="toc-section-number">7.2</span> Limitations of codestream validation</a></li>
+<li><a href="#structure-reported-output"><span class="toc-section-number">7.3</span> Structure of reported output</a></li>
+<li><a href="#contiguous-codestream-box"><span class="toc-section-number">7.4</span> Contiguous Codestream box</a></li>
+<li><a href="#siz-marker"><span class="toc-section-number">7.5</span> Image and tile size (SIZ) marker segment (child of Contiguous Codestream box)</a></li>
+<li><a href="#cod-marker"><span class="toc-section-number">7.6</span> Coding style default (COD) marker segment</a></li>
+<li><a href="#qcd-marker"><span class="toc-section-number">7.7</span> Quantization default (QCD) marker segment</a></li>
+<li><a href="#com-marker"><span class="toc-section-number">7.8</span> Comment (COM) marker segment</a></li>
+<li><a href="#tile-part"><span class="toc-section-number">7.9</span> Tile part (child of Contiguous Codestream box)</a></li>
+<li><a href="#sot-marker"><span class="toc-section-number">7.10</span> Start of tile part (SOT) marker segment (child of tile part)</a></li>
+<li><a href="#coc-marker"><span class="toc-section-number">7.11</span> Coding style component (COC) marker segment</a></li>
+<li><a href="#rgn-marker"><span class="toc-section-number">7.12</span> Region-of-interest (RGN) marker segment</a></li>
+<li><a href="#qcc-marker"><span class="toc-section-number">7.13</span> Quantization component (QCC) marker segment</a></li>
+<li><a href="#poc-marker"><span class="toc-section-number">7.14</span> Progression order change (POC) marker segment</a></li>
+<li><a href="#plm-marker"><span class="toc-section-number">7.15</span> Packet length, main header (PLM) marker segment</a></li>
+<li><a href="#ppm-marker"><span class="toc-section-number">7.16</span> Packed packet headers, main header (PPM) marker segment</a></li>
+<li><a href="#tlm-marker"><span class="toc-section-number">7.17</span> Tile-part lengths (TLM) marker segment</a></li>
+<li><a href="#crg-marker"><span class="toc-section-number">7.18</span> Component registration (CRG) marker segment</a></li>
+<li><a href="#plt-marker"><span class="toc-section-number">7.19</span> Packet length, tile-part header (PLT) marker segment</a></li>
+<li><a href="#ppt-marker"><span class="toc-section-number">7.20</span> Packed packet headers, tile-part header (PPT) marker segment</a></li>
+</ul></li>
+<li><a href="#references"><span class="toc-section-number">8</span> References</a></li>
+</ul>
+</nav>
+<h1 id="introduction"><a href="#introduction"><span class="header-section-number">1</span> Introduction</a></h1>
+<h2 id="about-jpylyzer"><a href="#about-jpylyzer"><span class="header-section-number">1.1</span> About jpylyzer</a></h2>
+<p>This User Manual documents <em>jpylyzer</em>, a validator and feature extractor for JP2 images. JP2 is the still image format that is defined by JPEG 2000 Part 1 (ISO/IEC 15444-1). <em>Jpylyzer</em> was specifically created to answer the following questions that you might have about any JP2 file:</p>
+<ol type="1">
+<li><p>Is this really a JP2 and does it really conform to the format's specifications (validation)?</p></li>
+<li><p>What are the technical characteristics of this image (feature extraction)?</p></li>
+</ol>
+<h2 id="validation-scope-and-restrictions"><a href="#validation-scope-and-restrictions"><span class="header-section-number">1.2</span> Validation: scope and restrictions</a></h2>
+<p>Since the word ‘validation’ means different things to different people, a few words about the overall scope of <em>jpylyzer</em>. First of all, it is important to stress that <em>jpylyzer</em> is not a ‘one stop solution’ that will tell you that an image is 100% perfect. What <em>jpylyzer</em> does is this: based on the JP2 format specification (ISO/IEC 15444-1), it parses a file. It then subjects the file’s contents to a large number of tests, each of which is based on the requirements and restrictions that are defined by the standard. If a file fails one or more tests, this implies that it does not conform to the standard, and is no valid JP2. Importantly, this presumes that <em>jpylyzer</em>’s tests accurately reflect the format specification, without producing false positives.</p>
+<h3 id="valid-means-probably-valid"><a href="#valid-means-probably-valid"><span class="header-section-number">1.2.1</span> ‘Valid’ means ‘probably valid’</a></h3>
+<p>If a file passes all tests, this is an indication that it is <em>probably</em> valid JP2. This (intentionally) implies a certain degree of remaining uncertainty, which is related to the following.</p>
+<p>First of all, <em>jpylyzer</em> (or any other format validator for that matter) ‘validates’ a file by trying to prove that it does <em>not</em> conform to the standard. It cannot prove that that a file <em>does</em> conform to the standard.</p>
+<p>Related to this, even though <em>jpylyzer</em>’s validation process is very comprehensive, it is not complete. For instance, the validation of JPEG 2000 codestreams at this moment is still somewhat limited. <a href="#limitations-codestream-validation">Section 7.2</a> discusses these limitations in detail. Some of these limitations (e.g. optional codestream segment markers that are only minimally supported at this stage) may be taken away in upcoming versions of the tool.</p>
+<h3 id="no-check-on-compressed-bitstreams"><a href="#no-check-on-compressed-bitstreams"><span class="header-section-number">1.2.2</span> No check on compressed bitstreams</a></h3>
+<p>One important limitation that most certainly will <em>not</em> be addressed in any upcoming versions is that <em>jpylyzer</em> does not analyse the data in the compressed bitstream segments. Doing so would involve decoding the whole image, and this is completely out of <em>jpylyzer</em>’s scope. As a result, it is possible that a JP2 that passes each of <em>jpylyzer</em>’s tests will nevertheless fail to render correctly in a viewer application.</p>
+<h3 id="recommendations-for-use-in-quality-assurance-workflows"><a href="#recommendations-for-use-in-quality-assurance-workflows"><span class="header-section-number">1.2.3</span> Recommendations for use in quality assurance workflows</a></h3>
+<p>Because of the foregoing, a thorough JP2 quality assurance workflow should not rely on <em>jpylyzer</em> (or any other format validator) alone, but it should include other tests as well. Some obvious examples are:</p>
+<ul>
+<li><p>A rendering test that checks if a file renders at all</p></li>
+<li><p>Format migration workflows (e.g. TIFF to JP2) should ideally also include some comparison between source and destination images (e.g. a pixel-wise comparison)</p></li>
+</ul>
+<p>Conversely, an image that successfully passes a rendering test or pixel-wise comparison may still contain problematic features (e.g. incorrect colour space information), so validation, rendering tests and pixel-wise comparisons are really complementary to each other.</p>
+<h3 id="note-on-icc-profile-support"><a href="#note-on-icc-profile-support"><span class="header-section-number">1.2.4</span> Note on ICC profile support</a></h3>
+<p>The support of ICC profiles in JP2 was recently extended through an <a href="http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard. These changes are taken into account by <em>jpylyzer</em>, which is in line with the most recent version of the (updated) standard.</p>
+<h2 id="outline"><a href="#outline"><span class="header-section-number">1.3</span> Outline of this User Manual</a></h2>
+<p><a href="#installation">Chapter 2</a> describes the installation process of <em>jpylyzer</em> for Windows and Unix-based systems. <a href="#using-jpylyzer">Chapter 3</a> explains the usage of <em>jpylyzer</em> as a command-line tool, or as an importable Python module. <a href="#structure-jp2">Chapter 4</a> gives a brief overview of the structure of JP2 and its ‘box’ structure. <em>Jpylyzer</em>’s output format is explained in <a href="#output-format">chapter 5</a>. The final chapters give a detailed description of the tests that <em>jpylyzer</em> performs for validation, and its reported properties. <a href="#jp2-box-by-box">Chapter 6</a> does this for all ‘boxes’, except for the ‘Contiguous Codestream’ box, which is given a <a href="#contiguous-codestream-box-chapter">Chapter (7)</a> of its own.</p>
+<h2 id="funding"><a href="#funding"><span class="header-section-number">1.4</span> Funding</a></h2>
+<p>The development of <em>jpylyzer</em> was funded by the EU FP 7 project SCAPE (SCAlabable Preservation Environments). More information about this project can be found here:</p>
+<p><a href="http://www.scape-project.eu/">http://www.scape-project.eu/</a></p>
+<h2 id="license"><a href="#license"><span class="header-section-number">1.5</span> License</a></h2>
+<p><em>Jpylyzer</em> is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this program. If not, see:</p>
+<p><a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a></p>
+<p>On Debian systems, the complete text of the GNU Lesser General Public License version 3 can be found in:</p>
+<pre><code>/usr/share/common-licenses/LGPL-3</code></pre>
+<h1 id="installation"><a href="#installation"><span class="header-section-number">2</span> Installation and set-up</a></h1>
+<h2 id="obtaining-the-software"><a href="#obtaining-the-software"><span class="header-section-number">2.1</span> Obtaining the software</a></h2>
+<p>To obtain the latest version of the software please use the download links at the <em>jpylyzer</em> homepage:</p>
+<p><a href="http://jpylyzer.openpreservation.org/">http://jpylyzer.openpreservation.org/</a></p>
+<p>You have three options:</p>
+<ol type="1">
+<li><p>Use the Python source code. This allows you to run the software as a Python script on most popular platforms (Windows, Linux, Mac, etc.). However, this requires that you have a recent version of the Python interpreter available on your system.</p></li>
+<li><p>Alternatively, for Windows users there is also a set of stand-alone binaries<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. These allow you to run <em>jpylyzer</em> as an executable Windows application, without any need for installing Python. This option is particularly useful for Windows users who cannot (or don’t want to) install software on their system.</p></li>
+<li><p>For Linux users Debian packages are available. These allow you to run <em>jpylyzer</em> without any need for installing Python.</p></li>
+</ol>
+<p>These options are described in the following sections.</p>
+<h2 id="installation-python"><a href="#installation-python"><span class="header-section-number">2.2</span> Installation of Python script (Linux/Unix, Windows, Mac OS X)</a></h2>
+<p>First, download the source files using one of the ‘Source Code Downloads’ links on the OPF <em>jpylyzer</em> page.</p>
+<p>Then unzip the contents of the ZIP file to an empty directory. If you are working on a Linux/Unix based system you may need to make the scripts executable, and convert any line breaks to Unix-style ones. To do this, use the following commands:</p>
+<pre><code>chmod 755 *.py
+dos2unix *.py</code></pre>
+<p>In order to run the script you will need either Python 2.7, or Python 3.2 (or more recent)<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>. Python can be downloaded from:</p>
+<p><a href="http://python.org/">http://python.org/</a></p>
+<h3 id="testing-the-installation"><a href="#testing-the-installation"><span class="header-section-number">2.2.1</span> Testing the installation</a></h3>
+<p>To test your installation, open a console window (or command prompt) and type:</p>
+<pre><code>%jpylyzerPath%/jpylyzer.py -h</code></pre>
+<p>In the above command, replace <em>%jpylyzerPath%</em> with the full path to the <em>jpylyzer</em> installation directory (i.e. the directory that contains ‘jpylyzer.py’ and its associated files). For example, if you extracted the files to directory ‘/home/jpylyzer’, the command would become:</p>
+<pre><code>/home/jpylyzer/jpylyzer.py -h</code></pre>
+<p>Executing this command should result in the following screen output:</p>
+<pre><code>usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+                   [--nopretty] [--version] jp2In [jp2In ...]</code></pre>
+<h3 id="troubleshooting"><a href="#troubleshooting"><span class="header-section-number">2.2.2</span> Troubleshooting</a></h3>
+<p>If the above test didn’t run successfully, first verify the following possible causes:</p>
+<ul>
+<li><p>On Windows: check if files with a <em>.py</em> extension are associated with the Python interpreter. If you have multiple versions of Python on your system, make sure that the association does not link to a Python version that is incompatible with <em>jpylyzer</em> (e.g. Python 2.6 or older, or Python 3.0/3.1).</p></li>
+<li><p>On Unix/Linux: by default, <em>jpylyzer</em> uses the command interpreter that is defined by the ‘python’ environment variable. If this is linked to some (very) old version of Python, things may not work as expected. If you run into problems because of this, update the command interpreter references in <em>jpylyzer.py</em>, i.e. change:</p></li>
+</ul>
+<pre>#! /usr/bin/env python</pre>
+
+<p>into:</p>
+<pre>#! /usr/bin/env python27</pre>
+
+
+<h2 id="installation-windows"><a href="#installation-windows"><span class="header-section-number">2.3</span> Installation of Windows binaries (Windows only)</a></h2>
+<p>Download the binary using the link on the <em>jpylyzer</em> homepage. Unzip the contents of this file to an empty folder on your PC. <em>Jpylyzer</em> should now be ready for use.</p>
+<h3 id="testing-the-installation-1"><a href="#testing-the-installation-1"><span class="header-section-number">2.3.1</span> Testing the installation</a></h3>
+<p>To test your installation, open a Command Prompt (‘DOS prompt’) and type:</p>
+<pre><code>%jpylyzerPath%\jpylyzer -h</code></pre>
+<p>In the above command, replace <em>%jpylyzerPath%</em> with the full path to the <em>jpylyzer</em> installation directory (i.e. the directory that contains ‘jpylyzer.exe’ and its associated files). For example, if you extracted the files to directory <code>c:\tools\jpylyzer</code>, the command would become:</p>
+<pre><code>c:\tools\jpylyzer\jpylyzer -h</code></pre>
+<p>Executing this command should result in the following screen output:</p>
+<pre><code>usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+                   [--nopretty] [--version] jp2In [jp2In ...]</code></pre>
+<h3 id="running-jpylyzer-without-typing-the-full-path"><a href="#running-jpylyzer-without-typing-the-full-path"><span class="header-section-number">2.3.2</span> Running jpylyzer without typing the full path</a></h3>
+<p>Optionally, you may also want to add the full path of the <em>jpylyzer</em> installation directory to the Windows ’Path’ environment variable. Doing so allows you to run <em>jpylyzer</em> from any directory on your PC without having to type the full path. In Windows 7 you can do this by selecting ‘settings’ from the ‘Start’ menu; then go to ‘control panel’/’system’ and go to the ‘advanced’ tab. Click on the ‘environment variables’ button. Finally, locate the ‘Path’ variable in the ‘system variables’ window, click on ‘Edit’ and add the full <em>jpylyzer</em> path (this requires local Administrator privileges). The settings take effect on any newly opened command prompt.</p>
+<h2 id="installation-debian"><a href="#installation-debian"><span class="header-section-number">2.4</span> Installation of Debian packages (Ubuntu/Linux)</a></h2>
+<p>For a number of Linux architectures Debian packages of <em>jpylyzer</em> exist. To install, simply download the <em>.deb</em> file, double-click on it and select <em>Install Package</em>. Alternatively you can also do this in the command terminal by typing:</p>
+<pre><code>sudo dpkg -i jpylyzer_1.13.0_i386.deb</code></pre>
+<p>In both cases you need to have administrative privileges.</p>
+<h1 id="using-jpylyzer"><a href="#using-jpylyzer"><span class="header-section-number">3</span> Using <em>jpylyzer</em></a></h1>
+<h2 id="using-overview"><a href="#using-overview"><span class="header-section-number">3.1</span> Overview</a></h2>
+<p>This chapter describes the general use of <em>jpylyzer</em>. The first sections cover the use of <em>jpylyzer</em> as a command-line tool and as an importable Python module.</p>
+<h2 id="command-line-usage"><a href="#command-line-usage"><span class="header-section-number">3.2</span> Command-line usage</a></h2>
+<p>This section explains <em>jpylyzer</em>’s general command-line interface. For the sake of brevity, all command-line examples assume the use of the Python script; moreover, full paths are omitted. This means that, depending on your system and settings, you may have to substitute each occurrence of ‘jpylyzer.py’ with its full path, the corresponding Windows binary, or a combination of both. The following examples illustrate this:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">This User Manual</th>
+<th style="text-align: left;">jpylyzer.py</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Substitution example Linux</td>
+<td style="text-align: left;"><code>/home/jpylyzer/jpylyzer.py</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Substitution example Windows binaries</td>
+<td style="text-align: left;"><code>c:\tools\jpylyzer\jpylyzer</code></td>
+</tr>
+</tbody>
+</table>
+<p>Furthermore, command line arguments that are given between square brackets (example: <code>[-h]</code>) are optional.</p>
+<h3 id="synopsis"><a href="#synopsis"><span class="header-section-number">3.2.1</span> Synopsis</a></h3>
+<p><em>Jpylyzer</em> can be invoked using the following command-line arguments:</p>
+<pre><code>usage: jpylyzer.py [-h] [--verbose] [--recurse] [--wrapper] [--nullxml]
+                   [--nopretty] [--version] jp2In [jp2In ...]</code></pre>
+<p>With:</p>
+<dl>
+<dt><code>jp2In</code></dt>
+<dd><p>input JP2 image(s)</p>
+</dd>
+<dt><code>[-h, --help]</code></dt>
+<dd><p>show help message and exit</p>
+</dd>
+<dt><code>[--verbose]</code></dt>
+<dd><p>report test results in verbose format</p>
+</dd>
+<dt><code>[--recurse, -r]</code></dt>
+<dd><p>when analysing a directory, recurse into subdirectories (implies --wrapper)</p>
+</dd>
+<dt><code>[--wrapper, -w]</code></dt>
+<dd><p>wraps the output for individual image(s) in 'results' XML element</p>
+</dd>
+<dt><code>[--nullxml]</code></dt>
+<dd><p>extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)</p>
+</dd>
+<dt><code>[--nopretty]</code></dt>
+<dd><p>suppress pretty-printing of XML output</p>
+</dd>
+<dt><code>[-v, --version]</code></dt>
+<dd><p>show program's version number and exit</p>
+</dd>
+</dl>
+<p>Note that the input can either be a single image, a space-separated sequence of images, a pathname expression that includes multiple images, or any combination of the above. For example, the following command will process one single image:</p>
+<pre><code>jpylyzer.py rubbish.jp2</code></pre>
+<p>The next example shows how to process all files with a ‘jp2’ extension in the current directory:</p>
+<pre><code>jpylyzer.py *.jp2</code></pre>
+<p>Note that on Unix/Linux based systems pathname expressions may not work properly unless you wrap them in quotation marks:</p>
+<pre><code>jpylyzer.py "*.jp2"</code></pre>
+<h3 id="output-redirection"><a href="#output-redirection"><span class="header-section-number">3.2.2</span> Output redirection</a></h3>
+<p>All output (except warning and system error messages) is directed to the standard output device (stdout). By default this is the console screen. Use your platform’s standard output redirection operators to redirect output to a file. The most common situation will be to redirect the output of one invocation of <em>jpylyzer</em> to an XML file, which can be done with the ‘&gt;’ operator (both under Windows and Linux):</p>
+<pre><code>jpylyzer.py jp2In &gt; outputFile</code></pre>
+<p>E.g. the following command will run <em>jpylyzer</em> on image ‘rubbish.jp2’ and redirects the output to file ‘rubbish.xml’:</p>
+<pre><code>jpylyzer.py rubbish.jp2 &gt; rubbish.xml</code></pre>
+<p>The format of the XML output is described in <a href="#output-format">Chapter 5</a>.</p>
+<h3 id="recurse-option"><a href="#recurse-option"><span class="header-section-number">3.2.3</span> ‘recurse’ option</a></h3>
+<p>If the <em>--recurse</em> option is used, <em>jpylyzer</em> will recursively traverse all subdirectories of a filepath expression. E.g:</p>
+<pre><code>jpylyzer.py /home/myJP2s/*.jp2 &gt; rubbish.xml</code></pre>
+<p>In this case <em>jpylyzer</em> analyses all files that have a <em>.jp2</em> extension in directory <em>/home/myJP2s</em> and all its subdirectories.</p>
+<h4 id="warning"><a href="#warning"><span class="header-section-number">3.2.3.1</span> Warning</a></h4>
+<p>For now it may not be the best idea to use this option for analysing very large jobs (e.g. whole disks). The reason for this is, that in the unlikely case of an uncaught exception during such a job jpylyzer might simply crash without given a clue as to which particular file caused it. This can, for example, happen with extremely large images that do not fit into memory. This should be addressed in future versions of <em>jpylyzer</em>.</p>
+<h3 id="creating-valid-xml-with-multiple-images"><a href="#creating-valid-xml-with-multiple-images"><span class="header-section-number">3.2.4</span> Creating valid XML with multiple images</a></h3>
+<p>By default, <em>jpylyzer</em> creates a separate XML tree for each analysed image, without any overarching hierarchy. If you use a pathname expression to process multiple images and redirect the output to a file, the resulting file will <strong>not</strong> be a well-formed XML document. An example:</p>
+<pre><code>jpylyzer.py rubbish.jp2 garbage.jp2 &gt; rubbish.xml</code></pre>
+<p>In this case, the output for these 2 images is redirected to ‘rubbish.xml’, but the file will be a succession of two XML trees, which by itself is not well-formed XML. Use the <em>--wrapper</em> option if you want to create valid XML instead:</p>
+<pre><code>jpylyzer.py --wrapper rubbish.jp2 garbage.jp2 &gt; rubbish.xml</code></pre>
+<p>In the above case the XML trees of the individual images are wrapped inside a ‘results’ element. When the <em>--recurse</em> option is used, jpylyzer will automatically wrap the output in a ‘results’ element, so there's no need to specify <em>--wrapper</em> in that case.</p>
+<h3 id="nullxml-option"><a href="#nullxml-option"><span class="header-section-number">3.2.5</span> ‘nullxml’ option</a></h3>
+<p>The <em>nullxml</em> option was added to enable extraction of XML content that is terminated by a null-byte. By default <em>jpylyzer</em> doesn’t report the XML in that case, because it throws an exception in the XML parser. Apparently some old versions of the Kakadu demo applications would erroneously add a null-byte to embedded XML, so this option can be used to force extraction for images that are affected by this.</p>
+<h3 id="user-warnings"><a href="#user-warnings"><span class="header-section-number">3.2.6</span> User warnings</a></h3>
+<p>Under the following conditions <em>jpylyzer</em> will print a user warning to the standard error device (typically the console screen):</p>
+<h4 id="no-images-to-check"><a href="#no-images-to-check"><span class="header-section-number">3.2.6.1</span> No images to check</a></h4>
+<p>If there are no input images to check (typically because the value of jp2In refers to a non-existent file), the following warning message is shown:</p>
+<pre><code>User warning: no images to check!</code></pre>
+<h4 id="unsupported-box"><a href="#unsupported-box"><span class="header-section-number">3.2.6.2</span> Unsupported box</a></h4>
+<p>In some cases you will see the following warning message:</p>
+<pre><code>User warning: ignoring 'boxName' (validator function not yet implemented)</code></pre>
+<p>The reason for this: a JP2 file is made up of units that are called ‘boxes’. This is explained in more detail in <a href="#structure-jp2">Chapter 4</a>. Each ‘box’ has its own dedicated validator function. At this stage validator functions are still missing for a small number of (optional) boxes. <em>Jpylyzer</em> will display the above warning message if it encounters a (yet) unsupported box. Any unsupported boxes are simply ignored, and the remainder of the file will be analyzed (and validated) normally.</p>
+<h4 id="unknown-box"><a href="#unknown-box"><span class="header-section-number">3.2.6.3</span> Unknown box</a></h4>
+<p>Finally, you may occasionally see this warning message:</p>
+<pre><code>User warning: ignoring unknown box</code></pre>
+<p>This happens if <em>jpylyzer</em> encounters a box that is not defined by JPEG 2000 Part 1. It should be noted that, to a large extent, JPEG 2000 Part 1 permits the presence of boxes that are defined outside the standard. Again, <em>jpylyzer</em> will simply ignore these and process all other boxes normally.</p>
+<h2 id="using-as-python-module"><a href="#using-as-python-module"><span class="header-section-number">3.3</span> Using <em>jpylyzer</em> as a Python module</a></h2>
+<p>Instead of using <em>jpylyzer</em> from the command-line, you can also import it as a module in your own Python programs. To do so, put all the <em>jpylyzer</em> source files in the same directory as your own code. Then import <em>jpylyzer</em> into your code by adding:</p>
+<pre><code>import jpylyzer</code></pre>
+<p>Subsequently you can call any function that is defined in <em>jpylyzer.py</em>. In practice you will most likely only need the <em>checkOneFile</em> function, which can be called in the following way:</p>
+<pre><code>jpylyzer.checkOneFile(file)</code></pre>
+<p>Here, <em>file</em> is the path to a file object. The function returns an element object that can either be used directly, or converted to XML using the <em>ElementTree</em> module<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>. The structure of the element object follows the XML output that described in <a href="#output-format">Chapter 5</a>.</p>
+<p>Alternatively, you may only want to import the <em>checkOneFile</em> function, in which case the import statement becomes:</p>
+<pre><code>from jpylyzer import checkOneFile</code></pre>
+<p>This will allow you to call the function as follows:</p>
+<pre><code>checkOneFile(file)</code></pre>
+<h1 id="structure-jp2"><a href="#structure-jp2"><span class="header-section-number">4</span> Structure of a JP2 file</a></h1>
+<h2 id="structure-scope"><a href="#structure-scope"><span class="header-section-number">4.1</span> Scope of this chapter</a></h2>
+<p>This chapter gives a brief overview of the JP2 file format. A basic understanding of the general structure of JP2 is helpful for appreciating how <em>jpylyzer</em> performs its validation. It will also make it easier to understand <em>jpylyzer</em>‘s extracted properties, as these are reported as a hierarchical tree that corresponds to the internal structure of JP2.</p>
+<p>For an exhaustive description of every detail of the format you are advised to consult Annex I (‘JP2 file format syntax’) and Annex A (‘Codestream syntax’) of ISO/IEC 15444-1.</p>
+<h2 id="general-format-structure"><a href="#general-format-structure"><span class="header-section-number">4.2</span> General format structure</a></h2>
+<p>At the highest level, a JP2 file is made up of a collection of <em>boxes</em>. A <em>box</em> can be thought of as the fundamental building block of the format. Some boxes (‘superboxes’) are containers for other boxes. The Figure below gives an overview of the top-level boxes in a JP2 file.</p>
+<figure>
+<img src="images/jp2FormatStructure.png" alt="Top-level overview of a JP2 file. Boxes with dashed borders are optional."><figcaption>Top-level overview of a JP2 file. Boxes with dashed borders are optional.</figcaption>
+</figure>
+<p>A number of things here are noteworthy to point out:</p>
+<ul>
+<li><p>Some of these boxes are required, whereas others (indicated with dashed lines in the Figure) are optional.</p></li>
+<li><p>The order in which the boxes appear in the file is subject to some constraints (e.g. the first box in a JP2 must always be a ‘Signature’ box, followed by a ‘File Type’ box).</p></li>
+<li><p>Some boxes may have multiple instances (e.g. ‘Contiguous Codestream’ box), whereas others must be unique (e.g. ‘JP2 Header’ box).</p></li>
+</ul>
+<p>More specific details can be found in the standard. The important thing here is that requirements like the above are something that should be verified by a validator, and this is exactly what <em>jpylyzer</em> does at the highest level of its validation procedure.</p>
+<h2 id="general-box-structure"><a href="#general-box-structure"><span class="header-section-number">4.3</span> General structure of a box</a></h2>
+<p>All boxes are defined by a generic binary structure, which is illustrated by the following Figure:</p>
+<figure>
+<img src="images/boxStructure.png" alt="General structure of a box."><figcaption>General structure of a box.</figcaption>
+</figure>
+<p>Most boxes are made up of the following three components:</p>
+<ol type="1">
+<li><p>A fixed-length ‘box length’ field that indicates the total size of the box (in bytes).</p></li>
+<li><p>A fixed-length ‘box type’ field which specifies the type of information that can be found in this box</p></li>
+<li><p>The box contents, which contains the actual information within the box. Its internal format depends on the box type. The box contents of a ‘superbox’ will contain its child boxes (which can be parsed recursively).</p></li>
+</ol>
+<p>In some cases a box will also contain an ‘extended box length field’. This field is needed if the size of a box exceeds 2<sup>32</sup>-1 bytes, which is the maximum value that can be stored in the 4-byte ‘box length’ field.</p>
+<h2 id="defined-boxes"><a href="#defined-boxes"><span class="header-section-number">4.4</span> Defined boxes in JP2</a></h2>
+<p>The following Table (taken from Table I.2 in ISO/IEC 15444-1, with minor modifications) lists all boxes that are defined in the standard. Addition signs in the ‘box name’ column indicate boxes that are children of a ‘superbox’.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Box name</th>
+<th style="text-align: left;">Superbox</th>
+<th style="text-align: left;">Required?</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">JPEG 2000 Signature box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Required</td>
+<td style="text-align: left;">Identifies the file as being part of the JPEG 2000 family of files.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">File Type box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Required</td>
+<td style="text-align: left;">Specifies file type, version and compatibility information, including specifying if this file is a conforming JP2 file or if it can be read by a conforming JP2 reader.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">JP2 Header box</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Required</td>
+<td style="text-align: left;">Contains a series of boxes that contain header-type information about the file.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">+ Image Header box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Required</td>
+<td style="text-align: left;">Specifies the size of the image and other related fields.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">+ Bits Per Component box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Optional</td>
+<td style="text-align: left;">Specifies the bit depth of the components in the file in cases where the bit depth is not constant across all components.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">+ Colour Specification box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Required</td>
+<td style="text-align: left;">Specifies the colourspace of the image.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">+ Palette box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Optional</td>
+<td style="text-align: left;">Specifies the palette which maps a single component in index space to a multiple-component image.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">+ Component Mapping box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Optional</td>
+<td style="text-align: left;">Specifies the mapping between a palette and codestream components.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">+ Channel Definition box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Optional</td>
+<td style="text-align: left;">Specifies the type and ordering of the components within the codestream, as well as those created by the application of a palette.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">+ Resolution box</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Optional</td>
+<td style="text-align: left;">Contains the grid resolution.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">++ Capture Resolution box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Optional</td>
+<td style="text-align: left;">Specifies the grid resolution at which the image was captured.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">++ Default Display Resolution box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Optional</td>
+<td style="text-align: left;">Specifies the default grid resolution at which the image should be displayed.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Contiguous Codestream box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Required</td>
+<td style="text-align: left;">Contains the codestream.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Intellectual Property box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Optional</td>
+<td style="text-align: left;">Contains intellectual property information about the image.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">XML box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Optional</td>
+<td style="text-align: left;">Provides a tool by which vendors can add XML formatted information to a JP2 file.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UUID box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Optional</td>
+<td style="text-align: left;">Provides a tool by which vendors can add additional information to a file without risking conflict with other vendors.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UUID Info box</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Optional</td>
+<td style="text-align: left;">Provides a tool by which a vendor may provide access to additional information associated with a UUID.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">+ UUID List box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Optional</td>
+<td style="text-align: left;">Specifies a list of UUIDs.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">+ URL box</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Optional</td>
+<td style="text-align: left;">Specifies a URL.</td>
+</tr>
+</tbody>
+</table>
+<p>A JP2 file may contain boxes that are not defined by the standard. Such boxes are simply skipped and ignored by conforming reader applications.</p>
+<h1 id="output-format"><a href="#output-format"><span class="header-section-number">5</span> Output format</a></h1>
+<p>This chapter explains <em>jpylyzer</em>’s output format.</p>
+<h2 id="output-format-overview"><a href="#output-format-overview"><span class="header-section-number">5.1</span> Overview</a></h2>
+<p><em>Jpylyzer</em> generates its output in XML format, which is defined by <a href="http://jpylyzer.openpreservation.org/jpylyzer-v-1-0.xsd">the schema that can be found here</a>. The following Figure shows the output structure:</p>
+<figure>
+<img src="images/outputStructure.png" alt="Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements."><figcaption>Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements.</figcaption>
+</figure>
+<p>The root element (<em>jpylyzer</em>) contains 5 child elements:</p>
+<ol type="1">
+<li><p><em>toolInfo</em>: information about <em>jpylyzer</em></p></li>
+<li><p><em>fileInfo</em>: general information about the analysed file</p></li>
+<li><p><em>isValidJP2</em>: outcome of the validation</p></li>
+<li><p><em>tests</em>: outcome of the individual tests that are part of the validation process (organised by box)</p></li>
+<li><p><em>properties</em>: image properties (organised by box)</p></li>
+</ol>
+<p>If <em>jpylyzer</em> is executed with the <em>--wrapper</em> option, the root element is <em>results</em>, which contains one or more <em>jpylyzer</em> elements which otherwise follow the above structure. From version 1.12 onward, the XML output is pretty-printed. You can use the <em>--nopretty</em> switch to disable pretty-printing (this produces smaller files and may give a slightly better performance).</p>
+<h2 id="toolinfo-element"><a href="#toolinfo-element"><span class="header-section-number">5.2</span> toolInfo element</a></h2>
+<p>This element holds information about <em>jpylyzer</em>. Currently it contains the following sub-elements:</p>
+<ul>
+<li><p><em>toolName</em>: name of the analysis tool (i.e. <em>jpylyzer.py</em> or <em>jpylyzer</em>, depending on whether the Python script or the Windows binaries were used)</p></li>
+<li><p><em>toolVersion</em>: version of <em>jpylyzer</em> (<em>jpylyzer</em> uses a date versioning scheme)</p></li>
+</ul>
+<h2 id="fileinfo-element"><a href="#fileinfo-element"><span class="header-section-number">5.3</span> fileInfo element</a></h2>
+<p>This element holds general information about the analysed file. Currently it contains the following sub-elements:</p>
+<ul>
+<li><p><em>filename</em>: name of the analysed file without its path (e.g. “rubbish.jp2”)</p></li>
+<li><p><em>filePath</em>: name of the analysed file, including its full absolute path (e.g. “d:\data\images\rubbish.jp2”)</p></li>
+<li><p><em>fileSizeInBytes</em>: file size in bytes</p></li>
+<li><p><em>fileLastModified</em>: last modified date and time</p></li>
+</ul>
+<h2 id="isvalidjp2-element"><a href="#isvalidjp2-element"><span class="header-section-number">5.4</span> isValidJP2 element</a></h2>
+<p>This element contains the results of the validation. If a file passed all the tests (i.e. all tests returned “True”, see <a href="#tests-element">section 5.5</a>) it is most likely valid JP2, and the value of isValidJP2 will be “True”. Its value is “False” otherwise.</p>
+<h2 id="tests-element"><a href="#tests-element"><span class="header-section-number">5.5</span> tests element</a></h2>
+<p>This element is reserved to hold the outcomes of all the individual tests that <em>jpylyzer</em> performs to assess whether a file is valid JP2. The results are organised in a hierarchical tree that corresponds to JP2’s box structure. Each individual test can have two values:</p>
+<ul>
+<li><p>“True” if a file passed the test.</p></li>
+<li><p>“False” if a file failed the test.</p></li>
+</ul>
+<p>If a file passed <em>all</em> tests, this is an indication that it is most likely valid JP2. In that case, the <em>isValidJP2</em> element (<a href="#isvalidjp2-element">section 5.4</a>) has a value of “True” (and “False” in all other cases). These tests are all explained in chapters <a href="#jp2-box-by-box">6</a> and <a href="#contiguous-codestream-box-chapter">7</a>.</p>
+<h3 id="default-and-verbose-reporting-of-test-results"><a href="#default-and-verbose-reporting-of-test-results"><span class="header-section-number">5.5.1</span> Default and verbose reporting of test results</a></h3>
+<p>By default, <em>jpylyzer</em> only reports any tests that failed (i.e. returned “False”), including the corresponding part of the box structure. For a valid JP2 the tests element will be empty. If the --verbose flag is used, the results of <em>all</em> tests are included (including those that returned “True”)<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>.</p>
+<h2 id="properties-element"><a href="#properties-element"><span class="header-section-number">5.6</span> properties element</a></h2>
+<p>This element contains the extracted image properties, which are organised in a hierarchical tree that corresponds to JP2’s box structure. See chapters <a href="#jp2-box-by-box">6</a> and <a href="#contiguous-codestream-box-chapter">7</a> for a description of the reported properties.</p>
+<h1 id="jp2-box-by-box"><a href="#jp2-box-by-box"><span class="header-section-number">6</span> JP2: box by box</a></h1>
+<p>The following two chapters provide a detailed explanation of <em>jpylyzer</em>’s functionality and its output. In particular, the following two aspects are addressed:</p>
+<ol type="1">
+<li><p>The reported properties</p></li>
+<li><p>The tests that <em>jpylyzer</em> performs to establish the validity of a file.</p></li>
+</ol>
+<h2 id="about-properties-tests-trees"><a href="#about-properties-tests-trees"><span class="header-section-number">6.1</span> About the properties and tests trees</a></h2>
+<p>The ‘properties’ element in <em>jpylyzer</em>’s output holds a hierarchical tree structure that contains all extracted properties. The ‘tests’ tree follows the same structure. The hierarchy reflects JP2’s box structure (explained in <a href="#structure-jp2">Chapter 4</a>): each box is represented by a corresponding output element that contains the corresponding property entries. If a box is a superbox, the output element will contain child elements for each child box. For some boxes, the output contains further sub-elements. This applies in particular to the Contiguous Codestream box, since its contents are more complex than any of the other boxes. Also, if a Colour Specification box contains an embedded ICC profile, the properties of the ICC profile are stored in a separate sub-element. In addition to this, one ‘property’ that is reported by <em>jpylyzer</em> (the compression ratio) is not actually extracted from any particular box. Instead, it is calculated from the file size and some properties from the Header boxes. As a result, it is reported separately in the root of the properties tree.</p>
+<h3 id="naming-of-properties"><a href="#naming-of-properties"><span class="header-section-number">6.1.1</span> Naming of properties</a></h3>
+<p>The naming of the reported properties largely follows the standard (ISO/IEC 15444-1). Some minor differences follow from the fact that the standard does have any consistent use of text case, whereas <em>jpylyzer</em> uses lower camel case. In addition, some parameters in the standard are compound units that aggregate a number of Boolean ‘switches’, where no names are provided for each individual switch. An example of this is the <em>Scod</em> (coding style) parameter in the codestream header, which contains three switches that define the use of precincts, start-of-packet markers and end-of-packet markers. For cases like these <em>jpylyzer</em> uses its own (largely self-descriptive) names (which are all documented in these chapters).</p>
+<h2 id="jpeg2000-signature-box"><a href="#jpeg2000-signature-box"><span class="header-section-number">6.2</span> JPEG 2000 Signature box</a></h2>
+<p>This box contains information that allows identification of the file as being part of the JPEG 2000 family of file formats.</p>
+<h3 id="element-name"><a href="#element-name"><span class="header-section-number">6.2.1</span> Element name</a></h3>
+<p>signatureBox</p>
+<h3 id="reported-properties"><a href="#reported-properties"><span class="header-section-number">6.2.2</span> Reported properties</a></h3>
+<p>None (box only holds JPEG 2000 signature, which includes non-printable characters)</p>
+<h3 id="tests"><a href="#tests"><span class="header-section-number">6.2.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">boxLengthIsValid</td>
+<td style="text-align: left;">Size of box contents equals 4 bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">signatureIsValid</td>
+<td style="text-align: left;">Signature equals 0x0d0a870a</td>
+</tr>
+</tbody>
+</table>
+<h2 id="file-type-box"><a href="#file-type-box"><span class="header-section-number">6.3</span> File Type box</a></h2>
+<p>This box specifies file type, version and compatibility information, including specifying if this file is a conforming JP2 file or if it can be read by a conforming JP2 reader.</p>
+<h3 id="element-name-1"><a href="#element-name-1"><span class="header-section-number">6.3.1</span> Element name</a></h3>
+<p>fileTypeBox</p>
+<h3 id="reported-properties-1"><a href="#reported-properties-1"><span class="header-section-number">6.3.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">br</td>
+<td style="text-align: left;">Brand</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">minV</td>
+<td style="text-align: left;">Minor version</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cL<sup>*</sup></td>
+<td style="text-align: left;">Compatibility field (repeatable)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-1"><a href="#tests-1"><span class="header-section-number">6.3.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">boxLengthIsValid</td>
+<td style="text-align: left;">(Size of box – 8) /4 is a whole number (integer)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">brandIsValid</td>
+<td style="text-align: left;"><em>br</em> equals 0x6a703220 (“jp2 ”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">minorVersionIsValid</td>
+<td style="text-align: left;"><em>minV</em> equals 0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">compatibilityListIsValid</td>
+<td style="text-align: left;">Sequence of compatibility (<em>cL</em>) fields includes one entry that equals 0x6a703220 (“jp2 ”)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jp2-header-box"><a href="#jp2-header-box"><span class="header-section-number">6.4</span> JP2 Header box (superbox)</a></h2>
+<p>This box is a superbox that holds a series of boxes that contain header-type information about the file.</p>
+<h3 id="element-name-2"><a href="#element-name-2"><span class="header-section-number">6.4.1</span> Element name</a></h3>
+<p>jp2HeaderBox</p>
+<h3 id="reported-properties-2"><a href="#reported-properties-2"><span class="header-section-number">6.4.2</span> Reported properties</a></h3>
+<p>Since this is a superbox, it contains a number of child boxes. These are represented as child elements in the properties tree:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Child element</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">imageHeaderBox (<a href="#image-header-box">section 6.5</a>)</td>
+<td style="text-align: left;">Properties from Image Header box (required)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bitsPerComponentBox (<a href="#bits-per-component-box">section 6.6</a>)</td>
+<td style="text-align: left;">Properties from Bits Per Component box (optional)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ColourSpecificationBox (<a href="#colour-specification-box">section 6.7</a>)</td>
+<td style="text-align: left;">Properties from Colour Specification box (required)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">paletteBox (<a href="#palette-box">section 6.8</a>)</td>
+<td style="text-align: left;">Properties from Palette box (optional)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">componentMappingBox (<a href="#component-mapping-box">section 6.9</a>)</td>
+<td style="text-align: left;">Properties from Component Mapping box (optional)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">channelDefinitionBox (<a href="#channel-definition-box">section 6.10</a>)</td>
+<td style="text-align: left;">Properties from Channel Definition box (optional)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">resolutionBox (<a href="#resolution-box">section 6.11</a>)</td>
+<td style="text-align: left;">Properties from Resolution box (optional)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-2"><a href="#tests-2"><span class="header-section-number">6.4.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">containsImageHeaderBox</td>
+<td style="text-align: left;">Box contains required Image Header box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">containsColourSpecificationBox</td>
+<td style="text-align: left;">Box contains required Colour Specification box</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">containsBitsPerComponentBox</td>
+<td style="text-align: left;">Box contains Bits Per Component Box, which is required if <em>bPCSign</em> and <em>bPCDepth</em> in Image Header Box equal 1 and 128, respectively (test is skipped otherwise)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">firstJP2HeaderBoxIsImageHeaderBox</td>
+<td style="text-align: left;">First child box is Image Header Box</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">noMoreThanOneImageHeaderBox</td>
+<td style="text-align: left;">Box contains no more than one Image Header box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">noMoreThanOneBitsPerComponentBox</td>
+<td style="text-align: left;">Box contains no more than one Bits Per Component box</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">noMoreThanOnePaletteBox</td>
+<td style="text-align: left;">Box contains no more than one Palette box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">noMoreThanOneComponentMappingBox</td>
+<td style="text-align: left;">Box contains no more than one Component Mapping box</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">noMoreThanOneChannelDefinitionBox</td>
+<td style="text-align: left;">Box contains no more than one Channel Definition box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">noMoreThanOneResolutionBox</td>
+<td style="text-align: left;">Box contains no more than one Resolution box</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">colourSpecificationBoxesAreContiguous</td>
+<td style="text-align: left;">In case of multiple Colour Specification boxes, they appear contiguously in the JP2 Header box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">paletteAndComponentMappingBoxesOnlyTogether</td>
+<td style="text-align: left;">Box contains a Palette box (only if Component Mapping box is present); box contains a Component Mapping box (only if Palette box is present)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="image-header-box"><a href="#image-header-box"><span class="header-section-number">6.5</span> Image Header box (child of JP2 Header box)</a></h2>
+<p>This box specifies the size of the image and other related fields.</p>
+<h3 id="element-name-3"><a href="#element-name-3"><span class="header-section-number">6.5.1</span> Element name</a></h3>
+<p>imageHeaderBox</p>
+<h3 id="reported-properties-3"><a href="#reported-properties-3"><span class="header-section-number">6.5.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">height</td>
+<td style="text-align: left;">Image height in pixels</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">width</td>
+<td style="text-align: left;">Image width in pixels</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nC</td>
+<td style="text-align: left;">Number of image components</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bPCSign</td>
+<td style="text-align: left;">Indicates whether image components are signed or unsigned</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bPCDepth</td>
+<td style="text-align: left;">Number of bits per component</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">c</td>
+<td style="text-align: left;">Compression type</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">unkC</td>
+<td style="text-align: left;">Colourspace Unknown field (“yes” if colourspace of image data is unknown; “no” otherwise)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">iPR</td>
+<td style="text-align: left;">Intellectual Property field (“yes” if image contains intellectual property rights information; “no” otherwise)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-3"><a href="#tests-3"><span class="header-section-number">6.5.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">boxLengthIsValid</td>
+<td style="text-align: left;">Size of box contents equals 14 bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">heightIsValid</td>
+<td style="text-align: left;"><em>height</em> is within range [1, 2<sup>32</sup> - 1]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">widthIsValid</td>
+<td style="text-align: left;"><em>width</em> is within range [1, 2<sup>32</sup> - 1]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nCIsValid</td>
+<td style="text-align: left;"><em>nC</em> is within range [1, 16384]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bPCIsValid</td>
+<td style="text-align: left;"><em>bPCDepth</em> is within range [1,38] OR <em>bPCSign</em> equals 255 (in the latter case the bit depth is variable)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cIsValid</td>
+<td style="text-align: left;"><em>c</em> equals 7 (“jpeg2000”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">unkCIsValid</td>
+<td style="text-align: left;"><em>unkC</em> equals 0 (“no”) or 1 (“yes”)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">iPRIsValid</td>
+<td style="text-align: left;"><em>iPR</em> equals 0 (“no”) or 1 (“yes”)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bits-per-component-box"><a href="#bits-per-component-box"><span class="header-section-number">6.6</span> Bits Per Component box (child of JP2 Header box)</a></h2>
+<p>This (optional) box specifies the bit depth of the components in the file in cases where the bit depth is not constant across all components.</p>
+<h3 id="element-name-4"><a href="#element-name-4"><span class="header-section-number">6.6.1</span> Element name</a></h3>
+<p>bitsPerComponentBox</p>
+<h3 id="reported-properties-4"><a href="#reported-properties-4"><span class="header-section-number">6.6.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">bPCSign<sup>*</sup></td>
+<td style="text-align: left;">Indicates whether image component is signed or unsigned (repeated for each component)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bPCDepth<sup>*</sup></td>
+<td style="text-align: left;">Number of bits for this component (repeated for each component)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-4"><a href="#tests-4"><span class="header-section-number">6.6.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">bPCIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>bPCDepth</em> is within range [1,38] (repeated for each component)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="colour-specification-box"><a href="#colour-specification-box"><span class="header-section-number">6.7</span> Colour Specification box (child of JP2 Header box)</a></h2>
+<p>This box specifies the colourspace of the image.</p>
+<h3 id="element-name-5"><a href="#element-name-5"><span class="header-section-number">6.7.1</span> Element name</a></h3>
+<p>colourSpecificationBox</p>
+<h3 id="reported-properties-5"><a href="#reported-properties-5"><span class="header-section-number">6.7.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">meth</td>
+<td style="text-align: left;">Specification method. Indicates whether colourspace of this image is defined as an enumerated colourspace or using a (restricted) ICC profile.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">prec</td>
+<td style="text-align: left;">Precedence</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">approx</td>
+<td style="text-align: left;">Colourspace approximation</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">enumCS (if meth equals “Enumerated”)</td>
+<td style="text-align: left;">Enumerated colourspace (as descriptive text string)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">icc (if meth equals “Restricted ICC” or “Any ICC”<a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a>)</td>
+<td style="text-align: left;">Properties of ICC profile as child element (see below)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="reported-properties-of-icc-profiles"><a href="#reported-properties-of-icc-profiles"><span class="header-section-number">6.7.3</span> Reported properties of ICC profiles</a></h3>
+<p>If the colour specification box contains an embedded ICC profile, <em>jpylyzer</em> will also report the following properties (which are all grouped in an “icc” sub-element in the properties tree). An exhaustive explanation of these properties is given in the ICC specification (ISO 15076-1 / ICC.1:2004-10). Note that <em>jpylyzer</em> does <em>not</em> validate embedded ICC profiles (even though it does check if a specific ICC profile is allowed in JP2)!</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">profileSize</td>
+<td style="text-align: left;">Size of ICC profile in bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">preferredCMMType</td>
+<td style="text-align: left;">Preferred CMM type</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">profileVersion</td>
+<td style="text-align: left;">Profile version. Format: “majorRevision.minorRevision.bugFixRevision”</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">profileClass</td>
+<td style="text-align: left;">Profile/device class</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">colourSpace</td>
+<td style="text-align: left;">Colourspace</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">profileConnectionSpace</td>
+<td style="text-align: left;">Profile connection space</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dateTimeString</td>
+<td style="text-align: left;">Date / time string. Format: “YYYY/MM/DD, h:m:s”</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">profileSignature</td>
+<td style="text-align: left;">Profile signature</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">primaryPlatform</td>
+<td style="text-align: left;">Primary platform</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">embeddedProfile</td>
+<td style="text-align: left;">Flag that indicates whether profile is embedded in file (“yes”/”no”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">profileCannotBeUsedIndependently</td>
+<td style="text-align: left;">Flag that indicates whether profile can<em>not</em> (!) be used independently from the embedded colour data (“yes”/”no”)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">deviceManufacturer</td>
+<td style="text-align: left;">Identifies a device manufacturer</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">deviceModel</td>
+<td style="text-align: left;">Identifies a device model</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">transparency</td>
+<td style="text-align: left;">Indicates whether device medium is reflective or transparent</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">glossiness</td>
+<td style="text-align: left;">Indicates whether device medium is glossy or matte</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">polarity</td>
+<td style="text-align: left;">Indicates whether device medium is positive or negative</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">colour</td>
+<td style="text-align: left;">Indicates whether device medium is colour or black and white</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">renderingIntent</td>
+<td style="text-align: left;">Rendering intent</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">connectionSpaceIlluminantX</td>
+<td style="text-align: left;">Profile connection space illuminant X</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">connectionSpaceIlluminantY</td>
+<td style="text-align: left;">Profile connection space illuminant Y</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">connectionSpaceIlluminantZ</td>
+<td style="text-align: left;">Profile connection space illuminant Z</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">profileCreator</td>
+<td style="text-align: left;">Identifies creator of profile</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">profileID</td>
+<td style="text-align: left;">Profile checksum (as hexadecimal string)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tag<sup>*</sup></td>
+<td style="text-align: left;">Signature of profile tag (repeated for each tag in the profile)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">description</td>
+<td style="text-align: left;">Profile description (extracted from ‘desc’ tag)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-5"><a href="#tests-5"><span class="header-section-number">6.7.4</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">methIsValid</td>
+<td style="text-align: left;"><em>meth</em> equals 1 (enumerated colourspace) or 2 (restricted ICC profile)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">precIsValid</td>
+<td style="text-align: left;"><em>prec</em> equals 0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">approxIsValid</td>
+<td style="text-align: left;"><em>approx</em> equals 0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">enumCSIsValid (if meth equals “Enumerated”)</td>
+<td style="text-align: left;"><em>enumCS</em> equals 16 (“sRGB”), 17 (“greyscale”) or 18 (“sYCC”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">iccSizeIsValid (if meth equals “Restricted ICC”)</td>
+<td style="text-align: left;">Actual size of embedded ICC profile equals value of profileSize field in ICC header</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">iccPermittedProfileClass (if meth equals “Restricted ICC”)</td>
+<td style="text-align: left;">ICC profile class is “input device” or “display device”<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">iccNoLUTBasedProfile (if meth equals “Restricted ICC”)</td>
+<td style="text-align: left;">ICC profile type is not N-component LUT based (which is not allowed in JP2)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="palette-box"><a href="#palette-box"><span class="header-section-number">6.8</span> Palette box (child of JP2 Header box)</a></h2>
+<p>This (optional) box specifies the palette which maps a single component in index space to a multiple-component image.</p>
+<h3 id="element-name-6"><a href="#element-name-6"><span class="header-section-number">6.8.1</span> Element name</a></h3>
+<p>paletteBox</p>
+<h3 id="reported-properties-6"><a href="#reported-properties-6"><span class="header-section-number">6.8.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">nE</td>
+<td style="text-align: left;">Number of entries in the table</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nPC</td>
+<td style="text-align: left;">Number of palette columns</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bSign<sup>*</sup></td>
+<td style="text-align: left;">Indicates whether values created by this palette column are signed or unsigned (repeated for each column)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bDepth<sup>*</sup></td>
+<td style="text-align: left;">Bit depth of values created by this palette column (repeated for each column)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cP<sup>**</sup></td>
+<td style="text-align: left;">Value for this entry (repeated for each column, and for the number of entries)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-6"><a href="#tests-6"><span class="header-section-number">6.8.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">nEIsValid</td>
+<td style="text-align: left;"><em>nE</em> is within range [0,1024]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nPCIsValid</td>
+<td style="text-align: left;"><em>nPC</em> is within range [1,255]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bDepthIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>bDepth</em> is within range [1,38] (repeated for each column)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="component-mapping-box"><a href="#component-mapping-box"><span class="header-section-number">6.9</span> Component Mapping box (child of JP2 Header box)</a></h2>
+<p>This (optional) box specifies the mapping between a palette and codestream components.</p>
+<h3 id="element-name-7"><a href="#element-name-7"><span class="header-section-number">6.9.1</span> Element name</a></h3>
+<p>componentMappingBox</p>
+<h3 id="reported-properties-7"><a href="#reported-properties-7"><span class="header-section-number">6.9.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">cMP<sup>*</sup></td>
+<td style="text-align: left;">Component index (repeated for each channel)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mTyp<sup>*</sup></td>
+<td style="text-align: left;">Specifies how channel is generated from codestream component (repeated for each channel)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pCol<sup>*</sup></td>
+<td style="text-align: left;">Palette component index (repeated for each channel)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-7"><a href="#tests-7"><span class="header-section-number">6.9.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">cMPIsValid</td>
+<td style="text-align: left;"><em>cMP</em> is within range [0,16384]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mTypIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>mTyp</em> is within range [0,1] (repeated for each channel)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pColIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>pCol</em> is 0 if <em>mTyp</em> is 0 (repeated for each channel)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="channel-definition-box"><a href="#channel-definition-box"><span class="header-section-number">6.10</span> Channel Definition box (child of JP2 Header box)</a></h2>
+<p>This (optional) box specifies the type and ordering of the components within the codestream, as well as those created by the application of a palette.</p>
+<h3 id="element-name-8"><a href="#element-name-8"><span class="header-section-number">6.10.1</span> Element name</a></h3>
+<p>channelDefinitionBox</p>
+<h3 id="reported-properties-8"><a href="#reported-properties-8"><span class="header-section-number">6.10.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">n</td>
+<td style="text-align: left;">Number of channel descriptions</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cN<sup>*</sup></td>
+<td style="text-align: left;">Channel index (repeated for each channel)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cTyp<sup>*</sup></td>
+<td style="text-align: left;">Channel type (repeated for each channel)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cAssoc<sup>*</sup></td>
+<td style="text-align: left;">Channel association (repeated for each channel)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-8"><a href="#tests-8"><span class="header-section-number">6.10.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">nIsValid</td>
+<td style="text-align: left;"><em>n</em> is within range [1, 65535]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">boxLengthIsValid</td>
+<td style="text-align: left;">(Size of box – 2) / equals 6*<em>n</em></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cNIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>cN</em> is within range [0, 65535] (repeated for each channel)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cTypIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>cType</em> is within range [0, 65535] (repeated for each channel)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cAssocIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>cAssoc</em> is within range [0, 65535] (repeated for each channel)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="resolution-box"><a href="#resolution-box"><span class="header-section-number">6.11</span> Resolution box (child of JP2 Header box, superbox)</a></h2>
+<p>This (optional) box contains the grid resolution.</p>
+<h3 id="element-name-9"><a href="#element-name-9"><span class="header-section-number">6.11.1</span> Element name</a></h3>
+<p>resolutionBox</p>
+<h3 id="reported-properties-9"><a href="#reported-properties-9"><span class="header-section-number">6.11.2</span> Reported properties</a></h3>
+<p>Since this is a superbox, it contains one or two child boxes. These are represented as child elements in the properties tree:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Child element</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">captureResolutionBox (<a href="#capture-resolution-box">section 6.12</a>)</td>
+<td style="text-align: left;">Properties from Capture Resolution box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">displayResolutionBox (<a href="#display-resolution-box">section 6.13</a>)</td>
+<td style="text-align: left;">Properties from Default Display Resolution box</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-9"><a href="#tests-9"><span class="header-section-number">6.11.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">containsCaptureOrDisplayResolutionBox</td>
+<td style="text-align: left;">Box contains either a Capture Resolution box or a Default Display Resolution box, or both</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">noMoreThanOneCaptureResolutionBox</td>
+<td style="text-align: left;">Box contains no more than one Capture Resolution box</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">noMoreThanOneDisplayResolutionBox</td>
+<td style="text-align: left;">Box contains no more than one Default Display Resolution box</td>
+</tr>
+</tbody>
+</table>
+<h2 id="capture-resolution-box"><a href="#capture-resolution-box"><span class="header-section-number">6.12</span> Capture Resolution box (child of Resolution box)</a></h2>
+<p>This (optional) box specifies the grid resolution at which the image was captured.</p>
+<h3 id="element-name-10"><a href="#element-name-10"><span class="header-section-number">6.12.1</span> Element name</a></h3>
+<p>captureResolutionBox</p>
+<h3 id="reported-properties-10"><a href="#reported-properties-10"><span class="header-section-number">6.12.2</span> Reported properties</a></h3>
+<p>Resolution information in this box is stored as a set of vertical and horizontal numerators, denominators and exponents. <em>Jpylyzer</em> also reports the corresponding grid resolutions in pixels per meter and pixels per inch, which are calculated from these values.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">vRcN</td>
+<td style="text-align: left;">Vertical grid resolution numerator</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vRcD</td>
+<td style="text-align: left;">Vertical grid resolution denominator</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hRcN</td>
+<td style="text-align: left;">Horizontal grid resolution numerator</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hRcD</td>
+<td style="text-align: left;">Horizontal grid resolution denominator</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vRcE</td>
+<td style="text-align: left;">Vertical grid resolution exponent</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hRcE</td>
+<td style="text-align: left;">Horizontal grid resolution exponent</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vRescInPixelsPerMeter</td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hRescInPixelsPerMeter</td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vRescInPixelsPerInch</td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hRescInPixelsPerInch</td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn10" class="footnoteRef" id="fnref10"><sup>10</sup></a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-10"><a href="#tests-10"><span class="header-section-number">6.12.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">boxLengthIsValid</td>
+<td style="text-align: left;">Size of box contents equals 10 bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vRcNIsValid</td>
+<td style="text-align: left;"><em>vRcN</em> is within range [1,65535]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vRcDIsValid</td>
+<td style="text-align: left;"><em>vRcD</em> is within range [1,65535]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hRcNIsValid</td>
+<td style="text-align: left;"><em>hRcN</em> is within range [1,65535]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hRcDIsValid</td>
+<td style="text-align: left;"><em>hRcD</em> is within range [1,65535]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vRcEIsValid</td>
+<td style="text-align: left;"><em>vRcE</em> is within range [-127,128]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hRcEIsValid</td>
+<td style="text-align: left;"><em>hRcE</em> is within range [-127,128]</td>
+</tr>
+</tbody>
+</table>
+<h2 id="display-resolution-box"><a href="#display-resolution-box"><span class="header-section-number">6.13</span> Default Display Resolution box (child of Resolution box)</a></h2>
+<p>This (optional) box specifies the default grid resolution at which the image should be displayed.</p>
+<h3 id="element-name-11"><a href="#element-name-11"><span class="header-section-number">6.13.1</span> Element name</a></h3>
+<p>displayResolutionBox</p>
+<h3 id="reported-properties-11"><a href="#reported-properties-11"><span class="header-section-number">6.13.2</span> Reported properties</a></h3>
+<p>Resolution information in this box is stored as a set of vertical and horizontal numerators, denominators and exponents. <em>Jpylyzer</em> also reports the corresponding grid resolutions in pixels per meter and pixels per inch, which are calculated from these values.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">vRdN</td>
+<td style="text-align: left;">Vertical grid resolution numerator</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vRdD</td>
+<td style="text-align: left;">Vertical grid resolution denominator</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hRdN</td>
+<td style="text-align: left;">Horizontal grid resolution numerator</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hRdD</td>
+<td style="text-align: left;">Horizontal grid resolution denominator</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vRdE</td>
+<td style="text-align: left;">Vertical grid resolution exponent</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hRdE</td>
+<td style="text-align: left;">Horizontal grid resolution exponent</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vResdInPixelsPerMeter</td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn11" class="footnoteRef" id="fnref11"><sup>11</sup></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hResdInPixelsPerMeter</td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn12" class="footnoteRef" id="fnref12"><sup>12</sup></a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vResdInPixelsPerInch</td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn13" class="footnoteRef" id="fnref13"><sup>13</sup></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hResdInPixelsPerInch</td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn14" class="footnoteRef" id="fnref14"><sup>14</sup></a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-11"><a href="#tests-11"><span class="header-section-number">6.13.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">boxLengthIsValid</td>
+<td style="text-align: left;">Size of box contents equals 10 bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vRdNIsValid</td>
+<td style="text-align: left;"><em>vRdN</em> is within range [1,65535]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vRdDIsValid</td>
+<td style="text-align: left;"><em>vRdD</em> is within range [1,65535]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hRdNIsValid</td>
+<td style="text-align: left;"><em>hRdN</em> is within range [1,65535]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hRdDIsValid</td>
+<td style="text-align: left;"><em>hRdD</em> is within range [1,65535]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vRdEIsValid</td>
+<td style="text-align: left;"><em>vRdE</em> is within range [-127,128]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hRdEIsValid</td>
+<td style="text-align: left;"><em>hRdE</em> is within range [-127,128]</td>
+</tr>
+</tbody>
+</table>
+<h2 id="codestream-box"><a href="#codestream-box"><span class="header-section-number">6.14</span> Contiguous Codestream box</a></h2>
+<p>This box contains the codestream. See <a href="#contiguous-codestream-box-chapter">chapter 7</a>.</p>
+<h2 id="intellectual-property-box"><a href="#intellectual-property-box"><span class="header-section-number">6.15</span> Intellectual Property box</a></h2>
+<p>This (optional) box contains intellectual property information about the image. The JP2 format specification (ISO/IEC 15444-1) does not provide any specific information about this box, other than stating that “the definition of the format of [its] contents […] is reserved for ISO”. As a result, <em>jpylyzer</em> does not currently include a validator function for this box, which is now simply ignored. <em>Jpylyzer</em> will display a user warning message in that case.</p>
+<h2 id="xml-box"><a href="#xml-box"><span class="header-section-number">6.16</span> XML box</a></h2>
+<p>This (optional) box contains XML formatted information.</p>
+<h3 id="element-name-12"><a href="#element-name-12"><span class="header-section-number">6.16.1</span> Element name</a></h3>
+<p>xmlBox</p>
+<h3 id="reported-properties-12"><a href="#reported-properties-12"><span class="header-section-number">6.16.2</span> Reported properties</a></h3>
+<p>If the contents of this box are well-formed XML (see ‘tests’ below), the ‘xmlBox’ element in the properties tree will contain the contents of the XML box. Note that, depending on the character encoding of the original XML, it may contain characters that are not allowed in the encoding that is used for <em>jpylyzer</em>’s output. Any such characters will be represented by numerical entity references in the output. If the box contents are not well-formed XML, no properties are reported for this box.</p>
+<h3 id="tests-12"><a href="#tests-12"><span class="header-section-number">6.16.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">containsWellformedXML</td>
+<td style="text-align: left;">Contents of box are parsable, well-formed XML</td>
+</tr>
+</tbody>
+</table>
+<p>Note that <em>jpylyzer</em> does not check whether the XML is <em>valid</em>, as this is not required by the standard. Besides, doing so would make <em>jpylyzer</em> significantly slower for XML that contains references to external schemas and DTDs.</p>
+<h2 id="uuid-box"><a href="#uuid-box"><span class="header-section-number">6.17</span> UUID box</a></h2>
+<p>This (optional) box contains additional (binary) information, which may be vendor-specific. Some applications (e.g. Kakadu and ExifTool) also use this box for storing XMP metadata (see Section 1.1.4 in Part 3 of the XMP specification<a href="#fn15" class="footnoteRef" id="fnref15"><sup>15</sup></a>).</p>
+<h3 id="element-name-13"><a href="#element-name-13"><span class="header-section-number">6.17.1</span> Element name</a></h3>
+<p>uuidBox</p>
+<h3 id="reported-properties-13"><a href="#reported-properties-13"><span class="header-section-number">6.17.2</span> Reported properties</a></h3>
+<p>If the value of <em>uuid</em> indicates the presence of XMP metadata and the contents of this box are well-formed XML, (see ‘tests’ below), the ‘uuidBox’ element in the properties tree will contain the XMP data. Note that, depending on the character encoding of the original XML, it may contain characters that are not allowed in the encoding that is used for <em>jpylyzer</em>’s output. Any such characters will be represented by numerical entity references in the output. In all other cases, the ‘uuidBox’ element will contain a standard string representation the of UUID.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">uuid</td>
+<td style="text-align: left;">Standard string representation of UUID (<strong>only</strong> if uuid has value other than <em>be7acfcb-97a9-42e8-9c71-999491e3afac</em>). For an explanation of UUIDs see e.g. Leach <em>et al</em>., 2005.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">XMP data</td>
+<td style="text-align: left;">XMP metadata (<strong>only</strong> if uuid has value <em>be7acfcb-97a9-42e8-9c71-999491e3afac</em>)</td>
+</tr>
+</tbody>
+</table>
+<p>Note that except for the XMP case, <em>jpylyzer</em> will not be able to report any information on the actual contents of this box, since it is defined outside of the scope of JPEG 2000.</p>
+<h3 id="tests-13"><a href="#tests-13"><span class="header-section-number">6.17.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">boxLengthIsValid</td>
+<td style="text-align: left;">Size of box contents is greater than 16 bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">containsWellformedXML</td>
+<td style="text-align: left;">Contents of box are parsable, well-formed XML (this test is <strong>only</strong> performed if uuid has value <em>be7acfcb-97a9-42e8-9c71-999491e3afac</em>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="uuid-info-box"><a href="#uuid-info-box"><span class="header-section-number">6.18</span> UUID Info box (superbox)</a></h2>
+<p>This (optional) box contains additional information associated with a UUID.</p>
+<h3 id="element-name-14"><a href="#element-name-14"><span class="header-section-number">6.18.1</span> Element name</a></h3>
+<p>uuidInfoBox</p>
+<h3 id="reported-properties-14"><a href="#reported-properties-14"><span class="header-section-number">6.18.2</span> Reported properties</a></h3>
+<p>This is a superbox which contains two child boxes. These are represented as child elements in the properties tree:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Child element</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">uuidListBox (<a href="#uuid-list-box">section 6.19</a>)</td>
+<td style="text-align: left;">Properties from UUID List box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">urlBox (<a href="#data-entry-url-box">section 6.20</a>)</td>
+<td style="text-align: left;">Properties from Data Entry URL box</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-14"><a href="#tests-14"><span class="header-section-number">6.18.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">containsOneListBox</td>
+<td style="text-align: left;">Box contains exactly one UUID List box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">containsOneURLBox</td>
+<td style="text-align: left;">Box contains exactly one Data Entry URL box</td>
+</tr>
+</tbody>
+</table>
+<h2 id="uuid-list-box"><a href="#uuid-list-box"><span class="header-section-number">6.19</span> UUID List box (child of UUID Info box)</a></h2>
+<p>This (optional) box specifies a list of UUIDs.</p>
+<h3 id="element-name-15"><a href="#element-name-15"><span class="header-section-number">6.19.1</span> Element name</a></h3>
+<p>uuidListBox</p>
+<h3 id="reported-properties-15"><a href="#reported-properties-15"><span class="header-section-number">6.19.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">nU</td>
+<td style="text-align: left;">Number of UUIDs</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">uuid<sup>*</sup></td>
+<td style="text-align: left;">Standard string representation of UUID (repeated <em>nU</em> times)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-15"><a href="#tests-15"><span class="header-section-number">6.19.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">boxLengthIsValid</td>
+<td style="text-align: left;">Size of box equals <em>nU</em> * 16 + 2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="data-entry-url-box"><a href="#data-entry-url-box"><span class="header-section-number">6.20</span> Data Entry URL box (child of UUID Info box)</a></h2>
+<p>This (optional) box specifies a URL.</p>
+<h3 id="element-name-16"><a href="#element-name-16"><span class="header-section-number">6.20.1</span> Element name</a></h3>
+<p>urlBox</p>
+<h3 id="reported-properties-16"><a href="#reported-properties-16"><span class="header-section-number">6.20.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">version</td>
+<td style="text-align: left;">Version number</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">loc</td>
+<td style="text-align: left;">Location, which specifies a URL of the additional information associated with the UUIDs in the UUID List box that resides in the same UUID Info box</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-16"><a href="#tests-16"><span class="header-section-number">6.20.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">flagIsValid</td>
+<td style="text-align: left;">Three bytes that make up “flag” field equal 0x00 00 00 (‘flag’ is not reported to output because it only contains null bytes)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">locIsUTF8</td>
+<td style="text-align: left;">Location (URL) can be decoded to UTF-8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">locHasNullTerminator</td>
+<td style="text-align: left;">Location (URL) is a null-terminated string</td>
+</tr>
+</tbody>
+</table>
+<h2 id="unknown-box-section"><a href="#unknown-box-section"><span class="header-section-number">6.21</span> Unknown box</a></h2>
+<p>An image may contain boxes that are not defined by ISO/IEC 15444-1. Although <em>jpylyzer</em> ignores such boxes, it will report some minimal info that will allow interested users to identify them to a limited extent.</p>
+<h3 id="element-name-17"><a href="#element-name-17"><span class="header-section-number">6.21.1</span> Element name</a></h3>
+<p>unknownBox</p>
+<h3 id="reported-properties-17"><a href="#reported-properties-17"><span class="header-section-number">6.21.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">boxType</td>
+<td style="text-align: left;">Four-character text string that specifies the type of information that is found in this box (corresponds to <em>TBox</em> in section I.4 of ISO/IEC 15444-1).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="top-level-tests-properties"><a href="#top-level-tests-properties"><span class="header-section-number">6.22</span> Top-level tests and properties</a></h2>
+<p>This section describes the tests and output for the top file level.</p>
+<h3 id="element-name-18"><a href="#element-name-18"><span class="header-section-number">6.22.1</span> Element name</a></h3>
+<p>properties</p>
+<h3 id="reported-properties-18"><a href="#reported-properties-18"><span class="header-section-number">6.22.2</span> Reported properties</a></h3>
+<p>The metrics that are listed here are not ‘properties’ in a strict sense; instead they are secondary or derived metrics that are calculated by combining information from different parts / boxes of the file.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">compressionRatio</td>
+<td style="text-align: left;">Compression ratio</td>
+</tr>
+</tbody>
+</table>
+<p>The compression ratio is calculated as the ratio between the size of the uncompressed image data and the actual file size:</p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>compressionRatio</mi> <mo>=</mo> <mfrac> <mrow> <mi>sizeUncompressed</mi> </mrow> <mrow> <mi>sizeCompressed</mi> </mrow> </mfrac> </mrow> </math></p>
+<p>Here, <em>sizeCompressed</em> is simply the file size (<em>fileSizeInBytes</em> in output file’s ‘fileInfo’ element). The uncompressed size (in bytes) can be calculated by multiplying the number of bytes per pixel by the total number of pixels:</p>
+<p><math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>sizeUncompressed</mi> <mo>=</mo> <mfrac> <mrow> <mn>1</mn> </mrow> <mrow> <mn>8</mn> </mrow> </mfrac> <munderover> <mo>∑</mo> <mrow> <mi>i</mi> <mo>=</mo> <mn>1</mn> </mrow> <mi>nC</mi> </munderover> <msub> <mi>bPCDepth</mi> <mi>i</mi> </msub> <mo>•</mo> <mi>height</mi> <mo>•</mo> <mi>width</mi> </mrow> </math></p>
+<p>With:</p>
+<dl>
+<dt>nC</dt>
+<dd><p>number of image components (from Image Header box)</p>
+</dd>
+<dt>i</dt>
+<dd><p>component index</p>
+</dd>
+<dt>bPCDepth<sub>i</sub></dt>
+<dd><p>bits per component for component <em>i</em> (from Image Header box or Bits Per Component box)</p>
+</dd>
+<dt>height</dt>
+<dd><p>image height (from Image Header box)</p>
+</dd>
+<dt>width</dt>
+<dd><p>image width (from Image Header box)</p>
+</dd>
+</dl>
+<p>In addition, the root of the properties tree contains the elements for all top-level boxes:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Child element</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">signatureBox (<a href="#jpeg2000-signature-box">section 6.2</a>)</td>
+<td style="text-align: left;">Properties from JPEG 2000 Signature box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fileTypeBox (<a href="#file-type-box">section 6.3</a>)</td>
+<td style="text-align: left;">Properties from File Type box</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">jp2HeaderBox (<a href="#jp2-header-box">section 6.4</a>)</td>
+<td style="text-align: left;">Properties from JP2 Header box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">contiguousCodestreamBox (<a href="#contiguous-codestream-box-chapter">chapter 7</a>)</td>
+<td style="text-align: left;">Properties from Contiguous Codestream box</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">intellectualPropertyBox (<a href="#intellectual-property-box">section 6.15</a>)</td>
+<td style="text-align: left;">Properties from Intellectual Property box (optional)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">xmlBox (<a href="#xml-box">section 6.16</a>)</td>
+<td style="text-align: left;">Properties from XML box (optional)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">uuidBox (<a href="#uuid-box">section 6.17</a>)</td>
+<td style="text-align: left;">Properties from UUID box (optional)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">uuidInfoBox (<a href="#uuid-info-box">section 6.18</a>)</td>
+<td style="text-align: left;">Properties from UUID Info box (optional)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-17"><a href="#tests-17"><span class="header-section-number">6.22.3</span> Tests</a></h3>
+<p>The tests that <em>jpylyzer</em> performs at the root level fall in either of the following two categories:</p>
+<ol type="1">
+<li><p>Tests for the presence of required top-level boxes, the order in which they appear and restrictions on the number of instances for specific boxes</p></li>
+<li><p>Tests for consistency of information in different parts of the file. In particular, a lot of the information in the Image Header box is redundant with information in the codestream header, and <em>jpylyzer</em> performs a number of tests to verify the consistency between these two.</p></li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">containsSignatureBox</td>
+<td style="text-align: left;">File root contains a JPEG 2000 Signature box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">containsFileTypeBox</td>
+<td style="text-align: left;">File root contains a File Type box</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">containsJP2HeaderBox</td>
+<td style="text-align: left;">File root contains a JP2 Header box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">containsContiguousCodestreamBox</td>
+<td style="text-align: left;">File root contains a Contiguous Codestream box</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">containsIntellectualPropertyBox</td>
+<td style="text-align: left;">File root contains an Intellectual Property box, which is required if <em>iPR</em> field in Image Header Box equals 1 (test is skipped otherwise)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">firstBoxIsSignatureBox</td>
+<td style="text-align: left;">First box is JPEG 2000 Signature box</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">secondBoxIsFileTypeBox</td>
+<td style="text-align: left;">Second box is File Type box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">locationJP2HeaderBoxIsValid</td>
+<td style="text-align: left;">JP2 Header box is located after File Type Box and before (first) Contiguous Codestream box</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">noMoreThanOneSignatureBox</td>
+<td style="text-align: left;">File root contains no more than one JPEG 2000 Signature box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">noMoreThanOneFileTypeBox</td>
+<td style="text-align: left;">File root contains no more than one File Type box</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">noMoreThanOneJP2HeaderBox</td>
+<td style="text-align: left;">File root contains no more than one JP2 Header box</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">heightConsistentWithSIZ</td>
+<td style="text-align: left;">Value of <em>height</em> from Image Header Box equals <em>ysiz –yOsiz</em> from codestream SIZ header</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">widthConsistentWithSIZ</td>
+<td style="text-align: left;">Value of <em>width</em> from Image Header Box equals <em>xsiz</em> –<em>xOsiz</em> from codestream SIZ header</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nCConsistentWithSIZ</td>
+<td style="text-align: left;">Value of <em>nC</em> from Image Header Box equals <em>csiz</em> from codestream SIZ header</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bPCSignConsistentWithSIZ</td>
+<td style="text-align: left;">Values of <em>bPCSign</em> from Image Header box (or Bits Per Component box) are equal to corresponding <em>ssizSign</em> values from codestream SIZ header</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bPCDepthConsistentWithSIZ</td>
+<td style="text-align: left;">Values of <em>bPCDepth</em> from Image Header box (or Bits Per Component box) are equal to corresponding <em>ssizDepth</em> values from codestream SIZ header</td>
+</tr>
+</tbody>
+</table>
+<h1 id="contiguous-codestream-box-chapter"><a href="#contiguous-codestream-box-chapter"><span class="header-section-number">7</span> Contiguous Codestream box</a></h1>
+<h2 id="codestream-structure"><a href="#codestream-structure"><span class="header-section-number">7.1</span> General codestream structure</a></h2>
+<p>The Contiguous Codestream box holds the JPEG 2000 codestream, which contains the actual image data in a JP2.</p>
+<h3 id="markers-and-marker-segments"><a href="#markers-and-marker-segments"><span class="header-section-number">7.1.1</span> Markers and marker segments</a></h3>
+<p>A codestream is made up of a number of functional entities which are called <em>markers</em> and <em>marker segments</em>. A <em>marker</em> is essentially a 2-byte delimiter that delineates the start or end position of a functional entity. A <em>marker segment</em> is the combination of a marker and a set of associated parameters (<em>segment parameters</em>). However, not every marker has any associated parameters.</p>
+<h3 id="general-structure-of-the-codestream"><a href="#general-structure-of-the-codestream"><span class="header-section-number">7.1.2</span> General structure of the codestream</a></h3>
+<p>The codestream is made up of a number of components. The Figure below gives an overview.</p>
+<figure>
+<img src="images/codestreamStructure.png" alt="General structure of a JPEG 2000 codestream."><figcaption>General structure of a JPEG 2000 codestream.</figcaption>
+</figure>
+<p>From top to bottom, the Figure shows the following components:</p>
+<ol type="1">
+<li><p>A <em>start of codestream</em> (SOC) marker, which indicates the start of the codestream</p></li>
+<li><p>A main codestream header (which includes a number of header marker segments)</p></li>
+<li><p>A sequence of one or more <em>tile parts</em>. Each tile part consists of the following components:</p>
+<ol type="a">
+<li><p>A <em>start of tile-part</em> (SOT) marker segment, which indicates the start of a tile part, and which also contains index information of the tile part and its associated tile</p></li>
+<li><p>Optionally this may be followed by one or more additional tile-part header marker segments</p></li>
+<li><p>A <em>start of data</em> (SOD) marker that indicates the start of the bitstream for the current tile part</p></li>
+<li><p>The bitstream</p></li>
+</ol></li>
+<li><p>An ‘end of codestream’ (EOC) marker that indicates the end of the codestream.</p></li>
+</ol>
+<h2 id="limitations-codestream-validation"><a href="#limitations-codestream-validation"><span class="header-section-number">7.2</span> Limitations of codestream validation</a></h2>
+<p>It is important to stress here that <em>jpylyzer</em> currently doesn’t support the full set of marker segments that can occur in a codestream. As a result, the validation of codestreams is somewhat limited. These limitations are discussed in this section.</p>
+<h3 id="main-codestream-header"><a href="#main-codestream-header"><span class="header-section-number">7.2.1</span> Main codestream header</a></h3>
+<p>Annex A of ISO/IEC 15444-1 lists a total of 13 marker segments that can occur in the main codestream header. Most of these are optional. The current version of <em>jpylyzer</em> only offers full support (i.e. reads and validates) for the following main header marker segments (which includes all the required ones):</p>
+<ul>
+<li><p>Start of codestream (SOC) marker segment (required)</p></li>
+<li><p>Image and tile size (SIZ) marker segment (required)</p></li>
+<li><p>Coding style default (COD) marker segment (required)</p></li>
+<li><p>Quantization default (QCD) marker segment (required)</p></li>
+<li><p>Comment (COM) marker segment (optional)</p></li>
+</ul>
+<p>In addition the codestream header may also contain any of the following marker segments, which are all optional:</p>
+<ul>
+<li><p>Coding style component (COC) marker segment (optional)<sup>*</sup></p></li>
+<li><p>Region-of-interest (RGN) marker segment (optional) <sup>*</sup></p></li>
+<li><p>Quantization component (QCC) marker segment (optional) <sup>*</sup></p></li>
+<li><p>Progression order change (POC) marker segment (optional) <sup>*</sup></p></li>
+<li><p>Packet length, main header (PLM) marker segment (optional) <sup>*</sup></p></li>
+<li><p>Packed packet headers, main header (PPM) marker segment (optional) <sup>*</sup></p></li>
+<li><p>Tile-part lengths (TLM) marker segment (optional) <sup>*</sup></p></li>
+<li><p>Component registration (CRG) marker segment (optional) <sup>*</sup></p></li>
+</ul>
+<p>The above marker segments (which are marked with an asterisk) are only minimally supported at this stage: if <em>jpylyzer</em> encounters any of them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> currently does not analyse the contents of these marker segments, which means that the respective elements in the output will be empty.</p>
+<h3 id="tile-parts"><a href="#tile-parts"><span class="header-section-number">7.2.2</span> Tile parts</a></h3>
+<p>The tile part validation has similar limitations. The standard lists 11 marker segments that can occur in the tile part header. Currently, <em>jpylyzer</em> only fully supports the following ones:</p>
+<ul>
+<li><p>Start of tile part (SOT) marker segment (required)</p></li>
+<li><p>Coding style default (COD) marker segment (optional)</p></li>
+<li><p>Quantization default (QCD) marker segment (optional)</p></li>
+<li><p>Comment (COM) marker segment (optional)</p></li>
+<li><p>Start of data (SOD) marker segment (required)</p></li>
+</ul>
+<p>In addition the following optional marker segments may also occur:</p>
+<ul>
+<li><p>Coding style component (COC) marker segment (optional)<sup>*</sup></p></li>
+<li><p>Region-of-interest (RGN) marker segment (optional) <sup>*</sup></p></li>
+<li><p>Quantization component (QCC) marker segment (optional) <sup>*</sup></p></li>
+<li><p>Progression order change (POC) marker segment (optional) <sup>*</sup></p></li>
+<li><p>Packet length, tile-part header (PLT) marker segment (optional) <sup>*</sup></p></li>
+<li><p>Packed packet headers, tile-part header (PPT) marker segment (optional) <sup>*</sup></p></li>
+</ul>
+<p>These marker segments (which are marked with an asterisk) are only minimally supported at this stage: if <em>jpylyzer</em> encounters any of them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> currently does not analyse their contents, and the respective elements in the output will be empty.</p>
+<h3 id="bit-streams"><a href="#bit-streams"><span class="header-section-number">7.2.3</span> Bit streams</a></h3>
+<p>In addition to the above limitations, <em>jpylyzer</em> can <em>not</em> be used to establish whether the data in the bitstream are correct (this would require decoding the compressed image data, which is completely out of <em>jpylyzer</em>’s scope)<a href="#fn16" class="footnoteRef" id="fnref16"><sup>16</sup></a>. As a result, if <em>jpylyzer</em> is used as part of a quality assurance workflow, it is recommended to also include an additional check on the image contents<a href="#fn17" class="footnoteRef" id="fnref17"><sup>17</sup></a>. Also, <em>jpylyzer</em> does not perform any checks on marker segments within the bit-stream: start-of packet (SOP) and end-of-packet (EPH) markers.</p>
+<h3 id="detection-of-incomplete-or-truncated-codestreams"><a href="#detection-of-incomplete-or-truncated-codestreams"><span class="header-section-number">7.2.4</span> Detection of incomplete or truncated codestreams</a></h3>
+<p>A JP2’s tile part header contains information that makes it possible to detect incomplete and truncated codestreams in most cases. Depending on the encoder software used, this method may fail for images that only contain one single tile part (i.e. images that do not contain tiling).</p>
+<h3 id="current-limitations-of-comment-extraction"><a href="#current-limitations-of-comment-extraction"><span class="header-section-number">7.2.5</span> Current limitations of comment extraction</a></h3>
+<p>Both the codestream header and the tile part header can contain comment marker segments, which are used for embedding arbitrary binary data or text. <em>Jpylyzer</em> will extract the contents of any comments that are text.</p>
+<h2 id="structure-reported-output"><a href="#structure-reported-output"><span class="header-section-number">7.3</span> Structure of reported output</a></h2>
+<p>The Figure below illustrates the structure of <em>jpylyzer</em>’s codestream-level output.</p>
+<figure>
+<img src="images/codestreamOutput.png" alt="Structure of codestream-level XML output."><figcaption>Structure of codestream-level XML output.</figcaption>
+</figure>
+<p>At the top level, the SIZ, COD, QCD and COM marker segments are each represented as individual sub elements. The tile part properties are nested in a <em>tileParts</em> element, where each individual tile part is represented as a separate <em>tilePart</em> sub element.</p>
+<h2 id="contiguous-codestream-box"><a href="#contiguous-codestream-box"><span class="header-section-number">7.4</span> Contiguous Codestream box</a></h2>
+<h3 id="element-name-19"><a href="#element-name-19"><span class="header-section-number">7.4.1</span> Element name</a></h3>
+<p>contiguousCodestreamBox</p>
+<h3 id="reported-properties-19"><a href="#reported-properties-19"><span class="header-section-number">7.4.2</span> Reported properties</a></h3>
+<p>The reported properties for this box are organised into a number groups, which are represented as child elements in the properties tree:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Child element</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">siz (<a href="#siz-marker">section 7.5</a>)</td>
+<td style="text-align: left;">Properties from the image and tile size (SIZ) marker segment (codestream main header)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cod (<a href="#cod-marker">section 7.6</a>)</td>
+<td style="text-align: left;">Properties from the coding style default (COD) marker segment (codestream main header)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">qcd (<a href="#qcd-marker">section 7.7</a>)</td>
+<td style="text-align: left;">Properties from the quantization default (QCD) marker segment (codestream main header)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">com (<a href="#com-marker">section 7.8</a>)</td>
+<td style="text-align: left;">Properties from the (optional) comment (COM) marker segment (codestream main header)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tileParts (<a href="#tile-part">section 7.9</a>)</td>
+<td style="text-align: left;">Properties from individual tile parts</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-18"><a href="#tests-18"><span class="header-section-number">7.4.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">codestreamStartsWithSOCMarker</td>
+<td style="text-align: left;">First 2 bytes in codestream constitute a start of codestream (SOC) marker segment</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">foundSIZMarker</td>
+<td style="text-align: left;">Second marker segment in codestream is image and tile size (SIZ) marker segment</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">foundCODMarker</td>
+<td style="text-align: left;">Codestream main header contains coding style default (COD) marker segment</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">foundQCDMarker</td>
+<td style="text-align: left;">Codestream main header contains quantization default (QCD) marker segment</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quantizationConsistentWithLevels</td>
+<td style="text-align: left;">Values of quantization parameters from QCD marker segment are consistent with <em>levels</em> from COD marker segment<a href="#fn18" class="footnoteRef" id="fnref18"><sup>18</sup></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">foundExpectedNumberOfTiles</td>
+<td style="text-align: left;">Number of encountered tiles is consistent with expected number of tiles (as calculated from SIZ marker, see <a href="#siz-marker">section 7.5</a>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">foundExpectedNumberOfTileParts</td>
+<td style="text-align: left;">For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of <em>tnsot</em> from SOT marker, see <a href="#sot-marker">section 7.10</a>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">foundEOCMarker</td>
+<td style="text-align: left;">Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment</td>
+</tr>
+</tbody>
+</table>
+<h2 id="siz-marker"><a href="#siz-marker"><span class="header-section-number">7.5</span> Image and tile size (SIZ) marker segment (child of Contiguous Codestream box)</a></h2>
+<h3 id="element-name-20"><a href="#element-name-20"><span class="header-section-number">7.5.1</span> Element name</a></h3>
+<p>siz</p>
+<h3 id="reported-properties-20"><a href="#reported-properties-20"><span class="header-section-number">7.5.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lsiz</td>
+<td style="text-align: left;">Length of SIZ marker segment in bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rsiz</td>
+<td style="text-align: left;">Decoder capabilities</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">xsiz</td>
+<td style="text-align: left;">Width of reference grid</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ysiz</td>
+<td style="text-align: left;">Heigth of reference grid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">xOsiz</td>
+<td style="text-align: left;">Horizontal offset from origin of reference grid to left of image area</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">yOsiz</td>
+<td style="text-align: left;">Vertical offset from origin of reference grid to top of image area</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">xTsiz</td>
+<td style="text-align: left;">Width of one reference tile with respect to the reference grid</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">yTsiz</td>
+<td style="text-align: left;">Height of one reference tile with respect to the reference grid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">xTOsiz</td>
+<td style="text-align: left;">Horizontal offset from origin of reference grid to left side of first tile</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">yTOsiz</td>
+<td style="text-align: left;">Vertical offset from origin of reference grid to top side of first tile</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numberOfTiles</td>
+<td style="text-align: left;">Number of tiles<a href="#fn19" class="footnoteRef" id="fnref19"><sup>19</sup></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">csiz</td>
+<td style="text-align: left;">Number of components</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ssizSign<sup>*</sup></td>
+<td style="text-align: left;">Indicates whether image component is signed or unsigned (repeated for each component)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ssizDepth<sup>*</sup></td>
+<td style="text-align: left;">Number of bits for this component (repeated for each component)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">xRsiz<sup>*</sup></td>
+<td style="text-align: left;">Horizontal separation of sample of this component with respect to reference grid (repeated for each component)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">yRsiz<sup>*</sup></td>
+<td style="text-align: left;">Vertical separation of sample of this component with respect to reference grid (repeated for each component)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-19"><a href="#tests-19"><span class="header-section-number">7.5.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lsizIsValid</td>
+<td style="text-align: left;"><em>lsiz</em> is within range [41,49190]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rsizIsValid</td>
+<td style="text-align: left;"><em>rsiz</em> equals 0 (“ISO/IEC 15444-1”), 1 (“Profile 0”) or 2 (“Profile 1”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">xsizIsValid</td>
+<td style="text-align: left;"><em>xsiz</em> is within range [1,2<sup>32</sup> - 1]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ysizIsValid</td>
+<td style="text-align: left;"><em>ysiz</em> is within range [1,2<sup>32</sup> - 1]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">xOsizIsValid</td>
+<td style="text-align: left;"><em>xOsiz</em> is within range [0,2<sup>32</sup> - 2]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">yOsizIsValid</td>
+<td style="text-align: left;"><em>yOsiz</em> is within range [0,2<sup>32</sup> - 2]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">xTsizIsValid</td>
+<td style="text-align: left;"><em>xTsiz</em> is within range [1,2<sup>32</sup> - 1]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">yTsizIsValid</td>
+<td style="text-align: left;"><em>yTsiz</em> is within range [1,2<sup>32</sup> - 1]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">xTOsizIsValid</td>
+<td style="text-align: left;"><em>xTOsiz</em> is within range [0,2<sup>32</sup> - 2]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">yTOsizIsValid</td>
+<td style="text-align: left;"><em>yTOsiz</em> is within range [0,2<sup>32</sup> - 2]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">csizIsValid</td>
+<td style="text-align: left;"><em>csiz</em> is within range [1,16384]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lsizConsistentWithCsiz</td>
+<td style="text-align: left;"><em>lsiz</em> equals 38 + 3*<em>csiz</em></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ssizIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>ssizDepth</em> is within range [1,38] (repeated for each component)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">xRsizIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>xRsiz</em> is within range [1,255] (repeated for each component)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">yRsizIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>yRsiz</em> is within range [1,255] (repeated for each component)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cod-marker"><a href="#cod-marker"><span class="header-section-number">7.6</span> Coding style default (COD) marker segment</a></h2>
+<h3 id="element-name-21"><a href="#element-name-21"><span class="header-section-number">7.6.1</span> Element name</a></h3>
+<p>cod</p>
+<h3 id="reported-properties-21"><a href="#reported-properties-21"><span class="header-section-number">7.6.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lcod</td>
+<td style="text-align: left;">Length of COD marker segment in bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">precincts</td>
+<td style="text-align: left;">Indicates use of precincts (“yes”/“no”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sop</td>
+<td style="text-align: left;">Indicates use of start of packet marker segments (“yes”/“no”)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">eph</td>
+<td style="text-align: left;">Indicates use of end of packet marker segments (“yes”/“no”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">order</td>
+<td style="text-align: left;">Progression order</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">layers</td>
+<td style="text-align: left;">Number of layers</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">multipleComponentTransformation</td>
+<td style="text-align: left;">Indicates use of multiple component transformation (“yes”/“no”)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">levels</td>
+<td style="text-align: left;">Number of decomposition levels</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">codeBlockWidth</td>
+<td style="text-align: left;">Code block width</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">codeBlockHeight</td>
+<td style="text-align: left;">Code block height</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">codingBypass</td>
+<td style="text-align: left;">Indicates use of coding bypass (“yes”/“no”)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">resetOnBoundaries</td>
+<td style="text-align: left;">Indicates reset of context probabilities on coding pass boundaries (“yes”/“no”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">termOnEachPass</td>
+<td style="text-align: left;">Indicates termination on each coding pass (“yes”/“no”)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vertCausalContext</td>
+<td style="text-align: left;">Indicates vertically causal context (“yes”/“no”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">predTermination</td>
+<td style="text-align: left;">Indicates predictable termination (“yes”/“no”)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">segmentationSymbols</td>
+<td style="text-align: left;">Indicates use of segmentation symbols (“yes”/“no”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">transformation</td>
+<td style="text-align: left;">Wavelet transformation: “9-7 irreversible” or “5-3 reversible”</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">precinctSizeX<sup>*</sup></td>
+<td style="text-align: left;">Precinct width (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">precinctSizeY<sup>*</sup></td>
+<td style="text-align: left;">Precinct heigth (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-20"><a href="#tests-20"><span class="header-section-number">7.6.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lcodIsValid</td>
+<td style="text-align: left;"><em>lcod</em> is within range [12,45]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">orderIsValid</td>
+<td style="text-align: left;"><em>order</em> equals 0 (“LRCP”), 1 (“RLCP”), 2 (“RPCL”), 3 (“PCRL”) or 4 (“CPRL”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">layersIsValid</td>
+<td style="text-align: left;"><em>layers</em> is within range [1,65535]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">multipleComponentTransformation</td>
+<td style="text-align: left;">IsValid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">levelsIsValid</td>
+<td style="text-align: left;"><em>levels</em> is within range [0,32]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lcodConsistentWithLevelsPrecincts</td>
+<td style="text-align: left;"><em>lcod</em> equals 12 (<em>precincts</em> = “no”) or <em>lcod</em> equals 13 + <em>levels</em> (<em>precincts</em> = “yes”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">codeBlockWidthExponentIsValid</td>
+<td style="text-align: left;"><em>codeBlockWidthExponent</em> is within range [2,10]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">codeBlockHeightExponentIsValid</td>
+<td style="text-align: left;"><em>codeBlockHeightExponent</em> is within range [2,10]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sumHeightWidthExponentIsValid</td>
+<td style="text-align: left;"><em>codeBlockWidthExponent</em> + <em>codeBlockHeightExponent</em> ≤ 12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">precinctSizeXIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>precinctSizeX</em> ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">precinctSizeYIsValid<sup>*</sup></td>
+<td style="text-align: left;"><em>precinctSizeY</em> ≥ 2 (except lowest resolution level) (repeated for each resolution level; order: low to high) (only if <em>precincts</em> is “yes”)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="qcd-marker"><a href="#qcd-marker"><span class="header-section-number">7.7</span> Quantization default (QCD) marker segment</a></h2>
+<h3 id="element-name-22"><a href="#element-name-22"><span class="header-section-number">7.7.1</span> Element name</a></h3>
+<p>qcd</p>
+<h3 id="reported-properties-22"><a href="#reported-properties-22"><span class="header-section-number">7.7.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lqcd</td>
+<td style="text-align: left;">Length of QCD marker segment in bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">qStyle</td>
+<td style="text-align: left;">Quantization style for all components</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">guardBits</td>
+<td style="text-align: left;">Number of guard bits</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">epsilon<sup>*</sup></td>
+<td style="text-align: left;">- If <em>qStyle</em> equals 0 (“no quantization”): <em>Epsilon</em> exponent in Eq E-5 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)<br>- If <em>qStyle</em> equals 1 (“scalar derived”): <em>Epsilon</em> exponent in Eq E-3 of ISO/IEC 15444-1<br>- If <em>qStyle</em> equals 2 (“scalar expounded”): <em>Epsilon</em> exponent in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mu<sup>*</sup></td>
+<td style="text-align: left;">- If <em>qStyle</em> equals 1 (“scalar derived”): <em>mu</em> constant in Eq E-3 of ISO/IEC 15444-1<br>- if <em>qStyle</em> equals 2 (“scalar expounded”) : <em>mu</em> constant in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-21"><a href="#tests-21"><span class="header-section-number">7.7.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lqcdIsValid</td>
+<td style="text-align: left;"><em>lqcd</em> is within range [4,197]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">qStyleIsValid</td>
+<td style="text-align: left;"><em>qStyle</em> equals 0 (“no quantization”), 1 (“scalar derived”), or 2 (“scalar expounded”)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="com-marker"><a href="#com-marker"><span class="header-section-number">7.8</span> Comment (COM) marker segment</a></h2>
+<h3 id="element-name-23"><a href="#element-name-23"><span class="header-section-number">7.8.1</span> Element name</a></h3>
+<p>com</p>
+<h3 id="reported-properties-23"><a href="#reported-properties-23"><span class="header-section-number">7.8.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lcom</td>
+<td style="text-align: left;">Length of COM marker segment in bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rcom</td>
+<td style="text-align: left;">Registration value of marker segment (indicates whether this comment contains binary data or text)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">comment</td>
+<td style="text-align: left;">Embedded comment as text (only if <em>rcom</em> = 1 )</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-22"><a href="#tests-22"><span class="header-section-number">7.8.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lcomIsValid</td>
+<td style="text-align: left;"><em>lqcd</em> is within range [5,65535]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rcomIsValid</td>
+<td style="text-align: left;"><em>rcom</em> equals 0 (“binary”) or 1 (“ISO/IEC 8859-15 (Latin”))</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">commentIsValid</td>
+<td style="text-align: left;">Comment is valid ISO/IEC8859-15 and does not contain control characters, other than tab, newline or carriage return</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tile-part"><a href="#tile-part"><span class="header-section-number">7.9</span> Tile part (child of Contiguous Codestream box)</a></h2>
+<p>Tile-part level properties and tests. This is not a box or a marker segment!</p>
+<h3 id="element-name-24"><a href="#element-name-24"><span class="header-section-number">7.9.1</span> Element name</a></h3>
+<p>tilePart (child of tileParts)</p>
+<h3 id="reported-properties-24"><a href="#reported-properties-24"><span class="header-section-number">7.9.2</span> Reported properties</a></h3>
+<p>Each tile part element can contain a number of child elements:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Child element</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">sot (<a href="#sot-marker">section 7.10</a>)</td>
+<td style="text-align: left;">Properties from start of tile (SOT) marker segment</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cod (<a href="#cod-marker">section 7.6</a>)</td>
+<td style="text-align: left;">Properties from the (optional) coding style default (COD) marker segment (tile part header)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">qcd (<a href="#qcd-marker">section 7.7</a>)</td>
+<td style="text-align: left;">Properties from the (optional) quantization default (QCD) marker segment (tile part header)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">com (<a href="#com-marker">section 7.8</a>)</td>
+<td style="text-align: left;">Properties from the (optional) comment (COM) marker segment (tile part header)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-23"><a href="#tests-23"><span class="header-section-number">7.9.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">foundNextTilePartOrEOC</td>
+<td style="text-align: left;">Tile part start offset + <em>tilePartLength</em> points to either start of new tile or EOC marker (useful for detecting within-codestream byte corruption)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">foundSODMarker</td>
+<td style="text-align: left;">Last marker segment of tile part is a start-of-data (SOD) marker</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sot-marker"><a href="#sot-marker"><span class="header-section-number">7.10</span> Start of tile part (SOT) marker segment (child of tile part)</a></h2>
+<h3 id="element-name-25"><a href="#element-name-25"><span class="header-section-number">7.10.1</span> Element name</a></h3>
+<p>sot</p>
+<h3 id="reported-properties-25"><a href="#reported-properties-25"><span class="header-section-number">7.10.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lsot</td>
+<td style="text-align: left;">Length of SOT marker segment in bytes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">isot</td>
+<td style="text-align: left;">Tile index</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">psot</td>
+<td style="text-align: left;">Length of tile part</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tpsot</td>
+<td style="text-align: left;">Tile part index</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnsot</td>
+<td style="text-align: left;">Number of tile-parts of a tile in the codestream (value of 0 indicates that number of tile-parts of tile in the codestream is not defined in current header)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-24"><a href="#tests-24"><span class="header-section-number">7.10.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lsotIsValid</td>
+<td style="text-align: left;"><em>lsot</em> equals 10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">isotIsValid</td>
+<td style="text-align: left;"><em>isot</em> is within range [0,65534]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">psotIsValid</td>
+<td style="text-align: left;"><em>psot</em> is <strong>not</strong> within range [1,13]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tpsotIsValid</td>
+<td style="text-align: left;"><em>tpsot</em> is within range [0,254]</td>
+</tr>
+</tbody>
+</table>
+<p>The following marker segments are only minimally supported: <em>jpylyzer</em> will report their presence in the <em>properties</em> element, but it does not perform any further tests or analyses. This may change in upcoming versions of the software.</p>
+<h2 id="coc-marker"><a href="#coc-marker"><span class="header-section-number">7.11</span> Coding style component (COC) marker segment</a></h2>
+<h3 id="element-name-26"><a href="#element-name-26"><span class="header-section-number">7.11.1</span> Element name</a></h3>
+<p>coc</p>
+<h3 id="reported-properties-26"><a href="#reported-properties-26"><span class="header-section-number">7.11.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-25"><a href="#tests-25"><span class="header-section-number">7.11.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="rgn-marker"><a href="#rgn-marker"><span class="header-section-number">7.12</span> Region-of-interest (RGN) marker segment</a></h2>
+<h3 id="element-name-27"><a href="#element-name-27"><span class="header-section-number">7.12.1</span> Element name</a></h3>
+<p>rgn</p>
+<h3 id="reported-properties-27"><a href="#reported-properties-27"><span class="header-section-number">7.12.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-26"><a href="#tests-26"><span class="header-section-number">7.12.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="qcc-marker"><a href="#qcc-marker"><span class="header-section-number">7.13</span> Quantization component (QCC) marker segment</a></h2>
+<h3 id="element-name-28"><a href="#element-name-28"><span class="header-section-number">7.13.1</span> Element name</a></h3>
+<p>qcc</p>
+<h3 id="reported-properties-28"><a href="#reported-properties-28"><span class="header-section-number">7.13.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-27"><a href="#tests-27"><span class="header-section-number">7.13.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="poc-marker"><a href="#poc-marker"><span class="header-section-number">7.14</span> Progression order change (POC) marker segment</a></h2>
+<h3 id="element-name-29"><a href="#element-name-29"><span class="header-section-number">7.14.1</span> Element name</a></h3>
+<p>poc</p>
+<h3 id="reported-properties-29"><a href="#reported-properties-29"><span class="header-section-number">7.14.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-28"><a href="#tests-28"><span class="header-section-number">7.14.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="plm-marker"><a href="#plm-marker"><span class="header-section-number">7.15</span> Packet length, main header (PLM) marker segment</a></h2>
+<h3 id="element-name-30"><a href="#element-name-30"><span class="header-section-number">7.15.1</span> Element name</a></h3>
+<p>plm</p>
+<h3 id="reported-properties-30"><a href="#reported-properties-30"><span class="header-section-number">7.15.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-29"><a href="#tests-29"><span class="header-section-number">7.15.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="ppm-marker"><a href="#ppm-marker"><span class="header-section-number">7.16</span> Packed packet headers, main header (PPM) marker segment</a></h2>
+<h3 id="element-name-31"><a href="#element-name-31"><span class="header-section-number">7.16.1</span> Element name</a></h3>
+<p>ppm</p>
+<h3 id="reported-properties-31"><a href="#reported-properties-31"><span class="header-section-number">7.16.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-30"><a href="#tests-30"><span class="header-section-number">7.16.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="tlm-marker"><a href="#tlm-marker"><span class="header-section-number">7.17</span> Tile-part lengths (TLM) marker segment</a></h2>
+<h3 id="element-name-32"><a href="#element-name-32"><span class="header-section-number">7.17.1</span> Element name</a></h3>
+<p>tlm</p>
+<h3 id="reported-properties-32"><a href="#reported-properties-32"><span class="header-section-number">7.17.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-31"><a href="#tests-31"><span class="header-section-number">7.17.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="crg-marker"><a href="#crg-marker"><span class="header-section-number">7.18</span> Component registration (CRG) marker segment</a></h2>
+<h3 id="element-name-33"><a href="#element-name-33"><span class="header-section-number">7.18.1</span> Element name</a></h3>
+<p>crg</p>
+<h3 id="reported-properties-33"><a href="#reported-properties-33"><span class="header-section-number">7.18.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-32"><a href="#tests-32"><span class="header-section-number">7.18.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="plt-marker"><a href="#plt-marker"><span class="header-section-number">7.19</span> Packet length, tile-part header (PLT) marker segment</a></h2>
+<h3 id="element-name-34"><a href="#element-name-34"><span class="header-section-number">7.19.1</span> Element name</a></h3>
+<p>plt</p>
+<h3 id="reported-properties-34"><a href="#reported-properties-34"><span class="header-section-number">7.19.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-33"><a href="#tests-33"><span class="header-section-number">7.19.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="ppt-marker"><a href="#ppt-marker"><span class="header-section-number">7.20</span> Packed packet headers, tile-part header (PPT) marker segment</a></h2>
+<h3 id="element-name-35"><a href="#element-name-35"><span class="header-section-number">7.20.1</span> Element name</a></h3>
+<p>ppt</p>
+<h3 id="reported-properties-35"><a href="#reported-properties-35"><span class="header-section-number">7.20.2</span> Reported properties</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-34"><a href="#tests-34"><span class="header-section-number">7.20.3</span> Tests</a></h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h1 id="references"><a href="#references"><span class="header-section-number">8</span> References</a></h1>
+<p>ICC. Specification ICC.1:1998-09 – File Format for Color Profiles. International Color Consortium, 1998. <a href="http://www.color.org/ICC-1_1998-09.pdf">http://www.color.org/ICC-1_1998-09.pdf</a>.</p>
+<p>ISO/IEC. Information technology — JPEG 2000 image coding system: Core coding system. ISO/IEC 15444-1, Second edition. Geneva: ISO/IEC, 2004a. <a href="http://www.jpeg.org/public/15444-1annexi.pdf">http://www.jpeg.org/public/15444-1annexi.pdf</a> (“Annex I: JP2 file format syntax” only).</p>
+<p>ISO/IEC. Information technology — JPEG 2000 image coding system: Extensions. ISO/IEC 15444-2, First edition. Geneva: ISO/IEC, 2004b. <a href="http://www.jpeg.org/public/15444-2annexm.pdf">http://www.jpeg.org/public/15444-2annexm.pdf</a> (“Annex M: JPX extended file format syntax” only).</p>
+<p>Leach, P., Mealling, M. &amp; Salz, R. A Universally Unique IDentifier (UUID) URN namespace. Memo, IETF. <a href="http://tools.ietf.org/html/rfc4122.html">http://tools.ietf.org/html/rfc4122.html</a>.</p>
+<section class="footnotes">
+<hr>
+<ol>
+<li id="fn1"><p>The <em>jpylyzer</em> binaries were created using the <em>PyInstaller</em> package: <a href="http://www.pyinstaller.org/">http://www.pyinstaller.org/</a><a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Note that <em>jpylyzer</em> will not work under Python versions 3.0-3.1!<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>Note that <em>jpylyzer</em> versions 1.8 and earlier returned a formatted XML string instead of an element object!<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>Note that <em>jpylyzer</em> versions 1.4 and earlier used the verbose output format by default. This behaviour has changed in version 1.5 onwards, as the lengthy output turned out to be slightly confusing to some users.<a href="#fnref4">↩</a></p></li>
+<li id="fn5"><p>The “Any ICC” method is defined in ISO/IEC 15444-2 (the JPX format), and is not allowed in JP2. However, <em>jpylyzer</em> offers limited support for JPX here by also reporting the properties of ICC profiles that were embedded using this method. Note that any file that uses this method will fail the “methIsValid” test (and thereby the validation).<a href="#fnref5">↩</a></p></li>
+<li id="fn6"><p>Originally ISO/IEC 15444-1 only allowed “input device” profiles. Support of “display device” profiles was added through an <a href="http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard in 2013. The behaviour of <em>jpylyzer</em> is consistent with this amendment.<a href="#fnref6">↩</a></p></li>
+<li id="fn7"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRcN</mi> </mrow> <mrow> <mi>vRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRcE</mi> </msup> </mrow> </math><a href="#fnref7">↩</a></p></li>
+<li id="fn8"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRcN</mi> </mrow> <mrow> <mi>hRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRcE</mi> </msup> </mrow> </math><a href="#fnref8">↩</a></p></li>
+<li id="fn9"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref9">↩</a></p></li>
+<li id="fn10"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref10">↩</a></p></li>
+<li id="fn11"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRdN</mi> </mrow> <mrow> <mi>vRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRdE</mi> </msup> </mrow> </math><a href="#fnref11">↩</a></p></li>
+<li id="fn12"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRdN</mi> </mrow> <mrow> <mi>hRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRdE</mi> </msup> </mrow> </math><a href="#fnref12">↩</a></p></li>
+<li id="fn13"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref13">↩</a></p></li>
+<li id="fn14"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref14">↩</a></p></li>
+<li id="fn15"><p>Link: <a href="http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf">http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf</a><a href="#fnref15">↩</a></p></li>
+<li id="fn16"><p>However, support for start of packet (SOP) and end of packet (EPH) markers may be included in future versions.<a href="#fnref16">↩</a></p></li>
+<li id="fn17"><p>For example, in a TIFF to JP2 conversion workflow one could include a pixel-by-pixel comparison of the values in the TIFF and the JP2.<a href="#fnref17">↩</a></p></li>
+<li id="fn18"><p>The consistency check verifies if the length of the quantization default marker segment (<em>lqcd</em> from <em>qcd</em>) is consistent with the quantization style (<em>qStyle</em> from <em>qcd</em>) and the number of decomposition levels (<em>levels</em> from <em>cod</em>). They are consistent if the following equation is true:<a href="#fnref18">↩</a></p></li>
+<li id="fn19"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>numberOfTiles</mi> <mo>=</mo> <mo>[</mo> <mfrac> <mrow> <mi>xsiz</mi> <mo>-</mo> <mi>xOsiz</mi> </mrow> <mrow> <mi>xTsiz</mi> </mrow> </mfrac> <mo>]</mo> <mo>•</mo> <mo>[</mo> <mfrac> <mrow> <mi>ysiz</mi> <mo>-</mo> <mi>yOsiz</mi> </mrow> <mrow> <mi>yTsiz</mi> </mrow> </mfrac> <mo>]</mo> </mrow> </math><a href="#fnref19">↩</a></p></li>
+</ol>
+</section>

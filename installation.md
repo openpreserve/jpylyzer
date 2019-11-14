@@ -71,4 +71,4 @@ official release channels. To install simply run the following commands:
 
 In both cases you need to have superuser privileges.
 
-A more exhaustive description of the above installation options can be found in the [User Manual]({{ BASE_PATH }}/doc/current/userManual.html).
+A more exhaustive description of the above installation options can be found in the [User Manual]({{ BASE_PATH }}/doc/latest/userManual.html).

@@ -116,7 +116,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')
 
 ## User Manual
 
-For more detailed information on the use of *jpylyzer*, there&#8217;s an exhaustive [User Manual]({{ BASE_PATH }}/doc/current/userManual.html). It provides an in-depth coverage of the following topics:
+For more detailed information on the use of *jpylyzer*, there&#8217;s an exhaustive [User Manual]({{ BASE_PATH }}/doc/latest/userManual.html). It provides an in-depth coverage of the following topics:
 
 * the installation process;
 * usage of *jpylyzer* as a command-line tool, or as an importable *Python* module;
