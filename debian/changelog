@@ -5,7 +5,7 @@ jpylyzer (2.0.0) UNRELEASED; urgency=medium
   * Optional NISO MIX output
   * Support for additional codestream markers
 
- -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Thu, 18 Nov 2019 16:48:00 +0200
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Mon, 18 Nov 2019 16:48:00 +0200
 
 jpylyzer (2.0.0~rc1) UNRELEASED; urgency=medium
 

@@ -11,7 +11,8 @@ dist_id=${image%%:*}
 codename=${image#*:}
 pypi_name="$(./setup.py --name)"
 pypi_version="$(./setup.py --version)"
-deb_version=2.0.0~rc1
+#deb_version=2.0.0~rc1
+deb_version=$pypi_version
 pkgname=$pypi_name
 tag=$pypi_name-$dist_id-$codename
 # Build in Docker container, save results, and show package info
