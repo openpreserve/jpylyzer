@@ -48,16 +48,16 @@ Some steps in the jpylyzer release process use Docker. In order to run Docker as
     ```
 1. Create and upload PyPi packages by running:
     ```
-    ./package-pypi.sh
+    sudo ./package-pypi.sh
     ```
 1. Build Windows binaries by running:
     ```
-    ./buildwin.sh
+    ./docker-package-win.sh debian:stretch
     ```
-    (This requires *Wine* and a recent version of the *winbind* package; see also the more detailed instructions [here](./BUILD_HOWTO_WINDOWS.md).)
-
-1. Build Debian packages for Linux using the [instructions here](vagrant).
-
+1. Build Debian packages for Linux by running:
+    ```
+    ./docker-package.sh debian:stretch
+    ```
 1. Go to [*Latest Release*](https://github.com/openpreserve/jpylyzer/releases/latest) and click on the *Edit* button.
 
 1. Upload Linux/Windows packages to the release by dragging them to the *Attach Binaries* field at the bottom.
