@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Release of jpylyzer 2.0.0
+title: Jpylyzer 2.0.0 release
 ---
 {% include JB/setup %}
 
@@ -30,6 +30,7 @@ This release adds support for the following (optional) codestream marker segment
 
 These marker segments are now fully parsed and validated, and their associated properties are included in the output (previous versions would simply report the presence of these markers as empty elements). 
 
+
 ## Changes to the output format
 
 The addition of the codestream validation option made it necessary to make some changes to *jpylyzer*'s output format that break compatibility with previous versions. Since there was no way to avoid some breaking changes anyway, we decided to take this as an opportunity to address some further inconsistencies in *jpylyzer*'s output format. The changes are:
@@ -44,24 +45,30 @@ The addition of the codestream validation option made it necessary to make some 
 
 5. If the `--mix` option is used, *MIX* output is written to a new *propertiesExtension* element inside the *properties* element.
 
-For more details, have a look at the [jpylyzer 2.0 XSD schema](http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd).
+For more details, have a look at the [jpylyzer 2.0 XSD schema]({{ BASE_PATH }}/jpylyzer-v-2-0.xsd).
 
 ## Backward compatibility
 
 Since the new output format will break existing workflows that expect *jpylyzer* 1.x output, we added a `--legacyout` option that results in output that follows the old 1.x format. Note that codestream validation and the reporting of MIX output are disabled if this option is used!
 
+## Archive of old User Manuals
+
+We have also added a [*User Manual Archive*]({{ BASE_PATH }}/doc/) to this website, which contains the User Manuals of all previous *jpylyzer* releases up to version 1.14 (this was the first release with the current HTML-formatted documentation).
+
+## Packaging
+
+The packaging workflows for both the Windows binaries and the Debian packages have been given an overhaul. One of the implications of these changes is that there is no longer any need for separate 32- and 64-bit Debian packages. Instead, the new packages work with both architectures.
+
 ## Continuous integration improvements
 
-In addition to the above changes, which are all directly visible to the user of the software, a lot of development effort has been dedicated to automating various components of the *jpylyzer* release process. This includes static code analysis, automated build processes for Debian packages and Windows executables, and the addition of automated tests. In particular:
+In addition to the above changes, which are all directly visible to the user of the software, a lot of development effort has been dedicated to automating various components of the *jpylyzer* release process. This includes static code analysis and the addition of automated tests. In particular:
 
-- In order to better assess the quality of pull requests, code is now automatically checked for compliance against [*PEP 8*](https://www.python.org/dev/peps/pep-0008/) and [*PEP 257*](https://www.python.org/dev/peps/pep-0257/). Code is also analysed with [*Pylint*](https://www.pylint.org/).
+- In order to better assess the quality of pull requests, code is now automatically checked for compliance against [*PEP 8*](https://www.python.org/dev/peps/pep-0008/) and [*PEP 257*](https://www.python.org/dev/peps/pep-0257/). Code is also analysed with [*Pylint*](https://www.pylint.org/). In addition to this, the existing code base has been been cleaned up in places to improve the compliance to these standards.
 
-- A basic framework was set up for running unit tests.
-
-- Both Windows binaries and Debian packages are now built automatically as part of the continuous integration workflow. In addition the build process for Debian packages has been given an overhaul.
+- A basic framework was set up for running unit tests. This makes it possible to create automated tests using files from the [*jpylyzer-test-files*](https://github.com/openpreserve/jpylyzer-test-files) corpus (the addition of any actual tests will follow in the near future).
 
 ## Feedback
 
-As always, feedback on this new *jpylyzer* release is appreciated. Also don't hesitate to contact us if any of the (new) packages for some reason do not behave as expected (preferrably using the [issue tracker](https://github.com/openpreserve/jpylyzer/issues)).
+Any feedback on this *jpylyzer* release candidate is greatly appreciated. Also, don't hesitate to contact us if any of the (new) packages for some reason do not behave as expected (preferrably using the [issue tracker](https://github.com/openpreserve/jpylyzer/issues)).
 
 Happy jpylyzing!
