@@ -1,5 +1,27 @@
 ## Steps in preparing a jpylyzer release
 
+### Before you start
+
+Some steps in the jpylyzer release process use Docker. In order to run Docker as a non-root user, it is helpful to create a Unix *docker* group. Steps (see also the more detailed discussion [here](https://docs.docker.com/install/linux/linux-postinstall/)):
+
+1. Create the *docker* group:
+
+    sudo groupadd docker
+
+1. Add the current user to the group:
+
+    sudo usermod -aG docker $USER
+
+1. Then log out and then log back in for the changes to take effect, or run the following command:
+
+    newgrp docker
+
+1. Verify that everything works by running the following test:
+
+    docker run hello-world
+
+### Jpylyzer release steps
+
 1. Make necessary changes to the code.
 
 1. Update version number in *jpylyzer.py*.
