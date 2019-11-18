@@ -2,7 +2,7 @@
 
 1. Make necessary changes to the code.
 
-1. Update version number in *jpylyzer.py*, and *sonar-project.properties* (do we really need last file?)
+1. Update version number in *jpylyzer.py*.
 
 1. In case of changes to command-line interface, update [jpylyzer.pod](debian/jpylyzer.pod) file in the *Debian* folder.
 
