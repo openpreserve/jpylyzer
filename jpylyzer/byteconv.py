@@ -73,6 +73,7 @@ def bytesToSignedChar(bytestring):
     """
     return _doConv(bytestring, ">", "b")
 
+
 def bytesToInteger(bytestring):
     """Unpack byte string of any length to integer.
 
