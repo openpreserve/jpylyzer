@@ -32,7 +32,6 @@ Contributors:
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
-import mmap
 import os
 import time
 import datetime
@@ -42,13 +41,21 @@ import codecs
 import re
 from xml.dom import minidom
 import xml.etree.ElementTree as ETree
-from six import u
 from . import config
 from . import etpatch as ET
 from . import boxvalidator as bv
 from . import mix
 from . import shared
-
+try:
+    import mmap
+    NO_MMAP_LIB = False
+except ImportError:
+    NO_MMAP_LIB = True
+try:
+    from six import u
+    NO_U_LIB = False
+except ImportError:
+    NO_U_LIB = True
 
 SCRIPT_PATH, SCRIPT_NAME = os.path.split(sys.argv[0])
 
@@ -73,6 +80,7 @@ LOC_SCHEMA_STRING_1 = 'http://openpreservation.org/ns/jpylyzer/ \
 http://jpylyzer.openpreservation.org/jpylyzer-v-1-1.xsd'
 LOC_SCHEMA_STRING_2 = 'http://openpreservation.org/ns/jpylyzer/v2/ \
 http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd'
+
 
 def generatePropertiesRemapTable():
     """Generate nested dictionary.
@@ -259,6 +267,16 @@ def generatePropertiesRemapTable():
     return enumerationsMap
 
 
+def fileToBytes(filename):
+    """Read file, return contents as a byte object."""
+    fileData = ""
+    # Open file
+    with open(filename, "rb") as f:
+        fileData = f.read()
+
+    return fileData
+
+
 def fileToMemoryMap(filename):
     """Read contents of filename to memory map object."""
     # Open filename
@@ -351,7 +369,10 @@ def checkOneFile(path, validationFormat='jp2'):
 
     try:
         # Contents of file to memory map object
-        fileData = fileToMemoryMap(path)
+        if NO_MMAP_LIB:
+            fileData = fileToBytes(path)
+        else:
+            fileData = fileToMemoryMap(path)
 
         # Validate according to value of validation format
         if validationFormat == 'jp2':
@@ -363,7 +384,7 @@ def checkOneFile(path, validationFormat='jp2'):
         tests = resultsJP2.tests
         characteristics = resultsJP2.characteristics
 
-        if fileData != "":
+        if not NO_MMAP_LIB and fileData != "":
             fileData.close()
 
         # Generate property values remap table
@@ -429,6 +450,7 @@ def checkOneFile(path, validationFormat='jp2'):
 
     return root
 
+
 def checkNullArgs(args):
     """Check if the passed args list.
 
@@ -475,19 +497,32 @@ def stripSurrogatePairs(ustring):
 
     if config.PYTHON_VERSION.startswith(config.PYTHON_2):
         # Generate regex for surrogate pair detection
-
-        lone = re.compile(
-            u(r"""(?x)            # verbose expression (allows comments)
-            (                    # begin group
-            [\ud800-\udbff]      #   match leading surrogate
-            (?![\udc00-\udfff])  #   but only if not followed by trailing surrogate
-            )                    # end group
-            |                    #  OR
-            (                    # begin group
-            (?<![\ud800-\udbff]) #   if not preceded by leading surrogate
-            [\udc00-\udfff]      #   match trailing surrogate
-            )                   # end group
-            """))
+        if NO_U_LIB:
+            lone = re.compile(
+                r"""(?x)             # verbose expression (allows comments)
+                (                    # begin group
+                [\ud800-\udbff]      #   match leading surrogate
+                (?![\udc00-\udfff])  #   but only if not followed by trailing surrogate
+                )                    # end group
+                |                    #  OR
+                (                    # begin group
+                (?<![\ud800-\udbff]) #   if not preceded by leading surrogate
+                [\udc00-\udfff]      #   match trailing surrogate
+                )                    # end group
+                """)
+        else:
+            lone = re.compile(
+                u(r"""(?x)           # verbose expression (allows comments)
+                (                    # begin group
+                [\ud800-\udbff]      #   match leading surrogate
+                (?![\udc00-\udfff])  #   but only if not followed by trailing surrogate
+                )                    # end group
+                |                    #  OR
+                (                    # begin group
+                (?<![\ud800-\udbff]) #   if not preceded by leading surrogate
+                [\udc00-\udfff]      #   match trailing surrogate
+                )                    # end group
+                """))
 
         # Remove surrogates (i.e. replace by empty string)
         tmp = lone.sub(r'', ustring).encode('utf-8')
@@ -652,6 +687,7 @@ def writeElement(elt, codec):
         # is used to write binary data
         if config.PYTHON_VERSION.startswith(config.PYTHON_3):
             codec.write(xmlOut)
+
 
 def checkFiles(recurse, wrap, paths):
     """Check the input argument path(s) for existing files and analyse them."""
