@@ -33,9 +33,6 @@ RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
         libparse-debianchangelog-perl \
         lintian \
         lsb-release \
-        python-all \
-        python-pip \
-        python-setuptools \
         python3-all \
         python3-dev \
         python3-pip \
@@ -44,11 +41,8 @@ RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
         tar \
         libxml2-dev
 
-RUN pip install pytest
 RUN pip3 install pytest
 
 WORKDIR /dpkg-build
 COPY ./ ./
 RUN dpkg-buildpackage -tc
-# \
-#    &&  lintian ../python-jpylyzer_*.deb

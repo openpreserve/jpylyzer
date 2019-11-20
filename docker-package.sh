@@ -46,7 +46,7 @@ function getDebianVersionString {
 set -e
 
 # Get build platform as 1st argument, and collect project metadata
-image="${1:?You MUST provide a docker image name}"; shift
+image="${1:?You MUST provide a docker image name e.g. debian:stretch}"; shift
 dist_id=${image%%:*}
 codename=${image#*:}
 pypi_name="$(./setup.py --name)"
