@@ -6,9 +6,6 @@
 # Precondition: 64-bit version of Wine is already installed.
 export DISPLAY=:0.0
 # WinPython download URLS
-python2Major=2
-python2Minor=7
-winPython2build="13.1"
 python3Major=3
 python3Minor=5
 winPython3build="4.2"
@@ -121,7 +118,7 @@ buildBinaries(){
     WINEDEBUG=$WineDebug WINEPREFIX=$(winePrefix $bitness) wine $pyInstallerWine $specFile --distpath=$distDir
 
     # Generate name for ZIP file
-    zipName="${scriptBaseName}_${version}_Python${pythonMajor}_win${bitness}.zip"
+    zipName="${scriptBaseName}_${version}_win${bitness}.zip"
     echo "Zip name is $zipName"
     echo ""
     echo "Creating ZIP file ${zipName} from ${scriptBaseName}"
@@ -172,7 +169,5 @@ installAndBuild(){
 # Create Win32 architecture
 WINEARCH=$(winArch 32) WINEPREFIX=$(winePrefix 32) winecfg
 WINEARCH=$(winArch 64) WINEPREFIX=$(winePrefix 64) winecfg
-installAndBuild 64 $python2Major $python2Minor $winPython2build
-installAndBuild 32 $python2Major $python2Minor $winPython2build
 installAndBuild 64 $python3Major $python3Minor $winPython3build
 installAndBuild 32 $python3Major $python3Minor $winPython3build

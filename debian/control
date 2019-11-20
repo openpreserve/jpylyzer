@@ -14,15 +14,3 @@ Description: JP2 (JPEG 2000 Part 1) validator and properties extractor.
  images. Jpylyzer was specifically created to check that a JP2 file really
  conforms to the format's specifications. Additionally jpylyzer is able to
  extract the technical characteristics of each image.
-
-
-Package: python-jpylyzer-doc
-Architecture: all
-Depends: ${misc:Depends}
-Description: JP2 (JPEG 2000 Part 1) validator and properties extractor.
- Validator and feature extractor for JP2 (JPEG 2000 Part 1 - ISO/IEC 15444‐1)
- images. Jpylyzer was specifically created to check that a JP2 file really
- conforms to the format's specifications. Additionally jpylyzer is able to
- extract the technical characteristics of each image.
- .
- This is the common documentation package.
