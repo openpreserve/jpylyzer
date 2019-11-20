@@ -57,7 +57,7 @@ We have also added a [*User Manual Archive*]({{ BASE_PATH }}/doc/) to this websi
 
 ## Packaging
 
-The packaging workflows for both the Windows binaries and the Debian packages have been given an overhaul. One of the implications of these changes is that there is no longer any need for separate 32- and 64-bit Debian packages. Instead, the new packages work with both architectures.
+The packaging workflows for both the Windows binaries and the Debian packages have been given an overhaul. One of the implications of these changes is that there is no longer any need for separate 32- and 64-bit Debian packages. Instead, the new packages work with both architectures. However, unlike the 'old-style' packages, which were completely stand-alone, the new packages do require Python 3. As per the [Debian Python Policy](https://www.debian.org/doc/packaging-manuals/python-policy/ch-python3.html) we don't offer packages that use Python 2 (which [will not be maintained pas january 2020](https://pythonclock.org/)).
 
 ## Continuous integration improvements
 
@@ -66,6 +66,10 @@ In addition to the above changes, which are all directly visible to the user of 
 - In order to better assess the quality of pull requests, code is now automatically checked for compliance against [*PEP 8*](https://www.python.org/dev/peps/pep-0008/) and [*PEP 257*](https://www.python.org/dev/peps/pep-0257/). Code is also analysed with [*Pylint*](https://www.pylint.org/). In addition to this, the existing code base has been been cleaned up in places to improve the compliance to these standards.
 
 - A basic framework was set up for running unit tests. This makes it possible to create automated tests using files from the [*jpylyzer-test-files*](https://github.com/openpreserve/jpylyzer-test-files) corpus (the addition of any actual tests will follow in the near future).
+
+## Note on Python 2 support
+
+From its inception, *jpylyzer* has been compatible with both Python 2 and Python 3. This is still the case with the current release, but as [maintenance of Python 2 will stop in january 2020](https://pythonclock.org/), we strongly recommend to run (and install) *jpylylyzer* under Python 3. In future versions of *jpylyzer* we will most likely remove support for Python 2 altogether.
 
 ## Feedback
 
