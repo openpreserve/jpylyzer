@@ -15,7 +15,7 @@ function getDebianVersionString {
     # Length of debug string
     lDebug=${#vDebug}
 
-    # Flag that is True if debug string needs fixing 
+    # Flag that is True if debug string needs fixing
     fixVDebugFlag=False
 
     # Locate position of 1st non-numeric character
@@ -33,7 +33,7 @@ function getDebianVersionString {
     done
 
     # Insert tilde in debug string if needed
-    if  [ $fixVDebugFlag = "True" ] ; then 
+    if  [ $fixVDebugFlag = "True" ] ; then
         vDebugDebian=${vDebug:0:$splitpos}"~"${vDebug:$splitpos:$lDebug}
     else
         vDebugDebian=$vDebug
@@ -65,5 +65,5 @@ docker build --tag $tag \
     -f Dockerfile.build \
     "$@" .
 mkdir -p dist
-docker run -v "$PWD/dist":/dist --rm $tag cp --force "../python-jpylyzer-doc_${deb_version}_all.deb" "../python-jpylyzer_${deb_version}_all.deb" "../python3-jpylyzer_${deb_version}_all.deb" /dist
-ls -lh dist/python?*${pkgname}?*${deb_version//./?}*.*
+docker run -v "$PWD/dist":/dist --rm $tag cp --force "../opf-jpylyzer_${deb_version}_all.deb" /dist
+ls -lh dist/opf?*${pkgname}?*${deb_version//./?}*.*

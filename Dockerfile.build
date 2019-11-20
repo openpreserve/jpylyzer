@@ -49,5 +49,6 @@ RUN pip3 install pytest
 
 WORKDIR /dpkg-build
 COPY ./ ./
-RUN dpkg-buildpackage -tc \
-    &&  lintian ../python-jpylyzer_*.deb
+RUN dpkg-buildpackage -tc
+# \
+#    &&  lintian ../python-jpylyzer_*.deb
