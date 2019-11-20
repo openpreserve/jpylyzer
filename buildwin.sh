@@ -7,8 +7,8 @@
 export DISPLAY=:0.0
 # WinPython download URLS
 python3Major=3
-python3Minor=5
-winPython3build="4.2"
+python3Minor=6
+winPython3build="5.0"
 sfWpRoot="https://sourceforge.net/projects/winpython/files/"
 sfWpPost="Zero.exe/download"
 winPyName="WinPython"
