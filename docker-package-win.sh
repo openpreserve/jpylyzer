@@ -32,7 +32,7 @@ function buildAndPackage(){
     #       https://docs.docker.com/engine/reference/run/#volume-shared-filesystems
     docker run -v "$(pwd):/src/" --name temp-container "cdrx/pyinstaller-windows:${1}"
     docker commit temp-container temp-image
-    docker run  -v "$(pwd):/src/" --rm temp-image "chown 1000 -R /src/dist/windows"
+    docker run  -v "$(pwd):/src/" --rm temp-image "chown 1000 -R /src/dist"
     docker container rm temp-container
     docker image rm temp-image
     # Zip up the package and clean up
