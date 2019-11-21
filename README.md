@@ -10,12 +10,11 @@ Please visit the jpylyzer homepage for links to the most recent package download
 <http://jpylyzer.openpreservation.org/>
 
 
-## Cd Status
+## CI Status
 
 - [![Build Status](https://travis-ci.org/openpreserve/jpylyzer.svg?branch=master)](https://travis-ci.org/openpreserve/jpylyzer "Jpylyzer Travis-CI integration build") Travis-CI
 
-- [![Build Status](http://jenkins.opf-labs.org/buildStatus/icon?job=jpylyser)](http://jenkins.opf-labs.org/job/jpylyser/) OPF Jenkins
-
+- [![Build Status](https://jenkins.openpreservation.org/buildStatus/icon?job=jpylyzer%2Fjpylyzer)](https://jenkins.openpreservation.org/job/jpylyzer/job/jpylyzer/) OPF Jenkins
 <!-- Start of text to be copied to usage.md of jpylyzer website -->
 
 ## Using jpylyzer from the command line
@@ -92,7 +91,7 @@ with *pip*. Then import *jpylyzer* into your code by adding:
 from jpylyzer import jpylyzer
 ```
 Subsequently you can call any function that is defined in *jpylyzer.py*.
-In practice you will most likely only need the *checkOneFile* function. 
+In practice you will most likely only need the *checkOneFile* function.
 The following minimal script shows how this works:
 
 ```python
@@ -111,7 +110,7 @@ imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height
 print(imageHeight)
 ```
 
-Here, *myResult* is an *Element* object that can either be used directly, 
+Here, *myResult* is an *Element* object that can either be used directly,
 or converted to XML using the *ElementTree* module[^3]. The structure of the
 element object follows the XML output that described in [Chapter 5](#output-format).
 

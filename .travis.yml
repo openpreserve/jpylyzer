@@ -8,13 +8,9 @@ services:
   - docker
 
 before_install:
+  - sudo apt-get install -y realpath
   - python --version
-  - pip install -U pip
-  - pip install -U pytest
-  - pip install -U pyinstaller
-  - pip install -U pep257
-  - pip install -U twine
-  - pip install -U codacy-coverage
+  - pip install -U pip pytest pyinstaller pep257 twine codacy-coverage
   # Make the Jpylyzer test files available by cloning the repo as a sibling directory
   - git clone https://github.com/openpreserve/jpylyzer-test-files.git ../jpylyzer-test-files
 
@@ -49,9 +45,7 @@ script:
   - ./setup.py sdist
   - twine check dist/*
   - ./docker-package.sh debian:stretch
-  - ./docker-package-win.sh debian:stretch
-# DISABLED - to make way for debian packaging above
-#  - ./build-with-pyinstaller.sh
+  - ./docker-package-win.sh
 
 after_success:
   - ls -alh ./dist

@@ -7,7 +7,7 @@ pyz = PYZ(a.pure)
 exe = EXE(pyz,
           a.scripts,
           exclude_binaries=1,
-          name=os.path.join('build\\pyi.win64\\jpylyzer', 'jpylyzer.exe'),
+          name='jpylyzer.exe',
           debug=False,
           strip=None,
           upx=True,
@@ -25,4 +25,4 @@ coll = COLLECT(exe,
                a.datas,
                strip=None,
                upx=True,
-               name=os.path.join('dist_win64', 'jpylyzer'))
+               name='jpylyzer')

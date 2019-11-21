@@ -1,4 +1,4 @@
-## Steps in preparing a jpylyzer release
+s## Steps in preparing a jpylyzer release
 
 ### Before you start
 
@@ -48,11 +48,12 @@ Some steps in the jpylyzer release process use Docker. In order to run Docker as
     ```
 1. Create and upload PyPi packages by running:
     ```
-    sudo ./package-pypi.sh
+    ./docker-package-pypi.sh
     ```
+    You'll need a `.pypirc` in your home directory with suitable credentials to upload to the package via twine.
 1. Build Windows binaries by running:
     ```
-    ./docker-package-win.sh debian:stretch
+    ./docker-package-win.sh
     ```
 1. Build Debian packages for Linux by running:
     ```
@@ -70,6 +71,7 @@ Some steps in the jpylyzer release process use Docker. In order to run Docker as
     ```
     jekyll serve
     ```
+    or checkout [the following](https://github.com/Starefossen/docker-github-pages) to use a Docker container that reproduces authentic GitHub pages rendering.
 1. Check website in browser at the following address:
 
     <http://127.0.0.1:4000/>
