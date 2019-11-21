@@ -43,8 +43,7 @@
       <div class="span10">
 	    <!-- Column center (banner goes here) -->
         <div class="banner-header">
-		  <!--<a href="{{ HOME_PATH }}"><img src="{{ site.url }}/images/logojpylyzer_616x198.png" alt="jpylyzer"  width="616" height="198"></a> -->
-		  <a href="{{ BASE_PATH }}"><img src="{{ BASE_PATH }}/images/logojpylyzer_399x128.png" alt="jpylyzer"  width="399" height="128"></a>
+		  <a href="{{ HOME_PATH }}"><img src="{{ BASE_PATH }}/images/logo_601x193.png" alt="jpylyzer"  width="601" height="193"></a>
 		  <div class="banner-tagline">{{ site.tagline }}</div>
         </div>
       </div>
@@ -56,14 +55,10 @@
 	<div class="row-fluid">
 	  <div class="span2">
 	    <div class="sidebarLeft">
-        <p><a href="{{ BASE_PATH}}/2014/09/11/Jpylyzer-finalist-dpa"><img src="{{ BASE_PATH }}/images/dpc_awards_150.png" alt="Digital Preservation Awards"  width="150" height="150"></a></p>
-		<br>
-		<p><a href="{{ site.kbURL}}"><img src="{{ BASE_PATH }}/images/logo-KB.png" alt="KB"  width="157" height="103"></a></p>
-		<br>
-		<p><a href="{{ site.opfURL}}"><img src="{{ BASE_PATH }}/images/opf-text-160x92.png" alt="OPF"  width="160" height="92"></a></p>
-		<br>
-		<p><a href="{{ site.scapeURL}}"><img src="{{ BASE_PATH }}/images/scapelogo-170x57.png" alt="SCAPE"  width="170" height="57"></a></p>
-		<br><br><br><br>
+        <p><a href="{{ site.kbURL}}"><img src="{{ BASE_PATH }}/images/logo-KB.png" alt="KB"  width="150" height="162"></a></p>
+        <br>
+        <p><a href="{{ site.opfURL}}"><img src="{{ BASE_PATH }}/images/opf-text-160x92.png" alt="OPF"  width="160" height="92"></a></p>
+        <br><br>
       </div>
 
       <div class="sidebarLeft">
@@ -92,7 +87,7 @@
 		</div>
 	  </div>
 	
-	  <div class="span6">
+	  <div class="span7">
 	    <!-- Column center (main content) -->
         <div class="content">
           {{ content }}
@@ -103,120 +98,129 @@
               
 	    <div class="sidebar">
 	      <!-- Column right -->
-	      <h2>Binaries <small>(version {{ site.binVersion }})</small></h2>
+	      <h2>Binaries</h2>
           
-          <h3>Windows</h3>
+          <h3>Latest release ({{ site.binVersion }})</h3>
 
           <figure>       
             <a href="{{ site.win64Pre }}/{{ site.binVersion }}/jpylyzer_{{ site.binVersion }}{{ site.win64Suf }}"><img src="{{ BASE_PATH }}/images/Windows-icon-64.png" alt="Windows 64 bit binaries"  width="64" height="64"></a>
             <figcaption>
-		      <a href="{{ site.win64Pre }}/{{ site.binVersion }}/jpylyzer_{{ site.binVersion }}{{ site.win64Suf }}">64 bit</a>
-		    </figcaption>
+		          <a href="{{ site.win64Pre }}/{{ site.binVersion }}/jpylyzer_{{ site.binVersion }}{{ site.win64Suf }}">Windows,<br>64 bit</a>
+		        </figcaption>
           </figure>
-          
+        
           <figure>       
             <a href="{{ site.win32Pre }}/{{ site.binVersion }}/jpylyzer_{{ site.binVersion }}{{ site.win32Suf }}"><img src="{{ BASE_PATH }}/images/Windows-icon-64.png" alt="Windows 32 bit binaries"  width="64" height="64"></a>
             <figcaption>
-		      <a href="{{ site.win32Pre }}/{{ site.binVersion }}/jpylyzer_{{ site.binVersion }}{{ site.win32Suf }}">32 bit</a>
-		    </figcaption>
+		          <a href="{{ site.win32Pre }}/{{ site.binVersion }}/jpylyzer_{{ site.binVersion }}{{ site.win32Suf }}">Windows,<br>32 bit</a>
+		        </figcaption>
           </figure>
          
-          <br>
-		  
-          <h3>Debian</h3>
+          <br><br>
+
           <figure>
-		    <a href="{{ site.amd64Pre }}/{{ site.binVersion }}/jpylyzer_{{ site.binVersion }}{{ site.amd64Suf }}"><img src="{{ BASE_PATH }}/images/linux-icon-64.png" alt="Amd64 Debian"  width="55" height="64"></a>
+		        <a href="{{ site.debPre }}/{{ site.binVersion }}/opf-jpylyzer_{{ site.binVersion }}{{ site.debSuf }}"><img src="{{ BASE_PATH }}/images/linux-icon-64.png" alt="Debian"  width="55" height="64"></a>
             <figcaption>
-		      <a href="{{ site.amd64Pre }}/{{ site.binVersion }}/jpylyzer_{{ site.binVersion }}{{ site.amd64Suf }}">Amd 64</a>
-		    </figcaption>
+		          <a href="{{ site.debPre }}/{{ site.binVersion }}/opf-jpylyzer_{{ site.binVersion }}{{ site.debSuf }}">Linux,<br>Debian</a>
+		        </figcaption>
           </figure>
-                    
+
+          <br>
+
+          <!-- <h3>Older releases</h3>
+          
           <figure>
-		    <a href="{{ site.i386Pre }}/{{ site.binVersion }}/jpylyzer_{{ site.binVersion }}{{ site.i386Suf }}"><img src="{{ BASE_PATH }}/images/linux-icon-64.png" alt="i386 Debian"  width="55" height="64"></a>
-		    <figcaption>
-              <a href="{{ site.i386Pre }}/{{ site.binVersion }}/jpylyzer_{{ site.binVersion }}{{ site.i386Suf }}">i386</a>
-		    </figcaption>
-          </figure>
+		        <a href="https://software.openpreservation.org/releases/jpylyzer"><img src="{{ BASE_PATH }}/images/archive-64x64.png" alt="Archive"  width="64" height="64"></a>
+            <figcaption>
+		          <a href="https://software.openpreservation.org/releases/jpylyzer">Archive</a>
+		        </figcaption>
+          </figure> -->
+               
          </div>
          
         <div class="sidebar">
-	      <h2>User Manual</h2>
+        <h2>User Manual</h2>
+        
+        <h3>Latest release ({{ site.binVersion }})</h3>
           
-          <figure>
-		    <a href="{{ BASE_PATH }}/userManual.html"><img src="{{ BASE_PATH }}/images/book_icon.png" alt="Manual"  width="64" height="48"></a>
-            <figcaption>
-		      <a href="{{ BASE_PATH }}/userManual.html">Online</a>
-            </figcaption>
-          </figure>
+        <figure>
+		      <a href="{{ BASE_PATH }}/doc/latest/userManual.html"><img src="{{ BASE_PATH }}/images/book_icon.png" alt="Manual"  width="64" height="48"></a>
+          <figcaption>
+		        <a href="{{ BASE_PATH }}/doc/latest/userManual.html">Online</a>
+           </figcaption>
+        </figure>
                     
-          <figure>
-		    <a href="{{ site.userManualURL}}"><img src="{{ BASE_PATH }}/images/HTML5_Logo_64.png" alt="HTML"  width="64" height="64"></a>
-            <figcaption>
-              <a href="{{ BASE_PATH }}/{{ site.userManualName }}" download>Download</a>
-            </figcaption>
-          </figure>
-          
+        <figure>
+		      <a href="{{ BASE_PATH }}/doc/latest/{{ site.userManualName }}" download><img src="{{ BASE_PATH }}/images/HTML5_Logo_64.png" alt="HTML"  width="64" height="64"></a>
+          <figcaption>
+            <a href="{{ BASE_PATH }}/doc/latest/{{ site.userManualName }}" download>Download</a>
+          </figcaption>
+        </figure>
+
+        <br>
+
+        <h3>Older releases</h3>
+
+        <figure>
+          <a href="{{ BASE_PATH }}/doc/"><img src="{{ BASE_PATH }}/images/archive-64x64.png" alt="Archive" width="64" height="64"></a>
+          <figcaption>
+            <a href="{{ BASE_PATH }}/doc/">Archive</a>
+          </figcaption>
+        </figure>
+
 	    </div>
 
-        <div class="sidebar">
+      <div class="sidebar">
 		  <h2>Troubleshooting</h2>
           
-          <figure>
-            <a href="{{ site.issuesURL}}"><img src="{{ BASE_PATH }}/images/issue-64.png" alt="issue tracker"  width="64" height="64"></a>
+      <figure>
+        <a href="{{ site.issuesURL}}"><img src="{{ BASE_PATH }}/images/issue-64.png" alt="issue tracker"  width="64" height="64"></a>
 		    <figcaption>
-              <a href="{{ site.issuesURL}}">Issue tracker</a>
+          <a href="{{ site.issuesURL}}">Issue tracker</a>
 		    </figcaption>
-          </figure>   
+      </figure>   
 
 	    </div>
         
-        <div class="sidebar">
+      <div class="sidebar">
 		  <h2>Developer resources</h2>
           
-          <figure>
+      <figure>
 		    <a href="{{ site.gitURL}}"><img src="{{ BASE_PATH }}/images/Octocat-64.png" alt="git repo"  width="64" height="53"></a>
 		    <figcaption>
-              <a href="{{ site.gitURL}}">Source code</a>
+          <a href="{{ site.gitURL}}">Source code</a>
 		    </figcaption>
-          </figure>
+      </figure>
 
-          <figure>
+      <figure>
 		    <a href="{{ site.testImagesURL}}"><img src="{{ BASE_PATH }}/images/testcard-64.png" alt="test images"  width="64" height="64"></a>
 		    <figcaption>
-              <a href="{{ site.testImagesURL}}">Test files</a>
-            </figcaption>
-          </figure>          
-
-	    </div>
-        
-        <div class="sidebar">
-		  <h2>Additional resources</h2>
-          
-          <figure>
-		    <a href="{{ site.blogsOPF}}"><img src="{{ BASE_PATH }}/images/opf-logo-notext-64x56.png" alt="OPF"  width="64" height="56"></a>
-            <figcaption>
-		      <a href="{{ site.blogsOPF}}">Blog posts at OPF</a>
-            </figcaption>
-          </figure>
-         
-	    </div>
-        
-      </div>	  
+          <a href="{{ site.testImagesURL}}">Test files</a>
+        </figcaption>
+      </figure>
+      
+      </div>
+	  </div>	  
 	</div>
 	
 	<footer>
 	<hr>
 	<div class="row-fluid">
-      <div class="span2">
+    <div class="span2">
 	    <!-- Column left (empty) -->
 	  </div>
 	  
-	  <div class="span6">
-	  <!-- Column center (footer text) -->
-	    <p><small>&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}
+	  <div class="span7">
+	    <!-- Column center (footer text) -->
+	      <p><small>&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}
         with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
-        and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>; book icon adapted from <a href="http://commons.wikimedia.org/wiki/File:Black_book_icon.svg" target="_blank">Waldir</a></small></p>
-      </div>
+        and <a href="https://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>; book icon adapted from <a href="https://commons.wikimedia.org/wiki/File:Black_book_icon.svg" target="_blank">Waldir</a>; archive icon adapted from <a href="https://commons.wikimedia.org/wiki/File:TK_archive_icon.svg" target="_blank">Tkgd2007</a>, both published under the <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank">[CC BY-SA 3.0]</a> license</small></p>
+    </div>
+
+    <div class="span3">
+	    <!-- Column right (empty) -->
+	  </div>
+
 	</div>
     </footer>
   </div>

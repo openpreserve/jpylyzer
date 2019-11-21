@@ -3,7 +3,7 @@
 permalink: /:categories/:year/:month/:day/:title
 
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
-markdown: kramdown
+markdown: redcarpet
 highlighter: rouge
 gems: [jekyll-paginate]
 paginate: 3
@@ -22,30 +22,28 @@ author :
 # The following variables all point to URLs that are referenced
 
 # Version of binary release (update this for each new release!)
-binVersion: 1.18.0
+binVersion: 2.0.0
 
 # Name of downloadable User Manual file
 userManualName: jpylyzerUserManual.html
 
 # Prefixes/suffixes that define file paths to binary downloads
+
 win32Pre: https://github.com/openpreserve/jpylyzer/releases/download
 win32Suf: _win32.zip
 win64Pre: https://github.com/openpreserve/jpylyzer/releases/download
 win64Suf: _win64.zip
-amd64Pre: https://github.com/openpreserve/jpylyzer/releases/download
-amd64Suf: _amd64.deb
-i386Pre: https://github.com/openpreserve/jpylyzer/releases/download
-i386Suf: _i386.deb
+debPre: https://github.com/openpreserve/jpylyzer/releases/download
+debSuf: _all.deb
 
 # Remaining URLs
 gitURL: https://github.com/openpreserve/jpylyzer
 issuesURL: https://github.com/openpreserve/jpylyzer/issues
 testImagesURL: https://github.com/openpreserve/jpylyzer-test-files
-blogsOPF: http://openpreservation.org/knowledge/blogs/topic/jpylyzer/
+blogsOPF: https://openpreservation.org/knowledge/blogs/topic/jpylyzer/
 jpylyzerVideo: https://player.vimeo.com/video/53693082
-kbURL: http://kb.nl/en
-opfURL: http://www.openpreservation.org/
-scapeURL: http://www.scape-project.eu/
+kbURL: https://kb.nl/en
+opfURL: https://www.openpreservation.org/
 
 # The production_url is only used when full-domain names are needed
 # such as sitemap.txt 
@@ -86,7 +84,7 @@ JB :
   #   - When setting BASE_PATH it must be a valid url.
   #     This means always setting the protocol (http|https) or prefixing with "/"
   # BASE_PATH : https://openplanets.github.io/jpylyzer
-  BASE_PATH : http://jpylyzer.openpreservation.org/
+  BASE_PATH : http://jpylyzer.openpreservation.org
 
   # By default, the asset_path is automatically defined relative to BASE_PATH plus the enabled theme.
   # ex: [BASE_PATH]/assets/themes/[THEME-NAME]
