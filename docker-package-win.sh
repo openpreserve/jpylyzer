@@ -21,7 +21,7 @@ function buildAndPackage(){
     zip_name="${DIST_DIR}/${pkgname}_${pypi_version}_${2}.zip"
 
     # Remove the windows dist directoruy if it exists
-    if [ -d ${WIN_DIST_DIR} ]; then rm -rf ${WIN_DIST_DIR}; fi
+    [ -d ${WIN_DIST_DIR} ] && rm -rf ${WIN_DIST_DIR}
     # Remove any existing zip package
     [ -e ${zip_name} ] && rm ${zip_name}
 
@@ -35,7 +35,7 @@ function buildAndPackage(){
     cd "${WIN_DIST_DIR}"
     zip -r ${zip_name} ${pkgname}
     cd ${SCRIPT_DIR}
-    if [ -d ${WIN_DIST_DIR} ]; then rm -rf ${WIN_DIST_DIR}; fi
+    [ -d ${WIN_DIST_DIR} ] && rm -rf ${WIN_DIST_DIR}
 }
 
 buildAndPackage python3-32bit win32
