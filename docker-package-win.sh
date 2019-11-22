@@ -30,6 +30,8 @@ function buildAndPackage(){
     #       https://docs.docker.com/engine/reference/run/#clean-up---rm
     # -v "$(pwd):/src/" Map working directory to container /src:
     #       https://docs.docker.com/engine/reference/run/#volume-shared-filesystems
+    docker stop temp-container || true && docker rm temp-container || true
+    docker image rm temp-image || true
     docker run -v "$(pwd):/src/" --name temp-container "cdrx/pyinstaller-windows:${1}"
     docker commit temp-container temp-image
     docker run  -v "$(pwd):/src/" --rm temp-image "chown $(id -u):$(id -g) -R /src/dist"
