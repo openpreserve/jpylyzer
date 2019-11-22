@@ -30,7 +30,7 @@ function buildAndPackage(){
     #       https://docs.docker.com/engine/reference/run/#clean-up---rm
     # -v "$(pwd):/src/" Map working directory to container /src:
     #       https://docs.docker.com/engine/reference/run/#volume-shared-filesystems
-    docker run -v "$(pwd):/src/" --user "$(id -u)":"$(id -g)" --rm "cdrx/pyinstaller-windows:${1}"
+    docker run -v "$(pwd):/src/" --rm "cdrx/pyinstaller-windows:${1}" "/entrypoint.sh && chown $(id -u):$(id -g) -R /src/dist"
 
     # Zip up the package and clean up
     cd "${WIN_DIST_DIR}"
