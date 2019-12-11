@@ -54,7 +54,7 @@ opfURL: https://www.openpreservation.org/
 # Finally if you are pushing to a GitHub project page, include the project name at the end.
 #
 #production_url : http://openplanets.github.io/jpylyzer
-production_url : http://jpylyzer.openpreservation.org/
+production_url : https://jpylyzer.openpreservation.org/
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
 #
@@ -84,7 +84,7 @@ JB :
   #   - When setting BASE_PATH it must be a valid url.
   #     This means always setting the protocol (http|https) or prefixing with "/"
   # BASE_PATH : https://openplanets.github.io/jpylyzer
-  BASE_PATH : http://jpylyzer.openpreservation.org
+  BASE_PATH : https://jpylyzer.openpreservation.org
 
   # By default, the asset_path is automatically defined relative to BASE_PATH plus the enabled theme.
   # ex: [BASE_PATH]/assets/themes/[THEME-NAME]
