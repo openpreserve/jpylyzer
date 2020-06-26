@@ -261,26 +261,30 @@ def generatePropertiesRemapTable():
 
 def fileToMemoryMap(filename):
     """Read contents of filename to memory map object."""
-    # Open filename
-    f = open(filename, "rb")
-
     # Call to mmap is different on Linux and Windows, so we need to know
     # the current platform
     platform = config.PLATFORM
 
-    try:
-        if platform == "win32":
-            # Parameters for Windows may need further fine-tuning ...
-            fileData = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
-        else:
-            # This works for Linux (and Cygwin on Windows). Not too sure
-            # about other platforms like Mac OS though
-            fileData = mmap.mmap(f.fileno(), 0, mmap.MAP_SHARED, mmap.PROT_READ)
-    except ValueError:
-        # mmap fails on empty files.
-        fileData = ""
+    # Open filename
+    with open(filename, "rb") as f:
+        try:
+            if platform == "win32":
+                # Parameters for Windows may need further fine-tuning ...
+                fileData = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+            else:
+                # This works for Linux (and Cygwin on Windows). Not too sure
+                # about other platforms like Mac OS though
+                fileData = mmap.mmap(f.fileno(), 0, mmap.MAP_SHARED, mmap.PROT_READ)
+        except ValueError as e:
+            fileSize = os.path.getsize(filename)
+            if fileSize > sys.maxsize:
+                shared.printWarning("The file is too large to open (" +
+                             str(round(fileSize/1024**3, 1)) +
+                             " GB). Try using 64-bit python.")
+            shared.errorExit("Opening file failed: " + str(e))
+            # mmap fails on empty files.
+            fileData = ""
 
-    f.close()
     return fileData
 
 
