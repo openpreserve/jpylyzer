@@ -2367,7 +2367,44 @@ class BoxValidator:
     def validate_plm(self):
         """Empty function."""
     def validate_plt(self):
-        """Empty function."""
+        """Packet length, tile-part header (PLT) marker segment (ISO/IEC 15444-1 Section A.7.3)."""
+        """Currently performs no validation, just adds details properties XML"""
+
+        # Length of PLT marker
+        lplt = bc.bytesToUShortInt(self.boxContents[0:2])
+        self.addCharacteristic("lplt", lplt)
+
+        # PLT marker segment index
+        zplt = bc.bytesToUnsignedChar(self.boxContents[2:3])
+        self.addCharacteristic("zplt", zplt)
+
+        # The logic here is basically:
+        # Each iplt is a collection of 7 bits, where the MSB signifies the following 7 bits
+        # are to be prepended to the following 7 LSB bits.
+        # Eg: boxContents = [0C,9F,62,7C] becomes [0C,FE2,7C], as
+        # 9F  = ‭10011111‬
+        # 62  =        01100010‬
+        # FE2 = 000111111100010
+        # See table A.36 for more details.
+        # Same logic as Iplm section (A.7.2), so could be moved to it's own function
+        iplt = ''
+        i = 3    # 3 = sizeof(zplt) + sizeof(lplt). Skip to start reading at lplt.
+        while i < lplt and i < len(self.boxContents):   # Don't over-read on bad lplt
+            iplt_i_len = 1    # number of bytes making up the current iplt_i
+            while bc.bytesToUnsignedChar(self.boxContents[i+iplt_i_len-1:i+iplt_i_len]) & 0b10000000:
+                iplt_i_len += 1
+
+            # Join all the segments together
+            iplt_i = bc.bytesToUnsignedChar(self.boxContents[i:i+1])
+            for iplt_index in range(1, iplt_i_len):
+                iplt_i = (iplt_i & 0x7F) << 7
+                iplt_i |= bc.bytesToUnsignedChar(self.boxContents[i+iplt_index:i+iplt_index+1])
+
+            i += iplt_i_len
+            iplt += ('{:0' + str(2*iplt_i_len) + 'X},').format(iplt_i)
+
+        self.addCharacteristic("iplt", iplt[:-1])
+
     def validate_ppm(self):
         """Empty function."""
     def validate_ppt(self):
