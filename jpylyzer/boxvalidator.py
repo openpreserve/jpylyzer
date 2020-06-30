@@ -2367,8 +2367,8 @@ class BoxValidator:
     def validate_plm(self):
         """Empty function."""
     def validate_plt(self):
-        """Packet length, tile-part header (PLT) marker segment (ISO/IEC 15444-1 Section A.7.3)."""
-        """Currently performs no validation, just adds details properties XML"""
+        """Packet length, tile-part header (PLT) marker segment (ISO/IEC 15444-1 Section A.7.3).
+        Currently performs no validation, just adds details properties XML"""
 
         # Length of PLT marker
         lplt = bc.bytesToUShortInt(self.boxContents[0:2])
@@ -2391,7 +2391,7 @@ class BoxValidator:
         i = 3    # 3 = sizeof(zplt) + sizeof(lplt). Skip to start reading at lplt.
         while i < lplt and i < len(self.boxContents):   # Don't over-read on bad lplt
             iplt_i_len = 1    # number of bytes making up the current iplt_i
-            while bc.bytesToUnsignedChar(self.boxContents[i+iplt_i_len-1:i+iplt_i_len]) & 0b10000000:
+            while bc.bytesToUnsignedChar(self.boxContents[i+iplt_i_len-1:i+iplt_i_len]) & 0x80:
                 iplt_i_len += 1
 
             # Join all the segments together
