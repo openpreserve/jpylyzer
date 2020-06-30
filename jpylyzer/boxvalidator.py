@@ -2368,7 +2368,9 @@ class BoxValidator:
         """Empty function."""
     def validate_plt(self):
         """Packet length, tile-part header (PLT) marker segment (ISO/IEC 15444-1 Section A.7.3).
-        Currently performs no validation, just adds details properties XML"""
+        
+        Currently performs no validation, just adds details to properties XML.
+        """
 
         # Length of PLT marker
         lplt = bc.bytesToUShortInt(self.boxContents[0:2])
