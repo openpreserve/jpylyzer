@@ -2382,8 +2382,8 @@ class BoxValidator:
         # Each iplt is a collection of 7 bits, where the MSB signifies the following 7 bits
         # are to be prepended to the following 7 LSB bits.
         # Eg: boxContents = [0C,9F,62,7C] becomes [0C,FE2,7C], as
-        # 9F  = ‭10011111‬
-        # 62  =        01100010‬
+        # 9F  = 10011111
+        # 62  =        01100010
         # FE2 = 000111111100010
         # See table A.36 for more details.
         # Same logic as Iplm section (A.7.2), so could be moved to it's own function
