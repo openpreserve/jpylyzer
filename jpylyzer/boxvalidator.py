@@ -227,9 +227,9 @@ class BoxValidator:
         shift = wordLength - p
 
         return (n >> shift) & 1
-    
+
     def _parse_ipl(self, lpl, offset):
-        """Parses Iplt/Iplm parameters into a comma separated string of (hex) values.
+        """Parse Iplt/Iplm parameters into a comma separated string of (hex) values.
 
         The logic here is basically:
         Each iplt/iplm is a collection of 7 bits, where the MSB signifies the following 7 bits
