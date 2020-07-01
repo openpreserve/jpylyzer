@@ -227,6 +227,40 @@ class BoxValidator:
         shift = wordLength - p
 
         return (n >> shift) & 1
+    
+    def _parse_ipl(self, lpl, offset):
+        """Parses Iplt/Iplm parameters into a comma separated string of (hex) values.
+
+        The logic here is basically:
+        Each iplt/iplm is a collection of 7 bits, where the MSB signifies the following 7 bits
+        are to be prepended to the following 7 LSB bits.
+        Eg: boxContents = [0C,9F,62,7C] becomes [0C,FE2,7C], as
+        9F  = 10011111
+        62  =        01100010
+        FE2 = 000111111100010
+        See table A.36 for more details.
+
+        - lpl: lplt/lplm parameter.
+        - offset: the offset (from marker code) to iplt/iplm parameter.
+         For iplt this will be 3 (sizeof(lplt) + sizeof(zplt)),
+         for iplm this will be 4 sizeof(lplm) + sizeof(zplm) + sizeof(nplm)
+        """
+        iplt = ''
+        i = offset
+        while i < lpl and i < len(self.boxContents):  # Don't over-read on bad lplt/lplm
+            ipl_i_len = 1  # number of bytes making up the current ipl(t|m)_i
+            while bc.bytesToUnsignedChar(self.boxContents[i + ipl_i_len - 1:i + ipl_i_len]) & 0x80:
+                ipl_i_len += 1
+
+            # Join all the segments together
+            iplt_i = bc.bytesToUnsignedChar(self.boxContents[i:i + 1])
+            for ipl_index in range(1, ipl_i_len):
+                iplt_i = (iplt_i & 0x7F) << 7
+                iplt_i |= bc.bytesToUnsignedChar(self.boxContents[i + ipl_index:i + ipl_index + 1])
+
+            i += ipl_i_len
+            iplt += ('{:0' + str(2 * ipl_i_len) + 'X},').format(iplt_i)
+        return iplt[:-1]
 
     def testFor(self, testType, testResult):
         """Add testResult node to tests element tree."""
@@ -2365,7 +2399,26 @@ class BoxValidator:
     def validate_tlm(self):
         """Empty function."""
     def validate_plm(self):
-        """Empty function."""
+        """Packet length, main header (PLM) marker segment (ISO/IEC 15444-1 Section A.7.2).
+
+        Currently performs no validation, just adds details to properties XML.
+        """
+        # Length of PLM marker
+        lplm = bc.bytesToUShortInt(self.boxContents[0:2])
+        self.addCharacteristic("lplm", lplm)
+
+        # PLM marker segment index
+        zplm = bc.bytesToUnsignedChar(self.boxContents[2:3])
+        self.addCharacteristic("zplm", zplm)
+
+        # Number of bytes of Iplm information for the ith tile-part
+        nplm = bc.bytesToUnsignedChar(self.boxContents[3:4])
+        self.addCharacteristic("nplm", nplm)
+
+        # Comma separated list of packet lengths
+        iplm = self._parse_ipl(lplm, 4)
+        self.addCharacteristic("iplm", iplm)
+
     def validate_plt(self):
         """Packet length, tile-part header (PLT) marker segment (ISO/IEC 15444-1 Section A.7.3).
 
@@ -2379,32 +2432,9 @@ class BoxValidator:
         zplt = bc.bytesToUnsignedChar(self.boxContents[2:3])
         self.addCharacteristic("zplt", zplt)
 
-        # The logic here is basically:
-        # Each iplt is a collection of 7 bits, where the MSB signifies the following 7 bits
-        # are to be prepended to the following 7 LSB bits.
-        # Eg: boxContents = [0C,9F,62,7C] becomes [0C,FE2,7C], as
-        # 9F  = 10011111
-        # 62  =        01100010
-        # FE2 = 000111111100010
-        # See table A.36 for more details.
-        # Same logic as Iplm section (A.7.2), so could be moved to it's own function
-        iplt = ''
-        i = 3    # 3 = sizeof(zplt) + sizeof(lplt). Skip to start reading at lplt.
-        while i < lplt and i < len(self.boxContents):   # Don't over-read on bad lplt
-            iplt_i_len = 1    # number of bytes making up the current iplt_i
-            while bc.bytesToUnsignedChar(self.boxContents[i+iplt_i_len-1:i+iplt_i_len]) & 0x80:
-                iplt_i_len += 1
-
-            # Join all the segments together
-            iplt_i = bc.bytesToUnsignedChar(self.boxContents[i:i+1])
-            for iplt_index in range(1, iplt_i_len):
-                iplt_i = (iplt_i & 0x7F) << 7
-                iplt_i |= bc.bytesToUnsignedChar(self.boxContents[i+iplt_index:i+iplt_index+1])
-
-            i += iplt_i_len
-            iplt += ('{:0' + str(2*iplt_i_len) + 'X},').format(iplt_i)
-
-        self.addCharacteristic("iplt", iplt[:-1])
+        # Comma separated list of packet lengths
+        iplt = self._parse_ipl(lplt, 3)
+        self.addCharacteristic("iplt", iplt)
 
     def validate_ppm(self):
         """Empty function."""
