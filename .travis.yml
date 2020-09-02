@@ -10,7 +10,7 @@ services:
 before_install:
   - sudo apt-get install -y realpath
   - python --version
-  - pip install -U pip pytest pyinstaller pep257 twine codacy-coverage
+  - pip install -U pip pytest pyinstaller==3.6 pep257 twine codacy-coverage
   # Make the Jpylyzer test files available by cloning the repo as a sibling directory
   - git clone https://github.com/openpreserve/jpylyzer-test-files.git ../jpylyzer-test-files
 
