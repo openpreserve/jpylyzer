@@ -296,10 +296,12 @@ def fileToMemoryMap(filename):
         except ValueError as e:
             fileSize = os.path.getsize(filename)
             if fileSize > sys.maxsize:
-                shared.printWarning("The file is too large to open (" +
-                                    str(round(fileSize/1024**3, 1)) +
-                                    " GB). Try using 64-bit python.")
-            shared.errorExit("Opening file failed: " + str(e))
+                msg = ("the file is too large to open (" +
+                       str(round(fileSize/1024**3, 1)) +
+                       " GB). Try using 64-bit python.")
+                shared.printWarning(msg)
+            msg = "opening file failed: " + str(e)
+            shared.errorExit(msg)
             # mmap fails on empty files.
             fileData = ""
 
