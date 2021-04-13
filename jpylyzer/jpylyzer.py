@@ -17,6 +17,7 @@ Contributors:
    Stefan Weil, UB Mannheim, DE.
    Adam Fritzler, Planet Labs, USA.
    Thomas Ledoux, Bibliotheque Nationale de France
+   Tim Lander, Hexagon Geospatial
 """
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
