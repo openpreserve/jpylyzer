@@ -2398,6 +2398,7 @@ class BoxValidator:
 
     def validate_tlm(self):
         """Empty function."""
+
     def validate_plm(self):
         """Packet length, main header (PLM) marker segment (ISO/IEC 15444-1 Section A.7.2).
 
@@ -2438,8 +2439,10 @@ class BoxValidator:
 
     def validate_ppm(self):
         """Empty function."""
+
     def validate_ppt(self):
         """Empty function."""
+
     def validate_tilePart(self):
         """Analyse tile part that starts at offsetStart and perform cursory validation.
 
