@@ -11,8 +11,11 @@
    width="189.98mm"
    height="253.55mm"
    id="svg3236"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="formatStructure.emf">
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="jp2FormatStructure.svg"
+   inkscape:export-filename="/home/johan/jpylyzer/doc/images/jp2FormatStructure.png"
+   inkscape:export-xdpi="105.65"
+   inkscape:export-ydpi="105.65">
   <metadata
      id="metadata3292">
     <rdf:RDF>
@@ -32,17 +35,17 @@
      objecttolerance="10"
      gridtolerance="10"
      guidetolerance="10"
-     inkscape:pageopacity="0"
+     inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:window-width="1680"
-     inkscape:window-height="987"
+     inkscape:window-width="1872"
+     inkscape:window-height="1029"
      id="namedview3290"
      showgrid="false"
      inkscape:zoom="1.0507504"
-     inkscape:cx="336.57874"
-     inkscape:cy="753.747"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
+     inkscape:cx="156.70729"
+     inkscape:cy="639.5429"
+     inkscape:window-x="48"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="g3240" />
   <defs
@@ -59,9 +62,9 @@
        id="path3246" />
     <text
        xml:space="preserve"
-       x="206.33927"
+       x="206.33926"
        y="191.60767"
-       style="font-size:19.899837px;fill:#000000;font-style:normal;font-weight:bold;text-align:start;text-anchor:start;font-family:Tahoma;"
+       style="font-style:normal;font-weight:bold;font-size:19.89983749px;line-height:0%;font-family:Tahoma;text-align:start;text-anchor:start;fill:#000000"
        id="text3248">JPEG 2000 Signature box</text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1.8702855px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;"
@@ -70,24 +73,18 @@
     <text
        xml:space="preserve"
        x="182.54924"
-       y="347.15309"
-       style="font-size:19.899837px;fill:#000000;font-style:normal;font-weight:bold;text-align:start;text-anchor:start;font-family:Tahoma;"
+       y="347.15308"
+       style="font-style:normal;font-weight:bold;font-size:19.89983749px;line-height:0%;font-family:Tahoma;text-align:start;text-anchor:start;fill:#000000"
        id="text3252">Contiguous Codestream box </text>
-    <text
-       xml:space="preserve"
-       x="470.87246"
-       y="347.15309"
-       style="font-size:19.899837px;fill:#000000;font-style:italic;font-weight:bold;text-align:start;text-anchor:start;font-family:Tahoma;"
-       id="text3254">0</text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1.8702855px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;"
        d="  M 159.8346 217.66383   L 506.305 217.66383   L 506.305 253.04963   L 159.8346 253.04963  z "
        id="path3256" />
     <text
        xml:space="preserve"
-       x="266.93648"
+       x="266.93649"
        y="243.35222"
-       style="font-size:19.899837px;fill:#000000;font-style:normal;font-weight:bold;text-align:start;text-anchor:start;font-family:Tahoma;"
+       style="font-style:normal;font-weight:bold;font-size:19.89983749px;line-height:0%;font-family:Tahoma;text-align:start;text-anchor:start;fill:#000000"
        id="text3258">File Type box</text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1.8702855px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;"
@@ -96,8 +93,8 @@
     <text
        xml:space="preserve"
        x="196.31764"
-       y="295.25264"
-       style="font-size:19.899837px;fill:#000000;font-style:normal;font-weight:bold;text-align:start;text-anchor:start;font-family:Tahoma;"
+       y="295.25266"
+       style="font-style:normal;font-weight:bold;font-size:19.89983749px;line-height:0%;font-family:Tahoma;text-align:start;text-anchor:start;fill:#000000"
        id="text3262">JP2 Header box (superbox)</text>
     <path
        style="fill:#000000;fill-rule:nonzero;fill-opacity:1;stroke:#000000;stroke-width:0.018702855px;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;"
@@ -106,15 +103,9 @@
     <text
        xml:space="preserve"
        x="182.54924"
-       y="442.22591"
-       style="font-size:19.899837px;fill:#000000;font-style:normal;font-weight:bold;text-align:start;text-anchor:start;font-family:Tahoma;"
+       y="442.22592"
+       style="font-style:normal;font-weight:bold;font-size:19.89983749px;line-height:0%;font-family:Tahoma;text-align:start;text-anchor:start;fill:#000000"
        id="text3266">Contiguous Codestream box </text>
-    <text
-       xml:space="preserve"
-       x="470.87246"
-       y="442.22591"
-       style="font-size:19.899837px;fill:#000000;font-style:italic;font-weight:bold;text-align:start;text-anchor:start;font-family:Tahoma;"
-       id="text3268">n</text>
     <path
        style="fill:#000000;fill-rule:nonzero;fill-opacity:1;stroke:#000000;stroke-width:0.018702855px;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;"
        d="  M 158.89946 500.54452   L 158.89946 493.06338   L 160.76974 493.06338   L 160.76974 500.54452   L 158.89946 500.54452  z    M 158.89946 487.45252   L 158.89946 479.97138   L 160.76974 479.97138   L 160.76974 487.45252   L 158.89946 487.45252  z    M 158.89946 474.36052   L 158.89946 466.87938   L 160.76974 466.87938   L 160.76974 474.36052   L 158.89946 474.36052  z    M 163.7435 464.22357   L 171.22464 464.22357   L 171.22464 466.09386   L 163.7435 466.09386   L 163.7435 464.22357  z    M 176.8355 464.22357   L 184.31664 464.22357   L 184.31664 466.09386   L 176.8355 466.09386   L 176.8355 464.22357  z    M 189.9275 464.22357   L 197.40864 464.22357   L 197.40864 466.09386   L 189.9275 466.09386   L 189.9275 464.22357  z    M 203.01949 464.22357   L 210.50064 464.22357   L 210.50064 466.09386   L 203.01949 466.09386   L 203.01949 464.22357  z    M 216.11149 464.22357   L 223.59264 464.22357   L 223.59264 466.09386   L 216.11149 466.09386   L 216.11149 464.22357  z    M 229.20349 464.22357   L 236.68463 464.22357   L 236.68463 466.09386   L 229.20349 466.09386   L 229.20349 464.22357  z    M 242.29549 464.22357   L 249.77663 464.22357   L 249.77663 466.09386   L 242.29549 466.09386   L 242.29549 464.22357  z    M 255.38749 464.22357   L 262.86863 464.22357   L 262.86863 466.09386   L 255.38749 466.09386   L 255.38749 464.22357  z    M 268.47949 464.22357   L 275.96063 464.22357   L 275.96063 466.09386   L 268.47949 466.09386   L 268.47949 464.22357  z    M 281.57149 464.22357   L 289.05263 464.22357   L 289.05263 466.09386   L 281.57149 466.09386   L 281.57149 464.22357  z    M 294.66349 464.22357   L 302.14463 464.22357   L 302.14463 466.09386   L 294.66349 466.09386   L 294.66349 464.22357  z    M 307.75548 464.22357   L 315.23663 464.22357   L 315.23663 466.09386   L 307.75548 466.09386   L 307.75548 464.22357  z    M 320.84748 464.22357   L 328.32863 464.22357   L 328.32863 466.09386   L 320.84748 466.09386   L 320.84748 464.22357  z    M 333.93948 464.22357   L 341.42062 464.22357   L 341.42062 466.09386   L 333.93948 466.09386   L 333.93948 464.22357  z    M 347.03148 464.22357   L 354.51262 464.22357   L 354.51262 466.09386   L 347.03148 466.09386   L 347.03148 464.22357  z    M 360.12348 464.22357   L 367.60462 464.22357   L 367.60462 466.09386   L 360.12348 466.09386   L 360.12348 464.22357  z    M 373.21548 464.22357   L 380.69662 464.22357   L 380.69662 466.09386   L 373.21548 466.09386   L 373.21548 464.22357  z    M 386.30748 464.22357   L 393.78862 464.22357   L 393.78862 466.09386   L 386.30748 466.09386   L 386.30748 464.22357  z    M 399.39948 464.22357   L 406.88062 464.22357   L 406.88062 466.09386   L 399.39948 466.09386   L 399.39948 464.22357  z    M 412.49147 464.22357   L 419.97262 464.22357   L 419.97262 466.09386   L 412.49147 466.09386   L 412.49147 464.22357  z    M 425.58347 464.22357   L 433.06462 464.22357   L 433.06462 466.09386   L 425.58347 466.09386   L 425.58347 464.22357  z    M 438.67547 464.22357   L 446.15661 464.22357   L 446.15661 466.09386   L 438.67547 466.09386   L 438.67547 464.22357  z    M 451.76747 464.22357   L 459.24861 464.22357   L 459.24861 466.09386   L 451.76747 466.09386   L 451.76747 464.22357  z    M 464.85947 464.22357   L 472.34061 464.22357   L 472.34061 466.09386   L 464.85947 466.09386   L 464.85947 464.22357  z    M 477.95147 464.22357   L 485.43261 464.22357   L 485.43261 466.09386   L 477.95147 466.09386   L 477.95147 464.22357  z    M 491.04347 464.22357   L 498.52461 464.22357   L 498.52461 466.09386   L 491.04347 466.09386   L 491.04347 464.22357  z    M 504.13547 464.22357   L 507.24014 464.22357   L 507.24014 470.47033   L 505.36985 470.47033   L 505.36985 465.15872   L 506.305 466.09386   L 504.13547 466.09386   L 504.13547 464.22357  z    M 507.24014 476.08118   L 507.24014 483.56232   L 505.36985 483.56232   L 505.36985 476.08118   L 507.24014 476.08118  z    M 507.24014 489.17318   L 507.24014 496.65432   L 505.36985 496.65432   L 505.36985 489.17318   L 507.24014 489.17318  z    M 504.60304 501.47966   L 497.12189 501.47966   L 497.12189 499.60937   L 504.60304 499.60937   L 504.60304 501.47966  z    M 491.51104 501.47966   L 484.0299 501.47966   L 484.0299 499.60937   L 491.51104 499.60937   L 491.51104 501.47966  z    M 478.41904 501.47966   L 470.9379 501.47966   L 470.9379 499.60937   L 478.41904 499.60937   L 478.41904 501.47966  z    M 465.32704 501.47966   L 457.8459 501.47966   L 457.8459 499.60937   L 465.32704 499.60937   L 465.32704 501.47966  z    M 452.23504 501.47966   L 444.7539 501.47966   L 444.7539 499.60937   L 452.23504 499.60937   L 452.23504 501.47966  z    M 439.14304 501.47966   L 431.6619 501.47966   L 431.6619 499.60937   L 439.14304 499.60937   L 439.14304 501.47966  z    M 426.05104 501.47966   L 418.5699 501.47966   L 418.5699 499.60937   L 426.05104 499.60937   L 426.05104 501.47966  z    M 412.95905 501.47966   L 405.4779 501.47966   L 405.4779 499.60937   L 412.95905 499.60937   L 412.95905 501.47966  z    M 399.86705 501.47966   L 392.3859 501.47966   L 392.3859 499.60937   L 399.86705 499.60937   L 399.86705 501.47966  z    M 386.77505 501.47966   L 379.29391 501.47966   L 379.29391 499.60937   L 386.77505 499.60937   L 386.77505 501.47966  z    M 373.68305 501.47966   L 366.20191 501.47966   L 366.20191 499.60937   L 373.68305 499.60937   L 373.68305 501.47966  z    M 360.59105 501.47966   L 353.10991 501.47966   L 353.10991 499.60937   L 360.59105 499.60937   L 360.59105 501.47966  z    M 347.49905 501.47966   L 340.01791 501.47966   L 340.01791 499.60937   L 347.49905 499.60937   L 347.49905 501.47966  z    M 334.40705 501.47966   L 326.92591 501.47966   L 326.92591 499.60937   L 334.40705 499.60937   L 334.40705 501.47966  z    M 321.31505 501.47966   L 313.83391 501.47966   L 313.83391 499.60937   L 321.31505 499.60937   L 321.31505 501.47966  z    M 308.22306 501.47966   L 300.74191 501.47966   L 300.74191 499.60937   L 308.22306 499.60937   L 308.22306 501.47966  z    M 295.13106 501.47966   L 287.64992 501.47966   L 287.64992 499.60937   L 295.13106 499.60937   L 295.13106 501.47966  z    M 282.03906 501.47966   L 274.55792 501.47966   L 274.55792 499.60937   L 282.03906 499.60937   L 282.03906 501.47966  z    M 268.94706 501.47966   L 261.46592 501.47966   L 261.46592 499.60937   L 268.94706 499.60937   L 268.94706 501.47966  z    M 255.85506 501.47966   L 248.37392 501.47966   L 248.37392 499.60937   L 255.85506 499.60937   L 255.85506 501.47966  z    M 242.76306 501.47966   L 235.28192 501.47966   L 235.28192 499.60937   L 242.76306 499.60937   L 242.76306 501.47966  z    M 229.67106 501.47966   L 222.18992 501.47966   L 222.18992 499.60937   L 229.67106 499.60937   L 229.67106 501.47966  z    M 216.57906 501.47966   L 209.09792 501.47966   L 209.09792 499.60937   L 216.57906 499.60937   L 216.57906 501.47966  z    M 203.48707 501.47966   L 196.00592 501.47966   L 196.00592 499.60937   L 203.48707 499.60937   L 203.48707 501.47966  z    M 190.39507 501.47966   L 182.91393 501.47966   L 182.91393 499.60937   L 190.39507 499.60937   L 190.39507 501.47966  z    M 177.30307 501.47966   L 169.82193 501.47966   L 169.82193 499.60937   L 177.30307 499.60937   L 177.30307 501.47966  z    M 164.21107 501.47966   L 159.8346 501.47966   L 159.8346 499.60937   L 164.21107 499.60937   L 164.21107 501.47966  z   "
@@ -123,7 +114,7 @@
        xml:space="preserve"
        x="293.12048"
        y="490.85333"
-       style="font-size:19.899837px;fill:#000000;font-style:normal;font-weight:bold;text-align:start;text-anchor:start;font-family:Tahoma;"
+       style="font-style:normal;font-weight:bold;font-size:19.89983749px;line-height:0%;font-family:Tahoma;text-align:start;text-anchor:start;fill:#000000"
        id="text3272">IPR box</text>
     <path
        style="fill:#000000;fill-rule:nonzero;fill-opacity:1;stroke:#000000;stroke-width:0.018702855px;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;"
@@ -131,9 +122,9 @@
        id="path3274" />
     <text
        xml:space="preserve"
-       x="270.37785"
-       y="539.63663"
-       style="font-size:19.899837px;fill:#000000;font-style:normal;font-weight:bold;text-align:start;text-anchor:start;font-family:Tahoma;"
+       x="270.37784"
+       y="539.63666"
+       style="font-style:normal;font-weight:bold;font-size:19.89983749px;line-height:0%;font-family:Tahoma;text-align:start;text-anchor:start;fill:#000000"
        id="text3276">XML box(es)</text>
     <path
        style="fill:#000000;fill-rule:nonzero;fill-opacity:1;stroke:#000000;stroke-width:0.018702855px;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;"
@@ -141,9 +132,9 @@
        id="path3278" />
     <text
        xml:space="preserve"
-       x="264.54252"
-       y="588.26405"
-       style="font-size:19.899837px;fill:#000000;font-style:normal;font-weight:bold;text-align:start;text-anchor:start;font-family:Tahoma;"
+       x="264.54251"
+       y="588.26404"
+       style="font-style:normal;font-weight:bold;font-size:19.89983749px;line-height:0%;font-family:Tahoma;text-align:start;text-anchor:start;fill:#000000"
        id="text3280">UUID box(es)</text>
     <path
        style="fill:#000000;fill-rule:nonzero;fill-opacity:1;stroke:#000000;stroke-width:0.037405711px;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;"
@@ -151,9 +142,9 @@
        id="path3282" />
     <text
        xml:space="preserve"
-       x="181.95075"
-       y="637.04731"
-       style="font-size:19.899837px;fill:#000000;font-style:normal;font-weight:bold;text-align:start;text-anchor:start;font-family:Tahoma;"
+       x="181.95074"
+       y="637.0473"
+       style="font-style:normal;font-weight:bold;font-size:19.89983749px;line-height:0%;font-family:Tahoma;text-align:start;text-anchor:start;fill:#000000"
        id="text3284">UUID Info box(es) (superbox)</text>
     <path
        style="fill:#000000;fill-rule:nonzero;fill-opacity:1;stroke:#000000;stroke-width:0.018702855px;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;"
@@ -161,9 +152,9 @@
        id="path3286" />
     <text
        xml:space="preserve"
-       x="76.931081"
+       x="76.931084"
        y="126.7867"
-       style="font-size:19.899837px;fill:#000000;font-style:normal;font-weight:bold;text-align:start;text-anchor:start;font-family:Tahoma;"
+       style="font-style:normal;font-weight:bold;font-size:19.89983749px;line-height:0%;font-family:Tahoma;text-align:start;text-anchor:start;fill:#000000"
        id="text3288">JP2 file</text>
   </g>
 </svg>
