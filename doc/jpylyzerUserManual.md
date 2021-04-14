@@ -551,6 +551,15 @@ myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
 myResult = jpylyzer.checkOneFile(myFile, 'j2c')
 ```
 
+Java integration {#java-integration}
+---------------------------------------
+
+It is possible to integrate *jpylyzer* into Java applications. A test class that shows how this 
+works is included in the source repo [here](https://github.com/openpreserve/jpylyzer/tree/master/jpylyzer/java_demo/CallJpylyzer.java
+). This requires [Jython](https://www.jython.org/). Note that you may run into performance issues with (very)
+large images in this case, as Jython does not support [memory mapping](https://docs.python.org/3/library/mmap.html),
+so make sure you've got plenty of RAM available.
+
 Structure of a JP2 file {#structure-jp2}
 =========================
 
