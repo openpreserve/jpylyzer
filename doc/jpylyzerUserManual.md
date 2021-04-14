@@ -47,8 +47,9 @@ standard.
 
 Related to this, even though *jpylyzer*’s validation process is very
 comprehensive, it is not complete. For instance, the validation of JPEG
-2000 codestreams at this moment is still somewhat limited. [Section 7.2](#limitations-codestream-validation)
-discusses these limitations in detail. Some of these limitations (e.g.
+2000 codestreams at this moment is still somewhat limited. These limitations
+are discussed in detail [here](#limitations-codestream-validation). 
+Some of these limitations (e.g.
 optional codestream segment markers that are only minimally supported at
 this stage) may be taken away in upcoming versions of the tool.
 
@@ -88,15 +89,13 @@ which is in line with the most recent version of the (updated) standard.
 Outline of this User Manual {#outline}
 -------------------------------
 
-[Chapter 2](#installation) describes the installation process of *jpylyzer* for Windows
-and Unix-based systems. [Chapter 3](#using-jpylyzer) explains the usage of *jpylyzer* as a
-command-line tool, or as an importable Python module. [Chapter 4](#structure-jp2) gives a
-brief overview of the structure of JP2 and its ‘box’ structure.
-*Jpylyzer*’s output format is explained in [chapter 5](#output-format). The final chapters
-give a detailed description of the tests that *jpylyzer* performs for
-validation, and its reported properties. [Chapter 6](#jp2-box-by-box) does this for all
-‘boxes’, except for the ‘Contiguous Codestream’ box, which is given a
-[Chapter (7)](#contiguous-codestream-box-chapter) of its own.
+We start by describing the [installation process](#installation) of *jpylyzer* for Windows
+and Unix-based systems. We then explain its [basic usage](#using-jpylyzer), either as a command-line
+tool, or as an importable Python module. This is followed by a brief overview of
+[the structure of the JP2 format](#structure-jp2) and its ‘box’ structure, and an explanation of
+*Jpylyzer*’s [output format](#output-format). The final sections give a detailed description of the tests
+that *jpylyzer* performs for validation, and the properties that are reported in the output. The [penultimate section](#jp2-box-by-box) does this for all ‘boxes’, except the ‘Contiguous Codestream’ box, which is given a
+[section of its own](#contiguous-codestream-box-chapter).
 
 Funding {#funding}
 -----------
@@ -155,7 +154,7 @@ don’t want to) install software on their system.
 
 3. For Linux users Debian packages are available.
 
-These options are described in the following sections.
+These options are described in the following sub-sections.
 
 Installation with Pip (Linux/Unix, Windows, Mac OS X) {#installation-pip}
 -----------------------------------------------------------------
@@ -287,7 +286,7 @@ Using *jpylyzer* {#using-jpylyzer}
 Overview {#using-overview}
 ------------
 
-This chapter describes the general use of *jpylyzer*. The first sections
+This section describes the general use of *jpylyzer*. The first sub-sections
 cover the use of *jpylyzer* as a command-line tool and as an importable
 Python module.
 
@@ -371,7 +370,7 @@ redirects the output to file ‘rubbish.xml’:
 
     jpylyzer rubbish.jp2 > rubbish.xml
 
-The format of the XML output is described in [Chapter 5](#output-format).
+The format of the XML output is described [here](#output-format).
 
 ### ‘format’ option
 
@@ -464,7 +463,7 @@ In some cases you will see the following warning message:
     User warning: ignoring 'boxName' (validator function not yet implemented)
 
 The reason for this: a JP2 file is made up of units that are called
-‘boxes’. This is explained in more detail in [Chapter 4](#structure-jp2). Each ‘box’ has
+‘boxes’. This is explained in more detail [here](#structure-jp2). Each ‘box’ has
 its own dedicated validator function. At this stage validator functions
 are still missing for a small number of (optional) boxes. *Jpylyzer*
 will display the above warning message if it encounters a (yet)
@@ -539,7 +538,7 @@ print(imageHeight)
 
 Here, *myResult* is an *Element* object that can either be used directly, 
 or converted to XML using the *ElementTree* module[^3]. The structure of the
-element object follows the XML output that described in [Chapter 5](#output-format).
+element object follows the XML output that described [here](#output-format).
 
 For validation a raw JPEG 2000 codestreams, call the *checkOneFile* function with the additional
 *validationFormat* argument, and set it to `j2c`:
@@ -555,10 +554,10 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')
 Structure of a JP2 file {#structure-jp2}
 =========================
 
-Scope of this chapter {#structure-scope}
+Scope of this section {#structure-scope}
 -------------------------
 
-This chapter gives a brief overview of the JP2 file format. A basic
+This section gives a brief overview of the JP2 file format. A basic
 understanding of the general structure of JP2 is helpful for
 appreciating how *jpylyzer* performs its validation. It will also make
 it easier to understand *jpylyzer*‘s extracted properties, as these are
@@ -660,7 +659,7 @@ are simply skipped and ignored by conforming reader applications.
 Output format {#output-format}
 ===============
 
-This chapter explains *jpylyzer*’s output format.
+This section explains *jpylyzer*’s output format.
 
 Overview {#output-format-overview}
 ------------
@@ -750,7 +749,7 @@ isValid element {#isvalid-element}
 ----------------------
 
 This element contains the results of the validation. If a file passed
-all the tests (i.e. all tests returned “True”, see [section 5.7](#tests-element)) it is
+all the tests (i.e. all tests returned “True”, see [here](#tests-element)) it is
 most likely valid, and the value of *isValid* will be “True”. Its value is “False” otherwise.
 The element has a *format* attribute, which defines the validation format (set by the
 `--format` command-line option). The *format* attribute can have the following values:
@@ -771,9 +770,9 @@ JP2’s box structure. Each individual test can have two values:
 * “False” if a file failed the test.
 
 If a file passed *all* tests, this is an indication that it is most
-likely valid JP2. In that case, the *isValid* element ([section 5.6](#isvalid-element))
+likely valid JP2. In that case, the [*isValid* element](#isvalid-element)
 has a value of “True” (and “False” in all other cases). These tests are
-all explained in chapters [6](#jp2-box-by-box) and [7](#contiguous-codestream-box-chapter).
+all explained [here](#jp2-box-by-box) and [here](#contiguous-codestream-box-chapter).
 
 ### Default and verbose reporting of test results
 
@@ -788,7 +787,7 @@ properties element {#properties-element}
 
 This element contains the extracted image properties, which are
 organised in a hierarchical tree that corresponds to JP2’s box
-structure. See chapters [6](#jp2-box-by-box) and [7](#contiguous-codestream-box-chapter) for a description of the reported
+structure. See [here](#jp2-box-by-box) and [here](#contiguous-codestream-box-chapter) for a description of the reported
 properties.
 
 propertiesExtension element {#propertiesExtension-element}
@@ -800,7 +799,7 @@ if the `--mix` option is used. See the [*MIX* documentation](http://www.loc.gov/
 JP2: box by box {#jp2-box-by-box}
 =================
 
-The following two chapters provide a detailed explanation of
+The following two sections provide a detailed explanation of
 *jpylyzer*’s functionality and its output. In particular, the following
 two aspects are addressed:
 
@@ -815,7 +814,7 @@ About the properties and tests trees {#about-properties-tests-trees}
 The ‘properties’ element in *jpylyzer*’s output holds a hierarchical
 tree structure that contains all extracted properties. The ‘tests’ tree
 follows the same structure. The hierarchy reflects JP2’s box structure
-(explained in [Chapter 4](#structure-jp2)): each box is represented by a corresponding
+(explained [here](#structure-jp2)): each box is represented by a corresponding
 output element that contains the corresponding property entries. If a
 box is a superbox, the output element will contain child elements for
 each child box. For some boxes, the output contains further
@@ -841,7 +840,7 @@ names are provided for each individual switch. An example of this is the
 three switches that define the use of precincts, start-of-packet markers
 and end-of-packet markers. For cases like these *jpylyzer* uses its own
 (largely self-descriptive) names (which are all documented in these
-chapters).
+sections).
 
 JPEG 2000 Signature box {#jpeg2000-signature-box}
 ---------------------------
@@ -910,13 +909,13 @@ represented as child elements in the properties tree:
 
 |Child element|Description|
 |:------------|:----------|
-|imageHeaderBox ([section 6.5](#image-header-box))|Properties from Image Header box (required)|
-|bitsPerComponentBox ([section 6.6](#bits-per-component-box))|Properties from Bits Per Component box (optional)|
-|ColourSpecificationBox ([section 6.7](#colour-specification-box))|Properties from Colour Specification box (required)|
-|paletteBox ([section 6.8](#palette-box))|Properties from Palette box (optional)|
-|componentMappingBox ([section 6.9](#component-mapping-box))|Properties from Component Mapping box (optional)|
-|channelDefinitionBox ([section 6.10](#channel-definition-box))|Properties from Channel Definition box (optional)|
-|resolutionBox ([section 6.11](#resolution-box))|Properties from Resolution box (optional)|
+|[imageHeaderBox](#image-header-box)|Properties from Image Header box (required)|
+|[bitsPerComponentBox](#bits-per-component-box)|Properties from Bits Per Component box (optional)|
+|[ColourSpecificationBox](#colour-specification-box)|Properties from Colour Specification box (required)|
+|[paletteBox](#palette-box)|Properties from Palette box (optional)|
+|[componentMappingBox](#component-mapping-box)|Properties from Component Mapping box (optional)|
+|[channelDefinitionBox](#channel-definition-box)|Properties from Channel Definition box (optional)|
+|[resolutionBox](#resolution-box)|Properties from Resolution box (optional)|
 
 ### Tests
 
@@ -1162,8 +1161,8 @@ represented as child elements in the properties tree:
 
 |Child element|Description|
 |:------------|:----------|
-|captureResolutionBox ([section 6.12](#capture-resolution-box))|Properties from Capture Resolution box|
-|displayResolutionBox ([section 6.13](#display-resolution-box))|Properties from Default Display Resolution box|
+|[captureResolutionBox](#capture-resolution-box)|Properties from Capture Resolution box|
+|[displayResolutionBox](#display-resolution-box)|Properties from Default Display Resolution box|
 
 ### Tests
 
@@ -1260,7 +1259,7 @@ pixels per inch, which are calculated from these values.
 Contiguous Codestream box {#codestream-box}
 ------------------------------
 
-This box contains the codestream. See [chapter 7](#contiguous-codestream-box-chapter).
+This box contains the codestream. See [here](#contiguous-codestream-box-chapter).
 
 Intellectual Property box {#intellectual-property-box}
 ------------------------------
@@ -1360,8 +1359,8 @@ as child elements in the properties tree:
 
 |Child element|Description|
 |:------------|:----------|
-|uuidListBox ([section 6.19](#uuid-list-box))|Properties from UUID List box|
-|urlBox ([section 6.20](#data-entry-url-box))|Properties from Data Entry URL box|
+|[uuidListBox](#uuid-list-box)|Properties from UUID List box|
+|[urlBox](#data-entry-url-box)|Properties from Data Entry URL box|
 
 ### Tests
 
@@ -1436,7 +1435,7 @@ unknownBox
 Top-level tests and properties {#top-level-tests-properties}
 -----------------------------------
 
-This section describes the tests and output for the top file level.
+This sub-section describes the tests and output for the top file level.
 
 ### Element name
 
@@ -1531,14 +1530,14 @@ all top-level boxes:
 
 |Child element|Description|
 |:------------|:----------|
-|signatureBox ([section 6.2](#jpeg2000-signature-box))|Properties from JPEG 2000 Signature box|
-|fileTypeBox ([section 6.3](#file-type-box))|Properties from File Type box|
-|jp2HeaderBox ([section 6.4](#jp2-header-box))|Properties from JP2 Header box|
-|contiguousCodestreamBox ([chapter 7](#contiguous-codestream-box-chapter))|Properties from Contiguous Codestream box|
-|intellectualPropertyBox ([section 6.15](#intellectual-property-box))|Properties from Intellectual Property box (optional)|
-|xmlBox ([section 6.16](#xml-box))|Properties from XML box (optional)|
-|uuidBox ([section 6.17](#uuid-box))|Properties from UUID box (optional)|
-|uuidInfoBox ([section 6.18](#uuid-info-box))|Properties from UUID Info box (optional)|
+|[signatureBox](#jpeg2000-signature-box)|Properties from JPEG 2000 Signature box|
+|[fileTypeBox](#file-type-box)|Properties from File Type box|
+|[jp2HeaderBox](#jp2-header-box)|Properties from JP2 Header box|
+|[contiguousCodestreamBox](#contiguous-codestream-box-chapter)|Properties from Contiguous Codestream box|
+|[intellectualPropertyBox](#intellectual-property-box)|Properties from Intellectual Property box (optional)|
+|[xmlBox](#xml-box)|Properties from XML box (optional)|
+|[uuidBox](#uuid-box)|Properties from UUID box (optional)|
+|[uuidInfoBox](#uuid-info-box)|Properties from UUID Info box (optional)|
 
 ### Tests
 
@@ -1631,7 +1630,7 @@ Limitations of codestream validation {#limitations-codestream-validation}
 It is important to stress here that *jpylyzer* currently doesn’t support
 the full set of marker segments that can occur in a codestream. As a
 result, the validation of codestreams is somewhat limited. These
-limitations are discussed in this section.
+limitations are discussed in this sub-section.
 
 ### Main codestream header
 
@@ -1770,16 +1769,16 @@ which are represented as child elements in the properties tree:
 
 |Child element|Description|
 |:------------|:----------|
-|siz ([section 7.5](#siz-marker))|Properties from the image and tile size (SIZ) marker segment (codestream main header)|
-|cod ([section 7.6](#cod-marker))|Properties from the coding style default (COD) marker segment (codestream main header)|
-|coc ([section 7.7](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (codestream main header)|
-|rgn ([section 7.8](#rgn-marker))|Properties from the (optional) region of interest (RGN) marker segment (codestream main header)|
-|qcd ([section 7.9](#qcd-marker))|Properties from the quantization default (QCD) marker segment (codestream main header)|
-|qcc ([section 7.10](#qcc-marker))|Properties from the (optional) quantization component (QCC) marker segment (codestream main header)|
-|poc ([section 7.11](#poc-marker))|Properties from the (optional) progression order change (POC) marker segment (codestream main header)|
-|crg ([section 7.12](#crg-marker))|Properties from the (optional) component registration (CRG) marker segment (codestream main header)|
-|com ([section 7.13](#com-marker))|Properties from the (optional) comment (COM) marker segment (codestream main header)|
-|tileParts ([section 7.14](#tile-part))|Properties from individual tile parts|
+|[siz](#siz-marker)|Properties from the image and tile size (SIZ) marker segment (codestream main header)|
+|[cod](#cod-marker)|Properties from the coding style default (COD) marker segment (codestream main header)|
+|[coc](#coc-marker)|Properties from the (optional) coding style component (COC) marker segment (codestream main header)|
+|[rgn](#rgn-marker)|Properties from the (optional) region of interest (RGN) marker segment (codestream main header)|
+|[qcd](#qcd-marker)|Properties from the quantization default (QCD) marker segment (codestream main header)|
+|[qcc](#qcc-marker)|Properties from the (optional) quantization component (QCC) marker segment (codestream main header)|
+|[poc](#poc-marker)|Properties from the (optional) progression order change (POC) marker segment (codestream main header)|
+|[crg](#crg-marker)|Properties from the (optional) component registration (CRG) marker segment (codestream main header)|
+|[com](#com-marker)|Properties from the (optional) comment (COM) marker segment (codestream main header)|
+|[tileParts](#tile-part)|Properties from individual tile parts|
 
 ### Tests
 
@@ -1789,8 +1788,8 @@ which are represented as child elements in the properties tree:
 |foundSIZMarker|Second marker segment in codestream is image and tile size (SIZ) marker segment|
 |foundCODMarker|Codestream main header contains coding style default (COD) marker segment|
 |foundQCDMarker|Codestream main header contains quantization default (QCD) marker segment|
-|foundExpectedNumberOfTiles|Number of encountered tiles is consistent with expected number of tiles (as calculated from SIZ marker, see [section 7.5](#siz-marker))|
-|foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from SOT marker, see [section 7.15](#sot-marker))|
+|foundExpectedNumberOfTiles|Number of encountered tiles is consistent with expected number of tiles (as calculated from [SIZ marker](#siz-marker))|
+|foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from [SOT marker](#sot-marker))|
 |maxOneCcocPerComponent|No more than one *ccoc* value for each component (only reported if codestream contains any COC marker segments)|
 |maxOneCqccPerComponent|No more than one *cqcc* value for each component (only reported if codestream contains any QCC marker segments)|
 |foundEOCMarker|Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment|
@@ -2101,14 +2100,14 @@ Each tile part element can contain a number of child elements:
 
 |Child element|Description|
 |:------------|:----------|
-|sot ([section 7.15](#sot-marker))|Properties from start of tile (SOT) marker segment|
-|cod ([section 7.6](#cod-marker))|Properties from the (optional) coding style default (COD) marker segment (tile part header)|
-|coc ([section 7.7](#coc-marker))|Properties from the (optional) coding style component (COC) marker segment (tile part header)|
-|rgn ([section 7.8](#rgn-marker))|Properties from the (optional) region of interest (RGN) marker segment (tile part header)|
-|qcd ([section 7.9](#qcd-marker))|Properties from the (optional) quantization default (QCD) marker segment (tile part header)|
-|qcc ([section 7.10](#qcc-marker))|Properties from the (optional) quantization component (QCC) marker segment (tile part header)|
-|poc ([section 7.11](#poc-marker))|Properties from the (optional) progression order change (POC) marker segment (tile part header)|
-|com ([section 7.13](#com-marker))|Properties from the (optional) comment (COM) marker segment (tile part header)|
+|[sot](#sot-marker)|Properties from start of tile (SOT) marker segment|
+|[cod](#cod-marker)|Properties from the (optional) coding style default (COD) marker segment (tile part header)|
+|[coc](#coc-marker)|Properties from the (optional) coding style component (COC) marker segment (tile part header)|
+|[rgn](#rgn-marker)|Properties from the (optional) region of interest (RGN) marker segment (tile part header)|
+|[qcd](#qcd-marker)|Properties from the (optional) quantization default (QCD) marker segment (tile part header)|
+|[qcc](#qcc-marker)|Properties from the (optional) quantization component (QCC) marker segment (tile part header)|
+|[poc](#poc-marker)|Properties from the (optional) progression order change (POC) marker segment (tile part header)|
+|[com](#com-marker)|Properties from the (optional) comment (COM) marker segment (tile part header)|
 
 ### Tests
 
