@@ -2163,7 +2163,7 @@ plm
 |lplm|Length of PLM marker segment in bytes|
 |zplm|PLM marker segment index|
 |nplm|Number of bytes of Iplm information for the ith tile-part|
-|iplm|Comma separated list of packet lengths|
+|iplm|Comma separated list of packet length  values (as hexadecimal strings)|
 
 ### Tests
 
@@ -2228,7 +2228,7 @@ plt
 |lplt|Length of PLT marker segment in bytes|
 |zplt|PLT marker segment index|
 |nplm|Number of bytes of Iplm information for the ith tile-part|
-|iplt|Comma separated list of packet lengths|
+|iplt|Comma separated list of packet length values (as hexadecimal strings)|
 
 ### Tests
 
