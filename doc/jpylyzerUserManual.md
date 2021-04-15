@@ -82,7 +82,7 @@ pixel-wise comparisons are really complementary to each other.
 ### Note on ICC profile support
 
 The support of ICC profiles in JP2 was recently extended through an
-[amendment](http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en) to 
+[amendment](https://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en) to 
 the standard. These changes are taken into account by *jpylyzer*,
 which is in line with the most recent version of the (updated) standard.
 
@@ -104,7 +104,7 @@ The development of *jpylyzer* was funded by the EU FP 7 project SCAPE
 (SCAlable Preservation Environments). More information about this
 project can be found here:
 
-[http://www.scape-project.eu/](http://www.scape-project.eu/)
+[https://www.scape-project.eu/](https://www.scape-project.eu/)
 
 License {#license}
 -----------
@@ -119,7 +119,7 @@ See the GNU Lesser General Public License for more details. You should
 have received a copy of the GNU Lesser General Public License along with
 this program. If not, see:
 
-[http://www.gnu.org/licenses/](http://www.gnu.org/licenses/)
+[https://www.gnu.org/licenses/](https://www.gnu.org/licenses/)
 
 On Debian systems, the complete text of the GNU Lesser General Public
 License version 3 can be found in:
@@ -136,7 +136,7 @@ Obtaining the software {#obtaining-the-software}
 To obtain the latest version of the software please use the download
 links at the *jpylyzer* homepage:
 
-<http://jpylyzer.openpreservation.org/>
+<https://jpylyzer.openpreservation.org/>
 
 You have three options:
 
@@ -384,7 +384,7 @@ option with value `j2c`, e.g.:
 ### ‘mix’ option
 
 When this option is used, *jpylyzer* reports additional output in
-[*NISO MIX*](http://www.loc.gov/standards/mix/) format. This option takes one argument
+[*NISO MIX*](https://www.loc.gov/standards/mix/) format. This option takes one argument
 that defines whether *MIX* 1.0 or *MIX* 2.0 is used. For example, the following command
 will result in *MIX* 2.0 output:
 
@@ -673,7 +673,7 @@ This section explains *jpylyzer*’s output format.
 Overview {#output-format-overview}
 ------------
 
-*Jpylyzer* generates its output in XML format, which is defined by [the schema that can be found here](http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd). The following Figure shows the
+*Jpylyzer* generates its output in XML format, which is defined by [the schema that can be found here](https://jpylyzer.openpreservation.org/jpylyzer-v-2-1.xsd). The following Figure shows the
 output structure:
 
 ![Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements.](images/outputStructure.png)
@@ -803,7 +803,7 @@ propertiesExtension element {#propertiesExtension-element}
 ----------------------
 
 This optional element is reserved for output in alternative formats. Currently it is used to wrap output in NISO *MIX* format
-if the `--mix` option is used. See the [*MIX* documentation](http://www.loc.gov/standards/mix/) for a description of the reported elements.
+if the `--mix` option is used. See the [*MIX* documentation](https://www.loc.gov/standards/mix/) for a description of the reported elements.
 
 JP2: box by box {#jp2-box-by-box}
 =================
@@ -2271,23 +2271,23 @@ References {#references}
 ============
 
 ICC. Specification ICC.1:1998-09 – File Format for Color Profiles.
-International Color Consortium, 1998. [http://www.color.org/ICC-1\_1998-09.pdf](http://www.color.org/ICC-1_1998-09.pdf).
+International Color Consortium, 1998. [https://www.color.org/ICC-1\_1998-09.pdf](https://www.color.org/ICC-1_1998-09.pdf).
 
 ISO/IEC. Information technology — JPEG 2000 image coding system: Core
 coding system. ISO/IEC 15444-1, Second edition. Geneva: ISO/IEC, 2004a.
-[http://www.jpeg.org/public/15444-1annexi.pdf](http://www.jpeg.org/public/15444-1annexi.pdf) (“Annex I: JP2 file format syntax” only).
+[https://www.jpeg.org/public/15444-1annexi.pdf](https://www.jpeg.org/public/15444-1annexi.pdf) (“Annex I: JP2 file format syntax” only).
 
 ISO/IEC. Information technology — JPEG 2000 image coding system:
-Extensions. ISO/IEC 15444-2, First edition. Geneva: ISO/IEC, 2004b. [http://www.jpeg.org/public/15444-2annexm.pdf](http://www.jpeg.org/public/15444-2annexm.pdf)
+Extensions. ISO/IEC 15444-2, First edition. Geneva: ISO/IEC, 2004b. [https://www.jpeg.org/public/15444-2annexm.pdf](https://www.jpeg.org/public/15444-2annexm.pdf)
 (“Annex M: JPX extended file format syntax” only).
 
 Leach, P., Mealling, M. & Salz, R. A Universally Unique IDentifier
-(UUID) URN namespace. Memo, IETF. [http://tools.ietf.org/html/rfc4122.html](http://tools.ietf.org/html/rfc4122.html).
+(UUID) URN namespace. Memo, IETF. [https://tools.ietf.org/html/rfc4122.html](https://tools.ietf.org/html/rfc4122.html).
 
 
 [^1]: The *jpylyzer* binaries were created using the
 *PyInstaller* package:
-[http://www.pyinstaller.org/](http://www.pyinstaller.org/)
+[https://www.pyinstaller.org/](https://www.pyinstaller.org/)
 
 [^2]: Note that *jpylyzer* will not work under Python
 versions 3.0-3.1!
@@ -2445,7 +2445,7 @@ standard in 2013. The behaviour of *jpylyzer* is consistent with this amendment.
 </math>
 
 [^15]: Link:
-[http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf](http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf)
+[https://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf](https://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf)
 
 [^16]: However, support for start of packet (SOP) and end of
 packet (EPH) markers may be included in future versions.
