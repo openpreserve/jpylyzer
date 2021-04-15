@@ -118,21 +118,21 @@ title: User Manual
 </ul>
 <p>Conversely, an image that successfully passes a rendering test or pixel-wise comparison may still contain problematic features (e.g. incorrect colour space information), so validation, rendering tests and pixel-wise comparisons are really complementary to each other.</p>
 <h3 id="note-on-icc-profile-support">Note on ICC profile support</h3>
-<p>The support of ICC profiles in JP2 was recently extended through an <a href="http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard. These changes are taken into account by <em>jpylyzer</em>, which is in line with the most recent version of the (updated) standard.</p>
+<p>The support of ICC profiles in JP2 was recently extended through an <a href="https://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard. These changes are taken into account by <em>jpylyzer</em>, which is in line with the most recent version of the (updated) standard.</p>
 <h2 id="outline">Outline of this User Manual</h2>
 <p>We start by describing the <a href="#installation">installation process</a> of <em>jpylyzer</em> for Windows and Unix-based systems. We then explain its <a href="#using-jpylyzer">basic usage</a>, either as a command-line tool, or as an importable Python module. This is followed by a brief overview of <a href="#structure-jp2">the structure of the JP2 format</a> and its ‘box’ structure, and an explanation of <em>Jpylyzer</em>’s <a href="#output-format">output format</a>. The final sections give a detailed description of the tests that <em>jpylyzer</em> performs for validation, and the properties that are reported in the output. The <a href="#jp2-box-by-box">penultimate section</a> does this for all ‘boxes’, except the ‘Contiguous Codestream’ box, which is given a <a href="#contiguous-codestream-box-chapter">section of its own</a>.</p>
 <h2 id="funding">Funding</h2>
 <p>The development of <em>jpylyzer</em> was funded by the EU FP 7 project SCAPE (SCAlable Preservation Environments). More information about this project can be found here:</p>
-<p><a href="http://www.scape-project.eu/">http://www.scape-project.eu/</a></p>
+<p><a href="https://www.scape-project.eu/">https://www.scape-project.eu/</a></p>
 <h2 id="license">License</h2>
 <p><em>Jpylyzer</em> is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this program. If not, see:</p>
-<p><a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a></p>
+<p><a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a></p>
 <p>On Debian systems, the complete text of the GNU Lesser General Public License version 3 can be found in:</p>
 <pre><code>/usr/share/common-licenses/LGPL-3</code></pre>
 <h1 id="installation">Installation and set-up</h1>
 <h2 id="obtaining-the-software">Obtaining the software</h2>
 <p>To obtain the latest version of the software please use the download links at the <em>jpylyzer</em> homepage:</p>
-<p><a href="http://jpylyzer.openpreservation.org/" class="uri">http://jpylyzer.openpreservation.org/</a></p>
+<p><a href="https://jpylyzer.openpreservation.org/" class="uri">https://jpylyzer.openpreservation.org/</a></p>
 <p>You have three options:</p>
 <ol type="1">
 <li><p>Install the software with the <em>Pip</em> package manager. This works on all platforms (Windows, Linux, Mac, etc.), but you need to have the Python interpreter available on your system. Jpylyzer is compatible with Python 2.7, and Python 3.2 and more recent (Python 3.0 and 3.1 are not supported).</p></li>
@@ -303,7 +303,7 @@ sudo apt-get install python-jpylyzer</code></pre>
 <p>By default, <em>jpylyzer</em> validates against the <em>JP2</em> format specification. Starting with version 2.0, <em>jpylyzer</em> can also validate raw JPEG 2000 codestreams that are not wrapped inside a <em>JP2</em> container. For codestream validation, use the <code>--format</code> option with value <code>j2c</code>, e.g.:</p>
 <pre><code>jpylyzer --format j2c rubbish.j2c &gt; rubbish.xml</code></pre>
 <h3 id="mix-option">‘mix’ option</h3>
-<p>When this option is used, <em>jpylyzer</em> reports additional output in <a href="http://www.loc.gov/standards/mix/"><em>NISO MIX</em></a> format. This option takes one argument that defines whether <em>MIX</em> 1.0 or <em>MIX</em> 2.0 is used. For example, the following command will result in <em>MIX</em> 2.0 output:</p>
+<p>When this option is used, <em>jpylyzer</em> reports additional output in <a href="https://www.loc.gov/standards/mix/"><em>NISO MIX</em></a> format. This option takes one argument that defines whether <em>MIX</em> 1.0 or <em>MIX</em> 2.0 is used. For example, the following command will result in <em>MIX</em> 2.0 output:</p>
 <pre><code>jpylyzer --mix 2 rubbish.jp2 &gt; rubbish.xml</code></pre>
 <p>The <em>MIX</em> output is wrapped inside a <em>file/propertiesExtension</em> element. Note that <em>MIX</em> output is <em>only</em> written for files that are valid JP2 (files that are not valid result in an empty <em>propertiesExtension</em> element). Also, the <code>--mix</code> option is ignored if <code>--format</code> is set to <code>j2c</code>, or if <code>--legacyout</code> (see below) is used.</p>
 <h3 id="legacyout-option">‘legacyout’ option</h3>
@@ -532,7 +532,7 @@ User warning: unknown error (please report to developers)</code></pre>
 <h1 id="output-format">Output format</h1>
 <p>This section explains <em>jpylyzer</em>’s output format.</p>
 <h2 id="output-format-overview">Overview</h2>
-<p><em>Jpylyzer</em> generates its output in XML format, which is defined by <a href="http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd">the schema that can be found here</a>. The following Figure shows the output structure:</p>
+<p><em>Jpylyzer</em> generates its output in XML format, which is defined by <a href="https://jpylyzer.openpreservation.org/jpylyzer-v-2-1.xsd">the schema that can be found here</a>. The following Figure shows the output structure:</p>
 <figure>
 <img src="images/outputStructure.png" alt=""><figcaption>Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements.</figcaption>
 </figure>
@@ -595,7 +595,7 @@ User warning: unknown error (please report to developers)</code></pre>
 <h2 id="properties-element">properties element</h2>
 <p>This element contains the extracted image properties, which are organised in a hierarchical tree that corresponds to JP2’s box structure. See <a href="#jp2-box-by-box">here</a> and <a href="#contiguous-codestream-box-chapter">here</a> for a description of the reported properties.</p>
 <h2 id="propertiesExtension-element">propertiesExtension element</h2>
-<p>This optional element is reserved for output in alternative formats. Currently it is used to wrap output in NISO <em>MIX</em> format if the <code>--mix</code> option is used. See the <a href="http://www.loc.gov/standards/mix/"><em>MIX</em> documentation</a> for a description of the reported elements.</p>
+<p>This optional element is reserved for output in alternative formats. Currently it is used to wrap output in NISO <em>MIX</em> format if the <code>--mix</code> option is used. See the <a href="https://www.loc.gov/standards/mix/"><em>MIX</em> documentation</a> for a description of the reported elements.</p>
 <h1 id="jp2-box-by-box">JP2: box by box</h1>
 <p>The following two sections provide a detailed explanation of <em>jpylyzer</em>’s functionality and its output. In particular, the following two aspects are addressed:</p>
 <ol type="1">
@@ -2958,6 +2958,7 @@ User warning: unknown error (please report to developers)</code></pre>
 </tr>
 </tbody>
 </table>
+<p><br></p>
 <p>The following marker segments are only minimally supported: <em>jpylyzer</em> will report their presence in the <em>properties</em> element, but it does not perform any further tests or analyses. This may change in upcoming versions of the software.</p>
 <h2 id="plm-marker">Packet length, main header (PLM) marker segment</h2>
 <h3 id="element-name-31">Element name</h3>
@@ -3181,14 +3182,14 @@ User warning: unknown error (please report to developers)</code></pre>
 </tbody>
 </table>
 <h1 id="references">References</h1>
-<p>ICC. Specification ICC.1:1998-09 – File Format for Color Profiles. International Color Consortium, 1998. <a href="http://www.color.org/ICC-1_1998-09.pdf">http://www.color.org/ICC-1_1998-09.pdf</a>.</p>
-<p>ISO/IEC. Information technology — JPEG 2000 image coding system: Core coding system. ISO/IEC 15444-1, Second edition. Geneva: ISO/IEC, 2004a. <a href="http://www.jpeg.org/public/15444-1annexi.pdf">http://www.jpeg.org/public/15444-1annexi.pdf</a> (“Annex I: JP2 file format syntax” only).</p>
-<p>ISO/IEC. Information technology — JPEG 2000 image coding system: Extensions. ISO/IEC 15444-2, First edition. Geneva: ISO/IEC, 2004b. <a href="http://www.jpeg.org/public/15444-2annexm.pdf">http://www.jpeg.org/public/15444-2annexm.pdf</a> (“Annex M: JPX extended file format syntax” only).</p>
-<p>Leach, P., Mealling, M. &amp; Salz, R. A Universally Unique IDentifier (UUID) URN namespace. Memo, IETF. <a href="http://tools.ietf.org/html/rfc4122.html">http://tools.ietf.org/html/rfc4122.html</a>.</p>
+<p>ICC. Specification ICC.1:1998-09 – File Format for Color Profiles. International Color Consortium, 1998. <a href="https://www.color.org/ICC-1_1998-09.pdf">https://www.color.org/ICC-1_1998-09.pdf</a>.</p>
+<p>ISO/IEC. Information technology — JPEG 2000 image coding system: Core coding system. ISO/IEC 15444-1, Second edition. Geneva: ISO/IEC, 2004a. <a href="https://www.jpeg.org/public/15444-1annexi.pdf">https://www.jpeg.org/public/15444-1annexi.pdf</a> (“Annex I: JP2 file format syntax” only).</p>
+<p>ISO/IEC. Information technology — JPEG 2000 image coding system: Extensions. ISO/IEC 15444-2, First edition. Geneva: ISO/IEC, 2004b. <a href="https://www.jpeg.org/public/15444-2annexm.pdf">https://www.jpeg.org/public/15444-2annexm.pdf</a> (“Annex M: JPX extended file format syntax” only).</p>
+<p>Leach, P., Mealling, M. &amp; Salz, R. A Universally Unique IDentifier (UUID) URN namespace. Memo, IETF. <a href="https://tools.ietf.org/html/rfc4122.html">https://tools.ietf.org/html/rfc4122.html</a>.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1" role="doc-endnote"><p>The <em>jpylyzer</em> binaries were created using the <em>PyInstaller</em> package: <a href="http://www.pyinstaller.org/">http://www.pyinstaller.org/</a><a href="#fnref1" class="footnote-back" role="doc-backlink">&amp;larrhk;︎</a></p></li>
+<li id="fn1" role="doc-endnote"><p>The <em>jpylyzer</em> binaries were created using the <em>PyInstaller</em> package: <a href="https://www.pyinstaller.org/">https://www.pyinstaller.org/</a><a href="#fnref1" class="footnote-back" role="doc-backlink">&amp;larrhk;︎</a></p></li>
 <li id="fn2" role="doc-endnote"><p>Note that <em>jpylyzer</em> versions 1.8 and earlier returned a formatted XML string instead of an element object!<a href="#fnref2" class="footnote-back" role="doc-backlink">&amp;larrhk;︎</a></p></li>
 <li id="fn3" role="doc-endnote"><p>Note that <em>jpylyzer</em> versions 1.4 and earlier used the verbose output format by default. This behaviour has changed in version 1.5 onwards, as the lengthy output turned out to be slightly confusing to some users.<a href="#fnref3" class="footnote-back" role="doc-backlink">&amp;larrhk;︎</a></p></li>
 <li id="fn4" role="doc-endnote"><p>The “Any ICC” method is defined in ISO/IEC 15444-2 (the JPX format), and is not allowed in JP2. However, <em>jpylyzer</em> offers limited support for JPX here by also reporting the properties of ICC profiles that were embedded using this method. Note that any file that uses this method will fail the “methIsValid” test (and thereby the validation).<a href="#fnref4" class="footnote-back" role="doc-backlink">&amp;larrhk;︎</a></p></li>
@@ -3201,7 +3202,7 @@ User warning: unknown error (please report to developers)</code></pre>
 <li id="fn11" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRdN</mi> </mrow> <mrow> <mi>hRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRdE</mi> </msup> </mrow> </math><a href="#fnref11" class="footnote-back" role="doc-backlink">&amp;larrhk;︎</a></p></li>
 <li id="fn12" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref12" class="footnote-back" role="doc-backlink">&amp;larrhk;︎</a></p></li>
 <li id="fn13" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref13" class="footnote-back" role="doc-backlink">&amp;larrhk;︎</a></p></li>
-<li id="fn14" role="doc-endnote"><p>Link: <a href="http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf">http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf</a><a href="#fnref14" class="footnote-back" role="doc-backlink">&amp;larrhk;︎</a></p></li>
+<li id="fn14" role="doc-endnote"><p>Link: <a href="https://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf">https://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf</a><a href="#fnref14" class="footnote-back" role="doc-backlink">&amp;larrhk;︎</a></p></li>
 <li id="fn15" role="doc-endnote"><p>However, support for start of packet (SOP) and end of packet (EPH) markers may be included in future versions.<a href="#fnref15" class="footnote-back" role="doc-backlink">&amp;larrhk;︎</a></p></li>
 <li id="fn16" role="doc-endnote"><p>For example, in a TIFF to JP2 conversion workflow one could include a pixel-by-pixel comparison of the values in the TIFF and the JP2.<a href="#fnref16" class="footnote-back" role="doc-backlink">&amp;larrhk;︎</a></p></li>
 <li id="fn17" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>numberOfTiles</mi> <mo>=</mo> <mo>[</mo> <mfrac> <mrow> <mi>xsiz</mi> <mo>-</mo> <mi>xOsiz</mi> </mrow> <mrow> <mi>xTsiz</mi> </mrow> </mfrac> <mo>]</mo> <mo>•</mo> <mo>[</mo> <mfrac> <mrow> <mi>ysiz</mi> <mo>-</mo> <mi>yOsiz</mi> </mrow> <mrow> <mi>yTsiz</mi> </mrow> </mfrac> <mo>]</mo> </mrow> </math><a href="#fnref17" class="footnote-back" role="doc-backlink">&amp;larrhk;︎</a></p></li>

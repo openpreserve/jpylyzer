@@ -2151,6 +2151,8 @@ sot
 |psotIsValid|*psot* is **not** within range [1,13]|
 |tpsotIsValid|*tpsot* is within range [0,254]|
 
+<br>
+
 The following marker segments are only minimally supported: *jpylyzer*
 will report their presence in the *properties* element, but it does not
 perform any further tests or analyses. This may change in upcoming
