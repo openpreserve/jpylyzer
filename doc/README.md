@@ -8,7 +8,7 @@ For the rendering of the equation objects (which are in [MathML](http://en.wikip
 
 ## Exporting to HTML
 
-Run the script [mdToDeliveryFormats.sh](mdToDeliveryFormats.sh) to export the Markdown file to the folllowing delivery formats:
+Run the script [mdToDeliveryFormats.sh](mdToDeliveryFormats.sh) to export the Markdown file to the following delivery formats:
 
 1. Jekyll template with HTML that can be used to replace the on-line manual on the jpylyzer homepage (file  [userManual.html](https://github.com/openpreserve/jpylyzer/blob/gh-pages/userManual.html))
 
@@ -30,7 +30,7 @@ You will need a fairly recent version of *Pandoc* to make this work, as older ve
 
 ## Export to other delivery formats
 
-Could be included at later stage. So far I have briefly investigated te following.
+Could be included at later stage. So far I have briefly investigated the following.
 
 ### PDF
 First attempt, after some experimentation:

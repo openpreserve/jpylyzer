@@ -138,7 +138,7 @@ Outline of output elements:
 4. tests: tree of test outcomes, expressed as "True"/"False" flags.
    File is considered valid JP2 only if all tests return "True". Tree follows 
    JP2 box structure. 
-5. properties: tree of image properies. Follows JP2 box structure. Naming of 
+5. properties: tree of image properties. Follows JP2 box structure. Naming of
    properties follows ISO/IEC 15444-1 Annex I (JP2 file format syntax) and
    Annex A (Codestream syntax).</para>
     

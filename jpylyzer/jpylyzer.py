@@ -547,7 +547,7 @@ def findFiles(recurse, paths):
             root = unicode(root, 'utf-8')
 
         # WILDCARD IN PATH OR FILENAME
-        # In Linux wilcard expansion done by bash so, add file to list
+        # In Linux wildcard expansion done by bash so, add file to list
         if os.path.isfile(root):
             EXISTING_FILES.append(root)
         # Windows (& Linux with backslash prefix) does not expand wildcard '*'
