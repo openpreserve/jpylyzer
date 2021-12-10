@@ -1924,7 +1924,7 @@ coc
 |segmentationSymbols|Indicates use of segmentation symbols (“yes”/“no”)|
 |transformation|Wavelet transformation: “9-7 irreversible” or “5-3 reversible”|
 |precinctSizeX<sup>\*</sup>|Precinct width (repeated for all resolution levels; order: low to high). Equals 32768 if *precincts* is “default”|
-|precinctSizeY<sup>\*</sup>|Precinct heigth (repeated for all resolution levels; order: low to high). Equals 32768 if *precincts* is “default”|
+|precinctSizeY<sup>\*</sup>|Precinct height (repeated for all resolution levels; order: low to high). Equals 32768 if *precincts* is “default”|
 
 ### Tests
 

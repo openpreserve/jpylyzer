@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-"""Jpylyzer validator for JPEG 200 Part 1 (JP2) images.
+"""Jpylyzer validator for JPEG 2000 Part 1 (JP2) images.
 
 Requires: Python 2.7 (older versions won't work) OR Python 3.2 or more recent
   (Python 3.0 and 3.1 won't work either!)
@@ -593,7 +593,7 @@ def findFiles(recurse, paths):
             root = unicode(root, 'utf-8')
 
         # WILDCARD IN PATH OR FILENAME
-        # In Linux wilcard expansion done by bash so, add file to list
+        # In Linux wildcard expansion done by bash so, add file to list
         if os.path.isfile(root):
             EXISTING_FILES.append(root)
         # Windows (& Linux with backslash prefix) does not expand wildcard '*'

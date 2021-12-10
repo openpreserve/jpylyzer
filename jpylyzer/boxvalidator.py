@@ -651,7 +651,7 @@ class BoxValidator:
             self.boxContents[9:10])
 
         # Minor revision: first 4 bits of profileMinorRevisionByte
-        # (Shift bits 4 positions to right, logical shift not arithemetic shift!)
+        # (Shift bits 4 positions to right, logical shift not arithmetic shift!)
         profileMinorRevision = profileMinorRevisionByte >> 4
 
         # Bug fix revision: last 4 bits of profileMinorRevisionByte
@@ -1470,7 +1470,7 @@ class BoxValidator:
         # xsiz must be within range 1 - (2**32)-1
         self.testFor("xsizIsValid", 1 <= xsiz <= (2 ** 32) - 1)
 
-        # Heigth of reference grid
+        # Height of reference grid
         ysiz = bc.bytesToUInt(self.boxContents[8:12])
         self.addCharacteristic("ysiz", ysiz)
 

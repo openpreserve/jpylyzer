@@ -7,7 +7,7 @@ This folder contains a first attempt at an output schema for jpylyzer. A couple 
 * No elaborate checks on reported properties (apart from data type); this is all done by *jpylyzer* anyway.
 * All boxes + properties that can be reported in the *properties* element are included in the schema.
 * The schema doesn't impose any constraints on whether the box types that are reported directly under *properties* (or in any of the superboxes) are actually allowed there. *Jpylyzer* just parses a *JP2* and reports whatever it finds there. Checks on whether boxes are allowed at a particular location, all expected boxes are present and their order of appearance are all part of *jpylyzer*'s validation process, and aren't repeated in the schema. If *jpylyzer* decides that a file is not valid *JP2* because of such constraints, the resulting output XML should still be valid according to *jpylyzer*'s output schema.
-* Some numerical output elements that now have the *decimal* type could possibly result in validation errors in extreme cases (e.g. ouput in scientific notation for very large values). If this turns out to be a real problem, consider changing the vtype to *double* for those fields (already did this for *compressionRatio*, which can get huge in case of truncated files).
+* Some numerical output elements that now have the *decimal* type could possibly result in validation errors in extreme cases (e.g. output in scientific notation for very large values). If this turns out to be a real problem, consider changing the vtype to *double* for those fields (already did this for *compressionRatio*, which can get huge in case of truncated files).
 
 ## Files
 
