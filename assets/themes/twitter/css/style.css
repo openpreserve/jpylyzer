@@ -184,6 +184,17 @@ ol li {
     line-height: 28px;
 }
 
+dl dt {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 28px;
+}
+
+dl dd {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 28px;
+}
 blockquote p{
   margin-bottom:0; font-style:italic; font-weight:300}
 
