@@ -7,6 +7,8 @@ title: jpylyzer
 <div class="newsbar">
 <h2>Latest news</h2>
 
+
+<div class="newsitems">
 <ul>
 {% for post in paginator.posts %}
    <!-- <div class="post-entry"> -->
@@ -15,6 +17,7 @@ title: jpylyzer
    <!-- </div> -->
 {% endfor %}
 </ul>
+</div>
 <!-- Pagination links -->
 
 {% if paginator.total_pages > 1 %}
