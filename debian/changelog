@@ -1,3 +1,10 @@
+jpylyzer (2.0.1) UNRELEASED; urgency=medium
+
+  * Only import six if Python version is 2
+
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Tue, 11 Jan 2022 12:12:00 +0200
+
+
 jpylyzer (2.0.0) UNRELEASED; urgency=medium
 
   * Validation of raw codestreams
