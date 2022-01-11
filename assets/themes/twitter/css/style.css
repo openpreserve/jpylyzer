@@ -83,7 +83,7 @@
   }
 
 .pagination{
-  text-align:center;
+  text-align:left;
   font-size:22px;
   font-weight:bold;
   }
@@ -101,7 +101,7 @@
   line-height:32px; 
   margin:10px 0 20px 0; 
   border-bottom: 2px solid #ccc;
-  text-align:center;
+  text-align:left;
   }
   
 .sidebar{
