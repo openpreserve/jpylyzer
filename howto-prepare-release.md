@@ -1,4 +1,4 @@
-## Steps in preparing a jpylyzer release
+s## Steps in preparing a jpylyzer release
 
 ### Before you start
 
