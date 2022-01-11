@@ -42,7 +42,8 @@ import codecs
 import re
 from xml.dom import minidom
 import xml.etree.ElementTree as ETree
-from six import u
+if sys.version.startswith("2"):
+    from six import u
 from . import config
 from . import etpatch as ET
 from . import boxvalidator as bv
@@ -56,7 +57,7 @@ SCRIPT_PATH, SCRIPT_NAME = os.path.split(sys.argv[0])
 if not SCRIPT_NAME:
     SCRIPT_NAME = 'jpylyzer'
 
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 
 # Create PARSER
 PARSER = argparse.ArgumentParser(
