@@ -52,11 +52,12 @@ try:
     NO_MMAP_LIB = False
 except ImportError:
     NO_MMAP_LIB = True
-try:
-    from six import u
-    NO_U_LIB = False
-except ImportError:
-    NO_U_LIB = True
+if sys.version.startswith("2"):
+    try:
+        from six import u
+        NO_U_LIB = False
+    except ImportError:
+        NO_U_LIB = True
 
 SCRIPT_PATH, SCRIPT_NAME = os.path.split(sys.argv[0])
 
