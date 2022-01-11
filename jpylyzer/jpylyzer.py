@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 """Jpylyzer validator for JPEG 2000 Part 1 (JP2) images.
 
 Requires: Python 2.7 (older versions won't work) OR Python 3.2 or more recent
