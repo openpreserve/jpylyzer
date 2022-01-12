@@ -512,7 +512,7 @@ Instead of using *jpylyzer* from the command-line, you can also import
 it as a module in your own Python programs. To do so, install jpylyzer
 with *pip*. Then import *jpylyzer* into your code by adding:
 
-   from jpylyzer import jpylyzer
+    from jpylyzer import jpylyzer
 
 Subsequently you can call any function that is defined in *jpylyzer.py*.
 In practice you will most likely only need the *checkOneFile* function. 
