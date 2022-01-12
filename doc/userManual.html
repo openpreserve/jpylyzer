@@ -288,7 +288,7 @@ jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <p>Simply enter:</p>
 
 
-<pre><code>sudo -H pip install isolyzer</code></pre>
+<pre><code>sudo -H pip install jpylyzer</code></pre>
 
 
 <p>No further configuration is needed in this case.</p>
@@ -631,9 +631,13 @@ sudo apt-get install python-jpylyzer</code></pre>
 <p>Finally, the following messages most likely indicate a jpylyzer bug:</p>
 
 
-<pre><code>User warning:runtime error (please report to developers)
+<pre><code>User warning:runtime error (please report to developers)</code></pre>
 
-User warning: unknown error (please report to developers)</code></pre>
+
+<p>and:</p>
+
+
+<pre><code>User warning: unknown error (please report to developers)</code></pre>
 
 
 <p>If you ever run into either of these two errors, please get in touch with the jpylyzer developers. The easiest way to do this is to create a new issue at:</p>
@@ -660,7 +664,7 @@ User warning: unknown error (please report to developers)</code></pre>
 <p>Instead of using <em>jpylyzer</em> from the command-line, you can also import it as a module in your own Python programs. To do so, install jpylyzer with <em>pip</em>. Then import <em>jpylyzer</em> into your code by adding:</p>
 
 
-<p>from jpylyzer import jpylyzer</p>
+<pre><code>from jpylyzer import jpylyzer</code></pre>
 
 
 <p>Subsequently you can call any function that is defined in <em>jpylyzer.py</em>. In practice you will most likely only need the <em>checkOneFile</em> function. The following minimal script shows how this works:</p>

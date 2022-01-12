@@ -209,7 +209,7 @@ Which means that the installation was successful!
 
 Simply enter:
 
-    sudo -H pip install isolyzer
+    sudo -H pip install jpylyzer
 
 No further configuration is needed in this case.
 
@@ -486,6 +486,8 @@ The following warning indicates an input error:
 Finally, the following messages most likely indicate a jpylyzer bug:  
    
     User warning:runtime error (please report to developers)
+
+and:
 
     User warning: unknown error (please report to developers)
 
