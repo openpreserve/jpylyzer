@@ -200,7 +200,7 @@ ol li {
 
 dl {
   display: grid;
-  grid-template-columns: 33% auto;
+  grid-template-columns: 25% auto;
 }
 
 dt {
@@ -208,6 +208,8 @@ dt {
   padding-top: 10px;
   margin-bottom: 20px;
   line-height: 28px;
+  font-weight:normal;
+  font-style: italic;
 }
 
 dt::after {
