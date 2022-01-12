@@ -660,25 +660,25 @@ User warning: unknown error (please report to developers)</code></pre>
 <p>Instead of using <em>jpylyzer</em> from the command-line, you can also import it as a module in your own Python programs. To do so, install jpylyzer with <em>pip</em>. Then import <em>jpylyzer</em> into your code by adding:</p>
 
 
-<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"/><span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</span></code></pre></div>
+<p>from jpylyzer import jpylyzer</p>
 
 
 <p>Subsequently you can call any function that is defined in <em>jpylyzer.py</em>. In practice you will most likely only need the <em>checkOneFile</em> function. The following minimal script shows how this works:</p>
 
 
-<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"/><span class="co">#! /usr/bin/env python</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"/></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"/><span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"/></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"/><span class="co"># Define JP2</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"/>myFile <span class="op">=</span> <span class="st">"/home/johan/jpylyzer-test-files/aware.jp2"</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"/></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"/><span class="co"># Analyse with jpylyzer, result to Element object</span></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"/>myResult <span class="op">=</span> jpylyzer.checkOneFile(myFile)</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"/></span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"/><span class="co"># Return image height value</span></span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"/>imageHeight <span class="op">=</span> myResult.findtext(<span class="st">'./properties/jp2HeaderBox/imageHeaderBox/height'</span>)</span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"/><span class="bu">print</span>(imageHeight)</span></code></pre></div>
+<pre><code>#! /usr/bin/env python
+
+from jpylyzer import jpylyzer
+
+# Define JP2
+myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
+
+# Analyse with jpylyzer, result to Element object
+myResult = jpylyzer.checkOneFile(myFile)
+
+# Return image height value
+imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
+print(imageHeight)</code></pre>
 
 
 <p>Here, <em>myResult</em> is an <em>Element</em> object that can either be used directly, or converted to XML using the <em>ElementTree</em> module<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The structure of the element object follows the XML output that described <a href="#output-format">here</a>.</p>
@@ -687,11 +687,11 @@ User warning: unknown error (please report to developers)</code></pre>
 <p>For validation a raw JPEG 2000 codestreams, call the <em>checkOneFile</em> function with the additional <em>validationFormat</em> argument, and set it to <code>j2c</code>:</p>
 
 
-<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"/><span class="co"># Define Codestream</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"/>myFile <span class="op">=</span> <span class="st">"/home/johan/jpylyzer-test-files/rubbish.j2c"</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"/></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"/><span class="co"># Analyse with jpylyzer, result to Element object</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"/>myResult <span class="op">=</span> jpylyzer.checkOneFile(myFile, <span class="st">'j2c'</span>)</span></code></pre></div>
+<pre><code># Define Codestream
+myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
+
+# Analyse with jpylyzer, result to Element object
+myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 
 
 <h2 id="java-integration">Java integration</h2>
