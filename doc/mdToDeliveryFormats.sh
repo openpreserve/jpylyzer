@@ -27,7 +27,7 @@ outHtmlSC=${baseName}.html
 # Create file that replaces userManual page on website
 
 # Step 1: convert to HTML
-pandoc -s --columns 1000 --toc --toc-depth=2 --ascii -c $styleSheet -w html5 -o tmp.html $mdSource
+pandoc -s --columns 1000 --toc --toc-depth=2 --ascii -c $styleSheet -w html5  -o tmp.html $mdSource
 
 # Step 2: generate file with Jekyll headers
 
