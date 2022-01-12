@@ -223,6 +223,12 @@ dd {
   line-height: 28px;
 }
 
+pre {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  line-height: 28px;
+}
+
 blockquote p{
   margin-bottom:0; font-style:italic; font-weight:300}
 
@@ -257,8 +263,8 @@ figure{
   margin-right: auto;
   padding-left:15px;
   padding-right:15px;
-  margin-top:0px;
-  margin-bottom:0px;
+  margin-top:30px;
+  margin-bottom:30px;
   }
 
 figure figcaption{
@@ -270,8 +276,8 @@ figure figcaption{
 table{
   font-size:22px;line-height:28px;
   border-collapse:collapse;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   }
 
 td, th{
