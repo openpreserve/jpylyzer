@@ -11,11 +11,8 @@ TODO:
 - Add tests for specific features/oddities (but see previous point)
 """
 
-import sys
 import os
 import glob
-from xml.dom.minidom import Element
-from xml.etree.ElementTree import ElementTree
 import pytest
 
 from jpylyzer.jpylyzer import checkOneFile
