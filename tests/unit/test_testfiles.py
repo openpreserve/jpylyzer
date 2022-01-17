@@ -16,6 +16,7 @@ TODO:
 
 import sys
 import os
+import glob
 from xml.dom.minidom import Element
 from xml.etree.ElementTree import ElementTree
 import pytest
@@ -25,8 +26,11 @@ import jpylyzer.config as config
 
 testFilesDir = "/home/johan/jpylyzer-test-files/"
 
+# All files in test files dir, excluding .md file
+testFiles = glob.glob(os.path.join(testFilesDir, '*[!.md]'))
+
 # Dictionary with names of all test files and validity
-testFiles = {
+validityLookup = {
 "reference.jp2": "True",
 "signature_corrupted.jp2": "False",
 "invalid_character_in_xml.jp2": "False",
@@ -110,24 +114,18 @@ def test_validity():
     """
     Tests validation outcome of all test files against known validity
     """
-    for fileName, isValid in testFiles.items():
-        testFile = os.path.join(testFilesDir, fileName)
+    #for fileName, isValid in testFiles.items():
+    for testFile in testFiles:
         print(testFile)
+        fName = os.path.basename(testFile)
         outJpylyzer = checkOneFile(testFile, 'jp2')
         assert outJpylyzer.findtext('./statusInfo/success') == "True"
-        assert outJpylyzer.findtext('./isValid') == isValid
+        if fName in validityLookup.keys():
+            isValid = validityLookup[fName]
+            assert outJpylyzer.findtext('./isValid') == isValid
 
 def test_surrogatepairs():
     """
     Test handling of files with surrogate pairs in file name
     """
     pass
-
-def test_emptyfile():
-    """
-    Test handling of empty files
-    """
-    testFile = os.path.join(testFilesDir, "empty.jp2")
-    print(testFile)
-    outJpylyzer = checkOneFile(testFile, 'jp2')
-    assert outJpylyzer.findtext('./statusInfo/success') == "True"
