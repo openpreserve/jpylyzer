@@ -1,4 +1,19 @@
+#! /usr/bin/env python3
 # pylint: disable=missing-docstring
+"""
+Tests on jpylyzer test corpus files
+TODO:
+- Automatically fetch test files from Github
+- Get rid of testFilesDir (is there some standard location
+  for tests?)
+- Perhaps read dictionary of tests files from CSV file (to be
+  added to test-files repo)
+- Look for better way to handle same test on different files
+  (tracing back failed tests to respective files now relies on print
+  statement, there must be better ways to do this?)
+- Add tests for specific features/oddities (but see previous point)
+"""
+
 import sys
 import os
 from xml.dom.minidom import Element
@@ -90,7 +105,6 @@ testFiles = {
 ## Excluded in above dict are:
 #
 # - 3 surrogate pair samples: needs separate test
-# - empty.jp2: needs separate test
 
 def test_validity():
     """
@@ -100,6 +114,7 @@ def test_validity():
         testFile = os.path.join(testFilesDir, fileName)
         print(testFile)
         outJpylyzer = checkOneFile(testFile, 'jp2')
+        assert outJpylyzer.findtext('./statusInfo/success') == "True"
         assert outJpylyzer.findtext('./isValid') == isValid
 
 def test_surrogatepairs():
@@ -113,5 +128,6 @@ def test_emptyfile():
     Test handling of empty files
     """
     testFile = os.path.join(testFilesDir, "empty.jp2")
+    print(testFile)
     outJpylyzer = checkOneFile(testFile, 'jp2')
     assert outJpylyzer.findtext('./statusInfo/success') == "True"
