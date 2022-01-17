@@ -92,16 +92,25 @@ testFiles = {
 # - 3 surrogate pair samples: needs separate test
 # - empty.jp2: needs separate test
 
-def fileIsValid(testFile):
-    VALIDATION_FORMAT = 'jp2'
-    xmlElement = checkOneFile(testFile, VALIDATION_FORMAT)
-    return xmlElement.findtext('./isValid')
-
 def test_validity():
+    """
+    Tests validation outcome of all test files against known validity
+    """
     for fileName, isValid in testFiles.items():
         testFile = os.path.join(testFilesDir, fileName)
         print(testFile)
-        isValidJpylyzer = fileIsValid(testFile)
-        assert isValidJpylyzer == isValid
+        outJpylyzer = checkOneFile(testFile, 'jp2')
+        assert outJpylyzer.findtext('./isValid') == isValid
 
+def test_surrogatepairs():
+    """
+    Test handling of files with surrogate pairs in file name
+    """
+    pass
 
+def test_emptyfile():
+    """
+    Test handling of empty files
+    """
+    #testFile = os.path.join(testFilesDir, "empty.jp2")
+    pass
