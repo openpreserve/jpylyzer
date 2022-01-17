@@ -1407,8 +1407,8 @@ class BoxValidator:
 
             # Found numbers of tile	parts per tile must match expected
             self.testFor("foundExpectedNumberOfTileParts",
-                         len(set(tilePartsPerTileExpected.items())) ==
-                         len(set(tilePartsPerTileFound.items())))
+                         len(set(tilePartsPerTileExpected.items())) in
+                         [len(set(tilePartsPerTileFound.items())), 0])
 
             # Add tile-part characteristics and tests to characteristics / tests
             self.characteristics.append(tilePartCharacteristics)
