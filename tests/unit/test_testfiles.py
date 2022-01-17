@@ -112,5 +112,6 @@ def test_emptyfile():
     """
     Test handling of empty files
     """
-    #testFile = os.path.join(testFilesDir, "empty.jp2")
-    pass
+    testFile = os.path.join(testFilesDir, "empty.jp2")
+    outJpylyzer = checkOneFile(testFile, 'jp2')
+    assert outJpylyzer.findtext('./statusInfo/success') == "True"
