@@ -19,7 +19,6 @@ from xml.etree.ElementTree import ElementTree
 import pytest
 
 from jpylyzer.jpylyzer import checkOneFile
-import jpylyzer.config as config
 
 testFilesDir = "/home/johan/jpylyzer-test-files/"
 
