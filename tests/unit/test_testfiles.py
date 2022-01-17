@@ -8,9 +8,6 @@ TODO:
   for tests?)
 - Perhaps read dictionary of tests files from CSV file (to be
   added to test-files repo)
-- Look for better way to handle same test on different files
-  (tracing back failed tests to respective files now relies on print
-  statement, there must be better ways to do this?)
 - Add tests for specific features/oddities (but see previous point)
 """
 
@@ -110,19 +107,18 @@ validityLookup = {
 #
 # - 3 surrogate pair samples: needs separate test
 
-def test_validity():
+@pytest.mark.parametrize('input', testFiles)
+
+def test_validity(input):
     """
     Tests validation outcome of all test files against known validity
     """
-    #for fileName, isValid in testFiles.items():
-    for testFile in testFiles:
-        print(testFile)
-        fName = os.path.basename(testFile)
-        outJpylyzer = checkOneFile(testFile, 'jp2')
-        assert outJpylyzer.findtext('./statusInfo/success') == "True"
-        if fName in validityLookup.keys():
-            isValid = validityLookup[fName]
-            assert outJpylyzer.findtext('./isValid') == isValid
+    fName = os.path.basename(input)
+    outJpylyzer = checkOneFile(input, 'jp2')
+    assert outJpylyzer.findtext('./statusInfo/success') == "True"
+    if fName in validityLookup.keys():
+        isValid = validityLookup[fName]
+        assert outJpylyzer.findtext('./isValid') == isValid
 
 def test_surrogatepairs():
     """
