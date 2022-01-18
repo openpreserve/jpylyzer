@@ -6,9 +6,11 @@ Tests on jpylyzer test corpus files.
 Pre-condition:
 
 Contents of jpylyzer-test-files repo (https://github.com/openpreserve/jpylyzer-test-files)
-are present in current user's home directory, i.e.:
+are present in sibling directory relative to jpylyzer dir, e.g.:
 
-~/jpylyzer-test-files/
+        |-- jpylyzer/
+home/ --|      
+        |--jpylyzer-test-files/
 
 TODO:
 - Automatically fetch test files from Github
@@ -32,9 +34,11 @@ HOME_DIR = os.path.expanduser("~")
 # Directory that contains this script
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
+# Root dir of jpylyzer repo
+JPYLYZER_DIR = os.path.split(os.path.split(SCRIPT_DIR)[0])[0]
+
 # XSD file (path resolved from SCRIPT_DIR)
-xsdFile = os.path.join(os.path.split(os.path.split(SCRIPT_DIR)[0])[0],
-                       "xsd/jpylyzer-v-2-1.xsd")
+xsdFile = os.path.join(JPYLYZER_DIR, "xsd/jpylyzer-v-2-1.xsd")
 
 # Directory with test files
 testFilesDir = os.path.join(HOME_DIR, "jpylyzer-test-files")

@@ -41,14 +41,23 @@ entirely clear to me how *TEST_DEPS* works in the context of testing (since you 
 do this *before* installing any packages).
 
 You also need the [jpylyzer-test-files](https://github.com/openpreserve/jpylyzer-test-files) corpus. 
-As the test script assumes the test files dir is located in the current user's home directory,
-follow these steps:
+The test script expects that the test files are located in a sibling directory to the jpylyzer 
+source directory, e.g.:
 
-1. Go to your home directory:
+```
+        |-- jpylyzer/
+home/ --|      
+        |--jpylyzer-test-files/
+```
+
+Follow these steps:
+
+1. In the terminal, go to the parent directory of the "jpylyzer" source directory. E.g., if the jpylyzer
+   source directory is located in your home directory, first go to your home directory:
    ```
    cd ~
    ```
-1. Clone the repo:
+1. Then clone the repo:
    ```
    git clone https://github.com/openpreserve/jpylyzer-test-files.git
    ```
