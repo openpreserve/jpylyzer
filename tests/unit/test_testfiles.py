@@ -155,19 +155,19 @@ def test_validation_outcome(input):
         assert outJpylyzer.findtext('./isValid') == isValid
 
 def test_xml_is_valid(capsys):
-  """
-  Run checkfiles function on all files in test corpus and
-  verify resulting XML output validates against XSD schema
-  """
-  checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
-  
-  # Capture output from stdout
-  captured = capsys.readouterr()
-  xmlOut = captured.out
-  # Parse XSD schema
-  xmlschema_doc = etree.parse(xsdFile)
-  xmlschema = etree.XMLSchema(xmlschema_doc)
-  # Parse XML
-  xml_doc = etree.fromstring(xmlOut.encode())
-  assert xmlschema.validate(xml_doc)
+    """
+    Run checkfiles function on all files in test corpus and
+    verify resulting XML output validates against XSD schema
+    """
+    checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
+    
+    # Capture output from stdout
+    captured = capsys.readouterr()
+    xmlOut = captured.out
+    # Parse XSD schema
+    xmlschema_doc = etree.parse(xsdFile)
+    xmlschema = etree.XMLSchema(xmlschema_doc)
+    # Parse XML
+    xml_doc = etree.fromstring(xmlOut.encode())
+    assert xmlschema.validate(xml_doc)
   
