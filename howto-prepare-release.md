@@ -1,6 +1,6 @@
 ## Steps in preparing a jpylyzer release
 
-### Before you start
+### Before you start: Docker setup
 
 Some steps in the jpylyzer release process use Docker. In order to run Docker as a non-root user, it is helpful to create a Unix *docker* group. Steps (see also the more detailed discussion [here](https://docs.docker.com/install/linux/linux-postinstall/)):
 
@@ -20,9 +20,59 @@ Some steps in the jpylyzer release process use Docker. In order to run Docker as
     ```
     docker run hello-world
     ```
+
+### Before you start: tests setup
+
+In order to run the automated tests you need to install a couple of Python modules:
+
+1. pytest:
+   ```
+   pip install pytest
+   ```
+
+1. lxml:
+   ```
+   pip install lxml
+   ```
+
+TODO: the *TEST_DEPS* variable in [setup.py](./setup.py) also lists pre-commit, pylint and
+pytest-coverage as test dependencies,but these are not used in any of the tests. It's not
+entirely clear to me how *TEST_DEPS* works in the context of testing (since you typically
+do this *before* installing any packages).
+
+You also need the [jpylyzer-test-files](https://github.com/openpreserve/jpylyzer-test-files) corpus. 
+As the test script assumes the test files dir is located in the current user's home directory,
+follow these steps:
+
+1. Go to your home directory:
+   ```
+   cd ~
+   ```
+1. Clone the repo:
+   ```
+   git clone https://github.com/openpreserve/jpylyzer-test-files.git
+   ```
+
+If you already have an (older) local copy of the test files, make sure it is up
+to date:
+
+1. Go to the test files directory:
+   ```
+   cd ~/jpylyzer-test-files
+   ```
+2. Update from the remote repo:
+   ```
+   git pull
+   ```
+
 ### Jpylyzer release steps
 
 1. Make necessary changes to the code.
+
+1. Run the tests by issuing below command from the root of the jpylyzer repo:
+   ```
+   pytest
+   ```
 
 1. Update version number in *jpylyzer.py*.
 
