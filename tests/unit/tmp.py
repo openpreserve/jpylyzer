@@ -1,8 +1,16 @@
 import os
 import glob
+from pathlib import Path
 from lxml import etree
 from jpylyzer.jpylyzer import checkFiles
 from jpylyzer import config
+
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+
+xsdFile = os.path.join(os.path.split(os.path.split(SCRIPT_DIR)[0])[0],
+                       "xsd/jpylyzer-v-2-1.xsd")
+
+print(xsdFile)
 
 xsdFile = "/home/johan/jpylyzer/xsd/jpylyzer-v-2-1.xsd"
 xmlOut = "/home/johan/test/all-21.xml"
@@ -22,4 +30,3 @@ def validatefromfile():
     result = xmlschema.validate(xml_doc)
     print(result)
 
-checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)

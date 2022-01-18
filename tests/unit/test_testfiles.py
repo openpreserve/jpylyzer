@@ -6,7 +6,6 @@ TODO:
 - Automatically fetch test files from Github
 - Get rid of testFilesDir (is there some standard location
   for tests?)
-- Get rid of hard-coded path to XSD schema
 - Perhaps read dictionary of tests files from CSV file (to be
   added to test-files repo)
 - Add tests for specific features/oddities (but see previous point)
@@ -20,6 +19,13 @@ from lxml import etree
 from jpylyzer import config
 from jpylyzer.jpylyzer import checkOneFile
 from jpylyzer.jpylyzer import checkFiles
+
+# Directory that contains this script
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+
+# XSD file (path resolved from SCRIPTDIR)
+xsdFile = os.path.join(os.path.split(os.path.split(SCRIPT_DIR)[0])[0],
+                       "xsd/jpylyzer-v-2-1.xsd")
 
 # Directory with test files
 testFilesDir = "/home/johan/jpylyzer-test-files/"
@@ -107,9 +113,6 @@ validityLookup = {
 ## Excluded in above dict are:
 #
 # - 3 surrogate pair samples: needs separate test
-
-# XSD file
-xsdFile = "/home/johan/jpylyzer/xsd/jpylyzer-v-2-1.xsd"
 
 @pytest.mark.parametrize('input', testFiles)
 
