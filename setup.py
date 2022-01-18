@@ -30,7 +30,8 @@ TEST_DEPS = [
     'pre-commit',
     'pytest',
     'pylint',
-    'pytest-coverage'
+    'pytest-coverage',
+    'lxml'
 ]
 EXTRAS = {
     'testing': TEST_DEPS,
