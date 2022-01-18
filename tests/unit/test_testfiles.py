@@ -28,9 +28,6 @@ from jpylyzer import config
 from jpylyzer.jpylyzer import checkOneFile
 from jpylyzer.jpylyzer import checkFiles
 
-# Home directory
-HOME_DIR = os.path.expanduser("~")
-
 # Directory that contains this script
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -41,7 +38,7 @@ JPYLYZER_DIR = os.path.split(os.path.split(SCRIPT_DIR)[0])[0]
 xsdFile = os.path.join(JPYLYZER_DIR, "xsd/jpylyzer-v-2-1.xsd")
 
 # Directory with test files
-testFilesDir = os.path.join(HOME_DIR, "jpylyzer-test-files")
+testFilesDir = JPYLYZER_DIR.replace("jpylyzer", "jpylyzer-test-files")
 
 # All files in test files dir, excluding .md file
 testFiles = glob.glob(os.path.join(testFilesDir, '*[!.md]'))
