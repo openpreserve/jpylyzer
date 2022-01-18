@@ -23,7 +23,7 @@ from jpylyzer.jpylyzer import checkFiles
 # Directory that contains this script
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
-# XSD file (path resolved from SCRIPTDIR)
+# XSD file (path resolved from SCRIPT_DIR)
 xsdFile = os.path.join(os.path.split(os.path.split(SCRIPT_DIR)[0])[0],
                        "xsd/jpylyzer-v-2-1.xsd")
 
