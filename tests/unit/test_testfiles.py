@@ -122,7 +122,16 @@ validityLookup = {
 
 ## Excluded in above dict are:
 #
-# - 3 surrogate pair samples: needs separate test
+# - 3 surrogate pair samples
+
+def test_groundtruth_complete():
+    """
+    Test if all files in validityLookup
+    dictionary really exist
+    """
+    for key in validityLookup:
+        thisFile = os.path.join(testFilesDir, key)
+        assert os.path.isfile(thisFile)
 
 @pytest.mark.parametrize('input', testFiles)
 
