@@ -160,10 +160,4 @@ def test_xml_is_valid(capsys):
   # Parse XML
   xml_doc = etree.fromstring(xmlOut.encode())
   assert xmlschema.validate(xml_doc)
-
-def test_surrogatepairs():
-    """
-    Test handling of files with surrogate pairs in file name
-    """
-    pass
   
