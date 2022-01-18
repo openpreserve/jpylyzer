@@ -6,6 +6,7 @@ TODO:
 - Automatically fetch test files from Github
 - Get rid of testFilesDir (is there some standard location
   for tests?)
+- Get rid of hard-coded path to XSD schema
 - Perhaps read dictionary of tests files from CSV file (to be
   added to test-files repo)
 - Add tests for specific features/oddities (but see previous point)
@@ -14,9 +15,13 @@ TODO:
 import os
 import glob
 import pytest
+from lxml import etree
 
+from jpylyzer import config
 from jpylyzer.jpylyzer import checkOneFile
+from jpylyzer.jpylyzer import checkFiles
 
+# Directory with test files
 testFilesDir = "/home/johan/jpylyzer-test-files/"
 
 # All files in test files dir, excluding .md file
@@ -103,6 +108,9 @@ validityLookup = {
 #
 # - 3 surrogate pair samples: needs separate test
 
+# XSD file
+xsdFile = "/home/johan/jpylyzer/xsd/jpylyzer-v-2-1.xsd"
+
 @pytest.mark.parametrize('input', testFiles)
 
 def test_validity(input):
@@ -115,6 +123,23 @@ def test_validity(input):
     if fName in validityLookup.keys():
         isValid = validityLookup[fName]
         assert outJpylyzer.findtext('./isValid') == isValid
+
+def test_xmloutput(capsys):
+  """
+  Run checkfiles function on all files in test corpus and
+  verify validity of resulting XML output against XSD schema
+  """
+  checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
+  
+  # Capture output from stdout
+  captured = capsys.readouterr()
+  xmlOut = captured.out
+  # Parse XSD schema
+  xmlschema_doc = etree.parse(xsdFile)
+  xmlschema = etree.XMLSchema(xmlschema_doc)
+  # Parse XML
+  xml_doc = etree.fromstring(xmlOut.encode())
+  assert xmlschema.validate(xml_doc)
 
 def test_surrogatepairs():
     """
