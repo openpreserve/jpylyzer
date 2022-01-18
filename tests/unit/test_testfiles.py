@@ -113,21 +113,29 @@ xsdFile = "/home/johan/jpylyzer/xsd/jpylyzer-v-2-1.xsd"
 
 @pytest.mark.parametrize('input', testFiles)
 
-def test_validity(input):
+def test_status(input):
     """
-    Tests validation outcome of all test files against known validity
+    Tests for any internal errors based on statusInfo value
+    """
+    outJpylyzer = checkOneFile(input, 'jp2')
+    assert outJpylyzer.findtext('./statusInfo/success') == "True"
+
+@pytest.mark.parametrize('input', testFiles)
+
+def test_validation_outcome(input):
+    """
+    Tests validation outcome against known validity
     """
     fName = os.path.basename(input)
     outJpylyzer = checkOneFile(input, 'jp2')
-    assert outJpylyzer.findtext('./statusInfo/success') == "True"
     if fName in validityLookup.keys():
         isValid = validityLookup[fName]
         assert outJpylyzer.findtext('./isValid') == isValid
 
-def test_xmloutput(capsys):
+def test_xml_is_valid(capsys):
   """
   Run checkfiles function on all files in test corpus and
-  verify validity of resulting XML output against XSD schema
+  verify resulting XML output validates against XSD schema
   """
   checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
   
