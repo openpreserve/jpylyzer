@@ -1,11 +1,17 @@
 #! /usr/bin/env python3
 # pylint: disable=missing-docstring
 """
-Tests on jpylyzer test corpus files
+Tests on jpylyzer test corpus files.
+
+Pre-condition:
+
+Contents of jpylyzer-test-files repo (https://github.com/openpreserve/jpylyzer-test-files)
+are present in current user's home directory, i.e.:
+
+~/jpylyzer-test-files/
+
 TODO:
 - Automatically fetch test files from Github
-- Get rid of testFilesDir (is there some standard location
-  for tests?)
 - Perhaps read dictionary of tests files from CSV file (to be
   added to test-files repo)
 - Add tests for specific features/oddities (but see previous point)
@@ -20,6 +26,9 @@ from jpylyzer import config
 from jpylyzer.jpylyzer import checkOneFile
 from jpylyzer.jpylyzer import checkFiles
 
+# Home directory
+HOME_DIR = os.path.expanduser("~")
+
 # Directory that contains this script
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -28,7 +37,7 @@ xsdFile = os.path.join(os.path.split(os.path.split(SCRIPT_DIR)[0])[0],
                        "xsd/jpylyzer-v-2-1.xsd")
 
 # Directory with test files
-testFilesDir = "/home/johan/jpylyzer-test-files/"
+testFilesDir = os.path.join(HOME_DIR, "jpylyzer-test-files")
 
 # All files in test files dir, excluding .md file
 testFiles = glob.glob(os.path.join(testFilesDir, '*[!.md]'))
@@ -157,3 +166,4 @@ def test_surrogatepairs():
     Test handling of files with surrogate pairs in file name
     """
     pass
+  
