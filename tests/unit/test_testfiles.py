@@ -43,8 +43,8 @@ testFilesDir = JPYLYZER_DIR.replace("jpylyzer", "jpylyzer-test-files")
 # All files in test files dir, excluding .md file
 testFiles = glob.glob(os.path.join(testFilesDir, '*[!.md]'))
 
-# Dictionary with names of all test files and validity
-validityLookup = {
+# Dictionary with names of all test files and validity against JP2
+validityLookupJP2 = {
 "reference.jp2": "True",
 "signature_corrupted.jp2": "False",
 "invalid_character_in_xml.jp2": "False",
@@ -120,6 +120,11 @@ validityLookup = {
 "oj-tileindex-error-5.jp2": "False"
 }
 
+# Dictionary with names of all test files and validity against codestream
+validityLookupJ2C = {
+"is_codestream.jp2": "True"
+}
+
 ## Excluded in above dict are:
 #
 # - 3 surrogate pair samples
@@ -127,38 +132,67 @@ validityLookup = {
 def test_groundtruth_complete():
     """
     Test if all files in validityLookup
-    dictionary really exist
+    dictionaries really exist
     """
-    for key in validityLookup:
+    for key in validityLookupJP2:
+        thisFile = os.path.join(testFilesDir, key)
+        assert os.path.isfile(thisFile)
+    
+    for key in validityLookupJ2C:
         thisFile = os.path.join(testFilesDir, key)
         assert os.path.isfile(thisFile)
 
 @pytest.mark.parametrize('input', testFiles)
 
-def test_status(input):
+def test_status_jp2(input):
     """
     Tests for any internal errors based on statusInfo value
+    using JP2 validation
     """
     outJpylyzer = checkOneFile(input, 'jp2')
     assert outJpylyzer.findtext('./statusInfo/success') == "True"
 
 @pytest.mark.parametrize('input', testFiles)
 
-def test_validation_outcome(input):
+def test_status_j2c(input):
     """
-    Tests validation outcome against known validity
+    Tests for any internal errors based on statusInfo value
+    using codestream validation
+    """
+    outJpylyzer = checkOneFile(input, 'j2c')
+    assert outJpylyzer.findtext('./statusInfo/success') == "True"
+
+@pytest.mark.parametrize('input', testFiles)
+
+def test_validation_outcome_jp2(input):
+    """
+    Tests validation outcome against known validity (JP2)
     """
     fName = os.path.basename(input)
     outJpylyzer = checkOneFile(input, 'jp2')
-    if fName in validityLookup.keys():
-        isValid = validityLookup[fName]
+    if fName in validityLookupJP2.keys():
+        isValid = validityLookupJP2[fName]
         assert outJpylyzer.findtext('./isValid') == isValid
 
-def test_xml_is_valid(capsys):
+@pytest.mark.parametrize('input', testFiles)
+
+def test_validation_outcome_j2c(input):
+    """
+    Tests validation outcome against known validity
+    (codestream format)
+    """
+    fName = os.path.basename(input)
+    outJpylyzer = checkOneFile(input, 'j2c')
+    if fName in validityLookupJ2C.keys():
+        isValid = validityLookupJ2C[fName]
+        assert outJpylyzer.findtext('./isValid') == isValid
+
+def test_xml_is_valid_jp2(capsys):
     """
     Run checkfiles function on all files in test corpus and
     verify resulting XML output validates against XSD schema
     """
+    config.VALIDATION_FORMAT = "jp2"
     checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
     
     # Capture output from stdout
@@ -170,4 +204,21 @@ def test_xml_is_valid(capsys):
     # Parse XML
     xml_doc = etree.fromstring(xmlOut.encode())
     assert xmlschema.validate(xml_doc)
-  
+
+def test_xml_is_valid_j2c(capsys):
+    """
+    Run checkfiles function on all files in test corpus and
+    verify resulting XML output validates against XSD schema
+    """
+    config.VALIDATION_FORMAT = "j2c"
+    checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
+    
+    # Capture output from stdout
+    captured = capsys.readouterr()
+    xmlOut = captured.out
+    # Parse XSD schema
+    xmlschema_doc = etree.parse(xsdFile)
+    xmlschema = etree.XMLSchema(xmlschema_doc)
+    # Parse XML
+    xml_doc = etree.fromstring(xmlOut.encode())
+    assert xmlschema.validate(xml_doc)
