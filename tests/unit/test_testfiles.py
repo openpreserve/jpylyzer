@@ -129,6 +129,8 @@ validityLookupJ2C = {
 #
 # - 3 surrogate pair samples
 
+config.INPUT_WRAPPER_FLAG = True
+
 def test_groundtruth_complete():
     """
     Test if all files in validityLookup
