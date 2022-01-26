@@ -207,12 +207,49 @@ def test_xml_is_valid_jp2(capsys):
     xml_doc = etree.fromstring(xmlOut.encode())
     assert xmlschema.validate(xml_doc)
 
+def test_xml_mix_1(capsys):
+    """
+    Check if output validates for reporting MIX 1 output
+    """
+    config.VALIDATION_FORMAT = "jp2"
+    config.MIX_FLAG = 1
+    checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
+    
+    # Capture output from stdout
+    captured = capsys.readouterr()
+    xmlOut = captured.out
+    # Parse XSD schema
+    xmlschema_doc = etree.parse(xsdFile)
+    xmlschema = etree.XMLSchema(xmlschema_doc)
+    # Parse XML
+    xml_doc = etree.fromstring(xmlOut.encode())
+    assert xmlschema.validate(xml_doc)
+
+def test_xml_mix_2(capsys):
+    """
+    Check if output validates for reporting MIX 2 output
+    """
+    config.VALIDATION_FORMAT = "jp2"
+    config.MIX_FLAG = 2
+    checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
+    
+    # Capture output from stdout
+    captured = capsys.readouterr()
+    xmlOut = captured.out
+    # Parse XSD schema
+    xmlschema_doc = etree.parse(xsdFile)
+    xmlschema = etree.XMLSchema(xmlschema_doc)
+    # Parse XML
+    xml_doc = etree.fromstring(xmlOut.encode())
+    assert xmlschema.validate(xml_doc)
+
 def test_xml_is_valid_j2c(capsys):
     """
     Run checkfiles function on all files in test corpus and
     verify resulting XML output validates against XSD schema
     """
     config.VALIDATION_FORMAT = "j2c"
+    config.MIX_FLAG = 0
     checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
     
     # Capture output from stdout
