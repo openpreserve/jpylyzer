@@ -856,6 +856,18 @@ def main():
     config.LEGACY_XML_FLAG = args.legacyXMLFlag
     config.MIX_FLAG = args.mixFlag
 
+    # Report warning message for deprecated options
+    if config.INPUT_WRAPPER_FLAG:
+        msg = "--wrapper option is deprecated and will be removed in jplyzer 2.2"
+        shared.printWarning(msg)
+    if config.LEGACY_XML_FLAG:
+        msg = "--legacyout option is deprecated and will be removed in jplyzer 2.2"
+        shared.printWarning(msg)
+    # Report warning if Python version is 2.x
+    if config.PYTHON_VERSION.startswith(config.PYTHON_2):
+        msg = "support for Python 2 will be removed in jplyzer 2.2"
+        shared.printWarning(msg)
+
     # Exit if validation format is unknown
     if config.VALIDATION_FORMAT not in ['jp2', 'j2c']:
         msg = "'" + config.VALIDATION_FORMAT + "'  is not a supported value for --format"
