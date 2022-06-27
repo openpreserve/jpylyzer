@@ -43,6 +43,10 @@ Extract null-terminated XML content from XML and UUID boxes(doesn't affect valid
 
 When analysing a directory, recurse into subdirectories (implies --wrapper)
 
+=item B<--packetmarkers, -p>
+
+Report packet-level codestream markers (plm, ppm, plt, ppt)
+
 =item B<--verbose>
 
 Report test results in verbose format

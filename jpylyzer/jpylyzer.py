@@ -805,7 +805,7 @@ def parseCommandLine():
                         action="store_true",
                         dest="reportPacketMarkersFlag",
                         default=False,
-                        help="report packet-level codestream markers")
+                        help="Report packet-level codestream markers (plm, ppm, plt, ppt)")
     PARSER.add_argument('--verbose',
                         action="store_true",
                         dest="outputVerboseFlag",
