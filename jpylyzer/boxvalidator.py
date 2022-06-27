@@ -1154,8 +1154,8 @@ class BoxValidator:
         offset = 0
 
         # Number of PLM and PPM markers
-        noPLM = 0
-        noPPM = 0
+        plmCount = 0
+        ppmCount = 0
 
         # Read first marker segment. This must be the start-of-codestream
         # marker
@@ -1322,7 +1322,7 @@ class BoxValidator:
 
                 elif marker == b'\xff\x57':
                     # PLM marker
-                    noPLM +=1
+                    plmCount +=1
                     resultsPLM = BoxValidator(marker, segContents).validate()
                     testsPLM = resultsPLM.tests
                     characteristicsPLM = resultsPLM.characteristics
@@ -1334,7 +1334,7 @@ class BoxValidator:
 
                 elif marker == b'\xff\x60':
                     # PPM marker
-                    noPPM += 1
+                    ppmCount += 1
                     resultsPPM = BoxValidator(marker, segContents).validate()
                     testsPPM = resultsPPM.tests
                     characteristicsPPM = resultsPPM.characteristics
@@ -1350,9 +1350,9 @@ class BoxValidator:
                     # marker segments are covered above!!
                     offset = offsetNext
 
-            # Add noPPM and noTLM value to characteristics
-            self.addCharacteristic("noPPM", noPPM)
-            self.addCharacteristic("noPLM", noPLM)
+            # Add ppmCount and plmCount value to characteristics
+            self.addCharacteristic("ppmCount", ppmCount)
+            self.addCharacteristic("plmCount", plmCount)
 
             # Add foundCODMarker / foundQCDMarker outcome to tests
             self.testFor("foundCODMarker", foundCODMarker)
