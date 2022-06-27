@@ -199,8 +199,9 @@ Save the file, log out of your session and then log in again. Open a command ter
 If all went well you now see this:
 
     usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
-                  [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
-                  jp2In [jp2In ...]
+              [--nullxml] [--recurse] [--packetmarkers] [--verbose]
+              [--version] [--wrapper]
+              jp2In [jp2In ...]
     jpylyzer: error: the following arguments are required: jp2In
 
 Which means that the installation was successful!
@@ -244,8 +245,9 @@ the files to directory `c:\tools\jpylyzer`, the command would become:
 Executing this command should result in the following screen output:
 
     usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
-                  [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
-                  jp2In [jp2In ...]
+              [--nullxml] [--recurse] [--packetmarkers] [--verbose]
+              [--version] [--wrapper]
+              jp2In [jp2In ...]
     jpylyzer: error: the following arguments are required: jp2In
 
 ### Running jpylyzer without typing the full path
@@ -313,8 +315,9 @@ brackets (example: `[-h]`) are optional.
 *Jpylyzer* can be invoked using the following command-line arguments:
 
     usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
-                  [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
-                  jp2In [jp2In ...]
+              [--nullxml] [--recurse] [--packetmarkers] [--verbose]
+              [--version] [--wrapper]
+              jp2In [jp2In ...]
 
 #### Positional arguments
 
@@ -333,6 +336,7 @@ brackets (example: `[-h]`) are optional.
 |`[--nopretty]`|suppress pretty-printing of XML output|
 |`[--nullxml]`|extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)|
 |`[--recurse, -r]`|when analysing a directory, recurse into subdirectories (implies `--wrapper` if `--legacyout` is used)|
+|`[--packetmarkers]`|Report packet-level codestream markers (plm, ppm, plt, ppt)|
 |`[--verbose]`|report test results in verbose format|
 |`[-v, --version]`|show program's version number and exit|
 |`[--wrapper, -w]`|wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect if `--legacyout` is used)|
@@ -411,6 +415,18 @@ subdirectories of a filepath expression. E.g:
 
 In this case *jpylyzer* analyses all files that have a *.jp2* extension in 
 directory */home/myJP2s* and all its subdirectories.
+
+### ‘packetmarkers’ option
+
+When this option is enabled, jpylyzer will report the properties of the following packet-level
+codestream markers:
+
+- PLM (packet length, main header) marker
+- PPM (packed packet headers, main header) marker
+- PLT (packet length, tile-part header) marker
+- PPT (packed packet headers, tile-part header) marker
+
+By default these are excluded from the output, in order to prevent excessive output size.
 
 ### ‘wrapper’ option (deprecated)
 
@@ -1677,10 +1693,7 @@ marker segments, which are all optional:
 * Tile-part lengths (TLM) marker segment (optional) <sup>\*</sup>
 
 The optional markers that are marked with an asterisk above are only
-minimally supported at this stage: if *jpylyzer* encounters them, it will include
-the corresponding element in the *properties* element of the output. However, *jpylyzer*
-does not analyse the contents of these marker segments, which means that the respective
-elements in the output will be empty.
+minimally supported at this stage.
 
 ### Tile parts
 
@@ -1783,7 +1796,17 @@ which are represented as child elements in the properties tree:
 |[poc](#poc-marker)|Properties from the (optional) progression order change (POC) marker segment (codestream main header)|
 |[crg](#crg-marker)|Properties from the (optional) component registration (CRG) marker segment (codestream main header)|
 |[com](#com-marker)|Properties from the (optional) comment (COM) marker segment (codestream main header)|
+|[plm](#plm-marker)|Properties from the (optional) packet length (PLM) marker (codestream main header)|
+|[ppm](#ppm-marker)|Properties from the (optional) packed packet headers(PPM) marker segment (codestream main header)|
 |[tileParts](#tile-part)|Properties from individual tile parts|
+
+Note that the *plm* and *ppm* elements are only written if the `--packetmarkers` option is used. The number of PLM and PPM markers
+is given by the following 2 derived properties (these are always reported, irrespective of `--packetmarkers`):
+
+|Property|Description|
+|:-------|:----------|
+|plmCount|Number of PLM markers in main header|
+|ppmCount|Number of PPM markers in main header|
 
 ### Tests
 
@@ -2113,6 +2136,16 @@ Each tile part element can contain a number of child elements:
 |[qcc](#qcc-marker)|Properties from the (optional) quantization component (QCC) marker segment (tile part header)|
 |[poc](#poc-marker)|Properties from the (optional) progression order change (POC) marker segment (tile part header)|
 |[com](#com-marker)|Properties from the (optional) comment (COM) marker segment (tile part header)|
+|[plt](#plt-marker)|Properties from the (optional) packet length (PLT) marker(tile part header)|
+|[ppt](#ppt-marker)|Properties from the (optional) packed packet headers(PPT) marker segment (tile part header)|
+
+Note that the *plt* and *ppt* elements are only written if the `--packetmarkers` option is used. The number of PLT and PPT markers
+is given by the following 2 derived properties (these are always reported, irrespective of `--packetmarkers`):
+
+|Property|Description|
+|:-------|:----------|
+|pltCount|Number of PLT markers in tile part header|
+|pptCount|Number of PPT markers in tile part header|
 
 ### Tests
 
@@ -2155,6 +2188,28 @@ perform any further tests or analyses. This may change in upcoming
 versions of the software.
 
 
+Tile-part lengths (TLM) marker segment {#tlm-marker}
+-------------------------------------------
+
+### Element name
+
+tlm
+
+### Reported properties
+
+|Property|Description|
+|:-------|:----------|
+|||
+|||
+
+### Tests
+
+|Test name|True if|
+|:--------|:------|
+|||
+|||
+
+
 Packet length, main header (PLM) marker segment {#plm-marker}
 ----------------------------------------------------
 
@@ -2162,7 +2217,7 @@ Packet length, main header (PLM) marker segment {#plm-marker}
 
 plm
 
-### Reported properties
+### Reported properties[^20]
 
 |Property|Description|
 |:-------|:----------|
@@ -2185,7 +2240,7 @@ Packed packet headers, main header (PPM) marker segment {#ppm-marker}
 
 ppm
 
-### Reported properties
+### Reported properties[^20]
 
 |Property|Description|
 |:-------|:----------|
@@ -2199,26 +2254,6 @@ ppm
 |||
 |||
 
-Tile-part lengths (TLM) marker segment {#tlm-marker}
--------------------------------------------
-
-### Element name
-
-tlm
-
-### Reported properties
-
-|Property|Description|
-|:-------|:----------|
-|||
-|||
-
-### Tests
-
-|Test name|True if|
-|:--------|:------|
-|||
-|||
 
 Packet length, tile-part header (PLT) marker segment {#plt-marker}
 ---------------------------------------------------------
@@ -2227,7 +2262,7 @@ Packet length, tile-part header (PLT) marker segment {#plt-marker}
 
 plt
 
-### Reported properties
+### Reported properties[^20]
 
 |Property|Description|
 |:-------|:----------|
@@ -2250,7 +2285,7 @@ Packed packet headers, tile-part header (PPT) marker segment {#ppt-marker}
 
 ppt
 
-### Reported properties
+### Reported properties[^20]
 
 |Property|Description|
 |:-------|:----------|
@@ -2485,3 +2520,4 @@ the JP2.
 </mrow>
 </math>
 
+[^20]: Only reported if the `--packetmarkers` option is used.
