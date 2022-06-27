@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#! /usr/bin/env python3tilePart
 """Jpylyzer validator for JPEG 2000 Part 1 (JP2) images.
 
 Requires: Python 2.7 (older versions won't work) OR Python 3.2 or more recent
@@ -801,6 +801,11 @@ def parseCommandLine():
                         default=False,
                         help="when analysing a directory, recurse into subdirectories \
                                 (implies --wrapper)")
+    PARSER.add_argument('--packetmarkers', '-p',
+                        action="store_true",
+                        dest="reportPacketMarkersFlag",
+                        default=False,
+                        help="report packet-level codestream markers")
     PARSER.add_argument('--verbose',
                         action="store_true",
                         dest="outputVerboseFlag",
@@ -844,6 +849,7 @@ def main():
     # Makes user-specified flags available to any module that imports 'config.py'
     # (here: 'boxvalidator.py')
     config.OUTPUT_VERBOSE_FLAG = args.outputVerboseFlag
+    config.OUTPUT_PACKET_MARKERS_FLAG = args.reportPacketMarkersFlag
     config.EXTRACT_NULL_TERMINATED_XML_FLAG = args.extractNullTerminatedXMLFlag
     config.INPUT_RECURSIVE_FLAG = args.inputRecursiveFlag
     config.INPUT_WRAPPER_FLAG = args.inputWrapperFlag

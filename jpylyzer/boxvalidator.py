@@ -1329,7 +1329,8 @@ class BoxValidator:
                     # Add analysis results to test results tree
                     self.tests.appendIfNotEmpty(testsPLM)
                     # Add extracted characteristics to characteristics tree
-                    self.characteristics.append(characteristicsPLM)
+                    if config.OUTPUT_PACKET_MARKERS_FLAG:
+                        self.characteristics.append(characteristicsPLM)
                     offset = offsetNext
 
                 elif marker == b'\xff\x60':
@@ -1341,7 +1342,8 @@ class BoxValidator:
                     # Add analysis results to test results tree
                     self.tests.appendIfNotEmpty(testsPPM)
                     # Add extracted characteristics to characteristics tree
-                    self.characteristics.append(characteristicsPPM)
+                    if config.OUTPUT_PACKET_MARKERS_FLAG:
+                        self.characteristics.append(characteristicsPPM)
                     offset = offsetNext
 
                 else:
@@ -2621,7 +2623,8 @@ class BoxValidator:
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsPLT)
                 # Add extracted characteristics to characteristics tree
-                self.characteristics.append(characteristicsPLT)
+                if config.OUTPUT_PACKET_MARKERS_FLAG:
+                    self.characteristics.append(characteristicsPLT)
                 offset = offsetNext
 
             elif marker == b'\xff\x61':
@@ -2633,7 +2636,8 @@ class BoxValidator:
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsPPT)
                 # Add extracted characteristics to characteristics tree
-                self.characteristics.append(characteristicsPPT)
+                if config.OUTPUT_PACKET_MARKERS_FLAG:
+                    self.characteristics.append(characteristicsPPT)
                 offset = offsetNext
 
             else:
@@ -2650,7 +2654,7 @@ class BoxValidator:
 
         # Add pltCount and ppptCount value to characteristics
         self.addCharacteristic("pltCount", pltCount)
-        self.addCharacteristic("pltCount", pltCount)
+        self.addCharacteristic("pptCount", pptCount)
 
         # Position of first byte in next tile
         offsetNextTilePart = self.startOffset + tilePartLength
