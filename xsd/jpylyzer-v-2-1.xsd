@@ -45,6 +45,9 @@
       <xs:element ref="ppm"/>
       <xs:element ref="crg"/>
       <xs:element ref="tileParts"/>
+      <!-- following elements occur in properties root in case of codestream validation-->
+      <xs:element ref="ppmCount"/>
+      <xs:element ref="plmCount"/>
     </xs:choice>
   </xs:complexType>
  
