@@ -772,6 +772,8 @@
         <xs:element ref="plt"/>
         <xs:element ref="ppt"/>
         <xs:element ref="crg"/>
+        <xs:element ref="pltCount"/>
+        <xs:element ref="pptCount"/>
       </xs:choice>
     </xs:complexType>  
   </xs:element>  
@@ -823,6 +825,9 @@
   <xs:element name="lplt" type="xs:integer"/>
   <xs:element name="zplt" type="xs:integer"/>
   <xs:element name="iplt" type="xs:string"/>
+
+  <xs:element name="pltCount" type="xs:integer"/>
+  <xs:element name="pptCount" type="xs:integer"/>
 
   <!-- The following optional marker segments are only minimally supported by
        jpylyzer at this stage (they are reported, but contents aren't analysed) -->
