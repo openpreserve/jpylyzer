@@ -495,6 +495,8 @@
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element ref="siz"/>
+        <xs:element ref="ppmCount"/>
+        <xs:element ref="plmCount"/>
         <xs:element ref="cod"/>
         <xs:element ref="qcd"/>
         <xs:element ref="com"/>
@@ -553,6 +555,9 @@
   <xs:element name="xRsiz" type="xs:integer"/>
   <xs:element name="yRsiz" type="xs:integer"/>
   
+  <xs:element name="ppmCount" type="xs:integer"/>
+  <xs:element name="plmCount" type="xs:integer"/>
+
   <xs:element name="cod">
     <xs:complexType>
       <xs:sequence>
