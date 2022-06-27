@@ -1153,6 +1153,10 @@ class BoxValidator:
         # Keep track of byte offsets
         offset = 0
 
+        # Number of PLM and PPM markers
+        noPLM = 0
+        noPPM = 0
+
         # Read first marker segment. This must be the start-of-codestream
         # marker
         marker, _, segContents, offsetNext = self._getMarkerSegment(
@@ -1305,17 +1309,39 @@ class BoxValidator:
                     # will get us of out of this loop (for functional readability):
                     pass
 
-                elif marker in[b'\xff\x55', b'\xff\x57',
-                               b'\xff\x60']:
-                    # TLM, PLM ,PPM marker: ignore and
-                    # move on to next one
-                    resultsOther = BoxValidator(marker, segContents).validate()
-                    testsOther = resultsOther.tests
-                    characteristicsOther = resultsOther.characteristics
+                elif marker == b'\xff\x55':
+                    # TLM marker
+                    resultsTLM = BoxValidator(marker, segContents).validate()
+                    testsTLM = resultsTLM.tests
+                    characteristicsTLM = resultsTLM.characteristics
                     # Add analysis results to test results tree
-                    self.tests.appendIfNotEmpty(testsOther)
+                    self.tests.appendIfNotEmpty(testsTLM)
                     # Add extracted characteristics to characteristics tree
-                    self.characteristics.append(characteristicsOther)
+                    self.characteristics.append(characteristicsTLM)
+                    offset = offsetNext
+
+                elif marker == b'\xff\x57':
+                    # PLM marker
+                    noPLM +=1
+                    resultsPLM = BoxValidator(marker, segContents).validate()
+                    testsPLM = resultsPLM.tests
+                    characteristicsPLM = resultsPLM.characteristics
+                    # Add analysis results to test results tree
+                    self.tests.appendIfNotEmpty(testsPLM)
+                    # Add extracted characteristics to characteristics tree
+                    self.characteristics.append(characteristicsPLM)
+                    offset = offsetNext
+
+                elif marker == b'\xff\x60':
+                    # PPM marker
+                    noPPM += 1
+                    resultsPPM = BoxValidator(marker, segContents).validate()
+                    testsPPM = resultsPPM.tests
+                    characteristicsPPM = resultsPPM.characteristics
+                    # Add analysis results to test results tree
+                    self.tests.appendIfNotEmpty(testsPPM)
+                    # Add extracted characteristics to characteristics tree
+                    self.characteristics.append(characteristicsPPM)
                     offset = offsetNext
 
                 else:
@@ -1323,6 +1349,10 @@ class BoxValidator:
                     # Note that this should result in validation error as all
                     # marker segments are covered above!!
                     offset = offsetNext
+
+            # Add noPPM and noTLM value to characteristics
+            self.addCharacteristic("noPPM", noPPM)
+            self.addCharacteristic("noPLM", noPLM)
 
             # Add foundCODMarker / foundQCDMarker outcome to tests
             self.testFor("foundCODMarker", foundCODMarker)
