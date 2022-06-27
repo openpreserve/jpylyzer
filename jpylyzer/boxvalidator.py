@@ -2485,6 +2485,10 @@ class BoxValidator:
         """
         offset = self.startOffset
 
+        # Number of PLT and PPT markers
+        pltCount = 0
+        pptCount = 0
+
         # Read first marker segment, which is a  start of tile (SOT) marker
         # segment
         marker, _, segContents, offsetNext = self._getMarkerSegment(
@@ -2608,16 +2612,28 @@ class BoxValidator:
                 self.characteristics.append(characteristicsCOM)
                 offset = offsetNext
 
-            elif marker in[b'\xff\x61', b'\xff\x58']:
-                # PPT or PLT marker: ignore and
-                # move on to next one
-                resultsOther = BoxValidator(marker, segContents).validate()
-                testsOther = resultsOther.tests
-                characteristicsOther = resultsOther.characteristics
+            elif marker == b'\xff\x58':
+                # PLT marker
+                pltCount += 1
+                resultsPLT = BoxValidator(marker, segContents).validate()
+                testsPLT = resultsPLT.tests
+                characteristicsPLT = resultsPLT.characteristics
                 # Add analysis results to test results tree
-                self.tests.appendIfNotEmpty(testsOther)
+                self.tests.appendIfNotEmpty(testsPLT)
                 # Add extracted characteristics to characteristics tree
-                self.characteristics.append(characteristicsOther)
+                self.characteristics.append(characteristicsPLT)
+                offset = offsetNext
+
+            elif marker == b'\xff\x61':
+                # PPT marker
+                pptCount += 1
+                resultsPPT = BoxValidator(marker, segContents).validate()
+                testsPPT = resultsPPT.tests
+                characteristicsPPT = resultsPPT.characteristics
+                # Add analysis results to test results tree
+                self.tests.appendIfNotEmpty(testsPPT)
+                # Add extracted characteristics to characteristics tree
+                self.characteristics.append(characteristicsPPT)
                 offset = offsetNext
 
             else:
@@ -2631,6 +2647,10 @@ class BoxValidator:
 
         # Bugfix 1.5.2: previous versions mistakenly assumed SOD at self.startOffset + 12!
         # Goes wrong if til part contains any optional markers. Fixed now!
+
+        # Add pltCount and ppptCount value to characteristics
+        self.addCharacteristic("pltCount", pltCount)
+        self.addCharacteristic("pltCount", pltCount)
 
         # Position of first byte in next tile
         offsetNextTilePart = self.startOffset + tilePartLength
