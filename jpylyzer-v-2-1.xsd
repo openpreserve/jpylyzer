@@ -45,6 +45,9 @@
       <xs:element ref="ppm"/>
       <xs:element ref="crg"/>
       <xs:element ref="tileParts"/>
+      <!-- following elements occur in properties root in case of codestream validation-->
+      <xs:element ref="ppmCount"/>
+      <xs:element ref="plmCount"/>
     </xs:choice>
   </xs:complexType>
  
@@ -495,6 +498,8 @@
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element ref="siz"/>
+        <xs:element ref="ppmCount"/>
+        <xs:element ref="plmCount"/>
         <xs:element ref="cod"/>
         <xs:element ref="qcd"/>
         <xs:element ref="com"/>
@@ -553,6 +558,9 @@
   <xs:element name="xRsiz" type="xs:integer"/>
   <xs:element name="yRsiz" type="xs:integer"/>
   
+  <xs:element name="ppmCount" type="xs:integer"/>
+  <xs:element name="plmCount" type="xs:integer"/>
+
   <xs:element name="cod">
     <xs:complexType>
       <xs:sequence>
@@ -767,6 +775,8 @@
         <xs:element ref="plt"/>
         <xs:element ref="ppt"/>
         <xs:element ref="crg"/>
+        <xs:element ref="pltCount"/>
+        <xs:element ref="pptCount"/>
       </xs:choice>
     </xs:complexType>  
   </xs:element>  
@@ -818,6 +828,9 @@
   <xs:element name="lplt" type="xs:integer"/>
   <xs:element name="zplt" type="xs:integer"/>
   <xs:element name="iplt" type="xs:string"/>
+
+  <xs:element name="pltCount" type="xs:integer"/>
+  <xs:element name="pptCount" type="xs:integer"/>
 
   <!-- The following optional marker segments are only minimally supported by
        jpylyzer at this stage (they are reported, but contents aren't analysed) -->

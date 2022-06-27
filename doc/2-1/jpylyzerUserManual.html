@@ -110,9 +110,9 @@
 <li><a href="#com-marker">Comment (COM) marker segment</a></li>
 <li><a href="#tile-part">Tile part (child of Contiguous Codestream box)</a></li>
 <li><a href="#sot-marker">Start of tile part (SOT) marker segment (child of tile part)</a></li>
+<li><a href="#tlm-marker">Tile-part lengths (TLM) marker segment</a></li>
 <li><a href="#plm-marker">Packet length, main header (PLM) marker segment</a></li>
 <li><a href="#ppm-marker">Packed packet headers, main header (PPM) marker segment</a></li>
-<li><a href="#tlm-marker">Tile-part lengths (TLM) marker segment</a></li>
 <li><a href="#plt-marker">Packet length, tile-part header (PLT) marker segment</a></li>
 <li><a href="#ppt-marker">Packed packet headers, tile-part header (PPT) marker segment</a></li>
 </ul></li>
@@ -184,8 +184,9 @@ fi</code></pre>
 <pre><code>jpylyzer</code></pre>
 <p>If all went well you now see this:</p>
 <pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
-              [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
-              jp2In [jp2In ...]
+          [--nullxml] [--recurse] [--packetmarkers] [--verbose]
+          [--version] [--wrapper]
+          jp2In [jp2In ...]
 jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <p>Which means that the installation was successful!</p>
 <h3 id="global-installation-linux">Global installation (Linux)</h3>
@@ -204,8 +205,9 @@ jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <pre><code>c:\tools\jpylyzer\jpylyzer</code></pre>
 <p>Executing this command should result in the following screen output:</p>
 <pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
-              [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
-              jp2In [jp2In ...]
+          [--nullxml] [--recurse] [--packetmarkers] [--verbose]
+          [--version] [--wrapper]
+          jp2In [jp2In ...]
 jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <h3 id="running-jpylyzer-without-typing-the-full-path">Running jpylyzer without typing the full path</h3>
 <p>Optionally, you may also want to add the full path of the <em>jpylyzer</em> installation directory to the Windows ’Path’ environment variable. Doing so allows you to run <em>jpylyzer</em> from any directory on your PC without having to type the full path. In Windows 7 you can do this by selecting ‘settings’ from the ‘Start’ menu; then go to ‘control panel’/’system’ and go to the ‘advanced’ tab. Click on the ‘environment variables’ button. Finally, locate the ‘Path’ variable in the ‘system variables’ window, click on ‘Edit’ and add the full <em>jpylyzer</em> path (this requires local Administrator privileges). The settings take effect on any newly opened command prompt.</p>
@@ -243,8 +245,9 @@ sudo apt-get install python-jpylyzer</code></pre>
 <h3 id="synopsis">Synopsis</h3>
 <p><em>Jpylyzer</em> can be invoked using the following command-line arguments:</p>
 <pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
-              [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
-              jp2In [jp2In ...]</code></pre>
+          [--nullxml] [--recurse] [--packetmarkers] [--verbose]
+          [--version] [--wrapper]
+          jp2In [jp2In ...]</code></pre>
 <h4 id="positional-arguments">Positional arguments</h4>
 <table>
 <thead>
@@ -298,14 +301,18 @@ sudo apt-get install python-jpylyzer</code></pre>
 <td style="text-align: left;">when analysing a directory, recurse into subdirectories (implies <code>--wrapper</code> if <code>--legacyout</code> is used)</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;"><code>[--packetmarkers]</code></td>
+<td style="text-align: left;">Report packet-level codestream markers (plm, ppm, plt, ppt)</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;"><code>[--verbose]</code></td>
 <td style="text-align: left;">report test results in verbose format</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>[-v, --version]</code></td>
 <td style="text-align: left;">show program’s version number and exit</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>[--wrapper, -w]</code></td>
 <td style="text-align: left;">wrap output for individual image(s) in ‘results’ XML element (deprecated from jpylyzer 2.x onward, only takes effect if <code>--legacyout</code> is used)</td>
 </tr>
@@ -336,6 +343,15 @@ sudo apt-get install python-jpylyzer</code></pre>
 <p>If the <code>--recurse</code> option is used, <em>jpylyzer</em> will recursively traverse all subdirectories of a filepath expression. E.g:</p>
 <pre><code>jpylyzer /home/myJP2s/*.jp2 &gt; rubbish.xml</code></pre>
 <p>In this case <em>jpylyzer</em> analyses all files that have a <em>.jp2</em> extension in directory <em>/home/myJP2s</em> and all its subdirectories.</p>
+<h3 id="packetmarkers-option">‘packetmarkers’ option</h3>
+<p>When this option is enabled, jpylyzer will report the properties of the following packet-level codestream markers:</p>
+<ul>
+<li>PLM (packet length, main header) marker</li>
+<li>PPM (packed packet headers, main header) marker</li>
+<li>PLT (packet length, tile-part header) marker</li>
+<li>PPT (packed packet headers, tile-part header) marker</li>
+</ul>
+<p>By default these are excluded from the output, in order to prevent excessive output size.</p>
 <h3 id="wrapper-option-deprecated">‘wrapper’ option (deprecated)</h3>
 <p>This deprecated option is included for backward-compatibility, and only takes effect if <code>--legacyout</code> (see above) is used.By default, the <em>jpylyzer</em> 1.x releases would create a separate XML tree for each analysed image, without any overarching hierarchy. For multiple-image pathname expressions this resulted in output that was <strong>not</strong> well-formed XML. The <code>--legacyout</code> option still results in this is behaviour. For example:</p>
 <pre><code>jpylyzer --legacyout rubbish.jp2 garbage.jp2 &gt; rubbish.xml</code></pre>
@@ -1959,7 +1975,7 @@ myResult = jpylyzer.checkOneFile(myFile, &#39;j2c&#39;)</code></pre>
 <li><p>Packed packet headers, main header (PPM) marker segment (optional) <sup>*</sup></p></li>
 <li><p>Tile-part lengths (TLM) marker segment (optional) <sup>*</sup></p></li>
 </ul>
-<p>The optional markers that are marked with an asterisk above are only minimally supported at this stage: if <em>jpylyzer</em> encounters them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> does not analyse the contents of these marker segments, which means that the respective elements in the output will be empty.</p>
+<p>The optional markers that are marked with an asterisk above are only minimally supported at this stage.</p>
 <h3 id="tile-parts">Tile parts</h3>
 <p>The tile part validation has similar limitations. The standard lists 11 marker segments that can occur in the tile part header. Currently, <em>jpylyzer</em> only fully supports the following ones:</p>
 <ul>
@@ -2041,8 +2057,35 @@ myResult = jpylyzer.checkOneFile(myFile, &#39;j2c&#39;)</code></pre>
 <td style="text-align: left;">Properties from the (optional) comment (COM) marker segment (codestream main header)</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;"><a href="#plm-marker">plm</a></td>
+<td style="text-align: left;">Properties from the (optional) packet length (PLM) marker (codestream main header)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="#ppm-marker">ppm</a></td>
+<td style="text-align: left;">Properties from the (optional) packed packet headers(PPM) marker segment (codestream main header)</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;"><a href="#tile-part">tileParts</a></td>
 <td style="text-align: left;">Properties from individual tile parts</td>
+</tr>
+</tbody>
+</table>
+<p>Note that the <em>plm</em> and <em>ppm</em> elements are only written if the <code>--packetmarkers</code> option is used. The number of PLM and PPM markers is given by the following 2 derived properties (these are always reported, irrespective of <code>--packetmarkers</code>):</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">plmCount</td>
+<td style="text-align: left;">Number of PLM markers in main header</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ppmCount</td>
+<td style="text-align: left;">Number of PPM markers in main header</td>
 </tr>
 </tbody>
 </table>
@@ -2900,6 +2943,33 @@ myResult = jpylyzer.checkOneFile(myFile, &#39;j2c&#39;)</code></pre>
 <td style="text-align: left;"><a href="#com-marker">com</a></td>
 <td style="text-align: left;">Properties from the (optional) comment (COM) marker segment (tile part header)</td>
 </tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="#plt-marker">plt</a></td>
+<td style="text-align: left;">Properties from the (optional) packet length (PLT) marker(tile part header)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="#ppt-marker">ppt</a></td>
+<td style="text-align: left;">Properties from the (optional) packed packet headers(PPT) marker segment (tile part header)</td>
+</tr>
+</tbody>
+</table>
+<p>Note that the <em>plt</em> and <em>ppt</em> elements are only written if the <code>--packetmarkers</code> option is used. The number of PLT and PPT markers is given by the following 2 derived properties (these are always reported, irrespective of <code>--packetmarkers</code>):</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">pltCount</td>
+<td style="text-align: left;">Number of PLT markers in tile part header</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pptCount</td>
+<td style="text-align: left;">Number of PPT markers in tile part header</td>
+</tr>
 </tbody>
 </table>
 <h3 id="tests-28">Tests</h3>
@@ -2984,10 +3054,51 @@ myResult = jpylyzer.checkOneFile(myFile, &#39;j2c&#39;)</code></pre>
 </table>
 <p><br></p>
 <p>The following marker segments are only minimally supported: <em>jpylyzer</em> will report their presence in the <em>properties</em> element, but it does not perform any further tests or analyses. This may change in upcoming versions of the software.</p>
-<h2 id="plm-marker">Packet length, main header (PLM) marker segment</h2>
+<h2 id="tlm-marker">Tile-part lengths (TLM) marker segment</h2>
 <h3 id="element-name-31">Element name</h3>
-<p>plm</p>
+<p>tlm</p>
 <h3 id="reported-properties-31">Reported properties</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-30">Tests</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="plm-marker">Packet length, main header (PLM) marker segment</h2>
+<h3 id="element-name-32">Element name</h3>
+<p>plm</p>
+<h3 id="reported-properties20">Reported properties<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a></h3>
 <table>
 <thead>
 <tr class="header">
@@ -3014,47 +3125,6 @@ myResult = jpylyzer.checkOneFile(myFile, &#39;j2c&#39;)</code></pre>
 </tr>
 </tbody>
 </table>
-<h3 id="tests-30">Tests</h3>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Test name</th>
-<th style="text-align: left;">True if</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<h2 id="ppm-marker">Packed packet headers, main header (PPM) marker segment</h2>
-<h3 id="element-name-32">Element name</h3>
-<p>ppm</p>
-<h3 id="reported-properties-32">Reported properties</h3>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Property</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
 <h3 id="tests-31">Tests</h3>
 <table>
 <thead>
@@ -3074,10 +3144,10 @@ myResult = jpylyzer.checkOneFile(myFile, &#39;j2c&#39;)</code></pre>
 </tr>
 </tbody>
 </table>
-<h2 id="tlm-marker">Tile-part lengths (TLM) marker segment</h2>
+<h2 id="ppm-marker">Packed packet headers, main header (PPM) marker segment</h2>
 <h3 id="element-name-33">Element name</h3>
-<p>tlm</p>
-<h3 id="reported-properties-33">Reported properties</h3>
+<p>ppm</p>
+<h3 id="reported-properties20-1">Reported properties<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a></h3>
 <table>
 <thead>
 <tr class="header">
@@ -3118,7 +3188,7 @@ myResult = jpylyzer.checkOneFile(myFile, &#39;j2c&#39;)</code></pre>
 <h2 id="plt-marker">Packet length, tile-part header (PLT) marker segment</h2>
 <h3 id="element-name-34">Element name</h3>
 <p>plt</p>
-<h3 id="reported-properties-34">Reported properties</h3>
+<h3 id="reported-properties20-2">Reported properties<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a></h3>
 <table>
 <thead>
 <tr class="header">
@@ -3167,7 +3237,7 @@ myResult = jpylyzer.checkOneFile(myFile, &#39;j2c&#39;)</code></pre>
 <h2 id="ppt-marker">Packed packet headers, tile-part header (PPT) marker segment</h2>
 <h3 id="element-name-35">Element name</h3>
 <p>ppt</p>
-<h3 id="reported-properties-35">Reported properties</h3>
+<h3 id="reported-properties20-3">Reported properties<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a></h3>
 <table>
 <thead>
 <tr class="header">
@@ -3230,6 +3300,10 @@ myResult = jpylyzer.checkOneFile(myFile, &#39;j2c&#39;)</code></pre>
 <li id="fn15" role="doc-endnote"><p>However, support for start of packet (SOP) and end of packet (EPH) markers may be included in future versions.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn16" role="doc-endnote"><p>For example, in a TIFF to JP2 conversion workflow one could include a pixel-by-pixel comparison of the values in the TIFF and the JP2.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn17" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>numberOfTiles</mi> <mo>=</mo> <mo>[</mo> <mfrac> <mrow> <mi>xsiz</mi> <mo>-</mo> <mi>xOsiz</mi> </mrow> <mrow> <mi>xTsiz</mi> </mrow> </mfrac> <mo>]</mo> <mo>•</mo> <mo>[</mo> <mfrac> <mrow> <mi>ysiz</mi> <mo>-</mo> <mi>yOsiz</mi> </mrow> <mrow> <mi>yTsiz</mi> </mrow> </mfrac> <mo>]</mo> </mrow> </math><a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18" role="doc-endnote"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19" role="doc-endnote"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20" role="doc-endnote"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn21" role="doc-endnote"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 </body>
