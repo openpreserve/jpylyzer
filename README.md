@@ -22,7 +22,8 @@ Please visit the jpylyzer homepage for links to the most recent package download
 Calling *jpylyzer* in a command window without any arguments results in the following helper message:
 
     usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
-              [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
+              [--nullxml] [--recurse] [--packetmarkers] [--verbose]
+              [--version] [--wrapper]
               jp2In [jp2In ...]
 
 ### Positional arguments
@@ -42,6 +43,7 @@ Calling *jpylyzer* in a command window without any arguments results in the foll
 |`[--nopretty]`|suppress pretty-printing of XML output|
 |`[--nullxml]`|extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)|
 |`[--recurse, -r]`|when analysing a directory, recurse into subdirectories (implies `--wrapper` if `--legacyout` is used)|
+|`[--packetmarkers]`|Report packet-level codestream markers (plm, ppm, plt, ppt)|
 |`[--verbose]`|report test results in verbose format|
 |`[-v, --version]`|show program's version number and exit|
 |`[--wrapper, -w]`|wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect if `--legacyout` is used)|
