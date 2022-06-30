@@ -35,10 +35,12 @@ In order to run the automated tests you need to install a couple of Python modul
    pip install lxml
    ```
 
-TODO: the *TEST_DEPS* variable in [setup.py](./setup.py) also lists pre-commit, pylint and
-pytest-coverage as test dependencies,but these are not used in any of the tests. It's not
+---
+**TODO** - the *TEST_DEPS* variable in [setup.py](./setup.py) also lists pre-commit, pylint and
+pytest-coverage as test dependencies, but these are not used in any of the tests. It's not
 entirely clear to me how *TEST_DEPS* works in the context of testing (since you typically
 do this *before* installing any packages).
+---
 
 You also need the [jpylyzer-test-files](https://github.com/openpreserve/jpylyzer-test-files) corpus. 
 The test script expects that the test files are located in a sibling directory to the jpylyzer 
@@ -69,7 +71,7 @@ to date:
    ```
    cd ~/jpylyzer-test-files
    ```
-2. Update from the remote repo:
+1. Update from the remote repo:
    ```
    git pull
    ```
@@ -93,7 +95,7 @@ to date:
     ```
     then manually update the version number, and create list of changes. Also make sure the e-mail address is a valid e-mail address.
 
-1. Update  User Manual if necessary and export the Markdown file to HTML. See [instructions here](./doc).
+1. Update User Manual if necessary and export the Markdown file to HTML. See [instructions here](./doc).
 
 1. Commit all changes and push to the *master* branch.
 
