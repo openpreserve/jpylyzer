@@ -1,3 +1,13 @@
+jpylyzer (2.1.0~rc1) UNRELEASED; urgency=medium
+
+  * More detailed output for PLM and PLT marker segments
+  * By default only report occurrences of packet-level markers
+  * Added packetmarkers option for detailed packet-level marker output
+  * Updated XSD schema
+  * Added deprecation warnings for Python 2.7
+
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Thu, 30 Jun 2022 19:43:00 +0200
+
 jpylyzer (2.0.1) UNRELEASED; urgency=medium
 
   * Only import six if Python version is 2
