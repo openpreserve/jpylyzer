@@ -36,7 +36,7 @@ In order to run the automated tests you need to install a couple of Python modul
    ```
 
 ---
-**TODO** - the *TEST_DEPS* variable in [setup.py](./setup.py) also lists pre-commit, pylint and
+TODO: the *TEST_DEPS* variable in [setup.py](./setup.py) also lists pre-commit, pylint and
 pytest-coverage as test dependencies, but these are not used in any of the tests. It's not
 entirely clear to me how *TEST_DEPS* works in the context of testing (since you typically
 do this *before* installing any packages).
