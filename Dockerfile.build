@@ -38,7 +38,7 @@ RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
         python3-pip \
         python3-pkg-resources \
         python3-setuptools \
-        pip install --no-cache-dir lxml>=3.5.0 && \
+        pip install lxml && \
         tar \
         libxml2-dev
 
