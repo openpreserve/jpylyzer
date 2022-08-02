@@ -38,11 +38,11 @@ RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
         python3-pip \
         python3-pkg-resources \
         python3-setuptools \
-        pip install lxml && \
         tar \
         libxml2-dev
 
 RUN pip3 install pytest
+RUN pip install lxml
 
 WORKDIR /dpkg-build
 COPY ./ ./
