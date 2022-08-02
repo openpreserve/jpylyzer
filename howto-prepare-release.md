@@ -120,7 +120,11 @@ to date:
     ```
     ./docker-package.sh debian:stretch
     ```
-1. Go to [*Latest Release*](https://github.com/openpreserve/jpylyzer/releases/latest) and click on the *Edit* button.
+1. Go to [*Releases*](https://github.com/openpreserve/jpylyzer/releases) and click on the *Draft a new release* button.
+
+1. Click the *Choose a tag* button, and select the latest tag
+
+1. Enter a release title, and a release decription
 
 1. Upload Linux/Windows packages to the release by dragging them to the *Attach Binaries* field at the bottom.
 
