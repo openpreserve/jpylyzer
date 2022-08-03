@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Jpylyzer 2.1.0 release
+title: Jpylyzer 2.1.0 release candidate
 ---
 {% include JB/setup %}
 
