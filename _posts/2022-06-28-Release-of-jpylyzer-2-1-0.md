@@ -25,9 +25,13 @@ The newly updated [jpylyzer 2.1 XSD schema]({{ BASE_PATH }}/jpylyzer-v-2-1.xsd) 
 
 We also made the release process more efficient by implementing unit tests based on the [jplyzer-test-files](https://github.com/openpreserve/jpylyzer-test-files) corpus.
 
+## Automatic detection of missing libraries in Jython
+
+Thomas Ledoux (Bibliothèque nationale de France) [submitted a contribution](https://github.com/openpreserve/jpylyzer/commit/6d2087fa8c0b61a432cc099a18909b1acccab16a) that handles missing libraries in case Jpylyzer is used in conjuction with Jython (but see the remarks about Jython in the next section!).
+
 ## End of Python 2.7 support
 
-Jpylyzer has always been compatible with both Python 3 and Python 2.7, but maintenance of Python 2.7 [stopped in 2020](https://pythonclock.org/). Because of this, Python 2.7 support will most likely be removed in Jpylyzer 2.2. This 2.1 release still works with Python 2.7 (you will see a deprecation warning), but we strongly urge you to upgrade to Python 3 if you haven't done so already.
+Jpylyzer has always been compatible with both Python 3 and Python 2.7, but maintenance of Python 2.7 [stopped in 2020](https://pythonclock.org/). Because of this, Python 2.7 support will most likely be removed in Jpylyzer 2.2. This 2.1 release still works with Python 2.7, but you will see a deprecation warning. We strongly urge you to upgrade to Python 3 if you haven't done so already. Jython users should take note that a Python 3 compatible implementation of Jython [hasn't materialised yet](https://github.com/jython/jython/issues/24), so it might be advisable to look out for an alternative to Jython.
 
 ## Miscellaneous changes
 
