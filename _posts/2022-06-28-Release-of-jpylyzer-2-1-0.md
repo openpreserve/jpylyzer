@@ -4,7 +4,7 @@ title: Jpylyzer 2.1.0 release
 ---
 {% include JB/setup %}
 
-We just released a first release candidate of *Jpylyzer* 2.1. This release only introduces some relatively minor changes, compared against the earlier 2.0 release.
+We just released a first release candidate of Jpylyzer 2.1. This release only introduces some relatively minor changes, compared against the earlier 2.0 release.
 
 ## Reporting of packet-level codestream markers
 
@@ -21,7 +21,7 @@ To reconcile these (at first sight conflicting) needs, I added the new `--packet
 
 The newly updated [jpylyzer 2.1 XSD schema]({{ BASE_PATH }}/jpylyzer-v-2-1.xsd) reflects these changes.
 
-## Automated unit tests using jpylyzer test corpus
+## Automated unit tests using Jpylyzer test corpus
 
 We also made the release process more efficient by implementing unit tests based on the [jplyzer-test-files](https://github.com/openpreserve/jpylyzer-test-files) corpus.
 
@@ -45,7 +45,7 @@ As the current release candidate is a pre-release, make sure to include the `--p
 pip install jpylyzer --pre --user
 ```
 
-To upgrade an existing version of jpylyzer, use:
+To upgrade an existing version of Jpylyzer, use:
 
 ```bash
 pip install jpylyzer --upgrade --pre --user
@@ -55,6 +55,6 @@ Alternatively, Windows users can use the binaries. As always, these binaries are
 
 ## Feedback
 
-Any feedback on this *jpylyzer* release candidate is greatly appreciated. Also, don't hesitate to contact us if anything doesn't behave as expected (preferrably using the [issue tracker](https://github.com/openpreserve/jpylyzer/issues)).
+Any feedback on this Jpylyzer release candidate is greatly appreciated. Also, don't hesitate to contact us if anything doesn't behave as expected (preferrably using the [issue tracker](https://github.com/openpreserve/jpylyzer/issues)).
 
 Happy jpylyzing!
