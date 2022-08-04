@@ -24,6 +24,10 @@ author :
 # Version of binary release (update this for each new release!)
 binVersion: 2.0.0
 
+# List of all (non-bugfix) releases (excluding release candidates!)
+# must be in reverse-chronological order!
+releases: ["2.0", "1.18", "1.17", "1.16", "1.15", "1.14"]
+
 # Name of downloadable User Manual file
 userManualName: jpylyzerUserManual.html
 
