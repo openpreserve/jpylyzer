@@ -19,14 +19,18 @@ author :
   github : bitsgalore
   twitter : bitsgalore
 
-# The following variables all point to URLs that are referenced
-
-# Version of binary release (update this for each new release!)
-binVersion: 2.0.0
+# Current stable version. Update this for each new release (excluding release candidates!)
+currentStableVersion: 2.0.0
 
 # List of all (non-bugfix) releases (excluding release candidates!)
-# must be in reverse-chronological order!
+# Must be in reverse-chronological order!
+# This is used to generate the documentation archive
 releases: ["2.0", "1.18", "1.17", "1.16", "1.15", "1.14"]
+
+# List of pre-releases (should be only 1 item, or empty list)
+# This is used to generate the documentation archive
+# Only provide major.minor tags here!
+preReleases: ["2.1"]
 
 # Name of downloadable User Manual file
 userManualName: jpylyzerUserManual.html

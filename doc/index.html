@@ -8,6 +8,7 @@ group: navigation
 
 {% include JB/setup %}
 {% assign releases_list = site.releases %}
+{% assign preReleases_list = site.preReleases %}
 
 {% assign release = releases_list[0] %}
 {% assign doc_dir = release | replace: ".", "-" %}
@@ -28,21 +29,28 @@ group: navigation
 </figcaption>
 </figure>
 
-<h2>Current release candidate (2.1.0rcx)</h2>
-          
-<figure>
-      <a href="{{ BASE_PATH }}/doc/2-1/userManual.html"><img src="{{ BASE_PATH }}/images/book_icon.png" alt="Manual"  width="64" height="48"></a>
-  <figcaption>
-        <a href="{{ BASE_PATH }}/doc/2-1/userManual.html">Online</a>
-   </figcaption>
-</figure>
+{% if preReleases_list[0] != null %}
+
+  {% assign preRelease = preReleases_list[0] %}
+  {% assign doc_dir = preRelease | replace: ".", "-" %}
+
+  <h2>Current release candidate ({{ preRelease }})</h2>
             
-<figure>
-      <a href="{{ BASE_PATH }}/doc/2-1/{{ site.userManualName }}" download><img src="{{ BASE_PATH }}/images/HTML5_Logo_64.png" alt="HTML"  width="64" height="64"></a>
-  <figcaption>
-    <a href="{{ BASE_PATH }}/doc/2-1/{{ site.userManualName }}" download>Download</a>
-  </figcaption>
-</figure>
+  <figure>
+        <a href="{{ BASE_PATH }}/doc/{{ doc_dir }}/userManual.html"><img src="{{ BASE_PATH }}/images/book_icon.png" alt="Manual"  width="64" height="48"></a>
+    <figcaption>
+          <a href="{{ BASE_PATH }}/doc/{{ doc_dir }}/userManual.html">Online</a>
+    </figcaption>
+  </figure>
+              
+  <figure>
+        <a href="{{ BASE_PATH }}/doc/{{ doc_dir }}/{{ site.userManualName }}" download><img src="{{ BASE_PATH }}/images/HTML5_Logo_64.png" alt="HTML"  width="64" height="64"></a>
+    <figcaption>
+      <a href="{{ BASE_PATH }}/doc/{{ doc_dir }}/{{ site.userManualName }}" download>Download</a>
+    </figcaption>
+  </figure>
+
+{% endif %}
 
 <h2>Previous releases</h2>
 
