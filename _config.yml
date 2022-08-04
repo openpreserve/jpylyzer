@@ -22,7 +22,7 @@ author :
 # The following variables all point to URLs that are referenced
 
 # Version of binary release (update this for each new release!)
-binVersion: 2.1.0rc1
+binVersion: 2.0.0
 
 # Name of downloadable User Manual file
 userManualName: jpylyzerUserManual.html
