@@ -37,7 +37,7 @@ Jpylyzer has always been compatible with both Python 3 and Python 2.7, but maint
 
 Finally, this release includes several small bug fixes, and some improvements to the documentation.
 
-## Installation
+## Installation with pip
 
 As the current release candidate is a pre-release, make sure to include the `--pre` option if you install it with pip. For example, for a fresh single-user install use: 
 
@@ -51,7 +51,13 @@ To upgrade an existing version of Jpylyzer, use:
 pip install jpylyzer --upgrade --pre --user
 ```
 
-Alternatively, Windows users can use the binaries. As always, these binaries are completely stand-alone, and don’t require Python on your machine. Linux users can use the Debian package (which does require Python).
+## Installation from binaries
+
+Alternatively, you can use the binaries that are available here: 
+
+<https://github.com/openpreserve/jpylyzer/releases/tag/2.1.0rc1>
+
+As always, the Windows binaries are completely stand-alone, and don’t require Python on your machine. Linux users can use the Debian package (which does require Python).
 
 ## Feedback
 
