@@ -129,15 +129,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')
 
 <!-- End of text to be copied to usage.md of jpylyzer website -->
 
-## Debian packages build process
-
-The [Vagrant directory](vagrant) of this repo contains instructions on how to build Debian packages using [VirtualBox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/). A Vagrantfile and provisioning scripts are included for a number of target platforms, which should make the process of building the packages fairly easy.
-
 ## Steps in preparing a jpylyzer release
 
 [See instructions here](./howto-prepare-release.md)
 
-[1]: http://jpylyzer.openpreservation.org//jpylyzerUserManual.html
+[1]: https://jpylyzer.openpreservation.org//jpylyzerUserManual.html
 [2]: http://www.jpeg.org/public/15444-1annexi.pdf
 [3]: http://www.itu.int/rec/T-REC-T.800/en
 [4]: http://www.scape-project.eu/
