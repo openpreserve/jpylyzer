@@ -31,10 +31,14 @@ group: navigation
 
 {% if preReleases_list[0] != null %}
 
-  {% assign preRelease = preReleases_list[0] %}
+  {% assign preReleaseFull = preReleases_list[0] %}
+  {% assign releaseComponents = preReleaseFull | split: "." %}
+  {% assign preRelease = releaseComponents[0] %}
+  {% assign preRelease = preRelease | append: "." %}
+  {% assign preRelease = preRelease | append: releaseComponents[1] %}
   {% assign doc_dir = preRelease | replace: ".", "-" %}
 
-  <h2>Current release candidate ({{ preRelease }})</h2>
+  <h2>Current release candidate ({{ preReleaseFull }})</h2>
             
   <figure>
         <a href="{{ BASE_PATH }}/doc/{{ doc_dir }}/userManual.html"><img src="{{ BASE_PATH }}/images/book_icon.png" alt="Manual"  width="64" height="48"></a>

@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    {% include JB/setup %}
+    {% assign releases_list = site.releases %}
+    {% assign preReleases_list = site.preReleases %}
+
+
     <meta charset="utf-8">
     <title>{{ page.title }}</title>
     {% if paginator.page > 1 %}<meta name="robots" content="noindex">{% endif %}
@@ -84,7 +89,7 @@
           <!-- Column right -->
           <h2>Binaries</h2>
             
-            <h3>Current stable ({{ site.currentStableVersion }})</h3>
+            <h3>Stable ({{ site.currentStableVersion }})</h3>
   
             <figure>       
               <a href="{{ site.win64Pre }}/{{ site.currentStableVersion }}/jpylyzer_{{ site.currentStableVersion }}{{ site.win64Suf }}"><img src="{{ BASE_PATH }}/images/Windows-icon-64.png" alt="Windows 64 bit binaries"  width="64" height="64"></a>
@@ -109,8 +114,39 @@
               </figcaption>
             </figure>
   
-            <br>
+            <br><br>
   
+            {% if preReleases_list[0] != null %}
+              {% assign preReleaseFull = preReleases_list[0] %}
+              <h3>Release candidate ({{ preReleaseFull }})</h3>
+  
+              <figure>       
+                <a href="{{ site.win64Pre }}/{{ preReleaseFull }}/jpylyzer_{{ preReleaseFull }}{{ site.win64Suf }}"><img src="{{ BASE_PATH }}/images/Windows-icon-64.png" alt="Windows 64 bit binaries"  width="64" height="64"></a>
+                <figcaption>
+                  <a href="{{ site.win64Pre }}/{{ preReleaseFull }}/jpylyzer_{{ preReleaseFull }}{{ site.win64Suf }}">Windows,<br>64 bit</a>
+                </figcaption>
+              </figure>
+            
+              <figure>       
+                <a href="{{ site.win32Pre }}/{{ preReleaseFull }}/jpylyzer_{{ preReleaseFull }}{{ site.win32Suf }}"><img src="{{ BASE_PATH }}/images/Windows-icon-64.png" alt="Windows 32 bit binaries"  width="64" height="64"></a>
+                <figcaption>
+                  <a href="{{ site.win32Pre }}/{{ preReleaseFull }}/jpylyzer_{{ preReleaseFull }}{{ site.win32Suf }}">Windows,<br>32 bit</a>
+                </figcaption>
+              </figure>
+             
+              <br><br>
+    
+              <figure>
+                <a href="{{ site.debPre }}/{{ preReleaseFull }}/opf-jpylyzer_{{ preReleaseFull }}{{ site.debSuf }}"><img src="{{ BASE_PATH }}/images/linux-icon-64.png" alt="Debian"  width="55" height="64"></a>
+                <figcaption>
+                  <a href="{{ site.debPre }}/{{ preReleaseFull }}/opf-jpylyzer_{{ preReleaseFull }}{{ site.debSuf }}">Linux,<br>Debian</a>
+                </figcaption>
+              </figure>
+    
+              <br><br>
+
+            {% endif %}
+
             <!-- <h3>Older releases</h3>
             
             <figure>
@@ -125,7 +161,7 @@
           <div class="sidebar">
           <h2>User Manual</h2>
           
-          <h3>Current stable ({{ site.currentStableVersion }})</h3>
+          <h3>Stable ({{ site.currentStableVersion }})</h3>
             
           <figure>
             <a href="{{ BASE_PATH }}/doc/latest/userManual.html"><img src="{{ BASE_PATH }}/images/book_icon.png" alt="Manual"  width="64" height="48"></a>
@@ -141,8 +177,35 @@
             </figcaption>
           </figure>
   
-          <br>
+          <br><br>
   
+          {% if preReleases_list[0] != null %}
+            {% assign preReleaseFull = preReleases_list[0] %}
+            {% assign releaseComponents = preReleaseFull | split: "." %}
+            {% assign preRelease = releaseComponents[0] %}
+            {% assign preRelease = preRelease | append: "." %}
+            {% assign preRelease = preRelease | append: releaseComponents[1] %}
+            {% assign doc_dir = preRelease | replace: ".", "-" %}
+
+            <h3>Release candidate ({{ preReleaseFull }})</h3>
+            
+            <figure>
+              <a href="{{ BASE_PATH }}/doc/{{ doc_dir }}/userManual.html"><img src="{{ BASE_PATH }}/images/book_icon.png" alt="Manual"  width="64" height="48"></a>
+              <figcaption>
+                <a href="{{ BASE_PATH }}/doc/{{ doc_dir }}/userManual.html">Online</a>
+               </figcaption>
+            </figure>
+                        
+            <figure>
+              <a href="{{ BASE_PATH }}/doc/{{ doc_dir }}/{{ site.userManualName }}"><img src="{{ BASE_PATH }}/images/HTML5_Logo_64.png" alt="HTML"  width="64" height="64"></a>
+              <figcaption>
+                <a href="{{ BASE_PATH }}/doc/{{ doc_dir }}/{{ site.userManualName }}">Download</a>
+              </figcaption>
+            </figure>
+    
+            <br><br>
+          {% endif %}
+
           <h3>Older releases</h3>
   
           <figure>
