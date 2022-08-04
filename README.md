@@ -7,7 +7,7 @@
 
 Please visit the jpylyzer homepage for links to the most recent package downloads (Debian packages and Windows binaries), and a User Manual which documents all aspects of the software:
 
-<http://jpylyzer.openpreservation.org/>
+<https://jpylyzer.openpreservation.org/>
 
 
 ## CI Status
@@ -133,10 +133,10 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')
 
 [See instructions here](./howto-prepare-release.md)
 
-[1]: https://jpylyzer.openpreservation.org//jpylyzerUserManual.html
+[1]: https://jpylyzer.openpreservation.org/doc/latest/userManual.html
 [2]: http://www.jpeg.org/public/15444-1annexi.pdf
-[3]: http://www.itu.int/rec/T-REC-T.800/en
-[4]: http://www.scape-project.eu/
+[3]: https://www.itu.int/rec/T-REC-T.800/en
+[4]: https://www.scape-project.eu/
 [5]: https://bintray.com/openplanets/opf-windows/jpylyzer_win32/
 [6]: https://bintray.com/openplanets/opf-debian/jpylyzer_i386/
 [7]: https://bintray.com/openplanets/opf-debian/jpylyzer_amd64/
