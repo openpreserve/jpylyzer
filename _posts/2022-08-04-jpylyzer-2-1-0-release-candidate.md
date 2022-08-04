@@ -59,6 +59,10 @@ Alternatively, you can use the binaries that are available here:
 
 As always, the Windows binaries are completely stand-alone, and don’t require Python on your machine. Linux users can use the Debian package (which does require Python).
 
+## User Manual
+
+An updated User Manual for Jpylyzer 2.1 is [available here](https://jpylyzer.openpreservation.org/doc/2-1/userManual.html).
+
 ## Feedback
 
 Any feedback on this Jpylyzer release candidate is greatly appreciated. Also, don't hesitate to contact us if anything doesn't behave as expected (preferrably using the [issue tracker](https://github.com/openpreserve/jpylyzer/issues)).
