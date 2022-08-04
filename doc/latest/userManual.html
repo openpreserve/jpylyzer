@@ -4,377 +4,198 @@ title: User Manual
 ---
 {% include JB/setup %}
 
-
-<header id="title-block-header">
+<header>
 <h1 class="title">Jpylyzer User Manual</h1>
-<p class="author"/>
+<p class="author"></p>
 </header>
-
-
-<nav id="TOC" role="doc-toc">
+<nav id="TOC">
 <ul>
-<li><a href="#introduction">Introduction</a>
-<ul>
-<li><a href="#about-jpylyzer">About jpylyzer</a></li>
-<li><a href="#validation-scope-and-restrictions">Validation: scope and restrictions</a></li>
-<li><a href="#outline">Outline of this User Manual</a></li>
-<li><a href="#funding">Funding</a></li>
-<li><a href="#license">License</a></li>
+<li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
+<li><a href="#about-jpylyzer"><span class="toc-section-number">1.1</span> About jpylyzer</a></li>
+<li><a href="#validation-scope-and-restrictions"><span class="toc-section-number">1.2</span> Validation: scope and restrictions</a></li>
+<li><a href="#outline"><span class="toc-section-number">1.3</span> Outline of this User Manual</a></li>
+<li><a href="#funding"><span class="toc-section-number">1.4</span> Funding</a></li>
+<li><a href="#license"><span class="toc-section-number">1.5</span> License</a></li>
 </ul></li>
-<li><a href="#installation">Installation and set-up</a>
-<ul>
-<li><a href="#obtaining-the-software">Obtaining the software</a></li>
-<li><a href="#installation-pip">Installation with Pip (Linux/Unix, Windows, Mac OS X)</a></li>
-<li><a href="#installation-windows">Installation of Windows binaries (Windows only)</a></li>
-<li><a href="#installation-debian">Installation of Debian packages (Ubuntu/Linux)</a></li>
+<li><a href="#installation"><span class="toc-section-number">2</span> Installation and set-up</a><ul>
+<li><a href="#obtaining-the-software"><span class="toc-section-number">2.1</span> Obtaining the software</a></li>
+<li><a href="#installation-pip"><span class="toc-section-number">2.2</span> Installation with Pip (Linux/Unix, Windows, Mac OS X)</a></li>
+<li><a href="#installation-windows"><span class="toc-section-number">2.3</span> Installation of Windows binaries (Windows only)</a></li>
+<li><a href="#installation-debian"><span class="toc-section-number">2.4</span> Installation of Debian packages (Ubuntu/Linux)</a></li>
 </ul></li>
-<li><a href="#using-jpylyzer">Using <em>jpylyzer</em></a>
-<ul>
-<li><a href="#using-overview">Overview</a></li>
-<li><a href="#command-line-usage">Command-line usage</a></li>
-<li><a href="#using-as-python-module">Using <em>jpylyzer</em> as a Python module</a></li>
-<li><a href="#java-integration">Java integration</a></li>
+<li><a href="#using-jpylyzer"><span class="toc-section-number">3</span> Using <em>jpylyzer</em></a><ul>
+<li><a href="#using-overview"><span class="toc-section-number">3.1</span> Overview</a></li>
+<li><a href="#command-line-usage"><span class="toc-section-number">3.2</span> Command-line usage</a></li>
+<li><a href="#using-as-python-module"><span class="toc-section-number">3.3</span> Using <em>jpylyzer</em> as a Python module</a></li>
 </ul></li>
-<li><a href="#structure-jp2">Structure of a JP2 file</a>
-<ul>
-<li><a href="#structure-scope">Scope of this section</a></li>
-<li><a href="#general-format-structure">General format structure</a></li>
-<li><a href="#general-box-structure">General structure of a box</a></li>
-<li><a href="#defined-boxes">Defined boxes in JP2</a></li>
+<li><a href="#structure-jp2"><span class="toc-section-number">4</span> Structure of a JP2 file</a><ul>
+<li><a href="#structure-scope"><span class="toc-section-number">4.1</span> Scope of this chapter</a></li>
+<li><a href="#general-format-structure"><span class="toc-section-number">4.2</span> General format structure</a></li>
+<li><a href="#general-box-structure"><span class="toc-section-number">4.3</span> General structure of a box</a></li>
+<li><a href="#defined-boxes"><span class="toc-section-number">4.4</span> Defined boxes in JP2</a></li>
 </ul></li>
-<li><a href="#output-format">Output format</a>
-<ul>
-<li><a href="#output-format-overview">Overview</a></li>
-<li><a href="#toolinfo-element">toolInfo element</a></li>
-<li><a href="#file-element">file element</a></li>
-<li><a href="#fileinfo-element">fileInfo element</a></li>
-<li><a href="#statusinfo-element">statusInfo element</a></li>
-<li><a href="#isvalid-element">isValid element</a></li>
-<li><a href="#tests-element">tests element</a></li>
-<li><a href="#properties-element">properties element</a></li>
-<li><a href="#propertiesExtension-element">propertiesExtension element</a></li>
+<li><a href="#output-format"><span class="toc-section-number">5</span> Output format</a><ul>
+<li><a href="#output-format-overview"><span class="toc-section-number">5.1</span> Overview</a></li>
+<li><a href="#toolinfo-element"><span class="toc-section-number">5.2</span> toolInfo element</a></li>
+<li><a href="#file-element"><span class="toc-section-number">5.3</span> file element</a></li>
+<li><a href="#fileinfo-element"><span class="toc-section-number">5.4</span> fileInfo element</a></li>
+<li><a href="#statusinfo-element"><span class="toc-section-number">5.5</span> statusInfo element</a></li>
+<li><a href="#isvalid-element"><span class="toc-section-number">5.6</span> isValid element</a></li>
+<li><a href="#tests-element"><span class="toc-section-number">5.7</span> tests element</a></li>
+<li><a href="#properties-element"><span class="toc-section-number">5.8</span> properties element</a></li>
+<li><a href="#propertiesExtension-element"><span class="toc-section-number">5.9</span> propertiesExtension element</a></li>
 </ul></li>
-<li><a href="#jp2-box-by-box">JP2: box by box</a>
-<ul>
-<li><a href="#about-properties-tests-trees">About the properties and tests trees</a></li>
-<li><a href="#jpeg2000-signature-box">JPEG 2000 Signature box</a></li>
-<li><a href="#file-type-box">File Type box</a></li>
-<li><a href="#jp2-header-box">JP2 Header box (superbox)</a></li>
-<li><a href="#image-header-box">Image Header box (child of JP2 Header box)</a></li>
-<li><a href="#bits-per-component-box">Bits Per Component box (child of JP2 Header box)</a></li>
-<li><a href="#colour-specification-box">Colour Specification box (child of JP2 Header box)</a></li>
-<li><a href="#palette-box">Palette box (child of JP2 Header box)</a></li>
-<li><a href="#component-mapping-box">Component Mapping box (child of JP2 Header box)</a></li>
-<li><a href="#channel-definition-box">Channel Definition box (child of JP2 Header box)</a></li>
-<li><a href="#resolution-box">Resolution box (child of JP2 Header box, superbox)</a></li>
-<li><a href="#capture-resolution-box">Capture Resolution box (child of Resolution box)</a></li>
-<li><a href="#display-resolution-box">Default Display Resolution box (child of Resolution box)</a></li>
-<li><a href="#codestream-box">Contiguous Codestream box</a></li>
-<li><a href="#intellectual-property-box">Intellectual Property box</a></li>
-<li><a href="#xml-box">XML box</a></li>
-<li><a href="#uuid-box">UUID box</a></li>
-<li><a href="#uuid-info-box">UUID Info box (superbox)</a></li>
-<li><a href="#uuid-list-box">UUID List box (child of UUID Info box)</a></li>
-<li><a href="#data-entry-url-box">Data Entry URL box (child of UUID Info box)</a></li>
-<li><a href="#unknown-box-section">Unknown box</a></li>
-<li><a href="#top-level-tests-properties">Top-level tests and properties</a></li>
+<li><a href="#jp2-box-by-box"><span class="toc-section-number">6</span> JP2: box by box</a><ul>
+<li><a href="#about-properties-tests-trees"><span class="toc-section-number">6.1</span> About the properties and tests trees</a></li>
+<li><a href="#jpeg2000-signature-box"><span class="toc-section-number">6.2</span> JPEG 2000 Signature box</a></li>
+<li><a href="#file-type-box"><span class="toc-section-number">6.3</span> File Type box</a></li>
+<li><a href="#jp2-header-box"><span class="toc-section-number">6.4</span> JP2 Header box (superbox)</a></li>
+<li><a href="#image-header-box"><span class="toc-section-number">6.5</span> Image Header box (child of JP2 Header box)</a></li>
+<li><a href="#bits-per-component-box"><span class="toc-section-number">6.6</span> Bits Per Component box (child of JP2 Header box)</a></li>
+<li><a href="#colour-specification-box"><span class="toc-section-number">6.7</span> Colour Specification box (child of JP2 Header box)</a></li>
+<li><a href="#palette-box"><span class="toc-section-number">6.8</span> Palette box (child of JP2 Header box)</a></li>
+<li><a href="#component-mapping-box"><span class="toc-section-number">6.9</span> Component Mapping box (child of JP2 Header box)</a></li>
+<li><a href="#channel-definition-box"><span class="toc-section-number">6.10</span> Channel Definition box (child of JP2 Header box)</a></li>
+<li><a href="#resolution-box"><span class="toc-section-number">6.11</span> Resolution box (child of JP2 Header box, superbox)</a></li>
+<li><a href="#capture-resolution-box"><span class="toc-section-number">6.12</span> Capture Resolution box (child of Resolution box)</a></li>
+<li><a href="#display-resolution-box"><span class="toc-section-number">6.13</span> Default Display Resolution box (child of Resolution box)</a></li>
+<li><a href="#codestream-box"><span class="toc-section-number">6.14</span> Contiguous Codestream box</a></li>
+<li><a href="#intellectual-property-box"><span class="toc-section-number">6.15</span> Intellectual Property box</a></li>
+<li><a href="#xml-box"><span class="toc-section-number">6.16</span> XML box</a></li>
+<li><a href="#uuid-box"><span class="toc-section-number">6.17</span> UUID box</a></li>
+<li><a href="#uuid-info-box"><span class="toc-section-number">6.18</span> UUID Info box (superbox)</a></li>
+<li><a href="#uuid-list-box"><span class="toc-section-number">6.19</span> UUID List box (child of UUID Info box)</a></li>
+<li><a href="#data-entry-url-box"><span class="toc-section-number">6.20</span> Data Entry URL box (child of UUID Info box)</a></li>
+<li><a href="#unknown-box-section"><span class="toc-section-number">6.21</span> Unknown box</a></li>
+<li><a href="#top-level-tests-properties"><span class="toc-section-number">6.22</span> Top-level tests and properties</a></li>
 </ul></li>
-<li><a href="#contiguous-codestream-box-chapter">Contiguous Codestream box</a>
-<ul>
-<li><a href="#codestream-structure">General codestream structure</a></li>
-<li><a href="#limitations-codestream-validation">Limitations of codestream validation</a></li>
-<li><a href="#structure-reported-output">Structure of reported output</a></li>
-<li><a href="#contiguous-codestream-box">Contiguous Codestream box</a></li>
-<li><a href="#siz-marker">Image and tile size (SIZ) marker segment (child of Contiguous Codestream box)</a></li>
-<li><a href="#cod-marker">Coding style default (COD) marker segment</a></li>
-<li><a href="#coc-marker">Coding style component (COC) marker segment</a></li>
-<li><a href="#rgn-marker">Region-of-interest (RGN) marker segment</a></li>
-<li><a href="#qcd-marker">Quantization default (QCD) marker segment</a></li>
-<li><a href="#qcc-marker">Quantization component (QCC) marker segment</a></li>
-<li><a href="#poc-marker">Progression order change (POC) marker segment</a></li>
-<li><a href="#crg-marker">Component registration (CRG) marker segment</a></li>
-<li><a href="#com-marker">Comment (COM) marker segment</a></li>
-<li><a href="#tile-part">Tile part (child of Contiguous Codestream box)</a></li>
-<li><a href="#sot-marker">Start of tile part (SOT) marker segment (child of tile part)</a></li>
-<li><a href="#tlm-marker">Tile-part lengths (TLM) marker segment</a></li>
-<li><a href="#plm-marker">Packet length, main header (PLM) marker segment</a></li>
-<li><a href="#ppm-marker">Packed packet headers, main header (PPM) marker segment</a></li>
-<li><a href="#plt-marker">Packet length, tile-part header (PLT) marker segment</a></li>
-<li><a href="#ppt-marker">Packed packet headers, tile-part header (PPT) marker segment</a></li>
+<li><a href="#contiguous-codestream-box-chapter"><span class="toc-section-number">7</span> Contiguous Codestream box</a><ul>
+<li><a href="#codestream-structure"><span class="toc-section-number">7.1</span> General codestream structure</a></li>
+<li><a href="#limitations-codestream-validation"><span class="toc-section-number">7.2</span> Limitations of codestream validation</a></li>
+<li><a href="#structure-reported-output"><span class="toc-section-number">7.3</span> Structure of reported output</a></li>
+<li><a href="#contiguous-codestream-box"><span class="toc-section-number">7.4</span> Contiguous Codestream box</a></li>
+<li><a href="#siz-marker"><span class="toc-section-number">7.5</span> Image and tile size (SIZ) marker segment (child of Contiguous Codestream box)</a></li>
+<li><a href="#cod-marker"><span class="toc-section-number">7.6</span> Coding style default (COD) marker segment</a></li>
+<li><a href="#coc-marker"><span class="toc-section-number">7.7</span> Coding style component (COC) marker segment</a></li>
+<li><a href="#rgn-marker"><span class="toc-section-number">7.8</span> Region-of-interest (RGN) marker segment</a></li>
+<li><a href="#qcd-marker"><span class="toc-section-number">7.9</span> Quantization default (QCD) marker segment</a></li>
+<li><a href="#qcc-marker"><span class="toc-section-number">7.10</span> Quantization component (QCC) marker segment</a></li>
+<li><a href="#poc-marker"><span class="toc-section-number">7.11</span> Progression order change (POC) marker segment</a></li>
+<li><a href="#crg-marker"><span class="toc-section-number">7.12</span> Component registration (CRG) marker segment</a></li>
+<li><a href="#com-marker"><span class="toc-section-number">7.13</span> Comment (COM) marker segment</a></li>
+<li><a href="#tile-part"><span class="toc-section-number">7.14</span> Tile part (child of Contiguous Codestream box)</a></li>
+<li><a href="#sot-marker"><span class="toc-section-number">7.15</span> Start of tile part (SOT) marker segment (child of tile part)</a></li>
+<li><a href="#plm-marker"><span class="toc-section-number">7.16</span> Packet length, main header (PLM) marker segment</a></li>
+<li><a href="#ppm-marker"><span class="toc-section-number">7.17</span> Packed packet headers, main header (PPM) marker segment</a></li>
+<li><a href="#tlm-marker"><span class="toc-section-number">7.18</span> Tile-part lengths (TLM) marker segment</a></li>
+<li><a href="#plt-marker"><span class="toc-section-number">7.19</span> Packet length, tile-part header (PLT) marker segment</a></li>
+<li><a href="#ppt-marker"><span class="toc-section-number">7.20</span> Packed packet headers, tile-part header (PPT) marker segment</a></li>
 </ul></li>
-<li><a href="#references">References</a></li>
+<li><a href="#references"><span class="toc-section-number">8</span> References</a></li>
 </ul>
 </nav>
-
-
-<h1 id="introduction">Introduction</h1>
-
-
-<h2 id="about-jpylyzer">About jpylyzer</h2>
-
-
+<h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
+<h2 id="about-jpylyzer"><span class="header-section-number">1.1</span> About jpylyzer</h2>
 <p>This User Manual documents <em>jpylyzer</em>, a validator and feature extractor for JP2 images. JP2 is the still image format that is defined by JPEG 2000 Part 1 (ISO/IEC 15444-1). <em>Jpylyzer</em> was specifically created to answer the following questions that you might have about any JP2 file:</p>
-
-
 <ol type="1">
 <li><p>Is this really a JP2 and does it really conform to the format’s specifications (validation)?</p></li>
 <li><p>What are the technical characteristics of this image (feature extraction)?</p></li>
 </ol>
-
-
-<h2 id="validation-scope-and-restrictions">Validation: scope and restrictions</h2>
-
-
+<h2 id="validation-scope-and-restrictions"><span class="header-section-number">1.2</span> Validation: scope and restrictions</h2>
 <p>Since the word ‘validation’ means different things to different people, a few words about the overall scope of <em>jpylyzer</em>. First of all, it is important to stress that <em>jpylyzer</em> is not a ‘one stop solution’ that will tell you that an image is 100% perfect. What <em>jpylyzer</em> does is this: based on the JP2 format specification (ISO/IEC 15444-1), it parses a file. It then subjects the file’s contents to a large number of tests, each of which is based on the requirements and restrictions that are defined by the standard. If a file fails one or more tests, this implies that it does not conform to the standard, and is no valid JP2. Importantly, this presumes that <em>jpylyzer</em>’s tests accurately reflect the format specification, without producing false positives.</p>
-
-
-<h3 id="valid-means-probably-valid">‘Valid’ means ‘probably valid’</h3>
-
-
+<h3 id="valid-means-probably-valid"><span class="header-section-number">1.2.1</span> ‘Valid’ means ‘probably valid’</h3>
 <p>If a file passes all tests, this is an indication that it is <em>probably</em> valid JP2. This (intentionally) implies a certain degree of remaining uncertainty, which is related to the following.</p>
-
-
 <p>First of all, <em>jpylyzer</em> (or any other format validator for that matter) ‘validates’ a file by trying to prove that it does <em>not</em> conform to the standard. It cannot prove that that a file <em>does</em> conform to the standard.</p>
-
-
-<p>Related to this, even though <em>jpylyzer</em>’s validation process is very comprehensive, it is not complete. For instance, the validation of JPEG 2000 codestreams at this moment is still somewhat limited. These limitations are discussed in detail <a href="#limitations-codestream-validation">here</a>. Some of these limitations (e.g. optional codestream segment markers that are only minimally supported at this stage) may be taken away in upcoming versions of the tool.</p>
-
-
-<h3 id="no-check-on-compressed-bitstreams">No check on compressed bitstreams</h3>
-
-
+<p>Related to this, even though <em>jpylyzer</em>’s validation process is very comprehensive, it is not complete. For instance, the validation of JPEG 2000 codestreams at this moment is still somewhat limited. <a href="#limitations-codestream-validation">Section 7.2</a> discusses these limitations in detail. Some of these limitations ( e.g. optional codestream segment markers that are only minimally supported at this stage) may be taken away in upcoming versions of the tool.</p>
+<h3 id="no-check-on-compressed-bitstreams"><span class="header-section-number">1.2.2</span> No check on compressed bitstreams</h3>
 <p>One important limitation that most certainly will <em>not</em> be addressed in any upcoming versions is that <em>jpylyzer</em> does not analyse the data in the compressed bitstream segments. Doing so would involve decoding the whole image, and this is completely out of <em>jpylyzer</em>’s scope. As a result, it is possible that a JP2 that passes each of <em>jpylyzer</em>’s tests will nevertheless fail to render correctly in a viewer application.</p>
-
-
-<h3 id="recommendations-for-use-in-quality-assurance-workflows">Recommendations for use in quality assurance workflows</h3>
-
-
+<h3 id="recommendations-for-use-in-quality-assurance-workflows"><span class="header-section-number">1.2.3</span> Recommendations for use in quality assurance workflows</h3>
 <p>Because of the foregoing, a thorough JP2 quality assurance workflow should not rely on <em>jpylyzer</em> (or any other format validator) alone, but it should include other tests as well. Some obvious examples are:</p>
-
-
 <ul>
 <li><p>A rendering test that checks if a file renders at all</p></li>
 <li><p>Format migration workflows (e.g. TIFF to JP2) should ideally also include some comparison between source and destination images (e.g. a pixel-wise comparison)</p></li>
 </ul>
-
-
-<p>Conversely, an image that successfully passes a rendering test or pixel-wise comparison may still contain problematic features (e.g. incorrect colour space information), so validation, rendering tests and pixel-wise comparisons are really complementary to each other.</p>
-
-
-<h3 id="note-on-icc-profile-support">Note on ICC profile support</h3>
-
-
-<p>The support of ICC profiles in JP2 was recently extended through an <a href="https://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard. These changes are taken into account by <em>jpylyzer</em>, which is in line with the most recent version of the (updated) standard.</p>
-
-
-<h2 id="outline">Outline of this User Manual</h2>
-
-
-<p>We start by describing the <a href="#installation">installation process</a> of <em>jpylyzer</em> for Windows and Unix-based systems. We then explain its <a href="#using-jpylyzer">basic usage</a>, either as a command-line tool, or as an importable Python module. This is followed by a brief overview of <a href="#structure-jp2">the structure of the JP2 format</a> and its ‘box’ structure, and an explanation of <em>Jpylyzer</em>’s <a href="#output-format">output format</a>. The final sections give a detailed description of the tests that <em>jpylyzer</em> performs for validation, and the properties that are reported in the output. The <a href="#jp2-box-by-box">penultimate section</a> does this for all ‘boxes’, except the ‘Contiguous Codestream’ box, which is given a <a href="#contiguous-codestream-box-chapter">section of its own</a>.</p>
-
-
-<h2 id="funding">Funding</h2>
-
-
+<p>Conversely, an image that successfully passes a rendering test or pixel-wise comparison may still contain problematic features ( e.g. incorrect colour space information), so validation, rendering tests and pixel-wise comparisons are really complementary to each other.</p>
+<h3 id="note-on-icc-profile-support"><span class="header-section-number">1.2.4</span> Note on ICC profile support</h3>
+<p>The support of ICC profiles in JP2 was recently extended through an <a href="http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard. These changes are taken into account by <em>jpylyzer</em>, which is in line with the most recent version of the (updated) standard.</p>
+<h2 id="outline"><span class="header-section-number">1.3</span> Outline of this User Manual</h2>
+<p><a href="#installation">Chapter 2</a> describes the installation process of <em>jpylyzer</em> for Windows and Unix-based systems. <a href="#using-jpylyzer">Chapter 3</a> explains the usage of <em>jpylyzer</em> as a command-line tool, or as an importable Python module. <a href="#structure-jp2">Chapter 4</a> gives a brief overview of the structure of JP2 and its ‘box’ structure. <em>Jpylyzer</em>’s output format is explained in <a href="#output-format">chapter 5</a>. The final chapters give a detailed description of the tests that <em>jpylyzer</em> performs for validation, and its reported properties. <a href="#jp2-box-by-box">Chapter 6</a> does this for all ‘boxes’, except for the ‘Contiguous Codestream’ box, which is given a <a href="#contiguous-codestream-box-chapter">Chapter (7)</a> of its own.</p>
+<h2 id="funding"><span class="header-section-number">1.4</span> Funding</h2>
 <p>The development of <em>jpylyzer</em> was funded by the EU FP 7 project SCAPE (SCAlable Preservation Environments). More information about this project can be found here:</p>
-
-
-<p><a href="https://www.scape-project.eu/">https://www.scape-project.eu/</a></p>
-
-
-<h2 id="license">License</h2>
-
-
+<p><a href="http://www.scape-project.eu/" class="uri">http://www.scape-project.eu/</a></p>
+<h2 id="license"><span class="header-section-number">1.5</span> License</h2>
 <p><em>Jpylyzer</em> is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this program. If not, see:</p>
-
-
-<p><a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a></p>
-
-
+<p><a href="http://www.gnu.org/licenses/" class="uri">http://www.gnu.org/licenses/</a></p>
 <p>On Debian systems, the complete text of the GNU Lesser General Public License version 3 can be found in:</p>
-
-
 <pre><code>/usr/share/common-licenses/LGPL-3</code></pre>
-
-
-<h1 id="installation">Installation and set-up</h1>
-
-
-<h2 id="obtaining-the-software">Obtaining the software</h2>
-
-
+<h1 id="installation"><span class="header-section-number">2</span> Installation and set-up</h1>
+<h2 id="obtaining-the-software"><span class="header-section-number">2.1</span> Obtaining the software</h2>
 <p>To obtain the latest version of the software please use the download links at the <em>jpylyzer</em> homepage:</p>
-
-
-<p><a href="https://jpylyzer.openpreservation.org/" class="uri">https://jpylyzer.openpreservation.org/</a></p>
-
-
+<p><a href="http://jpylyzer.openpreservation.org/" class="uri">http://jpylyzer.openpreservation.org/</a></p>
 <p>You have three options:</p>
-
-
 <ol type="1">
 <li><p>Install the software with the <em>Pip</em> package manager. This works on all platforms (Windows, Linux, Mac, etc.), but you need to have the Python interpreter available on your system. Jpylyzer is compatible with Python 2.7, and Python 3.2 and more recent (Python 3.0 and 3.1 are not supported).</p></li>
-<li><p>Alternatively, for Windows users there is also a set of stand-alone binaries<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. These allow you to run <em>jpylyzer</em> as an executable Windows application, without any need for installing Python. This option is particularly useful for Windows users who cannot (or don’t want to) install software on their system.</p></li>
+<li><p>Alternatively, for Windows users there is also a set of stand-alone binaries<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. These allow you to run <em>jpylyzer</em> as an executable Windows application, without any need for installing Python. This option is particularly useful for Windows users who cannot (or don’t want to) install software on their system.</p></li>
 <li><p>For Linux users Debian packages are available.</p></li>
 </ol>
-
-
-<p>These options are described in the following sub-sections.</p>
-
-
-<h2 id="installation-pip">Installation with Pip (Linux/Unix, Windows, Mac OS X)</h2>
-
-
-<h3 id="general-installation-procedure">General installation procedure</h3>
-
-
+<p>These options are described in the following sections.</p>
+<h2 id="installation-pip"><span class="header-section-number">2.2</span> Installation with Pip (Linux/Unix, Windows, Mac OS X)</h2>
+<h3 id="general-installation-procedure"><span class="header-section-number">2.2.1</span> General installation procedure</h3>
 <p>First make sure you have a recent version of <em>pip</em>. Then install <em>jpylyzer</em> with the following command:</p>
-
-
 <pre><code>pip install jpylyzer</code></pre>
-
-
-<h3 id="single-user-installation-linux">Single user installation (Linux)</h3>
-
-
+<h3 id="single-user-installation-linux"><span class="header-section-number">2.2.2</span> Single user installation (Linux)</h3>
 <p>On most Linux systems the above command needs to be run as super user (see below). If you don’t want this use the below command for a single-user install:</p>
-
-
 <pre><code>pip install jpylyzer --user</code></pre>
-
-
 <p>This will install the software to the <code>.local</code> folder (hidden by default!) in your home directory (<code>~/.local</code>). Next try to run <em>jpylyzer</em> by entering:</p>
-
-
 <pre><code>jpylyzer</code></pre>
-
-
 <p>Most likely this will result in:</p>
-
-
 <pre><code>jpylyzer: command not found</code></pre>
-
-
 <p>If this happens, add the directory <code>~/.local/bin</code> (which is where the jpylyzer command-line tool is installed) to the <code>PATH</code> environment variable (you only need to do this once). To do this, locate the (hidden) file <code>.profile</code> in you home directory (<code>~/</code>), and open it in a text editor. Then add the following lines at the end of the file:</p>
-
-
 <pre><code># set PATH so it includes the user's .local bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi</code></pre>
-
-
 <p>Save the file, log out of your session and then log in again. Open a command terminal and type:</p>
-
-
 <pre><code>jpylyzer</code></pre>
-
-
 <p>If all went well you now see this:</p>
-
-
 <pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
-          [--nullxml] [--recurse] [--packetmarkers] [--verbose]
-          [--version] [--wrapper]
-          jp2In [jp2In ...]
+              [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
+              jp2In [jp2In ...]
 jpylyzer: error: the following arguments are required: jp2In</code></pre>
-
-
 <p>Which means that the installation was successful!</p>
-
-
-<h3 id="global-installation-linux">Global installation (Linux)</h3>
-
-
+<h3 id="global-installation-linux"><span class="header-section-number">2.2.3</span> Global installation (Linux)</h3>
 <p>Simply enter:</p>
-
-
-<pre><code>sudo -H pip install jpylyzer</code></pre>
-
-
+<pre><code>sudo -H pip install isolyzer</code></pre>
 <p>No further configuration is needed in this case.</p>
-
-
-<h3 id="note-on-pre-releases">Note on pre-releases</h3>
-
-
+<h3 id="note-on-pre-releases"><span class="header-section-number">2.2.4</span> Note on pre-releases</h3>
 <p>The above command lines will only install stable versions of jpylyzer. In order to install the latest pre-release, add the <code>--pre</code> switch. For example:</p>
-
-
 <pre><code>sudo -H pip install jpylyzer --pre</code></pre>
-
-
-<h2 id="installation-windows">Installation of Windows binaries (Windows only)</h2>
-
-
+<h2 id="installation-windows"><span class="header-section-number">2.3</span> Installation of Windows binaries (Windows only)</h2>
 <p>Download the binary using the link on the <em>jpylyzer</em> homepage. Unzip the contents of this file to an empty folder on your PC. <em>Jpylyzer</em> should now be ready for use.</p>
-
-
-<h3 id="testing-the-installation">Testing the installation</h3>
-
-
+<h3 id="testing-the-installation"><span class="header-section-number">2.3.1</span> Testing the installation</h3>
 <p>To test your installation, open a Command Prompt (‘DOS prompt’) and type:</p>
-
-
 <pre><code>%jpylyzerPath%\jpylyzer</code></pre>
-
-
 <p>In the above command, replace <em>%jpylyzerPath%</em> with the full path to the <em>jpylyzer</em> installation directory (i.e. the directory that contains ‘jpylyzer.exe’ and its associated files). For example, if you extracted the files to directory <code>c:\tools\jpylyzer</code>, the command would become:</p>
-
-
 <pre><code>c:\tools\jpylyzer\jpylyzer</code></pre>
-
-
 <p>Executing this command should result in the following screen output:</p>
-
-
 <pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
-          [--nullxml] [--recurse] [--packetmarkers] [--verbose]
-          [--version] [--wrapper]
-          jp2In [jp2In ...]
+              [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
+              jp2In [jp2In ...]
 jpylyzer: error: the following arguments are required: jp2In</code></pre>
-
-
-<h3 id="running-jpylyzer-without-typing-the-full-path">Running jpylyzer without typing the full path</h3>
-
-
+<h3 id="running-jpylyzer-without-typing-the-full-path"><span class="header-section-number">2.3.2</span> Running jpylyzer without typing the full path</h3>
 <p>Optionally, you may also want to add the full path of the <em>jpylyzer</em> installation directory to the Windows ’Path’ environment variable. Doing so allows you to run <em>jpylyzer</em> from any directory on your PC without having to type the full path. In Windows 7 you can do this by selecting ‘settings’ from the ‘Start’ menu; then go to ‘control panel’/’system’ and go to the ‘advanced’ tab. Click on the ‘environment variables’ button. Finally, locate the ‘Path’ variable in the ‘system variables’ window, click on ‘Edit’ and add the full <em>jpylyzer</em> path (this requires local Administrator privileges). The settings take effect on any newly opened command prompt.</p>
-
-
-<h2 id="installation-debian">Installation of Debian packages (Ubuntu/Linux)</h2>
-
-
+<h2 id="installation-debian"><span class="header-section-number">2.4</span> Installation of Debian packages (Ubuntu/Linux)</h2>
 <p>For Linux, Debian packages of <em>jpylyzer</em> exist. To install, simply download the <em>.deb</em> file, double-click on it and select <em>Install Package</em>. Alternatively you can also do this in the command terminal by typing:</p>
-
-
 <pre><code>sudo dpkg -i opf-jpylyzer_2.0.0_all.deb</code></pre>
-
-
 <p>In both cases you need to have administrative privileges.</p>
-
-
 <p>For <em>Ubuntu</em> and <em>Debian</em> alternative packages are available in the official release channels. To install simply run the following commands:</p>
-
-
 <pre><code>sudo apt-get update
 sudo apt-get install python-jpylyzer</code></pre>
-
-
-<h1 id="using-jpylyzer">Using <em>jpylyzer</em></h1>
-
-
-<h2 id="using-overview">Overview</h2>
-
-
-<p>This section describes the general use of <em>jpylyzer</em>. The first sub-sections cover the use of <em>jpylyzer</em> as a command-line tool and as an importable Python module.</p>
-
-
-<h2 id="command-line-usage">Command-line usage</h2>
-
-
+<h1 id="using-jpylyzer"><span class="header-section-number">3</span> Using <em>jpylyzer</em></h1>
+<h2 id="using-overview"><span class="header-section-number">3.1</span> Overview</h2>
+<p>This chapter describes the general use of <em>jpylyzer</em>. The first sections cover the use of <em>jpylyzer</em> as a command-line tool and as an importable Python module.</p>
+<h2 id="command-line-usage"><span class="header-section-number">3.2</span> Command-line usage</h2>
 <p>This section explains <em>jpylyzer</em>’s general command-line interface. For the sake of brevity, full paths to <em>jpylyzer</em> are omitted. This means that, depending on your system and settings, you may have to substitute each occurrence of ‘jpylyzer’ with its full path, the corresponding Windows binary, or a combination of both. The following examples illustrate this:</p>
-
-
 <table>
 <thead>
 <tr class="header">
@@ -393,26 +214,13 @@ sudo apt-get install python-jpylyzer</code></pre>
 </tr>
 </tbody>
 </table>
-
-
 <p>Furthermore, command line arguments that are given between square brackets (example: <code>[-h]</code>) are optional.</p>
-
-
-<h3 id="synopsis">Synopsis</h3>
-
-
+<h3 id="synopsis"><span class="header-section-number">3.2.1</span> Synopsis</h3>
 <p><em>Jpylyzer</em> can be invoked using the following command-line arguments:</p>
-
-
 <pre><code>usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
-          [--nullxml] [--recurse] [--packetmarkers] [--verbose]
-          [--version] [--wrapper]
-          jp2In [jp2In ...]</code></pre>
-
-
-<h4 id="positional-arguments">Positional arguments</h4>
-
-
+              [--nullxml] [--recurse] [--verbose] [--version] [--wrapper]
+              jp2In [jp2In ...]</code></pre>
+<h4 id="positional-arguments"><span class="header-section-number">3.2.1.1</span> Positional arguments</h4>
 <table>
 <thead>
 <tr class="header">
@@ -427,11 +235,7 @@ sudo apt-get install python-jpylyzer</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h4 id="optional-arguments">Optional arguments</h4>
-
-
+<h4 id="optional-arguments"><span class="header-section-number">3.2.1.2</span> Optional arguments</h4>
 <table>
 <thead>
 <tr class="header">
@@ -469,331 +273,132 @@ sudo apt-get install python-jpylyzer</code></pre>
 <td style="text-align: left;">when analysing a directory, recurse into subdirectories (implies <code>--wrapper</code> if <code>--legacyout</code> is used)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><code>[--packetmarkers]</code></td>
-<td style="text-align: left;">Report packet-level codestream markers (plm, ppm, plt, ppt)</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;"><code>[--verbose]</code></td>
 <td style="text-align: left;">report test results in verbose format</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>[-v, --version]</code></td>
 <td style="text-align: left;">show program’s version number and exit</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>[--wrapper, -w]</code></td>
 <td style="text-align: left;">wrap output for individual image(s) in ‘results’ XML element (deprecated from jpylyzer 2.x onward, only takes effect if <code>--legacyout</code> is used)</td>
 </tr>
 </tbody>
 </table>
-
-
 <p>Note that the input can either be a single image, a space-separated sequence of images, a pathname expression that includes multiple images, or any combination of the above. For example, the following command will process one single image:</p>
-
-
 <pre><code>jpylyzer rubbish.jp2</code></pre>
-
-
 <p>The next example shows how to process all files with a ‘jp2’ extension in the current directory:</p>
-
-
 <pre><code>jpylyzer *.jp2</code></pre>
-
-
 <p>Note that on Unix/Linux based systems pathname expressions may not work properly unless you wrap them in quotation marks:</p>
-
-
 <pre><code>jpylyzer "*.jp2"</code></pre>
-
-
-<h3 id="output-redirection">Output redirection</h3>
-
-
+<h3 id="output-redirection"><span class="header-section-number">3.2.2</span> Output redirection</h3>
 <p>All output (except warning and system error messages) is directed to the standard output device (stdout). By default this is the console screen. Use your platform’s standard output redirection operators to redirect output to a file. The most common situation will be to redirect the output of one invocation of <em>jpylyzer</em> to an XML file, which can be done with the ‘&gt;’ operator (both under Windows and Linux):</p>
-
-
 <pre><code>jpylyzer jp2In &gt; outputFile</code></pre>
-
-
 <p>E.g. the following command will run <em>jpylyzer</em> on image ‘rubbish.jp2’ and redirects the output to file ‘rubbish.xml’:</p>
-
-
 <pre><code>jpylyzer rubbish.jp2 &gt; rubbish.xml</code></pre>
-
-
-<p>The format of the XML output is described <a href="#output-format">here</a>.</p>
-
-
-<h3 id="format-option">‘format’ option</h3>
-
-
+<p>The format of the XML output is described in <a href="#output-format">Chapter 5</a>.</p>
+<h3 id="format-option"><span class="header-section-number">3.2.3</span> ‘format’ option</h3>
 <p>By default, <em>jpylyzer</em> validates against the <em>JP2</em> format specification. Starting with version 2.0, <em>jpylyzer</em> can also validate raw JPEG 2000 codestreams that are not wrapped inside a <em>JP2</em> container. For codestream validation, use the <code>--format</code> option with value <code>j2c</code>, e.g.:</p>
-
-
 <pre><code>jpylyzer --format j2c rubbish.j2c &gt; rubbish.xml</code></pre>
-
-
-<h3 id="mix-option">‘mix’ option</h3>
-
-
-<p>When this option is used, <em>jpylyzer</em> reports additional output in <a href="https://www.loc.gov/standards/mix/"><em>NISO MIX</em></a> format. This option takes one argument that defines whether <em>MIX</em> 1.0 or <em>MIX</em> 2.0 is used. For example, the following command will result in <em>MIX</em> 2.0 output:</p>
-
-
+<h3 id="mix-option"><span class="header-section-number">3.2.4</span> ‘mix’ option</h3>
+<p>When this option is used, <em>jpylyzer</em> reports additional output in <a href="http://www.loc.gov/standards/mix/"><em>NISO MIX</em></a> format. This option takes one argument that defines whether <em>MIX</em> 1.0 or <em>MIX</em> 2.0 is used. For example, the following command will result in <em>MIX</em> 2.0 output:</p>
 <pre><code>jpylyzer --mix 2 rubbish.jp2 &gt; rubbish.xml</code></pre>
-
-
 <p>The <em>MIX</em> output is wrapped inside a <em>file/propertiesExtension</em> element. Note that <em>MIX</em> output is <em>only</em> written for files that are valid JP2 (files that are not valid result in an empty <em>propertiesExtension</em> element). Also, the <code>--mix</code> option is ignored if <code>--format</code> is set to <code>j2c</code>, or if <code>--legacyout</code> (see below) is used.</p>
-
-
-<h3 id="legacyout-option">‘legacyout’ option</h3>
-
-
+<h3 id="legacyout-option"><span class="header-section-number">3.2.5</span> ‘legacyout’ option</h3>
 <p>The output format of <em>jpylyzer</em> has changed in version 2.0, which may break existing workflows that expect output in 1.x format. For backward compatibility the <code>--legacyout</code> option results in output that follows the old 1.x format. Note that codestream validation is disabled if you use this option.</p>
-
-
-<h3 id="recurse-option">‘recurse’ option</h3>
-
-
+<h3 id="recurse-option"><span class="header-section-number">3.2.6</span> ‘recurse’ option</h3>
 <p>If the <code>--recurse</code> option is used, <em>jpylyzer</em> will recursively traverse all subdirectories of a filepath expression. E.g:</p>
-
-
 <pre><code>jpylyzer /home/myJP2s/*.jp2 &gt; rubbish.xml</code></pre>
-
-
 <p>In this case <em>jpylyzer</em> analyses all files that have a <em>.jp2</em> extension in directory <em>/home/myJP2s</em> and all its subdirectories.</p>
-
-
-<h3 id="packetmarkers-option">‘packetmarkers’ option</h3>
-
-
-<p>When this option is enabled, jpylyzer will report the properties of the following packet-level codestream markers:</p>
-
-
-<ul>
-<li>PLM (packet length, main header) marker</li>
-<li>PPM (packed packet headers, main header) marker</li>
-<li>PLT (packet length, tile-part header) marker</li>
-<li>PPT (packed packet headers, tile-part header) marker</li>
-</ul>
-
-
-<p>By default these are excluded from the output, in order to prevent excessive output size.</p>
-
-
-<h3 id="wrapper-option-deprecated">‘wrapper’ option (deprecated)</h3>
-
-
+<h3 id="wrapper-option-deprecated"><span class="header-section-number">3.2.7</span> ‘wrapper’ option (deprecated)</h3>
 <p>This deprecated option is included for backward-compatibility, and only takes effect if <code>--legacyout</code> (see above) is used.By default, the <em>jpylyzer</em> 1.x releases would create a separate XML tree for each analysed image, without any overarching hierarchy. For multiple-image pathname expressions this resulted in output that was <strong>not</strong> well-formed XML. The <code>--legacyout</code> option still results in this is behaviour. For example:</p>
-
-
 <pre><code>jpylyzer --legacyout rubbish.jp2 garbage.jp2 &gt; rubbish.xml</code></pre>
-
-
 <p>In this case, the file ‘rubbish.xml’ contains a succession of two XML trees, which by itself is not well-formed XML. The <code>--wrapper</code> option is provided to create valid XML instead:</p>
-
-
 <pre><code>jpylyzer --legacyout --wrapper rubbish.jp2 garbage.jp2 &gt; rubbish.xml</code></pre>
-
-
 <p>In the above case the XML trees of the individual images are wrapped inside a ‘results’ element. When the <code>--recurse</code> option is used, jpylyzer will automatically wrap the output in a ‘results’ element, so there’s no need to specify <code>--wrapper</code> in that case.</p>
-
-
 <p>Starting with version 2.0, <em>jpylyzer</em> <em>always</em> generates well-formed XML (unless the <code>--legacyout</code> option is used), which makes the <code>--wrapper</code> option largely obsolete, apart from cases where the ‘old’ behaviour is needed for backward-compatibility reasons.</p>
-
-
-<h3 id="nullxml-option">‘nullxml’ option</h3>
-
-
+<h3 id="nullxml-option"><span class="header-section-number">3.2.8</span> ‘nullxml’ option</h3>
 <p>The <em>nullxml</em> option was added to enable extraction of XML content that is terminated by a null-byte. By default <em>jpylyzer</em> doesn’t report the XML in that case, because it throws an exception in the XML parser. Apparently some old versions of the Kakadu demo applications would erroneously add a null-byte to embedded XML, so this option can be used to force extraction for images that are affected by this.</p>
-
-
-<h3 id="user-warnings">User warnings</h3>
-
-
+<h3 id="user-warnings"><span class="header-section-number">3.2.9</span> User warnings</h3>
 <p>Under the following conditions <em>jpylyzer</em> will print a user warning to the standard error device (typically the console screen):</p>
-
-
-<h4 id="no-images-to-check">No images to check</h4>
-
-
+<h4 id="no-images-to-check"><span class="header-section-number">3.2.9.1</span> No images to check</h4>
 <p>If there are no input images to check (typically because the value of jp2In refers to a non-existent file), the following warning message is shown:</p>
-
-
 <pre><code>User warning: no images to check!</code></pre>
-
-
-<h4 id="unsupported-box">Unsupported box</h4>
-
-
+<h4 id="unsupported-box"><span class="header-section-number">3.2.9.2</span> Unsupported box</h4>
 <p>In some cases you will see the following warning message:</p>
-
-
 <pre><code>User warning: ignoring 'boxName' (validator function not yet implemented)</code></pre>
-
-
-<p>The reason for this: a JP2 file is made up of units that are called ‘boxes’. This is explained in more detail <a href="#structure-jp2">here</a>. Each ‘box’ has its own dedicated validator function. At this stage validator functions are still missing for a small number of (optional) boxes. <em>Jpylyzer</em> will display the above warning message if it encounters a (yet) unsupported box. Any unsupported boxes are simply ignored, and the remainder of the file will be analyzed (and validated) normally.</p>
-
-
-<h4 id="error-while-processing-a-file">Error while processing a file</h4>
-
-
+<p>The reason for this: a JP2 file is made up of units that are called ‘boxes’. This is explained in more detail in <a href="#structure-jp2">Chapter 4</a>. Each ‘box’ has its own dedicated validator function. At this stage validator functions are still missing for a small number of (optional) boxes. <em>Jpylyzer</em> will display the above warning message if it encounters a (yet) unsupported box. Any unsupported boxes are simply ignored, and the remainder of the file will be analyzed (and validated) normally.</p>
+<h4 id="error-while-processing-a-file"><span class="header-section-number">3.2.9.3</span> Error while processing a file</h4>
 <p>In rare cases you may come across one of the following messages:</p>
-
-
 <pre><code>User warning: memory error (file size too large)</code></pre>
-
-
 <p>Memory errors may occur for (very) large images. If you get this warning, try using a machine with more RAM. Also, a machine’s chip architecture and the operating system may put constraints on the amount of memory that can be allocated.</p>
-
-
 <p>The following warning indicates an input error:</p>
-
-
 <pre><code>User warning: I/O error (cannot open file)</code></pre>
-
-
 <p>Finally, the following messages most likely indicate a jpylyzer bug:</p>
+<pre><code>User warning:runtime error (please report to developers)
 
-
-<pre><code>User warning:runtime error (please report to developers)</code></pre>
-
-
-<p>and:</p>
-
-
-<pre><code>User warning: unknown error (please report to developers)</code></pre>
-
-
+User warning: unknown error (please report to developers)</code></pre>
 <p>If you ever run into either of these two errors, please get in touch with the jpylyzer developers. The easiest way to do this is to create a new issue at:</p>
-
-
 <p><a href="https://github.com/openpreserve/jpylyzer/issues" class="uri">https://github.com/openpreserve/jpylyzer/issues</a></p>
-
-
-<h4 id="unknown-box">Unknown box</h4>
-
-
+<h4 id="unknown-box"><span class="header-section-number">3.2.9.4</span> Unknown box</h4>
 <p>Occasionally, you may see this warning message:</p>
-
-
 <pre><code>User warning: ignoring unknown box</code></pre>
-
-
 <p>This happens if <em>jpylyzer</em> encounters a box that is not defined by JPEG 2000 Part 1. It should be noted that, to a large extent, JPEG 2000 Part 1 permits the presence of boxes that are defined outside the standard. Again, <em>jpylyzer</em> will simply ignore these and process all other boxes normally.</p>
-
-
-<h2 id="using-as-python-module">Using <em>jpylyzer</em> as a Python module</h2>
-
-
+<h2 id="using-as-python-module"><span class="header-section-number">3.3</span> Using <em>jpylyzer</em> as a Python module</h2>
 <p>Instead of using <em>jpylyzer</em> from the command-line, you can also import it as a module in your own Python programs. To do so, install jpylyzer with <em>pip</em>. Then import <em>jpylyzer</em> into your code by adding:</p>
-
-
-<pre><code>from jpylyzer import jpylyzer</code></pre>
-
-
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</a></code></pre></div>
 <p>Subsequently you can call any function that is defined in <em>jpylyzer.py</em>. In practice you will most likely only need the <em>checkOneFile</em> function. The following minimal script shows how this works:</p>
-
-
-<pre><code>#! /usr/bin/env python
-
-from jpylyzer import jpylyzer
-
-# Define JP2
-myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
-
-# Analyse with jpylyzer, result to Element object
-myResult = jpylyzer.checkOneFile(myFile)
-
-# Return image height value
-imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
-print(imageHeight)</code></pre>
-
-
-<p>Here, <em>myResult</em> is an <em>Element</em> object that can either be used directly, or converted to XML using the <em>ElementTree</em> module<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The structure of the element object follows the XML output that described <a href="#output-format">here</a>.</p>
-
-
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co">#! /usr/bin/env python</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</a>
+<a class="sourceLine" id="cb34-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb34-5" data-line-number="5"><span class="co"># Define JP2</span></a>
+<a class="sourceLine" id="cb34-6" data-line-number="6">myFile <span class="op">=</span> <span class="st">"/home/johan/jpylyzer-test-files/aware.jp2"</span></a>
+<a class="sourceLine" id="cb34-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb34-8" data-line-number="8"><span class="co"># Analyse with jpylyzer, result to Element object</span></a>
+<a class="sourceLine" id="cb34-9" data-line-number="9">myResult <span class="op">=</span> jpylyzer.checkOneFile(myFile)</a>
+<a class="sourceLine" id="cb34-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb34-11" data-line-number="11"><span class="co"># Return image height value</span></a>
+<a class="sourceLine" id="cb34-12" data-line-number="12">imageHeight <span class="op">=</span> myResult.findtext(<span class="st">'./properties/jp2HeaderBox/imageHeaderBox/height'</span>)</a>
+<a class="sourceLine" id="cb34-13" data-line-number="13"><span class="bu">print</span>(imageHeight)</a></code></pre></div>
+<p>Here, <em>myResult</em> is an <em>Element</em> object that can either be used directly, or converted to XML using the <em>ElementTree</em> module<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. The structure of the element object follows the XML output that described in <a href="#output-format">Chapter 5</a>.</p>
 <p>For validation a raw JPEG 2000 codestreams, call the <em>checkOneFile</em> function with the additional <em>validationFormat</em> argument, and set it to <code>j2c</code>:</p>
-
-
-<pre><code># Define Codestream
-myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
-
-# Analyse with jpylyzer, result to Element object
-myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
-
-
-<h2 id="java-integration">Java integration</h2>
-
-
-<p>It is possible to integrate <em>jpylyzer</em> into Java applications. A test class that shows how this works is included in the source repo <a href="https://github.com/openpreserve/jpylyzer/tree/master/jpylyzer/java_demo/CallJpylyzer.java">here</a>. This requires <a href="https://www.jython.org/">Jython</a>. Note that you may run into performance issues with (very) large images in this case, as Jython does not support <a href="https://docs.python.org/3/library/mmap.html">memory mapping</a>, so make sure you’ve got plenty of RAM available.</p>
-
-
-<h1 id="structure-jp2">Structure of a JP2 file</h1>
-
-
-<h2 id="structure-scope">Scope of this section</h2>
-
-
-<p>This section gives a brief overview of the JP2 file format. A basic understanding of the general structure of JP2 is helpful for appreciating how <em>jpylyzer</em> performs its validation. It will also make it easier to understand <em>jpylyzer</em>‘s extracted properties, as these are reported as a hierarchical tree that corresponds to the internal structure of JP2.</p>
-
-
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># Define Codestream</span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">myFile <span class="op">=</span> <span class="st">"/home/johan/jpylyzer-test-files/rubbish.j2c"</span></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="co"># Analyse with jpylyzer, result to Element object</span></a>
+<a class="sourceLine" id="cb35-5" data-line-number="5">myResult <span class="op">=</span> jpylyzer.checkOneFile(myFile, <span class="st">'j2c'</span>)</a></code></pre></div>
+<h1 id="structure-jp2"><span class="header-section-number">4</span> Structure of a JP2 file</h1>
+<h2 id="structure-scope"><span class="header-section-number">4.1</span> Scope of this chapter</h2>
+<p>This chapter gives a brief overview of the JP2 file format. A basic understanding of the general structure of JP2 is helpful for appreciating how <em>jpylyzer</em> performs its validation. It will also make it easier to understand <em>jpylyzer</em>‘s extracted properties, as these are reported as a hierarchical tree that corresponds to the internal structure of JP2.</p>
 <p>For an exhaustive description of every detail of the format you are advised to consult Annex I (‘JP2 file format syntax’) and Annex A (‘Codestream syntax’) of ISO/IEC 15444-1.</p>
-
-
-<h2 id="general-format-structure">General format structure</h2>
-
-
+<h2 id="general-format-structure"><span class="header-section-number">4.2</span> General format structure</h2>
 <p>At the highest level, a JP2 file is made up of a collection of <em>boxes</em>. A <em>box</em> can be thought of as the fundamental building block of the format. Some boxes (‘superboxes’) are containers for other boxes. The Figure below gives an overview of the top-level boxes in a JP2 file.</p>
-
-
 <figure>
-<img src="images/jp2FormatStructure.png" alt="Top-level overview of a JP2 file. Boxes with dashed borders are optional."/><figcaption aria-hidden="true">Top-level overview of a JP2 file. Boxes with dashed borders are optional.</figcaption>
+<img src="images/jp2FormatStructure.png" alt="Top-level overview of a JP2 file. Boxes with dashed borders are optional."><figcaption>Top-level overview of a JP2 file. Boxes with dashed borders are optional.</figcaption>
 </figure>
-
-
 <p>A number of things here are noteworthy to point out:</p>
-
-
 <ul>
 <li><p>Some of these boxes are required, whereas others (indicated with dashed lines in the Figure) are optional.</p></li>
 <li><p>The order in which the boxes appear in the file is subject to some constraints (e.g. the first box in a JP2 must always be a ‘Signature’ box, followed by a ‘File Type’ box).</p></li>
-<li><p>Some boxes may have multiple instances (e.g. ‘Contiguous Codestream’ box), whereas others must be unique (e.g. ‘JP2 Header’ box).</p></li>
+<li><p>Some boxes may have multiple instances (e.g. ‘Contiguous Codestream’ box), whereas others must be unique (e.g. ‘JP2 Header’ box).</p></li>
 </ul>
-
-
 <p>More specific details can be found in the standard. The important thing here is that requirements like the above are something that should be verified by a validator, and this is exactly what <em>jpylyzer</em> does at the highest level of its validation procedure.</p>
-
-
-<h2 id="general-box-structure">General structure of a box</h2>
-
-
+<h2 id="general-box-structure"><span class="header-section-number">4.3</span> General structure of a box</h2>
 <p>All boxes are defined by a generic binary structure, which is illustrated by the following Figure:</p>
-
-
 <figure>
-<img src="images/boxStructure.png" alt="General structure of a box."/><figcaption aria-hidden="true">General structure of a box.</figcaption>
+<img src="images/boxStructure.png" alt="General structure of a box."><figcaption>General structure of a box.</figcaption>
 </figure>
-
-
 <p>Most boxes are made up of the following three components:</p>
-
-
 <ol type="1">
 <li><p>A fixed-length ‘box length’ field that indicates the total size of the box (in bytes).</p></li>
 <li><p>A fixed-length ‘box type’ field which specifies the type of information that can be found in this box</p></li>
 <li><p>The box contents, which contains the actual information within the box. Its internal format depends on the box type. The box contents of a ‘superbox’ will contain its child boxes (which can be parsed recursively).</p></li>
 </ol>
-
-
 <p>In some cases a box will also contain an ‘extended box length field’. This field is needed if the size of a box exceeds 2<sup>32</sup>-1 bytes, which is the maximum value that can be stored in the 4-byte ‘box length’ field.</p>
-
-
-<h2 id="defined-boxes">Defined boxes in JP2</h2>
-
-
+<h2 id="defined-boxes"><span class="header-section-number">4.4</span> Defined boxes in JP2</h2>
 <p>The following Table (taken from Table I.2 in ISO/IEC 15444-1, with minor modifications) lists all boxes that are defined in the standard. Addition signs in the ‘box name’ column indicate boxes that are children of a ‘superbox’.</p>
-
-
 <table>
 <thead>
 <tr class="header">
@@ -920,58 +525,28 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
 <p>A JP2 file may contain boxes that are not defined by the standard. Such boxes are simply skipped and ignored by conforming reader applications.</p>
-
-
-<h1 id="output-format">Output format</h1>
-
-
-<p>This section explains <em>jpylyzer</em>’s output format.</p>
-
-
-<h2 id="output-format-overview">Overview</h2>
-
-
-<p><em>Jpylyzer</em> generates its output in XML format, which is defined by <a href="https://jpylyzer.openpreservation.org/jpylyzer-v-2-1.xsd">the schema that can be found here</a>. The following Figure shows the output structure:</p>
-
-
+<h1 id="output-format"><span class="header-section-number">5</span> Output format</h1>
+<p>This chapter explains <em>jpylyzer</em>’s output format.</p>
+<h2 id="output-format-overview"><span class="header-section-number">5.1</span> Overview</h2>
+<p><em>Jpylyzer</em> generates its output in XML format, which is defined by <a href="http://jpylyzer.openpreservation.org/jpylyzer-v-2-0.xsd">the schema that can be found here</a>. The following Figure shows the output structure:</p>
 <figure>
-<img src="images/outputStructure.png" alt="Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements."/><figcaption aria-hidden="true">Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements.</figcaption>
+<img src="images/outputStructure.png" alt="Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements."><figcaption>Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements.</figcaption>
 </figure>
-
-
 <p>The root element (<em>jpylyzer</em>) contains the following child elements:</p>
-
-
 <ol type="1">
 <li><p>one <em>toolInfo</em> element, which contains information about <em>jpylyzer</em></p></li>
 <li><p>one or more <em>file</em> elements, each of which contain information about about the analysed files</p></li>
 </ol>
-
-
 <p>The XML output is pretty-printed. You can use the <code>--nopretty</code> switch to disable pretty-printing (this produces smaller files and may give a slightly better performance).</p>
-
-
-<h2 id="toolinfo-element">toolInfo element</h2>
-
-
+<h2 id="toolinfo-element"><span class="header-section-number">5.2</span> toolInfo element</h2>
 <p>This element holds information about <em>jpylyzer</em>. Currently it contains the following sub-elements:</p>
-
-
 <ul>
-<li><p><em>toolName</em>: name of the analysis tool (i.e. <em>jpylyzer</em> or <em>jpylyzer.exe</em>, depending on the platform used)</p></li>
+<li><p><em>toolName</em>: name of the analysis tool (i.e. <em>jpylyzer</em> or <em>jpylyzer.exe</em>, depending on the platform used)</p></li>
 <li><p><em>toolVersion</em>: version of <em>jpylyzer</em> (<em>jpylyzer</em> uses a date versioning scheme)</p></li>
 </ul>
-
-
-<h2 id="file-element">file element</h2>
-
-
+<h2 id="file-element"><span class="header-section-number">5.3</span> file element</h2>
 <p>The <em>file</em> element contains the following sub-elements:</p>
-
-
 <ol type="1">
 <li><p><em>fileInfo</em>: general information about the analysed file</p></li>
 <li><p><em>statusInfo</em>: information about the status of <em>jpylyzer</em>’s validation attempt</p></li>
@@ -980,28 +555,16 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <li><p><em>properties</em>: image properties (organised by box)</p></li>
 <li><p><em>propertiesExtension</em>: wrapper element for NISO <em>MIX</em> output (only if the <code>--mix</code> option is used)</p></li>
 </ol>
-
-
-<h2 id="fileinfo-element">fileInfo element</h2>
-
-
+<h2 id="fileinfo-element"><span class="header-section-number">5.4</span> fileInfo element</h2>
 <p>This element holds general information about the analysed file. Currently it contains the following sub-elements:</p>
-
-
 <ul>
 <li><p><em>filename</em>: name of the analysed file without its path (e.g. “rubbish.jp2”)</p></li>
-<li><p><em>filePath</em>: name of the analysed file, including its full absolute path (e.g. “d:\data\images\rubbish.jp2”)</p></li>
+<li><p><em>filePath</em>: name of the analysed file, including its full absolute path (e.g. “d:\data\images\rubbish.jp2”)</p></li>
 <li><p><em>fileSizeInBytes</em>: file size in bytes</p></li>
 <li><p><em>fileLastModified</em>: last modified date and time</p></li>
 </ul>
-
-
-<h2 id="statusinfo-element">statusInfo element</h2>
-
-
+<h2 id="statusinfo-element"><span class="header-section-number">5.5</span> statusInfo element</h2>
 <p>This element holds general information about about the status of <em>jpylyzer</em>’s attempt at validating a file. It tells you whether the validation process could be completed without any internal <em>jpylyzer</em> errors. It contains the following sub-elements:</p>
-
-
 <ul>
 <li><p><em>success</em>: a Boolean flag that indicates whether the validation attempt completed normally (“True”) or not (“False”). A value of “False” indicates an internal error that prevented <em>jpylyzer</em> from validating the file.</p></li>
 <li><p><em>failureMessage</em>: if the validation attempt failed (value of <em>success</em> equals “False”), this field gives further details about the reason of the failure. Examples are:</p>
@@ -1011,98 +574,42 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <li><code>unknown error (please report to developers)</code></li>
 </ul></li>
 </ul>
-
-
-<h2 id="isvalid-element">isValid element</h2>
-
-
-<p>This element contains the results of the validation. If a file passed all the tests (i.e. all tests returned “True”, see <a href="#tests-element">here</a>) it is most likely valid, and the value of <em>isValid</em> will be “True”. Its value is “False” otherwise. The element has a <em>format</em> attribute, which defines the validation format (set by the <code>--format</code> command-line option). The <em>format</em> attribute can have the following values:</p>
-
-
+<h2 id="isvalid-element"><span class="header-section-number">5.6</span> isValid element</h2>
+<p>This element contains the results of the validation. If a file passed all the tests (i.e. all tests returned “True”, see <a href="#tests-element">section 5.7</a>) it is most likely valid, and the value of <em>isValid</em> will be “True”. Its value is “False” otherwise. The element has a <em>format</em> attribute, which defines the validation format (set by the <code>--format</code> command-line option). The <em>format</em> attribute can have the following values:</p>
 <ul>
 <li>“jp2” (JP2 validation)</li>
 <li>“j2c” (raw codestream validation)</li>
 </ul>
-
-
-<h2 id="tests-element">tests element</h2>
-
-
+<h2 id="tests-element"><span class="header-section-number">5.7</span> tests element</h2>
 <p>This element is reserved to hold the outcomes of all the individual tests that <em>jpylyzer</em> performs to assess whether a file is valid JP2. The results are organised in a hierarchical tree that corresponds to JP2’s box structure. Each individual test can have two values:</p>
-
-
 <ul>
 <li><p>“True” if a file passed the test.</p></li>
 <li><p>“False” if a file failed the test.</p></li>
 </ul>
-
-
-<p>If a file passed <em>all</em> tests, this is an indication that it is most likely valid JP2. In that case, the <a href="#isvalid-element"><em>isValid</em> element</a> has a value of “True” (and “False” in all other cases). These tests are all explained <a href="#jp2-box-by-box">here</a> and <a href="#contiguous-codestream-box-chapter">here</a>.</p>
-
-
-<h3 id="default-and-verbose-reporting-of-test-results">Default and verbose reporting of test results</h3>
-
-
-<p>By default, <em>jpylyzer</em> only reports any tests that failed (i.e. returned “False”), including the corresponding part of the box structure. For a valid JP2 the tests element will be empty. If the –verbose flag is used, the results of <em>all</em> tests are included (including those that returned “True”)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
-
-
-<h2 id="properties-element">properties element</h2>
-
-
-<p>This element contains the extracted image properties, which are organised in a hierarchical tree that corresponds to JP2’s box structure. See <a href="#jp2-box-by-box">here</a> and <a href="#contiguous-codestream-box-chapter">here</a> for a description of the reported properties.</p>
-
-
-<h2 id="propertiesExtension-element">propertiesExtension element</h2>
-
-
-<p>This optional element is reserved for output in alternative formats. Currently it is used to wrap output in NISO <em>MIX</em> format if the <code>--mix</code> option is used. See the <a href="https://www.loc.gov/standards/mix/"><em>MIX</em> documentation</a> for a description of the reported elements.</p>
-
-
-<h1 id="jp2-box-by-box">JP2: box by box</h1>
-
-
-<p>The following two sections provide a detailed explanation of <em>jpylyzer</em>’s functionality and its output. In particular, the following two aspects are addressed:</p>
-
-
+<p>If a file passed <em>all</em> tests, this is an indication that it is most likely valid JP2. In that case, the <em>isValid</em> element (<a href="#isvalid-element">section 5.6</a>) has a value of “True” (and “False” in all other cases). These tests are all explained in chapters <a href="#jp2-box-by-box">6</a> and <a href="#contiguous-codestream-box-chapter">7</a>.</p>
+<h3 id="default-and-verbose-reporting-of-test-results"><span class="header-section-number">5.7.1</span> Default and verbose reporting of test results</h3>
+<p>By default, <em>jpylyzer</em> only reports any tests that failed (i.e. returned “False”), including the corresponding part of the box structure. For a valid JP2 the tests element will be empty. If the –verbose flag is used, the results of <em>all</em> tests are included (including those that returned “True”)<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
+<h2 id="properties-element"><span class="header-section-number">5.8</span> properties element</h2>
+<p>This element contains the extracted image properties, which are organised in a hierarchical tree that corresponds to JP2’s box structure. See chapters <a href="#jp2-box-by-box">6</a> and <a href="#contiguous-codestream-box-chapter">7</a> for a description of the reported properties.</p>
+<h2 id="propertiesExtension-element"><span class="header-section-number">5.9</span> propertiesExtension element</h2>
+<p>This optional element is reserved for output in alternative formats. Currently it is used to wrap output in NISO <em>MIX</em> format if the <code>--mix</code> option is used. See the <a href="http://www.loc.gov/standards/mix/"><em>MIX</em> documentation</a> for a description of the reported elements.</p>
+<h1 id="jp2-box-by-box"><span class="header-section-number">6</span> JP2: box by box</h1>
+<p>The following two chapters provide a detailed explanation of <em>jpylyzer</em>’s functionality and its output. In particular, the following two aspects are addressed:</p>
 <ol type="1">
 <li><p>The reported properties</p></li>
 <li><p>The tests that <em>jpylyzer</em> performs to establish the validity of a file.</p></li>
 </ol>
-
-
-<h2 id="about-properties-tests-trees">About the properties and tests trees</h2>
-
-
-<p>The ‘properties’ element in <em>jpylyzer</em>’s output holds a hierarchical tree structure that contains all extracted properties. The ‘tests’ tree follows the same structure. The hierarchy reflects JP2’s box structure (explained <a href="#structure-jp2">here</a>): each box is represented by a corresponding output element that contains the corresponding property entries. If a box is a superbox, the output element will contain child elements for each child box. For some boxes, the output contains further sub-elements. This applies in particular to the Contiguous Codestream box, since its contents are more complex than any of the other boxes. Also, if a Colour Specification box contains an embedded ICC profile, the properties of the ICC profile are stored in a separate sub-element. In addition to this, one ‘property’ that is reported by <em>jpylyzer</em> (the compression ratio) is not actually extracted from any particular box. Instead, it is calculated from the file size and some properties from the Header boxes. As a result, it is reported separately in the root of the properties tree.</p>
-
-
-<h3 id="naming-of-properties">Naming of properties</h3>
-
-
-<p>The naming of the reported properties largely follows the standard (ISO/IEC 15444-1). Some minor differences follow from the fact that the standard does have any consistent use of text case, whereas <em>jpylyzer</em> uses lower camel case. In addition, some parameters in the standard are compound units that aggregate a number of Boolean ‘switches’, where no names are provided for each individual switch. An example of this is the <em>Scod</em> (coding style) parameter in the codestream header, which contains three switches that define the use of precincts, start-of-packet markers and end-of-packet markers. For cases like these <em>jpylyzer</em> uses its own (largely self-descriptive) names (which are all documented in these sections).</p>
-
-
-<h2 id="jpeg2000-signature-box">JPEG 2000 Signature box</h2>
-
-
+<h2 id="about-properties-tests-trees"><span class="header-section-number">6.1</span> About the properties and tests trees</h2>
+<p>The ‘properties’ element in <em>jpylyzer</em>’s output holds a hierarchical tree structure that contains all extracted properties. The ‘tests’ tree follows the same structure. The hierarchy reflects JP2’s box structure (explained in <a href="#structure-jp2">Chapter 4</a>): each box is represented by a corresponding output element that contains the corresponding property entries. If a box is a superbox, the output element will contain child elements for each child box. For some boxes, the output contains further sub-elements. This applies in particular to the Contiguous Codestream box, since its contents are more complex than any of the other boxes. Also, if a Colour Specification box contains an embedded ICC profile, the properties of the ICC profile are stored in a separate sub-element. In addition to this, one ‘property’ that is reported by <em>jpylyzer</em> (the compression ratio) is not actually extracted from any particular box. Instead, it is calculated from the file size and some properties from the Header boxes. As a result, it is reported separately in the root of the properties tree.</p>
+<h3 id="naming-of-properties"><span class="header-section-number">6.1.1</span> Naming of properties</h3>
+<p>The naming of the reported properties largely follows the standard (ISO/IEC 15444-1). Some minor differences follow from the fact that the standard does have any consistent use of text case, whereas <em>jpylyzer</em> uses lower camel case. In addition, some parameters in the standard are compound units that aggregate a number of Boolean ‘switches’, where no names are provided for each individual switch. An example of this is the <em>Scod</em> (coding style) parameter in the codestream header, which contains three switches that define the use of precincts, start-of-packet markers and end-of-packet markers. For cases like these <em>jpylyzer</em> uses its own (largely self-descriptive) names (which are all documented in these chapters).</p>
+<h2 id="jpeg2000-signature-box"><span class="header-section-number">6.2</span> JPEG 2000 Signature box</h2>
 <p>This box contains information that allows identification of the file as being part of the JPEG 2000 family of file formats.</p>
-
-
-<h3 id="element-name">Element name</h3>
-
-
+<h3 id="element-name"><span class="header-section-number">6.2.1</span> Element name</h3>
 <p>signatureBox</p>
-
-
-<h3 id="reported-properties">Reported properties</h3>
-
-
+<h3 id="reported-properties"><span class="header-section-number">6.2.2</span> Reported properties</h3>
 <p>None (box only holds JPEG 2000 signature, which includes non-printable characters)</p>
-
-
-<h3 id="tests">Tests</h3>
-
-
+<h3 id="tests"><span class="header-section-number">6.2.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1121,23 +628,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="file-type-box">File Type box</h2>
-
-
+<h2 id="file-type-box"><span class="header-section-number">6.3</span> File Type box</h2>
 <p>This box specifies file type, version and compatibility information, including specifying if this file is a conforming JP2 file or if it can be read by a conforming JP2 reader.</p>
-
-
-<h3 id="element-name-1">Element name</h3>
-
-
+<h3 id="element-name-1"><span class="header-section-number">6.3.1</span> Element name</h3>
 <p>fileTypeBox</p>
-
-
-<h3 id="reported-properties-1">Reported properties</h3>
-
-
+<h3 id="reported-properties-1"><span class="header-section-number">6.3.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1160,11 +655,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-1">Tests</h3>
-
-
+<h3 id="tests-1"><span class="header-section-number">6.3.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1191,26 +682,12 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="jp2-header-box">JP2 Header box (superbox)</h2>
-
-
+<h2 id="jp2-header-box"><span class="header-section-number">6.4</span> JP2 Header box (superbox)</h2>
 <p>This box is a superbox that holds a series of boxes that contain header-type information about the file.</p>
-
-
-<h3 id="element-name-2">Element name</h3>
-
-
+<h3 id="element-name-2"><span class="header-section-number">6.4.1</span> Element name</h3>
 <p>jp2HeaderBox</p>
-
-
-<h3 id="reported-properties-2">Reported properties</h3>
-
-
+<h3 id="reported-properties-2"><span class="header-section-number">6.4.2</span> Reported properties</h3>
 <p>Since this is a superbox, it contains a number of child boxes. These are represented as child elements in the properties tree:</p>
-
-
 <table>
 <thead>
 <tr class="header">
@@ -1220,40 +697,36 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><a href="#image-header-box">imageHeaderBox</a></td>
+<td style="text-align: left;">imageHeaderBox (<a href="#image-header-box">section 6.5</a>)</td>
 <td style="text-align: left;">Properties from Image Header box (required)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#bits-per-component-box">bitsPerComponentBox</a></td>
+<td style="text-align: left;">bitsPerComponentBox (<a href="#bits-per-component-box">section 6.6</a>)</td>
 <td style="text-align: left;">Properties from Bits Per Component box (optional)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="#colour-specification-box">ColourSpecificationBox</a></td>
+<td style="text-align: left;">ColourSpecificationBox (<a href="#colour-specification-box">section 6.7</a>)</td>
 <td style="text-align: left;">Properties from Colour Specification box (required)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#palette-box">paletteBox</a></td>
+<td style="text-align: left;">paletteBox (<a href="#palette-box">section 6.8</a>)</td>
 <td style="text-align: left;">Properties from Palette box (optional)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="#component-mapping-box">componentMappingBox</a></td>
+<td style="text-align: left;">componentMappingBox (<a href="#component-mapping-box">section 6.9</a>)</td>
 <td style="text-align: left;">Properties from Component Mapping box (optional)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#channel-definition-box">channelDefinitionBox</a></td>
+<td style="text-align: left;">channelDefinitionBox (<a href="#channel-definition-box">section 6.10</a>)</td>
 <td style="text-align: left;">Properties from Channel Definition box (optional)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="#resolution-box">resolutionBox</a></td>
+<td style="text-align: left;">resolutionBox (<a href="#resolution-box">section 6.11</a>)</td>
 <td style="text-align: left;">Properties from Resolution box (optional)</td>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-2">Tests</h3>
-
-
+<h3 id="tests-2"><span class="header-section-number">6.4.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1312,23 +785,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="image-header-box">Image Header box (child of JP2 Header box)</h2>
-
-
+<h2 id="image-header-box"><span class="header-section-number">6.5</span> Image Header box (child of JP2 Header box)</h2>
 <p>This box specifies the size of the image and other related fields.</p>
-
-
-<h3 id="element-name-3">Element name</h3>
-
-
+<h3 id="element-name-3"><span class="header-section-number">6.5.1</span> Element name</h3>
 <p>imageHeaderBox</p>
-
-
-<h3 id="reported-properties-3">Reported properties</h3>
-
-
+<h3 id="reported-properties-3"><span class="header-section-number">6.5.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1371,11 +832,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-3">Tests</h3>
-
-
+<h3 id="tests-3"><span class="header-section-number">6.5.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1418,23 +875,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="bits-per-component-box">Bits Per Component box (child of JP2 Header box)</h2>
-
-
+<h2 id="bits-per-component-box"><span class="header-section-number">6.6</span> Bits Per Component box (child of JP2 Header box)</h2>
 <p>This (optional) box specifies the bit depth of the components in the file in cases where the bit depth is not constant across all components.</p>
-
-
-<h3 id="element-name-4">Element name</h3>
-
-
+<h3 id="element-name-4"><span class="header-section-number">6.6.1</span> Element name</h3>
 <p>bitsPerComponentBox</p>
-
-
-<h3 id="reported-properties-4">Reported properties</h3>
-
-
+<h3 id="reported-properties-4"><span class="header-section-number">6.6.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1453,11 +898,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-4">Tests</h3>
-
-
+<h3 id="tests-4"><span class="header-section-number">6.6.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1472,23 +913,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="colour-specification-box">Colour Specification box (child of JP2 Header box)</h2>
-
-
+<h2 id="colour-specification-box"><span class="header-section-number">6.7</span> Colour Specification box (child of JP2 Header box)</h2>
 <p>This box specifies the colourspace of the image.</p>
-
-
-<h3 id="element-name-5">Element name</h3>
-
-
+<h3 id="element-name-5"><span class="header-section-number">6.7.1</span> Element name</h3>
 <p>colourSpecificationBox</p>
-
-
-<h3 id="reported-properties-5">Reported properties</h3>
-
-
+<h3 id="reported-properties-5"><span class="header-section-number">6.7.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1514,19 +943,13 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <td style="text-align: left;">Enumerated colourspace (as descriptive text string)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">icc (if meth equals “Restricted ICC” or “Any ICC”<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>)</td>
+<td style="text-align: left;">icc (if meth equals “Restricted ICC” or “Any ICC”<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>)</td>
 <td style="text-align: left;">Properties of ICC profile as child element (see below)</td>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="reported-properties-of-icc-profiles">Reported properties of ICC profiles</h3>
-
-
+<h3 id="reported-properties-of-icc-profiles"><span class="header-section-number">6.7.3</span> Reported properties of ICC profiles</h3>
 <p>If the colour specification box contains an embedded ICC profile, <em>jpylyzer</em> will also report the following properties (which are all grouped in an “icc” sub-element in the properties tree). An exhaustive explanation of these properties is given in the ICC specification (ISO 15076-1 / ICC.1:2004-10). Note that <em>jpylyzer</em> does <em>not</em> validate embedded ICC profiles (even though it does check if a specific ICC profile is allowed in JP2)!</p>
-
-
 <table>
 <thead>
 <tr class="header">
@@ -1637,11 +1060,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-5">Tests</h3>
-
-
+<h3 id="tests-5"><span class="header-section-number">6.7.4</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1672,7 +1091,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">iccPermittedProfileClass (if meth equals “Restricted ICC”)</td>
-<td style="text-align: left;">ICC profile class is “input device” or “display device”<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></td>
+<td style="text-align: left;">ICC profile class is “input device” or “display device”<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">iccNoLUTBasedProfile (if meth equals “Restricted ICC”)</td>
@@ -1680,23 +1099,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="palette-box">Palette box (child of JP2 Header box)</h2>
-
-
+<h2 id="palette-box"><span class="header-section-number">6.8</span> Palette box (child of JP2 Header box)</h2>
 <p>This (optional) box specifies the palette which maps a single component in index space to a multiple-component image.</p>
-
-
-<h3 id="element-name-6">Element name</h3>
-
-
+<h3 id="element-name-6"><span class="header-section-number">6.8.1</span> Element name</h3>
 <p>paletteBox</p>
-
-
-<h3 id="reported-properties-6">Reported properties</h3>
-
-
+<h3 id="reported-properties-6"><span class="header-section-number">6.8.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1727,11 +1134,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-6">Tests</h3>
-
-
+<h3 id="tests-6"><span class="header-section-number">6.8.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1754,23 +1157,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="component-mapping-box">Component Mapping box (child of JP2 Header box)</h2>
-
-
+<h2 id="component-mapping-box"><span class="header-section-number">6.9</span> Component Mapping box (child of JP2 Header box)</h2>
 <p>This (optional) box specifies the mapping between a palette and codestream components.</p>
-
-
-<h3 id="element-name-7">Element name</h3>
-
-
+<h3 id="element-name-7"><span class="header-section-number">6.9.1</span> Element name</h3>
 <p>componentMappingBox</p>
-
-
-<h3 id="reported-properties-7">Reported properties</h3>
-
-
+<h3 id="reported-properties-7"><span class="header-section-number">6.9.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1793,11 +1184,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-7">Tests</h3>
-
-
+<h3 id="tests-7"><span class="header-section-number">6.9.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1820,23 +1207,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="channel-definition-box">Channel Definition box (child of JP2 Header box)</h2>
-
-
+<h2 id="channel-definition-box"><span class="header-section-number">6.10</span> Channel Definition box (child of JP2 Header box)</h2>
 <p>This (optional) box specifies the type and ordering of the components within the codestream, as well as those created by the application of a palette.</p>
-
-
-<h3 id="element-name-8">Element name</h3>
-
-
+<h3 id="element-name-8"><span class="header-section-number">6.10.1</span> Element name</h3>
 <p>channelDefinitionBox</p>
-
-
-<h3 id="reported-properties-8">Reported properties</h3>
-
-
+<h3 id="reported-properties-8"><span class="header-section-number">6.10.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1863,11 +1238,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-8">Tests</h3>
-
-
+<h3 id="tests-8"><span class="header-section-number">6.10.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1898,26 +1269,12 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="resolution-box">Resolution box (child of JP2 Header box, superbox)</h2>
-
-
+<h2 id="resolution-box"><span class="header-section-number">6.11</span> Resolution box (child of JP2 Header box, superbox)</h2>
 <p>This (optional) box contains the grid resolution.</p>
-
-
-<h3 id="element-name-9">Element name</h3>
-
-
+<h3 id="element-name-9"><span class="header-section-number">6.11.1</span> Element name</h3>
 <p>resolutionBox</p>
-
-
-<h3 id="reported-properties-9">Reported properties</h3>
-
-
+<h3 id="reported-properties-9"><span class="header-section-number">6.11.2</span> Reported properties</h3>
 <p>Since this is a superbox, it contains one or two child boxes. These are represented as child elements in the properties tree:</p>
-
-
 <table>
 <thead>
 <tr class="header">
@@ -1927,20 +1284,16 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><a href="#capture-resolution-box">captureResolutionBox</a></td>
+<td style="text-align: left;">captureResolutionBox (<a href="#capture-resolution-box">section 6.12</a>)</td>
 <td style="text-align: left;">Properties from Capture Resolution box</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#display-resolution-box">displayResolutionBox</a></td>
+<td style="text-align: left;">displayResolutionBox (<a href="#display-resolution-box">section 6.13</a>)</td>
 <td style="text-align: left;">Properties from Default Display Resolution box</td>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-9">Tests</h3>
-
-
+<h3 id="tests-9"><span class="header-section-number">6.11.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -1963,26 +1316,12 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="capture-resolution-box">Capture Resolution box (child of Resolution box)</h2>
-
-
+<h2 id="capture-resolution-box"><span class="header-section-number">6.12</span> Capture Resolution box (child of Resolution box)</h2>
 <p>This (optional) box specifies the grid resolution at which the image was captured.</p>
-
-
-<h3 id="element-name-10">Element name</h3>
-
-
+<h3 id="element-name-10"><span class="header-section-number">6.12.1</span> Element name</h3>
 <p>captureResolutionBox</p>
-
-
-<h3 id="reported-properties-10">Reported properties</h3>
-
-
+<h3 id="reported-properties-10"><span class="header-section-number">6.12.2</span> Reported properties</h3>
 <p>Resolution information in this box is stored as a set of vertical and horizontal numerators, denominators and exponents. <em>Jpylyzer</em> also reports the corresponding grid resolutions in pixels per meter and pixels per inch, which are calculated from these values.</p>
-
-
 <table>
 <thead>
 <tr class="header">
@@ -2017,27 +1356,23 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vRescInPixelsPerMeter</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hRescInPixelsPerMeter</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vRescInPixelsPerInch</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hRescInPixelsPerInch</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a></td>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-10">Tests</h3>
-
-
+<h3 id="tests-10"><span class="header-section-number">6.12.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2076,26 +1411,12 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="display-resolution-box">Default Display Resolution box (child of Resolution box)</h2>
-
-
+<h2 id="display-resolution-box"><span class="header-section-number">6.13</span> Default Display Resolution box (child of Resolution box)</h2>
 <p>This (optional) box specifies the default grid resolution at which the image should be displayed.</p>
-
-
-<h3 id="element-name-11">Element name</h3>
-
-
+<h3 id="element-name-11"><span class="header-section-number">6.13.1</span> Element name</h3>
 <p>displayResolutionBox</p>
-
-
-<h3 id="reported-properties-11">Reported properties</h3>
-
-
+<h3 id="reported-properties-11"><span class="header-section-number">6.13.2</span> Reported properties</h3>
 <p>Resolution information in this box is stored as a set of vertical and horizontal numerators, denominators and exponents. <em>Jpylyzer</em> also reports the corresponding grid resolutions in pixels per meter and pixels per inch, which are calculated from these values.</p>
-
-
 <table>
 <thead>
 <tr class="header">
@@ -2130,27 +1451,23 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vResdInPixelsPerMeter</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hResdInPixelsPerMeter</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vResdInPixelsPerInch</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hResdInPixelsPerInch</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a></td>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-11">Tests</h3>
-
-
+<h3 id="tests-11"><span class="header-section-number">6.13.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2189,41 +1506,17 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="codestream-box">Contiguous Codestream box</h2>
-
-
-<p>This box contains the codestream. See <a href="#contiguous-codestream-box-chapter">here</a>.</p>
-
-
-<h2 id="intellectual-property-box">Intellectual Property box</h2>
-
-
+<h2 id="codestream-box"><span class="header-section-number">6.14</span> Contiguous Codestream box</h2>
+<p>This box contains the codestream. See <a href="#contiguous-codestream-box-chapter">chapter 7</a>.</p>
+<h2 id="intellectual-property-box"><span class="header-section-number">6.15</span> Intellectual Property box</h2>
 <p>This (optional) box contains intellectual property information about the image. The JP2 format specification (ISO/IEC 15444-1) does not provide any specific information about this box, other than stating that “the definition of the format of [its] contents […] is reserved for ISO”. As a result, <em>jpylyzer</em> does not currently include a validator function for this box, which is now simply ignored. <em>Jpylyzer</em> will display a user warning message in that case.</p>
-
-
-<h2 id="xml-box">XML box</h2>
-
-
+<h2 id="xml-box"><span class="header-section-number">6.16</span> XML box</h2>
 <p>This (optional) box contains XML formatted information.</p>
-
-
-<h3 id="element-name-12">Element name</h3>
-
-
+<h3 id="element-name-12"><span class="header-section-number">6.16.1</span> Element name</h3>
 <p>xmlBox</p>
-
-
-<h3 id="reported-properties-12">Reported properties</h3>
-
-
+<h3 id="reported-properties-12"><span class="header-section-number">6.16.2</span> Reported properties</h3>
 <p>If the contents of this box are well-formed XML (see ‘tests’ below), the ‘xmlBox’ element in the properties tree will contain the contents of the XML box. Note that, depending on the character encoding of the original XML, it may contain characters that are not allowed in the encoding that is used for <em>jpylyzer</em>’s output. Any such characters will be represented by numerical entity references in the output. If the box contents are not well-formed XML, no properties are reported for this box.</p>
-
-
-<h3 id="tests-12">Tests</h3>
-
-
+<h3 id="tests-12"><span class="header-section-number">6.16.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2238,29 +1531,13 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
 <p>Note that <em>jpylyzer</em> does not check whether the XML is <em>valid</em>, as this is not required by the standard. Besides, doing so would make <em>jpylyzer</em> significantly slower for XML that contains references to external schemas and DTDs.</p>
-
-
-<h2 id="uuid-box">UUID box</h2>
-
-
-<p>This (optional) box contains additional (binary) information, which may be vendor-specific. Some applications (e.g. Kakadu and ExifTool) also use this box for storing XMP metadata (see Section 1.1.4 in Part 3 of the XMP specification<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>).</p>
-
-
-<h3 id="element-name-13">Element name</h3>
-
-
+<h2 id="uuid-box"><span class="header-section-number">6.17</span> UUID box</h2>
+<p>This (optional) box contains additional (binary) information, which may be vendor-specific. Some applications (e.g. Kakadu and ExifTool) also use this box for storing XMP metadata (see Section 1.1.4 in Part 3 of the XMP specification<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>).</p>
+<h3 id="element-name-13"><span class="header-section-number">6.17.1</span> Element name</h3>
 <p>uuidBox</p>
-
-
-<h3 id="reported-properties-13">Reported properties</h3>
-
-
+<h3 id="reported-properties-13"><span class="header-section-number">6.17.2</span> Reported properties</h3>
 <p>If the value of <em>uuid</em> indicates the presence of XMP metadata and the contents of this box are well-formed XML, (see ‘tests’ below), the ‘uuidBox’ element in the properties tree will contain the XMP data. Note that, depending on the character encoding of the original XML, it may contain characters that are not allowed in the encoding that is used for <em>jpylyzer</em>’s output. Any such characters will be represented by numerical entity references in the output. In all other cases, the ‘uuidBox’ element will contain a standard string representation the of UUID.</p>
-
-
 <table>
 <thead>
 <tr class="header">
@@ -2279,14 +1556,8 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
 <p>Note that except for the XMP case, <em>jpylyzer</em> will not be able to report any information on the actual contents of this box, since it is defined outside of the scope of JPEG 2000.</p>
-
-
-<h3 id="tests-13">Tests</h3>
-
-
+<h3 id="tests-13"><span class="header-section-number">6.17.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2305,26 +1576,12 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="uuid-info-box">UUID Info box (superbox)</h2>
-
-
+<h2 id="uuid-info-box"><span class="header-section-number">6.18</span> UUID Info box (superbox)</h2>
 <p>This (optional) box contains additional information associated with a UUID.</p>
-
-
-<h3 id="element-name-14">Element name</h3>
-
-
+<h3 id="element-name-14"><span class="header-section-number">6.18.1</span> Element name</h3>
 <p>uuidInfoBox</p>
-
-
-<h3 id="reported-properties-14">Reported properties</h3>
-
-
+<h3 id="reported-properties-14"><span class="header-section-number">6.18.2</span> Reported properties</h3>
 <p>This is a superbox which contains two child boxes. These are represented as child elements in the properties tree:</p>
-
-
 <table>
 <thead>
 <tr class="header">
@@ -2334,20 +1591,16 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><a href="#uuid-list-box">uuidListBox</a></td>
+<td style="text-align: left;">uuidListBox (<a href="#uuid-list-box">section 6.19</a>)</td>
 <td style="text-align: left;">Properties from UUID List box</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#data-entry-url-box">urlBox</a></td>
+<td style="text-align: left;">urlBox (<a href="#data-entry-url-box">section 6.20</a>)</td>
 <td style="text-align: left;">Properties from Data Entry URL box</td>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-14">Tests</h3>
-
-
+<h3 id="tests-14"><span class="header-section-number">6.18.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2366,23 +1619,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="uuid-list-box">UUID List box (child of UUID Info box)</h2>
-
-
+<h2 id="uuid-list-box"><span class="header-section-number">6.19</span> UUID List box (child of UUID Info box)</h2>
 <p>This (optional) box specifies a list of UUIDs.</p>
-
-
-<h3 id="element-name-15">Element name</h3>
-
-
+<h3 id="element-name-15"><span class="header-section-number">6.19.1</span> Element name</h3>
 <p>uuidListBox</p>
-
-
-<h3 id="reported-properties-15">Reported properties</h3>
-
-
+<h3 id="reported-properties-15"><span class="header-section-number">6.19.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2401,11 +1642,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-15">Tests</h3>
-
-
+<h3 id="tests-15"><span class="header-section-number">6.19.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2420,23 +1657,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="data-entry-url-box">Data Entry URL box (child of UUID Info box)</h2>
-
-
+<h2 id="data-entry-url-box"><span class="header-section-number">6.20</span> Data Entry URL box (child of UUID Info box)</h2>
 <p>This (optional) box specifies a URL.</p>
-
-
-<h3 id="element-name-16">Element name</h3>
-
-
+<h3 id="element-name-16"><span class="header-section-number">6.20.1</span> Element name</h3>
 <p>urlBox</p>
-
-
-<h3 id="reported-properties-16">Reported properties</h3>
-
-
+<h3 id="reported-properties-16"><span class="header-section-number">6.20.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2455,11 +1680,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-16">Tests</h3>
-
-
+<h3 id="tests-16"><span class="header-section-number">6.20.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2482,23 +1703,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="unknown-box-section">Unknown box</h2>
-
-
+<h2 id="unknown-box-section"><span class="header-section-number">6.21</span> Unknown box</h2>
 <p>An image may contain boxes that are not defined by ISO/IEC 15444-1. Although <em>jpylyzer</em> ignores such boxes, it will report some minimal info that will allow interested users to identify them to a limited extent.</p>
-
-
-<h3 id="element-name-17">Element name</h3>
-
-
+<h3 id="element-name-17"><span class="header-section-number">6.21.1</span> Element name</h3>
 <p>unknownBox</p>
-
-
-<h3 id="reported-properties-17">Reported properties</h3>
-
-
+<h3 id="reported-properties-17"><span class="header-section-number">6.21.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2513,26 +1722,12 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="top-level-tests-properties">Top-level tests and properties</h2>
-
-
-<p>This sub-section describes the tests and output for the top file level.</p>
-
-
-<h3 id="element-name-18">Element name</h3>
-
-
+<h2 id="top-level-tests-properties"><span class="header-section-number">6.22</span> Top-level tests and properties</h2>
+<p>This section describes the tests and output for the top file level.</p>
+<h3 id="element-name-18"><span class="header-section-number">6.22.1</span> Element name</h3>
 <p>properties</p>
-
-
-<h3 id="reported-properties-18">Reported properties</h3>
-
-
+<h3 id="reported-properties-18"><span class="header-section-number">6.22.2</span> Reported properties</h3>
 <p>The metrics that are listed here are not ‘properties’ in a strict sense; instead they are secondary or derived metrics that are calculated by combining information from different parts / boxes of the file.</p>
-
-
 <table>
 <thead>
 <tr class="header">
@@ -2547,23 +1742,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
 <p>The compression ratio is calculated as the ratio between the size of the uncompressed image data and the actual file size:</p>
-
-
 <p><math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>compressionRatio</mi> <mo>=</mo> <mfrac> <mrow> <mi>sizeUncompressed</mi> </mrow> <mrow> <mi>sizeCompressed</mi> </mrow> </mfrac> </mrow> </math></p>
-
-
 <p>Here, <em>sizeCompressed</em> is simply the file size (<em>fileSizeInBytes</em> in output file’s ‘fileInfo’ element). The uncompressed size (in bytes) can be calculated by multiplying the number of bytes per pixel by the total number of pixels:</p>
-
-
 <p><math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>sizeUncompressed</mi> <mo>=</mo> <mfrac> <mrow> <mn>1</mn> </mrow> <mrow> <mn>8</mn> </mrow> </mfrac> <munderover> <mo>∑</mo> <mrow> <mi>i</mi> <mo>=</mo> <mn>1</mn> </mrow> <mi>nC</mi> </munderover> <msub> <mi>bPCDepth</mi> <mi>i</mi> </msub> <mo>•</mo> <mi>height</mi> <mo>•</mo> <mi>width</mi> </mrow> </math></p>
-
-
 <p>With:</p>
-
-
 <dl>
 <dt>nC</dt>
 <dd>number of image components (from Image Header box)
@@ -2581,11 +1764,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <dd>image width (from Image Header box)
 </dd>
 </dl>
-
-
 <p>In addition, the root of the properties tree contains the elements for all top-level boxes:</p>
-
-
 <table>
 <thead>
 <tr class="header">
@@ -2595,53 +1774,45 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><a href="#jpeg2000-signature-box">signatureBox</a></td>
+<td style="text-align: left;">signatureBox (<a href="#jpeg2000-signature-box">section 6.2</a>)</td>
 <td style="text-align: left;">Properties from JPEG 2000 Signature box</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#file-type-box">fileTypeBox</a></td>
+<td style="text-align: left;">fileTypeBox (<a href="#file-type-box">section 6.3</a>)</td>
 <td style="text-align: left;">Properties from File Type box</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="#jp2-header-box">jp2HeaderBox</a></td>
+<td style="text-align: left;">jp2HeaderBox (<a href="#jp2-header-box">section 6.4</a>)</td>
 <td style="text-align: left;">Properties from JP2 Header box</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#contiguous-codestream-box-chapter">contiguousCodestreamBox</a></td>
+<td style="text-align: left;">contiguousCodestreamBox (<a href="#contiguous-codestream-box-chapter">chapter 7</a>)</td>
 <td style="text-align: left;">Properties from Contiguous Codestream box</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="#intellectual-property-box">intellectualPropertyBox</a></td>
+<td style="text-align: left;">intellectualPropertyBox (<a href="#intellectual-property-box">section 6.15</a>)</td>
 <td style="text-align: left;">Properties from Intellectual Property box (optional)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#xml-box">xmlBox</a></td>
+<td style="text-align: left;">xmlBox (<a href="#xml-box">section 6.16</a>)</td>
 <td style="text-align: left;">Properties from XML box (optional)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="#uuid-box">uuidBox</a></td>
+<td style="text-align: left;">uuidBox (<a href="#uuid-box">section 6.17</a>)</td>
 <td style="text-align: left;">Properties from UUID box (optional)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#uuid-info-box">uuidInfoBox</a></td>
+<td style="text-align: left;">uuidInfoBox (<a href="#uuid-info-box">section 6.18</a>)</td>
 <td style="text-align: left;">Properties from UUID Info box (optional)</td>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-17">Tests</h3>
-
-
+<h3 id="tests-17"><span class="header-section-number">6.22.3</span> Tests</h3>
 <p>The tests that <em>jpylyzer</em> performs at the root level fall in either of the following two categories:</p>
-
-
 <ol type="1">
 <li><p>Tests for the presence of required top-level boxes, the order in which they appear and restrictions on the number of instances for specific boxes</p></li>
 <li><p>Tests for consistency of information in different parts of the file. In particular, a lot of the information in the Image Header box is redundant with information in the codestream header, and <em>jpylyzer</em> performs a number of tests to verify the consistency between these two.</p></li>
 </ol>
-
-
 <table>
 <thead>
 <tr class="header">
@@ -2716,37 +1887,17 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h1 id="contiguous-codestream-box-chapter">Contiguous Codestream box</h1>
-
-
-<h2 id="codestream-structure">General codestream structure</h2>
-
-
+<h1 id="contiguous-codestream-box-chapter"><span class="header-section-number">7</span> Contiguous Codestream box</h1>
+<h2 id="codestream-structure"><span class="header-section-number">7.1</span> General codestream structure</h2>
 <p>The Contiguous Codestream box holds the JPEG 2000 codestream, which contains the actual image data in a JP2.</p>
-
-
-<h3 id="markers-and-marker-segments">Markers and marker segments</h3>
-
-
+<h3 id="markers-and-marker-segments"><span class="header-section-number">7.1.1</span> Markers and marker segments</h3>
 <p>A codestream is made up of a number of functional entities which are called <em>markers</em> and <em>marker segments</em>. A <em>marker</em> is essentially a 2-byte delimiter that delineates the start or end position of a functional entity. A <em>marker segment</em> is the combination of a marker and a set of associated parameters (<em>segment parameters</em>). However, not every marker has any associated parameters.</p>
-
-
-<h3 id="general-structure-of-the-codestream">General structure of the codestream</h3>
-
-
+<h3 id="general-structure-of-the-codestream"><span class="header-section-number">7.1.2</span> General structure of the codestream</h3>
 <p>The codestream is made up of a number of components. The Figure below gives an overview.</p>
-
-
 <figure>
-<img src="images/codestreamStructure.png" alt="General structure of a JPEG 2000 codestream."/><figcaption aria-hidden="true">General structure of a JPEG 2000 codestream.</figcaption>
+<img src="images/codestreamStructure.png" alt="General structure of a JPEG 2000 codestream."><figcaption>General structure of a JPEG 2000 codestream.</figcaption>
 </figure>
-
-
 <p>From top to bottom, the Figure shows the following components:</p>
-
-
 <ol type="1">
 <li><p>A <em>start of codestream</em> (SOC) marker, which indicates the start of the codestream</p></li>
 <li><p>A main codestream header (which includes a number of header marker segments)</p></li>
@@ -2759,20 +1910,10 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </ol></li>
 <li><p>An ‘end of codestream’ (EOC) marker that indicates the end of the codestream.</p></li>
 </ol>
-
-
-<h2 id="limitations-codestream-validation">Limitations of codestream validation</h2>
-
-
-<p>It is important to stress here that <em>jpylyzer</em> currently doesn’t support the full set of marker segments that can occur in a codestream. As a result, the validation of codestreams is somewhat limited. These limitations are discussed in this sub-section.</p>
-
-
-<h3 id="main-codestream-header">Main codestream header</h3>
-
-
+<h2 id="limitations-codestream-validation"><span class="header-section-number">7.2</span> Limitations of codestream validation</h2>
+<p>It is important to stress here that <em>jpylyzer</em> currently doesn’t support the full set of marker segments that can occur in a codestream. As a result, the validation of codestreams is somewhat limited. These limitations are discussed in this section.</p>
+<h3 id="main-codestream-header"><span class="header-section-number">7.2.1</span> Main codestream header</h3>
 <p>Annex A of ISO/IEC 15444-1 lists a total of 13 marker segments that can occur in the main codestream header. Most of these are optional. The current version of <em>jpylyzer</em> only offers full support (i.e. reads and validates) for the following main header marker segments (which includes all the required ones):</p>
-
-
 <ul>
 <li><p>Start of codestream (SOC) marker segment (required)</p></li>
 <li><p>Image and tile size (SIZ) marker segment (required)</p></li>
@@ -2785,27 +1926,15 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <li><p>Component registration (CRG) marker segment (optional)</p></li>
 <li><p>Comment (COM) marker segment (optional)</p></li>
 </ul>
-
-
 <p>In addition the codestream header may also contain any of the following marker segments, which are all optional:</p>
-
-
 <ul>
 <li><p>Packet length, main header (PLM) marker segment (optional) <sup>*</sup></p></li>
 <li><p>Packed packet headers, main header (PPM) marker segment (optional) <sup>*</sup></p></li>
 <li><p>Tile-part lengths (TLM) marker segment (optional) <sup>*</sup></p></li>
 </ul>
-
-
-<p>The optional markers that are marked with an asterisk above are only minimally supported at this stage.</p>
-
-
-<h3 id="tile-parts">Tile parts</h3>
-
-
+<p>The optional markers that are marked with an asterisk above are only minimally supported at this stage: if <em>jpylyzer</em> encounters them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> does not analyse the contents of these marker segments, which means that the respective elements in the output will be empty.</p>
+<h3 id="tile-parts"><span class="header-section-number">7.2.2</span> Tile parts</h3>
 <p>The tile part validation has similar limitations. The standard lists 11 marker segments that can occur in the tile part header. Currently, <em>jpylyzer</em> only fully supports the following ones:</p>
-
-
 <ul>
 <li><p>Start of tile part (SOT) marker segment (required)</p></li>
 <li><p>Coding style default (COD) marker segment (optional)</p></li>
@@ -2817,67 +1946,29 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <li><p>Comment (COM) marker segment (optional)</p></li>
 <li><p>Start of data (SOD) marker segment (required)</p></li>
 </ul>
-
-
 <p>In addition the following optional marker segments may also occur:</p>
-
-
 <ul>
 <li><p>Packet length, tile-part header (PLT) marker segment (optional) <sup>*</sup></p></li>
 <li><p>Packed packet headers, tile-part header (PPT) marker segment (optional) <sup>*</sup></p></li>
 </ul>
-
-
 <p>The optional markers that are marked with an asterisk above are only minimally supported at this stage: if <em>jpylyzer</em> encounters them, it will include the corresponding element in the <em>properties</em> element of the output. However, <em>jpylyzer</em> does not analyse the contents of these marker segments, which means that the respective elements in the output will be empty.</p>
-
-
-<h3 id="bit-streams">Bit streams</h3>
-
-
-<p>In addition to the above limitations, <em>jpylyzer</em> can <em>not</em> be used to establish whether the data in the bitstream are correct (this would require decoding the compressed image data, which is completely out of <em>jpylyzer</em>’s scope)<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a>. As a result, if <em>jpylyzer</em> is used as part of a quality assurance workflow, it is recommended to also include an additional check on the image contents<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a>. Also, <em>jpylyzer</em> does not perform any checks on marker segments within the bit-stream: start-of packet (SOP) and end-of-packet (EPH) markers.</p>
-
-
-<h3 id="detection-of-incomplete-or-truncated-codestreams">Detection of incomplete or truncated codestreams</h3>
-
-
+<h3 id="bit-streams"><span class="header-section-number">7.2.3</span> Bit streams</h3>
+<p>In addition to the above limitations, <em>jpylyzer</em> can <em>not</em> be used to establish whether the data in the bitstream are correct (this would require decoding the compressed image data, which is completely out of <em>jpylyzer</em>’s scope)<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>. As a result, if <em>jpylyzer</em> is used as part of a quality assurance workflow, it is recommended to also include an additional check on the image contents<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a>. Also, <em>jpylyzer</em> does not perform any checks on marker segments within the bit-stream: start-of packet (SOP) and end-of-packet (EPH) markers.</p>
+<h3 id="detection-of-incomplete-or-truncated-codestreams"><span class="header-section-number">7.2.4</span> Detection of incomplete or truncated codestreams</h3>
 <p>A JP2’s tile part header contains information that makes it possible to detect incomplete and truncated codestreams in most cases. Depending on the encoder software used, this method may fail for images that only contain one single tile part (i.e. images that do not contain tiling).</p>
-
-
-<h3 id="current-limitations-of-comment-extraction">Current limitations of comment extraction</h3>
-
-
+<h3 id="current-limitations-of-comment-extraction"><span class="header-section-number">7.2.5</span> Current limitations of comment extraction</h3>
 <p>Both the codestream header and the tile part header can contain comment marker segments, which are used for embedding arbitrary binary data or text. <em>Jpylyzer</em> will extract the contents of any comments that are text.</p>
-
-
-<h2 id="structure-reported-output">Structure of reported output</h2>
-
-
+<h2 id="structure-reported-output"><span class="header-section-number">7.3</span> Structure of reported output</h2>
 <p>The Figure below illustrates the structure of <em>jpylyzer</em>’s codestream-level output.</p>
-
-
 <figure>
-<img src="images/codestreamOutput.png" alt="Structure of codestream-level XML output."/><figcaption aria-hidden="true">Structure of codestream-level XML output.</figcaption>
+<img src="images/codestreamOutput.png" alt="Structure of codestream-level XML output."><figcaption>Structure of codestream-level XML output.</figcaption>
 </figure>
-
-
 <p>At the top level, the SIZ, COD, QCD and COM marker segments are each represented as individual sub elements. The tile part properties are nested in a <em>tileParts</em> element, where each individual tile part is represented as a separate <em>tilePart</em> sub element.</p>
-
-
-<h2 id="contiguous-codestream-box">Contiguous Codestream box</h2>
-
-
-<h3 id="element-name-19">Element name</h3>
-
-
+<h2 id="contiguous-codestream-box"><span class="header-section-number">7.4</span> Contiguous Codestream box</h2>
+<h3 id="element-name-19"><span class="header-section-number">7.4.1</span> Element name</h3>
 <p>contiguousCodestreamBox</p>
-
-
-<h3 id="reported-properties-19">Reported properties</h3>
-
-
+<h3 id="reported-properties-19"><span class="header-section-number">7.4.2</span> Reported properties</h3>
 <p>The reported properties for this box are organised into a number groups, which are represented as child elements in the properties tree:</p>
-
-
 <table>
 <thead>
 <tr class="header">
@@ -2887,83 +1978,48 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><a href="#siz-marker">siz</a></td>
+<td style="text-align: left;">siz (<a href="#siz-marker">section 7.5</a>)</td>
 <td style="text-align: left;">Properties from the image and tile size (SIZ) marker segment (codestream main header)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#cod-marker">cod</a></td>
+<td style="text-align: left;">cod (<a href="#cod-marker">section 7.6</a>)</td>
 <td style="text-align: left;">Properties from the coding style default (COD) marker segment (codestream main header)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="#coc-marker">coc</a></td>
+<td style="text-align: left;">coc (<a href="#coc-marker">section 7.7</a>)</td>
 <td style="text-align: left;">Properties from the (optional) coding style component (COC) marker segment (codestream main header)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#rgn-marker">rgn</a></td>
+<td style="text-align: left;">rgn (<a href="#rgn-marker">section 7.8</a>)</td>
 <td style="text-align: left;">Properties from the (optional) region of interest (RGN) marker segment (codestream main header)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="#qcd-marker">qcd</a></td>
+<td style="text-align: left;">qcd (<a href="#qcd-marker">section 7.9</a>)</td>
 <td style="text-align: left;">Properties from the quantization default (QCD) marker segment (codestream main header)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#qcc-marker">qcc</a></td>
+<td style="text-align: left;">qcc (<a href="#qcc-marker">section 7.10</a>)</td>
 <td style="text-align: left;">Properties from the (optional) quantization component (QCC) marker segment (codestream main header)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="#poc-marker">poc</a></td>
+<td style="text-align: left;">poc (<a href="#poc-marker">section 7.11</a>)</td>
 <td style="text-align: left;">Properties from the (optional) progression order change (POC) marker segment (codestream main header)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#crg-marker">crg</a></td>
+<td style="text-align: left;">crg (<a href="#crg-marker">section 7.12</a>)</td>
 <td style="text-align: left;">Properties from the (optional) component registration (CRG) marker segment (codestream main header)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="#com-marker">com</a></td>
+<td style="text-align: left;">com (<a href="#com-marker">section 7.13</a>)</td>
 <td style="text-align: left;">Properties from the (optional) comment (COM) marker segment (codestream main header)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#plm-marker">plm</a></td>
-<td style="text-align: left;">Properties from the (optional) packet length (PLM) marker (codestream main header)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><a href="#ppm-marker">ppm</a></td>
-<td style="text-align: left;">Properties from the (optional) packed packet headers(PPM) marker segment (codestream main header)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><a href="#tile-part">tileParts</a></td>
+<td style="text-align: left;">tileParts (<a href="#tile-part">section 7.14</a>)</td>
 <td style="text-align: left;">Properties from individual tile parts</td>
 </tr>
 </tbody>
 </table>
-
-
-<p>Note that the <em>plm</em> and <em>ppm</em> elements are only written if the <code>--packetmarkers</code> option is used. The number of PLM and PPM markers is given by the following 2 derived properties (these are always reported, irrespective of <code>--packetmarkers</code>):</p>
-
-
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Property</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">plmCount</td>
-<td style="text-align: left;">Number of PLM markers in main header</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ppmCount</td>
-<td style="text-align: left;">Number of PPM markers in main header</td>
-</tr>
-</tbody>
-</table>
-
-
-<h3 id="tests-18">Tests</h3>
-
-
+<h3 id="tests-18"><span class="header-section-number">7.4.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -2990,11 +2046,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">foundExpectedNumberOfTiles</td>
-<td style="text-align: left;">Number of encountered tiles is consistent with expected number of tiles (as calculated from <a href="#siz-marker">SIZ marker</a>)</td>
+<td style="text-align: left;">Number of encountered tiles is consistent with expected number of tiles (as calculated from SIZ marker, see <a href="#siz-marker">section 7.5</a>)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">foundExpectedNumberOfTileParts</td>
-<td style="text-align: left;">For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of <em>tnsot</em> from <a href="#sot-marker">SOT marker</a>)</td>
+<td style="text-align: left;">For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of <em>tnsot</em> from SOT marker, see <a href="#sot-marker">section 7.12</a>)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">maxOneCcocPerComponent</td>
@@ -3010,20 +2066,10 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="siz-marker">Image and tile size (SIZ) marker segment (child of Contiguous Codestream box)</h2>
-
-
-<h3 id="element-name-20">Element name</h3>
-
-
+<h2 id="siz-marker"><span class="header-section-number">7.5</span> Image and tile size (SIZ) marker segment (child of Contiguous Codestream box)</h2>
+<h3 id="element-name-20"><span class="header-section-number">7.5.1</span> Element name</h3>
 <p>siz</p>
-
-
-<h3 id="reported-properties-20">Reported properties</h3>
-
-
+<h3 id="reported-properties-20"><span class="header-section-number">7.5.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3074,7 +2120,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">numberOfTiles</td>
-<td style="text-align: left;">Number of tiles<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a></td>
+<td style="text-align: left;">Number of tiles<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">csiz</td>
@@ -3098,11 +2144,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-19">Tests</h3>
-
-
+<h3 id="tests-19"><span class="header-section-number">7.5.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3173,20 +2215,10 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="cod-marker">Coding style default (COD) marker segment</h2>
-
-
-<h3 id="element-name-21">Element name</h3>
-
-
+<h2 id="cod-marker"><span class="header-section-number">7.6</span> Coding style default (COD) marker segment</h2>
+<h3 id="element-name-21"><span class="header-section-number">7.6.1</span> Element name</h3>
 <p>cod</p>
-
-
-<h3 id="reported-properties-21">Reported properties</h3>
-
-
+<h3 id="reported-properties-21"><span class="header-section-number">7.6.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3273,11 +2305,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-20">Tests</h3>
-
-
+<h3 id="tests-20"><span class="header-section-number">7.6.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3332,20 +2360,10 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="coc-marker">Coding style component (COC) marker segment</h2>
-
-
-<h3 id="element-name-22">Element name</h3>
-
-
+<h2 id="coc-marker"><span class="header-section-number">7.7</span> Coding style component (COC) marker segment</h2>
+<h3 id="element-name-22"><span class="header-section-number">7.7.1</span> Element name</h3>
 <p>coc</p>
-
-
-<h3 id="reported-properties-22">Reported properties</h3>
-
-
+<h3 id="reported-properties-22"><span class="header-section-number">7.7.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3412,15 +2430,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">precinctSizeY<sup>*</sup></td>
-<td style="text-align: left;">Precinct height (repeated for all resolution levels; order: low to high). Equals 32768 if <em>precincts</em> is “default”</td>
+<td style="text-align: left;">Precinct heigth (repeated for all resolution levels; order: low to high). Equals 32768 if <em>precincts</em> is “default”</td>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-21">Tests</h3>
-
-
+<h3 id="tests-21"><span class="header-section-number">7.7.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3467,20 +2481,10 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="rgn-marker">Region-of-interest (RGN) marker segment</h2>
-
-
-<h3 id="element-name-23">Element name</h3>
-
-
+<h2 id="rgn-marker"><span class="header-section-number">7.8</span> Region-of-interest (RGN) marker segment</h2>
+<h3 id="element-name-23"><span class="header-section-number">7.8.1</span> Element name</h3>
 <p>rgn</p>
-
-
-<h3 id="reported-properties-23">Reported properties</h3>
-
-
+<h3 id="reported-properties-23"><span class="header-section-number">7.8.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3507,11 +2511,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-22">Tests</h3>
-
-
+<h3 id="tests-22"><span class="header-section-number">7.8.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3538,20 +2538,10 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="qcd-marker">Quantization default (QCD) marker segment</h2>
-
-
-<h3 id="element-name-24">Element name</h3>
-
-
+<h2 id="qcd-marker"><span class="header-section-number">7.9</span> Quantization default (QCD) marker segment</h2>
+<h3 id="element-name-24"><span class="header-section-number">7.9.1</span> Element name</h3>
 <p>qcd</p>
-
-
-<h3 id="reported-properties-24">Reported properties</h3>
-
-
+<h3 id="reported-properties-24"><span class="header-section-number">7.9.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3574,19 +2564,15 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">epsilon<sup>*</sup></td>
-<td style="text-align: left;">- If <em>qStyle</em> equals 0 (“no quantization”): <em>Epsilon</em> exponent in Eq E-5 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)<br/>- If <em>qStyle</em> equals 1 (“scalar derived”): <em>Epsilon</em> exponent in Eq E-3 of ISO/IEC 15444-1<br/>- If <em>qStyle</em> equals 2 (“scalar expounded”): <em>Epsilon</em> exponent in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)</td>
+<td style="text-align: left;">- If <em>qStyle</em> equals 0 (“no quantization”): <em>Epsilon</em> exponent in Eq E-5 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)<br>- If <em>qStyle</em> equals 1 (“scalar derived”): <em>Epsilon</em> exponent in Eq E-3 of ISO/IEC 15444-1<br>- If <em>qStyle</em> equals 2 (“scalar expounded”): <em>Epsilon</em> exponent in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">mu<sup>*</sup></td>
-<td style="text-align: left;">- If <em>qStyle</em> equals 1 (“scalar derived”): <em>mu</em> constant in Eq E-3 of ISO/IEC 15444-1<br/>- if <em>qStyle</em> equals 2 (“scalar expounded”) : <em>mu</em> constant in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)</td>
+<td style="text-align: left;">- If <em>qStyle</em> equals 1 (“scalar derived”): <em>mu</em> constant in Eq E-3 of ISO/IEC 15444-1<br>- if <em>qStyle</em> equals 2 (“scalar expounded”) : <em>mu</em> constant in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)</td>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-23">Tests</h3>
-
-
+<h3 id="tests-23"><span class="header-section-number">7.9.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3605,20 +2591,10 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="qcc-marker">Quantization component (QCC) marker segment</h2>
-
-
-<h3 id="element-name-25">Element name</h3>
-
-
+<h2 id="qcc-marker"><span class="header-section-number">7.10</span> Quantization component (QCC) marker segment</h2>
+<h3 id="element-name-25"><span class="header-section-number">7.10.1</span> Element name</h3>
 <p>qcc</p>
-
-
-<h3 id="reported-properties-25">Reported properties</h3>
-
-
+<h3 id="reported-properties-25"><span class="header-section-number">7.10.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3645,19 +2621,15 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">epsilon<sup>*</sup></td>
-<td style="text-align: left;">- If <em>qStyle</em> equals 0 (“no quantization”): <em>Epsilon</em> exponent in Eq E-5 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)<br/>- If <em>qStyle</em> equals 1 (“scalar derived”): <em>Epsilon</em> exponent in Eq E-3 of ISO/IEC 15444-1<br/>- If <em>qStyle</em> equals 2 (“scalar expounded”): <em>Epsilon</em> exponent in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)</td>
+<td style="text-align: left;">- If <em>qStyle</em> equals 0 (“no quantization”): <em>Epsilon</em> exponent in Eq E-5 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)<br>- If <em>qStyle</em> equals 1 (“scalar derived”): <em>Epsilon</em> exponent in Eq E-3 of ISO/IEC 15444-1<br>- If <em>qStyle</em> equals 2 (“scalar expounded”): <em>Epsilon</em> exponent in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">mu<sup>*</sup></td>
-<td style="text-align: left;">- If <em>qStyle</em> equals 1 (“scalar derived”): <em>mu</em> constant in Eq E-3 of ISO/IEC 15444-1<br/>- if <em>qStyle</em> equals 2 (“scalar expounded”) : <em>mu</em> constant in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)</td>
+<td style="text-align: left;">- If <em>qStyle</em> equals 1 (“scalar derived”): <em>mu</em> constant in Eq E-3 of ISO/IEC 15444-1<br>- if <em>qStyle</em> equals 2 (“scalar expounded”) : <em>mu</em> constant in Eq E-3 of ISO/IEC 15444-1 (repeated for all decomposition levels; order: low to high)</td>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-24">Tests</h3>
-
-
+<h3 id="tests-24"><span class="header-section-number">7.10.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3676,20 +2648,10 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="poc-marker">Progression order change (POC) marker segment</h2>
-
-
-<h3 id="element-name-26">Element name</h3>
-
-
+<h2 id="poc-marker"><span class="header-section-number">7.11</span> Progression order change (POC) marker segment</h2>
+<h3 id="element-name-26"><span class="header-section-number">7.11.1</span> Element name</h3>
 <p>poc</p>
-
-
-<h3 id="reported-properties-26">Reported properties</h3>
-
-
+<h3 id="reported-properties-26"><span class="header-section-number">7.11.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3728,11 +2690,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-25">Tests</h3>
-
-
+<h3 id="tests-25"><span class="header-section-number">7.11.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3771,20 +2729,10 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="crg-marker">Component registration (CRG) marker segment</h2>
-
-
-<h3 id="element-name-27">Element name</h3>
-
-
+<h2 id="crg-marker"><span class="header-section-number">7.12</span> Component registration (CRG) marker segment</h2>
+<h3 id="element-name-27"><span class="header-section-number">7.12.1</span> Element name</h3>
 <p>crg</p>
-
-
-<h3 id="reported-properties-27">Reported properties</h3>
-
-
+<h3 id="reported-properties-27"><span class="header-section-number">7.12.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3807,11 +2755,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-26">Tests</h3>
-
-
+<h3 id="tests-26"><span class="header-section-number">7.12.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3834,20 +2778,10 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="com-marker">Comment (COM) marker segment</h2>
-
-
-<h3 id="element-name-28">Element name</h3>
-
-
+<h2 id="com-marker"><span class="header-section-number">7.13</span> Comment (COM) marker segment</h2>
+<h3 id="element-name-28"><span class="header-section-number">7.13.1</span> Element name</h3>
 <p>com</p>
-
-
-<h3 id="reported-properties-28">Reported properties</h3>
-
-
+<h3 id="reported-properties-28"><span class="header-section-number">7.13.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3870,11 +2804,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-27">Tests</h3>
-
-
+<h3 id="tests-27"><span class="header-section-number">7.13.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -3897,26 +2827,12 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="tile-part">Tile part (child of Contiguous Codestream box)</h2>
-
-
+<h2 id="tile-part"><span class="header-section-number">7.14</span> Tile part (child of Contiguous Codestream box)</h2>
 <p>Tile-part level properties and tests. This is not a box or a marker segment!</p>
-
-
-<h3 id="element-name-29">Element name</h3>
-
-
+<h3 id="element-name-29"><span class="header-section-number">7.14.1</span> Element name</h3>
 <p>tilePart (child of tileParts)</p>
-
-
-<h3 id="reported-properties-29">Reported properties</h3>
-
-
+<h3 id="reported-properties-29"><span class="header-section-number">7.14.2</span> Reported properties</h3>
 <p>Each tile part element can contain a number of child elements:</p>
-
-
 <table>
 <thead>
 <tr class="header">
@@ -3926,75 +2842,40 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><a href="#sot-marker">sot</a></td>
+<td style="text-align: left;">sot (<a href="#sot-marker">section 7.15</a>)</td>
 <td style="text-align: left;">Properties from start of tile (SOT) marker segment</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#cod-marker">cod</a></td>
+<td style="text-align: left;">cod (<a href="#cod-marker">section 7.6</a>)</td>
 <td style="text-align: left;">Properties from the (optional) coding style default (COD) marker segment (tile part header)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="#coc-marker">coc</a></td>
+<td style="text-align: left;">coc (<a href="#coc-marker">section 7.7</a>)</td>
 <td style="text-align: left;">Properties from the (optional) coding style component (COC) marker segment (tile part header)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#rgn-marker">rgn</a></td>
+<td style="text-align: left;">rgn (<a href="#rgn-marker">section 7.8</a>)</td>
 <td style="text-align: left;">Properties from the (optional) region of interest (RGN) marker segment (tile part header)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="#qcd-marker">qcd</a></td>
+<td style="text-align: left;">qcd (<a href="#qcd-marker">section 7.9</a>)</td>
 <td style="text-align: left;">Properties from the (optional) quantization default (QCD) marker segment (tile part header)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#qcc-marker">qcc</a></td>
+<td style="text-align: left;">qcc (<a href="#qcc-marker">section 7.10</a>)</td>
 <td style="text-align: left;">Properties from the (optional) quantization component (QCC) marker segment (tile part header)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="#poc-marker">poc</a></td>
+<td style="text-align: left;">poc (<a href="#poc-marker">section 7.11</a>)</td>
 <td style="text-align: left;">Properties from the (optional) progression order change (POC) marker segment (tile part header)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="#com-marker">com</a></td>
+<td style="text-align: left;">com (<a href="#com-marker">section 7.13</a>)</td>
 <td style="text-align: left;">Properties from the (optional) comment (COM) marker segment (tile part header)</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;"><a href="#plt-marker">plt</a></td>
-<td style="text-align: left;">Properties from the (optional) packet length (PLT) marker(tile part header)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><a href="#ppt-marker">ppt</a></td>
-<td style="text-align: left;">Properties from the (optional) packed packet headers(PPT) marker segment (tile part header)</td>
-</tr>
 </tbody>
 </table>
-
-
-<p>Note that the <em>plt</em> and <em>ppt</em> elements are only written if the <code>--packetmarkers</code> option is used. The number of PLT and PPT markers is given by the following 2 derived properties (these are always reported, irrespective of <code>--packetmarkers</code>):</p>
-
-
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Property</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">pltCount</td>
-<td style="text-align: left;">Number of PLT markers in tile part header</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">pptCount</td>
-<td style="text-align: left;">Number of PPT markers in tile part header</td>
-</tr>
-</tbody>
-</table>
-
-
-<h3 id="tests-28">Tests</h3>
-
-
+<h3 id="tests-28"><span class="header-section-number">7.14.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -4013,20 +2894,10 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="sot-marker">Start of tile part (SOT) marker segment (child of tile part)</h2>
-
-
-<h3 id="element-name-30">Element name</h3>
-
-
+<h2 id="sot-marker"><span class="header-section-number">7.15</span> Start of tile part (SOT) marker segment (child of tile part)</h2>
+<h3 id="element-name-30"><span class="header-section-number">7.15.1</span> Element name</h3>
 <p>sot</p>
-
-
-<h3 id="reported-properties-30">Reported properties</h3>
-
-
+<h3 id="reported-properties-30"><span class="header-section-number">7.15.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -4057,11 +2928,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-29">Tests</h3>
-
-
+<h3 id="tests-29"><span class="header-section-number">7.15.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -4088,81 +2955,11 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 </tbody>
 </table>
-
-
-<p><br/></p>
-
-
 <p>The following marker segments are only minimally supported: <em>jpylyzer</em> will report their presence in the <em>properties</em> element, but it does not perform any further tests or analyses. This may change in upcoming versions of the software.</p>
-
-
-<h2 id="tlm-marker">Tile-part lengths (TLM) marker segment</h2>
-
-
-<h3 id="element-name-31">Element name</h3>
-
-
-<p>tlm</p>
-
-
-<h3 id="reported-properties-31">Reported properties</h3>
-
-
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Property</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
-</tr>
-<tr class="even">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
-</tr>
-</tbody>
-</table>
-
-
-<h3 id="tests-30">Tests</h3>
-
-
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Test name</th>
-<th style="text-align: left;">True if</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
-</tr>
-<tr class="even">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
-</tr>
-</tbody>
-</table>
-
-
-<h2 id="plm-marker">Packet length, main header (PLM) marker segment</h2>
-
-
-<h3 id="element-name-32">Element name</h3>
-
-
+<h2 id="plm-marker"><span class="header-section-number">7.16</span> Packet length, main header (PLM) marker segment</h2>
+<h3 id="element-name-31"><span class="header-section-number">7.16.1</span> Element name</h3>
 <p>plm</p>
-
-
-<h3 id="reported-properties20">Reported properties<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a></h3>
-
-
+<h3 id="reported-properties-31"><span class="header-section-number">7.16.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -4172,28 +2969,16 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">lplm</td>
-<td style="text-align: left;">Length of PLM marker segment in bytes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">zplm</td>
-<td style="text-align: left;">PLM marker segment index</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">nplm</td>
-<td style="text-align: left;">Number of bytes of Iplm information for the ith tile-part</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">iplm</td>
-<td style="text-align: left;">Comma separated list of packet length values (as hexadecimal strings)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-31">Tests</h3>
-
-
+<h3 id="tests-30"><span class="header-section-number">7.16.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -4203,29 +2988,19 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="ppm-marker">Packed packet headers, main header (PPM) marker segment</h2>
-
-
-<h3 id="element-name-33">Element name</h3>
-
-
+<h2 id="ppm-marker"><span class="header-section-number">7.17</span> Packed packet headers, main header (PPM) marker segment</h2>
+<h3 id="element-name-32"><span class="header-section-number">7.17.1</span> Element name</h3>
 <p>ppm</p>
-
-
-<h3 id="reported-properties20-1">Reported properties<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a></h3>
-
-
+<h3 id="reported-properties-32"><span class="header-section-number">7.17.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -4235,20 +3010,16 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-32">Tests</h3>
-
-
+<h3 id="tests-31"><span class="header-section-number">7.17.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -4258,29 +3029,60 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="plt-marker">Packet length, tile-part header (PLT) marker segment</h2>
-
-
-<h3 id="element-name-34">Element name</h3>
-
-
+<h2 id="tlm-marker"><span class="header-section-number">7.18</span> Tile-part lengths (TLM) marker segment</h2>
+<h3 id="element-name-33"><span class="header-section-number">7.18.1</span> Element name</h3>
+<p>tlm</p>
+<h3 id="reported-properties-33"><span class="header-section-number">7.18.2</span> Reported properties</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-32"><span class="header-section-number">7.18.3</span> Tests</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Test name</th>
+<th style="text-align: left;">True if</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="plt-marker"><span class="header-section-number">7.19</span> Packet length, tile-part header (PLT) marker segment</h2>
+<h3 id="element-name-34"><span class="header-section-number">7.19.1</span> Element name</h3>
 <p>plt</p>
-
-
-<h3 id="reported-properties20-2">Reported properties<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a></h3>
-
-
+<h3 id="reported-properties-34"><span class="header-section-number">7.19.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -4290,28 +3092,16 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">lplt</td>
-<td style="text-align: left;">Length of PLT marker segment in bytes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">zplt</td>
-<td style="text-align: left;">PLT marker segment index</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">nplm</td>
-<td style="text-align: left;">Number of bytes of Iplm information for the ith tile-part</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">iplt</td>
-<td style="text-align: left;">Comma separated list of packet length values (as hexadecimal strings)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-33">Tests</h3>
-
-
+<h3 id="tests-33"><span class="header-section-number">7.19.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -4321,29 +3111,19 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
-
-
-<h2 id="ppt-marker">Packed packet headers, tile-part header (PPT) marker segment</h2>
-
-
-<h3 id="element-name-35">Element name</h3>
-
-
+<h2 id="ppt-marker"><span class="header-section-number">7.20</span> Packed packet headers, tile-part header (PPT) marker segment</h2>
+<h3 id="element-name-35"><span class="header-section-number">7.20.1</span> Element name</h3>
 <p>ppt</p>
-
-
-<h3 id="reported-properties20-3">Reported properties<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a></h3>
-
-
+<h3 id="reported-properties-35"><span class="header-section-number">7.20.2</span> Reported properties</h3>
 <table>
 <thead>
 <tr class="header">
@@ -4353,20 +3133,16 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
-
-
-<h3 id="tests-34">Tests</h3>
-
-
+<h3 id="tests-34"><span class="header-section-number">7.20.3</span> Tests</h3>
 <table>
 <thead>
 <tr class="header">
@@ -4376,57 +3152,39 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
-
-
-<h1 id="references">References</h1>
-
-
-<p>ICC. Specification ICC.1:1998-09 – File Format for Color Profiles. International Color Consortium, 1998. <a href="https://www.color.org/ICC-1_1998-09.pdf">https://www.color.org/ICC-1_1998-09.pdf</a>.</p>
-
-
-<p>ISO/IEC. Information technology — JPEG 2000 image coding system: Core coding system. ISO/IEC 15444-1, Second edition. Geneva: ISO/IEC, 2004a. <a href="https://www.jpeg.org/public/15444-1annexi.pdf">https://www.jpeg.org/public/15444-1annexi.pdf</a> (“Annex I: JP2 file format syntax” only).</p>
-
-
-<p>ISO/IEC. Information technology — JPEG 2000 image coding system: Extensions. ISO/IEC 15444-2, First edition. Geneva: ISO/IEC, 2004b. <a href="https://www.jpeg.org/public/15444-2annexm.pdf">https://www.jpeg.org/public/15444-2annexm.pdf</a> (“Annex M: JPX extended file format syntax” only).</p>
-
-
-<p>Leach, P., Mealling, M. &amp; Salz, R. A Universally Unique IDentifier (UUID) URN namespace. Memo, IETF. <a href="https://tools.ietf.org/html/rfc4122.html">https://tools.ietf.org/html/rfc4122.html</a>.</p>
-
-
-<section class="footnotes" role="doc-endnotes">
-<hr/>
+<h1 id="references"><span class="header-section-number">8</span> References</h1>
+<p>ICC. Specification ICC.1:1998-09 – File Format for Color Profiles. International Color Consortium, 1998. <a href="http://www.color.org/ICC-1_1998-09.pdf" class="uri">http://www.color.org/ICC-1_1998-09.pdf</a>.</p>
+<p>ISO/IEC. Information technology — JPEG 2000 image coding system: Core coding system. ISO/IEC 15444-1, Second edition. Geneva: ISO/IEC, 2004a. <a href="http://www.jpeg.org/public/15444-1annexi.pdf" class="uri">http://www.jpeg.org/public/15444-1annexi.pdf</a> (“Annex I: JP2 file format syntax” only).</p>
+<p>ISO/IEC. Information technology — JPEG 2000 image coding system: Extensions. ISO/IEC 15444-2, First edition. Geneva: ISO/IEC, 2004b. <a href="http://www.jpeg.org/public/15444-2annexm.pdf" class="uri">http://www.jpeg.org/public/15444-2annexm.pdf</a> (“Annex M: JPX extended file format syntax” only).</p>
+<p>Leach, P., Mealling, M. &amp; Salz, R. A Universally Unique IDentifier (UUID) URN namespace. Memo, IETF. <a href="http://tools.ietf.org/html/rfc4122.html" class="uri">http://tools.ietf.org/html/rfc4122.html</a>.</p>
+<section class="footnotes">
+<hr>
 <ol>
-<li id="fn1" role="doc-endnote"><p>The <em>jpylyzer</em> binaries were created using the <em>PyInstaller</em> package: <a href="https://www.pyinstaller.org/">https://www.pyinstaller.org/</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>Note that <em>jpylyzer</em> versions 1.8 and earlier returned a formatted XML string instead of an element object!<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>Note that <em>jpylyzer</em> versions 1.4 and earlier used the verbose output format by default. This behaviour has changed in version 1.5 onwards, as the lengthy output turned out to be slightly confusing to some users.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>The “Any ICC” method is defined in ISO/IEC 15444-2 (the JPX format), and is not allowed in JP2. However, <em>jpylyzer</em> offers limited support for JPX here by also reporting the properties of ICC profiles that were embedded using this method. Note that any file that uses this method will fail the “methIsValid” test (and thereby the validation).<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>Originally ISO/IEC 15444-1 only allowed “input device” profiles. Support of “display device” profiles was added through an <a href="http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard in 2013. The behaviour of <em>jpylyzer</em> is consistent with this amendment.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRcN</mi> </mrow> <mrow> <mi>vRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRcE</mi> </msup> </mrow> </math><a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRcN</mi> </mrow> <mrow> <mi>hRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRcE</mi> </msup> </mrow> </math><a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRdN</mi> </mrow> <mrow> <mi>vRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRdE</mi> </msup> </mrow> </math><a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRdN</mi> </mrow> <mrow> <mi>hRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRdE</mi> </msup> </mrow> </math><a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn12" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn13" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn14" role="doc-endnote"><p>Link: <a href="https://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf">https://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf</a><a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn15" role="doc-endnote"><p>However, support for start of packet (SOP) and end of packet (EPH) markers may be included in future versions.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn16" role="doc-endnote"><p>For example, in a TIFF to JP2 conversion workflow one could include a pixel-by-pixel comparison of the values in the TIFF and the JP2.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn17" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>numberOfTiles</mi> <mo>=</mo> <mo>[</mo> <mfrac> <mrow> <mi>xsiz</mi> <mo>-</mo> <mi>xOsiz</mi> </mrow> <mrow> <mi>xTsiz</mi> </mrow> </mfrac> <mo>]</mo> <mo>•</mo> <mo>[</mo> <mfrac> <mrow> <mi>ysiz</mi> <mo>-</mo> <mi>yOsiz</mi> </mrow> <mrow> <mi>yTsiz</mi> </mrow> </mfrac> <mo>]</mo> </mrow> </math><a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn18" role="doc-endnote"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn19" role="doc-endnote"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn20" role="doc-endnote"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn21" role="doc-endnote"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>The <em>jpylyzer</em> binaries were created using the <em>PyInstaller</em> package: <a href="http://www.pyinstaller.org/" class="uri">http://www.pyinstaller.org/</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Note that <em>jpylyzer</em> versions 1.8 and earlier returned a formatted XML string instead of an element object!<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>Note that <em>jpylyzer</em> versions 1.4 and earlier used the verbose output format by default. This behaviour has changed in version 1.5 onwards, as the lengthy output turned out to be slightly confusing to some users.<a href="#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p>The “Any ICC” method is defined in ISO/IEC 15444-2 (the JPX format), and is not allowed in JP2. However, <em>jpylyzer</em> offers limited support for JPX here by also reporting the properties of ICC profiles that were embedded using this method. Note that any file that uses this method will fail the “methIsValid” test (and thereby the validation).<a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>Originally ISO/IEC 15444-1 only allowed “input device” profiles. Support of “display device” profiles was added through an <a href="http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard in 2013. The behaviour of <em>jpylyzer</em> is consistent with this amendment.<a href="#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRcN</mi> </mrow> <mrow> <mi>vRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRcE</mi> </msup> </mrow> </math><a href="#fnref6" class="footnote-back">↩</a></p></li>
+<li id="fn7"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRcN</mi> </mrow> <mrow> <mi>hRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRcE</mi> </msup> </mrow> </math><a href="#fnref7" class="footnote-back">↩</a></p></li>
+<li id="fn8"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref8" class="footnote-back">↩</a></p></li>
+<li id="fn9"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref9" class="footnote-back">↩</a></p></li>
+<li id="fn10"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRdN</mi> </mrow> <mrow> <mi>vRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRdE</mi> </msup> </mrow> </math><a href="#fnref10" class="footnote-back">↩</a></p></li>
+<li id="fn11"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRdN</mi> </mrow> <mrow> <mi>hRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRdE</mi> </msup> </mrow> </math><a href="#fnref11" class="footnote-back">↩</a></p></li>
+<li id="fn12"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref12" class="footnote-back">↩</a></p></li>
+<li id="fn13"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref13" class="footnote-back">↩</a></p></li>
+<li id="fn14"><p>Link: <a href="http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf" class="uri">http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf</a><a href="#fnref14" class="footnote-back">↩</a></p></li>
+<li id="fn15"><p>However, support for start of packet (SOP) and end of packet (EPH) markers may be included in future versions.<a href="#fnref15" class="footnote-back">↩</a></p></li>
+<li id="fn16"><p>For example, in a TIFF to JP2 conversion workflow one could include a pixel-by-pixel comparison of the values in the TIFF and the JP2.<a href="#fnref16" class="footnote-back">↩</a></p></li>
+<li id="fn17"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>numberOfTiles</mi> <mo>=</mo> <mo>[</mo> <mfrac> <mrow> <mi>xsiz</mi> <mo>-</mo> <mi>xOsiz</mi> </mrow> <mrow> <mi>xTsiz</mi> </mrow> </mfrac> <mo>]</mo> <mo>•</mo> <mo>[</mo> <mfrac> <mrow> <mi>ysiz</mi> <mo>-</mo> <mi>yOsiz</mi> </mrow> <mrow> <mi>yTsiz</mi> </mrow> </mfrac> <mo>]</mo> </mrow> </math><a href="#fnref17" class="footnote-back">↩</a></p></li>
 </ol>
 </section>
-
-
