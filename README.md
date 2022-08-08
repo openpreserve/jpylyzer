@@ -12,7 +12,7 @@ Please visit the jpylyzer homepage for links to the most recent package download
 
 ## CI Status
 
-- [![Build Status](https://travis-ci.org/openpreserve/jpylyzer.svg?branch=master)](https://travis-ci.org/openpreserve/jpylyzer "Jpylyzer Travis-CI integration build") Travis-CI
+- [![Build Status](https://travis-ci.com/openpreserve/jpylyzer.svg?branch=master)](https://travis-ci.com/openpreserve/jpylyzer "Jpylyzer Travis-CI integration build") Travis-CI
 
 - [![Build Status](https://jenkins.openpreservation.org/buildStatus/icon?job=jpylyzer%2Fjpylyzer)](https://jenkins.openpreservation.org/job/jpylyzer/job/jpylyzer/) OPF Jenkins
 <!-- Start of text to be copied to usage.md of jpylyzer website -->
