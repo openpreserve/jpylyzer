@@ -171,8 +171,8 @@ def test_validation_outcome_jp2(inJP2):
     """
     Tests validation outcome against known validity (JP2)
     """
-    fName = os.path.basename(input)
-    outJpylyzer = checkOneFile(input, 'jp2')
+    fName = os.path.basename(inJP2)
+    outJpylyzer = checkOneFile(inJP2, 'jp2')
     if fName in validityLookupJP2.keys():
         isValid = validityLookupJP2[fName]
         assert outJpylyzer.findtext('./isValid') == isValid
@@ -184,8 +184,8 @@ def test_validation_outcome_j2c(inJ2C):
     Tests validation outcome against known validity
     (codestream format)
     """
-    fName = os.path.basename(input)
-    outJpylyzer = checkOneFile(input, 'j2c')
+    fName = os.path.basename(inJ2C)
+    outJpylyzer = checkOneFile(inJ2C, 'j2c')
     if fName in validityLookupJ2C.keys():
         isValid = validityLookupJ2C[fName]
         assert outJpylyzer.findtext('./isValid') == isValid
