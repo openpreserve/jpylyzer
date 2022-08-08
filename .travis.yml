@@ -23,6 +23,7 @@ before_script:
   #  - C0103: Invalid name ( e.g. camel case)
   # Disabled in the command below
   #  - R0201: Method could be a function
+  #  - R0801: Similar lines in n files
   #  - R0902: Too many instance attributes
   #  - R0904: Too many public methods
   #  - R0912: Too many branches
@@ -36,7 +37,7 @@ before_script:
   #  - W0703: Catching too general an Exception type
   #  - C0200: Consider using enumerate instead of iterating with range
   #  - C0302: Too many lines in module
-  - if [[ $TRAVIS_PYTHON_VERSION != '2.7' ]]; then pylint --disable R0201,R0902,R0904,R0912,R0913,R0914,R0915,R1702,R1703 --disable W0511,W0702,W0703 --disable C0200,C0302  setup.py ./tests/ ./jpylyzer/; fi
+  - if [[ $TRAVIS_PYTHON_VERSION != '2.7' ]]; then pylint --disable R0201,R0801, R0902,R0904,R0912,R0913,R0914,R0915,R1702,R1703 --disable W0511,W0702,W0703 --disable C0200,C0302  setup.py ./tests/ ./jpylyzer/; fi
 
 script:
   - pre-commit run --all-files --verbose
