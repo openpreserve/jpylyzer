@@ -3,7 +3,7 @@
     hooks:
     -   id: check-byte-order-marker
     -   id: check-case-conflict
-    -   id: check-docstring-first
+#    -   id: check-docstring-first
 #    -   id: end-of-file-fixer
 #    -   id: trailing-whitespace
 #    -   id: check-xml
