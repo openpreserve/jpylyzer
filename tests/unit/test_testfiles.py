@@ -10,7 +10,7 @@ Contents of jpylyzer-test-files repo (https://github.com/openpreserve/jpylyzer-t
 are present in sibling directory relative to jpylyzer dir, e.g.:
 
         |-- jpylyzer/
-home/ --|      
+home/ --|
         |--jpylyzer-test-files/
 
 TODO:
@@ -140,34 +140,34 @@ def test_groundtruth_complete():
     for key in validityLookupJP2:
         thisFile = os.path.join(testFilesDir, key)
         assert os.path.isfile(thisFile)
-    
+
     for key in validityLookupJ2C:
         thisFile = os.path.join(testFilesDir, key)
         assert os.path.isfile(thisFile)
 
-@pytest.mark.parametrize('input', testFiles)
+@pytest.mark.parametrize('inJP2', testFiles)
 
-def test_status_jp2(input):
+def test_status_jp2(inJP2):
     """
     Tests for any internal errors based on statusInfo value
     using JP2 validation
     """
-    outJpylyzer = checkOneFile(input, 'jp2')
+    outJpylyzer = checkOneFile(inJP2, 'jp2')
     assert outJpylyzer.findtext('./statusInfo/success') == "True"
 
-@pytest.mark.parametrize('input', testFiles)
+@pytest.mark.parametrize('inJ2C', testFiles)
 
-def test_status_j2c(input):
+def test_status_j2c(inJ2C):
     """
     Tests for any internal errors based on statusInfo value
     using codestream validation
     """
-    outJpylyzer = checkOneFile(input, 'j2c')
+    outJpylyzer = checkOneFile(inJ2C, 'j2c')
     assert outJpylyzer.findtext('./statusInfo/success') == "True"
 
-@pytest.mark.parametrize('input', testFiles)
+@pytest.mark.parametrize('inJP2', testFiles)
 
-def test_validation_outcome_jp2(input):
+def test_validation_outcome_jp2(inJP2):
     """
     Tests validation outcome against known validity (JP2)
     """
@@ -177,9 +177,9 @@ def test_validation_outcome_jp2(input):
         isValid = validityLookupJP2[fName]
         assert outJpylyzer.findtext('./isValid') == isValid
 
-@pytest.mark.parametrize('input', testFiles)
+@pytest.mark.parametrize('inJ2C', testFiles)
 
-def test_validation_outcome_j2c(input):
+def test_validation_outcome_j2c(inJ2C):
     """
     Tests validation outcome against known validity
     (codestream format)
@@ -197,7 +197,7 @@ def test_xml_is_valid_jp2(capsys):
     """
     config.VALIDATION_FORMAT = "jp2"
     checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
-    
+
     # Capture output from stdout
     captured = capsys.readouterr()
     xmlOut = captured.out
@@ -215,7 +215,7 @@ def test_xml_mix_1(capsys):
     config.VALIDATION_FORMAT = "jp2"
     config.MIX_FLAG = 1
     checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
-    
+
     # Capture output from stdout
     captured = capsys.readouterr()
     xmlOut = captured.out
@@ -233,7 +233,7 @@ def test_xml_mix_2(capsys):
     config.VALIDATION_FORMAT = "jp2"
     config.MIX_FLAG = 2
     checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
-    
+
     # Capture output from stdout
     captured = capsys.readouterr()
     xmlOut = captured.out
@@ -252,7 +252,7 @@ def test_xml_is_valid_j2c(capsys):
     config.VALIDATION_FORMAT = "j2c"
     config.MIX_FLAG = 0
     checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
-    
+
     # Capture output from stdout
     captured = capsys.readouterr()
     xmlOut = captured.out

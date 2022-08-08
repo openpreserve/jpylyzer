@@ -10,7 +10,7 @@ Contents of openjpeg-data repo (https://github.com/uclouvain/openjpeg-data)
 are present in sibling directory relative to jpylyzer dir, e.g.:
 
         |-- jpylyzer/
-home/ --|      
+home/ --|
         |--openjpeg-data/
 
 """
@@ -45,24 +45,24 @@ testFiles = [f for f in testFiles if os.path.isfile(f)]
 
 config.INPUT_WRAPPER_FLAG = True
 
-@pytest.mark.parametrize('input', testFiles)
+@pytest.mark.parametrize('inJP2', testFiles)
 
-def test_status_jp2(input):
+def test_status_jp2(inJP2):
     """
     Tests for any internal errors based on statusInfo value
     using JP2 validation
     """
-    outJpylyzer = checkOneFile(input, 'jp2')
+    outJpylyzer = checkOneFile(inJP2, 'jp2')
     assert outJpylyzer.findtext('./statusInfo/success') == "True"
 
-@pytest.mark.parametrize('input', testFiles)
+@pytest.mark.parametrize('inJ2C', testFiles)
 
-def test_status_j2c(input):
+def test_status_j2c(inJ2C):
     """
     Tests for any internal errors based on statusInfo value
     using codestream validation
     """
-    outJpylyzer = checkOneFile(input, 'j2c')
+    outJpylyzer = checkOneFile(inJ2C, 'j2c')
     assert outJpylyzer.findtext('./statusInfo/success') == "True"
 
 def test_xml_is_valid_jp2(capsys):
@@ -72,7 +72,7 @@ def test_xml_is_valid_jp2(capsys):
     """
     config.VALIDATION_FORMAT = "jp2"
     checkFiles(False, True, testFiles)
-    
+
     # Capture output from stdout
     captured = capsys.readouterr()
     xmlOut = captured.out
@@ -90,7 +90,7 @@ def test_xml_is_valid_j2c(capsys):
     """
     config.VALIDATION_FORMAT = "j2c"
     checkFiles(False, True, testFiles)
-    
+
     # Capture output from stdout
     captured = capsys.readouterr()
     xmlOut = captured.out
