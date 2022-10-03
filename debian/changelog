@@ -1,4 +1,4 @@
-jpylyzer (2.1.0~rc1) UNRELEASED; urgency=medium
+jpylyzer (2.1.0) UNRELEASED; urgency=medium
 
   * More detailed output for PLM and PLT marker segments
   * By default only report occurrences of packet-level markers
@@ -6,7 +6,7 @@ jpylyzer (2.1.0~rc1) UNRELEASED; urgency=medium
   * Updated XSD schema
   * Added deprecation warnings for Python 2.7
 
- -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Thu, 30 Jun 2022 19:43:00 +0200
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Mon, 03 Oct 2022 15:36:04 +0200
 
 jpylyzer (2.0.1) UNRELEASED; urgency=medium
 
