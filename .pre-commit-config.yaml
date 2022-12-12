@@ -1,5 +1,5 @@
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v1.4.0
+    rev: v4.3.0
     hooks:
     -   id: check-byte-order-marker
     -   id: check-case-conflict
