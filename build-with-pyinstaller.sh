@@ -21,11 +21,11 @@ if [ $originalUserId == 0 ]
 then
     uname=$(getent passwd 1000 | cut -d: -f1)
     sudo -u $uname "pyi-makespec --strip --onefile --paths=$scriptBaseName --name=$scriptBaseName --specpath=pyi-build ./cli.py"
-    sudo -u $uname "pyinstaller --strip --clean --paths=$scriptBaseName --distpath=pyi-build/dist --workpath=pyi-build/build ./pyi-build/$scriptBaseName.spec"
+    sudo -u $uname "pyinstaller --clean --distpath=pyi-build/dist --workpath=pyi-build/build ./pyi-build/$scriptBaseName.spec"
 else
     # So making stripped binaries for debian packaging
     pyi-makespec --strip --onefile --paths=$scriptBaseName --name=$scriptBaseName --specpath=pyi-build ./cli.py
-    pyinstaller --strip --clean --paths=$scriptBaseName --distpath=pyi-build/dist --workpath=pyi-build/build ./pyi-build/$scriptBaseName.spec
+    pyinstaller --clean --distpath=pyi-build/dist --workpath=pyi-build/build ./pyi-build/$scriptBaseName.spec
 fi
 
 ./pyi-build/dist/$scriptBaseName --version;
