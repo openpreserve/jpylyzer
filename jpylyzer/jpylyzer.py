@@ -38,7 +38,6 @@ import datetime
 import glob
 import argparse
 import codecs
-import re
 from xml.dom import minidom
 import xml.etree.ElementTree as ETree
 from . import config
