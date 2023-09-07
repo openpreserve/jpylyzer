@@ -143,8 +143,7 @@ You have three options:
 1. Install the software with the *Pip* package manager. This works on
 all platforms (Windows, Linux, Mac, etc.), but you need to have
 the Python interpreter available on your system. Jpylyzer is compatible with
-Python 2.7, and Python 3.2 and more recent (Python 3.0 and 3.1 are not
-supported).
+Python 3.2 and more recent.
 
 2. Alternatively, for Windows users there is also a set of stand-alone
 binaries[^1]. These allow you to run *jpylyzer* as an
