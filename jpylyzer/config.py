@@ -27,6 +27,3 @@ MIX_FLAG = 0
 ERR_CODE_NO_IMAGES = -7
 UTF8_ENCODING = "UTF-8"
 PLATFORM = sys.platform
-PYTHON_VERSION = sys.version
-PYTHON_2 = "2"
-PYTHON_3 = "3"
