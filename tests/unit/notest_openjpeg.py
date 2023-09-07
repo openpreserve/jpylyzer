@@ -71,7 +71,7 @@ def test_xml_is_valid_jp2(capsys):
     verify resulting XML output validates against XSD schema
     """
     config.VALIDATION_FORMAT = "jp2"
-    checkFiles(False, True, testFiles)
+    checkFiles(False, testFiles)
 
     # Capture output from stdout
     captured = capsys.readouterr()
@@ -89,7 +89,7 @@ def test_xml_is_valid_j2c(capsys):
     verify resulting XML output validates against XSD schema
     """
     config.VALIDATION_FORMAT = "j2c"
-    checkFiles(False, True, testFiles)
+    checkFiles(False, testFiles)
 
     # Capture output from stdout
     captured = capsys.readouterr()
