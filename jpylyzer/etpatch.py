@@ -110,16 +110,8 @@ class Element(ET.Element):
 
             # Step 2: convert all values to text strings.
 
-            # First set up list of all numeric data types,
-            # which is dependent on the Python version used
-
-            if config.PYTHON_VERSION.startswith(config.PYTHON_2):
-                # Python 2.x
-                # pylint: disable=E0602
-                numericTypes = [int, long, float, bool]
-                # Long type is deprecated in Python 3.x!
-            else:
-                numericTypes = [int, float, bool]
+            # First set up list of all numeric data types
+            numericTypes = [int, float, bool]
 
             # Convert
 
