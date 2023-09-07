@@ -1,7 +1,7 @@
 # jpylyzer
 
 ## About
-*Jpylyzer* is a JP2 [(JPEG 2000 Part 1)][2] image validator and properties extractor. Its development was partially supported by the [SCAPE][4] Project. The SCAPE project is co-funded by the European Union under FP7 ICT-2009.4.1 (Grant Agreement number 270137).
+*Jpylyzer* is a JP2 [(JPEG 2000 Part 1)](https://web.archive.org/web/20140709105059/http://www.jpeg.org/public/15444-1annexi.pdf) image validator and properties extractor. Its development was partially supported by the [SCAPE](https://www.scape-project.eu/) Project. The SCAPE project is co-funded by the European Union under FP7 ICT-2009.4.1 (Grant Agreement number 270137).
 
 ## Jpylyzer homepage
 
@@ -129,11 +129,3 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')
 ## Steps in preparing a jpylyzer release
 
 [See instructions here](./howto-prepare-release.md)
-
-[1]: https://jpylyzer.openpreservation.org/doc/latest/userManual.html
-[2]: http://www.jpeg.org/public/15444-1annexi.pdf
-[3]: https://www.itu.int/rec/T-REC-T.800/en
-[4]: https://www.scape-project.eu/
-[5]: https://bintray.com/openplanets/opf-windows/jpylyzer_win32/
-[6]: https://bintray.com/openplanets/opf-debian/jpylyzer_i386/
-[7]: https://bintray.com/openplanets/opf-debian/jpylyzer_amd64/
