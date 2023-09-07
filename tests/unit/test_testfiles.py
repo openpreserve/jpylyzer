@@ -196,7 +196,7 @@ def test_xml_is_valid_jp2(capsys):
     verify resulting XML output validates against XSD schema
     """
     config.VALIDATION_FORMAT = "jp2"
-    checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
+    checkFiles(config.INPUT_RECURSIVE_FLAG, testFiles)
 
     # Capture output from stdout
     captured = capsys.readouterr()
@@ -214,7 +214,7 @@ def test_xml_mix_1(capsys):
     """
     config.VALIDATION_FORMAT = "jp2"
     config.MIX_FLAG = 1
-    checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
+    checkFiles(config.INPUT_RECURSIVE_FLAG, testFiles)
 
     # Capture output from stdout
     captured = capsys.readouterr()
@@ -232,7 +232,7 @@ def test_xml_mix_2(capsys):
     """
     config.VALIDATION_FORMAT = "jp2"
     config.MIX_FLAG = 2
-    checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
+    checkFiles(config.INPUT_RECURSIVE_FLAG, testFiles)
 
     # Capture output from stdout
     captured = capsys.readouterr()
@@ -251,7 +251,7 @@ def test_xml_is_valid_j2c(capsys):
     """
     config.VALIDATION_FORMAT = "j2c"
     config.MIX_FLAG = 0
-    checkFiles(config.INPUT_RECURSIVE_FLAG, True, testFiles)
+    checkFiles(config.INPUT_RECURSIVE_FLAG, testFiles)
 
     # Capture output from stdout
     captured = capsys.readouterr()
