@@ -1,8 +1,7 @@
 #! /usr/bin/env python3
 """Jpylyzer validator for JPEG 2000 Part 1 (JP2) images.
 
-Requires: Python 2.7 (older versions won't work) OR Python 3.2 or more recent
-  (Python 3.0 and 3.1 won't work either!)
+Requires: Python 3.2 or more recent.
 
 Copyright (C) 2011 - 2017 Johan van der Knijff, Koninklijke Bibliotheek -
   National Library of the Netherlands
@@ -52,12 +51,6 @@ try:
     NO_MMAP_LIB = False
 except ImportError:
     NO_MMAP_LIB = True
-if sys.version.startswith("2"):
-    try:
-        from six import u
-        NO_U_LIB = False
-    except ImportError:
-        NO_U_LIB = True
 
 SCRIPT_PATH, SCRIPT_NAME = os.path.split(sys.argv[0])
 
@@ -489,52 +482,14 @@ def printHelpAndExit():
 
 def stripSurrogatePairs(ustring):
     """Remove surrogate pairs from a Unicode string."""
-    # This works for Python 3.x, but not for 2.x!
     # Source: http://stackoverflow.com/q/19649463/1209004
 
-    if config.PYTHON_VERSION.startswith(config.PYTHON_3):
-        try:
-            ustring.encode('utf-8')
-        except UnicodeEncodeError:
-            # Strip away surrogate pairs
-            tmp = ustring.encode('utf-8', 'replace')
-            ustring = tmp.decode('utf-8', 'ignore')
-
-    # In Python 2.x we need to use regex
-    # Source: http://stackoverflow.com/a/18674109/1209004
-
-    if config.PYTHON_VERSION.startswith(config.PYTHON_2):
-        # Generate regex for surrogate pair detection
-        if NO_U_LIB:
-            lone = re.compile(
-                r"""(?x)             # verbose expression (allows comments)
-                (                    # begin group
-                [\ud800-\udbff]      #   match leading surrogate
-                (?![\udc00-\udfff])  #   but only if not followed by trailing surrogate
-                )                    # end group
-                |                    #  OR
-                (                    # begin group
-                (?<![\ud800-\udbff]) #   if not preceded by leading surrogate
-                [\udc00-\udfff]      #   match trailing surrogate
-                )                    # end group
-                """)
-        else:
-            lone = re.compile(
-                u(r"""(?x)           # verbose expression (allows comments)
-                (                    # begin group
-                [\ud800-\udbff]      #   match leading surrogate
-                (?![\udc00-\udfff])  #   but only if not followed by trailing surrogate
-                )                    # end group
-                |                    #  OR
-                (                    # begin group
-                (?<![\ud800-\udbff]) #   if not preceded by leading surrogate
-                [\udc00-\udfff]      #   match trailing surrogate
-                )                    # end group
-                """))
-
-        # Remove surrogates (i.e. replace by empty string)
-        tmp = lone.sub(r'', ustring).encode('utf-8')
-        ustring = tmp.decode('utf-8')
+    try:
+        ustring.encode('utf-8')
+    except UnicodeEncodeError:
+        # Strip away surrogate pairs
+        tmp = ustring.encode('utf-8', 'replace')
+        ustring = tmp.decode('utf-8', 'ignore')
 
     return ustring
 
@@ -583,11 +538,6 @@ def findFiles(recurse, paths):
 
     # process the list of input paths
     for root in paths:
-
-        if config.PYTHON_VERSION.startswith(config.PYTHON_2):
-            # Convert root to UTF-8 (only needed for Python 2.x)
-            # pylint: disable=E0602
-            root = unicode(root, 'utf-8')
 
         # WILDCARD IN PATH OR FILENAME
         # In Linux wildcard expansion done by bash so, add file to list
@@ -665,11 +615,9 @@ def findFiles(recurse, paths):
 
 def writeElement(elt, codec):
     """Write element as XML to stdout using defined codec."""
+
     # Element to string
-    if config.PYTHON_VERSION.startswith(config.PYTHON_2):
-        xmlOut = ET.tostring(elt, 'UTF-8', 'xml')
-    if config.PYTHON_VERSION.startswith(config.PYTHON_3):
-        xmlOut = ET.tostring(elt, 'unicode', 'xml')
+    xmlOut = ET.tostring(elt, 'unicode', 'xml')
 
     if not config.NO_PRETTY_XML_FLAG:
         # Make xml pretty
@@ -686,15 +634,7 @@ def writeElement(elt, codec):
         # Write output
         codec.write(xmlOut)
     else:
-        # Python2.x does automatic conversion between byte and string types,
-        # hence, binary data can be output using sys.stdout
-        if config.PYTHON_VERSION.startswith(config.PYTHON_2):
-            ETree.ElementTree(elt).write(codec, xml_declaration=False)
-        # Python3.x recognizes bytes and str as different types and encoded
-        # Unicode is represented as binary data. The underlying sys.stdout.buffer
-        # is used to write binary data
-        if config.PYTHON_VERSION.startswith(config.PYTHON_3):
-            codec.write(xmlOut)
+        codec.write(xmlOut)
 
 
 def checkFiles(recurse, wrap, paths):
@@ -712,10 +652,7 @@ def checkFiles(recurse, wrap, paths):
     checkNoInput(EXISTING_FILES)
 
     # Set encoding of the terminal to UTF-8
-    if config.PYTHON_VERSION.startswith(config.PYTHON_2):
-        out = codecs.getwriter(config.UTF8_ENCODING)(sys.stdout)
-    elif config.PYTHON_VERSION.startswith(config.PYTHON_3):
-        out = codecs.getwriter(config.UTF8_ENCODING)(sys.stdout.buffer)
+    out = codecs.getwriter(config.UTF8_ENCODING)(sys.stdout.buffer)
 
     # Wrap the xml output in <jpylyzer> element, if wrapper flag is true
     # Note: this is the default behaviour in jpylyzer 2.x. Wrap
@@ -865,11 +802,6 @@ def main():
     if config.LEGACY_XML_FLAG:
         msg = "--legacyout option is deprecated and will be removed in jplyzer 2.2"
         shared.printWarning(msg)
-    # Report warning if Python version is 2.x
-    if config.PYTHON_VERSION.startswith(config.PYTHON_2):
-        msg = "support for Python 2 will be removed in jplyzer 2.2"
-        shared.printWarning(msg)
-
     # Exit if validation format is unknown
     if config.VALIDATION_FORMAT not in ['jp2', 'j2c']:
         msg = "'" + config.VALIDATION_FORMAT + "'  is not a supported value for --format"
