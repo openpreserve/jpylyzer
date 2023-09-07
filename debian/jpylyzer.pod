@@ -27,10 +27,6 @@ Validation format; allowed values: jp2, j2c (default: jp2)
 
 Report additional output in NISO MIX format (version 1.0 or 2.0)
 
-=item B<--legacyout, -l>
-
-Report output in jpylyzer 1.x format (provided for backward compatibility only)
-
 =item B<--nopretty>
 
 Suppress pretty-printing of XML output
@@ -54,11 +50,6 @@ Report test results in verbose format
 =item B<-v, --version>
 
 Show program's version number and exit
-
-=item B<--wrapper, -w>
-
-Wrap output for individual image(s) in 'results' XML element (deprecated in jpylyzer 2.x,
-only takes effect if --legacyout is used)
 
 =back
 
