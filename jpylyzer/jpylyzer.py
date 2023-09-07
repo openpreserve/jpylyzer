@@ -794,6 +794,10 @@ def main():
     config.LEGACY_XML_FLAG = args.legacyXMLFlag
     config.MIX_FLAG = args.mixFlag
 
+    # Exit in case of unsupported Python version
+    if config.PYTHON_VERSION.startswith("2"):
+        msg = "Jpylyzer needs Python 3.x (Python 2.7 is no longer supported)"
+        shared.errorExit(msg)
     # Report warning message for deprecated options
     if config.INPUT_WRAPPER_FLAG:
         msg = "--wrapper option is deprecated and will be removed in jplyzer 2.2"
