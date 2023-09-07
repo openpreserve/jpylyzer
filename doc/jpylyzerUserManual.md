@@ -197,10 +197,9 @@ Save the file, log out of your session and then log in again. Open a command ter
 
 If all went well you now see this:
 
-    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
+    usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
               [--nullxml] [--recurse] [--packetmarkers] [--verbose]
-              [--version] [--wrapper]
-              jp2In [jp2In ...]
+              [--version] jp2In [jp2In ...]
     jpylyzer: error: the following arguments are required: jp2In
 
 Which means that the installation was successful!
@@ -243,10 +242,9 @@ the files to directory `c:\tools\jpylyzer`, the command would become:
 
 Executing this command should result in the following screen output:
 
-    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
+    usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
               [--nullxml] [--recurse] [--packetmarkers] [--verbose]
-              [--version] [--wrapper]
-              jp2In [jp2In ...]
+              [--version] jp2In [jp2In ...]
     jpylyzer: error: the following arguments are required: jp2In
 
 ### Running jpylyzer without typing the full path
@@ -313,10 +311,9 @@ brackets (example: `[-h]`) are optional.
 
 *Jpylyzer* can be invoked using the following command-line arguments:
 
-    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
+    usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
               [--nullxml] [--recurse] [--packetmarkers] [--verbose]
-              [--version] [--wrapper]
-              jp2In [jp2In ...]
+              [--version] jp2In [jp2In ...]
 
 #### Positional arguments
 
@@ -331,14 +328,12 @@ brackets (example: `[-h]`) are optional.
 |`[-h, --help]`|show help message and exit|
 |`[--format FMT]`|validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)|
 |`[--mix {1,2}]`|report additional output in NISO MIX format (version 1.0 or 2.0)|
-|`[--legacyout]`|report output in jpylyzer 1.x format (provided for backward compatibility only)|
 |`[--nopretty]`|suppress pretty-printing of XML output|
 |`[--nullxml]`|extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)|
-|`[--recurse, -r]`|when analysing a directory, recurse into subdirectories (implies `--wrapper` if `--legacyout` is used)|
+|`[--recurse, -r]`|when analysing a directory, recurse into subdirectories|
 |`[--packetmarkers]`|Report packet-level codestream markers (plm, ppm, plt, ppt)|
 |`[--verbose]`|report test results in verbose format|
 |`[-v, --version]`|show program's version number and exit|
-|`[--wrapper, -w]`|wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect if `--legacyout` is used)|
 
 Note that the input can either be a single image, a space-separated
 sequence of images, a pathname expression that includes multiple images,
@@ -396,14 +391,7 @@ will result in *MIX* 2.0 output:
 The *MIX* output is wrapped inside a *file/propertiesExtension* element. Note that *MIX*
 output is *only* written for files that are valid JP2 (files that are not valid result in
 an empty *propertiesExtension* element). Also, the `--mix` option is ignored if `--format`
-is set to `j2c`, or if `--legacyout` (see below) is used.
-
-### ‘legacyout’ option
-
-The output format of *jpylyzer* has changed in version 2.0, which may break existing
-workflows that expect output in 1.x format. For backward compatibility the `--legacyout`
-option results in output that follows the old 1.x format. Note that codestream validation
-is disabled if you use this option.
+is set to `j2c`.
 
 ### ‘recurse’ option
 
@@ -426,30 +414,6 @@ codestream markers:
 - PPT (packed packet headers, tile-part header) marker
 
 By default these are excluded from the output, in order to prevent excessive output size.
-
-### ‘wrapper’ option (deprecated)
-
-This deprecated option is included for backward-compatibility, and only takes effect if `--legacyout`
-(see above) is used.By default, the *jpylyzer* 1.x releases would create a separate XML tree for each
-analysed image, without any overarching hierarchy. For multiple-image pathname expressions this resulted
-in output that was **not** well-formed XML. The `--legacyout` option still results in this is behaviour.
-For example:
-
-    jpylyzer --legacyout rubbish.jp2 garbage.jp2 > rubbish.xml
-
-In this case, the file ‘rubbish.xml’ contains a succession of two XML trees, which
-by itself is not well-formed XML. The `--wrapper` option is provided to create valid XML instead:
-
-    jpylyzer --legacyout --wrapper rubbish.jp2 garbage.jp2 > rubbish.xml
-
-In the above case the XML trees of the individual images are wrapped
-inside a ‘results’ element. When the `--recurse` option is used, jpylyzer
-will automatically wrap the output in a ‘results’ element, so there's no
-need to specify `--wrapper` in that case.
-
-Starting with version 2.0, *jpylyzer* *always* generates well-formed XML (unless the `--legacyout`
-option is used), which makes the  `--wrapper` option largely obsolete, apart from cases where
-the 'old' behaviour is needed for backward-compatibility reasons. 
 
 ### ‘nullxml’ option
 
@@ -535,7 +499,7 @@ Subsequently you can call any function that is defined in *jpylyzer.py*.
 In practice you will most likely only need the *checkOneFile* function. 
 The following minimal script shows how this works:
 
-    #! /usr/bin/env python
+    #! /usr/bin/env python3
     
     from jpylyzer import jpylyzer
     
@@ -565,7 +529,7 @@ For validation a raw JPEG 2000 codestreams, call the *checkOneFile* function wit
 Java integration {#java-integration}
 ---------------------------------------
 
-It is possible to integrate *jpylyzer* into Java applications. A test class that shows how this 
+It is possible to integrate *jpylyzer* into Java applications[^21]. A test class that shows how this 
 works is included in the source repo [here](https://github.com/openpreserve/jpylyzer/tree/master/jpylyzer/java_demo/CallJpylyzer.java).
 This requires [Jython](https://www.jython.org/). Note that you may run into performance issues with (very)
 large images in this case, as Jython does not support [memory mapping](https://docs.python.org/3/library/mmap.html),
@@ -2520,3 +2484,7 @@ the JP2.
 </math>
 
 [^20]: Only reported if the `--packetmarkers` option is used.
+
+[^21]: Jpylyzer 2.2 and more recent only work with Python > 3.2. Since Jython still hasn't
+been upgraded to support Python 3, Java integration with Jython currently doesn't
+work.

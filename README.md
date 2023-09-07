@@ -21,10 +21,9 @@ Please visit the jpylyzer homepage for links to the most recent package download
 
 Calling *jpylyzer* in a command window without any arguments results in the following helper message:
 
-    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
+    usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
               [--nullxml] [--recurse] [--packetmarkers] [--verbose]
-              [--version] [--wrapper]
-              jp2In [jp2In ...]
+              [--version] jp2In [jp2In ...]
 
 ### Positional arguments
 
@@ -39,14 +38,12 @@ Calling *jpylyzer* in a command window without any arguments results in the foll
 |`[-h, --help]`|show help message and exit|
 |`[--format FMT]`|validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)|
 |`[--mix {1,2}]`|report additional output in NISO MIX format (version 1.0 or 2.0)|
-|`[--legacyout]`|report output in jpylyzer 1.x format (provided for backward compatibility only)|
 |`[--nopretty]`|suppress pretty-printing of XML output|
 |`[--nullxml]`|extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)|
-|`[--recurse, -r]`|when analysing a directory, recurse into subdirectories (implies `--wrapper` if `--legacyout` is used)|
+|`[--recurse, -r]`|when analysing a directory, recurse into subdirectories|
 |`[--packetmarkers]`|Report packet-level codestream markers (plm, ppm, plt, ppt)|
 |`[--verbose]`|report test results in verbose format|
 |`[-v, --version]`|show program's version number and exit|
-|`[--wrapper, -w]`|wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect if `--legacyout` is used)|
 
 ## Output
 
@@ -97,7 +94,7 @@ In practice you will most likely only need the *checkOneFile* function.
 The following minimal script shows how this works:
 
 ```python
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 from jpylyzer import jpylyzer
 
