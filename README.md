@@ -1,7 +1,7 @@
 # jpylyzer
 
 ## About
-*Jpylyzer* is a JP2 [(JPEG 2000 Part 1)](https://web.archive.org/web/20140709105059/http://www.jpeg.org/public/15444-1annexi.pdf) image validator and properties extractor. Its development was partially supported by the [SCAPE](https://www.scape-project.eu/) Project. The SCAPE project is co-funded by the European Union under FP7 ICT-2009.4.1 (Grant Agreement number 270137).
+*Jpylyzer* is a JP2 [(JPEG 2000 Part 1)](https://web.archive.org/web/20230407080521/https://www.itu.int/rec/dologin_pub.asp?lang=e&id=T-REC-T.800-201511-S!!PDF-E&type=items) image validator and properties extractor. Its development was partially supported by the [SCAPE](https://www.scape-project.eu/) Project. The SCAPE project is co-funded by the European Union under FP7 ICT-2009.4.1 (Grant Agreement number 270137).
 
 ## Jpylyzer homepage
 
