@@ -79,13 +79,6 @@ pixel-wise comparison may still contain problematic features (e.g.
 incorrect colour space information), so validation, rendering tests and
 pixel-wise comparisons are really complementary to each other.
 
-### Note on ICC profile support
-
-The support of ICC profiles in JP2 was recently extended through an
-[amendment](https://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en) to 
-the standard. These changes are taken into account by *jpylyzer*,
-which is in line with the most recent version of the (updated) standard.
-
 Outline of this User Manual {#outline}
 -------------------------------
 
