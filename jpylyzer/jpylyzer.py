@@ -386,7 +386,7 @@ def checkOneFile(path):
             failureMessage = "unknown error, please report to developers by creating " + \
                              "an issue at https://github.com/openpreserve/jpylyzer/issues"
             ## TEST
-            # raise
+            raise
             ## TEST
 
         shared.printWarning(failureMessage)
@@ -414,7 +414,7 @@ def checkOneFile(path):
     extension = ET.Element('propertiesExtension')
     if config.MIX_FLAG != 0:
         root.append(extension)
-        if validationFormat == "jp2" and fileIsValid:
+        if config.VALIDATION_FORMAT in ['jp2', 'jph'] and fileIsValid:
             extension.append(mixProperties)
 
     return root

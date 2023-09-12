@@ -15,6 +15,7 @@
 #
 
 from __future__ import division
+import sys # test only, remove later!
 import uuid
 import math
 from . import config
@@ -383,8 +384,22 @@ class BoxValidator:
         # Do all required header boxes exist?
         self.testFor(
             "containsImageHeaderBox", self.boxTagMap['imageHeaderBox'] in subBoxTypes)
-        self.testFor("containsColourSpecificationBox", self.boxTagMap[
-            'colourSpecificationBox'] in subBoxTypes)
+
+        if config.VALIDATION_FORMAT == 'jp2':
+            self.testFor("containsColourSpecificationBox", self.boxTagMap[
+                'colourSpecificationBox'] in subBoxTypes)
+        elif config.VALIDATION_FORMAT == 'jph':
+            # In JPH, Colour Specification Box is only mandatory if unkC is zero
+            unkC = self.characteristics.findElementText('imageHeaderBox/unkC')
+            if unkC == 0:
+                self.testFor("containsColourSpecificationBox", self.boxTagMap[
+                    'colourSpecificationBox'] in subBoxTypes)
+
+            # If JPH does not contain a Colour Specification Box, no cTyp
+            # values (from Channel definition box) shall be equal to 0
+            if not self.boxTagMap['colourSpecificationBox'] in subBoxTypes:
+                cTypes = self.characteristics.findAllText('channelDefinitionBox/cTyp')
+                self.testFor("noZeroCTypesIfNoColourBox", not 0 in cTypes)
 
         # If bPCSign equals 1 and bPCDepth equals 128 (equivalent to bPC field being
         # 255), this box must contain a Bits Per Components box
