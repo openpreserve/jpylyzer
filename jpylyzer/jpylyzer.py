@@ -352,9 +352,9 @@ def checkOneFile(path, validationFormat='jp2'):
             fileData = fileToMemoryMap(path)
 
         # Validate according to value of validation format
-        if validationFormat == 'jp2':
+        if validationFormat in ['jp2', 'jph']:
             resultsJP2 = bv.BoxValidator("JP2", fileData).validate()
-        elif validationFormat == 'j2c':
+        elif validationFormat in ['j2c', 'jhc']:
             resultsJP2 = bv.BoxValidator("contiguousCodestreamBox", fileData).validate()
 
         fileIsValid = resultsJP2.isValid
