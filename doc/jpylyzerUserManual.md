@@ -865,9 +865,9 @@ fileTypeBox
 |Test name|True if|
 |:--------|:------|
 |boxLengthIsValid|(Size of box – 8) /4 is a whole number (integer)|
-|brandIsValid|*br* equals 0x6a703220 (“jp2 ”)|
+|brandIsValid|*br* equals 0x6a703220 (“jp2 ”) for JP2, or 0x6a706820 (“jph ”)for JPH|
 |minorVersionIsValid|*minV* equals 0|
-|compatibilityListIsValid|Sequence of compatibility (*cL*) fields includes one entry that equals 0x6a703220 (“jp2 ”)|
+|compatibilityListIsValid|Sequence of compatibility (*cL*) fields includes one entry that equals 0x6a703220 (“jp2 ”) for JP2, or 0x6a706820 (“jph ”)for JPH|
 
 JP2 Header box (superbox) {#jp2-header-box}
 -----------------------------
@@ -910,6 +910,7 @@ represented as child elements in the properties tree:
 |noMoreThanOneResolutionBox|Box contains no more than one Resolution box|
 |colourSpecificationBoxesAreContiguous|In case of multiple Colour Specification boxes, they appear contiguously in the JP2 Header box|
 |paletteAndComponentMappingBoxesOnlyTogether|Box contains a Palette box (only if Component Mapping box is present); box contains a Component Mapping box (only if Palette box is present)|
+|noZeroCTypesIfNoColourBox|If file does not contain a Colour Specification Box, no cTyp values (from Channel definition box) shall be equal to 0 (JPH)|
 
 Image Header box (child of JP2 Header box) {#image-header-box}
 ----------------------------------------------
