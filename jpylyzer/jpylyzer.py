@@ -300,7 +300,7 @@ def fileToMemoryMap(filename):
     return fileData
 
 
-def checkOneFile(path):
+def checkOneFile(path, validationFormat='jp2'):
     """Process one file and return analysis result as element object."""
     # Element root name, name space and Schema location (legacy, current)
     elementRootName = 'file'
@@ -352,9 +352,9 @@ def checkOneFile(path):
             fileData = fileToMemoryMap(path)
 
         # Validate according to value of validation format
-        if config.VALIDATION_FORMAT in ['jp2', 'jph']:
+        if validationFormat in ['jp2', 'jph']:
             resultsJP2 = bv.BoxValidator("JP2", fileData).validate()
-        elif config.VALIDATION_FORMAT in ['j2c', 'jhc']:
+        elif validationFormat in ['j2c', 'jhc']:
             resultsJP2 = bv.BoxValidator("contiguousCodestreamBox", fileData).validate()
 
         fileIsValid = resultsJP2.isValid
@@ -386,7 +386,7 @@ def checkOneFile(path):
             failureMessage = "unknown error, please report to developers by creating " + \
                              "an issue at https://github.com/openpreserve/jpylyzer/issues"
             ## TEST
-            raise
+            # raise
             ## TEST
 
         shared.printWarning(failureMessage)
@@ -642,7 +642,7 @@ def checkFiles(recurse, paths):
     for path in EXISTING_FILES:
 
         # Analyse file
-        xmlElement = checkOneFile(path)
+        xmlElement = checkOneFile(path, config.VALIDATION_FORMAT)
 
         # Write output to stdout
         writeElement(xmlElement, out)
