@@ -105,8 +105,9 @@ def generatePropertiesRemapTable():
     methMap = {}
     methMap[1] = "Enumerated"
     methMap[2] = "Restricted ICC"
-    methMap[3] = "Any ICC"  # JPX only
-    methMap[4] = "Vendor Colour"  # JPX only
+    methMap[3] = "Any ICC"  # JPH, JPX
+    methMap[4] = "Vendor Colour"  # JPX
+    methMap[5] = "Parameterized Colourspace"  # JPH
 
     # enumCS (Colour Specification Box)
     enumCSMap = {}

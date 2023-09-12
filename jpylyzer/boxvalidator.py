@@ -306,7 +306,8 @@ class BoxValidator:
             "signatureIsValid", self.boxContents[0:4] == b'\x0d\x0a\x87\x0a')
 
     def validate_fileTypeBox(self):
-        """File type box (ISO/IEC 15444-1 Section I.5.2)."""
+        """File type box (ISO/IEC 15444-1 Section I.5.2;
+        ISO/IEC 15444-15 Section D.3)."""
         # Determine number of compatibility fields from box length
         numberOfCompatibilityFields = (len(self.boxContents) - 8) / 4
 
@@ -353,7 +354,8 @@ class BoxValidator:
             self.testFor("compatibilityListIsValid", b'\x6a\x70\x68\x20' in cLList)
 
     def validate_jp2HeaderBox(self):
-        """JP2 header box (superbox) (ISO/IEC 15444-1 Section I.5.3)."""
+        """JP2 header box (superbox) (ISO/IEC 15444-1 Section I.5.3;
+        ISO/IEC 15444-15 Section D.2)."""
         # List for storing box type identifiers
         subBoxTypes = []
         noBytes = len(self.boxContents)
@@ -558,7 +560,8 @@ class BoxValidator:
             self.testFor("bPCIsValid", 1 <= bPCDepth <= 38)
 
     def validate_colourSpecificationBox(self):
-        """Colour specification box (ISO/IEC 15444-1 Section I.5.3.3).
+        """Colour specification box (ISO/IEC 15444-1 Section I.5.3.3;
+        ISO/IEC 15444-15 Section D.4).
 
         This box defines one method for interpreting colourspace of decompressed
         image data.
@@ -570,9 +573,14 @@ class BoxValidator:
         meth = bc.bytesToUnsignedChar(self.boxContents[0:1])
         self.addCharacteristic("meth", meth)
 
-        # Value must be 1 (enumerated colourspace) or 2 (restricted ICC
-        # profile)
-        self.testFor("methIsValid", 1 <= meth <= 2)
+        if self.format == 'jp2':
+            # Value must be 1 (enumerated colourspace) or 2 (restricted ICC
+            # profile)
+            self.testFor("methIsValid", meth in [1, 2])
+
+        elif self.format == 'jph':
+            # JPH also allows 3 (Any ICC) and 5 (parameterized colourspace)
+            self.testFor("methIsValid", meth in [1, 2, 3, 5])
 
         # Precedence (unsigned character)
         prec = bc.bytesToUnsignedChar(self.boxContents[1:2])
