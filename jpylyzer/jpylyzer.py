@@ -659,7 +659,7 @@ def parseCommandLine():
                         type=str,
                         dest="fmt",
                         default="jp2",
-                        help="validation format; allowed values: jp2, j2c (default: jp2)")
+                        help="validation format; allowed values: jp2, jph, j2c, jhc (default: jp2)")
     PARSER.add_argument('--mix',
                         type=int, choices=[1, 2],
                         dest="mixFlag",
@@ -734,11 +734,11 @@ def main():
         msg = "Jpylyzer needs Python 3.x (Python 2.7 is no longer supported)"
         shared.errorExit(msg)
     # Exit if validation format is unknown
-    if config.VALIDATION_FORMAT not in ['jp2', 'j2c']:
+    if config.VALIDATION_FORMAT not in ['jp2', 'jph', 'j2c', 'jhc']:
         msg = "'" + config.VALIDATION_FORMAT + "'  is not a supported value for --format"
         shared.errorExit(msg)
-    # Reset value of mixFlag to 0 if format is 'j2c'
-    if config.VALIDATION_FORMAT == 'j2c':
+    # Reset value of mixFlag to 0 if format is 'j2c' or 'jhc'
+    if config.VALIDATION_FORMAT in ['j2c', 'jhc']:
         config.MIX_FLAG = 0
 
     # Check files
