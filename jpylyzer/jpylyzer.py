@@ -300,7 +300,7 @@ def fileToMemoryMap(filename):
     return fileData
 
 
-def checkOneFile(path, validationFormat='jp2'):
+def checkOneFile(path):
     """Process one file and return analysis result as element object."""
     # Element root name, name space and Schema location (legacy, current)
     elementRootName = 'file'
@@ -352,9 +352,9 @@ def checkOneFile(path, validationFormat='jp2'):
             fileData = fileToMemoryMap(path)
 
         # Validate according to value of validation format
-        if validationFormat in ['jp2', 'jph']:
+        if config.VALIDATION_FORMAT in ['jp2', 'jph']:
             resultsJP2 = bv.BoxValidator("JP2", fileData).validate()
-        elif validationFormat in ['j2c', 'jhc']:
+        elif config.VALIDATION_FORMAT in ['j2c', 'jhc']:
             resultsJP2 = bv.BoxValidator("contiguousCodestreamBox", fileData).validate()
 
         fileIsValid = resultsJP2.isValid
@@ -642,7 +642,7 @@ def checkFiles(recurse, paths):
     for path in EXISTING_FILES:
 
         # Analyse file
-        xmlElement = checkOneFile(path, config.VALIDATION_FORMAT)
+        xmlElement = checkOneFile(path)
 
         # Write output to stdout
         writeElement(xmlElement, out)
