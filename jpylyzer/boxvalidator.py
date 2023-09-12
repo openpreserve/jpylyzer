@@ -318,7 +318,10 @@ class BoxValidator:
         self.addCharacteristic("br", br)
 
         # Is brand value valid?
-        self.testFor("brandIsValid", br == b'\x6a\x70\x32\x20')
+        if config.VALIDATION_FORMAT == 'jp2':
+            self.testFor("brandIsValid", br == b'\x6a\x70\x32\x20')
+        elif config.VALIDATION_FORMAT == 'jph':
+            self.testFor("brandIsValid", br == b'\x6a\x70\x68\x20')
 
         # Minor version
         minV = bc.bytesToUInt(self.boxContents[4:8])
@@ -342,7 +345,10 @@ class BoxValidator:
 
         # Compatibility list must contain at least one field with mandatory value.
         # List is considered valid if this value is found.
-        self.testFor("compatibilityListIsValid", b'\x6a\x70\x32\x20' in cLList)
+        if config.VALIDATION_FORMAT == 'jp2':
+            self.testFor("compatibilityListIsValid", b'\x6a\x70\x32\x20' in cLList)
+        elif config.VALIDATION_FORMAT == 'jph':
+            self.testFor("compatibilityListIsValid", b'\x6a\x70\x68\x20' in cLList)
 
     def validate_jp2HeaderBox(self):
         """JP2 header box (superbox) (ISO/IEC 15444-1 Section I.5.3)."""
