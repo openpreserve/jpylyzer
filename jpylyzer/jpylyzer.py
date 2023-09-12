@@ -352,10 +352,14 @@ def checkOneFile(path, validationFormat='jp2'):
             fileData = fileToMemoryMap(path)
 
         # Validate according to value of validation format
-        if validationFormat in ['jp2', 'jph']:
-            resultsJP2 = bv.BoxValidator("JP2", fileData).validate()
-        elif validationFormat in ['j2c', 'jhc']:
-            resultsJP2 = bv.BoxValidator("contiguousCodestreamBox", fileData).validate()
+        if validationFormat == 'jp2':
+            resultsJP2 = bv.BoxValidator('jp2', 'JP2', fileData).validate()
+        elif validationFormat == 'jph':
+            resultsJP2 = bv.BoxValidator('jph', 'JP2', fileData).validate()
+        elif validationFormat == 'j2c':
+            resultsJP2 = bv.BoxValidator('j2c', 'contiguousCodestreamBox', fileData).validate()
+        elif validationFormat == 'jhc':
+            resultsJP2 = bv.BoxValidator('jhc', 'contiguousCodestreamBox', fileData).validate()       
 
         fileIsValid = resultsJP2.isValid
         tests = resultsJP2.tests
@@ -386,7 +390,7 @@ def checkOneFile(path, validationFormat='jp2'):
             failureMessage = "unknown error, please report to developers by creating " + \
                              "an issue at https://github.com/openpreserve/jpylyzer/issues"
             ## TEST
-            # raise
+            raise
             ## TEST
 
         shared.printWarning(failureMessage)

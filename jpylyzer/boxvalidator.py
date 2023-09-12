@@ -72,8 +72,9 @@ class BoxValidator:
     # Reverse access of typemap for quick lookup
     boxTagMap = {v: k for k, v in typeMap.items()}
 
-    def __init__(self, bType, boxContents, startOffset=None, components=None):
+    def __init__(self, format, bType, boxContents, startOffset=None, components=None):
         """Initialise a BoxValidator."""
+        self.format = format
         if bType in self.typeMap:
             self.boxType = self.typeMap[bType]
         elif bType == "JP2":
@@ -319,9 +320,9 @@ class BoxValidator:
         self.addCharacteristic("br", br)
 
         # Is brand value valid?
-        if config.VALIDATION_FORMAT == 'jp2':
+        if self.format == 'jp2':
             self.testFor("brandIsValid", br == b'\x6a\x70\x32\x20')
-        elif config.VALIDATION_FORMAT == 'jph':
+        elif self.format == 'jph':
             self.testFor("brandIsValid", br == b'\x6a\x70\x68\x20')
 
         # Minor version
@@ -346,9 +347,9 @@ class BoxValidator:
 
         # Compatibility list must contain at least one field with mandatory value.
         # List is considered valid if this value is found.
-        if config.VALIDATION_FORMAT == 'jp2':
+        if self.format == 'jp2':
             self.testFor("compatibilityListIsValid", b'\x6a\x70\x32\x20' in cLList)
-        elif config.VALIDATION_FORMAT == 'jph':
+        elif self.format == 'jph':
             self.testFor("compatibilityListIsValid", b'\x6a\x70\x68\x20' in cLList)
 
     def validate_jp2HeaderBox(self):
@@ -366,7 +367,7 @@ class BoxValidator:
                 byteStart, noBytes)
 
             # Validate sub-boxes
-            resultsBox = BoxValidator(boxType, subBoxContents).validate()
+            resultsBox = BoxValidator(self.format, boxType, subBoxContents).validate()
             testsBox = resultsBox.tests
             characteristicsBox = resultsBox.characteristics
 
@@ -385,10 +386,10 @@ class BoxValidator:
         self.testFor(
             "containsImageHeaderBox", self.boxTagMap['imageHeaderBox'] in subBoxTypes)
 
-        if config.VALIDATION_FORMAT == 'jp2':
+        if self.format == 'jp2':
             self.testFor("containsColourSpecificationBox", self.boxTagMap[
                 'colourSpecificationBox'] in subBoxTypes)
-        elif config.VALIDATION_FORMAT == 'jph':
+        elif self.format == 'jph':
             # In JPH, Colour Specification Box is only mandatory if unkC is zero
             unkC = self.characteristics.findElementText('imageHeaderBox/unkC')
             if unkC == 0:
@@ -606,7 +607,7 @@ class BoxValidator:
             profile = self.boxContents[3:length]
 
             # Extract ICC profile properties as element object
-            iccResults = BoxValidator('icc', profile).validate()
+            iccResults = BoxValidator(self.format, 'icc', profile).validate()
             iccCharacteristics = iccResults.characteristics
             self.characteristics.append(iccCharacteristics)
 
@@ -642,7 +643,7 @@ class BoxValidator:
 
             # Extract ICC profile properties as element object
             # self.getICCCharacteristics(profile)
-            iccResults = BoxValidator('icc', profile).validate()
+            iccResults = BoxValidator(self.format, 'icc', profile).validate()
             iccCharacteristics = iccResults.characteristics
             self.characteristics.append(iccCharacteristics)
 
@@ -1021,7 +1022,7 @@ class BoxValidator:
                 byteStart, noBytes)
 
             # validate sub boxes
-            resultsBox = BoxValidator(boxType, subBoxContents).validate()
+            resultsBox = BoxValidator(self.format, boxType, subBoxContents).validate()
             testsBox = resultsBox.tests
             characteristicsBox = resultsBox.characteristics
 
@@ -1196,7 +1197,7 @@ class BoxValidator:
 
         if foundSIZMarker:
             # Validate SIZ segment
-            resultsSIZ = BoxValidator(marker, segContents).validate()
+            resultsSIZ = BoxValidator(self.format, marker, segContents).validate()
             testsSIZ = resultsSIZ.tests
             characteristicsSIZ = resultsSIZ.characteristics
             # Add analysis results to test results tree
@@ -1226,7 +1227,7 @@ class BoxValidator:
                     # COD is required
                     foundCODMarker = True
                     # Validate COD segment
-                    resultsCOD = BoxValidator(marker, segContents).validate()
+                    resultsCOD = BoxValidator(self.format, marker, segContents).validate()
                     testsCOD = resultsCOD.tests
                     characteristicsCOD = resultsCOD.characteristics
                     # Add analysis results to test results tree
@@ -1239,7 +1240,7 @@ class BoxValidator:
                     # COC (coding style component) marker segment
                     # COC is optional
                     # Validate COC segment
-                    resultsCOC = BoxValidator(marker, segContents, components=csiz).validate()
+                    resultsCOC = BoxValidator(self.format, marker, segContents, components=csiz).validate()
                     testsCOC = resultsCOC.tests
                     characteristicsCOC = resultsCOC.characteristics
                     # Add analysis results to test results tree
@@ -1253,7 +1254,7 @@ class BoxValidator:
                     # QCD is required
                     foundQCDMarker = True
                     # Validate QCD segment
-                    resultsQCD = BoxValidator(marker, segContents).validate()
+                    resultsQCD = BoxValidator(self.format, marker, segContents).validate()
                     testsQCD = resultsQCD.tests
                     characteristicsQCD = resultsQCD.characteristics
                     # Add analysis results to test results tree
@@ -1266,7 +1267,7 @@ class BoxValidator:
                     # QCC (quantization component) marker segment
                     # QCC is optional
                     # Validate QCC segment
-                    resultsQCC = BoxValidator(marker, segContents, components=csiz).validate()
+                    resultsQCC = BoxValidator(self.format, marker, segContents, components=csiz).validate()
                     testsQCC = resultsQCC.tests
                     characteristicsQCC = resultsQCC.characteristics
                     # Add analysis results to test results tree
@@ -1279,7 +1280,7 @@ class BoxValidator:
                     # RGN (region of interest) marker segment
                     # RGN is optional
                     # Validate RGN segment
-                    resultsRGN = BoxValidator(marker, segContents, components=csiz).validate()
+                    resultsRGN = BoxValidator(self.format, marker, segContents, components=csiz).validate()
                     testsRGN = resultsRGN.tests
                     characteristicsRGN = resultsRGN.characteristics
                     # Add analysis results to test results tree
@@ -1292,7 +1293,7 @@ class BoxValidator:
                     # POC (progression order change) marker segment
                     # POC is optional
                     # Validate QCC segment
-                    resultsPOC = BoxValidator(marker, segContents, components=csiz).validate()
+                    resultsPOC = BoxValidator(self.format, marker, segContents, components=csiz).validate()
                     testsPOC = resultsPOC.tests
                     characteristicsPOC = resultsPOC.characteristics
                     # Add analysis results to test results tree
@@ -1304,7 +1305,7 @@ class BoxValidator:
                 elif marker == b'\xff\x63':
                     # CRG (component registration) marker segment
                     # Validate CRG segment
-                    resultsCRG = BoxValidator(marker, segContents, components=csiz).validate()
+                    resultsCRG = BoxValidator(self.format, marker, segContents, components=csiz).validate()
                     testsCRG = resultsCRG.tests
                     characteristicsCRG = resultsCRG.characteristics
                     # Add analysis results to test results tree
@@ -1316,7 +1317,7 @@ class BoxValidator:
                 elif marker == b'\xff\x64':
                     # COM (codestream comment) marker segment
                     # Validate COM segment
-                    resultsCOM = BoxValidator(marker, segContents).validate()
+                    resultsCOM = BoxValidator(self.format, marker, segContents).validate()
                     testsCOM = resultsCOM.tests
                     characteristicsCOM = resultsCOM.characteristics
                     # Add analysis results to test results tree
@@ -1332,7 +1333,7 @@ class BoxValidator:
 
                 elif marker == b'\xff\x55':
                     # TLM marker
-                    resultsTLM = BoxValidator(marker, segContents).validate()
+                    resultsTLM = BoxValidator(self.format, marker, segContents).validate()
                     testsTLM = resultsTLM.tests
                     characteristicsTLM = resultsTLM.characteristics
                     # Add analysis results to test results tree
@@ -1344,7 +1345,7 @@ class BoxValidator:
                 elif marker == b'\xff\x57':
                     # PLM marker
                     plmCount +=1
-                    resultsPLM = BoxValidator(marker, segContents).validate()
+                    resultsPLM = BoxValidator(self.format, marker, segContents).validate()
                     testsPLM = resultsPLM.tests
                     characteristicsPLM = resultsPLM.characteristics
                     # Add analysis results to test results tree
@@ -1357,7 +1358,7 @@ class BoxValidator:
                 elif marker == b'\xff\x60':
                     # PPM marker
                     ppmCount += 1
-                    resultsPPM = BoxValidator(marker, segContents).validate()
+                    resultsPPM = BoxValidator(self.format, marker, segContents).validate()
                     testsPPM = resultsPPM.tests
                     characteristicsPPM = resultsPPM.characteristics
                     # Add analysis results to test results tree
@@ -1418,7 +1419,7 @@ class BoxValidator:
                 marker = self.boxContents[offset:offset + 2]
 
                 if marker == b'\xff\x90':
-                    resultsTilePart = BoxValidator(marker, self.boxContents,
+                    resultsTilePart = BoxValidator(self.format, marker, self.boxContents,
                                                    startOffset=offset,
                                                    components=csiz).validate()
                     testsTilePart = resultsTilePart.tests
@@ -2520,7 +2521,7 @@ class BoxValidator:
         # Validate start of tile (SOT) marker segment
         # tilePartLength is value of psot, which is the total length of this tile
         # including the SOT marker. Note that psot may be 0 for last tile!
-        resultsSOT = BoxValidator('startOfTile', segContents).validate()
+        resultsSOT = BoxValidator(self.format, 'startOfTile', segContents).validate()
         testsSOT = resultsSOT.tests
         characteristicsSOT = resultsSOT.characteristics
         tilePartLength = resultsSOT.tilePartLength
@@ -2550,7 +2551,7 @@ class BoxValidator:
             if marker == b'\xff\x52':
                 # COD (coding style default) marker segment
                 # Validate COD segment
-                resultsCOD = BoxValidator(marker, segContents).validate()
+                resultsCOD = BoxValidator(self.format, marker, segContents).validate()
                 testsCOD = resultsCOD.tests
                 characteristicsCOD = resultsCOD.characteristics
                 # Add analysis results to test results tree
@@ -2563,7 +2564,7 @@ class BoxValidator:
                 # COC (coding style component) marker segment
                 # COC is optional
                 # Validate COC segment
-                resultsCOC = BoxValidator(marker, segContents, components=self.csiz).validate()
+                resultsCOC = BoxValidator(self.format, marker, segContents, components=self.csiz).validate()
                 testsCOC = resultsCOC.tests
                 characteristicsCOC = resultsCOC.characteristics
                 # Add analysis results to test results tree
@@ -2575,7 +2576,7 @@ class BoxValidator:
             elif marker == b'\xff\x5c':
                 # QCD (quantization default) marker segment
                 # Validate QCD segment
-                resultsQCD = BoxValidator(marker, segContents).validate()
+                resultsQCD = BoxValidator(self.format, marker, segContents).validate()
                 testsQCD = resultsQCD.tests
                 characteristicsQCD = resultsQCD.characteristics
                 # Add analysis results to test results tree
@@ -2588,7 +2589,7 @@ class BoxValidator:
                 # QCC (quantization component) marker segment
                 # QCC is optional
                 # Validate QCC segment
-                resultsQCC = BoxValidator(marker, segContents, components=self.csiz).validate()
+                resultsQCC = BoxValidator(self.format, marker, segContents, components=self.csiz).validate()
                 testsQCC = resultsQCC.tests
                 characteristicsQCC = resultsQCC.characteristics
                 # Add analysis results to test results tree
@@ -2601,7 +2602,7 @@ class BoxValidator:
                 # RGN (region of interest) marker segment
                 # RGN is optional
                 # Validate RGN segment
-                resultsRGN = BoxValidator(marker, segContents, components=self.csiz).validate()
+                resultsRGN = BoxValidator(self.format, marker, segContents, components=self.csiz).validate()
                 testsRGN = resultsRGN.tests
                 characteristicsRGN = resultsRGN.characteristics
                 # Add analysis results to test results tree
@@ -2614,7 +2615,7 @@ class BoxValidator:
                 # POC (progression order change) marker segment
                 # POC is optional
                 # Validate QCC segment
-                resultsPOC = BoxValidator(marker, segContents, components=self.csiz).validate()
+                resultsPOC = BoxValidator(self.format, marker, segContents, components=self.csiz).validate()
                 testsPOC = resultsPOC.tests
                 characteristicsPOC = resultsPOC.characteristics
                 # Add analysis results to test results tree
@@ -2626,7 +2627,7 @@ class BoxValidator:
             elif marker == b'\xff\x64':
                 # COM (codestream comment) marker segment
                 # Validate COM segment
-                resultsCOM = BoxValidator(marker, segContents).validate()
+                resultsCOM = BoxValidator(self.format, marker, segContents).validate()
                 testsCOM = resultsCOM.tests
                 characteristicsCOM = resultsCOM.characteristics
                 # Add analysis results to test results tree
@@ -2638,7 +2639,7 @@ class BoxValidator:
             elif marker == b'\xff\x58':
                 # PLT marker
                 pltCount += 1
-                resultsPLT = BoxValidator(marker, segContents).validate()
+                resultsPLT = BoxValidator(self.format, marker, segContents).validate()
                 testsPLT = resultsPLT.tests
                 characteristicsPLT = resultsPLT.characteristics
                 # Add analysis results to test results tree
@@ -2651,7 +2652,7 @@ class BoxValidator:
             elif marker == b'\xff\x61':
                 # PPT marker
                 pptCount += 1
-                resultsPPT = BoxValidator(marker, segContents).validate()
+                resultsPPT = BoxValidator(self.format, marker, segContents).validate()
                 testsPPT = resultsPPT.tests
                 characteristicsPPT = resultsPPT.characteristics
                 # Add analysis results to test results tree
@@ -2801,7 +2802,7 @@ class BoxValidator:
                 byteStart, noBytes)
 
             # validate sub boxes
-            resultsBox = BoxValidator(boxType, subBoxContents).validate()
+            resultsBox = BoxValidator(self.format, boxType, subBoxContents).validate()
             testsBox = resultsBox.tests
             characteristicsBox = resultsBox.characteristics
 
@@ -2910,7 +2911,7 @@ class BoxValidator:
                 byteStart, noBytes)
 
             # Validate current top level box
-            resultsBox = BoxValidator(boxType, boxContents).validate()
+            resultsBox = BoxValidator(self.format, boxType, boxContents).validate()
             testsBox = resultsBox.tests
             characteristicsBox = resultsBox.characteristics
 
