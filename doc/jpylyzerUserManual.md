@@ -983,7 +983,7 @@ colourSpecificationBox
 
 |Property|Description|
 |:-------|:----------|
-|meth|Specification method. Indicates whether colourspace of this image is defined as an enumerated colourspace or using a (restricted) ICC profile.|
+|meth|Specification method. Indicates how the colourspace is defined (enumerated colourspace, or restricted ICC profile for JP2, with additional Any ICC and Parameterized Colourspace methods for JPH.|
 |prec|Precedence|
 |approx|Colourspace approximation|
 |enumCS (if meth equals “Enumerated”)|Enumerated colourspace (as descriptive text string)|
