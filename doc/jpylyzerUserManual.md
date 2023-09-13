@@ -987,7 +987,11 @@ colourSpecificationBox
 |prec|Precedence|
 |approx|Colourspace approximation|
 |enumCS (if meth equals “Enumerated”)|Enumerated colourspace (as descriptive text string)|
-|icc (if meth equals “Restricted ICC” or “Any ICC”[^5])|Properties of ICC profile as child element (see below)|
+|icc (if meth equals “Restricted ICC” or “Any ICC”)|Properties of ICC profile as child element (see below)|
+|colPrims (if meth equals “Parameterized Colourspace”)|ColourPrimaries value (JPH)[^22].|
+|transfC (if meth equals “Parameterized Colourspace”)|TransferCharacteristics value (JPH)[^23]|
+|matCoeffs (if meth equals “Parameterized Colourspace”)|MatrixCoefficients value (JPH)[^24]|
+|vidFRng (if meth equals “Parameterized Colourspace”)|VideoFullRangeFlag (“yes”/”no”) (JPH)[^25]|
 
 ### Reported properties of ICC profiles
 
@@ -1038,6 +1042,9 @@ profile is allowed in JP2)!
 |iccSizeIsValid (if meth equals “Restricted ICC”)|Actual size of embedded ICC profile equals value of profileSize field in ICC header|
 |iccPermittedProfileClass (if meth equals “Restricted ICC”)|ICC profile class is “input device” or “display device”[^6]|
 |iccNoLUTBasedProfile (if meth equals “Restricted ICC”)|ICC profile type is not N-component LUT based (which is not allowed in JP2)|
+|colPrimsIsValid|*colPrims* value is defined by ITU-T H.273 / ISO/IEC 23001-8 (JPH)|
+|transfCIsValid|*transfC* value is defined by ITU-T H.273 / ISO/IEC 23001-8 (JPH)|
+|matCoeffsIsValid|*matCoeffs* value is defined by ITU-T H.273 / ISO/IEC 23001-8 (JPH)|
 
 Palette box (child of JP2 Header box) {#palette-box}
 -----------------------------------------
@@ -2290,13 +2297,6 @@ verbose output format by default. This behaviour has changed in version
 1.5 onwards, as the lengthy output turned out to be slightly confusing
 to some users.
 
-[^5]: The “Any ICC” method is defined in ISO/IEC 15444-2 (the
-JPX format), and is not allowed in JP2. However, *jpylyzer* offers
-limited support for JPX here by also reporting the properties of ICC
-profiles that were embedded using this method. Note that any file that
-uses this method will fail the “methIsValid” test (and thereby the
-validation).
-
 [^6]: Originally ISO/IEC 15444-1 only allowed “input
 device” profiles. Support of “display device” profiles was added through an
 [amendment](http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en) to the
@@ -2482,3 +2482,11 @@ the JP2.
 [^21]: Jpylyzer 2.2 and more recent only work with Python > 3.2. Since Jython still hasn't
 been upgraded to support Python 3, Java integration with Jython currently doesn't
 work.
+
+[^22]: Meaning of values defined in Table 2 of Rec. ITU-T H.273 / ISO/IEC 23001-8 ["Coding-independent code points for video signal type identification"](https://www.itu.int/rec/dologin_pub.asp?lang=e&id=T-REC-H.273-202107-I!!PDF-E&type=items)
+
+[^23]: Meaning of values defined in Table 3 of Rec. ITU-T H.273 / ISO/IEC 23001-8 ["Coding-independent code points for video signal type identification"](https://www.itu.int/rec/dologin_pub.asp?lang=e&id=T-REC-H.273-202107-I!!PDF-E&type=items)
+
+[^24]: Meaning of values defined in Table 4 of Rec. ITU-T H.273 / ISO/IEC 23001-8 ["Coding-independent code points for video signal type identification"](https://www.itu.int/rec/dologin_pub.asp?lang=e&id=T-REC-H.273-202107-I!!PDF-E&type=items)
+
+[^25]: Meaning defined in Rec. ITU-T H.273 / ISO/IEC 23001-8 ["Coding-independent code points for video signal type identification"](https://www.itu.int/rec/dologin_pub.asp?lang=e&id=T-REC-H.273-202107-I!!PDF-E&type=items)
