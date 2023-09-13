@@ -1127,7 +1127,7 @@ channelDefinitionBox
 |nIsValid|*n* is within range [1, 65535]|
 |boxLengthIsValid|(Size of box – 2) / equals 6\**n*|
 |cNIsValid<sup>\*</sup>|*cN* is within range [0, 65535] (repeated for all channels)|
-|cTypIsValid<sup>\*</sup>|*cType* is within range [0, 65535] (repeated for all channels)|
+|cTypIsValid<sup>\*</sup>|*cType* is one of the values defined in Table I.16 (repeated for all channels)|
 |cAssocIsValid<sup>\*</sup>|*cAssoc* is within range [0, 65535] (repeated for all channels)|
 
 Resolution box (child of JP2 Header box, superbox) {#resolution-box}

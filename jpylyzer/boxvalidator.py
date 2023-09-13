@@ -1006,7 +1006,8 @@ class BoxValidator:
             offset += 4
 
     def validate_channelDefinitionBox(self):
-        """Channel definition box (ISO/IEC 15444-1 Section I.5.3.6).
+        """Channel definition box (ISO/IEC 15444-1 Section I.5.3.6;
+        ISO/IEC 15444-15 Section D.6).
 
         This box specifies the meaning of the samples in each channel in the
         image.
@@ -1037,8 +1038,8 @@ class BoxValidator:
             cTyp = bc.bytesToUShortInt(self.boxContents[offset + 2:offset + 4])
             self.addCharacteristic("cTyp", cTyp)
 
-            # Allowed range: 0 - 65535
-            self.testFor("cTypIsValid", 0 <= cTyp <= 65535)
+            # Only value from Table I.16 are allowed
+            self.testFor("cTypIsValid", cTyp in [0, 1, 2, 65535])
 
             # Channel Association
             cAssoc = bc.bytesToUShortInt(
