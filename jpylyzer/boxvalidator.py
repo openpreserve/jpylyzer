@@ -1024,6 +1024,10 @@ class BoxValidator:
         boxLengthIsValid = len(self.boxContents) - 2 == n * 6
         self.testFor("boxLengthIsValid", boxLengthIsValid)
 
+        # This list is used to keep track of number of alpha
+        # channels and their respective cAssoc values
+        alphaChannels = []
+
         # Loop through box contents and validate fields
         offset = 2
         for _ in range(n):
@@ -1049,7 +1053,18 @@ class BoxValidator:
             # Allowed range: 0 - 65535
             self.testFor("cAssocIsValid", 0 <= cTyp <= 65535)
 
+            if cTyp in [1, 2]:
+                alphaChannels.append([cTyp, cAssoc])
+
             offset += 6
+
+        if self.format == 'jph':
+            # At most one cTyp field shall be equal to 1 or 2
+            self.testFor("noMoreThanOneAlphaChannel", len(alphaChannels) <= 1)
+
+            # Corresponding cAssoc field shall be equal to 0
+            for channel in alphaChannels:
+                self.testFor("cAssocAlphaChannelIsZero", channel[1] == 0)
 
     def validate_resolutionBox(self):
         """Resolution box (superbox)(ISO/IEC 15444-1 Section I.5.3.7.
