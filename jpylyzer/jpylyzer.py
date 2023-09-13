@@ -169,6 +169,7 @@ def generatePropertiesRemapTable():
     cTypMap[0] = "colour"
     cTypMap[1] = "opacity"
     cTypMap[2] = "premultiplied opacity"
+    cTypMap[3] = "application-defined"
     cTypMap[65535] = "not specified"
 
     # Channel association (Channel Definition Box)

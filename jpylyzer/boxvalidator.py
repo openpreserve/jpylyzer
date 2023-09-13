@@ -1042,9 +1042,12 @@ class BoxValidator:
             cTyp = bc.bytesToUShortInt(self.boxContents[offset + 2:offset + 4])
             self.addCharacteristic("cTyp", cTyp)
 
-            # Only values from Table I.16 are allowed
-            self.testFor("cTypIsValid", cTyp in [0, 1, 2, 65535])
-
+            if self.format == 'jp2':
+                # Only values from Table I.16 are allowed
+                self.testFor("cTypIsValid", cTyp in [0, 1, 2, 65535])
+            elif self.format == 'jph':
+                # JPH adds application-defined value
+                self.testFor("cTypIsValid", cTyp in [0, 1, 2, 3, 65535])
             # Channel Association
             cAssoc = bc.bytesToUShortInt(
                 self.boxContents[offset + 4:offset + 6])

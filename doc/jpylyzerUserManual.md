@@ -1127,7 +1127,7 @@ channelDefinitionBox
 |nIsValid|*n* is within range [1, 65535]|
 |boxLengthIsValid|(Size of box – 2) / equals 6\**n*|
 |cNIsValid<sup>\*</sup>|*cN* is within range [0, 65535] (repeated for all channels)|
-|cTypIsValid<sup>\*</sup>|*cType* is one of the values defined in Table I.16 (repeated for all channels)|
+|cTypIsValid<sup>\*</sup>|*cType* is one of the values defined in Table I.16 (repeated for all channels)[^26]|
 |cAssocIsValid<sup>\*</sup>|*cAssoc* is within range [0, 65535] (repeated for all channels)|
 |noMoreThanOneAlphaChannel|At most one *cTyp* field is equal to 1 or 2 (JPH)|
 |cAssocAlphaChannelIsZero|If *cTyp* is 1 or 2, the corresponding *cAssoc* value equals 0 (JPH)|
@@ -2492,3 +2492,5 @@ work.
 [^24]: Meaning of values defined in Table 4 of Rec. ITU-T H.273 / ISO/IEC 23001-8 ["Coding-independent code points for video signal type identification"](https://www.itu.int/rec/dologin_pub.asp?lang=e&id=T-REC-H.273-202107-I!!PDF-E&type=items)
 
 [^25]: Meaning defined in Rec. ITU-T H.273 / ISO/IEC 23001-8 ["Coding-independent code points for video signal type identification"](https://www.itu.int/rec/dologin_pub.asp?lang=e&id=T-REC-H.273-202107-I!!PDF-E&type=items)
+
+[^26]: For JPH, an addition "application-defined" value is allowed (ISO/IEC 15444-15, Table D.4)
