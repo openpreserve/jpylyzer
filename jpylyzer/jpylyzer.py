@@ -221,6 +221,7 @@ def generatePropertiesRemapTable():
     enumerationsMap['profileClass'] = profileClassMap
     enumerationsMap['primaryPlatform'] = primaryPlatformMap
     enumerationsMap['embeddedProfile'] = yesNoMap
+    enumerationsMap['vidFRng'] = yesNoMap
     enumerationsMap['profileCannotBeUsedIndependently'] = yesNoMap
     enumerationsMap['transparency'] = transparencyMap
     enumerationsMap['glossiness'] = glossinessMap

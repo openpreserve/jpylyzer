@@ -644,9 +644,8 @@ class BoxValidator:
             self.testFor("iccNoLUTBasedProfile", b'A2B0' not in tagSignatures)
 
         elif meth == 3:
-            # ICC profile embedded using "Any ICC" method. Belongs to Part 2 of the
-            # standard (JPX), so if we get here by definition this is not valid
-            # JP2!
+            # ICC profile embedded using "Any ICC" method. Used in JPEG 2000 Part 2
+            # (JPX) and Part 15 (JPH)
             profile = self.boxContents[3:length]
 
             # Extract ICC profile properties as element object
@@ -654,6 +653,52 @@ class BoxValidator:
             iccResults = BoxValidator(self.format, 'icc', profile).validate()
             iccCharacteristics = iccResults.characteristics
             self.characteristics.append(iccCharacteristics)
+
+        elif meth == 5:
+            # Parameterized colourspace. Used in JPEG 2000 Part 15 (JPH)
+
+            # ColourPrimaries value
+            colPrims = bc.bytesToUShortInt(self.boxContents[3:5])
+            self.addCharacteristic("colPrims", colPrims)
+
+            if self.format == 'jph':
+                # Value must be part of enumeration defined in
+                # Rec. ITU-T H.273 | ISO/IEC 23001-8 (Table 2)
+                self.testFor("colPrimsIsValid", colPrims in [1, 2, 4, 5,
+                                                             6, 7, 8, 9,
+                                                             10, 11, 12, 22])
+            # TransferCharacteristics value
+            transfC = bc.bytesToUShortInt(self.boxContents[5:7])
+            self.addCharacteristic("transfC", transfC)
+
+            if self.format == 'jph':
+                # Value must be part of enumeration defined in
+                # Rec. ITU-T H.273 | ISO/IEC 23001-8 (Table 3)
+                self.testFor("transfCIsValid", transfC in [1, 2, 4, 5,
+                                                           6, 7, 8, 9,
+                                                           10, 11, 12, 13,
+                                                           14, 15, 16, 17,
+                                                           18])
+            # MatrixCoefficients value
+            matCoeffs = bc.bytesToUShortInt(self.boxContents[7:9])
+            self.addCharacteristic("matCoeffs", matCoeffs)
+
+            if self.format == 'jph':
+                # Value must be part of enumeration defined in
+                # Rec. ITU-T H.273 | ISO/IEC 23001-8 (Table 4)
+                self.testFor("matCoeffsIsValid", matCoeffs in [0, 1, 2, 4,
+                                                               5, 6, 7, 8,
+                                                               9, 10, 11, 12,
+                                                               13, 14])
+
+            # VideoFullRange byte (currently only 1st bit is defined, remaining 7 bits
+            # are reserved for future use)
+            vidFRngByte = bc.bytesToUnsignedChar(self.boxContents[9:10])
+
+            # VideoFullRangeFlag: first bit of vidFRngByte
+            vidFRng = self._getBitValue(vidFRngByte, 1)
+            self.addCharacteristic("vidFRng", vidFRng)
+
 
     def validate_icc(self):
         """Extract characteristics (property-value pairs) of ICC profile.
