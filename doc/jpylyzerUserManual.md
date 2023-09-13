@@ -1129,6 +1129,8 @@ channelDefinitionBox
 |cNIsValid<sup>\*</sup>|*cN* is within range [0, 65535] (repeated for all channels)|
 |cTypIsValid<sup>\*</sup>|*cType* is one of the values defined in Table I.16 (repeated for all channels)|
 |cAssocIsValid<sup>\*</sup>|*cAssoc* is within range [0, 65535] (repeated for all channels)|
+|noMoreThanOneAlphaChannel|At most one *cTyp* field is equal to 1 or 2 (JPH)|
+|cAssocAlphaChannelIsZero|If *cTyp* is 1 or 2, the corresponding *cAssoc* value equals 0 (JPH)|
 
 Resolution box (child of JP2 Header box, superbox) {#resolution-box}
 -------------------------------------------------------
