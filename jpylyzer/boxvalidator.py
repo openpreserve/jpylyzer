@@ -1038,7 +1038,7 @@ class BoxValidator:
             cTyp = bc.bytesToUShortInt(self.boxContents[offset + 2:offset + 4])
             self.addCharacteristic("cTyp", cTyp)
 
-            # Only value from Table I.16 are allowed
+            # Only values from Table I.16 are allowed
             self.testFor("cTypIsValid", cTyp in [0, 1, 2, 65535])
 
             # Channel Association
