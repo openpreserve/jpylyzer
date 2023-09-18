@@ -1591,6 +1591,7 @@ class BoxValidator:
             # rsiz must be either 0, 1 or 2
             self.testFor("rsizIsValid", rsiz in [0, 1, 2])
         elif self.format in ['jph', 'jhc']:
+            # Bit 14 of Rsiz shall be equal to 1
             self.testFor("rsizIsValid", self._getBitValue(rsiz, 14, wordLength=16) == 1)
 
         # Width of reference grid
