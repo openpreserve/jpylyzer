@@ -214,7 +214,7 @@ class BoxValidator:
 
         return compressionRatio
 
-    def _getBitValue(self, n, p):
+    def _getBitValue(self, n, p, wordLength=8):
         """Get the bit value of denary (base 10) number n.
 
         At the equivalent binary position p (binary count starts at position 1
@@ -223,7 +223,7 @@ class BoxValidator:
         Only works if n can be expressed as 8 bits !!!
         """
         # Word length in bits
-        wordLength = 8
+        #wordLength = 8
 
         # Shift = word length - p
         shift = wordLength - p
@@ -1574,7 +1574,8 @@ class BoxValidator:
     # Validator functions for codestream elements
 
     def validate_siz(self):
-        """Image and tile size (SIZ) header fields (ISO/IEC 15444-1 Section A.5.1)."""
+        """Image and tile size (SIZ) header fields (ISO/IEC 15444-1 Section A.5.1;
+        ISO/IEC 15444-15 Section A.2)."""
         # Length of main image header
         lsiz = bc.bytesToUShortInt(self.boxContents[0:2])
         self.addCharacteristic("lsiz", lsiz)
@@ -1586,8 +1587,11 @@ class BoxValidator:
         rsiz = bc.bytesToUShortInt(self.boxContents[2:4])
         self.addCharacteristic("rsiz", rsiz)
 
-        # rsiz must be either 0, 1 or 2
-        self.testFor("rsizIsValid", rsiz in [0, 1, 2])
+        if self.format in ['jp2', 'j2c']:
+            # rsiz must be either 0, 1 or 2
+            self.testFor("rsizIsValid", rsiz in [0, 1, 2])
+        elif self.format in ['jph', 'jhc']:
+            self.testFor("rsizIsValid", self._getBitValue(rsiz, 14, wordLength=16) == 1)
 
         # Width of reference grid
         xsiz = bc.bytesToUInt(self.boxContents[4:8])
