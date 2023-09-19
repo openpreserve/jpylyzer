@@ -2516,6 +2516,8 @@ class BoxValidator:
 
         for _ in range(noccaps):
             ccap = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
+            # Meaning of each Ccap entry is defined by respective part of the standard
+            # TODO: does it even make sense to report ccap here?
             self.addCharacteristic("ccap", ccap)
             offset += 2
 
