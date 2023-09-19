@@ -1587,10 +1587,7 @@ class BoxValidator:
         rsiz = bc.bytesToUShortInt(self.boxContents[2:4])
         self.addCharacteristic("rsiz", rsiz)
 
-        if self.format in ['jp2', 'j2c']:
-            # rsiz must be either 0, 1 or 2
-            self.testFor("rsizIsValid", rsiz in [0, 1, 2])
-        elif self.format in ['jph', 'jhc']:
+        if self.format in ['jph', 'jhc']:
             # Bit 14 of Rsiz shall be equal to 1. Note that ISO/IEC 15444-15 
             # confusingly counts bits right to left (first bit = 15, last bit is 0),
             # so "bit 14" is actually the 2nd bit from the left!
