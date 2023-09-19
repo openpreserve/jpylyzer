@@ -1821,7 +1821,7 @@ siz
 |Test name|True if|
 |:--------|:------|
 |lsizIsValid|*lsiz* is within range [41,49190]|
-|rsizIsValid|*rsiz* equals 0 (“ISO/IEC 15444-1”), 1 (“Profile 0”) or 2 (“Profile 1”) for JP2; bit 14 of *rsiz* equals 14 (JPH)|
+|rsizIsValid|Bit 14 of *rsiz* equals 14 (JPH)|
 |xsizIsValid|*xsiz* is within range [1,2<sup>32</sup> - 1]|
 |ysizIsValid|*ysiz* is within range [1,2<sup>32</sup> - 1]|
 |xOsizIsValid|*xOsiz* is within range [0,2<sup>32</sup> - 2]|
