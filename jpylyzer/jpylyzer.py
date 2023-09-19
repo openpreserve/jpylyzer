@@ -182,6 +182,11 @@ def generatePropertiesRemapTable():
     rsizMap[0] = "ISO/IEC 15444-1"  # Does this correspiond to Profile 2??
     rsizMap[1] = "Profile 0"
     rsizMap[2] = "Profile 1"
+    rsizMap[3] = "2K digital cinema profile"
+    rsizMap[4] = "4K digital cinema profile"
+    rsizMap[5] = "Scalable 2K digital cinema profile"
+    rsizMap[6] = "Scalable 4K digital cinema profile"
+    rsizMap[7] = "Long-term storage profile"
 
     # Precincts (Codestream, COD)
     precinctsMap = {}
