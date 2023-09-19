@@ -2077,6 +2077,27 @@ com
 |rcomIsValid|*rcom* equals 0 (“binary”) or 1 (“ISO/IEC 8859-15 (Latin”))|
 |commentIsValid|Comment is valid ISO/IEC8859-15 and does not contain control characters, other than tab, newline or carriage return|
 
+Extended capabilities (CAP) marker segment {#cap-marker}
+--------------------------------
+
+This marker segment is defined in ISO/IEC 15444-2, and is used by ISO/IEC 15444-15 (as well as other parts of the standard).
+
+### Element name
+
+cap
+
+### Reported properties
+
+|Property|Description|
+|:-------|:----------|
+|lcap|Length of CAP marker segment in bytes|
+|pcapPart|Indicates the use of capabilities from Part *pcapPart* of the ISO/IEC 15444 standard (repeated for all referenced parts)|
+
+### Tests
+
+|Test name|True if|
+|:--------|:------|
+
   
 Tile part (child of Contiguous Codestream box) {#tile-part}
 --------------------------------------------------

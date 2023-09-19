@@ -2499,16 +2499,18 @@ class BoxValidator:
         pcapBits = [(pcap >> bit) & 1 for bit in range(numBits - 1, -1, -1)]
 
         # List of all referenced ISO parts.
-        parts = []
+        pcapParts = []
 
         # Populate list. Index i of each non-zero bit corresponds to capabilities 
         # defined by part i+1 of ISO/IEC 15444
         for i, bit in enumerate(pcapBits):
             if bit == 1:
-                parts.append(bit)
+                pcapPart = i +1
+                pcapParts.append(pcapPart)
                 # Report referenced ISO/IEC 15444 part
-                self.addCharacteristic("pcapPart", i + 1)
-        noccaps = len(parts)
+                self.addCharacteristic("pcapPart", pcapPart)
+
+        noccaps = len(pcapParts)
 
         offset = 6
 
