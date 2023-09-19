@@ -1591,8 +1591,10 @@ class BoxValidator:
             # rsiz must be either 0, 1 or 2
             self.testFor("rsizIsValid", rsiz in [0, 1, 2])
         elif self.format in ['jph', 'jhc']:
-            # Bit 14 of Rsiz shall be equal to 1
-            self.testFor("rsizIsValid", self._getBitValue(rsiz, 14, wordLength=16) == 1)
+            # Bit 14 of Rsiz shall be equal to 1. Note that ISO/IEC 15444-15 
+            # confusingly counts bits right to left (first bit = 15, last bit is 0),
+            # so "bit 14" is actually the 2nd bit from the left!
+            self.testFor("rsizIsValid", self._getBitValue(rsiz, 2, wordLength=16) == 1)
 
         # Width of reference grid
         xsiz = bc.bytesToUInt(self.boxContents[4:8])
