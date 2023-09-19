@@ -50,6 +50,7 @@ class BoxValidator:
         b'\x72\x65\x73\x64': "displayResolutionBox",
         b'\x75\x6c\x73\x74': "uuidListBox",
         b'\x75\x72\x6c\x20': "urlBox",
+        b'\xff\x50': "cap",
         b'\xff\x51': "siz",
         b'\xff\x52': "cod",
         b'\xff\x5c': "qcd",
@@ -1282,11 +1283,9 @@ class BoxValidator:
             offset = offsetNext
 
             # Loop through remaining marker segments in main header; first SOT (start of
-            # tile-part marker) indicates end of main header. For now only validate
-            # COD and QCD segments (which are both required) and extract contents of
-            # COM segments. Any other marker segments are ignored.
+            # tile-part marker) indicates end of main header.
 
-            # Initial values for foundCODMarker and foundQCDMarker
+            # Initial values for foundCODMarker, foundQCDMarker
             foundCODMarker = False
             foundQCDMarker = False
 
@@ -1396,6 +1395,17 @@ class BoxValidator:
                     self.tests.appendIfNotEmpty(testsCOM)
                     # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsCOM)
+                    offset = offsetNext
+
+                elif marker == b'\xff\x50':
+                    # CAP marker
+                    resultsCAP = BoxValidator(self.format, marker, segContents).validate()
+                    testsCAP = resultsCAP.tests
+                    characteristicsCAP = resultsCAP.characteristics
+                    # Add analysis results to test results tree
+                    self.tests.appendIfNotEmpty(testsCAP)
+                    # Add extracted characteristics to characteristics tree
+                    self.characteristics.append(characteristicsCAP)
                     offset = offsetNext
 
                 elif marker == b'\xff\x90':
@@ -2473,6 +2483,39 @@ class BoxValidator:
         # any non-printable data should have been removed.
         if commentIsValid:
             self.addCharacteristic("comment", comment)
+
+    def validate_cap(self):
+        """Extended capabilities marker (CAP) marker segment (15444-2:2004/Amd.2:2006 Section A.3.13)."""
+
+        # Length of CAP marker
+        lcap = bc.bytesToUShortInt(self.boxContents[0:2])
+        self.addCharacteristic("lcap", lcap)
+
+        # Pcap
+        pcap = bc.bytesToUInt(self.boxContents[2:6])
+
+        # Extract values of individual bits in pcap to list
+        numBits = 32
+        pcapBits = [(pcap >> bit) & 1 for bit in range(numBits - 1, -1, -1)]
+
+        # List of all referenced ISO parts.
+        parts = []
+
+        # Populate list. Index i of each non-zero bit corresponds to capabilities 
+        # defined by part i+1 of ISO/IEC 15444
+        for i, bit in enumerate(pcapBits):
+            if bit == 1:
+                parts.append(bit)
+                # Report referenced ISO/IEC 15444 part
+                self.addCharacteristic("pcapPart", i + 1)
+        noccaps = len(parts)
+
+        offset = 6
+
+        for _ in range(noccaps):
+            ccap = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
+            self.addCharacteristic("ccap", ccap)
+            offset += 2
 
     def validate_sot(self):
         """Start of tile-part (SOT) marker segment (ISO/IEC 15444-1 Section A.4.2)."""
