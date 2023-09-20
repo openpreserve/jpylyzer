@@ -2092,7 +2092,11 @@ cap
 |:-------|:----------|
 |lcap|Length of CAP marker segment in bytes|
 |pcapPart|Indicates the use of capabilities from Part *pcapPart* of the ISO/IEC 15444 standard (repeated for all referenced parts)|
-|ccap15|Capabilities that reflect codestream sets in ISO/IEC 15444-15: *HTONLY*/*HTDECLARED*/*MIXED*; *SINGLEHT*/*MULTIHT*; *RGNFREE*/*RGN*; *HOMOGENEOUS*/*HETEROGENEOUS*; *HTREV*/*HTIRV* (JPH, JHC)|
+|htCodeBlocks|See section 8.2 of ISO/IEC 15444-15 (JPH, JHC)|
+|htSets|See section 8.3 of ISO/IEC 15444-15 (JPH, JHC)|
+|htRegion|See section 8.4 of ISO/IEC 15444-15 (JPH, JHC)|
+|htHomogeneous|See section 8.5 of ISO/IEC 15444-15 (JPH, JHC)|
+|htReversible|See section 8.7.2 of ISO/IEC 15444-15 (JPH, JHC)|
 
 ### Tests
 

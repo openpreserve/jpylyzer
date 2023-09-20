@@ -221,6 +221,32 @@ def generatePropertiesRemapTable():
     registrationMap[0] = "binary"
     registrationMap[1] = "ISO/IEC 8859-15 (Latin)"
 
+    # htCodeBlocks value (Codestream, CAP)
+    htCodeBlocksMap = {}
+    htCodeBlocksMap[0] = "HTONLY"
+    htCodeBlocksMap[32768] = "HTDECLARED"
+    htCodeBlocksMap[49152] = "MIXED"
+
+    # htSets value (Codestream, CAP)
+    htSetsMap = {}
+    htSetsMap[0] = "SINGLEHT"
+    htSetsMap[1] = "MULTIHT"
+
+    # htRegion value (Codestream, CAP)
+    htRegionMap = {}
+    htRegionMap[0] = "RGNFREE"
+    htRegionMap[1] = "RGN"
+
+    # htHomogeneous value (Codestream, CAP)
+    htHomogeneousMap = {}
+    htHomogeneousMap[0] = "HOMOGENEOUS"
+    htHomogeneousMap[1] = "HETEROGENEOUS"
+
+    # htReversible value (Codestream, CAP)
+    htReversibleMap = {}
+    htReversibleMap[0] = "HTREV"
+    htReversibleMap[1] = "HTIRV"
+
     # Add sub-dictionaries to master dictionary, using tag name as key
     enumerationsMap['unkC'] = yesNoMap
     enumerationsMap['iPR'] = yesNoMap
@@ -259,6 +285,11 @@ def generatePropertiesRemapTable():
     enumerationsMap['rsiz'] = rsizMap
     enumerationsMap['qStyle'] = qStyleMap
     enumerationsMap['rcom'] = registrationMap
+    enumerationsMap['htCodeBlocks'] = htCodeBlocksMap
+    enumerationsMap['htSets'] = htSetsMap
+    enumerationsMap['htRegion'] = htRegionMap
+    enumerationsMap['htHomogeneous'] = htHomogeneousMap
+    enumerationsMap['htReversible'] = htReversibleMap
 
     return enumerationsMap
 

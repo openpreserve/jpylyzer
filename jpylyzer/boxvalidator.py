@@ -1740,7 +1740,7 @@ class BoxValidator:
         # Coding style
         scod = bc.bytesToUnsignedChar(self.boxContents[2:3])
 
-        # scod contains 3 coding style parameters that follow from  its 3 least
+        # scod contains 3 coding style parameters that follow from its 3 least
         # significant bits
 
         # Last bit: 0 in case of default precincts (ppx/ppy=15), 1 in case precincts
@@ -2535,33 +2535,24 @@ class BoxValidator:
             if pcap15IsValid:
                 ccapIndex = pcapParts.index(15)
                 ccap = ccaps[ccapIndex]
-                # Reported capabilities coorrespond to Constrained codestream sets
+                # Reported capabilities correspond to Constrained codestream sets
                 # that are defined in ISO/IEC 15444-15 Sections 8.2 - 8.8
-                if self._getBitValue(ccap, 1, wordLength=16) == 0 and \
-                    self._getBitValue(ccap, 2, wordLength=16) == 0:
-                        self.addCharacteristic("ccap15", "HTONLY")
-                elif self._getBitValue(ccap, 1, wordLength=16) == 1 and \
-                    self._getBitValue(ccap, 2, wordLength=16) == 0:
-                        self.addCharacteristic("ccap15", "HTDECLARED")
-                elif self._getBitValue(ccap, 1, wordLength=16) == 1 and \
-                    self._getBitValue(ccap, 2, wordLength=16) == 1:
-                        self.addCharacteristic("ccap15", "MIXED")
-                if self._getBitValue(ccap, 3, wordLength=16) == 0:
-                    self.addCharacteristic("ccap15", "SINGLEHT")
-                else:
-                    self.addCharacteristic("ccap15", "MULTIHT")
-                if self._getBitValue(ccap, 4, wordLength=16) == 0:
-                    self.addCharacteristic("ccap15", "RGNFREE")
-                else:
-                    self.addCharacteristic("ccap15", "RGN")
-                if self._getBitValue(ccap, 5, wordLength=16) == 0:
-                    self.addCharacteristic("ccap15", "HOMOGENEOUS")
-                else:
-                    self.addCharacteristic("ccap15", "HETEROGENEOUS")
-                if self._getBitValue(ccap, 11, wordLength=16) == 0:
-                    self.addCharacteristic("ccap15", "HTREV")
-                else:
-                    self.addCharacteristic("ccap15", "HTIRV")
+
+                # First field is defined by 2 most significant bits, use bit mask
+                # for convenience
+                mask = 0b1100000000000000
+                htCodeBlocks = mask & ccap
+                self.addCharacteristic("htCodeBlocks", htCodeBlocks)
+
+                # Following fields are each 1 bit only
+                htSets = self._getBitValue(ccap, 3, wordLength=16)
+                self.addCharacteristic("htSets", htSets)
+                htRegion = self._getBitValue(ccap, 4, wordLength=16)
+                self.addCharacteristic("htRegion", htRegion)
+                htHomogeneous = self._getBitValue(ccap, 5, wordLength=16)
+                self.addCharacteristic("htHomogeneous", htHomogeneous)
+                htReversible = self._getBitValue(ccap, 11, wordLength=16)
+                self.addCharacteristic("htReversible", htReversible)
                 
                 # Final 4 bits define parameter B from MAGB P set; not extracted for now (or ever) 
 
