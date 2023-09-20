@@ -2505,7 +2505,7 @@ class BoxValidator:
         # defined by part i+1 of ISO/IEC 15444
         for i, bit in enumerate(pcapBits):
             if bit == 1:
-                pcapPart = i +1
+                pcapPart = i + 1
                 pcapParts.append(pcapPart)
                 # Report referenced ISO/IEC 15444 part
                 self.addCharacteristic("pcapPart", pcapPart)
@@ -2513,16 +2513,57 @@ class BoxValidator:
         noccaps = len(pcapParts)
 
         # Test if noccaps is consistent with lcap
-        self.testFor("pcapIsValid", noccaps == (lcap - 6)/2)
+        self.testFor("lcapIsValid", noccaps == (lcap - 6)/2)
+
+        # Iterate over all ccap values and put them in a list
+        ccaps = []
 
         offset = 6
-
+        
         for _ in range(noccaps):
             ccap = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
-            # Meaning of each Ccap entry is defined by respective part of the standard
-            # TODO: does it even make sense to report ccap here?
-            self.addCharacteristic("ccap", ccap)
+            ccaps.append(ccap)
             offset += 2
+
+        # Meaning of ccap fields is defined in referenced parts of the standard, so
+        # only process those that are known / in scope for Jpylyzer
+
+        if self.format in ['jph', 'jhc']:
+            pcap15IsValid = 15 in pcapParts
+            self.testFor("pcap15IsValid", pcap15IsValid)
+
+            if pcap15IsValid:
+                ccapIndex = pcapParts.index(15)
+                ccap = ccaps[ccapIndex]
+                # Reported capabilities coorrespond to Constrained codestream sets
+                # that are defined in ISO/IEC 15444-15 Sections 8.2 - 8.8
+                if self._getBitValue(ccap, 1, wordLength=16) == 0 and \
+                    self._getBitValue(ccap, 2, wordLength=16) == 0:
+                        self.addCharacteristic("ccap15", "HTONLY")
+                elif self._getBitValue(ccap, 1, wordLength=16) == 1 and \
+                    self._getBitValue(ccap, 2, wordLength=16) == 0:
+                        self.addCharacteristic("ccap15", "HTDECLARED")
+                elif self._getBitValue(ccap, 1, wordLength=16) == 1 and \
+                    self._getBitValue(ccap, 2, wordLength=16) == 1:
+                        self.addCharacteristic("ccap15", "MIXED")
+                if self._getBitValue(ccap, 3, wordLength=16) == 0:
+                    self.addCharacteristic("ccap15", "SINGLEHT")
+                else:
+                    self.addCharacteristic("ccap15", "MULTIHT")
+                if self._getBitValue(ccap, 4, wordLength=16) == 0:
+                    self.addCharacteristic("ccap15", "RGNFREE")
+                else:
+                    self.addCharacteristic("ccap15", "RGN")
+                if self._getBitValue(ccap, 5, wordLength=16) == 0:
+                    self.addCharacteristic("ccap15", "HOMOGENEOUS")
+                else:
+                    self.addCharacteristic("ccap15", "HETEROGENEOUS")
+                if self._getBitValue(ccap, 11, wordLength=16) == 0:
+                    self.addCharacteristic("ccap15", "HTREV")
+                else:
+                    self.addCharacteristic("ccap15", "HTIRV")
+                
+                # Final 4 bits define parameter B from MAGB P set; not extracted for now (or ever) 
 
     def validate_sot(self):
         """Start of tile-part (SOT) marker segment (ISO/IEC 15444-1 Section A.4.2)."""
