@@ -2092,6 +2092,7 @@ cap
 |:-------|:----------|
 |lcap|Length of CAP marker segment in bytes|
 |pcapPart|Indicates the use of capabilities from Part *pcapPart* of the ISO/IEC 15444 standard (repeated for all referenced parts)|
+|ccap15|Capabilities that reflect codestream sets in ISO/IEC 15444-15: *HTONLY*/*HTDECLARED*/*MIXED*; *SINGLEHT*/*MULTIHT*; *RGNFREE*/*RGN*; *HOMOGENEOUS*/*HETEROGENEOUS*; *HTREV*/*HTIRV* (JPH, JHC)|
 
 ### Tests
 
