@@ -2512,6 +2512,9 @@ class BoxValidator:
 
         noccaps = len(pcapParts)
 
+        # Test if noccaps is consistent with lcap
+        self.testFor("pcapIsValid", noccaps == (lcap - 6)/2)
+
         offset = 6
 
         for _ in range(noccaps):

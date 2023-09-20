@@ -2097,6 +2097,7 @@ cap
 
 |Test name|True if|
 |:--------|:------|
+|pcapIsValid|Number of *pcapPart* entries equals (*lcap* - 6)/2|
 
   
 Tile part (child of Contiguous Codestream box) {#tile-part}
