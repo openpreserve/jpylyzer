@@ -1949,7 +1949,7 @@ rgn
 |lrgnIsValid|*lrgn* is within range [5,6]|
 |crgnIsValid|*crgn* is within range [0,255] (*csiz* < 257) or [0,16383] (*csiz* >= 257)|
 |roiStyleIsValid|*roiStyle* equals 0 (“Implicit ROI (maximum shift)”)|
-|roiShiftIsValid|*roiShift* is within range [0,255]|
+|roiShiftIsValid|*roiShift* is within range [0,255] (JP2, J2C) or [0,37] (JPH, JHC)|
 
 Quantization default (QCD) marker segment {#qcd-marker}
 ---------------------------------------------

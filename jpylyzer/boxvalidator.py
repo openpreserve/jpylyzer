@@ -2135,7 +2135,8 @@ class BoxValidator:
                 self.addCharacteristic("precinctSizeY", precinctSizeY)
 
     def validate_rgn(self):
-        """Region of interest (RGN) header fields (ISO/IEC 15444-1 Section A.6.3)."""
+        """Region of interest (RGN) header fields (ISO/IEC 15444-1 Section A.6.3;
+        ISO/IEC 15444-15 Section A.5)."""
         # Length of RGN marker
         lrgn = bc.bytesToUShortInt(self.boxContents[0:2])
         self.addCharacteristic("lrgn", lrgn)
@@ -2171,7 +2172,11 @@ class BoxValidator:
         roiShift = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
         self.addCharacteristic("roiShift", roiShift)
 
-        roiShiftIsValid = 0 <= roiShift <= 255
+        if self.format in ['jph', 'jhc']:
+            roiShiftIsValid = 0 <= roiShift <= 37
+        else:
+            roiShiftIsValid = 0 <= roiShift <= 255
+
         self.testFor("roiShiftIsValid", roiShiftIsValid)
 
     def validate_qcd(self):
