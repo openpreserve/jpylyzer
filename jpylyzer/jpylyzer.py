@@ -187,6 +187,7 @@ def generatePropertiesRemapTable():
     rsizMap[5] = "Scalable 2K digital cinema profile"
     rsizMap[6] = "Scalable 4K digital cinema profile"
     rsizMap[7] = "Long-term storage profile"
+    rsizMap["64-0-0"] = "Freaked out profile"
 
     # Precincts (Codestream, COD)
     precinctsMap = {}

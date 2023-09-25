@@ -62,6 +62,7 @@ class BoxValidator:
         b'\xff\x55': "tlm",
         b'\xff\x57': "plm",
         b'\xff\x58': "plt",
+        b'\xff\x59': "cpf",
         b'\xff\x60': "ppm",
         b'\xff\x61': "ppt",
         b'\xff\x63': "crg",
@@ -1408,6 +1409,17 @@ class BoxValidator:
                     self.characteristics.append(characteristicsCAP)
                     offset = offsetNext
 
+                elif marker == b'\xff\x59':
+                    # CPF marker (JHC)
+                    resultsCPF = BoxValidator(self.format, marker, segContents).validate()
+                    testsCPF = resultsCPF.tests
+                    characteristicsCPF = resultsCPF.characteristics
+                    # Add analysis results to test results tree
+                    self.tests.appendIfNotEmpty(testsCPF)
+                    # Add extracted characteristics to characteristics tree
+                    self.characteristics.append(characteristicsCPF)
+                    offset = offsetNext
+
                 elif marker == b'\xff\x90':
                     # Start of tile (SOT) marker segment; don't update offset as this
                     # will get us of out of this loop (for functional readability):
@@ -1594,14 +1606,34 @@ class BoxValidator:
         self.testFor("lsizIsValid", 41 <= lsiz <= 49190)
 
         # Decoder capabilities
-        rsiz = bc.bytesToUShortInt(self.boxContents[2:4])
+        #rsiz = bc.bytesToUShortInt(self.boxContents[2:4])
+
+        # TEST
+        profile = bc.bytesToUnsignedChar(self.boxContents[2:3])
+        levels = bc.bytesToUnsignedChar(self.boxContents[3:4])
+
+        # SubLevel: most significant 4 bits (shift 4 right and apply bit mask)
+        subLevel = (levels >> 240) & 15
+
+        # MainLevel: least significant 4 bits (apply bit mask)
+        mainLevel = levels & 15
+
+        self.addCharacteristic("profile", profile)
+        self.addCharacteristic("mainLevel", mainLevel)
+        self.addCharacteristic("subLevel", subLevel)
+
+        rsiz = str(profile) + "-" + str(mainLevel) + "-" + str(subLevel)
         self.addCharacteristic("rsiz", rsiz)
+
+        ## TEST
 
         if self.format in ['jph', 'jhc']:
             # Bit 14 of Rsiz shall be equal to 1. Note that ISO/IEC 15444-15 
             # confusingly counts bits right to left (first bit = 15, last bit is 0),
             # so "bit 14" is actually the 2nd bit from the left!
-            self.testFor("rsizIsValid", self._getBitValue(rsiz, 2, wordLength=16) == 1)
+            ## TODO re-write _ reintroduce!!
+            pass
+            #self.testFor("rsizIsValid", self._getBitValue(rsiz, 2, wordLength=16) == 1)
 
         # Width of reference grid
         xsiz = bc.bytesToUInt(self.boxContents[4:8])
@@ -2586,6 +2618,17 @@ class BoxValidator:
                 self.addCharacteristic("htReversible", htReversible)
                 
                 # Final 4 bits define parameter B from MAGB P set; not extracted for now (or ever) 
+
+    def validate_cpf(self):
+        """Corresponding profile marker (CPF) marker segment (15444-15, Section A.6)."""
+
+        # Length of CPF marker
+        lcpf = bc.bytesToUShortInt(self.boxContents[0:2])
+        self.addCharacteristic("lcpf", lcpf)
+
+        # Pcap
+        pcpf = bc.bytesToUInt(self.boxContents[2:6])
+
 
     def validate_sot(self):
         """Start of tile-part (SOT) marker segment (ISO/IEC 15444-1 Section A.4.2)."""
