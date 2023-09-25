@@ -1858,11 +1858,11 @@ cod
 |codeBlockWidth|Code block width|
 |codeBlockHeight|Code block height|
 |codingBypass|Indicates use of coding bypass (“yes”/“no”)|
-|resetOnBoundaries|Indicates reset of context probabilities on coding pass boundaries (“yes”/“no”)|
+|resetOnBoundaries|Indicates reset of context probabilities on coding pass boundaries (“yes”/“no”) (does not apply to High Throughput code blocks)|
 |termOnEachPass|Indicates termination on each coding pass (“yes”/“no”)|
 |vertCausalContext|Indicates vertically causal context (“yes”/“no”)|
-|predTermination|Indicates predictable termination (“yes”/“no”)|
-|segmentationSymbols|Indicates use of segmentation symbols (“yes”/“no”)|
+|predTermination|Indicates predictable termination (“yes”/“no”) (does not apply to High Throughput code blocks)|
+|segmentationSymbols|Indicates use of segmentation symbols (“yes”/“no”) (does not apply to High Throughput code blocks)|
 |transformation|Wavelet transformation: “9-7 irreversible” or “5-3 reversible”|
 |precinctSizeX<sup>\*</sup>|Precinct width (repeated for all resolution levels; order: low to high). Equals 32768 if *precincts* is “default”|
 |precinctSizeY<sup>\*</sup>|Precinct height (repeated for all resolution levels; order: low to high). Equals 32768 if *precincts* is “default”|

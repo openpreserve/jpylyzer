@@ -1728,7 +1728,8 @@ class BoxValidator:
             offset += 3
 
     def validate_cod(self):
-        """Coding style default (COD) header fields (ISO/IEC 15444-1 Section A.6.1)."""
+        """Coding style default (COD) header fields (ISO/IEC 15444-1 Section A.6.1);
+        ISO/IEC 15444-15 Section A.4)."""
         # Length of COD marker
         lcod = bc.bytesToUShortInt(self.boxContents[0:2])
         self.addCharacteristic("lcod", lcod)
@@ -1841,16 +1842,26 @@ class BoxValidator:
         self.testFor(
             "sumHeightWidthExponentIsValid", sumHeightWidthExponentIsValid)
 
-        # Code block style, contains 6 boolean switches
+        # Code block style, contains several boolean switches
         codeBlockStyle = bc.bytesToUnsignedChar(self.boxContents[10:11])
 
+        if self.format in ['jph', 'jhc']:
+            # resetOnBoundaries, predTermination and segmentationSymbols are undefined
+            # for HT blocks. Below flag is True if all code blocks are HT .
+            mask = 0b11000000
+            # Only HT blocks if 1st bit 0, 2nd 1, resulting in decimal value 64
+            onlyHT = mask & codeBlockStyle == 64
+        else:
+            onlyHT = False
+   
         # Bit 8: selective arithmetic coding bypass
         codingBypass = self._getBitValue(codeBlockStyle, 8)
         self.addCharacteristic("codingBypass", codingBypass)
 
         # Bit 7: reset of context probabilities on coding pass boundaries
-        resetOnBoundaries = self._getBitValue(codeBlockStyle, 7)
-        self.addCharacteristic("resetOnBoundaries", resetOnBoundaries)
+        if not onlyHT:
+            resetOnBoundaries = self._getBitValue(codeBlockStyle, 7)
+            self.addCharacteristic("resetOnBoundaries", resetOnBoundaries)
 
         # Bit 6: termination on each coding pass
         termOnEachPass = self._getBitValue(codeBlockStyle, 6)
@@ -1861,12 +1872,14 @@ class BoxValidator:
         self.addCharacteristic("vertCausalContext", vertCausalContext)
 
         # Bit 4: predictable termination
-        predTermination = self._getBitValue(codeBlockStyle, 4)
-        self.addCharacteristic("predTermination", predTermination)
+        if not onlyHT:
+            predTermination = self._getBitValue(codeBlockStyle, 4)
+            self.addCharacteristic("predTermination", predTermination)
 
         # Bit 3: segmentation symbols are used
-        segmentationSymbols = self._getBitValue(codeBlockStyle, 3)
-        self.addCharacteristic("segmentationSymbols", segmentationSymbols)
+        if not onlyHT:
+            segmentationSymbols = self._getBitValue(codeBlockStyle, 3)
+            self.addCharacteristic("segmentationSymbols", segmentationSymbols)
 
         # Wavelet transformation: 9-7 irreversible (0) or 5-3 reversible (1)
         transformation = bc.bytesToUnsignedChar(self.boxContents[11:12])
@@ -1928,7 +1941,8 @@ class BoxValidator:
                 self.addCharacteristic("precinctSizeY", precinctSizeY)
 
     def validate_coc(self):
-        """Coding style component (COC) header fields (ISO/IEC 15444-1 Section A.6.2)."""
+        """Coding style component (COC) header fields (ISO/IEC 15444-1 Section A.6.2);
+        ISO/IEC 15444-15 Section A.4)."""
         # Length of COC marker
         lcoc = bc.bytesToUShortInt(self.boxContents[0:2])
         self.addCharacteristic("lcoc", lcoc)
@@ -2018,16 +2032,26 @@ class BoxValidator:
 
         offset += 1
 
-        # Code block style, contains 6 boolean switches
+        # Code block style, contains several boolean switches
         codeBlockStyle = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
+
+        if self.format in ['jph', 'jhc']:
+            # resetOnBoundaries, predTermination and segmentationSymbols are undefined
+            # for HT blocks. Below flag is True if all code blocks are HT .
+            mask = 0b11000000
+            # Only HT blocks if 1st bit 0, 2nd 1, resulting in decimal value 64
+            onlyHT = mask & codeBlockStyle == 64
+        else:
+            onlyHT = False
 
         # Bit 8: selective arithmetic coding bypass
         codingBypass = self._getBitValue(codeBlockStyle, 8)
         self.addCharacteristic("codingBypass", codingBypass)
 
         # Bit 7: reset of context probabilities on coding pass boundaries
-        resetOnBoundaries = self._getBitValue(codeBlockStyle, 7)
-        self.addCharacteristic("resetOnBoundaries", resetOnBoundaries)
+        if not onlyHT:
+            resetOnBoundaries = self._getBitValue(codeBlockStyle, 7)
+            self.addCharacteristic("resetOnBoundaries", resetOnBoundaries)
 
         # Bit 6: termination on each coding pass
         termOnEachPass = self._getBitValue(codeBlockStyle, 6)
@@ -2038,12 +2062,14 @@ class BoxValidator:
         self.addCharacteristic("vertCausalContext", vertCausalContext)
 
         # Bit 4: predictable termination
-        predTermination = self._getBitValue(codeBlockStyle, 4)
-        self.addCharacteristic("predTermination", predTermination)
+        if not onlyHT:
+            predTermination = self._getBitValue(codeBlockStyle, 4)
+            self.addCharacteristic("predTermination", predTermination)
 
         # Bit 3: segmentation symbols are used
-        segmentationSymbols = self._getBitValue(codeBlockStyle, 3)
-        self.addCharacteristic("segmentationSymbols", segmentationSymbols)
+        if not onlyHT:
+            segmentationSymbols = self._getBitValue(codeBlockStyle, 3)
+            self.addCharacteristic("segmentationSymbols", segmentationSymbols)
 
         offset += 1
 
