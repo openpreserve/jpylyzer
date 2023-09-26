@@ -177,18 +177,6 @@ def generatePropertiesRemapTable():
     cAssocMap[0] = "all colours"
     cAssocMap[65535] = "no colours"
 
-    # Decoder capabilities, rsiz (Codestream, SIZ)
-    rsizMap = {}
-    rsizMap[0] = "ISO/IEC 15444-1"  # Does this correspiond to Profile 2??
-    rsizMap[1] = "Profile 0"
-    rsizMap[2] = "Profile 1"
-    rsizMap[3] = "2K digital cinema profile"
-    rsizMap[4] = "4K digital cinema profile"
-    rsizMap[5] = "Scalable 2K digital cinema profile"
-    rsizMap[6] = "Scalable 4K digital cinema profile"
-    rsizMap[7] = "Long-term storage profile"
-    rsizMap["64-0-0"] = "Freaked out profile"
-
     # Precincts (Codestream, COD)
     precinctsMap = {}
     precinctsMap[0] = "default"
@@ -283,7 +271,6 @@ def generatePropertiesRemapTable():
     enumerationsMap['order'] = orderMap
     enumerationsMap['roiStyle'] = roiStyleMap
     enumerationsMap['transformation'] = transformationMap
-    enumerationsMap['rsiz'] = rsizMap
     enumerationsMap['qStyle'] = qStyleMap
     enumerationsMap['rcom'] = registrationMap
     enumerationsMap['htCodeBlocks'] = htCodeBlocksMap

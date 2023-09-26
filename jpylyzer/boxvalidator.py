@@ -1606,34 +1606,83 @@ class BoxValidator:
         self.testFor("lsizIsValid", 41 <= lsiz <= 49190)
 
         # Decoder capabilities
-        #rsiz = bc.bytesToUShortInt(self.boxContents[2:4])
 
-        # TEST
+        # The profile references in rsiz are encoded in a confusing  and 
+        # internally inconsistent way:
+        # The 8 earliest profiles are identified by the 4 least significant
+        # bits in rsiz; for all other profiles a Profile - Sublevel - Mainlevel
+        # scheme is used, where the top level (Profile) is defined by the 8 most
+        # significant bits.
+        #
+        # TODO: aparently from the 2019 version of 15444-1 onward, the 2 most
+        # significant bits of rsiz have a special meaning too (which has implications
+        # for the profile parameter)!
+
+        # TODO: keep this (in case of unmapped profile) or add fallback?
+        rsiz = bc.bytesToUShortInt(self.boxContents[2:4])
+
         profile = bc.bytesToUnsignedChar(self.boxContents[2:3])
         levels = bc.bytesToUnsignedChar(self.boxContents[3:4])
 
         # SubLevel: most significant 4 bits (shift 4 right and apply bit mask)
         subLevel = (levels >> 240) & 15
-
         # MainLevel: least significant 4 bits (apply bit mask)
         mainLevel = levels & 15
+        
+        #self.addCharacteristic("profile", profile)
+        #self.addCharacteristic("mainLevel", mainLevel)
+        #self.addCharacteristic("subLevel", subLevel)
 
-        self.addCharacteristic("profile", profile)
-        self.addCharacteristic("mainLevel", mainLevel)
-        self.addCharacteristic("subLevel", subLevel)
+        if profile == 0:
+            # These are the pre-sub/mainlevel profiles
+            if mainLevel == 0:
+                rsiz = "ISO/IEC 15444-1"
+            elif mainLevel == 1:
+                rsiz = "Profile 0"
+            elif mainLevel == 2:
+                rsiz = "Profile 1"
+            elif mainLevel == 3:
+                rsiz = "2K digital cinema profile"
+            elif mainLevel == 4:
+                rsiz = "4K digital cinema profile"
+            elif mainLevel == 5:
+                rsiz = "Scalable 2K digital cinema profile"
+            elif mainLevel == 6:
+                rsiz = "Scalable 4K digital cinema profile"
+            elif mainLevel == 7:
+                rsiz = "Long-term storage profile"
+        elif profile == 1:
+            rsiz = "Broadcast Contribution Single Tile Profile, Mainlevel " + str(mainLevel)
+        elif profile == 2:
+            rsiz = "Broadcast Contribution Multi-tile Profile, Mainlevel " + str(mainLevel)
+        elif profile == 3:
+            rsiz = "Broadcast Contribution Multi-tile Reversible Profile, Mainlevel " + str(mainLevel)
+        elif profile == 4:
+            rsiz = "2k IMF Single Tile Lossy Profile, Mainlevel " + str(mainLevel) \
+                   + "; Sublevel " + str(subLevel)
+        elif profile == 5:
+            rsiz = "4k IMF Single Tile Lossy Profile, Mainlevel " + str(mainLevel) \
+                   + "; Sublevel " + str(subLevel)
+        elif profile == 6:
+            rsiz = "8k IMF Single Tile Lossy Profile, Mainlevel " + str(mainLevel) \
+                   + "; Sublevel " + str(subLevel)
+        elif profile == 7:
+            rsiz = "2k IMF Single/Multi Tile Reversible Profile, Mainlevel " + str(mainLevel) \
+                   + "; Sublevel " + str(subLevel)
+        elif profile == 8:
+            rsiz = "4k IMF Single/Multi Tile Reversible Profile, Mainlevel " + str(mainLevel) \
+                   + "; Sublevel " + str(subLevel)
+        elif profile == 9:
+            rsiz = "8k IMF Single/Multi Tile Reversible Profile, Mainlevel " + str(mainLevel) \
+                   + "; Sublevel " + str(subLevel)    
 
-        rsiz = str(profile) + "-" + str(mainLevel) + "-" + str(subLevel)
         self.addCharacteristic("rsiz", rsiz)
-
-        ## TEST
 
         if self.format in ['jph', 'jhc']:
             # Bit 14 of Rsiz shall be equal to 1. Note that ISO/IEC 15444-15 
             # confusingly counts bits right to left (first bit = 15, last bit is 0),
             # so "bit 14" is actually the 2nd bit from the left!
-            ## TODO re-write _ reintroduce!!
-            pass
-            #self.testFor("rsizIsValid", self._getBitValue(rsiz, 2, wordLength=16) == 1)
+            self.testFor("rsizIsValid", self._getBitValue(profile, 2) == 1)
 
         # Width of reference grid
         xsiz = bc.bytesToUInt(self.boxContents[4:8])
