@@ -1821,7 +1821,7 @@ siz
 |Test name|True if|
 |:--------|:------|
 |lsizIsValid|*lsiz* is within range [41,49190]|
-|rsizIsValid|Bit 14 of *rsiz* equals 14 (JPH, JHC)|
+|rsizIsValid|Four most significant bits of *rsiz* are 0 (JP2, J2C); second most significant bit of *rsiz* equals 1 (JPH, JHC)|
 |xsizIsValid|*xsiz* is within range [1,2<sup>32</sup> - 1]|
 |ysizIsValid|*ysiz* is within range [1,2<sup>32</sup> - 1]|
 |xOsizIsValid|*xOsiz* is within range [0,2<sup>32</sup> - 2]|
