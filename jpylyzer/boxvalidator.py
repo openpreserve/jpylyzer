@@ -15,7 +15,6 @@
 #
 
 from __future__ import division
-import sys # test only, remove later!
 import uuid
 import math
 from . import config
@@ -1631,11 +1630,11 @@ class BoxValidator:
         ## TEST
 
         if extendendCapabilities == 1:
-            rsiz = "Extended capabilities via CAP marker segment (not including ISO/IEC 15444-2 capabilities)"
+            rsiz = "CAP"
         elif extendendCapabilities == 2:
-            rsiz = "ISO/IEC 15444-2 capabilities"
+            rsiz = "ISO/IEC 15444-2"
         elif extendendCapabilities == 3:
-            rsiz = "ISO/IEC 15444-2 capabilities extended via CAP marker segment"
+            rsiz = "ISO/IEC 15444-2 + CAP"
         elif profile == 0:
             # These are the profiles that don't use the sub/mainlevel scheme, with
             # values that identify them in least significant byte (which was later
@@ -2606,7 +2605,7 @@ class BoxValidator:
             self.addCharacteristic("comment", comment)
 
     def validate_cap(self):
-        """Extended capabilities marker (CAP) marker segment (15444-2:2004/Amd.2:2006 Section A.3.13)."""
+        """Extended capabilities marker (CAP) marker segment (15444-1, Section A.5.2)."""
 
         # Length of CAP marker
         lcap = bc.bytesToUShortInt(self.boxContents[0:2])
