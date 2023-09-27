@@ -1605,36 +1605,41 @@ class BoxValidator:
         # lsiz must be within range 41-49190
         self.testFor("lsizIsValid", 41 <= lsiz <= 49190)
 
-        # Decoder capabilities
+        # Decoder capabilities (rsiz). For convenience we process this 16-bit field as 
+        # two chunks of 1 byte each.
+        rsizByte1 = bc.bytesToUnsignedChar(self.boxContents[2:3])
+        # Second byte: sub -and main levels (if applicable)
+        rsizByte2 = bc.bytesToUnsignedChar(self.boxContents[3:4])
 
-        # The profile references in rsiz are encoded in a confusing  and 
-        # internally inconsistent way:
-        # The 8 earliest profiles are identified by the 4 least significant
-        # bits in rsiz; for all other profiles a Profile - Sublevel - Mainlevel
-        # scheme is used, where the top level (Profile) is defined by the 8 most
-        # significant bits.
-        #
-        # TODO: aparently from the 2019 version of 15444-1 onward, the 2 most
-        # significant bits of rsiz have a special meaning too (which has implications
-        # for the profile parameter)!
+        # Extendend Capabilities bits: most significant 2 bits of rsizByte1
+        # (shift 6 right and apply bit mask)
+        extendendCapabilities = (rsizByte1 >> 6) & 15
+        # Bits that define top level profile: least significant 4 bits of rsizByte1
+        # (apply bit mask)
+        profile = rsizByte1 & 15
 
-        # TODO: keep this (in case of unmapped profile) or add fallback?
-        rsiz = bc.bytesToUShortInt(self.boxContents[2:4])
-
-        profile = bc.bytesToUnsignedChar(self.boxContents[2:3])
-        levels = bc.bytesToUnsignedChar(self.boxContents[3:4])
-
-        # SubLevel: most significant 4 bits (shift 4 right and apply bit mask)
-        subLevel = (levels >> 240) & 15
-        # MainLevel: least significant 4 bits (apply bit mask)
-        mainLevel = levels & 15
+        # SubLevel: most significant 4 bits of rsizByte2 (shift 4 right and apply bit mask)
+        subLevel = (rsizByte2 >> 4) & 3
+        # MainLevel: least significant 4 bits of rsizByte2 (apply bit mask)
+        mainLevel = rsizByte2 & 15
         
+        ## TEST (TODO: remove before release)
+        #self.addCharacteristic("extendendCapabilities", extendendCapabilities)
         #self.addCharacteristic("profile", profile)
         #self.addCharacteristic("mainLevel", mainLevel)
         #self.addCharacteristic("subLevel", subLevel)
+        ## TEST
 
-        if profile == 0:
-            # These are the pre-sub/mainlevel profiles
+        if extendendCapabilities == 1:
+            rsiz = "Extended capabilities via CAP marker segment (not including ISO/IEC 15444-2 capabilities)"
+        elif extendendCapabilities == 2:
+            rsiz = "ISO/IEC 15444-2 capabilities"
+        elif extendendCapabilities == 3:
+            rsiz = "ISO/IEC 15444-2 capabilities extended via CAP marker segment"
+        elif profile == 0:
+            # These are the profiles that don't use the sub/mainlevel scheme, with
+            # values that identify them in least significant byte (which was later
+            # used for mainLevel)
             if mainLevel == 0:
                 rsiz = "ISO/IEC 15444-1"
             elif mainLevel == 1:
@@ -1678,11 +1683,13 @@ class BoxValidator:
 
         self.addCharacteristic("rsiz", rsiz)
 
-        if self.format in ['jph', 'jhc']:
-            # Bit 14 of Rsiz shall be equal to 1. Note that ISO/IEC 15444-15 
-            # confusingly counts bits right to left (first bit = 15, last bit is 0),
-            # so "bit 14" is actually the 2nd bit from the left!
-            self.testFor("rsizIsValid", self._getBitValue(profile, 2) == 1)
+        if self.format in ['jp2', 'j2c']:
+            # For codestream that conforms to ISO/IEC 15444-1 first 4 bits are 0 
+            self.testFor("rsizIsValid", rsizByte1 == 0)
+        elif self.format in ['jph', 'jhc']:
+            # Second most significant bit shall be equal to 1. Note that ISO/IEC 15444-15 says "bit 14"
+            # as standard counts bits right to left, starting from 0)
+            self.testFor("rsizIsValid", self._getBitValue(rsizByte1, 2) == 1)
 
         # Width of reference grid
         xsiz = bc.bytesToUInt(self.boxContents[4:8])
