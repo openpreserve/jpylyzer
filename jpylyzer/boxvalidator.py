@@ -1679,7 +1679,9 @@ class BoxValidator:
                    + "; Sublevel " + str(subLevel)
         elif profile == 9:
             rsiz = "8k IMF Single/Multi Tile Reversible Profile, Mainlevel " + str(mainLevel) \
-                   + "; Sublevel " + str(subLevel)    
+                   + "; Sublevel " + str(subLevel)
+        elif profile == 15 and subLevel == 15 and mainLevel == 15:
+            rsiz = "Profile signalled in Profile Marker"
 
         self.addCharacteristic("rsiz", rsiz)
 
