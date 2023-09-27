@@ -1285,7 +1285,8 @@ class BoxValidator:
             # Loop through remaining marker segments in main header; first SOT (start of
             # tile-part marker) indicates end of main header.
 
-            # Initial values for foundCODMarker, foundQCDMarker
+            # Initial values for foundCAPMarker, foundCODMarker, foundQCDMarker
+            foundCAPMarker = False
             foundCODMarker = False
             foundQCDMarker = False
 
@@ -1399,6 +1400,7 @@ class BoxValidator:
 
                 elif marker == b'\xff\x50':
                     # CAP marker
+                    foundCAPMarker = True
                     resultsCAP = BoxValidator(self.format, marker, segContents).validate()
                     testsCAP = resultsCAP.tests
                     characteristicsCAP = resultsCAP.characteristics
@@ -1474,6 +1476,13 @@ class BoxValidator:
             # Add foundCODMarker / foundQCDMarker outcome to tests
             self.testFor("foundCODMarker", foundCODMarker)
             self.testFor("foundQCDMarker", foundQCDMarker)
+
+            # Test for presence of CAP marker if rsiz indicates capabilities that
+            # are defined there
+            rsiz = self.characteristics.findElementText(
+                'siz/rsiz')
+            if "CAP" in rsiz:
+                self.testFor("foundCAPMarker", foundCAPMarker)
 
             # Remainder of codestream is a sequence of tile parts, followed by one
             # end-of-codestream marker

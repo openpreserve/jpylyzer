@@ -1780,6 +1780,7 @@ is given by the following 2 derived properties (these are always reported, irres
 |:--------|:------|
 |codestreamStartsWithSOCMarker|First 2 bytes in codestream constitute a start of codestream (SOC) marker segment|
 |foundSIZMarker|Second marker segment in codestream is image and tile size (SIZ) marker segment|
+|foundCAPMarker|Codestream main header contains Extended Capabilities (CAP) marker segment if second most significant bit of *rsiz* equals 1|
 |foundCODMarker|Codestream main header contains coding style default (COD) marker segment|
 |foundQCDMarker|Codestream main header contains quantization default (QCD) marker segment|
 |foundExpectedNumberOfTiles|Number of encountered tiles is consistent with expected number of tiles (as calculated from [SIZ marker](#siz-marker))|
