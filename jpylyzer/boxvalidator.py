@@ -1690,6 +1690,8 @@ class BoxValidator:
                    + "; Sublevel " + str(subLevel)
         elif profile == 15 and subLevel == 15 and mainLevel == 15:
             rsiz = "Profile signalled in Profile Marker"
+        else:
+            rsiz = "Unknown (value not defined in ISO/IEC 15444-1)"
 
         self.addCharacteristic("rsiz", rsiz)
 
