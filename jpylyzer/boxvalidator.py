@@ -51,6 +51,7 @@ class BoxValidator:
         b'\x75\x72\x6c\x20': "urlBox",
         b'\xff\x50': "cap",
         b'\xff\x51': "siz",
+        b'\xff\x56': "prf",
         b'\xff\x52': "cod",
         b'\xff\x5c': "qcd",
         b'\xff\x64': "com",
@@ -1285,7 +1286,8 @@ class BoxValidator:
             # Loop through remaining marker segments in main header; first SOT (start of
             # tile-part marker) indicates end of main header.
 
-            # Initial values for foundCAPMarker, foundCODMarker, foundQCDMarker
+            # Initial values for foundCAPMarker, foundPRFMarker, foundCODMarker, foundQCDMarker
+            foundPRFMarker = False
             foundCAPMarker = False
             foundCODMarker = False
             foundQCDMarker = False
@@ -1410,8 +1412,20 @@ class BoxValidator:
                     self.characteristics.append(characteristicsCAP)
                     offset = offsetNext
 
+                elif marker == b'\xff\x56':
+                    # PRF marker
+                    foundPRFMarker = True
+                    resultsPRF = BoxValidator(self.format, marker, segContents).validate()
+                    testsPRF = resultsPRF.tests
+                    characteristicsPRF = resultsPRF.characteristics
+                    # Add analysis results to test results tree
+                    self.tests.appendIfNotEmpty(testsPRF)
+                    # Add extracted characteristics to characteristics tree
+                    self.characteristics.append(characteristicsPRF)
+                    offset = offsetNext
+
                 elif marker == b'\xff\x59':
-                    # CPF marker (JHC)
+                    # CPF marker
                     resultsCPF = BoxValidator(self.format, marker, segContents).validate()
                     testsCPF = resultsCPF.tests
                     characteristicsCPF = resultsCPF.characteristics
@@ -2687,6 +2701,34 @@ class BoxValidator:
                 
                 # Final 4 bits define parameter B from MAGB P set; not extracted for now (or ever)
 
+    def validate_prf(self):
+        """Profile marker (PRF) marker segment (15444-1, Section A.5.3)."""
+
+        # Length of PRF marker
+        lcprf = bc.bytesToUShortInt(self.boxContents[0:2])
+        self.addCharacteristic("lcprf", lcprf)
+
+        # lcprf  must be within range 4-65534
+        self.testFor("lcprfIsValid", 4 <= lcprf <= 65534)
+
+        # Number of pprf entries
+        nopprfs = (lcprf -2) / 2
+
+        # Profile number (updated from pprf values below)
+        PRFnum = 4095
+
+        offset = 2
+
+        for i in nopprfs:
+            pprf = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
+            PRFnum += pprf*2^(16*i)
+            if i == nopprfs:
+                # last pprf shall not be zero
+                self.testFor("pprfIsValid", pprf != 0)
+
+        self.testFor("PRFnumIsValid", PRFnum > 4095)
+        self.addCharacteristic("PRFnum", PRFnum)
+
     def validate_cpf(self):
         """Corresponding profile marker (CPF) marker segment (15444-15, Section A.6)."""
 
@@ -2694,9 +2736,29 @@ class BoxValidator:
         lcpf = bc.bytesToUShortInt(self.boxContents[0:2])
         self.addCharacteristic("lcpf", lcpf)
 
-        # Pcap
-        pcpf = bc.bytesToUInt(self.boxContents[2:6])
+        # lcpf  must be within range 4-65534
+        if self.format in ['jph', 'jhc']:
+            self.testFor("lcpIsValid", 4 <= lcpf <= 65534)
 
+        # Number of pcpf entries
+        nopcpfs = (lcpf -2) / 2
+
+        # Profile number (updated from ppf values below)
+        PRFnum = -1
+
+        offset = 2
+
+        for i in nopcpfs:
+            pcpf = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
+            PRFnum += pcpf*2^(16*i)
+            if i == nopcpfs:
+                # last pcpf shall not be zero
+                if self.format in ['jph', 'jhc']:
+                    self.testFor("pcpfIsValid", pcpf != 0)
+
+        if self.format in ['jph', 'jhc']:
+            self.testFor("PRFnumIsValid", PRFnum > 4095)
+        self.addCharacteristic("PRFnum", PRFnum)
 
     def validate_sot(self):
         """Start of tile-part (SOT) marker segment (ISO/IEC 15444-1 Section A.4.2)."""
