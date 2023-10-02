@@ -2685,7 +2685,7 @@ class BoxValidator:
                 htReversible = self._getBitValue(ccap, 11, wordLength=16)
                 self.addCharacteristic("htReversible", htReversible)
                 
-                # Final 4 bits define parameter B from MAGB P set; not extracted for now (or ever) 
+                # Final 4 bits define parameter B from MAGB P set; not extracted for now (or ever)
 
     def validate_cpf(self):
         """Corresponding profile marker (CPF) marker segment (15444-15, Section A.6)."""
