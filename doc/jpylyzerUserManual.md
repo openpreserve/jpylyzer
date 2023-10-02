@@ -2140,7 +2140,7 @@ cpf
 |Property|Description|
 |:-------|:----------|
 |lcpf|Length of CPF marker segment in bytes|
-|PRFnum|Profile number|
+|CPFnum|Profile number|
 
 ### Tests
 

@@ -2744,21 +2744,19 @@ class BoxValidator:
         nopcpfs = (lcpf -2) / 2
 
         # Profile number (updated from ppf values below)
-        PRFnum = -1
+        CPFnum = -1
 
         offset = 2
 
         for i in nopcpfs:
             pcpf = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
-            PRFnum += pcpf*2^(16*i)
+            CPFnum += pcpf*2^(16*i)
             if i == nopcpfs:
                 # last pcpf shall not be zero
                 if self.format in ['jph', 'jhc']:
                     self.testFor("pcpfIsValid", pcpf != 0)
 
-        if self.format in ['jph', 'jhc']:
-            self.testFor("PRFnumIsValid", PRFnum > 4095)
-        self.addCharacteristic("PRFnum", PRFnum)
+        self.addCharacteristic("CPFnum", CPFnum)
 
     def validate_sot(self):
         """Start of tile-part (SOT) marker segment (ISO/IEC 15444-1 Section A.4.2)."""
