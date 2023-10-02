@@ -15,6 +15,7 @@
 #
 
 from __future__ import division
+import sys ## debug
 import uuid
 import math
 from . import config
@@ -1627,7 +1628,7 @@ class BoxValidator:
         # lsiz must be within range 41-49190
         self.testFor("lsizIsValid", 41 <= lsiz <= 49190)
 
-        # Decoder capabilities (rsiz). For convenience we process this 16-bit field as 
+        # Decoder capabilities (rsiz). For convenience we process this 16-bit field as
         # two chunks of 1 byte each.
         rsizByte1 = bc.bytesToUnsignedChar(self.boxContents[2:3])
         # Second byte: sub -and main levels (if applicable)
@@ -2712,14 +2713,14 @@ class BoxValidator:
         self.testFor("lcprfIsValid", 4 <= lcprf <= 65534)
 
         # Number of pprf entries
-        nopprfs = (lcprf -2) / 2
+        nopprfs = int((lcprf -2) / 2)
 
         # Profile number (updated from pprf values below)
         PRFnum = 4095
 
         offset = 2
 
-        for i in nopprfs:
+        for i in range(nopprfs):
             pprf = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
             PRFnum += pprf*2^(16*i)
             if i == nopprfs:
@@ -2741,14 +2742,14 @@ class BoxValidator:
             self.testFor("lcpIsValid", 4 <= lcpf <= 65534)
 
         # Number of pcpf entries
-        nopcpfs = (lcpf -2) / 2
+        nopcpfs = int((lcpf -2) / 2)
 
         # Profile number (updated from ppf values below)
         CPFnum = -1
 
         offset = 2
 
-        for i in nopcpfs:
+        for i in range(nopcpfs):
             pcpf = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
             CPFnum += pcpf*2^(16*i)
             if i == nopcpfs:
