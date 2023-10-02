@@ -2106,7 +2106,49 @@ cap
 |lcapIsValid|Number of *pcapPart* entries equals (*lcap* - 6)/2|
 |pcap15IsValid|15th most significant bit of *pcap* equals 1 (JPH, JHC)|
 
-  
+Profile (PRF) marker segment {#prf-marker}
+--------------------------------
+
+### Element name
+
+prf
+
+### Reported properties
+
+|Property|Description|
+|:-------|:----------|
+|lcprf|Length of PRF marker segment in bytes|
+|PRFnum|Profile number|
+
+### Tests
+
+|Test name|True if|
+|:--------|:------|
+|lcprfIsValid|*lcprf* is within range [4,65534]|
+|pprfIsValid|last *pprf* value is not zero|
+|PRFnumIsValid|*PRFnum* > 4095|
+
+Corresponding profile (CPF) marker segment {#cpf-marker}
+--------------------------------
+
+### Element name
+
+cpf
+
+### Reported properties
+
+|Property|Description|
+|:-------|:----------|
+|lcpf|Length of CPF marker segment in bytes|
+|PRFnum|Profile number|
+
+### Tests
+
+|Test name|True if|
+|:--------|:------|
+|lcpfIsValid|*lcpf* is within range [4,65534] (JPH, JHC)|
+|pcpfIsValid|last *pcpf* value is not zero (JPH, JHC)|
+
 Tile part (child of Contiguous Codestream box) {#tile-part}
 --------------------------------------------------
 

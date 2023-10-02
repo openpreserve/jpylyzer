@@ -2702,7 +2702,7 @@ class BoxValidator:
                 # Final 4 bits define parameter B from MAGB P set; not extracted for now (or ever)
 
     def validate_prf(self):
-        """Profile marker (PRF) marker segment (15444-1, Section A.5.3)."""
+        """Profile (PRF) marker segment (15444-1, Section A.5.3)."""
 
         # Length of PRF marker
         lcprf = bc.bytesToUShortInt(self.boxContents[0:2])
@@ -2730,7 +2730,7 @@ class BoxValidator:
         self.addCharacteristic("PRFnum", PRFnum)
 
     def validate_cpf(self):
-        """Corresponding profile marker (CPF) marker segment (15444-15, Section A.6)."""
+        """Corresponding profile (CPF) marker segment (15444-15, Section A.6)."""
 
         # Length of CPF marker
         lcpf = bc.bytesToUShortInt(self.boxContents[0:2])
