@@ -2714,7 +2714,7 @@ class BoxValidator:
 
         for i in range(nopprfs):
             pprf = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
-            PRFnum += pprf*2^(16*i)
+            PRFnum += pprf*2 ** (16*i)
             if i == nopprfs:
                 # last pprf shall not be zero
                 self.testFor("pprfIsValid", pprf != 0)
@@ -2743,7 +2743,9 @@ class BoxValidator:
 
         for i in range(nopcpfs):
             pcpf = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
-            CPFnum += pcpf*2^(16*i)
+            self.addCharacteristic("i", i)
+            self.addCharacteristic("pcpf", pcpf)
+            CPFnum += pcpf*(2 **(16*i))
             if i == nopcpfs:
                 # last pcpf shall not be zero
                 if self.format in ['jph', 'jhc']:
