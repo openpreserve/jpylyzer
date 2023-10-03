@@ -1496,7 +1496,8 @@ class BoxValidator:
             # are defined there
             rsiz = self.characteristics.findElementText(
                 'siz/rsiz')
-            if "CAP" in rsiz:
+            # Two most significant bits of rsiz indicate CAP marker use
+            if (rsiz >> 14) & 15 == 1:
                 self.testFor("foundCAPMarker", foundCAPMarker)
 
             # Remainder of codestream is a sequence of tile parts, followed by one
@@ -1628,95 +1629,86 @@ class BoxValidator:
         # lsiz must be within range 41-49190
         self.testFor("lsizIsValid", 41 <= lsiz <= 49190)
 
-        # Decoder capabilities (rsiz). For convenience we process this 16-bit field as
-        # two chunks of 1 byte each.
-        rsizByte1 = bc.bytesToUnsignedChar(self.boxContents[2:3])
-        # Second byte: sub -and main levels (if applicable)
-        rsizByte2 = bc.bytesToUnsignedChar(self.boxContents[3:4])
+        # Decoder capabilities (rsiz).
+        rsiz = bc.bytesToUShortInt(self.boxContents[2:4])
+        self.addCharacteristic("rsiz", rsiz)
 
-        # Extendend Capabilities bits: most significant 2 bits of rsizByte1
-        # (shift 6 right and apply bit mask)
-        extendendCapabilities = (rsizByte1 >> 6) & 15
-        # Bits that define top level profile: least significant 4 bits of rsizByte1
-        # (apply bit mask)
-        profile = rsizByte1 & 15
+        if self.format in ['jp2', 'j2c']:
+            # For codestream that conforms to ISO/IEC 15444-1 first 4 bits are 0
+            self.testFor("rsizIsValid", (rsiz >> 12) & 15 == 0)
+        elif self.format in ['jph', 'jhc']:
+            # Second most significant bit shall be equal to 1. Note that ISO/IEC 15444-15 says "bit 14"
+            # as standard counts bits right to left, starting from 0)
+            self.testFor("rsizIsValid", self._getBitValue(rsiz, 2, wordLength=16) == 1)
 
-        # SubLevel: most significant 4 bits of rsizByte2 (shift 4 right and apply bit mask)
-        subLevel = (rsizByte2 >> 4) & 3
-        # MainLevel: least significant 4 bits of rsizByte2 (apply bit mask)
-        mainLevel = rsizByte2 & 15
+        # Extendend Capabilities bits: most significant 2 bits of rsiz
+        # (shift 14 right and apply bit mask)
+        extendendCapabilities = (rsiz >> 14) & 15
+        # Bits that define top level profile
+        # (shift right 8 bits and apply bit mask)
+        profile = (rsiz >> 8) & 15
+
+        # SubLevel (shift 4 right and apply bit mask)
+        subLevel = (rsiz >> 4) & 15
+        # MainLevel (apply bit mask)
+        mainLevel = (rsiz) & 15
         
-        ## TEST (TODO: remove before release)
-        #self.addCharacteristic("extendendCapabilities", extendendCapabilities)
-        #self.addCharacteristic("profile", profile)
-        #self.addCharacteristic("mainLevel", mainLevel)
-        #self.addCharacteristic("subLevel", subLevel)
-        ## TEST
-
         if extendendCapabilities == 1:
-            rsiz = "CAP"
+            capability = "CAP"
         elif extendendCapabilities == 2:
-            rsiz = "ISO/IEC 15444-2"
+            capability = "ISO/IEC 15444-2"
         elif extendendCapabilities == 3:
-            rsiz = "ISO/IEC 15444-2 + CAP"
+            capability = "ISO/IEC 15444-2 + CAP"
         elif profile == 0:
             # These are the profiles that don't use the sub/mainlevel scheme, with
             # values that identify them in least significant byte (which was later
             # used for mainLevel)
             if mainLevel == 0:
-                rsiz = "ISO/IEC 15444-1"
+                capability = "ISO/IEC 15444-1"
             elif mainLevel == 1:
-                rsiz = "Profile 0"
+                capability = "Profile 0"
             elif mainLevel == 2:
-                rsiz = "Profile 1"
+                capability = "Profile 1"
             elif mainLevel == 3:
-                rsiz = "2K digital cinema profile"
+                capability = "2K digital cinema profile"
             elif mainLevel == 4:
-                rsiz = "4K digital cinema profile"
+                capability = "4K digital cinema profile"
             elif mainLevel == 5:
-                rsiz = "Scalable 2K digital cinema profile"
+                capability = "Scalable 2K digital cinema profile"
             elif mainLevel == 6:
-                rsiz = "Scalable 4K digital cinema profile"
+                capability = "Scalable 4K digital cinema profile"
             elif mainLevel == 7:
-                rsiz = "Long-term storage profile"
+                capability = "Long-term storage profile"
         elif profile == 1:
-            rsiz = "Broadcast Contribution Single Tile Profile, Mainlevel " + str(mainLevel)
+            capability = "Broadcast Contribution Single Tile Profile, Mainlevel " + str(mainLevel)
         elif profile == 2:
-            rsiz = "Broadcast Contribution Multi-tile Profile, Mainlevel " + str(mainLevel)
+            capability = "Broadcast Contribution Multi-tile Profile, Mainlevel " + str(mainLevel)
         elif profile == 3:
-            rsiz = "Broadcast Contribution Multi-tile Reversible Profile, Mainlevel " + str(mainLevel)
+            capability = "Broadcast Contribution Multi-tile Reversible Profile, Mainlevel " + str(mainLevel)
         elif profile == 4:
-            rsiz = "2k IMF Single Tile Lossy Profile, Mainlevel " + str(mainLevel) \
+            capability = "2k IMF Single Tile Lossy Profile, Mainlevel " + str(mainLevel) \
                    + "; Sublevel " + str(subLevel)
         elif profile == 5:
-            rsiz = "4k IMF Single Tile Lossy Profile, Mainlevel " + str(mainLevel) \
+            capability = "4k IMF Single Tile Lossy Profile, Mainlevel " + str(mainLevel) \
                    + "; Sublevel " + str(subLevel)
         elif profile == 6:
-            rsiz = "8k IMF Single Tile Lossy Profile, Mainlevel " + str(mainLevel) \
+            capability = "8k IMF Single Tile Lossy Profile, Mainlevel " + str(mainLevel) \
                    + "; Sublevel " + str(subLevel)
         elif profile == 7:
-            rsiz = "2k IMF Single/Multi Tile Reversible Profile, Mainlevel " + str(mainLevel) \
+            capability = "2k IMF Single/Multi Tile Reversible Profile, Mainlevel " + str(mainLevel) \
                    + "; Sublevel " + str(subLevel)
         elif profile == 8:
             rsiz = "4k IMF Single/Multi Tile Reversible Profile, Mainlevel " + str(mainLevel) \
                    + "; Sublevel " + str(subLevel)
         elif profile == 9:
-            rsiz = "8k IMF Single/Multi Tile Reversible Profile, Mainlevel " + str(mainLevel) \
+            capability = "8k IMF Single/Multi Tile Reversible Profile, Mainlevel " + str(mainLevel) \
                    + "; Sublevel " + str(subLevel)
         elif profile == 15 and subLevel == 15 and mainLevel == 15:
-            rsiz = "Profile signalled in Profile Marker"
+            capability = "Profile signalled in Profile Marker"
         else:
-            rsiz = "Unknown (value not defined in ISO/IEC 15444-1)"
+            capability = "Unknown (value not defined in ISO/IEC 15444-1)"
 
-        self.addCharacteristic("rsiz", rsiz)
-
-        if self.format in ['jp2', 'j2c']:
-            # For codestream that conforms to ISO/IEC 15444-1 first 4 bits are 0 
-            self.testFor("rsizIsValid", rsizByte1 == 0)
-        elif self.format in ['jph', 'jhc']:
-            # Second most significant bit shall be equal to 1. Note that ISO/IEC 15444-15 says "bit 14"
-            # as standard counts bits right to left, starting from 0)
-            self.testFor("rsizIsValid", self._getBitValue(rsizByte1, 2) == 1)
+        self.addCharacteristic("capability", capability)
 
         # Width of reference grid
         xsiz = bc.bytesToUInt(self.boxContents[4:8])

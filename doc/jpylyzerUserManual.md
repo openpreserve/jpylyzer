@@ -1801,7 +1801,8 @@ siz
 |Property|Description|
 |:-------|:----------|
 |lsiz|Length of SIZ marker segment in bytes|
-|rsiz|Decoder capabilities|
+|rsiz|Numerical value of *rsiz* (capabilities) field|
+|capability|Capabilities (profile) encoded by *rsiz* value|
 |xsiz|Width of reference grid|
 |ysiz|Height of reference grid|
 |xOsiz|Horizontal offset from origin of reference grid to left of image area|
