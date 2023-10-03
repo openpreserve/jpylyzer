@@ -1783,6 +1783,8 @@ is given by the following 2 derived properties (these are always reported, irres
 |foundCAPMarker|Codestream main header contains Extended Capabilities (CAP) marker segment if second most significant bit of *rsiz* equals 1|
 |foundCODMarker|Codestream main header contains coding style default (COD) marker segment|
 |foundQCDMarker|Codestream main header contains quantization default (QCD) marker segment|
+|CPFnumConsistentWithPRFnum|Value of *CPFnum* in CPF marker segment is consistent with *PRFnum* value in PRF marker segment|
+|CPFnumConsistentWithRsiz|Value of *CPFnum* in CPF marker segment is consistent with *rsiz^ value in SIZ marker segment|
 |foundExpectedNumberOfTiles|Number of encountered tiles is consistent with expected number of tiles (as calculated from [SIZ marker](#siz-marker))|
 |foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from [SOT marker](#sot-marker))|
 |maxOneCcocPerComponent|No more than one *ccoc* value for each component (only reported if codestream contains any COC marker segments)|
