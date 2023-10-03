@@ -2709,7 +2709,6 @@ class BoxValidator:
 
         # Profile number (updated from pprf values below)
         PRFnum = 4095
-
         offset = 2
 
         for i in range(nopprfs):
@@ -2738,14 +2737,11 @@ class BoxValidator:
 
         # Profile number (updated from ppf values below)
         CPFnum = -1
-
         offset = 2
 
         for i in range(nopcpfs):
             pcpf = bc.bytesToUShortInt(self.boxContents[offset:offset + 2])
-            self.addCharacteristic("i", i)
-            self.addCharacteristic("pcpf", pcpf)
-            CPFnum += pcpf*(2 **(16*i))
+            CPFnum += pcpf*2 ** (16*i)
             if i == nopcpfs:
                 # last pcpf shall not be zero
                 if self.format in ['jph', 'jhc']:
