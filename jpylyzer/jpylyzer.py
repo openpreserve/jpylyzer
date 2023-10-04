@@ -273,13 +273,11 @@ def generatePropertiesRemapTable():
     enumerationsMap['transformation'] = transformationMap
     enumerationsMap['qStyle'] = qStyleMap
     enumerationsMap['rcom'] = registrationMap
-    """
     enumerationsMap['htCodeBlocks'] = htCodeBlocksMap
     enumerationsMap['htSets'] = htSetsMap
     enumerationsMap['htRegion'] = htRegionMap
     enumerationsMap['htHomogeneous'] = htHomogeneousMap
     enumerationsMap['htReversible'] = htReversibleMap
-    """
     return enumerationsMap
 
 
