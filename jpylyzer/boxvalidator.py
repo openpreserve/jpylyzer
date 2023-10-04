@@ -2712,7 +2712,7 @@ class BoxValidator:
                 htReversible = self._getBitValue(ccap, 11, wordLength=16)
                 self.addCharacteristic("htReversible", htReversible)
                 
-                # Final 5 bits define parameter B from MAGB P set
+                # Final 5 bits define parameter B from MAGBP set
 
                 # Initial value of P
                 p = 0
@@ -2732,7 +2732,7 @@ class BoxValidator:
                     b = p + 8
                 elif 20 <= p < 31:
                     b = 4*(p-19) + 27
-                elif p == 31:
+                else:
                     b = 74
 
                 self.addCharacteristic("b", b)
