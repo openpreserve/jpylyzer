@@ -2712,7 +2712,30 @@ class BoxValidator:
                 htReversible = self._getBitValue(ccap, 11, wordLength=16)
                 self.addCharacteristic("htReversible", htReversible)
                 
-                # Final 4 bits define parameter B from MAGB P set; not extracted for now (or ever)
+                # Final 5 bits define parameter B from MAGB P set
+
+                # Initial value of P
+                p = 0
+                # Start value of i index
+                i = 0
+
+                # Iterate over bits from right to left
+                for j in range(16, 11, -1):
+                    bitVal = self._getBitValue(ccap, j, wordLength=16)
+                    p += bitVal *2**i
+                    i += 1
+
+                # Value of b as function of p
+                if p == 0:
+                    b = 8
+                elif p < 20:
+                    b = p + 8
+                elif 20 <= p < 31:
+                    b = 4*(p-19) + 27
+                elif p == 31:
+                    b = 74
+
+                self.addCharacteristic("b", b)
 
     def validate_prf(self):
         """Profile (PRF) marker segment (15444-1, Section A.5.3)."""
