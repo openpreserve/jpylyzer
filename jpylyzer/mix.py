@@ -17,6 +17,7 @@
 import re
 from . import etpatch as ET
 
+
 class Mix:
     """Class for generating NISO MIX image metadata."""
 
@@ -35,7 +36,8 @@ class Mix:
         else:
             value = br.text
             formatName = 'image/' + value.strip()
-        mixFormatDesignation.appendChildTagWithText('mix:formatName', formatName)
+        mixFormatDesignation.appendChildTagWithText(
+            'mix:formatName', formatName)
         mixBdoi.append(mixFormatDesignation)
         if self.mixFlag == 1:
             mixBdoi.appendChildTagWithText('mix:byteOrder', 'big_endian')
@@ -43,19 +45,31 @@ class Mix:
             mixBdoi.appendChildTagWithText('mix:byteOrder', 'big endian')
 
         mixComp = ET.Element('mix:Compression')
-        compression = properties.find('contiguousCodestreamBox/cod/transformation').text
+        compression = properties.find(
+            'contiguousCodestreamBox/cod/transformation').text
         if compression == '5-3 reversible':
             compressionScheme = 'JPEG 2000 Lossless'
         else:
             compressionScheme = 'JPEG 2000 Lossy'
-        mixComp.appendChildTagWithText('mix:compressionScheme', compressionScheme)
+        mixComp.appendChildTagWithText(
+            'mix:compressionScheme', compressionScheme)
         if self.mixFlag == 1:
             # compressionRatio is a int in mix 1...
-            compressionRatio = int(round(float(properties.find('compressionRatio').text), 0))
-            mixComp.appendChildTagWithText('mix:compressionRatio', str(compressionRatio))
+            compressionRatio = int(
+                round(
+                    float(
+                        properties.find('compressionRatio').text),
+                    0))
+            mixComp.appendChildTagWithText(
+                'mix:compressionRatio', str(compressionRatio))
         else:
             # compressionRatio is a Rational in mix 2.0 (keep only 2 digits)
-            value = int(round(float(properties.find('compressionRatio').text) * 100, 0))
+            value = int(
+                round(
+                    float(
+                        properties.find('compressionRatio').text) *
+                    100,
+                    0))
             mixCompRatio = ET.Element('mix:compressionRatio')
             mixCompRatio.appendChildTagWithText('mix:numerator', str(value))
             mixCompRatio.appendChildTagWithText('mix:denominator', '100')
@@ -69,25 +83,30 @@ class Mix:
         mixBio = ET.Element('mix:BasicImageInformation')
         mixBic = ET.Element('mix:BasicImageCharacteristics')
         width = str(properties.find('jp2HeaderBox/imageHeaderBox/width').text)
-        height = str(properties.find('jp2HeaderBox/imageHeaderBox/height').text)
+        height = str(properties.find(
+            'jp2HeaderBox/imageHeaderBox/height').text)
         mixBic.appendChildTagWithText('mix:imageWidth', width)
         mixBic.appendChildTagWithText('mix:imageHeight', height)
         # Try ICC first
         iccElement = properties.find('jp2HeaderBox/colourSpecificationBox/icc')
         if iccElement:
             mixPI = ET.Element('mix:PhotometricInterpretation')
-            colorSpace = properties.find('jp2HeaderBox/colourSpecificationBox/icc/colourSpace').text
+            colorSpace = properties.find(
+                'jp2HeaderBox/colourSpecificationBox/icc/colourSpace').text
             mixPI.appendChildTagWithText('mix:colorSpace', colorSpace.strip())
-            iccProfile = properties.find('jp2HeaderBox/colourSpecificationBox/icc/description').text
+            iccProfile = properties.find(
+                'jp2HeaderBox/colourSpecificationBox/icc/description').text
             mixColorProfile = ET.Element('mix:ColorProfile')
             mixIccProfile = ET.Element('mix:IccProfile')
-            mixIccProfile.appendChildTagWithText('mix:iccProfileName', iccProfile)
+            mixIccProfile.appendChildTagWithText(
+                'mix:iccProfileName', iccProfile)
             mixColorProfile.append(mixIccProfile)
             mixPI.append(mixColorProfile)
             mixBic.append(mixPI)
         else:
             mixPI = ET.Element('mix:PhotometricInterpretation')
-            colorSpace = properties.find('jp2HeaderBox/colourSpecificationBox/enumCS').text
+            colorSpace = properties.find(
+                'jp2HeaderBox/colourSpecificationBox/enumCS').text
             mixPI.appendChildTagWithText('mix:colorSpace', colorSpace.strip())
             mixBic.append(mixPI)
         mixBio.append(mixBic)
@@ -101,8 +120,10 @@ class Mix:
             if m:
                 # generate CodecCompliance only if it matches the regex
                 mixCodecCompliance = ET.Element('mix:CodecCompliance')
-                mixCodecCompliance.appendChildTagWithText('mix:codec', m.group(1))
-                mixCodecCompliance.appendChildTagWithText('mix:codecVersion', m.group(2))
+                mixCodecCompliance.appendChildTagWithText(
+                    'mix:codec', m.group(1))
+                mixCodecCompliance.appendChildTagWithText(
+                    'mix:codecVersion', m.group(2))
                 mixJP2.append(mixCodecCompliance)
         mixEncodingOptions = ET.Element('mix:EncodingOptions')
         tilesX = properties.find('contiguousCodestreamBox/siz/xTsiz').text
@@ -118,10 +139,12 @@ class Mix:
 
         layers = properties.find('contiguousCodestreamBox/cod/layers').text
         if str(layers) != "0":
-            mixEncodingOptions.appendChildTagWithText('mix:qualityLayers', str(layers))
+            mixEncodingOptions.appendChildTagWithText(
+                'mix:qualityLayers', str(layers))
         levels = properties.find('contiguousCodestreamBox/cod/levels').text
         if str(levels) != "0":
-            mixEncodingOptions.appendChildTagWithText('mix:resolutionLevels', str(levels))
+            mixEncodingOptions.appendChildTagWithText(
+                'mix:resolutionLevels', str(levels))
 
         mixJP2.append(mixEncodingOptions)
         mixSFC.append(mixJP2)
@@ -210,10 +233,13 @@ class Mix:
             mixSss = ET.Element('mix:ScanningSystemSoftware')
             m = re.search(r'^(.*) ([0-9\.]*)$', creatorTool)
             if m:
-                mixSss.appendChildTagWithText('mix:scanningSoftwareName', m.group(1))
-                mixSss.appendChildTagWithText('mix:scanningSoftwareVersionNo', m.group(2))
+                mixSss.appendChildTagWithText(
+                    'mix:scanningSoftwareName', m.group(1))
+                mixSss.appendChildTagWithText(
+                    'mix:scanningSoftwareVersionNo', m.group(2))
             else:
-                mixSss.appendChildTagWithText('mix:scanningSoftwareName', creatorTool)
+                mixSss.appendChildTagWithText(
+                    'mix:scanningSoftwareName', creatorTool)
             mixSc.append(mixSss)
             fillSc = True
 
@@ -222,35 +248,54 @@ class Mix:
 
         return mixIcm
 
-
     def generateMixImageAssessmentMetadata(self, properties):
         """Generate a mix ImageAssessmentMetadata."""
         mixIam = ET.Element('mix:ImageAssessmentMetadata')
 
         # Get the resolution in the captureResolutionBox first
-        resolutionBox = properties.find('jp2HeaderBox/resolutionBox/captureResolutionBox')
+        resolutionBox = properties.find(
+            'jp2HeaderBox/resolutionBox/captureResolutionBox')
         if resolutionBox is not None:
-            numX = int(float(resolutionBox.find('hRescInPixelsPerMeter').text) * 100)
-            numY = int(float(resolutionBox.find('vRescInPixelsPerMeter').text) * 100)
+            numX = int(
+                float(
+                    resolutionBox.find('hRescInPixelsPerMeter').text) *
+                100)
+            numY = int(
+                float(
+                    resolutionBox.find('vRescInPixelsPerMeter').text) *
+                100)
         else:
             # Then try the displayResolutionBox
-            resolutionBox = properties.find('jp2HeaderBox/resolutionBox/displayResolutionBox')
+            resolutionBox = properties.find(
+                'jp2HeaderBox/resolutionBox/displayResolutionBox')
             if resolutionBox is not None:
-                numX = int(float(resolutionBox.find('hResdInPixelsPerMeter').text) * 100)
-                numY = int(float(resolutionBox.find('vResdInPixelsPerMeter').text) * 100)
+                numX = int(
+                    float(
+                        resolutionBox.find('hResdInPixelsPerMeter').text) *
+                    100)
+                numY = int(
+                    float(
+                        resolutionBox.find('vResdInPixelsPerMeter').text) *
+                    100)
         if resolutionBox is not None:
             mixSm = ET.Element('mix:SpatialMetrics')
             if self.mixFlag == 1:
-                mixSm.appendChildTagWithText('mix:samplingFrequencyUnit', '3') # always in S.I.
+                # always in S.I.
+                mixSm.appendChildTagWithText('mix:samplingFrequencyUnit', '3')
             else:
-                mixSm.appendChildTagWithText('mix:samplingFrequencyUnit', 'cm') # always in S.I.
+                # always in S.I.
+                mixSm.appendChildTagWithText('mix:samplingFrequencyUnit', 'cm')
             mixXSamplingFrequency = ET.Element('mix:xSamplingFrequency')
-            mixXSamplingFrequency.appendChildTagWithText('mix:numerator', str(numX))
-            mixXSamplingFrequency.appendChildTagWithText('mix:denominator', '10000')
+            mixXSamplingFrequency.appendChildTagWithText(
+                'mix:numerator', str(numX))
+            mixXSamplingFrequency.appendChildTagWithText(
+                'mix:denominator', '10000')
             mixSm.append(mixXSamplingFrequency)
             mixYSamplingFrequency = ET.Element('mix:ySamplingFrequency')
-            mixYSamplingFrequency.appendChildTagWithText('mix:numerator', str(numY))
-            mixYSamplingFrequency.appendChildTagWithText('mix:denominator', '10000')
+            mixYSamplingFrequency.appendChildTagWithText(
+                'mix:numerator', str(numY))
+            mixYSamplingFrequency.appendChildTagWithText(
+                'mix:denominator', '10000')
             mixSm.append(mixYSamplingFrequency)
             mixIam.append(mixSm)
 

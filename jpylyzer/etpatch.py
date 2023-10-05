@@ -61,7 +61,7 @@ class Element(ET.Element):
         """
         try:
             return [result.text for result in self.findall(match)]
-        except:
+        except BaseException:
             return []
 
     def appendChildTagWithText(self, tag, text):

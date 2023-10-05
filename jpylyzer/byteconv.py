@@ -29,7 +29,7 @@ def _doConv(bytestr, bOrder, formatCharacter):
     formatStr = bOrder + formatCharacter
     try:
         result = struct.unpack(formatStr, bytestr)[0]
-    except:
+    except BaseException:
         result = -9999
     return result
 
@@ -88,7 +88,7 @@ def bytesToInteger(bytestring):
     """
     try:
         result = int(binascii.hexlify(bytestring), 16)
-    except:
+    except BaseException:
         result = -9999
 
     return result
@@ -122,7 +122,8 @@ def removeControlCharacters(string):
     """
     # Tab, newline and return are part of C0, but are allowed in XML
     allowedChars = [u'\t', u'\n', u'\r']
-    return "".join(ch for ch in string if unicodedata.category(ch)[0] != "C" or ch in allowedChars)
+    return "".join(ch for ch in string if unicodedata.category(ch)[
+                   0] != "C" or ch in allowedChars)
 
 
 def removeNullTerminator(bytestring):
@@ -144,7 +145,7 @@ def bytesToText(bytestring):
         # Remove control characters
         result = removeControlCharacters(string)
 
-    except:
+    except BaseException:
         # Return empty string if bytestring cannot be decoded
         result = ""
 

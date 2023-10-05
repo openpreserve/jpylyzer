@@ -305,14 +305,15 @@ def fileToMemoryMap(filename):
             else:
                 # This works for Linux (and Cygwin on Windows). Not too sure
                 # about other platforms like Mac OS though
-                fileData = mmap.mmap(f.fileno(), 0, mmap.MAP_SHARED, mmap.PROT_READ)
+                fileData = mmap.mmap(
+                    f.fileno(), 0, mmap.MAP_SHARED, mmap.PROT_READ)
         except ValueError as e:
             fileSize = os.path.getsize(filename)
             if fileSize > sys.maxsize:
                 # Report warning if file size exceeds system maximum size
                 # on 32-bit Python
                 msg = ("file " + filename + " too large to open (" +
-                       str(round(fileSize/1024**3, 1)) +
+                       str(round(fileSize / 1024**3, 1)) +
                        " GB). Try using 64-bit Python.")
                 shared.printWarning(msg)
                 fileData = ""
@@ -417,9 +418,9 @@ def checkOneFile(path, validationFormat='jp2',
         else:
             failureMessage = "unknown error, please report to developers by creating " + \
                              "an issue at https://github.com/openpreserve/jpylyzer/issues"
-            ## TEST
+            # TEST
             raise
-            ## TEST
+            # TEST
 
         shared.printWarning(failureMessage)
         tests = ET.Element("tests")
@@ -775,6 +776,7 @@ def main():
 
     # Check files
     checkFiles(config.INPUT_RECURSIVE_FLAG, jp2In)
+
 
 if __name__ == "__main__":
     main()
