@@ -380,21 +380,17 @@ def checkOneFile(path, validationFormat='jp2',
 
         # Validate according to value of validation format
         if validationFormat == 'jp2':
-            resultsJP2 = bv.BoxValidator('jp2', 'JP2',
-                                         verboseFlag, nullxmlFlag,
-                                         packetmarkersFlag,fileData).validate()
+            resultsJP2 = bv.BoxValidator('jp2', verboseFlag, nullxmlFlag,
+                                         packetmarkersFlag, 'JP2', fileData).validate()
         elif validationFormat == 'jph':
-            resultsJP2 = bv.BoxValidator('jph', 'JP2',
-                                         verboseFlag, nullxmlFlag,
-                                         packetmarkersFlag,fileData).validate()
+            resultsJP2 = bv.BoxValidator('jph', verboseFlag, nullxmlFlag,
+                                         packetmarkersFlag, 'JP2', fileData).validate()
         elif validationFormat == 'j2c':
-            resultsJP2 = bv.BoxValidator('j2c', 'contiguousCodestreamBox',
-                                         verboseFlag, nullxmlFlag,
-                                         packetmarkersFlag,fileData).validate()
+            resultsJP2 = bv.BoxValidator('j2c', verboseFlag, nullxmlFlag,
+                                         packetmarkersFlag,'contiguousCodestreamBox', fileData).validate()
         elif validationFormat == 'jhc':
-            resultsJP2 = bv.BoxValidator('jhc', 'contiguousCodestreamBox',
-                                         verboseFlag, nullxmlFlag,
-                                         packetmarkersFlag,fileData).validate()    
+            resultsJP2 = bv.BoxValidator('jhc', verboseFlag, nullxmlFlag,
+                                         packetmarkersFlag,'contiguousCodestreamBox', fileData).validate()   
 
         fileIsValid = resultsJP2.isValid
         tests = resultsJP2.tests
