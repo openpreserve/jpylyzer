@@ -325,12 +325,12 @@ def fileToMemoryMap(filename):
     return fileData
 
 
-def checkOneFile(path, validationFormat='jp2'):
+def checkOneFile(path, validationFormat='jp2',
+                 verbose=False,
+                 ):
     """Process one file and return analysis result as element object."""
     # Element root name, name space and Schema location (legacy, current)
     elementRootName = 'file'
-    nsString = NS_STRING_2
-    locSchemaString = LOC_SCHEMA_STRING_2
 
     # Create output elementtree object
     # Name space already declared in results element, so no need to do it
