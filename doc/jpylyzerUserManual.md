@@ -510,7 +510,15 @@ Here, *myResult* is an *Element* object that can either be used directly,
 or converted to XML using the *ElementTree* module[^3]. The structure of the
 element object follows the XML output that described [here](#output-format).
 
-For validation a raw JPEG 2000 codestreams, call the *checkOneFile* function with the additional
+You may use the following optional arguments (which correspond to the command-line options explained above):
+
+- validationFormat -  sets the validation format. Values: 'jp2' (default), 'jph', 'j2c' or 'jhc'.
+- verboseFlag - report test results in verbose format. Values: False (default) or True.
+- packetmarkersFlag - report packet-level codestream markers. Values: False (default) or True.
+- nullxmlFlag - extract null-terminated XML content from XML and UUID boxes. Values: False (default) or True.
+- mixFlag - report additional output in NISO MIX format (version 1.0 or 2.0). Values: 0 (default), 1 or 2.
+
+As an example, for validating a raw JPEG 2000 codestream, call the *checkOneFile* function with the additional
 *validationFormat* argument, and set it to `j2c`:
 
     # Define Codestream
@@ -518,6 +526,7 @@ For validation a raw JPEG 2000 codestreams, call the *checkOneFile* function wit
     
     # Analyse with jpylyzer, result to Element object
     myResult = jpylyzer.checkOneFile(myFile, 'j2c')
+
 
 Java integration {#java-integration}
 ---------------------------------------
