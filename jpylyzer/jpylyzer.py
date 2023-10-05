@@ -378,19 +378,15 @@ def checkOneFile(path, validationFormat='jp2',
         else:
             fileData = fileToMemoryMap(path)
 
-        # Validate according to value of validation format
-        if validationFormat == 'jp2':
-            resultsJP2 = bv.BoxValidator('jp2', verboseFlag, nullxmlFlag,
-                                         packetmarkersFlag, 'JP2', fileData).validate()
-        elif validationFormat == 'jph':
-            resultsJP2 = bv.BoxValidator('jph', verboseFlag, nullxmlFlag,
-                                         packetmarkersFlag, 'JP2', fileData).validate()
-        elif validationFormat == 'j2c':
-            resultsJP2 = bv.BoxValidator('j2c', verboseFlag, nullxmlFlag,
-                                         packetmarkersFlag,'contiguousCodestreamBox', fileData).validate()
-        elif validationFormat == 'jhc':
-            resultsJP2 = bv.BoxValidator('jhc', verboseFlag, nullxmlFlag,
-                                         packetmarkersFlag,'contiguousCodestreamBox', fileData).validate()   
+        # Set root box according to validation format
+        if validationFormat in ['jp2', 'jph']:
+            boxType = 'JP2'
+        elif validationFormat in ['j2c', 'jhc']:
+            boxType = 'contiguousCodestreamBox'
+
+        # Validate
+        resultsJP2 = bv.BoxValidator(validationFormat, verboseFlag, nullxmlFlag,
+                                     packetmarkersFlag, boxType, fileData).validate()
 
         fileIsValid = resultsJP2.isValid
         tests = resultsJP2.tests
@@ -405,6 +401,7 @@ def checkOneFile(path, validationFormat='jp2',
         # Create printable version of tests and characteristics tree
         tests.makeHumanReadable()
         characteristics.makeHumanReadable(remapTable)
+
     except Exception as ex:
         fileIsValid = False
         success = False
