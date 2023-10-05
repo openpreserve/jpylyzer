@@ -2712,20 +2712,10 @@ class BoxValidator:
                 htReversible = self._getBitValue(ccap, 11, wordLength=16)
                 self.addCharacteristic("htReversible", htReversible)
                 
-                # Final 5 bits define parameter B from MAGBP set
+                # Final 5 bits define parameter B from MAGBP set (apply bit mask)
+                p = ccap & 31
 
-                # Initial value of P
-                p = 0
-                # Start value of i index
-                i = 0
-
-                # Iterate over bits from right to left
-                for j in range(16, 11, -1):
-                    bitVal = self._getBitValue(ccap, j, wordLength=16)
-                    p += bitVal *2**i
-                    i += 1
-
-                # Value of b as function of p
+                # Value of b as a function of p
                 if p == 0:
                     b = 8
                 elif p < 20:
