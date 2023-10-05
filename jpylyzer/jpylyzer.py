@@ -39,7 +39,6 @@ import glob
 import argparse
 import codecs
 from xml.dom import minidom
-import xml.etree.ElementTree as ETree
 from . import config
 from . import etpatch as ET
 from . import boxvalidator as bv
