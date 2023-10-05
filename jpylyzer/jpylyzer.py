@@ -326,8 +326,10 @@ def fileToMemoryMap(filename):
 
 
 def checkOneFile(path, validationFormat='jp2',
-                 verbose=False,
-                 ):
+                 verboseFlag=config.OUTPUT_VERBOSE_FLAG,
+                 packetmarkersFlag=config.OUTPUT_PACKET_MARKERS_FLAG,
+                 nullxmlFlag=config.EXTRACT_NULL_TERMINATED_XML_FLAG,
+                 mixFlag=config.MIX_FLAG):
     """Process one file and return analysis result as element object."""
     # Element root name, name space and Schema location (legacy, current)
     elementRootName = 'file'
@@ -378,13 +380,21 @@ def checkOneFile(path, validationFormat='jp2',
 
         # Validate according to value of validation format
         if validationFormat == 'jp2':
-            resultsJP2 = bv.BoxValidator('jp2', 'JP2', fileData).validate()
+            resultsJP2 = bv.BoxValidator('jp2', 'JP2',
+                                         verboseFlag, nullxmlFlag,
+                                         packetmarkersFlag,fileData).validate()
         elif validationFormat == 'jph':
-            resultsJP2 = bv.BoxValidator('jph', 'JP2', fileData).validate()
+            resultsJP2 = bv.BoxValidator('jph', 'JP2',
+                                         verboseFlag, nullxmlFlag,
+                                         packetmarkersFlag,fileData).validate()
         elif validationFormat == 'j2c':
-            resultsJP2 = bv.BoxValidator('j2c', 'contiguousCodestreamBox', fileData).validate()
+            resultsJP2 = bv.BoxValidator('j2c', 'contiguousCodestreamBox',
+                                         verboseFlag, nullxmlFlag,
+                                         packetmarkersFlag,fileData).validate()
         elif validationFormat == 'jhc':
-            resultsJP2 = bv.BoxValidator('jhc', 'contiguousCodestreamBox', fileData).validate()       
+            resultsJP2 = bv.BoxValidator('jhc', 'contiguousCodestreamBox',
+                                         verboseFlag, nullxmlFlag,
+                                         packetmarkersFlag,fileData).validate()    
 
         fileIsValid = resultsJP2.isValid
         tests = resultsJP2.tests
@@ -422,8 +432,8 @@ def checkOneFile(path, validationFormat='jp2',
         tests = ET.Element("tests")
         characteristics = ET.Element('properties')
 
-    if config.MIX_FLAG != 0 and fileIsValid:
-        mixProperties = mix.Mix(config.MIX_FLAG).generateMix(characteristics)
+    if mixFlag != 0 and fileIsValid:
+        mixProperties = mix.Mix(mixFlag).generateMix(characteristics)
 
     # Add status info
     statusInfo.appendChildTagWithText("success", str(success))
@@ -436,14 +446,14 @@ def checkOneFile(path, validationFormat='jp2',
 
     root.appendChildTagWithText("isValid", str(fileIsValid))
     # Set 'format' attribute of isValid element
-    root.findall(".//isValid")[0].set("format", config.VALIDATION_FORMAT)
+    root.findall(".//isValid")[0].set("format", validationFormat)
 
     root.append(tests)
     root.append(characteristics)
     extension = ET.Element('propertiesExtension')
-    if config.MIX_FLAG != 0:
+    if mixFlag != 0:
         root.append(extension)
-        if config.VALIDATION_FORMAT in ['jp2', 'jph'] and fileIsValid:
+        if validationFormat in ['jp2', 'jph'] and fileIsValid:
             extension.append(mixProperties)
 
     return root
