@@ -15,10 +15,8 @@
 #
 
 from __future__ import division
-import sys  # debug, remove later!
 import uuid
 import math
-from . import config
 from . import etpatch as ET
 from . import byteconv as bc
 from . import shared
