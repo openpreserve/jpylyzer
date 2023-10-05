@@ -75,9 +75,13 @@ class BoxValidator:
     # Reverse access of typemap for quick lookup
     boxTagMap = {v: k for k, v in typeMap.items()}
 
-    def __init__(self, format, bType, boxContents, startOffset=None, components=None):
+    def __init__(self, vFormat, nullxml, packetmarkers, verbose, bType,
+                 boxContents, startOffset=None, components=None):
         """Initialise a BoxValidator."""
-        self.format = format
+        self.format = vFormat
+        self.nullxml = nullxml
+        self.packetmarkers = packetmarkers
+        self.verbose = verbose
         if bType in self.typeMap:
             self.boxType = self.typeMap[bType]
         elif bType == "JP2":
@@ -269,7 +273,7 @@ class BoxValidator:
 
     def testFor(self, testType, testResult):
         """Add testResult node to tests element tree."""
-        if config.OUTPUT_VERBOSE_FLAG is False:
+        if not self.verbose:
             # Non-verbose output: only add results of tests that failed
             if testResult is False:
                 self.tests.appendChildTagWithText(testType, testResult)
@@ -1463,7 +1467,7 @@ class BoxValidator:
                     # Add analysis results to test results tree
                     self.tests.appendIfNotEmpty(testsPLM)
                     # Add extracted characteristics to characteristics tree
-                    if config.OUTPUT_PACKET_MARKERS_FLAG:
+                    if self.packetmarkers:
                         self.characteristics.append(characteristicsPLM)
                     offset = offsetNext
 
@@ -1476,7 +1480,7 @@ class BoxValidator:
                     # Add analysis results to test results tree
                     self.tests.appendIfNotEmpty(testsPPM)
                     # Add extracted characteristics to characteristics tree
-                    if config.OUTPUT_PACKET_MARKERS_FLAG:
+                    if self.packetmarkers:
                         self.characteristics.append(characteristicsPPM)
                     offset = offsetNext
 
@@ -3029,7 +3033,7 @@ class BoxValidator:
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsPLT)
                 # Add extracted characteristics to characteristics tree
-                if config.OUTPUT_PACKET_MARKERS_FLAG:
+                if self.packetmarkers:
                     self.characteristics.append(characteristicsPLT)
                 offset = offsetNext
 
@@ -3042,7 +3046,7 @@ class BoxValidator:
                 # Add analysis results to test results tree
                 self.tests.appendIfNotEmpty(testsPPT)
                 # Add extracted characteristics to characteristics tree
-                if config.OUTPUT_PACKET_MARKERS_FLAG:
+                if self.packetmarkers:
                     self.characteristics.append(characteristicsPPT)
                 offset = offsetNext
 
@@ -3098,7 +3102,7 @@ class BoxValidator:
             containsWellformedXML = False
 
             # Useful for extracting null-terminated XML (older Kakadu versions)
-            if config.EXTRACT_NULL_TERMINATED_XML_FLAG:
+            if self.nullxml:
                 try:
                     data = bc.removeNullTerminator(data)
                     dataAsElement = ET.fromstring(data)
@@ -3149,7 +3153,7 @@ class BoxValidator:
 
                 # Useful for extracting null-terminated XML (older Kakadu
                 # versions)
-                if config.EXTRACT_NULL_TERMINATED_XML_FLAG:
+                if self.nullxml:
                     try:
                         data = bc.removeNullTerminator(data)
                         dataAsElement = ET.fromstring(data)
