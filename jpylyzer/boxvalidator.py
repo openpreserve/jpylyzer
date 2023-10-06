@@ -1731,6 +1731,21 @@ class BoxValidator:
             # Last 2 bytes must be end-of-codestream marker
             self.testFor("foundEOCMarker",
                          self.boxContents[length - 2:length] == b'\xff\xd9')
+            
+            if self.format in ['j2c', 'jhc'] and foundSIZMarker:
+
+                # Calculate compression ratio
+                ssizDepthValues = characteristicsSIZ.findAllText('ssizDepth')
+                ysiz = characteristicsSIZ.findElementText('ysiz')
+                yOsiz = characteristicsSIZ.findElementText('xOsiz')
+                xsiz = characteristicsSIZ.findElementText('xsiz')
+                xOsiz = characteristicsSIZ.findElementText('xOsiz')
+
+                compressionRatio = self._calculateCompressionRatio(
+                    length, ssizDepthValues, (ysiz - yOsiz), (xsiz - xOsiz))
+                compressionRatio = round(compressionRatio, 2)
+                self.addCharacteristic("compressionRatio", compressionRatio)
+
 
         # Valid codestream only if all tests returned True
         self.isValid = self._isValid()
@@ -3643,11 +3658,12 @@ class BoxValidator:
             self.testFor(
                 "bPCDepthConsistentWithSIZ", bPCDepthConsistentWithSIZ)
 
-            # Calculate compression ratio of this image
-            compressionRatio = self._calculateCompressionRatio(
-                noBytes, bPCDepthValues, height, width)
-            compressionRatio = round(compressionRatio, 2)
-            self.addCharacteristic("compressionRatio", compressionRatio)
+            # Calculate compression ratio
+            if self.format in ['jp2', 'jph']:
+                compressionRatio = self._calculateCompressionRatio(
+                    noBytes, bPCDepthValues, height, width)
+                compressionRatio = round(compressionRatio, 2)
+                self.addCharacteristic("compressionRatio", compressionRatio)
 
         # Valid JP2 only if all tests returned True
         self.isValid = self._isValid()
