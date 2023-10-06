@@ -73,13 +73,13 @@ class BoxValidator:
     # Reverse access of typemap for quick lookup
     boxTagMap = {v: k for k, v in typeMap.items()}
 
-    def __init__(self, vFormat, verboseFlag, nullxmlFlag, packetmarkersFlag,
-                 bType, boxContents, startOffset=None, components=None):
+    def __init__(self, options, bType, boxContents,
+                 startOffset=None, components=None):
         """Initialise a BoxValidator."""
-        self.format = vFormat
-        self.verboseFlag = verboseFlag
-        self.nullxmlFlag = nullxmlFlag
-        self.packetmarkersFlag = packetmarkersFlag
+        self.format = options['validationFormat']
+        self.verboseFlag = options['verboseFlag']
+        self.nullxmlFlag = options['nullxmlFlag']
+        self.packetmarkersFlag = options['packetmarkersFlag']
         if bType in self.typeMap:
             self.boxType = self.typeMap[bType]
         elif bType == "JP2":

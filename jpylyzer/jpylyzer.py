@@ -385,9 +385,15 @@ def checkOneFile(path, validationFormat='jp2',
         elif validationFormat in ['j2c', 'jhc']:
             boxType = 'contiguousCodestreamBox'
 
+        # Create dictionary with BoxValidator options
+        bvOptions = {}
+        bvOptions['validationFormat'] = validationFormat
+        bvOptions['verboseFlag'] = verboseFlag
+        bvOptions['nullxmlFlag'] = nullxmlFlag
+        bvOptions['packetmarkersFlag'] = packetmarkersFlag
+
         # Validate
-        resultsJP2 = bv.BoxValidator(validationFormat, verboseFlag, nullxmlFlag,
-                                     packetmarkersFlag, boxType, fileData).validate()
+        resultsJP2 = bv.BoxValidator(bvOptions, boxType, fileData).validate()
 
         fileIsValid = resultsJP2.isValid
         tests = resultsJP2.tests
