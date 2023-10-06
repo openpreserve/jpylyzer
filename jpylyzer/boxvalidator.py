@@ -76,10 +76,11 @@ class BoxValidator:
     def __init__(self, options, bType, boxContents,
                  startOffset=None, components=None):
         """Initialise a BoxValidator."""
-        self.format = options['validationFormat']
-        self.verboseFlag = options['verboseFlag']
-        self.nullxmlFlag = options['nullxmlFlag']
-        self.packetmarkersFlag = options['packetmarkersFlag']
+        self.options = options
+        self.format = self.options['validationFormat']
+        self.verboseFlag = self.options['verboseFlag']
+        self.nullxmlFlag = self.options['nullxmlFlag']
+        self.packetmarkersFlag = self.options['packetmarkersFlag']
         if bType in self.typeMap:
             self.boxType = self.typeMap[bType]
         elif bType == "JP2":
@@ -386,10 +387,7 @@ class BoxValidator:
 
             # Validate sub-boxes
             resultsBox = BoxValidator(
-                self.format,
-                self.verboseFlag,
-                self.nullxmlFlag,
-                self.packetmarkersFlag,
+                self.options,
                 boxType,
                 subBoxContents).validate()
             testsBox = resultsBox.tests
@@ -640,10 +638,7 @@ class BoxValidator:
 
             # Extract ICC profile properties as element object
             iccResults = BoxValidator(
-                self.format,
-                self.verboseFlag,
-                self.nullxmlFlag,
-                self.packetmarkersFlag,
+                self.options,
                 'icc',
                 profile).validate()
             iccCharacteristics = iccResults.characteristics
@@ -681,10 +676,7 @@ class BoxValidator:
             # Extract ICC profile properties as element object
             # self.getICCCharacteristics(profile)
             iccResults = BoxValidator(
-                self.format,
-                self.verboseFlag,
-                self.nullxmlFlag,
-                self.packetmarkersFlag,
+                self.options,
                 'icc',
                 profile).validate()
             iccCharacteristics = iccResults.characteristics
@@ -1130,10 +1122,7 @@ class BoxValidator:
 
             # validate sub boxes
             resultsBox = BoxValidator(
-                self.format,
-                self.verboseFlag,
-                self.nullxmlFlag,
-                self.packetmarkersFlag,
+                self.options,
                 boxType,
                 subBoxContents).validate()
             testsBox = resultsBox.tests
@@ -1311,10 +1300,7 @@ class BoxValidator:
         if foundSIZMarker:
             # Validate SIZ segment
             resultsSIZ = BoxValidator(
-                self.format,
-                self.verboseFlag,
-                self.nullxmlFlag,
-                self.packetmarkersFlag,
+                self.options,
                 marker,
                 segContents).validate()
             testsSIZ = resultsSIZ.tests
@@ -1349,10 +1335,7 @@ class BoxValidator:
                     foundCODMarker = True
                     # Validate COD segment
                     resultsCOD = BoxValidator(
-                        self.format,
-                        self.verboseFlag,
-                        self.nullxmlFlag,
-                        self.packetmarkersFlag,
+                        self.options,
                         marker,
                         segContents).validate()
                     testsCOD = resultsCOD.tests
@@ -1368,10 +1351,7 @@ class BoxValidator:
                     # COC is optional
                     # Validate COC segment
                     resultsCOC = BoxValidator(
-                        self.format,
-                        self.verboseFlag,
-                        self.nullxmlFlag,
-                        self.packetmarkersFlag,
+                        self.options,
                         marker,
                         segContents,
                         components=csiz).validate()
@@ -1389,10 +1369,7 @@ class BoxValidator:
                     foundQCDMarker = True
                     # Validate QCD segment
                     resultsQCD = BoxValidator(
-                        self.format,
-                        self.verboseFlag,
-                        self.nullxmlFlag,
-                        self.packetmarkersFlag,
+                        self.options,
                         marker,
                         segContents).validate()
                     testsQCD = resultsQCD.tests
@@ -1408,10 +1385,7 @@ class BoxValidator:
                     # QCC is optional
                     # Validate QCC segment
                     resultsQCC = BoxValidator(
-                        self.format,
-                        self.verboseFlag,
-                        self.nullxmlFlag,
-                        self.packetmarkersFlag,
+                        self.options,
                         marker,
                         segContents,
                         components=csiz).validate()
@@ -1428,10 +1402,7 @@ class BoxValidator:
                     # RGN is optional
                     # Validate RGN segment
                     resultsRGN = BoxValidator(
-                        self.format,
-                        self.verboseFlag,
-                        self.nullxmlFlag,
-                        self.packetmarkersFlag,
+                        self.options,
                         marker,
                         segContents,
                         components=csiz).validate()
@@ -1448,10 +1419,7 @@ class BoxValidator:
                     # POC is optional
                     # Validate QCC segment
                     resultsPOC = BoxValidator(
-                        self.format,
-                        self.verboseFlag,
-                        self.nullxmlFlag,
-                        self.packetmarkersFlag,
+                        self.options,
                         marker,
                         segContents,
                         components=csiz).validate()
@@ -1467,10 +1435,7 @@ class BoxValidator:
                     # CRG (component registration) marker segment
                     # Validate CRG segment
                     resultsCRG = BoxValidator(
-                        self.format,
-                        self.verboseFlag,
-                        self.nullxmlFlag,
-                        self.packetmarkersFlag,
+                        self.options,
                         marker,
                         segContents,
                         components=csiz).validate()
@@ -1486,10 +1451,7 @@ class BoxValidator:
                     # COM (codestream comment) marker segment
                     # Validate COM segment
                     resultsCOM = BoxValidator(
-                        self.format,
-                        self.verboseFlag,
-                        self.nullxmlFlag,
-                        self.packetmarkersFlag,
+                        self.options,
                         marker,
                         segContents).validate()
                     testsCOM = resultsCOM.tests
@@ -1504,10 +1466,7 @@ class BoxValidator:
                     # CAP marker
                     foundCAPMarker = True
                     resultsCAP = BoxValidator(
-                        self.format,
-                        self.verboseFlag,
-                        self.nullxmlFlag,
-                        self.packetmarkersFlag,
+                        self.options,
                         marker,
                         segContents).validate()
                     testsCAP = resultsCAP.tests
@@ -1522,10 +1481,7 @@ class BoxValidator:
                     # PRF marker
                     foundPRFMarker = True
                     resultsPRF = BoxValidator(
-                        self.format,
-                        self.verboseFlag,
-                        self.nullxmlFlag,
-                        self.packetmarkersFlag,
+                        self.options,
                         marker,
                         segContents).validate()
                     testsPRF = resultsPRF.tests
@@ -1540,10 +1496,7 @@ class BoxValidator:
                     # CPF marker
                     foundCPFMarker = True
                     resultsCPF = BoxValidator(
-                        self.format,
-                        self.verboseFlag,
-                        self.nullxmlFlag,
-                        self.packetmarkersFlag,
+                        self.options,
                         marker,
                         segContents).validate()
                     testsCPF = resultsCPF.tests
@@ -1563,10 +1516,7 @@ class BoxValidator:
                 elif marker == b'\xff\x55':
                     # TLM marker
                     resultsTLM = BoxValidator(
-                        self.format,
-                        self.verboseFlag,
-                        self.nullxmlFlag,
-                        self.packetmarkersFlag,
+                        self.options,
                         marker,
                         segContents).validate()
                     testsTLM = resultsTLM.tests
@@ -1600,10 +1550,7 @@ class BoxValidator:
                     # PPM marker
                     ppmCount += 1
                     resultsPPM = BoxValidator(
-                        self.format,
-                        self.verboseFlag,
-                        self.nullxmlFlag,
-                        self.packetmarkersFlag,
+                        self.options,
                         marker,
                         segContents).validate()
                     testsPPM = resultsPPM.tests
@@ -1697,7 +1644,7 @@ class BoxValidator:
                 marker = self.boxContents[offset:offset + 2]
 
                 if marker == b'\xff\x90':
-                    resultsTilePart = BoxValidator(self.format, self.verboseFlag, self.nullxmlFlag, self.packetmarkersFlag, marker, self.boxContents,
+                    resultsTilePart = BoxValidator(self.options, marker, self.boxContents,
                                                    startOffset=offset,
                                                    components=csiz).validate()
                     testsTilePart = resultsTilePart.tests
@@ -3070,10 +3017,7 @@ class BoxValidator:
         # tilePartLength is value of psot, which is the total length of this tile
         # including the SOT marker. Note that psot may be 0 for last tile!
         resultsSOT = BoxValidator(
-            self.format,
-            self.verboseFlag,
-            self.nullxmlFlag,
-            self.packetmarkersFlag,
+            self.options,
             'startOfTile',
             segContents).validate()
         testsSOT = resultsSOT.tests
@@ -3106,10 +3050,7 @@ class BoxValidator:
                 # COD (coding style default) marker segment
                 # Validate COD segment
                 resultsCOD = BoxValidator(
-                    self.format,
-                    self.verboseFlag,
-                    self.nullxmlFlag,
-                    self.packetmarkersFlag,
+                    self.options,
                     marker,
                     segContents).validate()
                 testsCOD = resultsCOD.tests
@@ -3125,10 +3066,7 @@ class BoxValidator:
                 # COC is optional
                 # Validate COC segment
                 resultsCOC = BoxValidator(
-                    self.format,
-                    self.verboseFlag,
-                    self.nullxmlFlag,
-                    self.packetmarkersFlag,
+                    self.options,
                     marker,
                     segContents,
                     components=self.csiz).validate()
@@ -3144,10 +3082,7 @@ class BoxValidator:
                 # QCD (quantization default) marker segment
                 # Validate QCD segment
                 resultsQCD = BoxValidator(
-                    self.format,
-                    self.verboseFlag,
-                    self.nullxmlFlag,
-                    self.packetmarkersFlag,
+                    self.options,
                     marker,
                     segContents).validate()
                 testsQCD = resultsQCD.tests
@@ -3163,10 +3098,7 @@ class BoxValidator:
                 # QCC is optional
                 # Validate QCC segment
                 resultsQCC = BoxValidator(
-                    self.format,
-                    self.verboseFlag,
-                    self.nullxmlFlag,
-                    self.packetmarkersFlag,
+                    self.options,
                     marker,
                     segContents,
                     components=self.csiz).validate()
@@ -3183,10 +3115,7 @@ class BoxValidator:
                 # RGN is optional
                 # Validate RGN segment
                 resultsRGN = BoxValidator(
-                    self.format,
-                    self.verboseFlag,
-                    self.nullxmlFlag,
-                    self.packetmarkersFlag,
+                    self.options,
                     marker,
                     segContents,
                     components=self.csiz).validate()
@@ -3203,10 +3132,7 @@ class BoxValidator:
                 # POC is optional
                 # Validate QCC segment
                 resultsPOC = BoxValidator(
-                    self.format,
-                    self.verboseFlag,
-                    self.nullxmlFlag,
-                    self.packetmarkersFlag,
+                    self.options,
                     marker,
                     segContents,
                     components=self.csiz).validate()
@@ -3222,10 +3148,7 @@ class BoxValidator:
                 # COM (codestream comment) marker segment
                 # Validate COM segment
                 resultsCOM = BoxValidator(
-                    self.format,
-                    self.verboseFlag,
-                    self.nullxmlFlag,
-                    self.packetmarkersFlag,
+                    self.options,
                     marker,
                     segContents).validate()
                 testsCOM = resultsCOM.tests
@@ -3240,10 +3163,7 @@ class BoxValidator:
                 # PLT marker
                 pltCount += 1
                 resultsPLT = BoxValidator(
-                    self.format,
-                    self.verboseFlag,
-                    self.nullxmlFlag,
-                    self.packetmarkersFlag,
+                    self.options,
                     marker,
                     segContents).validate()
                 testsPLT = resultsPLT.tests
@@ -3259,10 +3179,7 @@ class BoxValidator:
                 # PPT marker
                 pptCount += 1
                 resultsPPT = BoxValidator(
-                    self.format,
-                    self.verboseFlag,
-                    self.nullxmlFlag,
-                    self.packetmarkersFlag,
+                    self.options,
                     marker,
                     segContents).validate()
                 testsPPT = resultsPPT.tests
@@ -3415,10 +3332,7 @@ class BoxValidator:
 
             # validate sub boxes
             resultsBox = BoxValidator(
-                self.format,
-                self.verboseFlag,
-                self.nullxmlFlag,
-                self.packetmarkersFlag,
+                self.options,
                 boxType,
                 subBoxContents).validate()
             testsBox = resultsBox.tests
@@ -3531,10 +3445,7 @@ class BoxValidator:
 
             # Validate current top level box
             resultsBox = BoxValidator(
-                self.format,
-                self.verboseFlag,
-                self.nullxmlFlag,
-                self.packetmarkersFlag,
+                self.options,
                 boxType,
                 boxContents).validate()
             testsBox = resultsBox.tests
