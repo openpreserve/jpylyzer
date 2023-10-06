@@ -112,7 +112,9 @@ class BoxValidator:
             to_call = getattr(self, "validate_" + self.boxType)
         except AttributeError:
             shared.printWarning(
-                "ignoring '" + self.boxType + "' (validator function not yet implemented)")
+                "ignoring '" +
+                self.boxType +
+                "' (validator function not yet implemented)")
 
         else:
             to_call()
@@ -405,8 +407,8 @@ class BoxValidator:
             self.characteristics.append(characteristicsBox)
 
         # Do all required header boxes exist?
-        self.testFor(
-            "containsImageHeaderBox", self.boxTagMap['imageHeaderBox'] in subBoxTypes)
+        self.testFor("containsImageHeaderBox",
+                     self.boxTagMap['imageHeaderBox'] in subBoxTypes)
 
         if self.format == 'jp2':
             self.testFor("containsColourSpecificationBox", self.boxTagMap[
@@ -424,7 +426,7 @@ class BoxValidator:
             if not self.boxTagMap['colourSpecificationBox'] in subBoxTypes:
                 cTypes = self.characteristics.findAllText(
                     'channelDefinitionBox/cTyp')
-                self.testFor("noZeroCTypesIfNoColourBox", not 0 in cTypes)
+                self.testFor("noZeroCTypesIfNoColourBox", 0 not in cTypes)
 
         # If bPCSign equals 1 and bPCDepth equals 128 (equivalent to bPC field being
         # 255), this box must contain a Bits Per Components box
@@ -443,7 +445,8 @@ class BoxValidator:
             firstJP2HeaderBoxIsImageHeaderBox = False
 
         self.testFor(
-            "firstJP2HeaderBoxIsImageHeaderBox", firstJP2HeaderBoxIsImageHeaderBox)
+            "firstJP2HeaderBoxIsImageHeaderBox",
+            firstJP2HeaderBoxIsImageHeaderBox)
 
         # Some boxes can have multiple instances, whereas for others only one
         # is allowed
@@ -812,7 +815,8 @@ class BoxValidator:
         # (1 if true, 0 if false)
         profileCannotBeUsedIndependently = self._getBitValue(profileFlags, 2)
         self.addCharacteristic(
-            "profileCannotBeUsedIndependently", profileCannotBeUsedIndependently)
+            "profileCannotBeUsedIndependently",
+            profileCannotBeUsedIndependently)
 
         # Device manufacturer
         deviceManufacturer = self.boxContents[48:52]
@@ -1644,9 +1648,12 @@ class BoxValidator:
                 marker = self.boxContents[offset:offset + 2]
 
                 if marker == b'\xff\x90':
-                    resultsTilePart = BoxValidator(self.options, marker, self.boxContents,
-                                                   startOffset=offset,
-                                                   components=csiz).validate()
+                    resultsTilePart = BoxValidator(
+                        self.options,
+                        marker,
+                        self.boxContents,
+                        startOffset=offset,
+                        components=csiz).validate()
                     testsTilePart = resultsTilePart.tests
                     characteristicsTilePart = resultsTilePart.characteristics
                     offsetNext = resultsTilePart.returnOffset
@@ -1725,8 +1732,8 @@ class BoxValidator:
                         set(cqccValues)) == len(cqccValues))
 
             # Last 2 bytes must be end-of-codestream marker
-            self.testFor(
-                "foundEOCMarker", self.boxContents[length - 2:length] == b'\xff\xd9')
+            self.testFor("foundEOCMarker",
+                         self.boxContents[length - 2:length] == b'\xff\xd9')
 
         # Valid codestream only if all tests returned True
         self.isValid = self._isValid()
@@ -1806,23 +1813,23 @@ class BoxValidator:
             capability = "Broadcast Contribution Multi-tile Reversible Profile, Mainlevel " + \
                 str(mainLevel)
         elif profile == 4:
-            capability = "2k IMF Single Tile Lossy Profile, Mainlevel " + str(mainLevel) \
-                + "; Sublevel " + str(subLevel)
+            capability = "2k IMF Single Tile Lossy Profile, Mainlevel " + \
+                str(mainLevel) + "; Sublevel " + str(subLevel)
         elif profile == 5:
-            capability = "4k IMF Single Tile Lossy Profile, Mainlevel " + str(mainLevel) \
-                + "; Sublevel " + str(subLevel)
+            capability = "4k IMF Single Tile Lossy Profile, Mainlevel " + \
+                str(mainLevel) + "; Sublevel " + str(subLevel)
         elif profile == 6:
-            capability = "8k IMF Single Tile Lossy Profile, Mainlevel " + str(mainLevel) \
-                + "; Sublevel " + str(subLevel)
+            capability = "8k IMF Single Tile Lossy Profile, Mainlevel " + \
+                str(mainLevel) + "; Sublevel " + str(subLevel)
         elif profile == 7:
-            capability = "2k IMF Single/Multi Tile Reversible Profile, Mainlevel " + str(mainLevel) \
-                + "; Sublevel " + str(subLevel)
+            capability = "2k IMF Single/Multi Tile Reversible Profile, Mainlevel " + \
+                str(mainLevel) + "; Sublevel " + str(subLevel)
         elif profile == 8:
-            rsiz = "4k IMF Single/Multi Tile Reversible Profile, Mainlevel " + str(mainLevel) \
-                   + "; Sublevel " + str(subLevel)
+            rsiz = "4k IMF Single/Multi Tile Reversible Profile, Mainlevel " + \
+                str(mainLevel) + "; Sublevel " + str(subLevel)
         elif profile == 9:
-            capability = "8k IMF Single/Multi Tile Reversible Profile, Mainlevel " + str(mainLevel) \
-                + "; Sublevel " + str(subLevel)
+            capability = "8k IMF Single/Multi Tile Reversible Profile, Mainlevel " + \
+                str(mainLevel) + "; Sublevel " + str(subLevel)
         elif profile == 15 and subLevel == 15 and mainLevel == 15:
             capability = "Profile signalled in Profile Marker"
         else:
@@ -3482,7 +3489,8 @@ class BoxValidator:
         if iPR == 1:
             containsIntellectualPropertyBox = tagIntellectualPropertyBox in boxTypes
             self.testFor(
-                "containsIntellectualPropertyBox", containsIntellectualPropertyBox)
+                "containsIntellectualPropertyBox",
+                containsIntellectualPropertyBox)
 
         # Is the first box a Signature Box (ISO/IEC 15444-1 Section I.5.1)?
         try:
