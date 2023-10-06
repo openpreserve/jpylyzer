@@ -1535,10 +1535,7 @@ class BoxValidator:
                     # PLM marker
                     plmCount += 1
                     resultsPLM = BoxValidator(
-                        self.format,
-                        self.verboseFlag,
-                        self.nullxmlFlag,
-                        self.packetmarkersFlag,
+                        self.options,
                         marker,
                         segContents).validate()
                     testsPLM = resultsPLM.tests
