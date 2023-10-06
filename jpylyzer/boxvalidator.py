@@ -3417,7 +3417,7 @@ class BoxValidator:
         self.addCharacteristic("loc", loc)
 
     def validate_JP2(self):
-        """Top-level function for JP2 validation.
+        """Top-level function for JP2 (and JPH) validation.
 
         1. Parses all top-level boxes in JP2 byte object, and calls separate validator
            function for each of these
