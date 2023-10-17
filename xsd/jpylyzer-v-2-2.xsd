@@ -521,6 +521,7 @@
       <xs:sequence>
         <xs:element ref="lsiz"/>
         <xs:element ref="rsiz"/>
+        <xs:element ref="capability"/>
         <xs:element ref="xsiz"/>
         <xs:element ref="ysiz"/>
         <xs:element ref="xOsiz"/>
@@ -543,6 +544,7 @@
   
   <xs:element name="lsiz" type="xs:integer"/>
   <xs:element name="rsiz" type="xs:string"/>
+  <xs:element name="capability" type="xs:string"/>
   <xs:element name="xsiz" type="xs:integer"/>
   <xs:element name="ysiz" type="xs:integer"/>
   <xs:element name="xOsiz" type="xs:integer"/>
