@@ -36,7 +36,7 @@ SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 JPYLYZER_DIR = os.path.split(os.path.split(SCRIPT_DIR)[0])[0]
 
 # XSD file (path resolved from SCRIPT_DIR)
-xsdFile = os.path.join(JPYLYZER_DIR, "xsd/jpylyzer-v-2-1.xsd")
+xsdFile = os.path.join(JPYLYZER_DIR, "xsd/jpylyzer-v-2-2.xsd")
 
 # Directory with test files
 testFilesDir = JPYLYZER_DIR.replace("jpylyzer", "jpylyzer-test-files")
