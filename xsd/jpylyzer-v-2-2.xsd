@@ -242,8 +242,12 @@
         <xs:element ref="meth"/>
         <xs:element ref="prec"/>
         <xs:element ref="approx"/>
-        <xs:element ref="enumCS"  minOccurs="0"/>
-        <xs:element ref="icc"  minOccurs="0"/>
+        <xs:element ref="enumCS" minOccurs="0"/>
+        <xs:element ref="icc" minOccurs="0"/>
+        <xs:element ref="colPrims" minOccurs="0"/>
+        <xs:element ref="transfC" minOccurs="0"/>
+        <xs:element ref="matCoeffs" minOccurs="0"/>
+        <xs:element ref="vidFRng" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -252,6 +256,10 @@
   <xs:element name="prec" type="xs:integer"/>
   <xs:element name="approx" type="xs:integer"/>
   <xs:element name="enumCS" type="xs:string"/>
+  <xs:element name="colPrims" type="xs:integer"/>
+  <xs:element name="transfC" type="xs:integer"/>
+  <xs:element name="matCoeffs" type="xs:integer"/>
+  <xs:element name="vidFRng" type="xs:integer"/>
 
   <xs:element name="icc">
     <xs:complexType>
@@ -543,7 +551,7 @@
   </xs:element>
   
   <xs:element name="lsiz" type="xs:integer"/>
-  <xs:element name="rsiz" type="xs:string"/>
+  <xs:element name="rsiz" type="xs:integer"/>
   <xs:element name="capability" type="xs:string"/>
   <xs:element name="xsiz" type="xs:integer"/>
   <xs:element name="ysiz" type="xs:integer"/>
