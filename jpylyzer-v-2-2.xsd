@@ -149,8 +149,10 @@
 
   <xs:simpleType name="formatEnum">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="jp2" />
-      <xs:enumeration value="j2c" />
+      <xs:enumeration value="jp2"/>
+      <xs:enumeration value="jph"/>
+      <xs:enumeration value="j2c"/>
+      <xs:enumeration value="jhc"/>
     </xs:restriction>
   </xs:simpleType>
 
