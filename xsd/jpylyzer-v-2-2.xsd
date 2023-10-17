@@ -603,6 +603,30 @@
   <xs:element name="htReversible" type="xs:string"/>
   <xs:element name="htB" type="xs:integer"/>
 
+  <xs:element name="prf">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lprf"/>
+        <xs:element ref="PRFnum"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="lprf" type="xs:integer"/>
+  <xs:element name="PRFnum" type="xs:integer"/>
+
+  <xs:element name="cpf">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lcpf"/>
+        <xs:element ref="CPFnum"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="lcpf" type="xs:integer"/>
+  <xs:element name="CPFnum" type="xs:integer"/>
+
   <xs:element name="cod">
     <xs:complexType>
       <xs:sequence>

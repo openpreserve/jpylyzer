@@ -2130,14 +2130,14 @@ prf
 
 |Property|Description|
 |:-------|:----------|
-|lcprf|Length of PRF marker segment in bytes|
+|lprf|Length of PRF marker segment in bytes|
 |PRFnum|Profile number|
 
 ### Tests
 
 |Test name|True if|
 |:--------|:------|
-|lcprfIsValid|*lcprf* is within range [4,65534]|
+|lprfIsValid|*lprf* is within range [4,65534]|
 |pprfIsValid|last *pprf* value is not zero|
 |PRFnumIsValid|*PRFnum* > 4095|
 

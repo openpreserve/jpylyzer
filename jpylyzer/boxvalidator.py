@@ -2861,14 +2861,14 @@ class BoxValidator:
         """Profile (PRF) marker segment (15444-1, Section A.5.3)."""
 
         # Length of PRF marker
-        lcprf = bc.bytesToUShortInt(self.boxContents[0:2])
-        self.addCharacteristic("lcprf", lcprf)
+        lprf = bc.bytesToUShortInt(self.boxContents[0:2])
+        self.addCharacteristic("lprf", lprf)
 
-        # lcprf  must be within range 4-65534
-        self.testFor("lcprfIsValid", 4 <= lcprf <= 65534)
+        # lprf  must be within range 4-65534
+        self.testFor("lprfIsValid", 4 <= lprf <= 65534)
 
         # Number of pprf entries
-        nopprfs = int((lcprf - 2) / 2)
+        nopprfs = int((lprf - 2) / 2)
 
         # Profile number (updated from pprf values below)
         PRFnum = 4095
