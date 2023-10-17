@@ -529,7 +529,10 @@
       </xs:choice>
     </xs:complexType>  
   </xs:element>
-            
+
+  <xs:element name="ppmCount" type="xs:integer"/>
+  <xs:element name="plmCount" type="xs:integer"/>
+
   <xs:element name="siz">
     <xs:complexType>
       <xs:sequence>
@@ -574,9 +577,6 @@
   <xs:element name="xRsiz" type="xs:integer"/>
   <xs:element name="yRsiz" type="xs:integer"/>
   
-  <xs:element name="ppmCount" type="xs:integer"/>
-  <xs:element name="plmCount" type="xs:integer"/>
-
   <xs:element name="cap">
     <xs:complexType>
       <xs:sequence>
