@@ -2110,7 +2110,7 @@ cap
 |htRegion|See section 8.4 of ISO/IEC 15444-15 (JPH, JHC)|
 |htHomogeneous|See section 8.5 of ISO/IEC 15444-15 (JPH, JHC)|
 |htReversible|See section 8.7.2 of ISO/IEC 15444-15 (JPH, JHC)|
-|b|Parameter *B* as used in *MAGBP* sets, see sections A.3.7 and 8.7.3 of ISO/IEC 15444-15 (JPH, JHC)|
+|htB|Parameter *B* as used in *MAGBP* sets, see sections A.3.7 and 8.7.3 of ISO/IEC 15444-15 (JPH, JHC)|
 
 ### Tests
 

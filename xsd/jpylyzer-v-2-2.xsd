@@ -33,6 +33,9 @@
       <!-- following are not box types, but for raw codestream validation 
       the codestream marker elements are added directly under tests/properties -->
       <xs:element ref="siz"/>
+      <xs:element ref="cap"/>
+      <xs:element ref="prf"/>
+      <xs:element ref="cpf"/>
       <xs:element ref="cod"/>
       <xs:element ref="qcd"/>
       <xs:element ref="com"/>
@@ -506,6 +509,9 @@
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element ref="siz"/>
+        <xs:element ref="cap"/>
+        <xs:element ref="prf"/>
+        <xs:element ref="cpf"/>
         <xs:element ref="ppmCount"/>
         <xs:element ref="plmCount"/>
         <xs:element ref="cod"/>
@@ -570,6 +576,32 @@
   
   <xs:element name="ppmCount" type="xs:integer"/>
   <xs:element name="plmCount" type="xs:integer"/>
+
+  <xs:element name="cap">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lcap"/>
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="pcapPart"/>
+        </xs:sequence>
+        <xs:element ref="htCodeBlocks" minOccurs="0"/>
+        <xs:element ref="htSets" minOccurs="0"/>
+        <xs:element ref="htRegion" minOccurs="0"/>
+        <xs:element ref="htHomogeneous" minOccurs="0"/>
+        <xs:element ref="htReversible" minOccurs="0"/>
+        <xs:element ref="htB" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="lcap" type="xs:integer"/>
+  <xs:element name="pcapPart" type="xs:integer"/>
+  <xs:element name="htCodeBlocks" type="xs:string"/>
+  <xs:element name="htSets" type="xs:string"/>
+  <xs:element name="htRegion" type="xs:string"/>
+  <xs:element name="htHomogeneous" type="xs:string"/>
+  <xs:element name="htReversible" type="xs:string"/>
+  <xs:element name="htB" type="xs:integer"/>
 
   <xs:element name="cod">
     <xs:complexType>

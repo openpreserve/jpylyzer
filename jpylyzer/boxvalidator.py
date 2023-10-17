@@ -2847,15 +2847,15 @@ class BoxValidator:
 
                 # Value of b as a function of p
                 if p == 0:
-                    b = 8
+                    htB = 8
                 elif p < 20:
-                    b = p + 8
+                    htB = p + 8
                 elif 20 <= p < 31:
-                    b = 4 * (p - 19) + 27
+                    htB = 4 * (p - 19) + 27
                 else:
-                    b = 74
+                    htB = 74
 
-                self.addCharacteristic("b", b)
+                self.addCharacteristic("htB", htB)
 
     def validate_prf(self):
         """Profile (PRF) marker segment (15444-1, Section A.5.3)."""
