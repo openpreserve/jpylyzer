@@ -39,10 +39,10 @@ JPYLYZER_DIR = os.path.split(os.path.split(SCRIPT_DIR)[0])[0]
 xsdFile = os.path.join(JPYLYZER_DIR, "xsd/jpylyzer-v-2-2.xsd")
 
 # Directory with test files
-testFilesDir = JPYLYZER_DIR.replace("jpylyzer", "jpylyzer-test-files")
+testFilesDir = JPYLYZER_DIR.replace("jpylyzer", "jpylyzer-test-files/files")
 
 # All files in test files dir, excluding .md file
-testFiles = glob.glob(os.path.join(testFilesDir, '*[!.md]'))
+testFiles = glob.glob(os.path.join(testFilesDir, '*'))
 
 # Dictionary with names of all test files and validity against JP2
 validityLookupJP2 = {
