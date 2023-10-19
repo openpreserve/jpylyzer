@@ -1700,33 +1700,30 @@ class BoxValidator:
             self.characteristics.append(tilePartCharacteristics)
             self.tests.appendIfNotEmpty(tilePartTests)
 
-            # Test if all ccoc values are unique
+            # Test if all ccoc values at main header level are unique
             # (A.6.2 - no more than one COC per any given component)
-            # First we put all occurrences of ccoc to a list
-            ccocElements = self.characteristics.findall('coc/ccoc') + \
-                self.characteristics.findall('tileParts/tilePart/coc/ccoc')
+            ccocElementsMain = self.characteristics.findall('coc/ccoc')
             # List with all ccoc values
-            ccocValues = []
-            for ccocElement in ccocElements:
-                ccocValues.append(ccocElement.text)
-            if ccocValues:
-                self.testFor(
-                    "maxOneCcocPerComponent", len(
-                        set(ccocValues)) == len(ccocValues))
+            ccocValuesMain = []
+            for elt in ccocElementsMain:
+                ccocValuesMain.append(elt.text)
 
-            # Test if all cqcc values are unique
-            # (A.6.5 - no more than one QCC per any given component)
-            # First we put all occurrences of cqcc to a list
-            cqccElements = self.characteristics.findall('qcc/cqcc') + \
-                self.characteristics.findall('tileParts/tilePart/qcc/cqcc')
-            # List with all cqcc values
-            cqccValues = []
-            for cqccElement in cqccElements:
-                cqccValues.append(cqccElement.text)
-            if cqccValues:
+            if ccocValuesMain:
                 self.testFor(
-                    "maxOneCqccPerComponent", len(
-                        set(cqccValues)) == len(cqccValues))
+                    "maxOneCcocPerComponentMain", len(
+                        set(ccocValuesMain)) == len(ccocValuesMain))
+
+            # Test if all cqcc values at main header level are unique
+            # (A.6.5 - no more than one QCC per any given component)
+            cqccElementsMain = self.characteristics.findall('qcc/cqcc')
+            # List with all cqcc values
+            cqccValuesMain = []
+            for elt in cqccElementsMain:
+                cqccValuesMain.append(elt.text)
+            if cqccValuesMain:
+                self.testFor(
+                    "maxOneCqccPerComponentMain", len(
+                        set(cqccValuesMain)) == len(cqccValuesMain))
 
             # Last 2 bytes must be end-of-codestream marker
             self.testFor("foundEOCMarker",
@@ -3225,6 +3222,31 @@ class BoxValidator:
         # Add pltCount and ppptCount value to characteristics
         self.addCharacteristic("pltCount", pltCount)
         self.addCharacteristic("pptCount", pptCount)
+
+        # Test if all ccoc values (if present) within this tile part are unique
+        # (A.6.2 - no more than one COC per any given component)
+        ccocElementsTP = self.characteristics.findall('coc/ccoc')
+        # List with all ccoc values
+        ccocValuesTP = []
+        for elt in ccocElementsTP:
+            ccocValuesTP.append(elt.text)
+
+        if ccocValuesTP:
+            self.testFor(
+                "maxOneCcocPerComponentTP", len(
+                    set(ccocValuesTP)) == len(ccocValuesTP))
+
+        # Test if all cqcc values (if present) within this tile part are unique
+        # (A.6.5 - no more than one QCC per any given component)
+        cqccElementsTP = self.characteristics.findall('qcc/cqcc')
+        # List with all cqcc values
+        cqccValuesTP = []
+        for elt in cqccElementsTP:
+            cqccValuesTP.append(elt.text)
+        if cqccValuesTP:
+            self.testFor(
+                "maxOneCqccPerComponentTP", len(
+                    set(cqccValuesTP)) == len(cqccValuesTP))
 
         # Position of first byte in next tile
         offsetNextTilePart = self.startOffset + tilePartLength

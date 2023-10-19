@@ -1796,8 +1796,10 @@ is given by the following 2 derived properties (these are always reported, irres
 |CPFnumConsistentWithRsiz|Value of *CPFnum* in CPF marker segment is consistent with *rsiz^ value in SIZ marker segment|
 |foundExpectedNumberOfTiles|Number of encountered tiles is consistent with expected number of tiles (as calculated from [SIZ marker](#siz-marker))|
 |foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from [SOT marker](#sot-marker))|
-|maxOneCcocPerComponent|No more than one *ccoc* value for each component (only reported if codestream contains any COC marker segments)|
-|maxOneCqccPerComponent|No more than one *cqcc* value for each component (only reported if codestream contains any QCC marker segments)|
+|maxOneCcocPerComponentMain|No more than one *ccoc* value for each component in main header (only reported if codestream contains any COC marker segments)|
+|maxOneCcocPerComponentTP|No more than one *ccoc* value for each component in tile-part header (only reported if codestream contains any COC marker segments)|
+|maxOneCqccPerComponentMain|No more than one *cqcc* value for each component in main header (only reported if codestream contains any QCC marker segments)|
+|maxOneCqccPerComponentTP|No more than one *cqcc* value for each component in tile-part header (only reported if codestream contains any QCC marker segments)|
 |foundEOCMarker|Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment|
 
 Image and tile size (SIZ) marker segment (child of Contiguous Codestream box) {#siz-marker}
