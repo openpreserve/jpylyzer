@@ -326,7 +326,7 @@ def fileToMemoryMap(filename):
     return fileData
 
 
-def checkOneFile(path, validationFormat='jp2',
+def checkOneFile(path, validationFormat=config.VALIDATION_FORMAT,
                  verboseFlag=config.OUTPUT_VERBOSE_FLAG,
                  packetmarkersFlag=config.OUTPUT_PACKET_MARKERS_FLAG,
                  nullxmlFlag=config.EXTRACT_NULL_TERMINATED_XML_FLAG,
@@ -681,7 +681,12 @@ def checkFiles(recurse, paths):
     for path in EXISTING_FILES:
 
         # Analyse file
-        xmlElement = checkOneFile(path, config.VALIDATION_FORMAT)
+        xmlElement = checkOneFile(path,
+                                  config.VALIDATION_FORMAT,
+                                  config.OUTPUT_VERBOSE_FLAG,
+                                  config.OUTPUT_PACKET_MARKERS_FLAG,
+                                  config.EXTRACT_NULL_TERMINATED_XML_FLAG,
+                                  config.MIX_FLAG)
 
         # Write output to stdout
         writeElement(xmlElement, out)
