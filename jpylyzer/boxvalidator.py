@@ -3012,11 +3012,6 @@ class BoxValidator:
         """Analyse tile part that starts at offsetStart and perform cursory validation.
 
         Precondition: offsetStart points to SOT marker
-
-        Limitations:
-
-         - COD, COC, QCD, QCC and RGN are markers only allowed in first tile-part
-           of a tile; there is currently no check on this (may be added later)
         """
         offset = self.startOffset
 
@@ -3223,6 +3218,20 @@ class BoxValidator:
         self.addCharacteristic("pltCount", pltCount)
         self.addCharacteristic("pptCount", pptCount)
 
+        # COD, COC, QCD, QCC and RGN markers are only allowed in the
+        # first tile-part of any tile (TPsot = 0)
+        tpsot = self.characteristics.findElementText('sot/tpsot')
+        if self.characteristics.findall('cod'):
+            self.testFor("CODInFirstTilePartOnly", tpsot == 0)
+        if self.characteristics.findall('coc'):
+            self.testFor("COCInFirstTilePartOnly", tpsot == 0)
+        if self.characteristics.findall('qcd'):
+            self.testFor("QCDInFirstTilePartOnly", tpsot == 0)
+        if self.characteristics.findall('qcc'):
+            self.testFor("QCCInFirstTilePartOnly", tpsot == 0)
+        if self.characteristics.findall('rgn'):
+            self.testFor("RGNInFirstTilePartOnly", tpsot == 0)
+
         # Test if all ccoc values (if present) within this tile part are unique
         # (A.6.2 - no more than one COC per any given component)
         ccocElementsTP = self.characteristics.findall('coc/ccoc')
@@ -3247,6 +3256,8 @@ class BoxValidator:
             self.testFor(
                 "maxOneCqccPerComponentTP", len(
                     set(cqccValuesTP)) == len(cqccValuesTP))
+
+
 
         # Position of first byte in next tile
         offsetNextTilePart = self.startOffset + tilePartLength
