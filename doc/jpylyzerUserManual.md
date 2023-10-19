@@ -1797,10 +1797,9 @@ is given by the following 2 derived properties (these are always reported, irres
 |foundExpectedNumberOfTiles|Number of encountered tiles is consistent with expected number of tiles (as calculated from [SIZ marker](#siz-marker))|
 |foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from [SOT marker](#sot-marker))|
 |maxOneCcocPerComponentMain|No more than one *ccoc* value for each component in main header (only reported if codestream contains any COC marker segments)|
-|maxOneCcocPerComponentTP|No more than one *ccoc* value for each component in tile-part header (only reported if codestream contains any COC marker segments)|
 |maxOneCqccPerComponentMain|No more than one *cqcc* value for each component in main header (only reported if codestream contains any QCC marker segments)|
-|maxOneCqccPerComponentTP|No more than one *cqcc* value for each component in tile-part header (only reported if codestream contains any QCC marker segments)|
 |foundEOCMarker|Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment|
+
 
 Image and tile size (SIZ) marker segment (child of Contiguous Codestream box) {#siz-marker}
 ---------------------------------------------------------------------------------
@@ -2203,6 +2202,13 @@ is given by the following 2 derived properties (these are always reported, irres
 
 |Test name|True if|
 |:--------|:------|
+|CODAllowed|COD marker is allowed in this tile part (only allowed in first tile-part of a tile)|
+|COCAllowed|COC marker is allowed in this tile part (only allowed in first tile-part of a tile)|
+|QCDAllowed|QCD marker is allowed in this tile part (only allowed in first tile-part of a tile)|
+|QCCAllowed|QCC marker is allowed in this tile part (only allowed in first tile-part of a tile)|
+|RGNAllowed|RGN marker is allowed in this tile part (only allowed in first tile-part of a tile)|
+|maxOneCcocPerComponentTP|No more than one *ccoc* value for each component in tile-part header (only reported if codestream contains any COC marker segments)|
+|maxOneCqccPerComponentTP|No more than one *cqcc* value for each component in tile-part header (only reported if codestream contains any QCC marker segments)|
 |foundNextTilePartOrEOC|Tile part start offset + *tilePartLength* points to either start of new tile or EOC marker (useful for detecting within-codestream byte corruption)|
 |foundSODMarker|Last marker segment of tile part is a start-of-data (SOD) marker|
 

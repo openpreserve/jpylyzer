@@ -3222,15 +3222,15 @@ class BoxValidator:
         # first tile-part of any tile (TPsot = 0)
         tpsot = self.characteristics.findElementText('sot/tpsot')
         if self.characteristics.findall('cod'):
-            self.testFor("CODInFirstTilePartOnly", tpsot == 0)
+            self.testFor("CODAllowed", tpsot == 0)
         if self.characteristics.findall('coc'):
-            self.testFor("COCInFirstTilePartOnly", tpsot == 0)
+            self.testFor("COCAllowed", tpsot == 0)
         if self.characteristics.findall('qcd'):
-            self.testFor("QCDInFirstTilePartOnly", tpsot == 0)
+            self.testFor("QCDAllowed", tpsot == 0)
         if self.characteristics.findall('qcc'):
-            self.testFor("QCCInFirstTilePartOnly", tpsot == 0)
+            self.testFor("QCCAllowed", tpsot == 0)
         if self.characteristics.findall('rgn'):
-            self.testFor("RGNInFirstTilePartOnly", tpsot == 0)
+            self.testFor("RGNAllowed", tpsot == 0)
 
         # Test if all ccoc values (if present) within this tile part are unique
         # (A.6.2 - no more than one COC per any given component)
