@@ -295,6 +295,8 @@ def fileToMemoryMap(filename):
     # Call to mmap is different on Linux and Windows, so we need to know
     # the current platform
     platform = config.PLATFORM
+    # List for storing any warnings
+    mmWarnings = []
 
     # Open filename
     with open(filename, "rb") as f:
@@ -315,15 +317,17 @@ def fileToMemoryMap(filename):
                 msg = ("file " + filename + " too large to open (" +
                        str(round(fileSize / 1024**3, 1)) +
                        " GB). Try using 64-bit Python.")
+                mmWarnings.append(msg)
                 shared.printWarning(msg)
                 fileData = ""
             elif str(e) == "cannot mmap an empty file":
                 # mmap fails on empty files, so return empty string
                 msg = "empty file " + filename
+                mmWarnings.append(msg)
                 shared.printWarning(msg)
                 fileData = ""
 
-    return fileData
+    return fileData, mmWarnings
 
 
 def checkOneFile(path, validationFormat=config.VALIDATION_FORMAT,
@@ -371,13 +375,15 @@ def checkOneFile(path, validationFormat=config.VALIDATION_FORMAT,
 
     # Initialise success flag
     success = True
+    # Initialise list with file to memorymap warnings
+    fmmWarnings = []
 
     try:
         # Contents of file to memory map object
         if NO_MMAP_LIB:
             fileData = fileToBytes(path)
         else:
-            fileData = fileToMemoryMap(path)
+            fileData, fmmWarnings = fileToMemoryMap(path)
 
         # Set root box according to validation format
         if validationFormat in ['jp2', 'jph']:
@@ -398,16 +404,22 @@ def checkOneFile(path, validationFormat=config.VALIDATION_FORMAT,
         fileIsValid = resultsJP2.isValid
         tests = resultsJP2.tests
         characteristics = resultsJP2.characteristics
+        warnings = resultsJP2.warnings
 
         if not NO_MMAP_LIB and fileData != "":
             fileData.close()
 
+        # Add any memory-mapping related warnings to warnings element
+        for fmmWarning in fmmWarnings:
+            warnings.appendChildTagWithText("warning", fmmWarning)
+
         # Generate property values remap table
         remapTable = generatePropertiesRemapTable()
 
-        # Create printable version of tests and characteristics tree
+        # Create printable version of tests, characteristics and warnings tree
         tests.makeHumanReadable()
         characteristics.makeHumanReadable(remapTable)
+        warnings.makeHumanReadable()
 
     except Exception as ex:
         fileIsValid = False
@@ -428,9 +440,11 @@ def checkOneFile(path, validationFormat=config.VALIDATION_FORMAT,
             raise
             # TEST
 
-        shared.printWarning(failureMessage)
         tests = ET.Element("tests")
-        characteristics = ET.Element('properties')
+        characteristics = ET.Element("properties")
+        warnings = ET.Element("warnings")
+        warnings.appendChildTagWithText("warning", failureMessage)
+        shared.printWarning(failureMessage)
 
     if mixFlag != 0 and fileIsValid:
         mixProperties = mix.Mix(mixFlag).generateMix(characteristics)
@@ -450,6 +464,7 @@ def checkOneFile(path, validationFormat=config.VALIDATION_FORMAT,
 
     root.append(tests)
     root.append(characteristics)
+    root.append(warnings)
     extension = ET.Element('propertiesExtension')
     if mixFlag != 0:
         root.append(extension)

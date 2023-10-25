@@ -86,17 +86,22 @@ class BoxValidator:
         elif bType == "JP2":
             self.characteristics = ET.Element("properties")
             self.tests = ET.Element("tests")
+            self.warnings = ET.Element("warnings")
             self.boxType = "JP2"
         elif bType == "contiguousCodestreamBox":
             self.characteristics = ET.Element("properties")
             self.tests = ET.Element("tests")
+            self.warnings = ET.Element("warnings")
             self.boxType = 'contiguousCodestreamBox'
         else:
             self.boxType = 'unknownBox'
+            self.characteristics = ET.Element("properties")
+            self.warnings = ET.Element("warnings")
 
         if bType not in ["JP2", "contiguousCodestreamBox"]:
             self.characteristics = ET.Element(self.boxType)
             self.tests = ET.Element(self.boxType)
+            self.warnings = ET.Element(self.boxType)
 
         self.boxContents = boxContents
         self.startOffset = startOffset
@@ -111,11 +116,12 @@ class BoxValidator:
         try:
             to_call = getattr(self, "validate_" + self.boxType)
         except AttributeError:
-            shared.printWarning(
-                "ignoring '" +
-                self.boxType +
-                "' (validator function not yet implemented)")
-
+            # Don't think this should ever happen because all known boxes
+            # are defined in typeMap and anything not in typeMap should
+            # trigger "unknown" box validator function
+            msg = "ignoring '" + self.boxType + \
+                "' (validator function not yet implemented)"
+            shared.printWarning(msg)
         else:
             to_call()
 
@@ -291,6 +297,10 @@ class BoxValidator:
         """Add characteristic node to characteristics element tree."""
         self.characteristics.appendChildTagWithText(characteristic, charValue)
 
+    def addWarning(self, msg):
+        """Add warning node to warnings element tree."""
+        self.warnings.appendChildTagWithText("warning", msg)
+        
     # Validator functions for boxes
 
     def validate_unknownBox(self):
@@ -305,10 +315,9 @@ class BoxValidator:
         self.addCharacteristic("boxType", boxType)
 
         # Print warning message to screen
-        shared.printWarning(
-            "ignoring unknown box '" +
-            bc.bytesToText(boxType) +
-            "'")
+        msg = "ignoring unknown box '" + bc.bytesToText(boxType) + "'"
+        self.addWarning(msg)
+        shared.printWarning(msg)
 
     def validate_signatureBox(self):
         """Signature box (ISO/IEC 15444-1 Section I.5.2)."""
@@ -394,17 +403,18 @@ class BoxValidator:
                 subBoxContents).validate()
             testsBox = resultsBox.tests
             characteristicsBox = resultsBox.characteristics
+            warningsBox = resultsBox.warnings
 
             byteStart = byteEnd
 
             # Add to list of box types
             subBoxTypes.append(boxType)
 
-            # Add analysis results to test results tree
+            # Add test results, characteristics and warnings to their
+            # respective trees
             self.tests.appendIfNotEmpty(testsBox)
-
-            # Add extracted characteristics to characteristics tree
             self.characteristics.append(characteristicsBox)
+            self.warnings.appendIfNotEmpty(warningsBox)
 
         # Do all required header boxes exist?
         self.testFor("containsImageHeaderBox",
@@ -645,7 +655,9 @@ class BoxValidator:
                 'icc',
                 profile).validate()
             iccCharacteristics = iccResults.characteristics
+            iccWarnings = iccResults.warnings
             self.characteristics.append(iccCharacteristics)
+            self.warnings.appendIfNotEmpty(iccWarnings)
 
             # Profile size property must equal actual profile size
             profileSize = iccCharacteristics.findElementText('profileSize')
@@ -683,7 +695,9 @@ class BoxValidator:
                 'icc',
                 profile).validate()
             iccCharacteristics = iccResults.characteristics
+            iccWarnings = iccResults.warnings
             self.characteristics.append(iccCharacteristics)
+            self.warnings.appendIfNotEmpty(iccWarnings)
 
         elif meth == 5:
             # Parameterized colourspace. Used in JPEG 2000 Part 15 (JPH)
@@ -1131,17 +1145,18 @@ class BoxValidator:
                 subBoxContents).validate()
             testsBox = resultsBox.tests
             characteristicsBox = resultsBox.characteristics
+            warningsBox = resultsBox.warnings
 
             byteStart = byteEnd
 
             # Add to list of box types
             subBoxTypes.append(boxType)
 
-            # Add analysis results to test results tree
+            # Add test results, characteristics and warnings
+            # to their respective trees
             self.tests.appendIfNotEmpty(testsBox)
-
-            # Add extracted characteristics to characteristics tree
             self.characteristics.append(characteristicsBox)
+            self.warnings.appendIfNotEmpty(warningsBox)
 
         # This box contains either one Capture Resolution box, one Default Display
         # resolution box, or one of both
@@ -1309,10 +1324,11 @@ class BoxValidator:
                 segContents).validate()
             testsSIZ = resultsSIZ.tests
             characteristicsSIZ = resultsSIZ.characteristics
-            # Add analysis results to test results tree
+            warningsSIZ = resultsSIZ.warnings
+
             self.tests.appendIfNotEmpty(testsSIZ)
-            # Add extracted characteristics to characteristics tree
             self.characteristics.append(characteristicsSIZ)
+            self.warnings.appendIfNotEmpty(warningsSIZ)
             # Get csiz value, which is needed later on by the COC validation
             # function
             csiz = characteristicsSIZ.findElementText('csiz')
@@ -1344,10 +1360,10 @@ class BoxValidator:
                         segContents).validate()
                     testsCOD = resultsCOD.tests
                     characteristicsCOD = resultsCOD.characteristics
-                    # Add analysis results to test results tree
+                    warningsCOD = resultsCOD.warnings
                     self.tests.appendIfNotEmpty(testsCOD)
-                    # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsCOD)
+                    self.warnings.appendIfNotEmpty(warningsCOD)
                     offset = offsetNext
 
                 elif marker == b'\xff\x53':
@@ -1361,10 +1377,10 @@ class BoxValidator:
                         components=csiz).validate()
                     testsCOC = resultsCOC.tests
                     characteristicsCOC = resultsCOC.characteristics
-                    # Add analysis results to test results tree
+                    warningsCOC = resultsCOC.warnings
                     self.tests.appendIfNotEmpty(testsCOC)
-                    # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsCOC)
+                    self.warnings.appendIfNotEmpty(warningsCOC)
                     offset = offsetNext
 
                 elif marker == b'\xff\x5c':
@@ -1378,10 +1394,10 @@ class BoxValidator:
                         segContents).validate()
                     testsQCD = resultsQCD.tests
                     characteristicsQCD = resultsQCD.characteristics
-                    # Add analysis results to test results tree
+                    warningsQCD = resultsQCD.warnings
                     self.tests.appendIfNotEmpty(testsQCD)
-                    # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsQCD)
+                    self.warnings.appendIfNotEmpty(warningsQCD)
                     offset = offsetNext
 
                 elif marker == b'\xff\x5d':
@@ -1395,10 +1411,10 @@ class BoxValidator:
                         components=csiz).validate()
                     testsQCC = resultsQCC.tests
                     characteristicsQCC = resultsQCC.characteristics
-                    # Add analysis results to test results tree
+                    warningsQCC = resultsQCC.warnings
                     self.tests.appendIfNotEmpty(testsQCC)
-                    # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsQCC)
+                    self.warnings.appendIfNotEmpty(warningsQCC)
                     offset = offsetNext
 
                 elif marker == b'\xff\x5e':
@@ -1412,10 +1428,10 @@ class BoxValidator:
                         components=csiz).validate()
                     testsRGN = resultsRGN.tests
                     characteristicsRGN = resultsRGN.characteristics
-                    # Add analysis results to test results tree
+                    warningsRGN = resultsRGN.warnings
                     self.tests.appendIfNotEmpty(testsRGN)
-                    # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsRGN)
+                    self.warnings.appendIfNotEmpty(warningsRGN)
                     offset = offsetNext
 
                 elif marker == b'\xff\x5f':
@@ -1429,10 +1445,10 @@ class BoxValidator:
                         components=csiz).validate()
                     testsPOC = resultsPOC.tests
                     characteristicsPOC = resultsPOC.characteristics
-                    # Add analysis results to test results tree
+                    warningsPOC = resultsPOC.warnings
                     self.tests.appendIfNotEmpty(testsPOC)
-                    # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsPOC)
+                    self.warnings.appendIfNotEmpty(warningsPOC)
                     offset = offsetNext
 
                 elif marker == b'\xff\x63':
@@ -1445,10 +1461,10 @@ class BoxValidator:
                         components=csiz).validate()
                     testsCRG = resultsCRG.tests
                     characteristicsCRG = resultsCRG.characteristics
-                    # Add analysis results to test results tree
+                    warningsCRG = resultsCRG.warnings
                     self.tests.appendIfNotEmpty(testsCRG)
-                    # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsCRG)
+                    self.warnings.appendIfNotEmpty(warningsCRG)
                     offset = offsetNext
 
                 elif marker == b'\xff\x64':
@@ -1460,10 +1476,10 @@ class BoxValidator:
                         segContents).validate()
                     testsCOM = resultsCOM.tests
                     characteristicsCOM = resultsCOM.characteristics
-                    # Add analysis results to test results tree
+                    warningsCOM = resultsCOM.warnings
                     self.tests.appendIfNotEmpty(testsCOM)
-                    # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsCOM)
+                    self.warnings.appendIfNotEmpty(warningsCOM)
                     offset = offsetNext
 
                 elif marker == b'\xff\x50':
@@ -1475,10 +1491,10 @@ class BoxValidator:
                         segContents).validate()
                     testsCAP = resultsCAP.tests
                     characteristicsCAP = resultsCAP.characteristics
-                    # Add analysis results to test results tree
+                    warningsCAP = resultsCAP.warnings
                     self.tests.appendIfNotEmpty(testsCAP)
-                    # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsCAP)
+                    self.warnings.appendIfNotEmpty(warningsCAP)
                     offset = offsetNext
 
                 elif marker == b'\xff\x56':
@@ -1490,10 +1506,10 @@ class BoxValidator:
                         segContents).validate()
                     testsPRF = resultsPRF.tests
                     characteristicsPRF = resultsPRF.characteristics
-                    # Add analysis results to test results tree
+                    warningsPRF = resultsPRF.warnings
                     self.tests.appendIfNotEmpty(testsPRF)
-                    # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsPRF)
+                    self.warnings.appendIfNotEmpty(warningsPRF)
                     offset = offsetNext
 
                 elif marker == b'\xff\x59':
@@ -1505,10 +1521,10 @@ class BoxValidator:
                         segContents).validate()
                     testsCPF = resultsCPF.tests
                     characteristicsCPF = resultsCPF.characteristics
-                    # Add analysis results to test results tree
+                    warningsCPF = resultsCPF.warnings
                     self.tests.appendIfNotEmpty(testsCPF)
-                    # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsCPF)
+                    self.warnings.appendIfNotEmpty(warningsCPF)
                     offset = offsetNext
 
                 elif marker == b'\xff\x90':
@@ -1525,10 +1541,10 @@ class BoxValidator:
                         segContents).validate()
                     testsTLM = resultsTLM.tests
                     characteristicsTLM = resultsTLM.characteristics
-                    # Add analysis results to test results tree
+                    warningsTLM = resultsTLM.warnings
                     self.tests.appendIfNotEmpty(testsTLM)
-                    # Add extracted characteristics to characteristics tree
                     self.characteristics.append(characteristicsTLM)
+                    self.warnings.appendIfNotEmpty(warningsTLM)
                     offset = offsetNext
 
                 elif marker == b'\xff\x57':
@@ -1540,11 +1556,11 @@ class BoxValidator:
                         segContents).validate()
                     testsPLM = resultsPLM.tests
                     characteristicsPLM = resultsPLM.characteristics
-                    # Add analysis results to test results tree
+                    warningsPLM = resultsPLM.warnings
                     self.tests.appendIfNotEmpty(testsPLM)
-                    # Add extracted characteristics to characteristics tree
                     if self.packetmarkersFlag:
                         self.characteristics.append(characteristicsPLM)
+                    self.warnings.appendIfNotEmpty(warningsPLM)
                     offset = offsetNext
 
                 elif marker == b'\xff\x60':
@@ -1556,11 +1572,11 @@ class BoxValidator:
                         segContents).validate()
                     testsPPM = resultsPPM.tests
                     characteristicsPPM = resultsPPM.characteristics
-                    # Add analysis results to test results tree
+                    warningsPPM = resultsPPM.warnings
                     self.tests.appendIfNotEmpty(testsPPM)
-                    # Add extracted characteristics to characteristics tree
                     if self.packetmarkersFlag:
                         self.characteristics.append(characteristicsPPM)
+                    self.warnings.appendIfNotEmpty(warningsPPM)
                     offset = offsetNext
 
                 else:
@@ -1637,9 +1653,10 @@ class BoxValidator:
             for i in range(numberOfTilesExpected):
                 tilePartsPerTileFound[i] = 0
 
-            # Create sub-elements to store tile-part characteristics and tests
+            # Create sub-elements to store tile-part characteristics, tests and warnings
             tilePartCharacteristics = ET.Element('tileParts')
             tilePartTests = ET.Element('tileParts')
+            tilePartWarnings = ET.Element('tileParts')
 
             while marker == b'\xff\x90':
                 marker = self.boxContents[offset:offset + 2]
@@ -1653,11 +1670,11 @@ class BoxValidator:
                         components=csiz).validate()
                     testsTilePart = resultsTilePart.tests
                     characteristicsTilePart = resultsTilePart.characteristics
+                    warningsTilePart = resultsTilePart.warnings
                     offsetNext = resultsTilePart.returnOffset
-                    # Add analysis results to test results tree
                     tilePartTests.appendIfNotEmpty(testsTilePart)
-                    # Add extracted characteristics to characteristics tree
                     tilePartCharacteristics.append(characteristicsTilePart)
+                    tilePartWarnings.appendIfNotEmpty(warningsTilePart)
                     tileIndex = characteristicsTilePart.findElementText(
                         'sot/isot')
                     tilePartsOfTile = characteristicsTilePart.findElementText(
@@ -1695,11 +1712,11 @@ class BoxValidator:
                          len(set(tilePartsPerTileExpected.items())) in
                          [len(set(tilePartsPerTileFound.items())), 0])
 
-            # Add tile-part characteristics and tests to characteristics /
-            # tests
-            self.characteristics.append(tilePartCharacteristics)
+            # Add tile-part tests, characteristics and warnings to tree
             self.tests.appendIfNotEmpty(tilePartTests)
-
+            self.characteristics.append(tilePartCharacteristics)
+            self.warnings.appendIfNotEmpty(tilePartWarnings)
+            
             # Test if all ccoc values at main header level are unique
             # (A.6.2 - no more than one COC per any given component)
             ccocElementsMain = self.characteristics.findall('coc/ccoc')
@@ -3033,13 +3050,12 @@ class BoxValidator:
             segContents).validate()
         testsSOT = resultsSOT.tests
         characteristicsSOT = resultsSOT.characteristics
+        warningsSOT = resultsSOT.warnings
         tilePartLength = resultsSOT.tilePartLength
 
-        # Add analysis results to test results tree
         self.tests.appendIfNotEmpty(testsSOT)
-
-        # Add extracted characteristics to characteristics tree
         self.characteristics.append(characteristicsSOT)
+        self.warnings.appendIfNotEmpty(warningsSOT)
 
         offset = offsetNext
 
@@ -3066,10 +3082,10 @@ class BoxValidator:
                     segContents).validate()
                 testsCOD = resultsCOD.tests
                 characteristicsCOD = resultsCOD.characteristics
-                # Add analysis results to test results tree
+                warningsCOD = resultsCOD.warnings
                 self.tests.appendIfNotEmpty(testsCOD)
-                # Add extracted characteristics to characteristics tree
                 self.characteristics.append(characteristicsCOD)
+                self.warnings.appendIfNotEmpty(warningsCOD)
                 offset = offsetNext
 
             elif marker == b'\xff\x53':
@@ -3083,10 +3099,10 @@ class BoxValidator:
                     components=self.csiz).validate()
                 testsCOC = resultsCOC.tests
                 characteristicsCOC = resultsCOC.characteristics
-                # Add analysis results to test results tree
+                warningsCOC = resultsCOC.warnings
                 self.tests.appendIfNotEmpty(testsCOC)
-                # Add extracted characteristics to characteristics tree
                 self.characteristics.append(characteristicsCOC)
+                self.warnings.appendIfNotEmpty(warningsCOC)
                 offset = offsetNext
 
             elif marker == b'\xff\x5c':
@@ -3098,10 +3114,10 @@ class BoxValidator:
                     segContents).validate()
                 testsQCD = resultsQCD.tests
                 characteristicsQCD = resultsQCD.characteristics
-                # Add analysis results to test results tree
+                warningsQCD = resultsQCD.warnings
                 self.tests.appendIfNotEmpty(testsQCD)
-                # Add extracted characteristics to characteristics tree
                 self.characteristics.append(characteristicsQCD)
+                self.warnings.appendIfNotEmpty(warningsQCD)
                 offset = offsetNext
 
             elif marker == b'\xff\x5d':
@@ -3115,10 +3131,10 @@ class BoxValidator:
                     components=self.csiz).validate()
                 testsQCC = resultsQCC.tests
                 characteristicsQCC = resultsQCC.characteristics
-                # Add analysis results to test results tree
+                warningsQCC = resultsQCC.warnings
                 self.tests.appendIfNotEmpty(testsQCC)
-                # Add extracted characteristics to characteristics tree
                 self.characteristics.append(characteristicsQCC)
+                self.warnings.appendIfNotEmpty(warningsQCC)
                 offset = offsetNext
 
             elif marker == b'\xff\x5e':
@@ -3132,10 +3148,10 @@ class BoxValidator:
                     components=self.csiz).validate()
                 testsRGN = resultsRGN.tests
                 characteristicsRGN = resultsRGN.characteristics
-                # Add analysis results to test results tree
+                warningsRGN = resultsRGN.warnings
                 self.tests.appendIfNotEmpty(testsRGN)
-                # Add extracted characteristics to characteristics tree
                 self.characteristics.append(characteristicsRGN)
+                self.warnings.appendIfNotEmpty(warningsRGN)
                 offset = offsetNext
 
             elif marker == b'\xff\x5f':
@@ -3149,10 +3165,10 @@ class BoxValidator:
                     components=self.csiz).validate()
                 testsPOC = resultsPOC.tests
                 characteristicsPOC = resultsPOC.characteristics
-                # Add analysis results to test results tree
+                warningsPOC = resultsPOC.warnings
                 self.tests.appendIfNotEmpty(testsPOC)
-                # Add extracted characteristics to characteristics tree
                 self.characteristics.append(characteristicsPOC)
+                self.warnings.appendIfNotEmpty(warningsPOC)
                 offset = offsetNext
 
             elif marker == b'\xff\x64':
@@ -3164,10 +3180,10 @@ class BoxValidator:
                     segContents).validate()
                 testsCOM = resultsCOM.tests
                 characteristicsCOM = resultsCOM.characteristics
-                # Add analysis results to test results tree
+                warningsCOM = resultsCOM.warnings
                 self.tests.appendIfNotEmpty(testsCOM)
-                # Add extracted characteristics to characteristics tree
                 self.characteristics.append(characteristicsCOM)
+                self.warnings.appendIfNotEmpty(warningsCOM)
                 offset = offsetNext
 
             elif marker == b'\xff\x58':
@@ -3179,11 +3195,11 @@ class BoxValidator:
                     segContents).validate()
                 testsPLT = resultsPLT.tests
                 characteristicsPLT = resultsPLT.characteristics
-                # Add analysis results to test results tree
+                warningsPLT = resultsPLT.warnings
                 self.tests.appendIfNotEmpty(testsPLT)
-                # Add extracted characteristics to characteristics tree
                 if self.packetmarkersFlag:
                     self.characteristics.append(characteristicsPLT)
+                self.warnings.appendIfNotEmpty(warningsPLT)
                 offset = offsetNext
 
             elif marker == b'\xff\x61':
@@ -3195,11 +3211,11 @@ class BoxValidator:
                     segContents).validate()
                 testsPPT = resultsPPT.tests
                 characteristicsPPT = resultsPPT.characteristics
-                # Add analysis results to test results tree
+                warningsPPT = resultsPPT.warnings
                 self.tests.appendIfNotEmpty(testsPPT)
-                # Add extracted characteristics to characteristics tree
                 if self.packetmarkersFlag:
                     self.characteristics.append(characteristicsPPT)
+                self.warnings.appendIfNotEmpty(warningsPPT)
                 offset = offsetNext
 
             else:
@@ -3210,9 +3226,6 @@ class BoxValidator:
 
         # Last marker segment must be start-of-data (SOD) marker
         self.testFor("foundSODMarker", marker == b'\xff\x93')
-
-        # Bugfix 1.5.2: previous versions mistakenly assumed SOD at self.startOffset + 12!
-        # Goes wrong if til part contains any optional markers. Fixed now!
 
         # Add pltCount and ppptCount value to characteristics
         self.addCharacteristic("pltCount", pltCount)
@@ -3256,8 +3269,6 @@ class BoxValidator:
             self.testFor(
                 "maxOneCqccPerComponentTP", len(
                     set(cqccValuesTP)) == len(cqccValuesTP))
-
-
 
         # Position of first byte in next tile
         offsetNextTilePart = self.startOffset + tilePartLength
@@ -3389,17 +3400,18 @@ class BoxValidator:
                 subBoxContents).validate()
             testsBox = resultsBox.tests
             characteristicsBox = resultsBox.characteristics
+            warningsBox = resultsBox.warnings
 
             byteStart = byteEnd
 
             # Add to list of box types
             subBoxTypes.append(boxType)
 
-            # Add analysis results to test results tree
+            # Add test results, characteristics and warnings
+            # to their respective trees
             self.tests.appendIfNotEmpty(testsBox)
-
-            # Add extracted characteristics to characteristics tree
             self.characteristics.append(characteristicsBox)
+            self.warnings.appendIfNotEmpty(warningsBox)
 
         # This box contains one UUID List box and one Data Entry URL box
         self.testFor("containsOneListBox", subBoxTypes.count(tagListBox) == 1)
@@ -3502,17 +3514,18 @@ class BoxValidator:
                 boxContents).validate()
             testsBox = resultsBox.tests
             characteristicsBox = resultsBox.characteristics
+            warningsBox = resultsBox.warnings
 
             byteStart = byteEnd
 
             # Add to list of box types
             boxTypes.append(boxType)
 
-            # Add analysis results to test results tree
+            # Add test results, characteristics and warnings
+            # to their respective trees
             self.tests.appendIfNotEmpty(testsBox)
-
-            # Add extracted characteristics to characteristics tree
             self.characteristics.append(characteristicsBox)
+            self.warnings.appendIfNotEmpty(warningsBox)
 
         # Do all required top level boxes exist (ISO/IEC 15444-1 Section I.4)?
         containsSignatureBox = tagSignatureBox in boxTypes
