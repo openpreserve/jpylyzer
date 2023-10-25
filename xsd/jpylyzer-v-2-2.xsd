@@ -87,6 +87,7 @@
         <xs:element ref="tests"/>
         <xs:element ref="properties"/>
         <xs:element ref="propertiesExtension" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="warnings"/>
         </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -158,6 +159,15 @@
 
   <!-- Tests element -->  
   <xs:element name="tests">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any processContents="skip"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Warnings element -->  
+  <xs:element name="warnings">
     <xs:complexType>
       <xs:sequence minOccurs="0" maxOccurs="unbounded">
         <xs:any processContents="skip"/>
