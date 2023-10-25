@@ -464,12 +464,12 @@ def checkOneFile(path, validationFormat=config.VALIDATION_FORMAT,
 
     root.append(tests)
     root.append(characteristics)
-    root.append(warnings)
     extension = ET.Element('propertiesExtension')
     if mixFlag != 0:
         root.append(extension)
         if validationFormat in ['jp2', 'jph'] and fileIsValid:
             extension.append(mixProperties)
+    root.append(warnings)
 
     return root
 
