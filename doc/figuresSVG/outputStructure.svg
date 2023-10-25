@@ -11,7 +11,7 @@
    width="189.98mm"
    height="253.55mm"
    id="svg3410"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
    sodipodi:docname="outputStructure.svg"
    inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
    inkscape:export-xdpi="71.992958"
@@ -24,7 +24,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -38,12 +38,12 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:window-width="1872"
-     inkscape:window-height="1029"
+     inkscape:window-height="1030"
      id="namedview3572"
      showgrid="false"
      inkscape:zoom="0.74299278"
-     inkscape:cx="116.2396"
-     inkscape:cy="490.60717"
+     inkscape:cx="554.99778"
+     inkscape:cy="469.66948"
      inkscape:window-x="48"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -54,7 +54,7 @@
      id="g3414">
     <g
        id="g3460"
-       transform="translate(-180,0)"
+       transform="translate(-172)"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
        inkscape:export-ydpi="73">
@@ -64,7 +64,7 @@
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          inkscape:connector-curvature="0"
          id="path3418"
-         d="m 333.43965,99.34945 92.78116,0 0,30.9598 -92.78116,0 z"
+         d="m 333.43965,99.34945 h 92.78116 v 30.9598 h -92.78116 z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -80,14 +80,15 @@
        id="g3525"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8,-60)">
       <path
          inkscape:connector-curvature="0"
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          id="path3422"
-         d="m 333.45602,621.78056 92.76479,0 0,30.97618 -92.76479,0 z"
+         d="m 333.45602,621.78056 h 92.76479 v 30.97618 h -92.76479 z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -103,14 +104,15 @@
        id="g3508"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8)">
       <path
          inkscape:connector-curvature="0"
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          id="path3426"
-         d="m 333.43965,454.63693 92.78116,0 0,30.97618 -92.78116,0 z"
+         d="m 333.43965,454.63693 h 92.78116 v 30.97618 h -92.78116 z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -126,14 +128,15 @@
        id="g3472"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8)">
       <path
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          inkscape:connector-curvature="0"
          id="path3430"
-         d="m 333.43965,192.11425 92.78116,0 0,30.97617 -92.78116,0 z"
+         d="m 333.43965,192.11425 h 92.78116 v 30.97617 h -92.78116 z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -147,7 +150,7 @@
     </g>
     <g
        id="g3464"
-       transform="translate(-180,0)"
+       transform="translate(-172)"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
        inkscape:export-ydpi="73">
@@ -157,7 +160,7 @@
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          inkscape:connector-curvature="0"
          id="path3434"
-         d="m 469.6071,99.34945 142.29065,0 0,30.9598 -142.29065,0 z"
+         d="m 469.6071,99.34945 h 142.29065 v 30.9598 H 469.6071 Z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -171,7 +174,7 @@
     </g>
     <g
        id="g3468"
-       transform="translate(-180,0)"
+       transform="translate(-172)"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
        inkscape:export-ydpi="73">
@@ -181,7 +184,7 @@
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          inkscape:connector-curvature="0"
          id="path3438"
-         d="m 469.6071,136.44882 142.29065,0 0,30.97617 -142.29065,0 z"
+         d="m 469.6071,136.44882 h 142.29065 v 30.97617 H 469.6071 Z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -197,14 +200,15 @@
        id="g3476"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8)">
       <path
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          inkscape:connector-curvature="0"
          id="path3442"
-         d="m 469.6071,192.11425 142.29065,0 0,30.97617 -142.29065,0 z"
+         d="m 469.6071,192.11425 h 142.29065 v 30.97617 H 469.6071 Z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -220,14 +224,15 @@
        id="g3480"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8)">
       <path
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          inkscape:connector-curvature="0"
          id="path3446"
-         d="m 469.6071,229.22998 142.29065,0 0,30.97617 -142.29065,0 z"
+         d="m 469.6071,229.22998 h 142.29065 v 30.97617 H 469.6071 Z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -243,14 +248,15 @@
        id="g3484"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8)">
       <path
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          inkscape:connector-curvature="0"
          id="path3450"
-         d="m 469.6071,266.34572 142.29065,0 0,30.9598 -142.29065,0 z"
+         d="m 469.6071,266.34572 h 142.29065 v 30.9598 H 469.6071 Z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -266,14 +272,15 @@
        id="g3488"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8)">
       <path
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          inkscape:connector-curvature="0"
          id="path3454"
-         d="m 469.6071,303.59244 142.29065,0 0,30.9598 -142.29065,0 z"
+         d="m 469.6071,303.59244 h 142.29065 v 30.9598 H 469.6071 Z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -289,14 +296,15 @@
        id="g3512"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8)">
       <path
          inkscape:connector-curvature="0"
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          id="path3458"
-         d="m 469.6071,454.63693 142.29065,0 0,30.97618 -142.29065,0 z"
+         d="m 469.6071,454.63693 h 142.29065 v 30.97618 H 469.6071 Z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -312,14 +320,15 @@
        id="g3516"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8)">
       <path
          inkscape:connector-curvature="0"
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          id="path3462"
-         d="m 469.6071,491.75268 142.29065,0 0,30.97617 -142.29065,0 z"
+         d="m 469.6071,491.75268 h 142.29065 v 30.97617 H 469.6071 Z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -331,41 +340,9 @@
          x="515.67566"
          xml:space="preserve">Box 2</text>
     </g>
-    <g
-       id="g3520"
-       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-       inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
-      <path
-         inkscape:connector-curvature="0"
-         inkscape:export-ydpi="59.704086"
-         inkscape:export-xdpi="59.704086"
-         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-         id="path3466"
-         d="m 469.6071,553.57404 142.30703,0 0,30.97617 -142.30703,0 z"
-         style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <text
-         inkscape:export-ydpi="59.704086"
-         inkscape:export-xdpi="59.704086"
-         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-         id="text3468"
-         style="font-style:normal;font-weight:normal;font-size:19.6466198px;line-height:0%;font-family:Arial;text-align:start;text-anchor:start;fill:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
-         y="576.43793"
-         x="515.67566"
-         xml:space="preserve">Box </text>
-      <text
-         inkscape:export-ydpi="59.704086"
-         inkscape:export-xdpi="59.704086"
-         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-         id="text3470"
-         style="font-style:italic;font-weight:normal;font-size:19.6466198px;line-height:0%;font-family:Arial;text-align:start;text-anchor:start;fill:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
-         y="576.43793"
-         x="554.96893"
-         xml:space="preserve">n</text>
-    </g>
     <path
        style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 538.50125,525.18468 0,0 c 0,0.45842 -0.36019,0.8186 -0.81861,0.8186 -0.45842,0 -0.81861,-0.36018 -0.81861,-0.8186 l 0,0 c 0,-0.45842 0.36019,-0.81862 0.81861,-0.81862 0.45842,0 0.81861,0.3602 0.81861,0.81862 z m 0,3.27443 0,0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 l 0,0 c 0,-0.45842 0.36019,-0.8186 0.81861,-0.8186 0.45842,0 0.81861,0.36018 0.81861,0.8186 z m 0,3.27444 0,0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 l 0,0 c 0,-0.45842 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.36019 0.81861,0.81861 z m 0,3.27444 0,0 c 0,0.45842 -0.36019,0.8186 -0.81861,0.8186 -0.45842,0 -0.81861,-0.36018 -0.81861,-0.8186 l 0,0 c 0,-0.45843 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.36018 0.81861,0.81861 z m 0,3.27443 0,0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 l 0,0 c 0,-0.42567 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.39294 0.81861,0.81861 z m 0,3.27444 0,0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 l 0,0 c 0,-0.42568 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.39293 0.81861,0.81861 z m 0,3.27443 0,0 c 0,0.45842 -0.36019,0.81862 -0.81861,0.81862 -0.45842,0 -0.81861,-0.3602 -0.81861,-0.81862 l 0,0 c 0,-0.42567 0.36019,-0.8186 0.81861,-0.8186 0.45842,0 0.81861,0.39293 0.81861,0.8186 z m 0,3.27445 0,0.0327 c 0,0.42568 -0.36019,0.8186 -0.81861,0.8186 -0.45842,0 -0.81861,-0.39292 -0.81861,-0.8186 l 0,-0.0327 c 0,-0.42568 0.36019,-0.81862 0.81861,-0.81862 0.45842,0 0.81861,0.39294 0.81861,0.81862 z"
+       d="m 546.50125,525.18468 v 0 c 0,0.45842 -0.36019,0.8186 -0.81861,0.8186 -0.45842,0 -0.81861,-0.36018 -0.81861,-0.8186 v 0 c 0,-0.45842 0.36019,-0.81862 0.81861,-0.81862 0.45842,0 0.81861,0.3602 0.81861,0.81862 z m 0,3.27443 v 0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 v 0 c 0,-0.45842 0.36019,-0.8186 0.81861,-0.8186 0.45842,0 0.81861,0.36018 0.81861,0.8186 z m 0,3.27444 v 0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 v 0 c 0,-0.45842 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.36019 0.81861,0.81861 z m 0,3.27444 v 0 c 0,0.45842 -0.36019,0.8186 -0.81861,0.8186 -0.45842,0 -0.81861,-0.36018 -0.81861,-0.8186 v 0 c 0,-0.45843 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.36018 0.81861,0.81861 z m 0,3.27443 v 0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 v 0 c 0,-0.42567 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.39294 0.81861,0.81861 z m 0,3.27444 v 0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 v 0 c 0,-0.42568 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.39293 0.81861,0.81861 z m 0,3.27443 v 0 c 0,0.45842 -0.36019,0.81862 -0.81861,0.81862 -0.45842,0 -0.81861,-0.3602 -0.81861,-0.81862 v 0 c 0,-0.42567 0.36019,-0.8186 0.81861,-0.8186 0.45842,0 0.81861,0.39293 0.81861,0.8186 z m 0,3.27445 v 0.0327 c 0,0.42568 -0.36019,0.8186 -0.81861,0.8186 -0.45842,0 -0.81861,-0.39292 -0.81861,-0.8186 v -0.0327 c 0,-0.42568 0.36019,-0.81862 0.81861,-0.81862 0.45842,0 0.81861,0.39294 0.81861,0.81862 z"
        id="path3472"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -375,14 +352,15 @@
        id="g3529"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8,-60)">
       <path
          inkscape:connector-curvature="0"
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          id="path3474"
-         d="m 469.6071,621.78056 142.30703,0 0,30.97618 -142.30703,0 z"
+         d="m 469.6071,621.78056 h 142.30703 v 30.97618 H 469.6071 Z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -398,14 +376,15 @@
        id="g3533"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8,-60)">
       <path
          inkscape:connector-curvature="0"
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          id="path3478"
-         d="m 469.6071,658.87993 142.30703,0 0,30.97617 -142.30703,0 z"
+         d="M 469.6071,658.87993 H 611.91413 V 689.8561 H 469.6071 Z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -417,41 +396,9 @@
          x="515.67566"
          xml:space="preserve">Box 2</text>
     </g>
-    <g
-       id="g3537"
-       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-       inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
-      <path
-         inkscape:connector-curvature="0"
-         inkscape:export-ydpi="59.704086"
-         inkscape:export-xdpi="59.704086"
-         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-         id="path3482"
-         d="m 469.6071,720.7013 142.30703,0 0,30.97617 -142.30703,0 z"
-         style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <text
-         inkscape:export-ydpi="59.704086"
-         inkscape:export-xdpi="59.704086"
-         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-         id="text3484"
-         style="font-style:normal;font-weight:normal;font-size:19.6466198px;line-height:0%;font-family:Arial;text-align:start;text-anchor:start;fill:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
-         y="743.57056"
-         x="515.67566"
-         xml:space="preserve">Box </text>
-      <text
-         inkscape:export-ydpi="59.704086"
-         inkscape:export-xdpi="59.704086"
-         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-         id="text3486"
-         style="font-style:italic;font-weight:normal;font-size:19.6466198px;line-height:0%;font-family:Arial;text-align:start;text-anchor:start;fill:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
-         y="743.57056"
-         x="554.96893"
-         xml:space="preserve">n</text>
-    </g>
     <path
        style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 538.50125,692.31192 0,0 c 0,0.45843 -0.36019,0.81862 -0.81861,0.81862 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81862 l 0,0 c 0,-0.45842 0.36019,-0.8186 0.81861,-0.8186 0.45842,0 0.81861,0.36018 0.81861,0.8186 z m 0,3.27445 0,0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 l 0,0 c 0,-0.42568 0.36019,-0.81862 0.81861,-0.81862 0.45842,0 0.81861,0.39294 0.81861,0.81862 z m 0,3.27443 0,0 c 0,0.45843 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36018 -0.81861,-0.81861 l 0,0 c 0,-0.42568 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.39293 0.81861,0.81861 z m 0,3.27444 0,0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 l 0,0 c 0,-0.42568 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.39293 0.81861,0.81861 z m 0,3.27444 0,0.0327 c 0,0.42568 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.39293 -0.81861,-0.81861 l 0,-0.0327 c 0,-0.42569 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.39292 0.81861,0.81861 z m 0,3.30718 0,0 c 0,0.42567 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.39294 -0.81861,-0.81861 l 0,0 c 0,-0.45842 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.36019 0.81861,0.81861 z m 0,3.27444 0,0 c 0,0.42567 -0.36019,0.8186 -0.81861,0.8186 -0.45842,0 -0.81861,-0.39293 -0.81861,-0.8186 l 0,0 c 0,-0.45842 0.36019,-0.81862 0.81861,-0.81862 0.45842,0 0.81861,0.3602 0.81861,0.81862 z m 0,3.27443 0,0 c 0,0.42568 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.39293 -0.81861,-0.81861 l 0,0 c 0,-0.45842 0.36019,-0.8186 0.81861,-0.8186 0.45842,0 0.81861,0.36018 0.81861,0.8186 z"
+       d="m 546.50125,632.31192 v 0 c 0,0.45843 -0.36019,0.81862 -0.81861,0.81862 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81862 v 0 c 0,-0.45842 0.36019,-0.8186 0.81861,-0.8186 0.45842,0 0.81861,0.36018 0.81861,0.8186 z m 0,3.27445 v 0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 v 0 c 0,-0.42568 0.36019,-0.81862 0.81861,-0.81862 0.45842,0 0.81861,0.39294 0.81861,0.81862 z m 0,3.27443 v 0 c 0,0.45843 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36018 -0.81861,-0.81861 v 0 c 0,-0.42568 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.39293 0.81861,0.81861 z m 0,3.27444 v 0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 v 0 c 0,-0.42568 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.39293 0.81861,0.81861 z m 0,3.27444 v 0.0327 c 0,0.42568 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.39293 -0.81861,-0.81861 v -0.0327 c 0,-0.42569 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.39292 0.81861,0.81861 z m 0,3.30718 v 0 c 0,0.42567 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.39294 -0.81861,-0.81861 v 0 c 0,-0.45842 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.36019 0.81861,0.81861 z m 0,3.27444 v 0 c 0,0.42567 -0.36019,0.8186 -0.81861,0.8186 -0.45842,0 -0.81861,-0.39293 -0.81861,-0.8186 v 0 c 0,-0.45842 0.36019,-0.81862 0.81861,-0.81862 0.45842,0 0.81861,0.3602 0.81861,0.81862 z m 0,3.27443 v 0 c 0,0.42568 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.39293 -0.81861,-0.81861 v 0 c 0,-0.45842 0.36019,-0.8186 0.81861,-0.8186 0.45842,0 0.81861,0.36018 0.81861,0.8186 z"
        id="path3488"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -459,7 +406,7 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 246.22081,117.89913 43.38629,0"
+       d="M 254.22081,117.89913 H 297.6071"
        id="path3490"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -467,7 +414,7 @@
        inkscape:export-ydpi="73" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18799996;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 271.04104,117.7991 0,38.29342"
+       d="m 279.04104,117.7991 v 38.29342"
        id="path3492"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -475,7 +422,7 @@
        inkscape:export-ydpi="73" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 271.04104,155.01488 18.56606,0"
+       d="M 279.04104,155.01488 H 297.6071"
        id="path3494"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -483,7 +430,7 @@
        inkscape:export-ydpi="73" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 426.22081,204.54073 43.38629,0"
+       d="M 434.22081,204.54073 H 477.6071"
        id="path3496"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -491,7 +438,7 @@
        inkscape:export-ydpi="73" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 451.04104,204.54073 0,117.60139"
+       d="M 459.04104,204.54073 V 322.14212"
        id="path3498"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -499,7 +446,7 @@
        inkscape:export-ydpi="73" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 426.22081,467.06342 43.38629,0"
+       d="M 434.22081,467.06342 H 477.6071"
        id="path3500"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -507,23 +454,15 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 451.04104,467.06342 0,43.23894"
+       d="m 459.04104,467.06342 v 43.23894"
        id="path3502"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
        inkscape:export-ydpi="73"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 451.85965,510.31873 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63721 -1.63721,0 0,-1.63721 1.63721,0 z m 0,3.27443 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63721 -1.63721,0 0,-1.63721 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27443 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27443 0,1.63723 -1.63721,0 0,-1.63723 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63721 -1.63721,0 0,-1.63721 1.63721,0 z m 0,3.27444 0,1.63721 -1.63721,0 0,-1.63721 1.63721,0 z m 0,3.27443 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27443 0,1.63723 -1.63721,0 0,-1.63723 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27443 0,1.63723 -1.63721,0 0,-1.63723 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z"
-       id="path3504"
-       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-       inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73"
-       inkscape:connector-curvature="0" />
-    <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 426.22081,640.34662 43.38629,0"
+       d="M 434.22081,580.34662 H 477.6071"
        id="path3506"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -531,23 +470,15 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 451.04104,640.34662 0,43.25531"
+       d="m 459.04104,580.34662 v 43.25531"
        id="path3508"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
        inkscape:export-ydpi="73"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 451.85965,683.60193 0,1.63721 -1.63721,0 0,-1.63721 1.63721,0 z m 0,3.27444 0,1.63721 -1.63721,0 0,-1.63721 1.63721,0 z m 0,3.27443 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63721 -1.63721,0 0,-1.63721 1.63721,0 z m 0,3.27443 0,1.63723 -1.63721,0 0,-1.63723 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27443 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63721 -1.63721,0 0,-1.63721 1.63721,0 z m 0,3.27443 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63721 -1.63721,0 0,-1.63721 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27443 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27443 0,1.63723 -1.63721,0 0,-1.63723 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z"
-       id="path3510"
-       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-       inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73"
-       inkscape:connector-curvature="0" />
-    <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 451.04104,247.77966 18.56606,0"
+       d="M 459.04104,247.77966 H 477.6071"
        id="path3512"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -555,7 +486,7 @@
        inkscape:export-ydpi="73" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 451.04104,278.75584 18.56606,0"
+       d="M 459.04104,278.75584 H 477.6071"
        id="path3514"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -563,7 +494,7 @@
        inkscape:export-ydpi="73" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 451.04104,322.14212 18.56606,0"
+       d="M 459.04104,322.14212 H 477.6071"
        id="path3516"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -571,7 +502,7 @@
        inkscape:export-ydpi="73" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 451.04104,504.16279 18.56606,0"
+       d="M 459.04104,504.16279 H 477.6071"
        id="path3518"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -579,31 +510,15 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 451.04104,572.27108 18.56606,0"
-       id="path3520"
-       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-       inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 451.04104,677.44598 18.56606,0"
+       d="M 459.04104,617.44598 H 477.6071"
        id="path3522"
-       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-       inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 451.04104,745.52152 18.56606,0"
-       id="path3524"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
        inkscape:export-ydpi="73"
        inkscape:connector-curvature="0" />
     <g
        id="g3542"
-       transform="translate(-40,0)"
+       transform="translate(-32)"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
        inkscape:export-ydpi="73">
@@ -613,7 +528,7 @@
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          id="path3526"
-         d="m 135.33622,337.03553 92.78117,0 0,30.97618 -92.78117,0 z"
+         d="m 135.33622,337.03553 h 92.78117 v 30.97618 h -92.78117 z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -626,8 +541,8 @@
          xml:space="preserve">file</text>
     </g>
     <path
-       style="fill:none;stroke:#000000;stroke-width:2.188;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 265.38048,203.59628 0,431.47172"
+       style="fill:none;stroke:#000000;stroke-width:2.18799996;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 273.38048,203.59627 v 620.5718"
        id="path3530"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -637,14 +552,15 @@
        id="g3504"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8)">
       <path
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          inkscape:connector-curvature="0"
          id="path3532"
-         d="m 333.43965,409.16665 111.33085,0 0,30.9598 -111.33085,0 z"
+         d="M 333.43965,409.16665 H 444.7705 v 30.9598 H 333.43965 Z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -657,16 +573,16 @@
          xml:space="preserve">isValid</text>
     </g>
     <path
-       style="fill:none;stroke:#000000;stroke-width:2.188;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 99.428813,117.89913 52.711847,0"
+       style="fill:none;stroke:#000000;stroke-width:2.18799996;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 107.42881,117.89913 h 52.71185"
        id="path3536"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
        inkscape:export-ydpi="73" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:2.188;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 333.43965,204.53254 -68.08373,0"
+       style="fill:none;stroke:#000000;stroke-width:2.18799996;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 341.43965,204.53254 H 273.35592"
        id="path3538"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -674,7 +590,7 @@
        inkscape:export-ydpi="73" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 333.43965,421.57676 -68.07554,0"
+       d="M 341.43965,421.57676 H 273.36411"
        id="path3540"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -682,7 +598,7 @@
        inkscape:export-ydpi="73" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 333.43965,467.06342 -68.07554,0"
+       d="M 341.43965,467.06342 H 273.36411"
        id="path3542"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -690,15 +606,15 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 265.38048,634.0597 68.07554,0"
+       d="m 273.38048,574.0597 h 68.07554"
        id="path3544"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
        inkscape:export-ydpi="73"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:2.188;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 187.87113,355.58522 77.49298,0"
+       style="fill:none;stroke:#000000;stroke-width:2.18799996;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 195.87113,355.58522 h 77.49298"
        id="path3546"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -706,7 +622,7 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 611.76677,467.06342 24.8366,0"
+       d="m 619.76677,467.06342 h 24.8366"
        id="path3548"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -714,7 +630,7 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 636.60337,466.64496 1.63723,0 0,1.63722 -1.63723,0 0,-1.63722 z m 3.27444,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27444,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27444,0 1.63721,0 0,1.63722 -1.63721,0 0,-1.63722 z m 3.27444,0 1.63721,0 0,1.63722 -1.63721,0 0,-1.63722 z m 3.27443,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27444,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27443,0 1.63723,0 0,1.63722 -1.63723,0 0,-1.63722 z"
+       d="m 644.60337,466.64496 h 1.63723 v 1.63722 h -1.63723 z m 3.27444,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63721 v 1.63722 h -1.63721 z m 3.27444,0 h 1.63721 v 1.63722 h -1.63721 z m 3.27443,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63722 H 664.25 Z m 3.27443,0 h 1.63723 v 1.63722 h -1.63723 z"
        id="path3550"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -722,7 +638,7 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 611.76677,504.16279 24.8366,0"
+       d="m 619.76677,504.16279 h 24.8366"
        id="path3552"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -730,7 +646,7 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 636.60337,503.74433 1.63723,0 0,1.63722 -1.63723,0 0,-1.63722 z m 3.27444,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27444,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27444,0 1.63721,0 0,1.63722 -1.63721,0 0,-1.63722 z m 3.27444,0 1.63721,0 0,1.63722 -1.63721,0 0,-1.63722 z m 3.27443,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27444,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27443,0 1.63723,0 0,1.63722 -1.63723,0 0,-1.63722 z"
+       d="m 644.60337,503.74433 h 1.63723 v 1.63722 h -1.63723 z m 3.27444,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63721 v 1.63722 h -1.63721 z m 3.27444,0 h 1.63721 v 1.63722 h -1.63721 z m 3.27443,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63722 H 664.25 Z m 3.27443,0 h 1.63723 v 1.63722 h -1.63723 z"
        id="path3554"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -738,23 +654,7 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 611.91413,572.27108 24.82023,0"
-       id="path3556"
-       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-       inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 636.73436,571.85262 1.63721,0 0,1.63721 -1.63721,0 0,-1.63721 z m 3.27443,0 1.63722,0 0,1.63721 -1.63722,0 0,-1.63721 z m 3.27444,0 1.63721,0 0,1.63721 -1.63721,0 0,-1.63721 z m 3.27443,0 1.63723,0 0,1.63721 -1.63723,0 0,-1.63721 z m 3.27444,0 1.63722,0 0,1.63721 -1.63722,0 0,-1.63721 z m 3.27444,0 1.63722,0 0,1.63721 -1.63722,0 0,-1.63721 z m 3.27443,0 1.63722,0 0,1.63721 -1.63722,0 0,-1.63721 z m 3.27444,0 1.63722,0 0,1.63721 -1.63722,0 0,-1.63721 z"
-       id="path3558"
-       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-       inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 611.78314,640.34662 24.82023,0"
+       d="m 619.78314,580.34662 h 24.82023"
        id="path3560"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -762,7 +662,7 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 636.60337,639.92816 1.63723,0 0,1.63721 -1.63723,0 0,-1.63721 z m 3.27444,0 1.63722,0 0,1.63721 -1.63722,0 0,-1.63721 z m 3.27444,0 1.63722,0 0,1.63721 -1.63722,0 0,-1.63721 z m 3.27444,0 1.63721,0 0,1.63721 -1.63721,0 0,-1.63721 z m 3.27444,0 1.63721,0 0,1.63721 -1.63721,0 0,-1.63721 z m 3.27443,0 1.63722,0 0,1.63721 -1.63722,0 0,-1.63721 z m 3.27444,0 1.63722,0 0,1.63721 -1.63722,0 0,-1.63721 z m 3.27443,0 1.63723,0 0,1.63721 -1.63723,0 0,-1.63721 z"
+       d="m 644.60337,579.92816 h 1.63723 v 1.63721 h -1.63723 z m 3.27444,0 h 1.63722 v 1.63721 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63721 h -1.63722 z m 3.27444,0 h 1.63721 v 1.63721 h -1.63721 z m 3.27444,0 h 1.63721 v 1.63721 h -1.63721 z m 3.27443,0 h 1.63722 v 1.63721 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63721 H 664.25 Z m 3.27443,0 h 1.63723 v 1.63721 h -1.63723 z"
        id="path3562"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -770,7 +670,7 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 611.91413,677.44598 24.82023,0"
+       d="m 619.91413,617.44598 h 24.82023"
        id="path3564"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -778,24 +678,8 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 636.73436,677.02753 1.63721,0 0,1.63721 -1.63721,0 0,-1.63721 z m 3.27443,0 1.63722,0 0,1.63721 -1.63722,0 0,-1.63721 z m 3.27444,0 1.63721,0 0,1.63721 -1.63721,0 0,-1.63721 z m 3.27443,0 1.63723,0 0,1.63721 -1.63723,0 0,-1.63721 z m 3.27444,0 1.63722,0 0,1.63721 -1.63722,0 0,-1.63721 z m 3.27444,0 1.63722,0 0,1.63721 -1.63722,0 0,-1.63721 z m 3.27443,0 1.63722,0 0,1.63721 -1.63722,0 0,-1.63721 z m 3.27444,0 1.63722,0 0,1.63721 -1.63722,0 0,-1.63721 z"
+       d="m 644.73436,617.02753 h 1.63721 v 1.63721 h -1.63721 z m 3.27443,0 h 1.63722 v 1.63721 h -1.63722 z m 3.27444,0 h 1.63721 v 1.63721 h -1.63721 z m 3.27443,0 h 1.63723 v 1.63721 h -1.63723 z m 3.27444,0 h 1.63722 v 1.63721 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63721 h -1.63722 z m 3.27443,0 h 1.63722 v 1.63721 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63721 h -1.63722 z"
        id="path3566"
-       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-       inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 611.78314,745.52152 24.82023,0"
-       id="path3568"
-       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
-       inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 636.60337,745.10307 1.63723,0 0,1.63722 -1.63723,0 0,-1.63722 z m 3.27444,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27444,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27444,0 1.63721,0 0,1.63722 -1.63721,0 0,-1.63722 z m 3.27444,0 1.63721,0 0,1.63722 -1.63721,0 0,-1.63722 z m 3.27443,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27444,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27443,0 1.63723,0 0,1.63722 -1.63723,0 0,-1.63722 z"
-       id="path3570"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
        inkscape:export-ydpi="73"
@@ -804,14 +688,15 @@
        id="g3492"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8)">
       <path
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          inkscape:connector-curvature="0"
          id="path3418-7"
-         d="m 323.46348,355.11912 113.81741,0 0,30.78869 -113.81741,0 z"
+         d="m 323.46348,355.11912 h 113.81741 v 30.78869 H 323.46348 Z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -827,14 +712,15 @@
        id="g3496"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8)">
       <path
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          inkscape:connector-curvature="0"
          id="path3434-9"
-         d="m 470.14905,355.03356 142.29065,0 0,30.9598 -142.29065,0 z"
+         d="M 470.14905,355.03356 H 612.4397 v 30.9598 H 470.14905 Z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -850,14 +736,15 @@
        id="g3500"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
-       inkscape:export-ydpi="73">
+       inkscape:export-ydpi="73"
+       transform="translate(8)">
       <path
          inkscape:export-ydpi="59.704086"
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          inkscape:connector-curvature="0"
          id="path3438-5"
-         d="m 468.96367,392.15877 151.66448,0 0,30.9245 -151.66448,0 z"
+         d="m 468.96367,392.15877 h 151.66448 v 30.9245 H 468.96367 Z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -871,7 +758,7 @@
     </g>
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 437.24335,373.58324 32.92972,0"
+       d="m 445.24335,373.58324 h 32.92972"
        id="path3490-8"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -879,7 +766,7 @@
        inkscape:export-ydpi="73" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 451.58299,373.58324 0,37.11575"
+       d="m 459.58299,373.58324 v 37.11575"
        id="path3492-8"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -887,7 +774,7 @@
        inkscape:export-ydpi="73" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 451.58299,410.69899 18.56606,0"
+       d="m 459.58299,410.69899 h 18.56606"
        id="path3494-1"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -895,7 +782,7 @@
        inkscape:export-ydpi="73" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 265.24625,373.58324 58.88238,0"
+       d="m 273.24625,373.58324 h 58.88238"
        id="path3536-3"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -903,7 +790,7 @@
        inkscape:export-ydpi="73" />
     <g
        id="g3456"
-       transform="translate(-158.79738,0.94096233)"
+       transform="translate(-150.79738,0.94096233)"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
        inkscape:export-ydpi="73">
@@ -913,7 +800,7 @@
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          id="path3526-6"
-         d="m 164.71414,98.40515 92.78117,0 0,30.97618 -92.78117,0 z"
+         d="m 164.71414,98.40515 h 92.78117 v 30.97618 h -92.78117 z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -927,7 +814,7 @@
     </g>
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18799996;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 50.00036,130.49754 0,339.09137"
+       d="M 58.00036,130.49754 V 469.58891"
        id="path3530-3"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
@@ -935,14 +822,14 @@
        inkscape:export-ydpi="73" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18799996;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 48.936,353.9361 45.44354,0"
+       d="m 56.936,353.9361 h 45.44354"
        id="path3546-5"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
        inkscape:export-ydpi="73"
        inkscape:connector-curvature="0" />
     <g
-       transform="translate(-39.973002,74.528804)"
+       transform="translate(-31.973002,74.528804)"
        id="g3542-6"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -953,7 +840,7 @@
          inkscape:export-xdpi="59.704086"
          inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
          id="path3526-2"
-         d="m 135.33622,337.03553 92.78117,0 0,30.97618 -92.78117,0 z"
+         d="m 135.33622,337.03553 h 92.78117 v 30.97618 h -92.78117 z"
          style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          inkscape:export-ydpi="59.704086"
@@ -967,7 +854,7 @@
     </g>
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18799996;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 48.963,428.4649 45.44354,0"
+       d="m 56.963,428.4649 h 45.44354"
        id="path3546-5-1"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -975,7 +862,7 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 50.59444,469.52374 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63721 -1.63721,0 0,-1.63721 1.63721,0 z m 0,3.27443 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63721 -1.63721,0 0,-1.63721 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27443 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27443 0,1.63723 -1.63721,0 0,-1.63723 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63721 -1.63721,0 0,-1.63721 1.63721,0 z m 0,3.27444 0,1.63721 -1.63721,0 0,-1.63721 1.63721,0 z m 0,3.27443 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27443 0,1.63723 -1.63721,0 0,-1.63723 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z m 0,3.27443 0,1.63723 -1.63721,0 0,-1.63723 1.63721,0 z m 0,3.27444 0,1.63722 -1.63721,0 0,-1.63722 1.63721,0 z"
+       d="m 58.59444,469.52374 v 1.63722 h -1.63721 v -1.63722 z m 0,3.27444 v 1.63722 h -1.63721 v -1.63722 z m 0,3.27444 v 1.63721 h -1.63721 v -1.63721 z m 0,3.27443 v 1.63722 h -1.63721 v -1.63722 z m 0,3.27444 v 1.63721 h -1.63721 v -1.63721 z m 0,3.27444 v 1.63722 h -1.63721 v -1.63722 z m 0,3.27443 v 1.63722 h -1.63721 v -1.63722 z m 0,3.27444 v 1.63722 h -1.63721 v -1.63722 z m 0,3.27443 v 1.63723 h -1.63721 v -1.63723 z m 0,3.27444 v 1.63722 h -1.63721 v -1.63722 z m 0,3.27444 v 1.63722 h -1.63721 v -1.63722 z m 0,3.27444 v 1.63721 h -1.63721 v -1.63721 z m 0,3.27444 v 1.63721 h -1.63721 v -1.63721 z m 0,3.27443 v 1.63722 h -1.63721 v -1.63722 z m 0,3.27444 v 1.63722 h -1.63721 v -1.63722 z m 0,3.27443 v 1.63723 h -1.63721 v -1.63723 z m 0,3.27444 v 1.63722 h -1.63721 v -1.63722 z m 0,3.27443 v 1.63723 h -1.63721 v -1.63723 z m 0,3.27444 v 1.63722 h -1.63721 v -1.63722 z"
        id="path3504-2"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -983,7 +870,7 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:2.18799996;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 189.204,433.49984 24.83433,0"
+       d="m 197.204,433.49984 h 24.83433"
        id="path3546-7"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
@@ -991,11 +878,263 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 213.59429,433.14007 1.63723,0 0,1.63722 -1.63723,0 0,-1.63722 z m 3.27444,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27444,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27444,0 1.63721,0 0,1.63722 -1.63721,0 0,-1.63722 z m 3.27444,0 1.63721,0 0,1.63722 -1.63721,0 0,-1.63722 z m 3.27443,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27444,0 1.63722,0 0,1.63722 -1.63722,0 0,-1.63722 z m 3.27443,0 1.63723,0 0,1.63722 -1.63723,0 0,-1.63722 z"
+       d="m 221.59429,433.14007 h 1.63723 v 1.63722 h -1.63723 z m 3.27444,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63721 v 1.63722 h -1.63721 z m 3.27444,0 h 1.63721 v 1.63722 h -1.63721 z m 3.27443,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27443,0 h 1.63723 v 1.63722 h -1.63723 z"
        id="path3550-0"
        inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
        inkscape:export-xdpi="73"
        inkscape:export-ydpi="73"
        inkscape:connector-curvature="0" />
+    <g
+       transform="translate(9.437558,332.50548)"
+       id="g3508-3"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73">
+      <path
+         inkscape:connector-curvature="0"
+         inkscape:export-ydpi="59.704086"
+         inkscape:export-xdpi="59.704086"
+         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+         id="path3426-6"
+         d="m 333.43965,454.63693 h 92.78116 v 30.97618 h -92.78116 z"
+         style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         inkscape:export-ydpi="59.704086"
+         inkscape:export-xdpi="59.704086"
+         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+         id="text3428-7"
+         style="font-style:normal;font-weight:normal;font-size:19.6466198px;line-height:0%;font-family:Arial;text-align:start;text-anchor:start;fill:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+         y="477.52255"
+         x="341.09485"
+         xml:space="preserve">warnings</text>
+    </g>
+    <g
+       transform="translate(9.437558,332.50548)"
+       id="g3512-5"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73">
+      <path
+         inkscape:connector-curvature="0"
+         inkscape:export-ydpi="59.704086"
+         inkscape:export-xdpi="59.704086"
+         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+         id="path3458-3"
+         d="m 469.6071,454.63693 h 142.29065 v 30.97618 H 469.6071 Z"
+         style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         inkscape:export-ydpi="59.704086"
+         inkscape:export-xdpi="59.704086"
+         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+         id="text3460-5"
+         style="font-style:normal;font-weight:normal;font-size:19.6466198px;line-height:0%;font-family:Arial;text-align:start;text-anchor:start;fill:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+         y="477.52261"
+         x="515.67566"
+         xml:space="preserve">Box 1</text>
+    </g>
+    <g
+       transform="translate(9.437558,332.50548)"
+       id="g3516-6"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73">
+      <path
+         inkscape:connector-curvature="0"
+         inkscape:export-ydpi="59.704086"
+         inkscape:export-xdpi="59.704086"
+         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+         id="path3462-2"
+         d="m 469.6071,491.75268 h 142.29065 v 30.97617 H 469.6071 Z"
+         style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         inkscape:export-ydpi="59.704086"
+         inkscape:export-xdpi="59.704086"
+         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+         id="text3464-9"
+         style="font-style:normal;font-weight:normal;font-size:19.6466198px;line-height:0%;font-family:Arial;text-align:start;text-anchor:start;fill:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+         y="514.63287"
+         x="515.67566"
+         xml:space="preserve">Box 2</text>
+    </g>
+    <path
+       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 547.93881,857.69016 v 0 c 0,0.45842 -0.36019,0.8186 -0.81861,0.8186 -0.45842,0 -0.81861,-0.36018 -0.81861,-0.8186 v 0 c 0,-0.45842 0.36019,-0.81862 0.81861,-0.81862 0.45842,0 0.81861,0.3602 0.81861,0.81862 z m 0,3.27443 v 0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 v 0 c 0,-0.45842 0.36019,-0.8186 0.81861,-0.8186 0.45842,0 0.81861,0.36018 0.81861,0.8186 z m 0,3.27444 v 0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 v 0 c 0,-0.45842 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.36019 0.81861,0.81861 z m 0,3.27444 v 0 c 0,0.45842 -0.36019,0.8186 -0.81861,0.8186 -0.45842,0 -0.81861,-0.36018 -0.81861,-0.8186 v 0 c 0,-0.45843 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.36018 0.81861,0.81861 z m 0,3.27443 v 0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 v 0 c 0,-0.42567 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.39294 0.81861,0.81861 z m 0,3.27444 v 0 c 0,0.45842 -0.36019,0.81861 -0.81861,0.81861 -0.45842,0 -0.81861,-0.36019 -0.81861,-0.81861 v 0 c 0,-0.42568 0.36019,-0.81861 0.81861,-0.81861 0.45842,0 0.81861,0.39293 0.81861,0.81861 z m 0,3.27443 v 0 c 0,0.45842 -0.36019,0.81862 -0.81861,0.81862 -0.45842,0 -0.81861,-0.3602 -0.81861,-0.81862 v 0 c 0,-0.42567 0.36019,-0.8186 0.81861,-0.8186 0.45842,0 0.81861,0.39293 0.81861,0.8186 z m 0,3.27445 v 0.0327 c 0,0.42568 -0.36019,0.8186 -0.81861,0.8186 -0.45842,0 -0.81861,-0.39292 -0.81861,-0.8186 v -0.0327 c 0,-0.42568 0.36019,-0.81862 0.81861,-0.81862 0.45842,0 0.81861,0.39294 0.81861,0.81862 z"
+       id="path3472-9"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 435.65837,799.5689 h 43.38629"
+       id="path3500-3"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 460.4786,799.5689 v 43.23894"
+       id="path3502-6"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 460.4786,836.66827 h 18.56606"
+       id="path3518-6"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 342.87721,799.5689 H 273.11928"
+       id="path3542-6"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 621.20433,799.5689 h 24.8366"
+       id="path3548-1"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 646.04093,799.15044 h 1.63723 v 1.63722 h -1.63723 z m 3.27444,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63721 v 1.63722 h -1.63721 z m 3.27444,0 h 1.63721 v 1.63722 h -1.63721 z m 3.27443,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27443,0 h 1.63723 v 1.63722 h -1.63723 z"
+       id="path3550-8"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 621.20433,836.66827 h 24.8366"
+       id="path3552-7"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 646.04093,836.24981 h 1.63723 v 1.63722 h -1.63723 z m 3.27444,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63721 v 1.63722 h -1.63721 z m 3.27444,0 h 1.63721 v 1.63722 h -1.63721 z m 3.27443,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63722 h -1.63722 z m 3.27443,0 h 1.63723 v 1.63722 h -1.63723 z"
+       id="path3554-9"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 274.23835,678.8393 h 68.07554"
+       id="path3544-0"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       inkscape:connector-curvature="0" />
+    <g
+       id="g3525-8"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       transform="translate(21.213992,42.722386)">
+      <path
+         inkscape:connector-curvature="0"
+         inkscape:export-ydpi="59.704086"
+         inkscape:export-xdpi="59.704086"
+         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+         id="path3422-8"
+         d="m 320.13223,614.16697 h 196.97603 v 49.53434 H 320.13223 Z"
+         style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         inkscape:export-ydpi="59.704086"
+         inkscape:export-xdpi="59.704086"
+         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+         id="text3424-9"
+         style="font-style:normal;font-weight:normal;font-size:19.6466198px;line-height:0%;font-family:Arial;text-align:start;text-anchor:start;fill:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+         y="644.65527"
+         x="336.43576"
+         xml:space="preserve">propertiesExtension</text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 447.7028,748.89621 h 43.38629"
+       id="path3506-6"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 446.52303,706.89621 v 43.25531"
+       id="path3508-4"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       inkscape:connector-curvature="0" />
+    <g
+       id="g3533-3"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       transform="translate(22.340271,75.143779)">
+      <path
+         inkscape:connector-curvature="0"
+         inkscape:export-ydpi="59.704086"
+         inkscape:export-xdpi="59.704086"
+         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+         id="path3478-0"
+         d="M 469.6071,658.87993 H 611.91413 V 689.8561 H 469.6071 Z"
+         style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         inkscape:export-ydpi="59.704086"
+         inkscape:export-xdpi="59.704086"
+         inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+         id="text3480-3"
+         style="font-style:normal;font-weight:normal;font-size:19.6466198px;line-height:0%;font-family:Arial;text-align:start;text-anchor:start;fill:#000000;stroke-width:2.5;stroke-miterlimit:4;stroke-dasharray:none"
+         y="681.76556"
+         x="515.67566"
+         xml:space="preserve">mix</text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 635.7931,750.39922 h 24.82023"
+       id="path3564-0"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.18846059;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:2.18846048, 8.75384192;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 660.61333,749.98077 h 1.63721 v 1.63721 h -1.63721 z m 3.27443,0 h 1.63722 v 1.63721 h -1.63722 z m 3.27444,0 h 1.63721 v 1.63721 h -1.63721 z m 3.27443,0 h 1.63723 v 1.63721 h -1.63723 z m 3.27444,0 h 1.63722 v 1.63721 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63721 h -1.63722 z m 3.27443,0 h 1.63722 v 1.63721 h -1.63722 z m 3.27444,0 h 1.63722 v 1.63721 h -1.63722 z"
+       id="path3566-9"
+       inkscape:export-filename="/home/johan/jpylyzer/doc/images/outputStructure.png"
+       inkscape:export-xdpi="73"
+       inkscape:export-ydpi="73"
+       inkscape:connector-curvature="0" />
   </g>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.64px;line-height:125%;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+     x="356.88779"
+     y="691.823"
+     id="text355"><tspan
+       sodipodi:role="line"
+       id="tspan353"
+       x="356.88779"
+       y="749.05902"></tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.64px;line-height:125%;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+     x="368.3082"
+     y="708.95361"
+     id="text359"><tspan
+       sodipodi:role="line"
+       id="tspan357"
+       x="368.3082"
+       y="766.18964"></tspan></text>
 </svg>

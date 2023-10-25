@@ -650,7 +650,7 @@ This section explains *jpylyzer*’s output format.
 Overview {#output-format-overview}
 ------------
 
-*Jpylyzer* generates its output in XML format, which is defined by [the schema that can be found here](https://jpylyzer.openpreservation.org/jpylyzer-v-2-1.xsd). The following Figure shows the
+*Jpylyzer* generates its output in XML format, which is defined by [the schema that can be found here](https://jpylyzer.openpreservation.org/jpylyzer-v-2-2.xsd). The following Figure shows the
 output structure:
 
 ![Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements.](images/outputStructure.png)
@@ -694,6 +694,8 @@ validation process (organised by box)
 5. *properties*: image properties (organised by box)
 
 6. *propertiesExtension*: wrapper element for NISO *MIX* output (only if the `--mix` option is used)
+
+7. *warnings*: reported warnings
 
 fileInfo element {#fileinfo-element}
 --------------------
@@ -781,6 +783,17 @@ propertiesExtension element {#propertiesExtension-element}
 
 This optional element is reserved for output in alternative formats. Currently it is used to wrap output in NISO *MIX* format
 if the `--mix` option is used. See the [*MIX* documentation](https://www.loc.gov/standards/mix/) for a description of the reported elements.
+
+warnings element {#warnings-element}
+----------------------
+
+This element is reserved for reporting any warnings that are not directly related to the validation process. Examples are:
+
+- Jpylyzer encountered an unknown box type while parsing a file.
+- Reading of a file failed because of system limitations.
+
+Each warning is wrapped in a ‘warning’ element. The results are organised in a hierarchical tree that corresponds to
+JP2’s box structure.
 
 JP2: box by box {#jp2-box-by-box}
 =================
