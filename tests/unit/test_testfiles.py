@@ -41,7 +41,7 @@ xsdFile = os.path.join(JPYLYZER_DIR, "xsd/jpylyzer-v-2-2.xsd")
 # Directory with test files
 testFilesDir = JPYLYZER_DIR.replace("jpylyzer", "jpylyzer-test-files/files")
 
-# All files in test files dir, excluding .md file
+# All files in test files dir
 testFiles = glob.glob(os.path.join(testFilesDir, '*'))
 
 # Dictionary with names of all test files and validity against JP2
@@ -126,6 +126,21 @@ validityLookupJ2C = {
 "is_codestream.jp2": "True"
 }
 
+# Dictionary with names of all test files and validity against JPH
+validityLookupJPH = {
+"oht-ht.jph": "False",
+"oj-ht-byte.jph": "True"
+}
+
+# Dictionary with names of all test files and validity against JHC
+validityLookupJHC = {
+"grok-ht.jhc": "True",
+"htj2k_cpf_broadcast.jhc": "False",
+"oht-ht.jhc": "True",
+"oj-ht-byte_causal.jhc": "True",
+"ojph-ht.jhc": "True"
+}
+
 ## Excluded in above dict are:
 #
 # - 3 surrogate pair samples
@@ -165,6 +180,26 @@ def test_status_j2c(inJ2C):
     outJpylyzer = checkOneFile(inJ2C, 'j2c')
     assert outJpylyzer.findtext('./statusInfo/success') == "True"
 
+@pytest.mark.parametrize('inJPH', testFiles)
+
+def test_status_jph(inJPH):
+    """
+    Tests for any internal errors based on statusInfo value
+    using codestream validation
+    """
+    outJpylyzer = checkOneFile(inJPH, 'jph')
+    assert outJpylyzer.findtext('./statusInfo/success') == "True"
+
+@pytest.mark.parametrize('inJHC', testFiles)
+
+def test_status_jhc(inJHC):
+    """
+    Tests for any internal errors based on statusInfo value
+    using codestream validation
+    """
+    outJpylyzer = checkOneFile(inJHC, 'jhc')
+    assert outJpylyzer.findtext('./statusInfo/success') == "True"
+
 @pytest.mark.parametrize('inJP2', testFiles)
 
 def test_validation_outcome_jp2(inJP2):
@@ -188,6 +223,29 @@ def test_validation_outcome_j2c(inJ2C):
     outJpylyzer = checkOneFile(inJ2C, 'j2c')
     if fName in validityLookupJ2C.keys():
         isValid = validityLookupJ2C[fName]
+        assert outJpylyzer.findtext('./isValid') == isValid
+
+@pytest.mark.parametrize('inJPH', testFiles)
+
+def test_validation_outcome_jp2(inJPH):
+    """
+    Tests validation outcome against known validity (JPH)
+    """
+    fName = os.path.basename(inJPH)
+    outJpylyzer = checkOneFile(inJPH, 'jph')
+    if fName in validityLookupJPH.keys():
+        isValid = validityLookupJPH[fName]
+        assert outJpylyzer.findtext('./isValid') == isValid
+
+@pytest.mark.parametrize('inJHC', testFiles)
+def test_validation_outcome_jp2(inJHC):
+    """
+    Tests validation outcome against known validity (JHC)
+    """
+    fName = os.path.basename(inJHC)
+    outJpylyzer = checkOneFile(inJHC, 'jhc')
+    if fName in validityLookupJHC.keys():
+        isValid = validityLookupJHC[fName]
         assert outJpylyzer.findtext('./isValid') == isValid
 
 def test_xml_is_valid_jp2(capsys):
@@ -250,6 +308,45 @@ def test_xml_is_valid_j2c(capsys):
     verify resulting XML output validates against XSD schema
     """
     config.VALIDATION_FORMAT = "j2c"
+    config.MIX_FLAG = 0
+    checkFiles(config.INPUT_RECURSIVE_FLAG, testFiles)
+
+    # Capture output from stdout
+    captured = capsys.readouterr()
+    xmlOut = captured.out
+    # Parse XSD schema
+    xmlschema_doc = etree.parse(xsdFile)
+    xmlschema = etree.XMLSchema(xmlschema_doc)
+    # Parse XML
+    xml_doc = etree.fromstring(xmlOut.encode())
+    assert xmlschema.validate(xml_doc)
+
+def test_xml_is_valid_jph(capsys):
+    """
+    Run checkfiles function on all files in test corpus and
+    verify resulting XML output validates against XSD schema
+    """
+    config.VALIDATION_FORMAT = "jph"
+    config.MIX_FLAG = 0
+    checkFiles(config.INPUT_RECURSIVE_FLAG, testFiles)
+
+    # Capture output from stdout
+    captured = capsys.readouterr()
+    xmlOut = captured.out
+    # Parse XSD schema
+    xmlschema_doc = etree.parse(xsdFile)
+    xmlschema = etree.XMLSchema(xmlschema_doc)
+    # Parse XML
+    xml_doc = etree.fromstring(xmlOut.encode())
+    assert xmlschema.validate(xml_doc)
+
+
+def test_xml_is_valid_jhc(capsys):
+    """
+    Run checkfiles function on all files in test corpus and
+    verify resulting XML output validates against XSD schema
+    """
+    config.VALIDATION_FORMAT = "jhc"
     config.MIX_FLAG = 0
     checkFiles(config.INPUT_RECURSIVE_FLAG, testFiles)
 
