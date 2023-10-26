@@ -653,11 +653,11 @@
         <xs:element ref="codeBlockWidth"/>
         <xs:element ref="codeBlockHeight"/>
         <xs:element ref="codingBypass"/>
-        <xs:element ref="resetOnBoundaries"/>
+        <xs:element ref="resetOnBoundaries"  minOccurs="0"/>
         <xs:element ref="termOnEachPass"/>
         <xs:element ref="vertCausalContext"/>
-        <xs:element ref="predTermination"/>
-        <xs:element ref="segmentationSymbols"/>
+        <xs:element ref="predTermination"  minOccurs="0"/>
+        <xs:element ref="segmentationSymbols" minOccurs="0"/>
         <xs:element ref="transformation"/>
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
           <xs:element ref="precinctSizeX"/>
@@ -697,11 +697,11 @@
         <xs:element ref="codeBlockWidth"/>
         <xs:element ref="codeBlockHeight"/>
         <xs:element ref="codingBypass"/>
-        <xs:element ref="resetOnBoundaries"/>
+        <xs:element ref="resetOnBoundaries" minOccurs="0"/>
         <xs:element ref="termOnEachPass"/>
         <xs:element ref="vertCausalContext"/>
-        <xs:element ref="predTermination"/>
-        <xs:element ref="segmentationSymbols"/>
+        <xs:element ref="predTermination" minOccurs="0"/>
+        <xs:element ref="segmentationSymbols" minOccurs="0"/>
         <xs:element ref="transformation"/>
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
           <xs:element ref="precinctSizeX"/>
