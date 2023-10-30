@@ -118,7 +118,10 @@ validityLookupJP2 = {
 "oj-tileindex-error-2.jp2": "False",
 "oj-tileindex-error-3.jp2": "False",
 "oj-tileindex-error-4.jp2": "False",
-"oj-tileindex-error-5.jp2": "False"
+"erdas-nullinput-uint8-rgb-null-2tileparts.jp2": "True",
+"erdas-sandiego1m_null.jp2": "True",
+"erdas-sandiego3i_5.2.jp2": "True",
+"erdas-sandiego3i_5.5.jp2": "True"
 }
 
 # Dictionary with names of all test files and validity against codestream
@@ -339,7 +342,6 @@ def test_xml_is_valid_jph(capsys):
     # Parse XML
     xml_doc = etree.fromstring(xmlOut.encode())
     assert xmlschema.validate(xml_doc)
-
 
 def test_xml_is_valid_jhc(capsys):
     """
