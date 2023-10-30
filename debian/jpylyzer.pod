@@ -21,7 +21,7 @@ Show this help message and exit
 
 =item B<--format FMT, -f FMT>
 
-Validation format; allowed values: jp2, j2c (default: jp2)
+Validation format; allowed values: jp2, jph, j2c, jhc (default: jp2)
 
 =item B<--mix {1,2}>
 
