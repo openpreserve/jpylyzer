@@ -163,6 +163,15 @@ def test_groundtruth_complete():
         thisFile = os.path.join(testFilesDir, key)
         assert os.path.isfile(thisFile)
 
+    for key in validityLookupJPH:
+        thisFile = os.path.join(testFilesDir, key)
+        assert os.path.isfile(thisFile)
+
+    for key in validityLookupJHC:
+        thisFile = os.path.join(testFilesDir, key)
+        assert os.path.isfile(thisFile)
+
+
 @pytest.mark.parametrize('inJP2', testFiles)
 
 def test_status_jp2(inJP2):
