@@ -131,8 +131,9 @@ validityLookupJ2C = {
 
 # Dictionary with names of all test files and validity against JPH
 validityLookupJPH = {
-"oht-ht.jph": "False",
-"oj-ht-byte.jph": "True"
+"oht-ht.jph": "True",
+"oj-ht-byte.jph": "True",
+"wrongbpc-ht.jph": "False"
 }
 
 # Dictionary with names of all test files and validity against JHC
