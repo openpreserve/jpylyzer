@@ -87,6 +87,6 @@ Any feedback on this Jpylyzer release candidate is greatly appreciated. Also, do
 
 ## Acknowledgments
 
-Thanks are due to Aous Naman (University of New South Wales) and Osamu Watanabe (Takushoku University) for their help and suggestions on High Throughput JPEG 2000.
+Thanks are due to Aous Naman (University of New South Wales) and Osamu Watanabe (Takushoku University) for their help and suggestions on High Throughput JPEG 2000, and Michael D. Smith (Wavelet Consulting LLC) for providing one of the HTJ2K test images.
 
 Happy jpylyzing!
