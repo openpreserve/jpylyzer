@@ -21,15 +21,17 @@ Please visit the jpylyzer homepage for links to the most recent package download
 
 Calling *jpylyzer* in a command window without any arguments results in the following helper message:
 
-    usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
-              [--nullxml] [--recurse] [--packetmarkers] [--verbose]
-              [--version] jp2In [jp2In ...]
+```
+usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
+            [--nullxml] [--recurse] [--packetmarkers] [--verbose]
+            [--version] jp2In [jp2In ...]
+```
 
 ### Positional arguments
 
 |Argument|Description|
 |:--|:--|
-|`jp2In`|input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux|
+|`jp2In`|input image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux|
 
 ### Optional arguments
 
@@ -49,11 +51,33 @@ Calling *jpylyzer* in a command window without any arguments results in the foll
 
 Output is directed to the standard output device (*stdout*).
 
-### Example
+### Examples
 
-`jpylyzer rubbish.jp2 > rubbish.xml`
+Validate JP2 image:
 
-In the above example, output is redirected to the file &#8216;rubbish.xml&#8217;. By default *jpylyzer*&#8217;s XML is pretty-printed, so you should be able to view the file using your favourite text editor. Alternatively use a dedicated XML editor, or open the file in your web browser.
+```
+jpylyzer rubbish.jp2 > rubbish-jp2.xml`
+```
+
+Validate JPEG 2000 Part 1 codestream:
+
+```
+jpylyzer --format j2c rubbish.j2c > rubbish-j2c.xml`
+```
+
+Validate JPH (High Throughput) image:
+
+```
+jpylyzer --format jph rubbish.jph > rubbish-jph.xml`
+```
+
+Validate JPEG 2000 Part 15 (High Throughput) codestream:
+
+```
+jpylyzer --format jhc rubbish.jhc > rubbish-jhc.xml`
+```
+
+In the above examples, output is redirected to the output files &#8216;rubbish-???.xml&#8217;. By default *jpylyzer*&#8217;s XML is pretty-printed, so you should be able to view the file using your favourite text editor. Alternatively use a dedicated XML editor, or open the file in your web browser.
 
 ## Output format
 
@@ -79,6 +103,8 @@ validation process (organised by box)
 5. *properties*: image properties (organised by box)
 
 6. *propertiesExtension*: wrapper element for NISO *MIX* output (only if the `--mix` option is used)
+
+7. *warnings*: reported warnings
 
 ## Using jpylyzer as a Python module
 
@@ -110,8 +136,7 @@ print(imageHeight)
 ```
 
 Here, *myResult* is an *Element* object that can either be used directly,
-or converted to XML using the *ElementTree* module[^3]. The structure of the
-element object follows the XML output that described in [Chapter 5](#output-format).
+or converted to XML using the *ElementTree* module[^3].
 
 For validation a raw JPEG 2000 codestreams, call the *checkOneFile* function with the additional
 *validationFormat* argument, and set it to `j2c`:
