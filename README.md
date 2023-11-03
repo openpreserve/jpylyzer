@@ -51,7 +51,7 @@ usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
 
 Output is directed to the standard output device (*stdout*).
 
-### Examples
+## Examples
 
 Validate JP2 image:
 
