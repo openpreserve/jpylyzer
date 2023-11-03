@@ -27,8 +27,7 @@ usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
 |Argument|Description|
 |:--|:--|
 |`[-h, --help]`|show help message and exit|
-|`[--format FMT]`|validation format; allowed values are `jp2` (JPEG 2000 Part 1, used by default), `j2c` (Part 1 
-codestream), `jph` (JPEG 2000 Part 15 / High Throughput JPEG 2000) and `jhc` (Part 15 codestream)|
+|`[--format FMT]`|validation format; allowed values are `jp2` (JPEG 2000 Part 1, used by default), `j2c` (Part 1 codestream), `jph` (JPEG 2000 Part 15 / High Throughput JPEG 2000) and `jhc` (Part 15 codestream)|
 |`[--mix {1,2}]`|report additional output in NISO MIX format (version 1.0 or 2.0)|
 |`[--nopretty]`|suppress pretty-printing of XML output|
 |`[--nullxml]`|extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)|
