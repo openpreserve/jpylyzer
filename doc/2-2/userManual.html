@@ -126,6 +126,9 @@ title: User Manual
 </ol>
 
 
+<p>Starting with version 2.2, <em>jpylyzer</em> also supports Part 15 of the standard (ISO/IEC 15444-15, High Throughput JPEG 2000), and its JPH image format.</p>
+
+
 <h2 id="validation-scope-and-restrictions">Validation: scope and restrictions</h2>
 
 
@@ -343,7 +346,7 @@ jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <p>For Linux, Debian packages of <em>jpylyzer</em> exist. To install, simply download the <em>.deb</em> file, double-click on it and select <em>Install Package</em>. Alternatively you can also do this in the command terminal by typing:</p>
 
 
-<pre><code>sudo dpkg -i opf-jpylyzer_2.0.0_all.deb</code></pre>
+<pre><code>sudo dpkg -i opf-jpylyzer_2.2.0_all.deb</code></pre>
 
 
 <p>In both cases you need to have administrative privileges.</p>
@@ -418,7 +421,7 @@ sudo apt-get install python-jpylyzer</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>jp2In</code></td>
-<td style="text-align: left;">input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (*) with backslash (\) in Linux</td>
+<td style="text-align: left;">input image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (*) with backslash (\) in Linux</td>
 </tr>
 </tbody>
 </table>
@@ -520,6 +523,18 @@ sudo apt-get install python-jpylyzer</code></pre>
 <pre><code>jpylyzer --format j2c rubbish.j2c &gt; rubbish.xml</code></pre>
 
 
+<p>Starting with version 2.2, <em>jpylyzer</em> also supports JPEG 2000 Part 15 (High Throughput JPEG 2000) and its <em>JPH</em> container format. To validate a <em>JPH</em> file, use the <code>--format</code> option with value <code>jph</code>:</p>
+
+
+<pre><code>jpylyzer --format jph rubbish.jph &gt; rubbish.xml</code></pre>
+
+
+<p>And use <code>--format</code> with value <code>jhc</code> to validate a raw High Throughput codestream:</p>
+
+
+<pre><code>jpylyzer --format jhc rubbish.jhc &gt; rubbish.xml</code></pre>
+
+
 <h3 id="mix-option">‘mix’ option</h3>
 
 
@@ -529,7 +544,7 @@ sudo apt-get install python-jpylyzer</code></pre>
 <pre><code>jpylyzer --mix 2 rubbish.jp2 &gt; rubbish.xml</code></pre>
 
 
-<p>The <em>MIX</em> output is wrapped inside a <em>file/propertiesExtension</em> element. Note that <em>MIX</em> output is <em>only</em> written for files that are valid JP2 (files that are not valid result in an empty <em>propertiesExtension</em> element). Also, the <code>--mix</code> option is ignored if <code>--format</code> is set to <code>j2c</code>.</p>
+<p>The <em>MIX</em> output is wrapped inside a <em>file/propertiesExtension</em> element. Note that <em>MIX</em> output is <em>only</em> written for files that are valid JP2 or JPH (files that are not valid result in an empty <em>propertiesExtension</em> element). Also, the <code>--mix</code> option is ignored if <code>--format</code> is set to <code>j2c</code>.</p>
 
 
 <h3 id="recurse-option">‘recurse’ option</h3>
@@ -570,7 +585,7 @@ sudo apt-get install python-jpylyzer</code></pre>
 <h3 id="user-warnings">User warnings</h3>
 
 
-<p>Under the following conditions <em>jpylyzer</em> will print a user warning to the standard error device (typically the console screen):</p>
+<p>Under the following conditions <em>jpylyzer</em> will report a user warning:</p>
 
 
 <h4 id="no-images-to-check">No images to check</h4>
@@ -640,6 +655,9 @@ sudo apt-get install python-jpylyzer</code></pre>
 
 
 <p>This happens if <em>jpylyzer</em> encounters a box that is not defined by JPEG 2000 Part 1. It should be noted that, to a large extent, JPEG 2000 Part 1 permits the presence of boxes that are defined outside the standard. Again, <em>jpylyzer</em> will simply ignore these and process all other boxes normally.</p>
+
+
+<p>All user warnings are printed to the standard error device (typically the console screen). File-level warnings are also written to the <em>warnings</em> output element.</p>
 
 
 <h2 id="using-as-python-module">Using <em>jpylyzer</em> as a Python module</h2>

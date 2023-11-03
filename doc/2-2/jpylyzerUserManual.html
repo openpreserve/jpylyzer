@@ -130,6 +130,7 @@
 <li><p>Is this really a JP2 and does it really conform to the format’s specifications (validation)?</p></li>
 <li><p>What are the technical characteristics of this image (feature extraction)?</p></li>
 </ol>
+<p>Starting with version 2.2, <em>jpylyzer</em> also supports Part 15 of the standard (ISO/IEC 15444-15, High Throughput JPEG 2000), and its JPH image format.</p>
 <h2 id="validation-scope-and-restrictions">Validation: scope and restrictions</h2>
 <p>Since the word ‘validation’ means different things to different people, a few words about the overall scope of <em>jpylyzer</em>. First of all, it is important to stress that <em>jpylyzer</em> is not a ‘one stop solution’ that will tell you that an image is 100% perfect. What <em>jpylyzer</em> does is this: based on the JP2 format specification (ISO/IEC 15444-1), it parses a file. It then subjects the file’s contents to a large number of tests, each of which is based on the requirements and restrictions that are defined by the standard. If a file fails one or more tests, this implies that it does not conform to the standard, and is no valid JP2. Importantly, this presumes that <em>jpylyzer</em>’s tests accurately reflect the format specification, without producing false positives.</p>
 <h3 id="valid-means-probably-valid">‘Valid’ means ‘probably valid’</h3>
@@ -213,7 +214,7 @@ jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <p>Optionally, you may also want to add the full path of the <em>jpylyzer</em> installation directory to the Windows ’Path’ environment variable. Doing so allows you to run <em>jpylyzer</em> from any directory on your PC without having to type the full path. In Windows 7 you can do this by selecting ‘settings’ from the ‘Start’ menu; then go to ‘control panel’/’system’ and go to the ‘advanced’ tab. Click on the ‘environment variables’ button. Finally, locate the ‘Path’ variable in the ‘system variables’ window, click on ‘Edit’ and add the full <em>jpylyzer</em> path (this requires local Administrator privileges). The settings take effect on any newly opened command prompt.</p>
 <h2 id="installation-debian">Installation of Debian packages (Ubuntu/Linux)</h2>
 <p>For Linux, Debian packages of <em>jpylyzer</em> exist. To install, simply download the <em>.deb</em> file, double-click on it and select <em>Install Package</em>. Alternatively you can also do this in the command terminal by typing:</p>
-<pre><code>sudo dpkg -i opf-jpylyzer_2.0.0_all.deb</code></pre>
+<pre><code>sudo dpkg -i opf-jpylyzer_2.2.0_all.deb</code></pre>
 <p>In both cases you need to have administrative privileges.</p>
 <p>For <em>Ubuntu</em> and <em>Debian</em> alternative packages are available in the official release channels. To install simply run the following commands:</p>
 <pre><code>sudo apt-get update
@@ -258,7 +259,7 @@ sudo apt-get install python-jpylyzer</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>jp2In</code></td>
-<td style="text-align: left;">input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (*) with backslash (\) in Linux</td>
+<td style="text-align: left;">input image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (*) with backslash (\) in Linux</td>
 </tr>
 </tbody>
 </table>
@@ -324,10 +325,14 @@ sudo apt-get install python-jpylyzer</code></pre>
 <h3 id="format-option">‘format’ option</h3>
 <p>By default, <em>jpylyzer</em> validates against the <em>JP2</em> format specification. Starting with version 2.0, <em>jpylyzer</em> can also validate raw JPEG 2000 codestreams that are not wrapped inside a <em>JP2</em> container. For codestream validation, use the <code>--format</code> option with value <code>j2c</code>, e.g.:</p>
 <pre><code>jpylyzer --format j2c rubbish.j2c &gt; rubbish.xml</code></pre>
+<p>Starting with version 2.2, <em>jpylyzer</em> also supports JPEG 2000 Part 15 (High Throughput JPEG 2000) and its <em>JPH</em> container format. To validate a <em>JPH</em> file, use the <code>--format</code> option with value <code>jph</code>:</p>
+<pre><code>jpylyzer --format jph rubbish.jph &gt; rubbish.xml</code></pre>
+<p>And use <code>--format</code> with value <code>jhc</code> to validate a raw High Throughput codestream:</p>
+<pre><code>jpylyzer --format jhc rubbish.jhc &gt; rubbish.xml</code></pre>
 <h3 id="mix-option">‘mix’ option</h3>
 <p>When this option is used, <em>jpylyzer</em> reports additional output in <a href="https://www.loc.gov/standards/mix/"><em>NISO MIX</em></a> format. This option takes one argument that defines whether <em>MIX</em> 1.0 or <em>MIX</em> 2.0 is used. For example, the following command will result in <em>MIX</em> 2.0 output:</p>
 <pre><code>jpylyzer --mix 2 rubbish.jp2 &gt; rubbish.xml</code></pre>
-<p>The <em>MIX</em> output is wrapped inside a <em>file/propertiesExtension</em> element. Note that <em>MIX</em> output is <em>only</em> written for files that are valid JP2 (files that are not valid result in an empty <em>propertiesExtension</em> element). Also, the <code>--mix</code> option is ignored if <code>--format</code> is set to <code>j2c</code>.</p>
+<p>The <em>MIX</em> output is wrapped inside a <em>file/propertiesExtension</em> element. Note that <em>MIX</em> output is <em>only</em> written for files that are valid JP2 or JPH (files that are not valid result in an empty <em>propertiesExtension</em> element). Also, the <code>--mix</code> option is ignored if <code>--format</code> is set to <code>j2c</code>.</p>
 <h3 id="recurse-option">‘recurse’ option</h3>
 <p>If the <code>--recurse</code> option is used, <em>jpylyzer</em> will recursively traverse all subdirectories of a filepath expression. E.g:</p>
 <pre><code>jpylyzer /home/myJP2s/*.jp2 &gt; rubbish.xml</code></pre>
@@ -344,7 +349,7 @@ sudo apt-get install python-jpylyzer</code></pre>
 <h3 id="nullxml-option">‘nullxml’ option</h3>
 <p>The <em>nullxml</em> option was added to enable extraction of XML content that is terminated by a null-byte. By default <em>jpylyzer</em> doesn’t report the XML in that case, because it throws an exception in the XML parser. Apparently some old versions of the Kakadu demo applications would erroneously add a null-byte to embedded XML, so this option can be used to force extraction for images that are affected by this.</p>
 <h3 id="user-warnings">User warnings</h3>
-<p>Under the following conditions <em>jpylyzer</em> will print a user warning to the standard error device (typically the console screen):</p>
+<p>Under the following conditions <em>jpylyzer</em> will report a user warning:</p>
 <h4 id="no-images-to-check">No images to check</h4>
 <p>If there are no input images to check (typically because the value of jp2In refers to a non-existent file), the following warning message is shown:</p>
 <pre><code>User warning: no images to check!</code></pre>
@@ -368,6 +373,7 @@ sudo apt-get install python-jpylyzer</code></pre>
 <p>Occasionally, you may see this warning message:</p>
 <pre><code>User warning: ignoring unknown box</code></pre>
 <p>This happens if <em>jpylyzer</em> encounters a box that is not defined by JPEG 2000 Part 1. It should be noted that, to a large extent, JPEG 2000 Part 1 permits the presence of boxes that are defined outside the standard. Again, <em>jpylyzer</em> will simply ignore these and process all other boxes normally.</p>
+<p>All user warnings are printed to the standard error device (typically the console screen). File-level warnings are also written to the <em>warnings</em> output element.</p>
 <h2 id="using-as-python-module">Using <em>jpylyzer</em> as a Python module</h2>
 <p>Instead of using <em>jpylyzer</em> from the command-line, you can also import it as a module in your own Python programs. To do so, install jpylyzer with <em>pip</em>. Then import <em>jpylyzer</em> into your code by adding:</p>
 <pre><code>from jpylyzer import jpylyzer</code></pre>
