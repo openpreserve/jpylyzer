@@ -278,33 +278,37 @@ sudo apt-get install python-jpylyzer</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>[--format FMT]</code></td>
-<td style="text-align: left;">validation format; allowed values are <code>jp2</code> (used by default) and <code>j2c</code> (which activates raw codestream validation)</td>
+<td style="text-align: left;">validation format; allowed values are <code>jp2</code> (JPEG 2000 Part 1, used by default), <code>j2c</code> (Part 1</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">codestream), <code>jph</code> (JPEG 2000 Part 15 / High Throughput JPEG 2000) and <code>jhc</code> (Part 15 codestream)</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
 <td style="text-align: left;"><code>[--mix {1,2}]</code></td>
 <td style="text-align: left;">report additional output in NISO MIX format (version 1.0 or 2.0)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>[--nopretty]</code></td>
 <td style="text-align: left;">suppress pretty-printing of XML output</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>[--nullxml]</code></td>
 <td style="text-align: left;">extract null-terminated XML content from XML and UUID boxes(doesn’t affect validation)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>[--recurse, -r]</code></td>
 <td style="text-align: left;">when analysing a directory, recurse into subdirectories</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>[--packetmarkers]</code></td>
 <td style="text-align: left;">Report packet-level codestream markers (plm, ppm, plt, ppt)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>[--verbose]</code></td>
 <td style="text-align: left;">report test results in verbose format</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>[-v, --version]</code></td>
 <td style="text-align: left;">show program’s version number and exit</td>
 </tr>
