@@ -10,16 +10,17 @@ title: Using jpylyzer
 
 Calling *jpylyzer* in a command window without any arguments results in the following helper message:
 
-    usage: jpylyzer [-h] [--format FMT] [--legacyout] [--mix {1,2}] [--nopretty]
-              [--nullxml] [--recurse] [--packetmarkers] [--verbose]
-              [--version] [--wrapper]
-              jp2In [jp2In ...]
+```
+usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
+            [--nullxml] [--recurse] [--packetmarkers] [--verbose]
+            [--version] jp2In [jp2In ...]
+```
 
 ### Positional arguments
 
 |Argument|Description|
 |:--|:--|
-|`jp2In`|input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux|
+|`jp2In`|input image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux|
 
 ### Optional arguments
 
@@ -28,24 +29,44 @@ Calling *jpylyzer* in a command window without any arguments results in the foll
 |`[-h, --help]`|show help message and exit|
 |`[--format FMT]`|validation format; allowed values are `jp2` (used by default) and `j2c` (which activates raw codestream validation)|
 |`[--mix {1,2}]`|report additional output in NISO MIX format (version 1.0 or 2.0)|
-|`[--legacyout]`|report output in jpylyzer 1.x format (provided for backward compatibility only)|
 |`[--nopretty]`|suppress pretty-printing of XML output|
 |`[--nullxml]`|extract null-terminated XML content from XML and UUID boxes(doesn't affect validation)|
-|`[--recurse, -r]`|when analysing a directory, recurse into subdirectories (implies `--wrapper` if `--legacyout` is used)|
+|`[--recurse, -r]`|when analysing a directory, recurse into subdirectories|
 |`[--packetmarkers]`|Report packet-level codestream markers (plm, ppm, plt, ppt)|
 |`[--verbose]`|report test results in verbose format|
 |`[-v, --version]`|show program's version number and exit|
-|`[--wrapper, -w]`|wrap output for individual image(s) in 'results' XML element (deprecated from jpylyzer 2.x onward, only takes effect if `--legacyout` is used)|
 
 ## Output
 
 Output is directed to the standard output device (*stdout*).
 
-### Example
+## Examples
 
-`jpylyzer rubbish.jp2 > rubbish.xml`
+Validate JP2 image:
 
-In the above example, output is redirected to the file &#8216;rubbish.xml&#8217;. By default *jpylyzer*&#8217;s XML is pretty-printed, so you should be able to view the file using your favourite text editor. Alternatively use a dedicated XML editor, or open the file in your web browser.
+```
+jpylyzer rubbish.jp2 > rubbish-jp2.xml`
+```
+
+Validate JPEG 2000 Part 1 codestream:
+
+```
+jpylyzer --format j2c rubbish.j2c > rubbish-j2c.xml`
+```
+
+Validate JPH (High Throughput) image:
+
+```
+jpylyzer --format jph rubbish.jph > rubbish-jph.xml`
+```
+
+Validate JPEG 2000 Part 15 (High Throughput) codestream:
+
+```
+jpylyzer --format jhc rubbish.jhc > rubbish-jhc.xml`
+```
+
+In the above examples, output is redirected to the output files &#8216;rubbish-???.xml&#8217;. By default *jpylyzer*&#8217;s XML is pretty-printed, so you should be able to view the file using your favourite text editor. Alternatively use a dedicated XML editor, or open the file in your web browser.
 
 ## Output format
 
@@ -55,7 +76,9 @@ The output file contains the following top-level elements:
 
 2. One or more *file* elements, each of which contain information about about the analysed files
 
-In turn, each *file element contains the following sub-elements:
+
+In turn, each *file* element contains the following sub-elements:
+
 
 1. *fileInfo*: general information about the analysed file
 
@@ -70,6 +93,8 @@ validation process (organised by box)
 
 6. *propertiesExtension*: wrapper element for NISO *MIX* output (only if the `--mix` option is used)
 
+7. *warnings*: reported warnings
+
 ## Using jpylyzer as a Python module
 
 Instead of using *jpylyzer* from the command-line, you can also import
@@ -80,11 +105,11 @@ with *pip*. Then import *jpylyzer* into your code by adding:
 from jpylyzer import jpylyzer
 ```
 Subsequently you can call any function that is defined in *jpylyzer.py*.
-In practice you will most likely only need the *checkOneFile* function. 
+In practice you will most likely only need the *checkOneFile* function.
 The following minimal script shows how this works:
 
 ```python
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 from jpylyzer import jpylyzer
 
@@ -99,9 +124,8 @@ imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height
 print(imageHeight)
 ```
 
-Here, *myResult* is an *Element* object that can either be used directly, 
-or converted to XML using the *ElementTree* module[^3]. The structure of the
-element object follows the XML output that described in [Chapter 5](#output-format).
+Here, *myResult* is an *Element* object that can either be used directly,
+or converted to XML using the *ElementTree* module[^3].
 
 For validation a raw JPEG 2000 codestreams, call the *checkOneFile* function with the additional
 *validationFormat* argument, and set it to `j2c`:
