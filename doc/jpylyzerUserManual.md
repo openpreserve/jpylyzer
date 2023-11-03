@@ -19,6 +19,10 @@ specifications (validation)?
 2. What are the technical characteristics of this image (feature
 extraction)?
 
+Starting with version 2.2, *jpylyzer* also supports Part 15 of the
+standard (ISO/IEC 15444-15, High Throughput JPEG 2000), and its JPH
+image format.
+
 Validation: scope and restrictions {#validation-scope-and-restrictions}
 --------------------------------------
 
@@ -261,7 +265,7 @@ To install, simply download the *.deb* file, double-click on it and
 select *Install Package*. Alternatively you can also do this in the
 command terminal by typing:
 
-    sudo dpkg -i opf-jpylyzer_2.0.0_all.deb
+    sudo dpkg -i opf-jpylyzer_2.2.0_all.deb
 
 In both cases you need to have administrative privileges.
 
@@ -312,7 +316,7 @@ brackets (example: `[-h]`) are optional.
 
 |Argument|Description|
 |:--|:--|
-|`jp2In`|input JP2 image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux|
+|`jp2In`|input image(s), may be one or more (whitespace-separated) path expressions; prefix wildcard (\*) with backslash (\\) in Linux|
 
 #### Optional arguments
 
@@ -372,6 +376,16 @@ option with value `j2c`, e.g.:
 
     jpylyzer --format j2c rubbish.j2c > rubbish.xml
 
+Starting with version 2.2, *jpylyzer* also supports JPEG 2000 Part 15 (High Throughput 
+JPEG 2000) and its *JPH* container format. To validate a *JPH* file, use the `--format`
+option with value `jph`:
+
+    jpylyzer --format jph rubbish.jph > rubbish.xml
+
+And use `--format` with value `jhc` to validate a raw High Throughput codestream:
+
+    jpylyzer --format jhc rubbish.jhc > rubbish.xml
+
 ### ‘mix’ option
 
 When this option is used, *jpylyzer* reports additional output in
@@ -382,7 +396,7 @@ will result in *MIX* 2.0 output:
     jpylyzer --mix 2 rubbish.jp2 > rubbish.xml
 
 The *MIX* output is wrapped inside a *file/propertiesExtension* element. Note that *MIX*
-output is *only* written for files that are valid JP2 (files that are not valid result in
+output is *only* written for files that are valid JP2 or JPH (files that are not valid result in
 an empty *propertiesExtension* element). Also, the `--mix` option is ignored if `--format`
 is set to `j2c`.
 
@@ -419,8 +433,7 @@ to force extraction for images that are affected by this.
 
 ### User warnings
 
-Under the following conditions *jpylyzer* will print a user warning to
-the standard error device (typically the console screen):
+Under the following conditions *jpylyzer* will report a user warning:
 
 #### No images to check
 If there are no input images to check (typically because the value of
@@ -478,6 +491,10 @@ This happens if *jpylyzer* encounters a box that is not defined by JPEG
 1 permits the presence of boxes that are defined outside the standard.
 Again, *jpylyzer* will simply ignore these and process all other boxes
 normally.
+
+All user warnings are printed to the standard error device (typically
+the console screen). File-level warnings are also written to the *warnings*
+output element. 
 
 Using *jpylyzer* as a Python module {#using-as-python-module}
 ---------------------------------------
