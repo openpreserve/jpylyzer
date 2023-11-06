@@ -6,7 +6,7 @@
 
 # Build arguments, as provided by 'build.sh'
 ARG DIST_ID="debian"
-ARG CODENAME="stretch"
+ARG CODENAME="bullseye"
 ARG PKGNAME
 
 ## Start package builder image for the chosen platform
