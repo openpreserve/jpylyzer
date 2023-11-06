@@ -1,3 +1,18 @@
+jpylyzer (2.2.0~rc1) UNRELEASED; urgency=medium
+
+  * Added support for High Throughput JPEG 2000 (JPH and JHC formats)
+  * Added support for CAP, PRF and CPF marker segments
+  * Improved reporting and validation of Rsiz property, added Capability property
+  * Added reporting of warnings to output file
+  * Added reporting of compression ratio for codestreams
+  * Output and extraction options are now callable from API
+  * Removed Python 2.7 fallbacks
+  * Removed legacy wrapper and legacyout options
+  * New XSD schema
+  * Various bug fixes and improvements
+
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Mon, 06 Nov 2023 18:42:00 +0200
+
 jpylyzer (2.1.0) UNRELEASED; urgency=medium
 
   * More detailed output for PLM and PLT marker segments
