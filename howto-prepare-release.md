@@ -95,6 +95,8 @@ to date:
     ```
     then manually update the version number, and create list of changes. Also make sure the e-mail address is a valid e-mail address.
 
+    (Alternatively just edit debian/changelog in a text editor without using dch)
+
 1. Update User Manual if necessary and export the Markdown file to HTML. See [instructions here](./doc).
 
 1. Commit all changes and push to the *master* branch.
@@ -118,7 +120,7 @@ to date:
     ```
 1. Build Debian packages for Linux by running:
     ```
-    ./docker-package.sh debian:stretch
+    ./docker-package.sh debian:bullseye
     ```
 1. Go to [*Releases*](https://github.com/openpreserve/jpylyzer/releases) and click on the *Draft a new release* button.
 
