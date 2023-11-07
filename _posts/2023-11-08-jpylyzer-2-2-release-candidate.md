@@ -40,7 +40,7 @@ All output and extraction options can now be set directly as Python API paramete
 
 ## Compression ratio reporting for codestreams
 
-Previously Jpylyzer only reported the image compression ratio for JP2, and not for raw codestreams. This has changed, and the compression ratio is now reported for all supported formats (including codestreams).
+Previously Jpylyzer only reported the image compression ratio for JP2 files, and not for raw codestreams. This has changed, and the compression ratio is now reported for all supported formats (including codestreams).
 
 ## No Python 2.7 support
 
