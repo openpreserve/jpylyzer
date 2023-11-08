@@ -20,7 +20,7 @@ For a raw HTJ2K codestream, use this:
 jpylyzer --format jhc oj-ht-byte_causal.jhc > out-jhc.xml
 ```
 
-Note that not many encoders support HTJ2K at this stage, and the code has only been tested on a limited number of sample files. These files do not ecompass all of HTJ2K's features. We encourage HTJ2K users to contribute additional files to the [Jpylyzer test files repository](https://github.com/openpreserve/jpylyzer-test-files), and [report](https://github.com/openpreserve/jpylyzer/issues) any unexpected behaviour.
+Note that not many encoders support HTJ2K at this stage, and the code has only been tested on a limited number of sample files. These files do not encompass all of HTJ2K's features. We encourage HTJ2K users to contribute additional files to the [Jpylyzer test files repository](https://github.com/openpreserve/jpylyzer-test-files), and [report](https://github.com/openpreserve/jpylyzer/issues) any unexpected behaviour.
 
 ## Additional codestream markers
 
