@@ -24,7 +24,7 @@ Note that not many encoders support HTJ2K at this stage, and the code has only b
 
 ## Additional codestream markers
 
-This release also adds support for the Extended Capabilities (CAP) and Profile Marker (PRF) segments, which were introduced in the 2019 revision of JPEG 2000 Part 1, and the Corresponding Profile (CPF) marker segment, which is specific to JPEG 2000 Part 15 (High Throughput JPEG 2000).
+This release also adds support for the Extended Capabilities (CAP) and Profile (PRF) marker segments, which were introduced in the 2019 revision of JPEG 2000 Part 1, and the Corresponding Profile (CPF) marker segment, which is specific to JPEG 2000 Part 15 (High Throughput JPEG 2000).
 
 ## Reporting and validation of *rsiz* property
 
