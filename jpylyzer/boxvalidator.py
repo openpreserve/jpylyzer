@@ -1925,8 +1925,8 @@ class BoxValidator:
         if xTsiz != 0 and yTsiz != 0:
             # If block to prevent zero-division (which should not happen
             # for valid files)
-            numberOfTilesX = math.ceil((xsiz - xOsiz) / xTsiz)
-            numberOfTilesY = math.ceil((ysiz - yOsiz) / yTsiz)
+            numberOfTilesX = math.ceil((xsiz - xTOsiz) / xTsiz)
+            numberOfTilesY = math.ceil((ysiz - yTOsiz) / yTsiz)
             numberOfTiles = int(numberOfTilesX * numberOfTilesY)
         else:
             # Bogus value
