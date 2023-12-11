@@ -1601,28 +1601,6 @@ class BoxValidator:
             if (rsiz >> 14) & 15 == 1:
                 self.testFor("foundCAPMarker", foundCAPMarker)
 
-            if foundCPFMarker and self.format in ['jph', 'jhc']:
-                # CPFnum consistency checks as per ISO 15444-15, A.6
-                CPFnum = self.characteristics.findElementText(
-                    'cpf/CPFnum')
-                if rsiz & 4095 == 4095:
-                    # CPFnum equal to PRFnum value in PRF marker segment
-                    if foundPRFMarker:
-                        PRFnum = self.characteristics.findElementText(
-                            'prf/PRFnum')
-                        CPFnumConsistentWithPRFnum = CPFnum == PRFnum
-                    else:
-                        CPFnumConsistentWithPRFnum = False
-                    self.testFor(
-                        "CPFnumConsistentWithPRFnum",
-                        CPFnumConsistentWithPRFnum)
-                else:
-                    # CPFnum shall be equal to the value found in bits 0 to 11
-                    # of Rsiz
-                    self.testFor(
-                        "CPFnumConsistentWithRsiz",
-                        CPFnum == rsiz & 4095)
-
             # Remainder of codestream is a sequence of tile parts, followed by one
             # end-of-codestream marker
 
