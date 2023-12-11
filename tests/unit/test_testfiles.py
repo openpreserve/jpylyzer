@@ -139,7 +139,7 @@ validityLookupJPH = {
 # Dictionary with names of all test files and validity against JHC
 validityLookupJHC = {
 "grok-ht.jhc": "True",
-"htj2k_cpf_broadcast.jhc": "False",
+"htj2k_cpf_broadcast.jhc": "True",
 "oht-ht.jhc": "True",
 "oj-ht-byte_causal.jhc": "True",
 "ojph-ht.jhc": "True",
