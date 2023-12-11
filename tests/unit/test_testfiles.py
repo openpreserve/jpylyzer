@@ -142,7 +142,8 @@ validityLookupJHC = {
 "htj2k_cpf_broadcast.jhc": "False",
 "oht-ht.jhc": "True",
 "oj-ht-byte_causal.jhc": "True",
-"ojph-ht.jhc": "True"
+"ojph-ht.jhc": "True",
+"tileoffset-ojph.jhc": "True"
 }
 
 ## Excluded in above dict are:
