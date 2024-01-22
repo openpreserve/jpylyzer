@@ -27,7 +27,7 @@ if [ -d "$distDir" ]; then
 fi
 
 # Create wheel
-python setup.py sdist bdist_wheel --universal
+python3 setup.py sdist bdist_wheel --universal
 
 # Upload package if wheel build was successful; if not show error message
 if [ $? -eq 0 ]; then
