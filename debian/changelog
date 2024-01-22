@@ -1,3 +1,10 @@
+jpylyzer (2.2.0) UNRELEASED; urgency=medium
+
+  * corrected calculation of numberOfTilesX/numberOfTilesY
+  * removed CPFnumConsistentWithRsiz and CPFnumConsistentWithPRFnum checks
+
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Mon, 22 Jan 2024 14:05:00 +0200
+
 jpylyzer (2.2.0~rc1) UNRELEASED; urgency=medium
 
   * Added support for High Throughput JPEG 2000 (JPH and JHC formats)
