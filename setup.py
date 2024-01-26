@@ -42,7 +42,7 @@ README_TEXT = README.read()
 README.close()
 
 setup(name='jpylyzer',
-      packages=find_packages(),
+      packages=find_packages(exclude=['tests*']),
       version=find_version('jpylyzer', 'jpylyzer.py'),
       license='LGPL',
       install_requires=INSTALL_REQUIRES,
