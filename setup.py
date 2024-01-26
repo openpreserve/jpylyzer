@@ -21,7 +21,6 @@ def find_version(*file_paths):
 
 INSTALL_REQUIRES = [
     'setuptools',
-    'six; python_version < "3.0.0"'
     ]
 
 PYTHON_REQUIRES = '>=3.2, <4'
