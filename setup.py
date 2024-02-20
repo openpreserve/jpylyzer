@@ -21,7 +21,6 @@ def find_version(*file_paths):
 
 INSTALL_REQUIRES = [
     'setuptools',
-    'six; python_version < "3.0.0"'
     ]
 
 PYTHON_REQUIRES = '>=3.2, <4'
@@ -42,7 +41,7 @@ README_TEXT = README.read()
 README.close()
 
 setup(name='jpylyzer',
-      packages=find_packages(),
+      packages=find_packages(exclude=['tests*']),
       version=find_version('jpylyzer', 'jpylyzer.py'),
       license='LGPL',
       install_requires=INSTALL_REQUIRES,
