@@ -3645,10 +3645,16 @@ class BoxValidator:
                 # All occurrences of bPCSign box to list. If bpcBox is 'noneType'
                 # (e.g. due to some weird corruption of the file) this will result in
                 # an empty list, so nothing really bad will happen ..
-                bPCSignValues = bpcBox.findAllText('bPCSign')
+                try:
+                    bPCSignValues = bpcBox.findAllText('bPCSign')
+                except AttributeError:
+                    bPCSignValues = []
 
                 # All occurrences of bPCDepth to list
-                bPCDepthValues = bpcBox.findAllText('bPCDepth')
+                try:
+                    bPCDepthValues = bpcBox.findAllText('bPCDepth')
+                except AttributeError:
+                    bPCDepthValues = []
 
             else:
                 # These are the actual values (situation 1 above)
@@ -3668,10 +3674,16 @@ class BoxValidator:
                     bPCDepthValues.append(bPCDepth)
 
             # All occurrences of ssizSign to list
-            ssizSignValues = sizHeader.findAllText('ssizSign')
+            try:
+                ssizSignValues = sizHeader.findAllText('ssizSign')
+            except AttributeError:
+                ssizSignValues = []
 
             # All occurrences of ssizDepth to list
-            ssizDepthValues = sizHeader.findAllText('ssizDepth')
+            try:
+                ssizDepthValues = sizHeader.findAllText('ssizDepth')
+            except AttributeError:
+                ssizDepthValues = []
 
             # bPCSignValues must be equal to ssizSignValues
             bPCSignConsistentWithSIZ = bPCSignValues == ssizSignValues
