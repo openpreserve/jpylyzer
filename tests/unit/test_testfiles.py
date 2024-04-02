@@ -90,7 +90,7 @@ validityLookupJP2 = {
 "null_terminated_content_in_xml_box.jp2": "False",
 "palettedImage.jp2": "True",
 "sentinel.jp2": "True",
-"wrong-number-of-tileparts.jpf": "True",
+"wrong-number-of-tileparts.jpf": "False",
 "bitwiser-codestreamheader-corrupted-xsiz-10918.jp2": "False",
 "bitwiser-codestreamheader-corrupted-xsiz-10928.jp2": "False",
 "bitwiser-codestreamheader-corrupted-xsiz-10937.jp2": "False",
