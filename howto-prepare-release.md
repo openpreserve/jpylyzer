@@ -35,16 +35,15 @@ In order to run the automated tests you need to install a couple of Python modul
    pip install lxml
    ```
 
----
-TODO: the *TEST_DEPS* variable in [setup.py](./setup.py) also lists pre-commit, pylint and
+
+**TODO:** the *TEST_DEPS* variable in [setup.py](./setup.py) also lists pre-commit, pylint and
 pytest-coverage as test dependencies, but these are not used in any of the tests. It's not
 entirely clear to me how *TEST_DEPS* works in the context of testing (since you typically
 do this *before* installing any packages).
----
 
 You also need the [jpylyzer-test-files](https://github.com/openpreserve/jpylyzer-test-files) corpus. 
-The test script expects that the test files are located in a sibling directory to the jpylyzer 
-source directory, e.g.:
+The test script expects that the root directory of this Git repo is a sibling directory to the jpylyzer 
+Git repo, e.g.:
 
 ```
         |-- jpylyzer/
