@@ -242,7 +242,7 @@ def test_validation_outcome_j2c(inJ2C):
 
 @pytest.mark.parametrize('inJPH', testFiles)
 
-def test_validation_outcome_jp2(inJPH):
+def test_validation_outcome_jph(inJPH):
     """
     Tests validation outcome against known validity (JPH)
     """
@@ -253,7 +253,7 @@ def test_validation_outcome_jp2(inJPH):
         assert outJpylyzer.findtext('./isValid') == isValid
 
 @pytest.mark.parametrize('inJHC', testFiles)
-def test_validation_outcome_jp2(inJHC):
+def test_validation_outcome_jhc(inJHC):
     """
     Tests validation outcome against known validity (JHC)
     """
