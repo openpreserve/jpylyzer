@@ -1687,8 +1687,7 @@ class BoxValidator:
 
             # Found numbers of tile	parts per tile must match expected
             self.testFor("foundExpectedNumberOfTileParts",
-                         len(set(tilePartsPerTileExpected.items())) in
-                         [len(set(tilePartsPerTileFound.items())), 0])
+                         tilePartsPerTileExpected == tilePartsPerTileFound)
 
             # Add tile-part tests, characteristics and warnings to tree
             self.tests.appendIfNotEmpty(tilePartTests)
