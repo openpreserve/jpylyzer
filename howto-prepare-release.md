@@ -129,7 +129,7 @@ to date:
 
 1. Upload Linux/Windows packages to the release by dragging them to the *Attach Binaries* field at the bottom.
 
-1. Website: update *binVersion* in *_config.yml* (this updates the links to all packages to the correct version).
+1. Website: update *currentStableVersion* in *_config.yml* (this updates the links to all packages to the correct version).
 
 1. Website: write a short release note in the *_posts* directory.
 
