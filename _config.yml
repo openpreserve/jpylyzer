@@ -20,7 +20,7 @@ author :
   twitter : bitsgalore
 
 # Current stable version. Update this for each new release (excluding release candidates!)
-currentStableVersion: 2.2.0
+currentStableVersion: 2.2.1
 
 # List of all (non-bugfix) releases (excluding release candidates!)
 # Must be in reverse-chronological order!
