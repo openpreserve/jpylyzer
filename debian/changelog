@@ -1,3 +1,12 @@
+jpylyzer (2.2.1) UNRELEASED; urgency=medium
+
+  * Excluded tests from package and removed remaining six references
+  * Fixed unknown error message in if bPCSignValues or bPCDepthValues are undefined
+  * Fixed check on expected tile parts per tile
+  * Fixed unit tests
+
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Mon, 08 Apr 2024 14:13:00 +0200
+
 jpylyzer (2.2.0) UNRELEASED; urgency=medium
 
   * corrected calculation of numberOfTilesX/numberOfTilesY
