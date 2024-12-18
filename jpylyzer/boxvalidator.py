@@ -2957,7 +2957,45 @@ class BoxValidator:
     # because there will be either lots of them or none at all!).
 
     def validate_tlm(self):
-        """Empty function."""
+        """Tile-part lengths, main header (TLM) marker segment (ISO/IEC 15444-1 Section A.7.1).
+        """
+
+        # Length of TLM marker
+        ltlm = bc.bytesToUShortInt(self.boxContents[0:2])
+        self.addCharacteristic("ltlm", ltlm)
+
+        # TLM marker segment index
+        ztlm = bc.bytesToUnsignedChar(self.boxContents[2:3])
+        self.addCharacteristic("ztlm", ztlm)
+
+        # Size of Ttlm and Ptlm
+        stlm = bc.bytesToUnsignedChar(self.boxContents[3:4])
+        st = (stlm >> 4) & 3
+        self.addCharacteristic("st", st)
+        self.testFor("tlmStIsValid", (st in [0,1,2]))
+
+        sp = (stlm >> 6) & 1
+        self.addCharacteristic("sp", sp)
+        self.testFor("tlmSpIsValid", (sp in [0,1]))
+
+        ttlmLength = st
+        ptlmLength = (sp + 1) *2
+
+        tilePartsCount = (ltlm - 4) / ( ttlmLength + ptlmLength )
+        tlmIsValid = tilePartsCount.is_integer()
+        self.testFor("tlmIsValid", tlmIsValid)
+
+        if tlmIsValid:
+            offset = 4
+            # iterate each tilepart Length
+            for _ in range(int(tilePartsCount)):
+                ttlm = bc.bytesToInteger(self.boxContents[offset:offset+ttlmLength])
+                self.addCharacteristic("ttlm", ttlm)
+                offset = offset+ttlmLength
+
+                ptlm = bc.bytesToInteger(self.boxContents[offset:offset+ptlmLength])
+                self.addCharacteristic("ptlm", ptlm)
+                offset = offset+ptlmLength
 
     def validate_plm(self):
         """Packet length, main header (PLM) marker segment (ISO/IEC 15444-1 Section A.7.2).
