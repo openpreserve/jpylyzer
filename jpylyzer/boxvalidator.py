@@ -2991,11 +2991,11 @@ class BoxValidator:
             for _ in range(int(tilePartsCount)):
                 ttlm = bc.bytesToInteger(self.boxContents[offset:offset+ttlmLength])
                 self.addCharacteristic("ttlm", ttlm)
-                offset = offset+ttlmLength
+                offset += ttlmLength
 
                 ptlm = bc.bytesToInteger(self.boxContents[offset:offset+ptlmLength])
                 self.addCharacteristic("ptlm", ptlm)
-                offset = offset+ptlmLength
+                offset += ptlmLength
 
     def validate_plm(self):
         """Packet length, main header (PLM) marker segment (ISO/IEC 15444-1 Section A.7.2).
