@@ -85,7 +85,7 @@ The output file contains the following top-level elements:
 
 1. One *toolInfo* element, which contains information about *jpylyzer* (its name and version number)
 
-2. One or more *file* elements, each of which contain information about about the analysed files
+2. One or more *file* elements, each of which contain information about the analysed files
 
 
 In turn, each *file* element contains the following sub-elements:
