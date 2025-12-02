@@ -917,8 +917,10 @@
         <xs:element ref="ztlm"/>
         <xs:element ref="st"/>
         <xs:element ref="sp"/>
-        <xs:element ref="ttlm"/>
-        <xs:element ref="ptlm"/>
+        <xs:sequence maxOccurs="unbounded">
+          <xs:element ref="ttlm"/>
+          <xs:element ref="ptlm"/>
+        </xs:sequence>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
