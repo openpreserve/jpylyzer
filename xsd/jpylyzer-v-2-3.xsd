@@ -909,17 +909,29 @@
 
   <xs:element name="pltCount" type="xs:integer"/>
   <xs:element name="pptCount" type="xs:integer"/>
-
-  <!-- The following optional marker segments are only minimally supported by
-       jpylyzer at this stage (they are reported, but contents aren't analysed) -->
    
   <xs:element name="tlm">
     <xs:complexType>
-      <xs:sequence minOccurs="0" maxOccurs="unbounded">
-        <xs:any processContents="skip"/>
+      <xs:sequence>
+        <xs:element ref="ltlm"/>
+        <xs:element ref="ztlm"/>
+        <xs:element ref="st"/>
+        <xs:element ref="sp"/>
+        <xs:element ref="ttlm"/>
+        <xs:element ref="ptlm"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+
+  <xs:element name="ltlm" type="xs:integer"/>
+  <xs:element name="ztlm" type="xs:integer"/>
+  <xs:element name="st" type="xs:integer"/>
+  <xs:element name="sp" type="xs:integer"/>
+  <xs:element name="ttlm" type="xs:integer"/>
+  <xs:element name="ptlm" type="xs:integer"/>
+
+  <!-- The following optional marker segments are only minimally supported by
+       jpylyzer at this stage (they are reported, but contents aren't analysed) -->
 
   <xs:element name="ppm">
     <xs:complexType>
