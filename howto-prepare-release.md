@@ -81,7 +81,7 @@ to date:
 
 1. Run the tests by issuing below command from the root of the jpylyzer repo:
    ```
-   pytest
+   python3 -m pytest
    ```
 
 1. Update version number in *jpylyzer.py*.
