@@ -57,7 +57,7 @@ SCRIPT_PATH, SCRIPT_NAME = os.path.split(sys.argv[0])
 if not SCRIPT_NAME:
     SCRIPT_NAME = 'jpylyzer'
 
-__version__ = "2.2.1"
+__version__ = "2.3.0"
 
 # Create PARSER
 PARSER = argparse.ArgumentParser(
@@ -70,7 +70,7 @@ EXISTING_FILES = []
 NS_STRING_2 = 'http://openpreservation.org/ns/jpylyzer/v2/'
 XSI_NS_STRING = 'http://www.w3.org/2001/XMLSchema-instance'
 LOC_SCHEMA_STRING_2 = 'http://openpreservation.org/ns/jpylyzer/v2/ \
-http://jpylyzer.openpreservation.org/jpylyzer-v-2-2.xsd'
+http://jpylyzer.openpreservation.org/jpylyzer-v-2-3.xsd'
 
 
 def generatePropertiesRemapTable():
