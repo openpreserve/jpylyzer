@@ -2989,20 +2989,27 @@ class BoxValidator:
             offset = 4
             # iterate each tilepart Length
             for _ in range(int(tilePartsCount)):
-                if st == 0:
-                    # No defined tlm value
-                    pass
-                elif st == 1:
+                if st == 1:
                     ttlm = bc.bytesToUnsignedChar(bytestring)(self.boxContents[offset:offset+ttlmLength])
                 elif st == 2:
                     ttlm = bc.bytesToUShortInt(self.boxContents[offset:offset+ttlmLength])
+                else:
+                    # This covers both st = 0 (ttlm undefined) and any other illegal values
+                    pass
 
                 if st in [1, 2]:
                     self.addCharacteristic("ttlm", ttlm)
                 offset += ttlmLength
 
-                ptlm = bc.bytesToInteger(self.boxContents[offset:offset+ptlmLength])
-                self.addCharacteristic("ptlm", ptlm)
+                if sp == 0:
+                    ptlm = bc.bytesToUShortInt(self.boxContents[offset:offset+ptlmLength])
+                elif sp == 1:
+                    ptlm = bc.bytesToUInt(self.boxContents[offset:offset+ptlmLength])
+                else:
+                    pass
+
+                if sp in [0,1]:
+                    self.addCharacteristic("ptlm", ptlm)
                 offset += ptlmLength
 
     def validate_plm(self):
