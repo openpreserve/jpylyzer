@@ -2989,8 +2989,16 @@ class BoxValidator:
             offset = 4
             # iterate each tilepart Length
             for _ in range(int(tilePartsCount)):
-                ttlm = bc.bytesToInteger(self.boxContents[offset:offset+ttlmLength])
-                self.addCharacteristic("ttlm", ttlm)
+                if st == 0:
+                    # No defined tlm value
+                    pass
+                elif st == 1:
+                    ttlm = bc.bytesToUnsignedChar(bytestring)(self.boxContents[offset:offset+ttlmLength])
+                elif st == 2:
+                    ttlm = bc.bytesToUShortInt(self.boxContents[offset:offset+ttlmLength])
+
+                if st in [1, 2]:
+                    self.addCharacteristic("ttlm", ttlm)
                 offset += ttlmLength
 
                 ptlm = bc.bytesToInteger(self.boxContents[offset:offset+ptlmLength])
