@@ -1738,7 +1738,6 @@ class BoxValidator:
                 compressionRatio = round(compressionRatio, 2)
                 self.addCharacteristic("compressionRatio", compressionRatio)
 
-
         # Valid codestream only if all tests returned True
         self.isValid = self._isValid()
 
@@ -2993,6 +2992,9 @@ class BoxValidator:
 
         ltlmIsValid = tilePartsCount.is_integer()
         self.testFor("ltlmIsValid", ltlmIsValid)
+        ## TEST
+        self.addCharacteristic("tilePartsCount", tilePartsCount)
+        ## TEST
 
         if ltlmIsValid:
             offset = 4
