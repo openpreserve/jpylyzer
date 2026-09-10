@@ -2285,15 +2285,33 @@ tlm
 
 |Property|Description|
 |:-------|:----------|
-|||
-|||
+|ltlm|Length of TLM marker segment in bytes|
+|ztlm|Index of this marker segment relative to all other TLM marker segments present in the current header|
+|st|Parameter that defines size of *ttlm* parameter|
+|sp|Parameter that defines size of *ptlm* parameter|
+|ttlm<sup>\*</sup>|Tile index of the ith tile-part|
+|ptlm<sup>\*</sup>|Length in bytes, from the beginning of the SOT marker of the ith tile-part to the end of the bit stream
+data for that tile-part|
+
 
 ### Tests
 
 |Test name|True if|
 |:--------|:------|
-|||
-|||
+|tlmStIsValid|Value of *st* equals 0, 1 or 2|
+|tlmSpIsValid|Value of *sp* equals 0 or 1|
+|ltlmIsValid|Values of *ltml*, *st* and *sp* are consistent with whole number of tile parts following equation A-7 in ISO/IEC 15444-1|
+
+<!--
+
+|lsotIsValid|*lsot* equals 10|
+|isotIsValid|*isot* is within range [0,65534]|
+|psotIsValid|*psot* is **not** within range [1,13]|
+|tpsotIsValid|*tpsot* is within range [0,254]|
+
+-->
+
+
 
 
 Packet length, main header (PLM) marker segment {#plm-marker}

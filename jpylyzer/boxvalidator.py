@@ -2972,13 +2972,29 @@ class BoxValidator:
         self.testFor("tlmSpIsValid", (sp in [0,1]))
 
         ttlmLength = st
-        ptlmLength = (sp + 1) *2
+        ptlmLength = (sp + 1) * 2
 
-        tilePartsCount = (ltlm - 4) / ( ttlmLength + ptlmLength )
-        tlmIsValid = tilePartsCount.is_integer()
-        self.testFor("tlmIsValid", tlmIsValid)
+        # Calculate number of tile parts from ltlm, st and sp, following Eq A-7
+        if st == 0 and sp == 0:
+            tilePartsCount = (ltlm - 4) / 2
+        elif st == 1 and sp == 0:
+            tilePartsCount = (ltlm - 4) / 3
+        elif st == 2 and sp == 0:
+            tilePartsCount = (ltlm - 4) / 4
+        elif st == 0 and sp == 1:
+            tilePartsCount = (ltlm - 4) / 4
+        elif st == 1 and sp == 1:
+            tilePartsCount = (ltlm - 4) / 5
+        elif st == 2 and sp ==1:
+            tilePartsCount = (ltlm - 4) / 6
+        else:
+            # Bogus value in case of unexpected st, sp values
+            tilePartsCount = 0
 
-        if tlmIsValid:
+        ltlmIsValid = tilePartsCount.is_integer()
+        self.testFor("ltlmIsValid", ltlmIsValid)
+
+        if ltlmIsValid:
             offset = 4
             # iterate each tilepart Length
             for _ in range(int(tilePartsCount)):
