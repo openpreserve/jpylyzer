@@ -89,7 +89,7 @@ class Mix:
         mixBic.appendChildTagWithText('mix:imageHeight', height)
         # Try ICC first
         iccElement = properties.find('jp2HeaderBox/colourSpecificationBox/icc')
-        if iccElement:
+        if iccElement is not None:
             mixPI = ET.Element('mix:PhotometricInterpretation')
             colorSpace = properties.find(
                 'jp2HeaderBox/colourSpecificationBox/icc/colourSpace').text
@@ -182,10 +182,10 @@ class Mix:
         mixIcm = ET.Element('mix:ImageCaptureMetadata')
         rdfBox = properties.find('xmlBox/{adobe:ns:meta/}xmpmeta/'
                                  '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF')
-        if not rdfBox:
+        if rdfBox is not None:
             rdfBox = properties.find('uuidBox/{adobe:ns:meta/}xmpmeta/'
                                      '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF')
-        if not rdfBox:
+        if rdfBox is None:
             return None
         mixGci = ET.Element('mix:GeneralCaptureInformation')
         Mix.addIfExist(rdfBox,
@@ -343,7 +343,7 @@ class Mix:
         mixBio = self.generateMixBasicImageInformation(properties)
         mixRoot.append(mixBio)
         mixIcm = self.generateMixImageCaptureMetadata(properties)
-        if mixIcm and mixIcm is not None:
+        if mixIcm is not None:
             mixRoot.append(mixIcm)
         mixIam = self.generateMixImageAssessmentMetadata(properties)
         mixRoot.append(mixIam)
