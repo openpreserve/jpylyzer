@@ -443,9 +443,6 @@ def checkOneFile(path, validationFormat=config.VALIDATION_FORMAT,
         warnings = ET.Element("warnings")
         warnings.appendChildTagWithText("warning", failureMessage)
         shared.printWarning(failureMessage)
-        ## TEST
-        raise
-        ##
 
     if mixFlag != 0 and fileIsValid:
         mixProperties = mix.Mix(mixFlag).generateMix(characteristics)
