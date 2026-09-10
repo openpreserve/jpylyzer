@@ -918,10 +918,8 @@
         <xs:element ref="st"/>
         <xs:element ref="sp"/>
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
-          <xs:element ref="ttlm"/>
-        </xs:sequence>
-        <xs:sequence minOccurs="0" maxOccurs="unbounded">
-          <xs:element ref="ptlm"/>
+          <xs:element minOccurs="0" ref="ttlm"/>
+          <xs:element minOccurs="0" ref="ptlm"/>
         </xs:sequence>
       </xs:sequence>
     </xs:complexType>
