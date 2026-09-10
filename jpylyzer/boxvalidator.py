@@ -2949,13 +2949,6 @@ class BoxValidator:
         self.addCharacteristic("tnsot", tnsot)
         self.tilePartLength = psot
 
-    # The following validator functions cover those marker segments that
-    # are not yet supported, however including them has the effect that their
-    # presence at least reported in jpylyzer's output.
-    # Together these cover *all* the marker segments defined in ISO/IEC 15444-1,
-    # apart from the SOP/EPH markers (not sure if I even *want* to see those reported
-    # because there will be either lots of them or none at all!).
-
     def validate_tlm(self):
         """Tile-part lengths, main header (TLM) marker segment (ISO/IEC 15444-1 Section A.7.1).
         """
@@ -3011,6 +3004,13 @@ class BoxValidator:
                 if sp in [0,1]:
                     self.addCharacteristic("ptlm", ptlm)
                 offset += ptlmLength
+
+    # The following validator functions cover those marker segments that
+    # are not yet supported, however including them has the effect that their
+    # presence at least reported in jpylyzer's output.
+    # Together these cover *all* the marker segments defined in ISO/IEC 15444-1,
+    # apart from the SOP/EPH markers (not sure if I even *want* to see those reported
+    # because there will be either lots of them or none at all!).
 
     def validate_plm(self):
         """Packet length, main header (PLM) marker segment (ISO/IEC 15444-1 Section A.7.2).
