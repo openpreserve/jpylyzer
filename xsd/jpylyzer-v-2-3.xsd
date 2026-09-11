@@ -917,6 +917,7 @@
         <xs:element ref="ztlm"/>
         <xs:element ref="st"/>
         <xs:element ref="sp"/>
+        <xs:element ref="tpCount"/>
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
           <xs:element minOccurs="0" ref="ttlm"/>
           <xs:element minOccurs="0" ref="ptlm"/>
@@ -929,6 +930,7 @@
   <xs:element name="ztlm" type="xs:integer"/>
   <xs:element name="st" type="xs:integer"/>
   <xs:element name="sp" type="xs:integer"/>
+  <xs:element name="tpCount" type="xs:integer"/>
   <xs:element name="ttlm" type="xs:integer"/>
   <xs:element name="ptlm" type="xs:integer"/>
 

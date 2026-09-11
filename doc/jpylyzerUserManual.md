@@ -2289,6 +2289,7 @@ tlm
 |ztlm|Index of this marker segment relative to all other TLM marker segments present in the current header|
 |st|Parameter that defines size of *ttlm* parameter|
 |sp|Parameter that defines size of *ptlm* parameter|
+|tpCount|Number of tile-parts in this marker segment according to Eq A-7 in ISO/IEC 15444-1|
 |ttlm<sup>\*</sup>|Tile index of the ith tile-part|
 |ptlm<sup>\*</sup>|Length in bytes, from the beginning of the SOT marker of the ith tile-part to the end of the bit stream
 data for that tile-part|
@@ -2300,7 +2301,7 @@ data for that tile-part|
 |:--------|:------|
 |tlmStIsValid|Value of *st* equals 0, 1 or 2|
 |tlmSpIsValid|Value of *sp* equals 0 or 1|
-|ltlmIsValid|Values of *ltml*, *st* and *sp* are consistent with whole number of tile parts following equation A-7 in ISO/IEC 15444-1|
+|ltlmIsValid|Values of *ltml*, *st* and *sp* are consistent with whole number of tile parts following Eq A-7 in ISO/IEC 15444-1|
 
 <!--
 
