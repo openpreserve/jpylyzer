@@ -1827,8 +1827,8 @@ is given by the following 2 derived properties (these are always reported, irres
 |maxOneCcocPerComponentMain|No more than one *ccoc* value for each component in main header (only reported if codestream contains any COC marker segments)|
 |maxOneCqccPerComponentMain|No more than one *cqcc* value for each component in main header (only reported if codestream contains any QCC marker segments)|
 |tilePartsTLMConsistencyCheck|Number of tile parts indicated by TLM markers equals actual number of tile parts found (only reported if codestream contains any TLM marker segments)|
+|tilePartLengthsConsistencyCheck|Tile part lengths defined by ptlm values in TLM marker segments correspond to psot values in SOT marker segments (only reported if codestream contains any TLM marker segments)|
 |foundEOCMarker|Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment|
-
 
 Image and tile size (SIZ) marker segment (child of Contiguous Codestream box) {#siz-marker}
 ---------------------------------------------------------------------------------

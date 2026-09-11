@@ -1736,14 +1736,20 @@ class BoxValidator:
 
                 self.testFor("tilePartsTLMConsistencyCheck", tpCountTlm == tpCount)
 
-            # Test if tile lengths defined by ptlm values in TLM marker segments
-            # correspond to psot values in SOT marker segments
-            ptlmElements = self.characteristics.findall('tlm/ptlm')
+                # Test if tile part lengths defined by ptlm values in TLM marker segments
+                # correspond to psot values in SOT marker segments
+                ptlmElements = self.characteristics.findall('tlm/ptlm')
+                psotElements = self.characteristics.findall('tileParts/tilePart/sot/psot')
 
-            # List of all ptlm values
-            ptlms = []
-            for i in range(len(ptlmElements)):
-                ptlms.append(ptlmElements[i].text)
+                # Lists of all ptlm and psot values
+                ptlms = []
+                for i in range(len(ptlmElements)):
+                    ptlms.append(ptlmElements[i].text)
+                psots = []
+                for i in range(len(psotElements)):
+                    psots.append(psotElements[i].text)
+
+                self.testFor("tilePartLengthsConsistencyCheck", ptlms == psots)
 
             # Last 2 bytes must be end-of-codestream marker
             self.testFor("foundEOCMarker",
