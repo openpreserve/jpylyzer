@@ -2975,31 +2975,31 @@ class BoxValidator:
 
         # Calculate number of tile parts from ltlm, st and sp, following Eq A-7
         if st == 0 and sp == 0:
-            tilePartsCount = (ltlm - 4) / 2
+            tpCount = (ltlm - 4) / 2
         elif st == 1 and sp == 0:
-            tilePartsCount = (ltlm - 4) / 3
+            tpCount = (ltlm - 4) / 3
         elif st == 2 and sp == 0:
-            tilePartsCount = (ltlm - 4) / 4
+            tpCount = (ltlm - 4) / 4
         elif st == 0 and sp == 1:
-            tilePartsCount = (ltlm - 4) / 4
+            tpCount = (ltlm - 4) / 4
         elif st == 1 and sp == 1:
-            tilePartsCount = (ltlm - 4) / 5
+            tpCount = (ltlm - 4) / 5
         elif st == 2 and sp ==1:
-            tilePartsCount = (ltlm - 4) / 6
+            tpCount = (ltlm - 4) / 6
         else:
             # Bogus value in case of unexpected st, sp values
-            tilePartsCount = 0
+            tpCount = 0
 
-        ltlmIsValid = tilePartsCount.is_integer()
+        ltlmIsValid = tpCount.is_integer()
         self.testFor("ltlmIsValid", ltlmIsValid)
         ## TEST
-        self.addCharacteristic("tilePartsCount", tilePartsCount)
+        self.addCharacteristic("tpCount", tpCount)
         ## TEST
 
         if ltlmIsValid:
             offset = 4
             # iterate each tilepart Length
-            for _ in range(int(tilePartsCount)):
+            for _ in range(int(tpCount)):
                 if st == 1:
                     ttlm = bc.bytesToUnsignedChar(bytestring)(self.boxContents[offset:offset+ttlmLength])
                 elif st == 2:
