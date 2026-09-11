@@ -2992,9 +2992,7 @@ class BoxValidator:
 
         ltlmIsValid = tpCount.is_integer()
         self.testFor("ltlmIsValid", ltlmIsValid)
-        ## TEST
         self.addCharacteristic("tpCount", int(tpCount))
-        ## TEST
 
         if ltlmIsValid:
             offset = 4
