@@ -1826,6 +1826,7 @@ is given by the following 2 derived properties (these are always reported, irres
 |foundExpectedNumberOfTileParts|For all tiles, number of encountered tile parts is consistent with expected number of tile parts (values of *tnsot* from [SOT marker](#sot-marker))|
 |maxOneCcocPerComponentMain|No more than one *ccoc* value for each component in main header (only reported if codestream contains any COC marker segments)|
 |maxOneCqccPerComponentMain|No more than one *cqcc* value for each component in main header (only reported if codestream contains any QCC marker segments)|
+|tilePartsTLMConsistencyCheck|Number of tile parts indicated by TLM markers equals actual number of tile parts found (only reported if codestream contains any TLM marker segments)|
 |foundEOCMarker|Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment|
 
 

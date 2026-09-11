@@ -437,6 +437,9 @@ def checkOneFile(path, validationFormat=config.VALIDATION_FORMAT,
         else:
             failureMessage = "unknown error, please report to developers by creating " + \
                              "an issue at https://github.com/openpreserve/jpylyzer/issues"
+            ## TEST
+            raise()
+            ## TEST
 
         tests = ET.Element("tests")
         characteristics = ET.Element("properties")

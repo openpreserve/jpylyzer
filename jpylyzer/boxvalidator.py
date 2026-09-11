@@ -1720,6 +1720,31 @@ class BoxValidator:
                     "maxOneCqccPerComponentMain", len(
                         set(cqccValuesMain)) == len(cqccValuesMain))
 
+            # Consistency tests on TLM marker segments
+            if len(self.characteristics.findall('tlm')) > 0:
+                # Test if sum of tpCount values from TLM marker segments
+                # corresponds to actual number of tile parts
+
+                # Tile part count from jpylyzer parsing
+                tpCount = len(self.characteristics.findall('tileParts/tilePart'))
+
+                # Tile part count from TLM
+                tpCountTlm = 0
+                tpCountElements = self.characteristics.findall('tlm/tpCount')
+                for i in range(len(tpCountElements)):
+                    tpCountTlm += tpCountElements[i].text
+
+                self.testFor("tilePartsTLMConsistencyCheck", tpCountTlm == tpCount)
+
+            # Test if tile lengths defined by ptlm values in TLM marker segments
+            # correspond to psot values in SOT marker segments
+            ptlmElements = self.characteristics.findall('tlm/ptlm')
+
+            # List of all ptlm values
+            ptlms = []
+            for i in range(len(ptlmElements)):
+                ptlms.append(ptlmElements[i].text)
+
             # Last 2 bytes must be end-of-codestream marker
             self.testFor("foundEOCMarker",
                          self.boxContents[length - 2:length] == b'\xff\xd9')
