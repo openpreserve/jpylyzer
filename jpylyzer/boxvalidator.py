@@ -2488,7 +2488,11 @@ class BoxValidator:
             levels = int((lqcd - 5) / 6)
 
         ## TEST
-        self.addCharacteristic("levels", levels)
+        # Levels undefined if qStyle not 0 or 2!
+        try:
+            self.addCharacteristic("levels", levels)
+        except Exception:
+            pass
         ## TEST
 
         offset = 3
@@ -2590,7 +2594,11 @@ class BoxValidator:
             levels = int((lqcc - 7) / 6)
 
         ## TEST
-        self.addCharacteristic("levels", levels)
+        # Levels undefined if qStyle not 0 or 2!
+        try:
+            self.addCharacteristic("levels", levels)
+        except Exception:
+            pass
         ## TEST
 
         if qStyle == 0:
@@ -3355,6 +3363,10 @@ class BoxValidator:
             self.testFor(
                 "maxOneCqccPerComponentTP", len(
                     set(cqccValuesTP)) == len(cqccValuesTP))
+
+        # Test if ccoc and cqcc values are consecutive numbers
+        self.testFor("ccocValuesConsecutive", all(n-i==ccocValuesTP[0] for i,n in enumerate(ccocValuesTP)))
+        self.testFor("cqccValuesConsecutive", all(n-i==cqccValuesTP[0] for i,n in enumerate(cqccValuesTP)))
 
         # Position of first byte in next tile
         offsetNextTilePart = self.startOffset + tilePartLength
