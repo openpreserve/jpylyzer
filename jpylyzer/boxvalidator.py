@@ -2496,7 +2496,7 @@ class BoxValidator:
         try:
             self.addCharacteristic("levels", levels)
         except Exception:
-            pass
+            self.addCharacteristic("levels", -9999)
         ## TEST
 
         offset = 3
@@ -2602,7 +2602,7 @@ class BoxValidator:
         try:
             self.addCharacteristic("levels", levels)
         except Exception:
-            pass
+            self.addCharacteristic("levels", -9999)
         ## TEST
 
         if qStyle == 0:
