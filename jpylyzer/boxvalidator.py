@@ -2529,7 +2529,7 @@ class BoxValidator:
         # of corresponding equations (need Annex E from standard for that)
 
     def validate_qcc(self):
-        """Quantization component (QCD) header fields (ISO/IEC 15444-1 Section A.6.5)."""
+        """Quantization component (QCC) header fields (ISO/IEC 15444-1 Section A.6.5)."""
         # Length of QCC marker
         lqcc = bc.bytesToUShortInt(self.boxContents[0:2])
         self.addCharacteristic("lqcc", lqcc)
