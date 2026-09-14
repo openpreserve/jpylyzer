@@ -111,7 +111,7 @@ class BoxValidator:
         self.csiz = components
         self.bTypeString = bType
 
-    def validate(self, *args):
+    def validate(self):
         """Generic box validation function."""
         try:
             to_call = getattr(self, "validate_" + self.boxType)
@@ -2491,14 +2491,6 @@ class BoxValidator:
         elif qStyle == 2:
             levels = int((lqcd - 5) / 6)
 
-        ## TEST
-        # Levels undefined if qStyle not 0 or 2!
-        try:
-            self.addCharacteristic("levels", levels)
-        except Exception:
-            self.addCharacteristic("levels", -9999)
-        ## TEST
-
         offset = 3
 
         if qStyle == 0:
@@ -2596,14 +2588,6 @@ class BoxValidator:
             levels = int((lqcc - 6) / 3)
         elif qStyle == 2 and self.csiz >= 257:
             levels = int((lqcc - 7) / 6)
-
-        ## TEST
-        # Levels undefined if qStyle not 0 or 2!
-        try:
-            self.addCharacteristic("levels", levels)
-        except Exception:
-            self.addCharacteristic("levels", -9999)
-        ## TEST
 
         if qStyle == 0:
             for _ in range(levels):
