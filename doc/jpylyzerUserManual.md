@@ -2238,6 +2238,8 @@ is given by the following 2 derived properties (these are always reported, irres
 |RGNAllowed|RGN marker is allowed in this tile part (only allowed in first tile-part of a tile)|
 |maxOneCcocPerComponentTP|No more than one *ccoc* value for each component in tile-part header (only reported if codestream contains any COC marker segments)|
 |maxOneCqccPerComponentTP|No more than one *cqcc* value for each component in tile-part header (only reported if codestream contains any QCC marker segments)|
+|ccocValuesConsecutive|*ccoc* values are consecutive numbers (e.g. 0, 1, 2, etc.)|
+|cqccValuesConsecutive|*cqcc* values are consecutive numbers (e.g. 0, 1, 2, etc.)|
 |foundNextTilePartOrEOC|Tile part start offset + *tilePartLength* points to either start of new tile or EOC marker (useful for detecting within-codestream byte corruption)|
 |foundSODMarker|Last marker segment of tile part is a start-of-data (SOD) marker|
 
