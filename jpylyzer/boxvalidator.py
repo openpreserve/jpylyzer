@@ -2487,6 +2487,10 @@ class BoxValidator:
         elif qStyle == 2:
             levels = int((lqcd - 5) / 6)
 
+        ## TEST
+        self.addCharacteristic("levels", levels)
+        ## TEST
+
         offset = 3
 
         if qStyle == 0:
@@ -2584,6 +2588,10 @@ class BoxValidator:
             levels = int((lqcc - 6) / 3)
         elif qStyle == 2 and self.csiz >= 257:
             levels = int((lqcc - 7) / 6)
+
+        ## TEST
+        self.addCharacteristic("levels", levels)
+        ## TEST
 
         if qStyle == 0:
             for _ in range(levels):
