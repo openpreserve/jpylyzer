@@ -111,7 +111,7 @@ class BoxValidator:
         self.csiz = components
         self.bTypeString = bType
 
-    def validate(self):
+    def validate(self, *args):
         """Generic box validation function."""
         try:
             to_call = getattr(self, "validate_" + self.boxType)
