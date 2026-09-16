@@ -63,25 +63,10 @@ class CSValidator:
         self.packetmarkersFlag = self.options['packetmarkersFlag']
         if bType in self.typeMap:
             self.boxType = self.typeMap[bType]
-        elif bType == "JP2":
-            self.characteristics = ET.Element("properties")
-            self.tests = ET.Element("tests")
-            self.warnings = ET.Element("warnings")
-            self.boxType = "JP2"
-        elif bType == "contiguousCodestreamBox":
-            self.characteristics = ET.Element("properties")
-            self.tests = ET.Element("tests")
-            self.warnings = ET.Element("warnings")
-            self.boxType = 'contiguousCodestreamBox'
-        else:
-            self.boxType = 'unknownBox'
-            self.characteristics = ET.Element("properties")
-            self.warnings = ET.Element("warnings")
 
-        if bType not in ["JP2", "contiguousCodestreamBox"]:
-            self.characteristics = ET.Element(self.boxType)
-            self.tests = ET.Element(self.boxType)
-            self.warnings = ET.Element(self.boxType)
+        self.characteristics = ET.Element(self.boxType)
+        self.tests = ET.Element(self.boxType)
+        self.warnings = ET.Element(self.boxType)
 
         self.boxContents = boxContents
         self.startOffset = startOffset
