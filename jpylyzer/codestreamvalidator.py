@@ -131,22 +131,6 @@ class CSValidator:
 
         return (marker, length, contents, offsetNext)
 
-    def _getBitValue(self, n, p, wordLength=8):
-        """Get the bit value of denary (base 10) number n.
-
-        At the equivalent binary position p (binary count starts at position 1
-        from the left).
-
-        Only works if n can be expressed as 8 bits !!!
-        """
-        # Word length in bits
-        # wordLength = 8
-
-        # Shift = word length - p
-        shift = wordLength - p
-
-        return (n >> shift) & 1
-
     def _parse_ipl(self, lpl, offset):
         """Parse Iplt/Iplm parameters into a comma separated string of (hex) values.
 
@@ -227,7 +211,7 @@ class CSValidator:
             # Second most significant bit shall be equal to 1. Note that ISO/IEC 15444-15 says "bit 14"
             # as standard counts bits right to left, starting from 0)
             self.testFor(
-                "rsizIsValid", self._getBitValue(
+                "rsizIsValid", bc.getBitValue(
                     rsiz, 2, wordLength=16) == 1)
 
         # Extendend Capabilities bits: most significant 2 bits of rsiz
@@ -395,7 +379,7 @@ class CSValidator:
             # Most significant bit indicates whether components are signed (1)
             # or unsigned (0). Extracted by applying bit mask of 10000000
             # (=128)
-            ssizSign = self._getBitValue(ssiz, 1)
+            ssizSign = bc.getBitValue(ssiz, 1)
             self.addCharacteristic("ssizSign", ssizSign)
 
             # Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
@@ -445,17 +429,17 @@ class CSValidator:
 
         # Last bit: 0 in case of default precincts (ppx/ppy=15), 1 in case precincts
         # are defined in sPcod parameter
-        precincts = self._getBitValue(scod, 8)
+        precincts = bc.getBitValue(scod, 8)
         self.addCharacteristic("precincts", precincts)
 
         # 7th bit: 0: no start of packet marker segments; 1: start of packet marker
         # segments may be used
-        sop = self._getBitValue(scod, 7)
+        sop = bc.getBitValue(scod, 7)
         self.addCharacteristic("sop", sop)
 
         # 6th bit: 0: no end of packet marker segments; 1: end of packet marker
         # segments shall be used
-        eph = self._getBitValue(scod, 6)
+        eph = bc.getBitValue(scod, 6)
         self.addCharacteristic("eph", eph)
 
         # Coding parameters that are independent of components (grouped as sGCod)
@@ -554,30 +538,30 @@ class CSValidator:
             onlyHT = False
 
         # Bit 8: selective arithmetic coding bypass
-        codingBypass = self._getBitValue(codeBlockStyle, 8)
+        codingBypass = bc.getBitValue(codeBlockStyle, 8)
         self.addCharacteristic("codingBypass", codingBypass)
 
         # Bit 7: reset of context probabilities on coding pass boundaries
         if not onlyHT:
-            resetOnBoundaries = self._getBitValue(codeBlockStyle, 7)
+            resetOnBoundaries = bc.getBitValue(codeBlockStyle, 7)
             self.addCharacteristic("resetOnBoundaries", resetOnBoundaries)
 
         # Bit 6: termination on each coding pass
-        termOnEachPass = self._getBitValue(codeBlockStyle, 6)
+        termOnEachPass = bc.getBitValue(codeBlockStyle, 6)
         self.addCharacteristic("termOnEachPass", termOnEachPass)
 
         # Bit 5: vertically causal context
-        vertCausalContext = self._getBitValue(codeBlockStyle, 5)
+        vertCausalContext = bc.getBitValue(codeBlockStyle, 5)
         self.addCharacteristic("vertCausalContext", vertCausalContext)
 
         # Bit 4: predictable termination
         if not onlyHT:
-            predTermination = self._getBitValue(codeBlockStyle, 4)
+            predTermination = bc.getBitValue(codeBlockStyle, 4)
             self.addCharacteristic("predTermination", predTermination)
 
         # Bit 3: segmentation symbols are used
         if not onlyHT:
-            segmentationSymbols = self._getBitValue(codeBlockStyle, 3)
+            segmentationSymbols = bc.getBitValue(codeBlockStyle, 3)
             self.addCharacteristic("segmentationSymbols", segmentationSymbols)
 
         # Wavelet transformation: 9-7 irreversible (0) or 5-3 reversible (1)
@@ -669,7 +653,7 @@ class CSValidator:
         scoc = bc.bytesToUnsignedChar(self.boxContents[offset:offset + 1])
         # Last bit of scoc: 0 in case of default precincts (ppx/ppy=15), 1 in case precincts
         # are defined in sPcoc parameter
-        precincts = self._getBitValue(scoc, 8)
+        precincts = bc.getBitValue(scoc, 8)
         self.addCharacteristic("precincts", precincts)
         offset += 1
 
@@ -746,30 +730,30 @@ class CSValidator:
             onlyHT = False
 
         # Bit 8: selective arithmetic coding bypass
-        codingBypass = self._getBitValue(codeBlockStyle, 8)
+        codingBypass = bc.getBitValue(codeBlockStyle, 8)
         self.addCharacteristic("codingBypass", codingBypass)
 
         # Bit 7: reset of context probabilities on coding pass boundaries
         if not onlyHT:
-            resetOnBoundaries = self._getBitValue(codeBlockStyle, 7)
+            resetOnBoundaries = bc.getBitValue(codeBlockStyle, 7)
             self.addCharacteristic("resetOnBoundaries", resetOnBoundaries)
 
         # Bit 6: termination on each coding pass
-        termOnEachPass = self._getBitValue(codeBlockStyle, 6)
+        termOnEachPass = bc.getBitValue(codeBlockStyle, 6)
         self.addCharacteristic("termOnEachPass", termOnEachPass)
 
         # Bit 5: vertically causal context
-        vertCausalContext = self._getBitValue(codeBlockStyle, 5)
+        vertCausalContext = bc.getBitValue(codeBlockStyle, 5)
         self.addCharacteristic("vertCausalContext", vertCausalContext)
 
         # Bit 4: predictable termination
         if not onlyHT:
-            predTermination = self._getBitValue(codeBlockStyle, 4)
+            predTermination = bc.getBitValue(codeBlockStyle, 4)
             self.addCharacteristic("predTermination", predTermination)
 
         # Bit 3: segmentation symbols are used
         if not onlyHT:
-            segmentationSymbols = self._getBitValue(codeBlockStyle, 3)
+            segmentationSymbols = bc.getBitValue(codeBlockStyle, 3)
             self.addCharacteristic("segmentationSymbols", segmentationSymbols)
 
         offset += 1
@@ -1285,13 +1269,13 @@ class CSValidator:
                 self.addCharacteristic("htCodeBlocks", htCodeBlocks)
 
                 # Following fields are each 1 bit only
-                htSets = self._getBitValue(ccap, 3, wordLength=16)
+                htSets = bc.getBitValue(ccap, 3, wordLength=16)
                 self.addCharacteristic("htSets", htSets)
-                htRegion = self._getBitValue(ccap, 4, wordLength=16)
+                htRegion = bc.getBitValue(ccap, 4, wordLength=16)
                 self.addCharacteristic("htRegion", htRegion)
-                htHomogeneous = self._getBitValue(ccap, 5, wordLength=16)
+                htHomogeneous = bc.getBitValue(ccap, 5, wordLength=16)
                 self.addCharacteristic("htHomogeneous", htHomogeneous)
-                htReversible = self._getBitValue(ccap, 11, wordLength=16)
+                htReversible = bc.getBitValue(ccap, 11, wordLength=16)
                 self.addCharacteristic("htReversible", htReversible)
 
                 # Final 5 bits define parameter B from MAGBP set (apply bit

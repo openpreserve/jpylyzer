@@ -211,22 +211,6 @@ class BoxValidator:
 
         return compressionRatio
 
-    def _getBitValue(self, n, p, wordLength=8):
-        """Get the bit value of denary (base 10) number n.
-
-        At the equivalent binary position p (binary count starts at position 1
-        from the left).
-
-        Only works if n can be expressed as 8 bits !!!
-        """
-        # Word length in bits
-        # wordLength = 8
-
-        # Shift = word length - p
-        shift = wordLength - p
-
-        return (n >> shift) & 1
-
     def _parse_ipl(self, lpl, offset):
         """Parse Iplt/Iplm parameters into a comma separated string of (hex) values.
 
@@ -505,7 +489,7 @@ class BoxValidator:
 
         # Most significant bit indicates whether components are signed (1)
         # or unsigned (0).
-        bPCSign = self._getBitValue(bPC, 1)
+        bPCSign = bc.getBitValue(bPC, 1)
         self.addCharacteristic("bPCSign", bPCSign)
 
         # Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
@@ -564,7 +548,7 @@ class BoxValidator:
             # Most significant bit indicates whether components are signed (1)
             # or unsigned (0). Extracted by applying bit mask of 10000000
             # (=128)
-            bPCSign = self._getBitValue(bPC, 1)
+            bPCSign = bc.getBitValue(bPC, 1)
             self.addCharacteristic("bPCSign", bPCSign)
 
             # Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of
@@ -723,7 +707,7 @@ class BoxValidator:
             vidFRngByte = bc.bytesToUnsignedChar(self.boxContents[9:10])
 
             # VideoFullRangeFlag: first bit of vidFRngByte
-            vidFRng = self._getBitValue(vidFRngByte, 1)
+            vidFRng = bc.getBitValue(vidFRngByte, 1)
             self.addCharacteristic("vidFRng", vidFRng)
 
     def validate_icc(self):
@@ -804,12 +788,12 @@ class BoxValidator:
         profileFlags = bc.bytesToUnsignedChar(self.boxContents[44:45])
 
         # Embedded profile (0 if not embedded, 1 if embedded in file)
-        embeddedProfile = self._getBitValue(profileFlags, 1)
+        embeddedProfile = bc.getBitValue(profileFlags, 1)
         self.addCharacteristic("embeddedProfile", embeddedProfile)
 
         # Profile cannot be used independently from embedded colour data
         # (1 if true, 0 if false)
-        profileCannotBeUsedIndependently = self._getBitValue(profileFlags, 2)
+        profileCannotBeUsedIndependently = bc.getBitValue(profileFlags, 2)
         self.addCharacteristic(
             "profileCannotBeUsedIndependently",
             profileCannotBeUsedIndependently)
@@ -827,19 +811,19 @@ class BoxValidator:
         deviceAttributes = bc.bytesToUnsignedChar(self.boxContents[56:57])
 
         # Transparency (1 = transparent; 0 = reflective)
-        transparency = self._getBitValue(deviceAttributes, 1)
+        transparency = bc.getBitValue(deviceAttributes, 1)
         self.addCharacteristic("transparency", transparency)
 
         # Glossiness (1 = matte; 0 = glossy)
-        glossiness = self._getBitValue(deviceAttributes, 2)
+        glossiness = bc.getBitValue(deviceAttributes, 2)
         self.addCharacteristic("glossiness", glossiness)
 
         # Media polarity (1 = negative; 0 = positive)
-        polarity = self._getBitValue(deviceAttributes, 3)
+        polarity = bc.getBitValue(deviceAttributes, 3)
         self.addCharacteristic("polarity", polarity)
 
         # Media colour (1 = black & white; 0 = colour)
-        colour = self._getBitValue(deviceAttributes, 4)
+        colour = bc.getBitValue(deviceAttributes, 4)
         self.addCharacteristic("colour", colour)
 
         # Rendering intent (bytes 64-67, only least-significant 2 bytes used)
@@ -956,7 +940,7 @@ class BoxValidator:
             # Most significant bit indicates whether palette column is signed (1)
             # or unsigned (0). Extracted by applying bit mask of 10000000
             # (=128)
-            bSign = self._getBitValue(b, 1)
+            bSign = bc.getBitValue(b, 1)
             self.addCharacteristic("bSign", bSign)
 
             # Remaining bits indicate (bit depth - 1). Extracted by applying bit mask of

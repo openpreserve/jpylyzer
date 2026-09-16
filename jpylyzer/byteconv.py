@@ -150,3 +150,12 @@ def bytesToText(bytestring):
         result = ""
 
     return result
+
+
+def getBitValue(n, p, wordLength=8):
+    """Get the bit value of denary (base 10) number n at the equivalent binary
+    position p (binary count starts at position 1 from the left).
+    """
+    shift = wordLength - p
+
+    return (n >> shift) & 1
