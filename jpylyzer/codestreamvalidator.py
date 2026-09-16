@@ -50,9 +50,6 @@ class CSValidator:
         'startOfTile': 'sot'
     }
 
-    # Reverse access of typemap for quick lookup
-    boxTagMap = {v: k for k, v in typeMap.items()}
-
     def __init__(self, options, bType, boxContents,
                  startOffset=None, components=None):
         """Initialise a CSValidator."""
