@@ -24,7 +24,6 @@ from . import shared
 
 class CSValidator:
     """Marker tags/codes that identify all markers and marker segments as hexadecimal strings.
-
     These correspond to values in  Table A.2 (List of markers and marker segments) of ISO/IEC 15444-1
     """
 

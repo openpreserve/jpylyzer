@@ -24,9 +24,8 @@ from .codestreamvalidator import CSValidator
 
 
 class BoxValidator:
-    """Marker tags/codes that identify all sub-boxes as hexadecimal strings.
-
-    (Correspond to "Box Type" values, see ISO/IEC 15444-1 Section I.4)
+    """Marker tags/codes that identify all boxes and sub-boxes as hexadecimal strings.
+    These correspond to values in  Table I.4 (Defined boxes) of ISO/IEC 15444-1
     """
 
     typeMap = {
