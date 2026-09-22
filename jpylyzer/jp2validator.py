@@ -178,22 +178,6 @@ class JP2Validator:
         
     # Validator functions for boxes
 
-    def validate_unknownBox(self):
-        """Process 'unknown'box.
-
-        Although jpylyzer doesn't know anything about this box, we can at least
-        report the 4 characters from the Box Type field (TBox) here.
-        """
-        boxType = self.bTypeString
-
-        # Add boxType string to output
-        self.addCharacteristic("boxType", boxType)
-
-        # Print warning message to screen
-        msg = "ignoring unknown box '" + bc.bytesToText(boxType) + "'"
-        self.addWarning(msg)
-        shared.printWarning(msg)
-
     def validate_JP2(self):
         """Top-level function for JP2 (and JPH) validation.
 
