@@ -175,8 +175,6 @@ class JP2Validator:
     def addWarning(self, msg):
         """Add warning node to warnings element tree."""
         self.warnings.appendChildTagWithText("warning", msg)
-        
-    # Validator functions for boxes
 
     def validate_JP2(self):
         """Top-level function for JP2 (and JPH) validation.
