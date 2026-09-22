@@ -42,11 +42,6 @@ class BoxValidator:
         self.packetmarkersFlag = self.options['packetmarkersFlag']
         if bType in self.typeMap:
             self.boxType = self.typeMap[bType]
-        elif bType == "JP2":
-            self.characteristics = ET.Element("properties")
-            self.tests = ET.Element("tests")
-            self.warnings = ET.Element("warnings")
-            self.boxType = "JP2"
         elif bType == "contiguousCodestreamBox":
             self.characteristics = ET.Element("properties")
             self.tests = ET.Element("tests")
