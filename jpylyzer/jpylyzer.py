@@ -42,7 +42,8 @@ import codecs
 from xml.dom import minidom
 from . import config
 from . import etpatch as ET
-from . import boxvalidator as bv
+from .jp2validator import JP2Validator
+from .boxvalidator import BoxValidator
 from . import mix
 from . import shared
 try:
@@ -386,21 +387,20 @@ def checkOneFile(path, validationFormat=config.VALIDATION_FORMAT,
         else:
             fileData, fmmWarnings = fileToMemoryMap(path)
 
-        # Set root box according to validation format
+        # Create dictionary with validation options
+        vOptions = {}
+        vOptions['validationFormat'] = validationFormat
+        vOptions['verboseFlag'] = verboseFlag
+        vOptions['nullxmlFlag'] = nullxmlFlag
+        vOptions['packetmarkersFlag'] = packetmarkersFlag
+
+        # Set root box according to format and start validation
         if validationFormat in ['jp2', 'jph']:
             boxType = 'JP2'
+            resultsJP2 = JP2Validator(vOptions, boxType, fileData).validate()
         elif validationFormat in ['j2c', 'jhc']:
             boxType = 'contiguousCodestreamBox'
-
-        # Create dictionary with BoxValidator options
-        bvOptions = {}
-        bvOptions['validationFormat'] = validationFormat
-        bvOptions['verboseFlag'] = verboseFlag
-        bvOptions['nullxmlFlag'] = nullxmlFlag
-        bvOptions['packetmarkersFlag'] = packetmarkersFlag
-
-        # Validate
-        resultsJP2 = bv.BoxValidator(bvOptions, boxType, fileData).validate()
+            resultsJP2 = BoxValidator(vOptions, boxType, fileData).validate()
 
         fileIsValid = resultsJP2.isValid
         tests = resultsJP2.tests
