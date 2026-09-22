@@ -94,38 +94,6 @@ class JP2Validator:
                 return False
         return True
 
-    def _getMarkerSegment(self, offset):
-        """Read marker segment that starts at offset.
-
-        Return marker, size, contents and start offset of next marker.
-        """
-        # First 2 bytes: 16 bit marker
-        marker = self.boxContents[offset:offset + 2]
-
-        # Check if this is a delimiting marker segment
-        if marker in [b'\xff\x4f', b'\xff\x93', b'\xff\xd9', b'\xff\x92']:
-            # Zero-length markers: SOC, SOD, EOC, EPH
-            length = 0
-        else:
-            # Not a delimiting marker, so remainder contains some data
-            length = bc.bytesToUShortInt(
-                self.boxContents[offset + 2:offset + 4])
-
-        # Contents of marker segment (excluding marker) to binary string
-        contents = self.boxContents[offset + 2:offset + 2 + length]
-
-        if length == -9999:
-            # If length couldn't be determined because of decode error,
-            # return bogus value for offsetNext (calling function should
-            # handle this further!)
-            offsetNext = -9999
-
-        else:
-            # Offset value start of next marker segment
-            offsetNext = offset + length + 2
-
-        return (marker, length, contents, offsetNext)
-
     def _getBox(self, byteStart, noBytes):
         """Parse JP2 box and return information on its size, type and contents."""
         # Box length (4 byte unsigned integer)
