@@ -87,72 +87,6 @@ class BoxValidator:
                 return False
         return True
 
-    def _getMarkerSegment(self, offset):
-        """Read marker segment that starts at offset.
-
-        Return marker, size, contents and start offset of next marker.
-        """
-        # First 2 bytes: 16 bit marker
-        marker = self.boxContents[offset:offset + 2]
-
-        # Check if this is a delimiting marker segment
-        if marker in [b'\xff\x4f', b'\xff\x93', b'\xff\xd9', b'\xff\x92']:
-            # Zero-length markers: SOC, SOD, EOC, EPH
-            length = 0
-        else:
-            # Not a delimiting marker, so remainder contains some data
-            length = bc.bytesToUShortInt(
-                self.boxContents[offset + 2:offset + 4])
-
-        # Contents of marker segment (excluding marker) to binary string
-        contents = self.boxContents[offset + 2:offset + 2 + length]
-
-        if length == -9999:
-            # If length couldn't be determined because of decode error,
-            # return bogus value for offsetNext (calling function should
-            # handle this further!)
-            offsetNext = -9999
-
-        else:
-            # Offset value start of next marker segment
-            offsetNext = offset + length + 2
-
-        return (marker, length, contents, offsetNext)
-
-    def _getBox(self, byteStart, noBytes):
-        """Parse JP2 box and return information on its size, type and contents."""
-        # Box length (4 byte unsigned integer)
-        boxLengthValue = bc.bytesToUInt(
-            self.boxContents[byteStart:byteStart + 4])
-
-        # Box type
-        boxType = self.boxContents[byteStart + 4:byteStart + 8]
-
-        # Start byte of box contents
-        contentsStartOffset = 8
-
-        # Read extended box length if box length value equals 1
-        # In that case contentsStartOffset must also be 16 (not 8!)
-        # (See ISO/IEC 15444-1 Section I.4)
-        if boxLengthValue == 1:
-            boxLengthValue = bc.bytesToULongLong(
-                self.boxContents[byteStart + 8:byteStart + 16])
-            contentsStartOffset = 16
-
-        # For the very last box in a file boxLengthValue may equal 0, so we need
-        # to calculate actual value
-        if boxLengthValue == 0:
-            boxLengthValue = noBytes - byteStart
-
-        # End byte for current box
-        byteEnd = byteStart + boxLengthValue
-
-        # Contents of this box as a byte object (i.e. 'DBox' in ISO/IEC 15444-1
-        # Section I.4)
-        boxContents = self.boxContents[byteStart + contentsStartOffset:byteEnd]
-
-        return (boxLengthValue, boxType, byteEnd, boxContents)
-
     def _calculateCompressionRatio(
             self, noBytes, bPCDepthValues, height, width):
         """Compute compression ratio.
@@ -293,7 +227,7 @@ class BoxValidator:
         boxLengthValue = 10
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
-            boxLengthValue, boxType, byteEnd, subBoxContents = self._getBox(
+            boxLengthValue, boxType, byteEnd, subBoxContents = shared._getBox(self,
                 byteStart, noBytes)
 
             # Validate sub-boxes
@@ -1202,7 +1136,7 @@ class BoxValidator:
 
         # Read first marker segment. This must be the start-of-codestream
         # marker
-        marker, _, segContents, offsetNext = self._getMarkerSegment(
+        marker, _, segContents, offsetNext = shared._getMarkerSegment(self,
             offset)
 
         # Marker must be start-of-codestream marker
@@ -1211,7 +1145,7 @@ class BoxValidator:
 
         # Read next marker segment. This must be the SIZ (image and tile
         # size) marker
-        marker, _, segContents, offsetNext = self._getMarkerSegment(
+        marker, _, segContents, offsetNext = shared._getMarkerSegment(self,
             offset)
         foundSIZMarker = (marker == b'\xff\x51')
         self.testFor("foundSIZMarker", foundSIZMarker)
@@ -1246,7 +1180,7 @@ class BoxValidator:
             foundQCDMarker = False
 
             while marker != b'\xff\x90' and offsetNext != -9999:
-                marker, _, segContents, offsetNext = self._getMarkerSegment(
+                marker, _, segContents, offsetNext = shared._getMarkerSegment(self,
                     offset)
 
                 if marker == b'\xff\x52':

@@ -47,14 +47,14 @@ def listOccurrencesAreContiguous(lst, value):
     return consecutive(indices_of_value)
 
 
-def _getBox(validatorInstance, byteStart, noBytes):
+def _getBox(validator, byteStart, noBytes):
     """Parse JP2 box and return information on its size, type and contents."""
     # Box length (4 byte unsigned integer)
     boxLengthValue = bc.bytesToUInt(
-        validatorInstance.boxContents[byteStart:byteStart + 4])
+        validator.boxContents[byteStart:byteStart + 4])
 
     # Box type
-    boxType = validatorInstance.boxContents[byteStart + 4:byteStart + 8]
+    boxType = validator.boxContents[byteStart + 4:byteStart + 8]
 
     # Start byte of box contents
     contentsStartOffset = 8
@@ -64,7 +64,7 @@ def _getBox(validatorInstance, byteStart, noBytes):
     # (See ISO/IEC 15444-1 Section I.4)
     if boxLengthValue == 1:
         boxLengthValue = bc.bytesToULongLong(
-            validatorInstance.boxContents[byteStart + 8:byteStart + 16])
+            validator.boxContents[byteStart + 8:byteStart + 16])
         contentsStartOffset = 16
 
     # For the very last box in a file boxLengthValue may equal 0, so we need
@@ -77,6 +77,39 @@ def _getBox(validatorInstance, byteStart, noBytes):
 
     # Contents of this box as a byte object (i.e. 'DBox' in ISO/IEC 15444-1
     # Section I.4)
-    boxContents = validatorInstance.boxContents[byteStart + contentsStartOffset:byteEnd]
+    boxContents = validator.boxContents[byteStart + contentsStartOffset:byteEnd]
 
     return (boxLengthValue, boxType, byteEnd, boxContents)
+
+
+def _getMarkerSegment(validator, offset):
+    """Read marker segment that starts at offset.
+
+    Return marker, size, contents and start offset of next marker.
+    """
+    # First 2 bytes: 16 bit marker
+    marker = validator.boxContents[offset:offset + 2]
+
+    # Check if this is a delimiting marker segment
+    if marker in [b'\xff\x4f', b'\xff\x93', b'\xff\xd9', b'\xff\x92']:
+        # Zero-length markers: SOC, SOD, EOC, EPH
+        length = 0
+    else:
+        # Not a delimiting marker, so remainder contains some data
+        length = bc.bytesToUShortInt(
+            validator.boxContents[offset + 2:offset + 4])
+
+    # Contents of marker segment (excluding marker) to binary string
+    contents = validator.boxContents[offset + 2:offset + 2 + length]
+
+    if length == -9999:
+        # If length couldn't be determined because of decode error,
+        # return bogus value for offsetNext (calling function should
+        # handle this further!)
+        offsetNext = -9999
+
+    else:
+        # Offset value start of next marker segment
+        offsetNext = offset + length + 2
+
+    return (marker, length, contents, offsetNext)

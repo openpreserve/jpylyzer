@@ -66,38 +66,6 @@ class CSValidator:
 
         return self
 
-    def _getMarkerSegment(self, offset):
-        """Read marker segment that starts at offset.
-
-        Return marker, size, contents and start offset of next marker.
-        """
-        # First 2 bytes: 16 bit marker
-        marker = self.boxContents[offset:offset + 2]
-
-        # Check if this is a delimiting marker segment
-        if marker in [b'\xff\x4f', b'\xff\x93', b'\xff\xd9', b'\xff\x92']:
-            # Zero-length markers: SOC, SOD, EOC, EPH
-            length = 0
-        else:
-            # Not a delimiting marker, so remainder contains some data
-            length = bc.bytesToUShortInt(
-                self.boxContents[offset + 2:offset + 4])
-
-        # Contents of marker segment (excluding marker) to binary string
-        contents = self.boxContents[offset + 2:offset + 2 + length]
-
-        if length == -9999:
-            # If length couldn't be determined because of decode error,
-            # return bogus value for offsetNext (calling function should
-            # handle this further!)
-            offsetNext = -9999
-
-        else:
-            # Offset value start of next marker segment
-            offsetNext = offset + length + 2
-
-        return (marker, length, contents, offsetNext)
-
     def _parse_ipl(self, lpl, offset):
         """Parse Iplt/Iplm parameters into a comma separated string of (hex) values.
 
@@ -1498,7 +1466,7 @@ class CSValidator:
 
         # Read first marker segment, which is a  start of tile (SOT) marker
         # segment
-        marker, _, segContents, offsetNext = self._getMarkerSegment(
+        marker, _, segContents, offsetNext = shared._getMarkerSegment(self,
             offset)
 
         # Validate start of tile (SOT) marker segment
@@ -1530,7 +1498,7 @@ class CSValidator:
         # this)
 
         while marker != b'\xff\x93' and offsetNext != -9999:
-            marker, _, segContents, offsetNext = self._getMarkerSegment(
+            marker, _, segContents, offsetNext = shared._getMarkerSegment(self,
                 offset)
 
             if marker == b'\xff\x52':
