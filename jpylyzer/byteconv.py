@@ -29,7 +29,7 @@ def _doConv(bytestr, bOrder, formatCharacter):
     formatStr = bOrder + formatCharacter
     try:
         result = struct.unpack(formatStr, bytestr)[0]
-    except BaseException:
+    except Exception:
         result = -9999
     return result
 
@@ -88,7 +88,7 @@ def bytesToInteger(bytestring):
     """
     try:
         result = int(binascii.hexlify(bytestring), 16)
-    except BaseException:
+    except Exception:
         result = -9999
 
     return result
@@ -145,7 +145,7 @@ def bytesToText(bytestring):
         # Remove control characters
         result = removeControlCharacters(string)
 
-    except BaseException:
+    except Exception:
         # Return empty string if bytestring cannot be decoded
         result = ""
 
