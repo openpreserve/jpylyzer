@@ -73,39 +73,6 @@ class JP2Validator:
                 return False
         return True
 
-    def _getBox(self, byteStart, noBytes):
-        """Parse JP2 box and return information on its size, type and contents."""
-        # Box length (4 byte unsigned integer)
-        boxLengthValue = bc.bytesToUInt(
-            self.boxContents[byteStart:byteStart + 4])
-
-        # Box type
-        boxType = self.boxContents[byteStart + 4:byteStart + 8]
-
-        # Start byte of box contents
-        contentsStartOffset = 8
-
-        # Read extended box length if box length value equals 1
-        # In that case contentsStartOffset must also be 16 (not 8!)
-        # (See ISO/IEC 15444-1 Section I.4)
-        if boxLengthValue == 1:
-            boxLengthValue = bc.bytesToULongLong(
-                self.boxContents[byteStart + 8:byteStart + 16])
-            contentsStartOffset = 16
-
-        # For the very last box in a file boxLengthValue may equal 0, so we need
-        # to calculate actual value
-        if boxLengthValue == 0:
-            boxLengthValue = noBytes - byteStart
-
-        # End byte for current box
-        byteEnd = byteStart + boxLengthValue
-
-        # Contents of this box as a byte object (i.e. 'DBox' in ISO/IEC 15444-1
-        # Section I.4)
-        boxContents = self.boxContents[byteStart + contentsStartOffset:byteEnd]
-
-        return (boxLengthValue, boxType, byteEnd, boxContents)
 
     def _calculateCompressionRatio(
             self, noBytes, bPCDepthValues, height, width):
@@ -183,7 +150,7 @@ class JP2Validator:
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
 
-            boxLengthValue, boxType, byteEnd, boxContents = self._getBox(
+            boxLengthValue, boxType, byteEnd, boxContents = shared._getBox(self,
                 byteStart, noBytes)
 
             # Validate current top level box
