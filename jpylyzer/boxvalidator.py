@@ -26,7 +26,7 @@ from ._boxesmarkers import boxTypeMap
 
 
 class BoxValidator:
-    """Validation functions for all boxes in JP2 and JPH
+    """Validator class for all boxes in JP2 and JPH
     """
 
     # Reverse access of boxTypemap for quick lookup

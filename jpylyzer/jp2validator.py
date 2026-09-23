@@ -23,7 +23,7 @@ from ._boxesmarkers import boxTypeMap
 
 
 class JP2Validator:
-    """JP2 validator class
+    """Validator class for JP2 / JPH images
     """
 
     # Reverse access of boxTypemap for quick lookup

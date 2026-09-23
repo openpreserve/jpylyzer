@@ -24,7 +24,7 @@ from ._boxesmarkers import markerTypeMap
 
 
 class CSValidator:
-    """Codestream validator class
+    """Validator class for codestream marker segments
     """
 
     def __init__(self, options, bType, boxContents,
