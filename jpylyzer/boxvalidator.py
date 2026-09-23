@@ -969,7 +969,7 @@ class BoxValidator:
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
 
-            boxLengthValue, boxType, byteEnd, subBoxContents = self._getBox(
+            boxLengthValue, boxType, byteEnd, subBoxContents = shared._getBox(self,
                 byteStart, noBytes)
 
             # validate sub boxes
@@ -1714,7 +1714,7 @@ class BoxValidator:
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
 
-            boxLengthValue, boxType, byteEnd, subBoxContents = self._getBox(
+            boxLengthValue, boxType, byteEnd, subBoxContents = shared._getBox(self,
                 byteStart, noBytes)
 
             # validate sub boxes
