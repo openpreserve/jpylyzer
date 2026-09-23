@@ -16,22 +16,6 @@
 
 from . import byteconv as bc
 
-def validate(validator):
-    """Generic validation function."""
-    try:
-        to_call = getattr(validator, "validate_" + validator.boxType)
-        to_call()
-    except AttributeError:
-        # Don't think this should ever happen because all known boxes
-        # are defined in boxTypeMap and anything not in boxTypeMap should
-        # trigger "unknown" box validator function
-        msg = "ignoring '" + validator.boxType + \
-            "' (validator function not yet implemented)"
-        shared.printWarning(msg)
-
-    return validator
-
-
 def getBox(validator, byteStart, noBytes):
     """Parse JP2 box and return information on its size, type and contents."""
     # Box length (4 byte unsigned integer)
