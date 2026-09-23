@@ -82,3 +82,32 @@ def getMarkerSegment(validator, offset):
         offsetNext = offset + length + 2
 
     return (marker, length, contents, offsetNext)
+
+def calculateCompressionRatio(noBytes, bPCDepthValues, height, width):
+    """Compute compression ratio.
+
+    - noBytes: size of compressed image in bytes
+    - bPCDepthValues: list with bits per component for each component
+    - height, width: image height, width
+    """
+    # Total bits per pixel
+    bitsPerPixel = 0
+
+    for i in range(len(bPCDepthValues)):
+        bitsPerPixel += bPCDepthValues[i]
+
+    # Convert to bytes per pixel
+    bytesPerPixel = bitsPerPixel / 8
+
+    # Uncompressed image size
+    sizeUncompressed = bytesPerPixel * height * width
+
+    # Compression ratio
+    if noBytes != 0:
+        compressionRatio = sizeUncompressed / noBytes
+    else:
+        # Obviously something going wrong here ...
+        compressionRatio = -9999
+
+    return compressionRatio
+

@@ -88,35 +88,6 @@ class BoxValidator:
                 return False
         return True
 
-    def _calculateCompressionRatio(
-            self, noBytes, bPCDepthValues, height, width):
-        """Compute compression ratio.
-
-        - noBytes: size of compressed image in bytes
-        - bPCDepthValues: list with bits per component for each component
-        - height, width: image height, width
-        """
-        # Total bits per pixel
-        bitsPerPixel = 0
-
-        for i in range(len(bPCDepthValues)):
-            bitsPerPixel += bPCDepthValues[i]
-
-        # Convert to bytes per pixel
-        bytesPerPixel = bitsPerPixel / 8
-
-        # Uncompressed image size
-        sizeUncompressed = bytesPerPixel * height * width
-
-        # Compression ratio
-        if noBytes != 0:
-            compressionRatio = sizeUncompressed / noBytes
-        else:
-            # Obviously something going wrong here ...
-            compressionRatio = -9999
-
-        return compressionRatio
-
     def testFor(self, testType, testResult):
         """Add testResult node to tests element tree."""
         if not self.verboseFlag:
@@ -1603,7 +1574,7 @@ class BoxValidator:
                 xsiz = characteristicsSIZ.findElementText('xsiz')
                 xOsiz = characteristicsSIZ.findElementText('xOsiz')
 
-                compressionRatio = self._calculateCompressionRatio(
+                compressionRatio = vs.calculateCompressionRatio(
                     length, ssizDepthValues, (ysiz - yOsiz), (xsiz - xOsiz))
                 compressionRatio = round(compressionRatio, 2)
                 self.addCharacteristic("compressionRatio", compressionRatio)
