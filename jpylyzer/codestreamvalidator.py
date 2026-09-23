@@ -85,7 +85,7 @@ class CSValidator:
     def addWarning(self, msg):
         """Add warning node to warnings element tree."""
         self.warnings.appendChildTagWithText("warning", msg)
-        
+
     # Validator functions for codestream markers and marker segments
 
     def validate_siz(self):
@@ -107,8 +107,8 @@ class CSValidator:
             # 0
             self.testFor("rsizIsValid", (rsiz >> 12) & 15 == 0)
         elif self.format in ['jph', 'jhc']:
-            # Second most significant bit shall be equal to 1. Note that ISO/IEC 15444-15 says "bit 14"
-            # as standard counts bits right to left, starting from 0)
+            # Second most significant bit shall be equal to 1. Note that ISO/IEC 15444-15
+            # says "bit 14" as standard counts bits right to left, starting from 0)
             self.testFor(
                 "rsizIsValid", bc.getBitValue(
                     rsiz, 2, wordLength=16) == 1)
@@ -1350,18 +1350,15 @@ class CSValidator:
                 else:
                     # This covers both st = 0 (ttlm undefined) and any other illegal values
                     pass
-
                 if st in [1, 2]:
                     self.addCharacteristic("ttlm", ttlm)
                 offset += ttlmLength
-
                 if sp == 0:
                     ptlm = bc.bytesToUShortInt(self.boxContents[offset:offset+ptlmLength])
                 elif sp == 1:
                     ptlm = bc.bytesToUInt(self.boxContents[offset:offset+ptlmLength])
                 else:
                     pass
-
                 if sp in [0,1]:
                     self.addCharacteristic("ptlm", ptlm)
                 offset += ptlmLength

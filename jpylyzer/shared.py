@@ -17,18 +17,16 @@
 # Various shared functions
 
 import sys
-from . import byteconv as bc
-
 
 def printWarning(msg):
     """Print warning to stderr."""
-    msgString = ("User warning: " + msg + "\n")
+    msgString = "User warning: " + msg + "\n"
     sys.stderr.write(msgString)
 
 
 def errorExit(msg):
     """Print error message to stderr and exit."""
-    msgString = ("Error: " + msg + "\n")
+    msgString = "Error: " + msg + "\n"
     sys.stderr.write(msgString)
     sys.exit()
 
