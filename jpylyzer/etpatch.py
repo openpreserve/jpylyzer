@@ -21,7 +21,6 @@ TODO:
 
 import xml.etree.ElementTree as ET
 from . import byteconv as bc
-from . import config
 
 
 def tostring(elem, enc, meth):
