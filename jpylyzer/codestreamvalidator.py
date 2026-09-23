@@ -56,6 +56,7 @@ class CSValidator:
         """Generic validation function."""
         try:
             to_call = getattr(self, "validate_" + self.boxType)
+            to_call()
         except AttributeError:
             # Don't think this should ever happen because all known boxes
             # are defined in typeMap and anything not in typeMap should
@@ -63,8 +64,6 @@ class CSValidator:
             msg = "ignoring '" + self.boxType + \
                 "' (validator function not yet implemented)"
             shared.printWarning(msg)
-        else:
-            to_call()
 
         return self
 
