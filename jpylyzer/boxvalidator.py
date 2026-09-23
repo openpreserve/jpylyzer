@@ -106,7 +106,7 @@ class BoxValidator:
     def addWarning(self, msg):
         """Add warning node to warnings element tree."""
         self.warnings.appendChildTagWithText("warning", msg)
-        
+
     # Validator functions for boxes
 
     def validate_unknownBox(self):
@@ -1119,7 +1119,7 @@ class BoxValidator:
         # size) marker
         marker, _, segContents, offsetNext = vs.getMarkerSegment(self,
             offset)
-        foundSIZMarker = (marker == b'\xff\x51')
+        foundSIZMarker = marker == b'\xff\x51'
         self.testFor("foundSIZMarker", foundSIZMarker)
 
         if foundSIZMarker:
@@ -1500,7 +1500,7 @@ class BoxValidator:
             self.tests.appendIfNotEmpty(tilePartTests)
             self.characteristics.append(tilePartCharacteristics)
             self.warnings.appendIfNotEmpty(tilePartWarnings)
-            
+
             # Test if all ccoc values at main header level are unique
             # (A.6.2 - no more than one COC per any given component)
             ccocElementsMain = self.characteristics.findall('coc/ccoc')
