@@ -28,9 +28,9 @@ class BoxValidator:
     """
 
     # Import dictionary with hexadecimal strings that identify all boxes and sub-boxes
-    from ._boxesmap import typeMap
-    # Reverse access of typemap for quick lookup
-    boxTagMap = {v: k for k, v in typeMap.items()}
+    from ._boxesmarkers import boxTypeMap
+    # Reverse access of boxTypemap for quick lookup
+    boxTagMap = {v: k for k, v in boxTypeMap.items()}
 
     def __init__(self, options, bType, boxContents,
                  startOffset=None, components=None):
@@ -40,8 +40,8 @@ class BoxValidator:
         self.verboseFlag = self.options['verboseFlag']
         self.nullxmlFlag = self.options['nullxmlFlag']
         self.packetmarkersFlag = self.options['packetmarkersFlag']
-        if bType in self.typeMap:
-            self.boxType = self.typeMap[bType]
+        if bType in self.boxTypeMap:
+            self.boxType = self.boxTypeMap[bType]
         elif bType == "contiguousCodestreamBox":
             self.characteristics = ET.Element("properties")
             self.tests = ET.Element("tests")
@@ -72,7 +72,7 @@ class BoxValidator:
             to_call()
         except AttributeError:
             # Don't think this should ever happen because all known boxes
-            # are defined in typeMap and anything not in typeMap should
+            # are defined in boxTypeMap and anything not in boxTypeMap should
             # trigger "unknown" box validator function
             msg = "ignoring '" + self.boxType + \
                 "' (validator function not yet implemented)"

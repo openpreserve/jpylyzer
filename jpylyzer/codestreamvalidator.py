@@ -27,7 +27,7 @@ class CSValidator:
     """
 
     # Import dictionary with hexadecimal strings that identify all codestream marker tags
-    from ._csmarkersmap import typeMap
+    from ._boxesmarkers import markerTypeMap
 
     def __init__(self, options, bType, boxContents,
                  startOffset=None, components=None):
@@ -37,8 +37,8 @@ class CSValidator:
         self.verboseFlag = self.options['verboseFlag']
         self.nullxmlFlag = self.options['nullxmlFlag']
         self.packetmarkersFlag = self.options['packetmarkersFlag']
-        if bType in self.typeMap:
-            self.boxType = self.typeMap[bType]
+        if bType in self.markerTypeMap:
+            self.boxType = self.markerTypeMap[bType]
 
         self.characteristics = ET.Element(self.boxType)
         self.tests = ET.Element(self.boxType)
@@ -59,7 +59,7 @@ class CSValidator:
             to_call()
         except AttributeError:
             # Don't think this should ever happen because all known boxes
-            # are defined in typeMap and anything not in typeMap should
+            # are defined in markerTypeMap and anything not in markerTypeMap should
             # trigger "unknown" box validator function
             msg = "ignoring '" + self.boxType + \
                 "' (validator function not yet implemented)"
