@@ -68,13 +68,6 @@ class CSValidator:
 
         return self
 
-    def _isValid(self):
-        for elt in self.tests.iter():
-            if elt.text is False:
-                # File didn't pass this test, so not valid
-                return False
-        return True
-
     def _getMarkerSegment(self, offset):
         """Read marker segment that starts at offset.
 
