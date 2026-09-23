@@ -16,6 +16,7 @@
 
 from . import byteconv as bc
 
+
 def getBox(validator, byteStart, noBytes):
     """Parse JP2 box and return information on its size, type and contents."""
     # Box length (4 byte unsigned integer)
@@ -82,6 +83,7 @@ def getMarkerSegment(validator, offset):
         offsetNext = offset + length + 2
 
     return (marker, length, contents, offsetNext)
+
 
 def calculateCompressionRatio(noBytes, bPCDepthValues, height, width):
     """Compute compression ratio.

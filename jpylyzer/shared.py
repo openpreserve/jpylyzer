@@ -18,6 +18,7 @@
 
 import sys
 
+
 def printWarning(msg):
     """Print warning to stderr."""
     msgString = "User warning: " + msg + "\n"

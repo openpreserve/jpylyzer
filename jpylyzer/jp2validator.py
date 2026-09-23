@@ -21,6 +21,7 @@ from . import validatorshared as vs
 from .boxvalidator import BoxValidator
 from ._boxesmarkers import boxTypeMap
 
+
 class JP2Validator:
     """JP2 validator class
     """
@@ -118,7 +119,8 @@ class JP2Validator:
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
 
             boxLengthValue, boxType, byteEnd, boxContents = vs.getBox(self,
-                byteStart, noBytes)
+                                                                      byteStart,
+                                                                      noBytes)
 
             # Validate current top level box
             resultsBox = BoxValidator(
