@@ -24,6 +24,7 @@ from . import validatorshared as vs
 from .codestreamvalidator import CSValidator
 from ._boxesmarkers import boxTypeMap
 
+
 class BoxValidator:
     """Validation functions for all boxes in JP2 and JPH
     """
@@ -198,7 +199,8 @@ class BoxValidator:
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
             boxLengthValue, boxType, byteEnd, subBoxContents = vs.getBox(self,
-                byteStart, noBytes)
+                                                                         byteStart,
+                                                                         noBytes)
 
             # Validate sub-boxes
             resultsBox = BoxValidator(
@@ -937,7 +939,8 @@ class BoxValidator:
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
 
             boxLengthValue, boxType, byteEnd, subBoxContents = vs.getBox(self,
-                byteStart, noBytes)
+                                                                         byteStart,
+                                                                         noBytes)
 
             # validate sub boxes
             resultsBox = BoxValidator(
@@ -1103,8 +1106,7 @@ class BoxValidator:
 
         # Read first marker segment. This must be the start-of-codestream
         # marker
-        marker, _, segContents, offsetNext = vs.getMarkerSegment(self,
-            offset)
+        marker, _, segContents, offsetNext = vs.getMarkerSegment(self, offset)
 
         # Marker must be start-of-codestream marker
         self.testFor("codestreamStartsWithSOCMarker", marker == b'\xff\x4f')
@@ -1112,8 +1114,7 @@ class BoxValidator:
 
         # Read next marker segment. This must be the SIZ (image and tile
         # size) marker
-        marker, _, segContents, offsetNext = vs.getMarkerSegment(self,
-            offset)
+        marker, _, segContents, offsetNext = vs.getMarkerSegment(self, offset)
         foundSIZMarker = marker == b'\xff\x51'
         self.testFor("foundSIZMarker", foundSIZMarker)
 
@@ -1147,8 +1148,7 @@ class BoxValidator:
             foundQCDMarker = False
 
             while marker != b'\xff\x90' and offsetNext != -9999:
-                marker, _, segContents, offsetNext = vs.getMarkerSegment(self,
-                    offset)
+                marker, _, segContents, offsetNext = vs.getMarkerSegment(self, offset)
 
                 if marker == b'\xff\x52':
                     # COD (coding style default) marker segment
@@ -1489,7 +1489,7 @@ class BoxValidator:
             # Found numbers of tile	parts per tile must match expected
             if tilePartsPerTileExpected:
                 self.testFor("foundExpectedNumberOfTileParts",
-                            tilePartsPerTileExpected == tilePartsPerTileFound)
+                             tilePartsPerTileExpected == tilePartsPerTileFound)
 
             # Add tile-part tests, characteristics and warnings to tree
             self.tests.appendIfNotEmpty(tilePartTests)
@@ -1559,7 +1559,7 @@ class BoxValidator:
             # Last 2 bytes must be end-of-codestream marker
             self.testFor("foundEOCMarker",
                          self.boxContents[length - 2:length] == b'\xff\xd9')
-            
+
             if self.format in ['j2c', 'jhc'] and foundSIZMarker:
 
                 # Calculate compression ratio
@@ -1682,7 +1682,8 @@ class BoxValidator:
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
 
             boxLengthValue, boxType, byteEnd, subBoxContents = vs.getBox(self,
-                byteStart, noBytes)
+                                                                         byteStart,
+                                                                         noBytes)
 
             # validate sub boxes
             resultsBox = BoxValidator(

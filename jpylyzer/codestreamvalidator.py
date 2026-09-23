@@ -1304,11 +1304,11 @@ class CSValidator:
         stlm = bc.bytesToUnsignedChar(self.boxContents[3:4])
         st = (stlm >> 4) & 3
         self.addCharacteristic("st", st)
-        self.testFor("tlmStIsValid", (st in [0,1,2]))
+        self.testFor("tlmStIsValid", (st in [0, 1, 2]))
 
         sp = (stlm >> 6) & 1
         self.addCharacteristic("sp", sp)
-        self.testFor("tlmSpIsValid", (sp in [0,1]))
+        self.testFor("tlmSpIsValid", (sp in [0, 1]))
 
         ttlmLength = st
         ptlmLength = (sp + 1) * 2
@@ -1324,7 +1324,7 @@ class CSValidator:
             tpCount = (ltlm - 4) / 4
         elif st == 1 and sp == 1:
             tpCount = (ltlm - 4) / 5
-        elif st == 2 and sp ==1:
+        elif st == 2 and sp == 1:
             tpCount = (ltlm - 4) / 6
         else:
             # Bogus value in case of unexpected st, sp values
@@ -1354,7 +1354,7 @@ class CSValidator:
                     ptlm = bc.bytesToUInt(self.boxContents[offset:offset+ptlmLength])
                 else:
                     pass
-                if sp in [0,1]:
+                if sp in [0, 1]:
                     self.addCharacteristic("ptlm", ptlm)
                 offset += ptlmLength
 
@@ -1423,7 +1423,7 @@ class CSValidator:
         # Read first marker segment, which is a  start of tile (SOT) marker
         # segment
         marker, _, segContents, offsetNext = vs.getMarkerSegment(self,
-            offset)
+                                                                 offset)
 
         # Validate start of tile (SOT) marker segment
         # tilePartLength is value of psot, which is the total length of this tile
@@ -1455,7 +1455,7 @@ class CSValidator:
 
         while marker != b'\xff\x93' and offsetNext != -9999:
             marker, _, segContents, offsetNext = vs.getMarkerSegment(self,
-                offset)
+                                                                     offset)
 
             if marker == b'\xff\x52':
                 # COD (coding style default) marker segment
@@ -1655,8 +1655,8 @@ class CSValidator:
                     set(cqccValuesTP)) == len(cqccValuesTP))
 
         # Test if ccoc and cqcc values are consecutive numbers
-        self.testFor("ccocValuesConsecutive", all(n-i==ccocValuesTP[0] for i,n in enumerate(ccocValuesTP)))
-        self.testFor("cqccValuesConsecutive", all(n-i==cqccValuesTP[0] for i,n in enumerate(cqccValuesTP)))
+        self.testFor("ccocValuesConsecutive", shared.consecutive(ccocValuesTP))
+        self.testFor("cqccValuesConsecutive", shared.consecutive(cqccValuesTP))
 
         # Position of first byte in next tile
         offsetNextTilePart = self.startOffset + tilePartLength
