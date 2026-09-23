@@ -1527,8 +1527,8 @@ class BoxValidator:
                         set(cqccValuesMain)) == len(cqccValuesMain))
 
             # Test if ccoc and cqcc values are consecutive numbers
-            self.testFor("ccocValuesConsecutive", all(n-i==ccocValuesMain[0] for i,n in enumerate(ccocValuesMain)))
-            self.testFor("cqccValuesConsecutive", all(n-i==cqccValuesMain[0] for i,n in enumerate(cqccValuesMain)))
+            self.testFor("ccocValuesConsecutive", shared.consecutive(ccocValuesMain))
+            self.testFor("cqccValuesConsecutive", shared.consecutive(cqccValuesMain))
 
             # Consistency tests on TLM marker segments
             if len(self.characteristics.findall('tlm')) > 0:
