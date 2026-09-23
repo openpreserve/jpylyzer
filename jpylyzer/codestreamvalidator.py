@@ -15,7 +15,6 @@
 #
 
 from __future__ import division
-import uuid
 import math
 from . import etpatch as ET
 from . import byteconv as bc
