@@ -20,14 +20,12 @@ from . import etpatch as ET
 from . import byteconv as bc
 from . import shared
 from . import validatorshared as vs
+from ._boxesmarkers import markerTypeMap
 
 
 class CSValidator:
     """Codestream validator class
     """
-
-    # Import dictionary with hexadecimal strings that identify all codestream marker tags
-    from ._boxesmarkers import markerTypeMap
 
     def __init__(self, options, bType, boxContents,
                  startOffset=None, components=None):
@@ -37,8 +35,8 @@ class CSValidator:
         self.verboseFlag = self.options['verboseFlag']
         self.nullxmlFlag = self.options['nullxmlFlag']
         self.packetmarkersFlag = self.options['packetmarkersFlag']
-        if bType in self.markerTypeMap:
-            self.boxType = self.markerTypeMap[bType]
+        if bType in markerTypeMap:
+            self.boxType = markerTypeMap[bType]
 
         self.characteristics = ET.Element(self.boxType)
         self.tests = ET.Element(self.boxType)

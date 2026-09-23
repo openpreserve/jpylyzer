@@ -22,14 +22,12 @@ from . import byteconv as bc
 from . import shared
 from . import validatorshared as vs
 from .codestreamvalidator import CSValidator
-
+from ._boxesmarkers import boxTypeMap
 
 class BoxValidator:
     """Validation functions for all boxes in JP2 and JPH
     """
 
-    # Import dictionary with hexadecimal strings that identify all boxes and sub-boxes
-    from ._boxesmarkers import boxTypeMap
     # Reverse access of boxTypemap for quick lookup
     boxTagMap = {v: k for k, v in boxTypeMap.items()}
 
@@ -41,8 +39,8 @@ class BoxValidator:
         self.verboseFlag = self.options['verboseFlag']
         self.nullxmlFlag = self.options['nullxmlFlag']
         self.packetmarkersFlag = self.options['packetmarkersFlag']
-        if bType in self.boxTypeMap:
-            self.boxType = self.boxTypeMap[bType]
+        if bType in boxTypeMap:
+            self.boxType = boxTypeMap[bType]
         elif bType == "contiguousCodestreamBox":
             self.characteristics = ET.Element("properties")
             self.tests = ET.Element("tests")

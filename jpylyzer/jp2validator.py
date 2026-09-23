@@ -16,18 +16,14 @@
 
 from __future__ import division
 from . import etpatch as ET
-from . import byteconv as bc
 from . import shared
 from . import validatorshared as vs
 from .boxvalidator import BoxValidator
-
+from ._boxesmarkers import boxTypeMap
 
 class JP2Validator:
     """JP2 validator class
     """
-
-    # Import dictionary with hexadecimal strings that identify all boxes and sub-boxes
-    from ._boxesmarkers import boxTypeMap
 
     # Reverse access of boxTypemap for quick lookup
     boxTagMap = {v: k for k, v in boxTypeMap.items()}
