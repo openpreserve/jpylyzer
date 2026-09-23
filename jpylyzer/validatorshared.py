@@ -2,7 +2,7 @@
 
 from . import byteconv as bc
 
-# Shared functions for Jpylyzer validator classes.
+# Shared functions for Jpylyzer validator classes
 
 
 def getBox(validator, byteStart, noBytes):
