@@ -148,4 +148,3 @@ def parse_ipl(validator, lpl, offset):
         i += ipl_i_len
         iplt += ('{:0' + str(2 * ipl_i_len) + 'X},').format(iplt_i)
     return iplt[:-1]
-

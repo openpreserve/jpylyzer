@@ -341,10 +341,7 @@ class BoxValidator:
         bPCDepthIsWithinAllowedRange = 1 <= bPCDepth <= 38
         bitDepthIsVariable = 1 <= bPC <= 255
 
-        if bPCDepthIsWithinAllowedRange or bitDepthIsVariable:
-            bPCIsValid = True
-        else:
-            bPCIsValid = False
+        bPCIsValid = bool(bPCDepthIsWithinAllowedRange or bitDepthIsVariable)
 
         self.testFor("bPCIsValid", bPCIsValid)
 

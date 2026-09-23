@@ -182,10 +182,8 @@ class JP2Validator:
             positionFirstContiguousCodestreamBox = boxTypes.index(
                 tagContiguousCodestreamBox)
 
-            if positionFirstContiguousCodestreamBox > positionJP2HeaderBox > 1:
-                locationJP2HeaderBoxIsValid = True
-            else:
-                locationJP2HeaderBoxIsValid = False
+            locationJP2HeaderBoxIsValid = bool(positionFirstContiguousCodestreamBox > positionJP2HeaderBox > 1)
+
         except Exception:
             locationJP2HeaderBoxIsValid = False
 
