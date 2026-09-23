@@ -150,7 +150,7 @@ class JP2Validator:
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
 
-            boxLengthValue, boxType, byteEnd, boxContents = shared._getBox(self,
+            boxLengthValue, boxType, byteEnd, boxContents = shared.getBox(self,
                 byteStart, noBytes)
 
             # Validate current top level box

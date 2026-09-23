@@ -47,7 +47,7 @@ def listOccurrencesAreContiguous(lst, value):
     return consecutive(indices_of_value)
 
 
-def _getBox(validator, byteStart, noBytes):
+def getBox(validator, byteStart, noBytes):
     """Parse JP2 box and return information on its size, type and contents."""
     # Box length (4 byte unsigned integer)
     boxLengthValue = bc.bytesToUInt(
@@ -82,7 +82,7 @@ def _getBox(validator, byteStart, noBytes):
     return (boxLengthValue, boxType, byteEnd, boxContents)
 
 
-def _getMarkerSegment(validator, offset):
+def getMarkerSegment(validator, offset):
     """Read marker segment that starts at offset.
 
     Return marker, size, contents and start offset of next marker.
