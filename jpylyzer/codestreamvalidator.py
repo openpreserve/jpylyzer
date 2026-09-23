@@ -19,6 +19,7 @@ import math
 from . import etpatch as ET
 from . import byteconv as bc
 from . import shared
+from . import validatorshared as vs
 
 
 class CSValidator:
@@ -1466,7 +1467,7 @@ class CSValidator:
 
         # Read first marker segment, which is a  start of tile (SOT) marker
         # segment
-        marker, _, segContents, offsetNext = shared._getMarkerSegment(self,
+        marker, _, segContents, offsetNext = vs.getMarkerSegment(self,
             offset)
 
         # Validate start of tile (SOT) marker segment
@@ -1498,7 +1499,7 @@ class CSValidator:
         # this)
 
         while marker != b'\xff\x93' and offsetNext != -9999:
-            marker, _, segContents, offsetNext = shared._getMarkerSegment(self,
+            marker, _, segContents, offsetNext = vs.getMarkerSegment(self,
                 offset)
 
             if marker == b'\xff\x52':

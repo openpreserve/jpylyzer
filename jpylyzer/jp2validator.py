@@ -18,6 +18,7 @@ from __future__ import division
 from . import etpatch as ET
 from . import byteconv as bc
 from . import shared
+from . import validatorshared as vs
 from .boxvalidator import BoxValidator
 
 
@@ -150,7 +151,7 @@ class JP2Validator:
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
 
-            boxLengthValue, boxType, byteEnd, boxContents = shared.getBox(self,
+            boxLengthValue, boxType, byteEnd, boxContents = vs.getBox(self,
                 byteStart, noBytes)
 
             # Validate current top level box

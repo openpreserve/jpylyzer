@@ -20,6 +20,7 @@ import math
 from . import etpatch as ET
 from . import byteconv as bc
 from . import shared
+from . import validatorshared as vs
 from .codestreamvalidator import CSValidator
 
 
@@ -227,7 +228,7 @@ class BoxValidator:
         boxLengthValue = 10
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
-            boxLengthValue, boxType, byteEnd, subBoxContents = shared.getBox(self,
+            boxLengthValue, boxType, byteEnd, subBoxContents = vs.getBox(self,
                 byteStart, noBytes)
 
             # Validate sub-boxes
@@ -969,7 +970,7 @@ class BoxValidator:
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
 
-            boxLengthValue, boxType, byteEnd, subBoxContents = shared.getBox(self,
+            boxLengthValue, boxType, byteEnd, subBoxContents = vs.getBox(self,
                 byteStart, noBytes)
 
             # validate sub boxes
@@ -1136,7 +1137,7 @@ class BoxValidator:
 
         # Read first marker segment. This must be the start-of-codestream
         # marker
-        marker, _, segContents, offsetNext = shared.getMarkerSegment(self,
+        marker, _, segContents, offsetNext = vs.getMarkerSegment(self,
             offset)
 
         # Marker must be start-of-codestream marker
@@ -1145,7 +1146,7 @@ class BoxValidator:
 
         # Read next marker segment. This must be the SIZ (image and tile
         # size) marker
-        marker, _, segContents, offsetNext = shared.getMarkerSegment(self,
+        marker, _, segContents, offsetNext = vs.getMarkerSegment(self,
             offset)
         foundSIZMarker = (marker == b'\xff\x51')
         self.testFor("foundSIZMarker", foundSIZMarker)
@@ -1180,7 +1181,7 @@ class BoxValidator:
             foundQCDMarker = False
 
             while marker != b'\xff\x90' and offsetNext != -9999:
-                marker, _, segContents, offsetNext = shared.getMarkerSegment(self,
+                marker, _, segContents, offsetNext = vs.getMarkerSegment(self,
                     offset)
 
                 if marker == b'\xff\x52':
@@ -1714,7 +1715,7 @@ class BoxValidator:
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
 
-            boxLengthValue, boxType, byteEnd, subBoxContents = shared.getBox(self,
+            boxLengthValue, boxType, byteEnd, subBoxContents = vs.getBox(self,
                 byteStart, noBytes)
 
             # validate sub boxes
