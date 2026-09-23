@@ -1,9 +1,9 @@
 #! /usr/bin/env python3
-"""Jpylyzer validator for JPEG 2000 Part 1 (JP2) images.
+"""Jpylyzer validator for JPEG 2000 Part 1 (JP2) and Part 15 (JPH) images.
 
 Requires: Python 3.2 or more recent.
 
-Copyright (C) 2011 - 2017 Johan van der Knijff, Koninklijke Bibliotheek -
+Copyright (C) 2011 - 2026 Johan van der Knijff, Koninklijke Bibliotheek -
   National Library of the Netherlands
 
 Contributors:
@@ -19,6 +19,7 @@ Contributors:
    Tim Lander, Hexagon Geospatial
    Jeremy Boisseau, Deluxe
 """
+
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or

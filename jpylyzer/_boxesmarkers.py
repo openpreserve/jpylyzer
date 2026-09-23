@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 
 """Marker tags/codes that identify all boxes, sub-boxes and marker segments
 as hexadecimal strings.
