@@ -1091,10 +1091,7 @@ class CSValidator:
             # valid ISO 8859-15, but this doesn't work. So instead we do this
             # indirectly by looking for control characters (tab, newline and
             # carriage return are OK)
-            if bc.removeControlCharacters(comment) == comment:
-                commentIsValid = True
-            else:
-                commentIsValid = False
+            commentIsValid = bool(bc.removeControlCharacters(comment) == comment)
 
         else:
 
@@ -1344,7 +1341,7 @@ class CSValidator:
             # iterate each tilepart Length
             for _ in range(int(tpCount)):
                 if st == 1:
-                    ttlm = bc.bytesToUnsignedChar(bytestring)(self.boxContents[offset:offset+ttlmLength])
+                    ttlm = bc.bytesToUnsignedChar(self.boxContents[offset:offset+ttlmLength])
                 elif st == 2:
                     ttlm = bc.bytesToUShortInt(self.boxContents[offset:offset+ttlmLength])
                 else:
