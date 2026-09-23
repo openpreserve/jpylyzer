@@ -121,7 +121,7 @@ def removeControlCharacters(string):
     Adapted from: http://stackoverflow.com/a/19016117/1209004
     """
     # Tab, newline and return are part of C0, but are allowed in XML
-    allowedChars = [u'\t', u'\n', u'\r']
+    allowedChars = ['\t', '\n', '\r']
     return "".join(ch for ch in string if unicodedata.category(ch)[
                    0] != "C" or ch in allowedChars)
 
