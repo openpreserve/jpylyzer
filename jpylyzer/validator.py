@@ -8,16 +8,17 @@ class Validator:
     """Generic validator class
     """
 
-    def __init__(self, options):
+    def __init__(self, options, bType, boxContents,
+                 startOffset=None, components=None):
         """Initialise a Validator."""
-        self.options = options
-        self.verboseFlag = self.options['verboseFlag']
+
+        self.options = None
+        self.verboseFlag = None
         self.boxType = None
         self.boxContents = None
         self.characteristics = None
         self.tests = None
         self.warnings = None
-
         # The following two dictionaries map the hexadecimal strings that identify boxes and and marker
         # segments to corresponding hexadecimal strings
 
@@ -75,6 +76,7 @@ class Validator:
         self.boxTagMap = {v: k for k, v in self.boxTypeMap.items()}
         self.markerTagMap = {v: k for k, v in self.markerTypeMap.items()}
 
+
     def validate(self):
         """Generic validation function."""
         try:
@@ -84,13 +86,12 @@ class Validator:
             # Don't think this should ever happen because all known boxes
             # are defined in boxTypeMap and anything not in boxTypeMap should
             # trigger "unknown" box validator function
-            ## TEST
-            raise
-            ## TEST
             msg = "ignoring '" + self.boxType + \
                 "' (validator function not yet implemented)"
             shared.printWarning(msg)
-
+            ## TEST
+            raise
+            ## TEST
         return self
 
     def _isValid(self):

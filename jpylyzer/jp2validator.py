@@ -13,7 +13,9 @@ class JP2Validator(Validator):
 
     def __init__(self, options, bType, boxContents,
                  startOffset=None, components=None):
-        """Initialise a BoxValidator."""
+        """Initialise a JP2Validator."""
+        Validator.__init__(self, options, bType, boxContents,
+                 startOffset=None, components=None)
         self.options = options
         self.format = self.options['validationFormat']
         self.verboseFlag = self.options['verboseFlag']
