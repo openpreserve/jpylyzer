@@ -27,6 +27,9 @@ class Validator:
             # Don't think this should ever happen because all known boxes
             # are defined in boxTypeMap and anything not in boxTypeMap should
             # trigger "unknown" box validator function
+            ## TEST
+            raise
+            ## TEST
             msg = "ignoring '" + self.boxType + \
                 "' (validator function not yet implemented)"
             shared.printWarning(msg)

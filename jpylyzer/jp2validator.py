@@ -3,12 +3,13 @@
 from __future__ import division
 from . import etpatch as ET
 from . import shared
+from .validator import Validator
 from . import validatorshared as vs
 from .boxvalidator import BoxValidator
 from ._boxesmarkers import boxTypeMap
 
 
-class JP2Validator:
+class JP2Validator(Validator):
     """Validator class for JP2 / JPH images
     """
 
@@ -34,47 +35,6 @@ class JP2Validator:
         self.tilePartLength = None
         self.csiz = components
         self.bTypeString = bType
-
-    def validate(self):
-        """Generic validation function."""
-        try:
-            to_call = getattr(self, "validate_" + self.boxType)
-            to_call()
-        except AttributeError:
-            # Don't think this should ever happen because all known boxes
-            # are defined in boxTypeMap and anything not in boxTypeMap should
-            # trigger "unknown" box validator function
-            msg = "ignoring '" + self.boxType + \
-                "' (validator function not yet implemented)"
-            shared.printWarning(msg)
-
-        return self
-
-    def _isValid(self):
-        for elt in self.tests.iter():
-            if elt.text is False:
-                # File didn't pass this test, so not valid
-                return False
-        return True
-
-    def testFor(self, testType, testResult):
-        """Add testResult node to tests element tree."""
-        if not self.verboseFlag:
-            # Non-verbose output: only add results of tests that failed
-            if testResult is False:
-                self.tests.appendChildTagWithText(testType, testResult)
-
-        else:
-            # Verbose output, add results of all tests
-            self.tests.appendChildTagWithText(testType, testResult)
-
-    def addCharacteristic(self, characteristic, charValue):
-        """Add characteristic node to characteristics element tree."""
-        self.characteristics.appendChildTagWithText(characteristic, charValue)
-
-    def addWarning(self, msg):
-        """Add warning node to warnings element tree."""
-        self.warnings.appendChildTagWithText("warning", msg)
 
     def validate_JP2(self):
         """Top-level function for JP2 (and JPH) validation.
@@ -104,9 +64,8 @@ class JP2Validator:
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
 
-            boxLengthValue, boxType, byteEnd, boxContents = vs.getBox(self,
-                                                                      byteStart,
-                                                                      noBytes)
+            boxLengthValue, boxType, byteEnd, boxContents = self._getBox(byteStart,
+                                                                        noBytes)
 
             # Validate current top level box
             resultsBox = BoxValidator(
@@ -317,7 +276,7 @@ class JP2Validator:
 
             # Calculate compression ratio
             if self.format in ['jp2', 'jph']:
-                compressionRatio = vs.calculateCompressionRatio(
+                compressionRatio = self._calculateCompressionRatio(
                     noBytes, bPCDepthValues, height, width)
                 compressionRatio = round(compressionRatio, 2)
                 self.addCharacteristic("compressionRatio", compressionRatio)
