@@ -247,3 +247,15 @@ class Validator:
             i += ipl_i_len
             iplt += ('{:0' + str(2 * ipl_i_len) + 'X},').format(iplt_i)
         return iplt[:-1]
+
+    def _consecutive(self, lst):
+        """Return True if items in lst are consecutive numbers."""
+        for i in range(1, len(lst)):
+            if lst[i] - lst[i - 1] != 1:
+                return False
+        return True
+
+    def _listOccurrencesAreContiguous(self, lst, value):
+        """Return True if all occurrences of value in lst are at contiguous positions."""
+        indices_of_value = [i for i in range(len(lst)) if lst[i] == value]
+        return self._consecutive(indices_of_value)

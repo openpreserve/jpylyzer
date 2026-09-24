@@ -223,7 +223,7 @@ class BoxValidator(Validator):
 
         # In case of multiple colour specification boxes, they must appear contiguously
         # within the header box
-        colourSpecificationBoxesAreContiguous = shared.listOccurrencesAreContiguous(
+        colourSpecificationBoxesAreContiguous = self._listOccurrencesAreContiguous(
             subBoxTypes, self.boxTagMap['colourSpecificationBox'])
         self.testFor("colourSpecificationBoxesAreContiguous",
                      colourSpecificationBoxesAreContiguous)
@@ -1463,8 +1463,8 @@ class BoxValidator(Validator):
                         set(cqccValuesMain)) == len(cqccValuesMain))
 
             # Test if ccoc and cqcc values are consecutive numbers
-            self.testFor("ccocValuesConsecutive", shared.consecutive(ccocValuesMain))
-            self.testFor("cqccValuesConsecutive", shared.consecutive(cqccValuesMain))
+            self.testFor("ccocValuesConsecutive", self._consecutive(ccocValuesMain))
+            self.testFor("cqccValuesConsecutive", self._consecutive(cqccValuesMain))
 
             # Consistency tests on TLM marker segments
             if len(self.characteristics.findall('tlm')) > 0:

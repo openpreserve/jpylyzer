@@ -1606,8 +1606,8 @@ class CSValidator(Validator):
                     set(cqccValuesTP)) == len(cqccValuesTP))
 
         # Test if ccoc and cqcc values are consecutive numbers
-        self.testFor("ccocValuesConsecutive", shared.consecutive(ccocValuesTP))
-        self.testFor("cqccValuesConsecutive", shared.consecutive(cqccValuesTP))
+        self.testFor("ccocValuesConsecutive", self._consecutive(ccocValuesTP))
+        self.testFor("cqccValuesConsecutive", self._consecutive(cqccValuesTP))
 
         # Position of first byte in next tile
         offsetNextTilePart = self.startOffset + tilePartLength
