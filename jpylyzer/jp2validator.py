@@ -15,7 +15,7 @@ class JP2Validator(Validator):
                  startOffset=None, components=None):
         """Initialise a JP2Validator."""
         Validator.__init__(self, options, bType, boxContents,
-                 startOffset=None, components=None)
+                           startOffset=None, components=None)
         self.options = options
         self.format = self.options['validationFormat']
         self.verboseFlag = self.options['verboseFlag']
@@ -61,8 +61,7 @@ class JP2Validator(Validator):
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
 
-            boxLengthValue, boxType, byteEnd, boxContents = self._getBox(byteStart,
-                                                                        noBytes)
+            boxLengthValue, boxType, byteEnd, boxContents = self._getBox(byteStart, noBytes)
 
             # Validate current top level box
             resultsBox = BoxValidator(

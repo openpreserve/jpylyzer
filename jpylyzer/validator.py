@@ -76,7 +76,6 @@ class Validator:
         self.boxTagMap = {v: k for k, v in self.boxTypeMap.items()}
         self.markerTagMap = {v: k for k, v in self.markerTypeMap.items()}
 
-
     def validate(self):
         """Generic validation function."""
         try:
@@ -89,9 +88,6 @@ class Validator:
             msg = "ignoring '" + self.boxType + \
                 "' (validator function not yet implemented)"
             shared.printWarning(msg)
-            ## TEST
-            raise
-            ## TEST
         return self
 
     def _isValid(self):

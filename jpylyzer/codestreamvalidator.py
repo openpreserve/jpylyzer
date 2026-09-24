@@ -7,6 +7,7 @@ from . import byteconv as bc
 from . import shared
 from .validator import Validator
 
+
 class CSValidator(Validator):
     """Validator class for codestream marker segments
     """
@@ -15,7 +16,7 @@ class CSValidator(Validator):
                  startOffset=None, components=None):
         """Initialise a CSValidator."""
         Validator.__init__(self, options, bType, boxContents,
-                 startOffset=None, components=None)
+                           startOffset=None, components=None)
         self.options = options
         self.format = self.options['validationFormat']
         self.verboseFlag = self.options['verboseFlag']

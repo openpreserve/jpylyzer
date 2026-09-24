@@ -18,7 +18,7 @@ class BoxValidator(Validator):
                  startOffset=None, components=None):
         """Initialise a BoxValidator."""
         Validator.__init__(self, options, bType, boxContents,
-                 startOffset=None, components=None)
+                           startOffset=None, components=None)
         self.options = options
         self.format = self.options['validationFormat']
         self.verboseFlag = self.options['verboseFlag']
