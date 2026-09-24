@@ -5,11 +5,9 @@ import math
 from . import etpatch as ET
 from . import byteconv as bc
 from . import shared
-from . import validatorshared as vs
-from ._boxesmarkers import markerTypeMap
+from .validator import Validator
 
-
-class CSValidator:
+class CSValidator(Validator):
     """Validator class for codestream marker segments
     """
 
@@ -21,8 +19,66 @@ class CSValidator:
         self.verboseFlag = self.options['verboseFlag']
         self.nullxmlFlag = self.options['nullxmlFlag']
         self.packetmarkersFlag = self.options['packetmarkersFlag']
-        if bType in markerTypeMap:
-            self.boxType = markerTypeMap[bType]
+        ## TEST
+        # The following two dictionaries map the hexadecimal strings that identify boxes and and marker
+        # segments to corresponding hexadecimal strings
+
+        # Boxes, sub-boxes. These correspond to values in  Table I.4 (Defined boxes) of ISO/IEC 15444-1
+
+        self.boxTypeMap = {
+            b'\x6a\x70\x32\x69': "intellectualPropertyBox",
+            b'\x78\x6d\x6c\x20': "xmlBox",
+            b'\x75\x75\x69\x64': "uuidBox",
+            b'\x75\x69\x6e\x66': "uuidInfoBox",
+            b'\x6a\x50\x20\x20': "signatureBox",
+            b'\x66\x74\x79\x70': "fileTypeBox",
+            b'\x6a\x70\x32\x68': "jp2HeaderBox",
+            b'\x69\x68\x64\x72': "imageHeaderBox",
+            b'\x62\x70\x63\x63': "bitsPerComponentBox",
+            b'\x63\x6f\x6c\x72': "colourSpecificationBox",
+            b'\x70\x63\x6c\x72': "paletteBox",
+            b'\x63\x6d\x61\x70': "componentMappingBox",
+            b'\x63\x64\x65\x66': "channelDefinitionBox",
+            b'\x72\x65\x73\x20': "resolutionBox",
+            b'\x6a\x70\x32\x63': "contiguousCodestreamBox",
+            b'\x72\x65\x73\x63': "captureResolutionBox",
+            b'\x72\x65\x73\x64': "displayResolutionBox",
+            b'\x75\x6c\x73\x74': "uuidListBox",
+            b'\x75\x72\x6c\x20': "urlBox",
+            'icc': 'icc'
+        }
+
+        # Codestream marker segments. These correspond to values in  Table A.2
+        # (List of markers and marker segments) of ISO/IEC 15444-1
+
+        self.markerTypeMap = {
+            b'\xff\x50': "cap",
+            b'\xff\x51': "siz",
+            b'\xff\x56': "prf",
+            b'\xff\x52': "cod",
+            b'\xff\x5c': "qcd",
+            b'\xff\x64': "com",
+            b'\xff\x53': "coc",
+            b'\xff\x5e': "rgn",
+            b'\xff\x5d': "qcc",
+            b'\xff\x5f': "poc",
+            b'\xff\x55': "tlm",
+            b'\xff\x57': "plm",
+            b'\xff\x58': "plt",
+            b'\xff\x59': "cpf",
+            b'\xff\x60': "ppm",
+            b'\xff\x61': "ppt",
+            b'\xff\x63': "crg",
+            b'\xff\x90': "tilePart",
+            'startOfTile': 'sot'
+        }
+
+        # Reverse access of boxTypemap and .markerTypeMap for quick lookup
+        self.boxTagMap = {v: k for k, v in self.boxTypeMap.items()}
+        self.markerTagMap = {v: k for k, v in self.markerTypeMap.items()}
+        ## TEST
+        if bType in self.markerTypeMap:
+            self.boxType = self.markerTypeMap[bType]
 
         self.characteristics = ET.Element(self.boxType)
         self.tests = ET.Element(self.boxType)
@@ -35,40 +91,6 @@ class CSValidator:
         self.tilePartLength = None
         self.csiz = components
         self.bTypeString = bType
-
-    def validate(self):
-        """Generic validation function."""
-        try:
-            to_call = getattr(self, "validate_" + self.boxType)
-            to_call()
-        except AttributeError:
-            # Don't think this should ever happen because all known boxes
-            # are defined in markerTypeMap and anything not in markerTypeMap should
-            # trigger "unknown" box validator function
-            msg = "ignoring '" + self.boxType + \
-                "' (validator function not yet implemented)"
-            shared.printWarning(msg)
-
-        return self
-
-    def testFor(self, testType, testResult):
-        """Add testResult node to tests element tree."""
-        if not self.verboseFlag:
-            # Non-verbose output: only add results of tests that failed
-            if testResult is False:
-                self.tests.appendChildTagWithText(testType, testResult)
-
-        else:
-            # Verbose output, add results of all tests
-            self.tests.appendChildTagWithText(testType, testResult)
-
-    def addCharacteristic(self, characteristic, charValue):
-        """Add characteristic node to characteristics element tree."""
-        self.characteristics.appendChildTagWithText(characteristic, charValue)
-
-    def addWarning(self, msg):
-        """Add warning node to warnings element tree."""
-        self.warnings.appendChildTagWithText("warning", msg)
 
     # Validator functions for codestream markers and marker segments
 
@@ -1369,7 +1391,7 @@ class CSValidator:
         self.addCharacteristic("nplm", nplm)
 
         # Comma separated list of packet lengths
-        iplm = vs.parse_ipl(self, lplm, 4)
+        iplm = self._parse_ipl(lplm, 4)
         self.addCharacteristic("iplm", iplm)
 
     def validate_plt(self):
@@ -1386,7 +1408,7 @@ class CSValidator:
         self.addCharacteristic("zplt", zplt)
 
         # Comma separated list of packet lengths
-        iplt = vs.parse_ipl(self, lplt, 3)
+        iplt = self._parse_ipl(lplt, 3)
         self.addCharacteristic("iplt", iplt)
 
     def validate_ppm(self):
@@ -1408,8 +1430,7 @@ class CSValidator:
 
         # Read first marker segment, which is a  start of tile (SOT) marker
         # segment
-        marker, _, segContents, offsetNext = vs.getMarkerSegment(self,
-                                                                 offset)
+        marker, _, segContents, offsetNext = self._getMarkerSegment(offset)
 
         # Validate start of tile (SOT) marker segment
         # tilePartLength is value of psot, which is the total length of this tile
@@ -1440,8 +1461,7 @@ class CSValidator:
         # this)
 
         while marker != b'\xff\x93' and offsetNext != -9999:
-            marker, _, segContents, offsetNext = vs.getMarkerSegment(self,
-                                                                     offset)
+            marker, _, segContents, offsetNext = self._getMarkerSegment(offset)
 
             if marker == b'\xff\x52':
                 # COD (coding style default) marker segment

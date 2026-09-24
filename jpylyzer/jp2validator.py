@@ -4,17 +4,12 @@ from __future__ import division
 from . import etpatch as ET
 from . import shared
 from .validator import Validator
-from . import validatorshared as vs
 from .boxvalidator import BoxValidator
-from ._boxesmarkers import boxTypeMap
 
 
 class JP2Validator(Validator):
     """Validator class for JP2 / JPH images
     """
-
-    # Reverse access of boxTypemap for quick lookup
-    boxTagMap = {v: k for k, v in boxTypeMap.items()}
 
     def __init__(self, options, bType, boxContents,
                  startOffset=None, components=None):

@@ -6,17 +6,13 @@ import math
 from . import etpatch as ET
 from . import byteconv as bc
 from . import shared
-from . import validatorshared as vs
+from .validator import Validator
 from .codestreamvalidator import CSValidator
-from ._boxesmarkers import boxTypeMap
 
 
-class BoxValidator:
+class BoxValidator(Validator):
     """Validator class for all boxes in JP2 and JPH
     """
-
-    # Reverse access of boxTypemap for quick lookup
-    boxTagMap = {v: k for k, v in boxTypeMap.items()}
 
     def __init__(self, options, bType, boxContents,
                  startOffset=None, components=None):
@@ -26,8 +22,66 @@ class BoxValidator:
         self.verboseFlag = self.options['verboseFlag']
         self.nullxmlFlag = self.options['nullxmlFlag']
         self.packetmarkersFlag = self.options['packetmarkersFlag']
-        if bType in boxTypeMap:
-            self.boxType = boxTypeMap[bType]
+        ## TEST
+        # The following two dictionaries map the hexadecimal strings that identify boxes and and marker
+        # segments to corresponding hexadecimal strings
+
+        # Boxes, sub-boxes. These correspond to values in  Table I.4 (Defined boxes) of ISO/IEC 15444-1
+
+        self.boxTypeMap = {
+            b'\x6a\x70\x32\x69': "intellectualPropertyBox",
+            b'\x78\x6d\x6c\x20': "xmlBox",
+            b'\x75\x75\x69\x64': "uuidBox",
+            b'\x75\x69\x6e\x66': "uuidInfoBox",
+            b'\x6a\x50\x20\x20': "signatureBox",
+            b'\x66\x74\x79\x70': "fileTypeBox",
+            b'\x6a\x70\x32\x68': "jp2HeaderBox",
+            b'\x69\x68\x64\x72': "imageHeaderBox",
+            b'\x62\x70\x63\x63': "bitsPerComponentBox",
+            b'\x63\x6f\x6c\x72': "colourSpecificationBox",
+            b'\x70\x63\x6c\x72': "paletteBox",
+            b'\x63\x6d\x61\x70': "componentMappingBox",
+            b'\x63\x64\x65\x66': "channelDefinitionBox",
+            b'\x72\x65\x73\x20': "resolutionBox",
+            b'\x6a\x70\x32\x63': "contiguousCodestreamBox",
+            b'\x72\x65\x73\x63': "captureResolutionBox",
+            b'\x72\x65\x73\x64': "displayResolutionBox",
+            b'\x75\x6c\x73\x74': "uuidListBox",
+            b'\x75\x72\x6c\x20': "urlBox",
+            'icc': 'icc'
+        }
+
+        # Codestream marker segments. These correspond to values in  Table A.2
+        # (List of markers and marker segments) of ISO/IEC 15444-1
+
+        self.markerTypeMap = {
+            b'\xff\x50': "cap",
+            b'\xff\x51': "siz",
+            b'\xff\x56': "prf",
+            b'\xff\x52': "cod",
+            b'\xff\x5c': "qcd",
+            b'\xff\x64': "com",
+            b'\xff\x53': "coc",
+            b'\xff\x5e': "rgn",
+            b'\xff\x5d': "qcc",
+            b'\xff\x5f': "poc",
+            b'\xff\x55': "tlm",
+            b'\xff\x57': "plm",
+            b'\xff\x58': "plt",
+            b'\xff\x59': "cpf",
+            b'\xff\x60': "ppm",
+            b'\xff\x61': "ppt",
+            b'\xff\x63': "crg",
+            b'\xff\x90': "tilePart",
+            'startOfTile': 'sot'
+        }
+
+        # Reverse access of boxTypemap and .markerTypeMap for quick lookup
+        self.boxTagMap = {v: k for k, v in self.boxTypeMap.items()}
+        self.markerTagMap = {v: k for k, v in self.markerTypeMap.items()}
+        ## TEST
+        if bType in self.boxTypeMap:
+            self.boxType = self.boxTypeMap[bType]
         elif bType == "contiguousCodestreamBox":
             self.characteristics = ET.Element("properties")
             self.tests = ET.Element("tests")
@@ -51,48 +105,7 @@ class BoxValidator:
         self.csiz = components
         self.bTypeString = bType
 
-    def validate(self):
-        """Generic validation function."""
-        try:
-            to_call = getattr(self, "validate_" + self.boxType)
-            to_call()
-        except AttributeError:
-            # Don't think this should ever happen because all known boxes
-            # are defined in boxTypeMap and anything not in boxTypeMap should
-            # trigger "unknown" box validator function
-            msg = "ignoring '" + self.boxType + \
-                "' (validator function not yet implemented)"
-            shared.printWarning(msg)
-
-        return self
-
-    def _isValid(self):
-        for elt in self.tests.iter():
-            if elt.text is False:
-                # File didn't pass this test, so not valid
-                return False
-        return True
-
-    def testFor(self, testType, testResult):
-        """Add testResult node to tests element tree."""
-        if not self.verboseFlag:
-            # Non-verbose output: only add results of tests that failed
-            if testResult is False:
-                self.tests.appendChildTagWithText(testType, testResult)
-
-        else:
-            # Verbose output, add results of all tests
-            self.tests.appendChildTagWithText(testType, testResult)
-
-    def addCharacteristic(self, characteristic, charValue):
-        """Add characteristic node to characteristics element tree."""
-        self.characteristics.appendChildTagWithText(characteristic, charValue)
-
-    def addWarning(self, msg):
-        """Add warning node to warnings element tree."""
-        self.warnings.appendChildTagWithText("warning", msg)
-
-    # Validator functions for boxes
+    # Validator functions for JP2 and JPH boxes
 
     def validate_unknownBox(self):
         """Process 'unknown'box.
@@ -184,9 +197,8 @@ class BoxValidator:
         boxLengthValue = 10
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
-            boxLengthValue, boxType, byteEnd, subBoxContents = vs.getBox(self,
-                                                                         byteStart,
-                                                                         noBytes)
+            boxLengthValue, boxType, byteEnd, subBoxContents = self._getBox(byteStart,
+                                                                            noBytes)
 
             # Validate sub-boxes
             resultsBox = BoxValidator(
@@ -924,9 +936,8 @@ class BoxValidator:
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
 
-            boxLengthValue, boxType, byteEnd, subBoxContents = vs.getBox(self,
-                                                                         byteStart,
-                                                                         noBytes)
+            boxLengthValue, boxType, byteEnd, subBoxContents = self._getBox(byteStart,
+                                                                            noBytes)
 
             # validate sub boxes
             resultsBox = BoxValidator(
@@ -1092,7 +1103,7 @@ class BoxValidator:
 
         # Read first marker segment. This must be the start-of-codestream
         # marker
-        marker, _, segContents, offsetNext = vs.getMarkerSegment(self, offset)
+        marker, _, segContents, offsetNext = self._getMarkerSegment(offset)
 
         # Marker must be start-of-codestream marker
         self.testFor("codestreamStartsWithSOCMarker", marker == b'\xff\x4f')
@@ -1100,7 +1111,7 @@ class BoxValidator:
 
         # Read next marker segment. This must be the SIZ (image and tile
         # size) marker
-        marker, _, segContents, offsetNext = vs.getMarkerSegment(self, offset)
+        marker, _, segContents, offsetNext = self._getMarkerSegment(offset)
         foundSIZMarker = marker == b'\xff\x51'
         self.testFor("foundSIZMarker", foundSIZMarker)
 
@@ -1134,7 +1145,7 @@ class BoxValidator:
             foundQCDMarker = False
 
             while marker != b'\xff\x90' and offsetNext != -9999:
-                marker, _, segContents, offsetNext = vs.getMarkerSegment(self, offset)
+                marker, _, segContents, offsetNext = self._getMarkerSegment(offset)
 
                 if marker == b'\xff\x52':
                     # COD (coding style default) marker segment
@@ -1555,8 +1566,10 @@ class BoxValidator:
                 xsiz = characteristicsSIZ.findElementText('xsiz')
                 xOsiz = characteristicsSIZ.findElementText('xOsiz')
 
-                compressionRatio = vs.calculateCompressionRatio(
-                    length, ssizDepthValues, (ysiz - yOsiz), (xsiz - xOsiz))
+                compressionRatio = self._calculateCompressionRatio(length,
+                                                                   ssizDepthValues,
+                                                                   (ysiz - yOsiz),
+                                                                   (xsiz - xOsiz))
                 compressionRatio = round(compressionRatio, 2)
                 self.addCharacteristic("compressionRatio", compressionRatio)
 
@@ -1667,9 +1680,8 @@ class BoxValidator:
 
         while byteStart < noBytes and boxLengthValue not in [0, -9999]:
 
-            boxLengthValue, boxType, byteEnd, subBoxContents = vs.getBox(self,
-                                                                         byteStart,
-                                                                         noBytes)
+            boxLengthValue, boxType, byteEnd, subBoxContents = self._getBox(byteStart,
+                                                                            noBytes)
 
             # validate sub boxes
             resultsBox = BoxValidator(

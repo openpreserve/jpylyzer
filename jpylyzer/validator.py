@@ -18,6 +18,63 @@ class Validator:
         self.tests = None
         self.warnings = None
 
+        # The following two dictionaries map the hexadecimal strings that identify boxes and and marker
+        # segments to corresponding hexadecimal strings
+
+        # Boxes, sub-boxes. These correspond to values in  Table I.4 (Defined boxes) of ISO/IEC 15444-1
+
+        self.boxTypeMap = {
+            b'\x6a\x70\x32\x69': "intellectualPropertyBox",
+            b'\x78\x6d\x6c\x20': "xmlBox",
+            b'\x75\x75\x69\x64': "uuidBox",
+            b'\x75\x69\x6e\x66': "uuidInfoBox",
+            b'\x6a\x50\x20\x20': "signatureBox",
+            b'\x66\x74\x79\x70': "fileTypeBox",
+            b'\x6a\x70\x32\x68': "jp2HeaderBox",
+            b'\x69\x68\x64\x72': "imageHeaderBox",
+            b'\x62\x70\x63\x63': "bitsPerComponentBox",
+            b'\x63\x6f\x6c\x72': "colourSpecificationBox",
+            b'\x70\x63\x6c\x72': "paletteBox",
+            b'\x63\x6d\x61\x70': "componentMappingBox",
+            b'\x63\x64\x65\x66': "channelDefinitionBox",
+            b'\x72\x65\x73\x20': "resolutionBox",
+            b'\x6a\x70\x32\x63': "contiguousCodestreamBox",
+            b'\x72\x65\x73\x63': "captureResolutionBox",
+            b'\x72\x65\x73\x64': "displayResolutionBox",
+            b'\x75\x6c\x73\x74': "uuidListBox",
+            b'\x75\x72\x6c\x20': "urlBox",
+            'icc': 'icc'
+        }
+
+        # Codestream marker segments. These correspond to values in  Table A.2
+        # (List of markers and marker segments) of ISO/IEC 15444-1
+
+        self.markerTypeMap = {
+            b'\xff\x50': "cap",
+            b'\xff\x51': "siz",
+            b'\xff\x56': "prf",
+            b'\xff\x52': "cod",
+            b'\xff\x5c': "qcd",
+            b'\xff\x64': "com",
+            b'\xff\x53': "coc",
+            b'\xff\x5e': "rgn",
+            b'\xff\x5d': "qcc",
+            b'\xff\x5f': "poc",
+            b'\xff\x55': "tlm",
+            b'\xff\x57': "plm",
+            b'\xff\x58': "plt",
+            b'\xff\x59': "cpf",
+            b'\xff\x60': "ppm",
+            b'\xff\x61': "ppt",
+            b'\xff\x63': "crg",
+            b'\xff\x90': "tilePart",
+            'startOfTile': 'sot'
+        }
+
+        # Reverse access of boxTypemap and .markerTypeMap for quick lookup
+        self.boxTagMap = {v: k for k, v in self.boxTypeMap.items()}
+        self.markerTagMap = {v: k for k, v in self.markerTypeMap.items()}
+
     def validate(self):
         """Generic validation function."""
         try:
@@ -156,3 +213,40 @@ class Validator:
             compressionRatio = -9999
 
         return compressionRatio
+
+    def _parse_ipl(self, lpl, offset):
+        """Parse Iplt/Iplm parameters into a comma separated string of (hex) values.
+
+        The logic here is basically:
+        Each iplt/iplm is a collection of 7 bits, where the MSB signifies the following 7 bits
+        are to be prepended to the following 7 LSB bits.
+        Eg: boxContents = [0C,9F,62,7C] becomes [0C,FE2,7C], as
+        9F  = 10011111
+        62  =        01100010
+        FE2 = 000111111100010
+        See table A.36 for more details.
+
+        - lpl: lplt/lplm parameter.
+        - offset: the offset (from marker code) to iplt/iplm parameter.
+            For iplt this will be 3 (sizeof(lplt) + sizeof(zplt)),
+            for iplm this will be 4 sizeof(lplm) + sizeof(zplm) + sizeof(nplm)
+        """
+        iplt = ''
+        i = offset
+        while i < lpl and i < len(
+                self.boxContents):  # Don't over-read on bad lplt/lplm
+            ipl_i_len = 1  # number of bytes making up the current ipl(t|m)_i
+            while bc.bytesToUnsignedChar(
+                    self.boxContents[i + ipl_i_len - 1:i + ipl_i_len]) & 0x80:
+                ipl_i_len += 1
+
+            # Join all the segments together
+            iplt_i = bc.bytesToUnsignedChar(self.boxContents[i:i + 1])
+            for ipl_index in range(1, ipl_i_len):
+                iplt_i = (iplt_i & 0x7F) << 7
+                iplt_i |= bc.bytesToUnsignedChar(
+                    self.boxContents[i + ipl_index:i + ipl_index + 1])
+
+            i += ipl_i_len
+            iplt += ('{:0' + str(2 * ipl_i_len) + 'X},').format(iplt_i)
+        return iplt[:-1]
