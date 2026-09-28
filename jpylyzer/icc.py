@@ -39,7 +39,7 @@ class IccValidator(Validator):
     def validate_icc(self):
         """Extract characteristics (property-value pairs) of ICC profile.
 
-        Note that although values are stored in  'text' property of sub-elements,
+        Note that although values are stored in 'text' property of sub-elements,
         they may have a type other than 'text' (binary string, integers, lists)
         This means that some post-processing (conversion to text) is needed to
         write these property-value pairs to XML
