@@ -6,6 +6,7 @@ Validation of JPEG 2000 codestreams
 from __future__ import division
 from . import etpatch as ET
 from .validator import Validator
+from .tilepart import TilePartValidator
 from .csmarkers import CSMarkerValidator
 
 
@@ -391,7 +392,7 @@ class CSValidator(Validator):
                 marker = self.boxContents[offset:offset + 2]
 
                 if marker == b'\xff\x90':
-                    resultsTilePart = CSMarkerValidator(
+                    resultsTilePart = TilePartValidator(
                         self.options,
                         marker,
                         self.boxContents,
