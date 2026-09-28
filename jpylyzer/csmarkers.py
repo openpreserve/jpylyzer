@@ -4,7 +4,6 @@ from __future__ import division
 import math
 from . import etpatch as ET
 from . import byteconv as bc
-from . import shared
 from .validator import Validator
 
 

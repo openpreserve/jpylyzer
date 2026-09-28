@@ -2,7 +2,6 @@
 
 from __future__ import division
 from . import etpatch as ET
-from . import shared
 from .validator import Validator
 from .boxes import BoxValidator
 
@@ -125,7 +124,8 @@ class JP2Validator(Validator):
             positionFirstContiguousCodestreamBox = boxTypes.index(
                 tagContiguousCodestreamBox)
 
-            locationJP2HeaderBoxIsValid = bool(positionFirstContiguousCodestreamBox > positionJP2HeaderBox > 1)
+            locationJP2HeaderBoxIsValid = bool(positionFirstContiguousCodestreamBox >
+                                               positionJP2HeaderBox > 1)
 
         except Exception:
             locationJP2HeaderBoxIsValid = False
