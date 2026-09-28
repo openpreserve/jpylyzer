@@ -13,6 +13,7 @@ from .validator import Validator
 from .codestream import CSValidator
 from .icc import IccValidator
 
+
 class BoxValidator(Validator):
     """Validator class for all boxes in JP2 and JPH
     """
@@ -824,7 +825,7 @@ class BoxValidator(Validator):
         self.characteristics = resultsCodestream.characteristics
         self.warnings = resultsCodestream.warnings
 
-        ## Update root element tags
+        # Update root element tags
         self.tests.tag = self.boxType
         self.characteristics.tag = self.boxType
         self.warnings.tag = self.boxType

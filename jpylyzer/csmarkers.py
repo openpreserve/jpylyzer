@@ -40,7 +40,6 @@ class CSMarkerValidator(Validator):
         self.csiz = components
         self.bTypeString = bType
 
-
     # Validator functions for codestream markers and marker segments
 
     def validate_siz(self):
