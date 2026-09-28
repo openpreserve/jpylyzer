@@ -24,7 +24,9 @@
 *.md.html
 bin
 .pydevproject
-
+# Kate files
+#################
+*.kate-swp
 # Netbeans Files #
 #################
 nbactions.xml
