@@ -1,16 +1,18 @@
 #! /usr/bin/env python3
+"""
+Validation of ICC profiles
+"""
 
 from __future__ import division
-import uuid
-import math
 from . import etpatch as ET
 from . import byteconv as bc
-from . import shared
 from .validator import Validator
 
 
 class IccValidator(Validator):
     """Validator class for ICC profiles
+       Currently this class is only used to report ICC profile properties,
+       without any actual validation (which is out of Jpylyzer's scope)
     """
 
     def __init__(self, options, bType, boxContents,
@@ -73,8 +75,9 @@ class IccValidator(Validator):
         profileBugFixRevision = profileMinorRevisionByte & 15
 
         # Construct text string with profile version
-        profileVersion = "%s.%s.%s" % (
-            profileMajorRevision, profileMinorRevision, profileBugFixRevision)
+        profileVersion = "%s.%s.%s" % (profileMajorRevision,
+                                       profileMinorRevision,
+                                       profileBugFixRevision)
         self.addCharacteristic("profileVersion", profileVersion)
 
         # Bytes 10 and 11 are reserved an set to zero(ignored here)

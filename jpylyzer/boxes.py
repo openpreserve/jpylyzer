@@ -1,4 +1,7 @@
 #! /usr/bin/env python3
+"""
+Validation of all defined boxes for JP2 and JPH
+"""
 
 from __future__ import division
 import uuid

@@ -1,9 +1,12 @@
 #! /usr/bin/env python3
+"""
+Patch for 'findtext' bug in ElementTree.
+
+See: https://github.com/python/cpython/issues/91447
+"""
 
 import xml.etree.ElementTree as ET
 from . import byteconv as bc
-
-# Patch for 'findtext' bug in ElementTree.
 
 
 def tostring(elem, enc, meth):

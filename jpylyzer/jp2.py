@@ -1,4 +1,7 @@
 #! /usr/bin/env python3
+"""
+Top-level JP2 / JPH validation
+"""
 
 from __future__ import division
 from . import etpatch as ET

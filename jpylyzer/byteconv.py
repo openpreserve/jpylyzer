@@ -1,10 +1,11 @@
 #! /usr/bin/env python3
+"""
+Various functions for converting and manipulating bytes objects
+"""
 
 import struct
 import binascii
 import unicodedata
-
-# Various functions for converting and manipulating bytes objects
 
 
 def _doConv(bytestr, bOrder, formatCharacter):

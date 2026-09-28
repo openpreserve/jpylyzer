@@ -1,4 +1,7 @@
 #! /usr/bin/env python3
+"""
+Validation of JPEG 2000 codestreams
+"""
 
 from __future__ import division
 from . import etpatch as ET

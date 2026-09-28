@@ -1,4 +1,7 @@
 #! /usr/bin/env python3
+"""
+Validation of JPEG 2000 codestream marker segments
+"""
 
 from __future__ import division
 import math
@@ -9,6 +12,8 @@ from .validator import Validator
 
 class CSMarkerValidator(Validator):
     """Validator class for codestream marker segments
+    Note that the 'boxType' variable actually represents
+    marker types in the context of this class
     """
 
     def __init__(self, options, bType, boxContents,

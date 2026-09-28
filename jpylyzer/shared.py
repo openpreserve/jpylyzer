@@ -1,9 +1,9 @@
 #! /usr/bin/env python3
+"""
+Shared functions for jpylyzer sub-modules
+"""
 
 import sys
-
-# Shared functions for jpylyzer sub-modules
-
 
 def printWarning(msg):
     """Print warning to stderr."""

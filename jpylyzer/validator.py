@@ -1,4 +1,7 @@
 #! /usr/bin/env python3
+"""
+Generic validator
+"""
 
 from . import byteconv as bc
 from . import shared

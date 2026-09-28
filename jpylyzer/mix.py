@@ -1,4 +1,7 @@
 #! /usr/bin/env python3
+"""
+NISO MIX image metadata reporting
+"""
 
 import re
 from . import etpatch as ET

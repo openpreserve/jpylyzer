@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
-"""Jpylyzer validator for JPEG 2000 Part 1 (JP2) and Part 15 (JPH) images.
+"""Jpylyzer validator for JPEG 2000 Part 1 (JP2) and Part 15 (JPH) images,
+and JPEG 2000 codestreams.
 
 Requires: Python 3.2 or more recent.
 

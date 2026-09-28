@@ -1,8 +1,9 @@
 #! /usr/bin/env python3
+"""
+Jpylyzer configuration settings that are shared between sub-modules
+"""
 
 import sys
-
-# Jpylyzer configuration settings that are shared between sub-modules
 
 VALIDATION_FORMAT = 'jp2'
 OUTPUT_VERBOSE_FLAG = False
