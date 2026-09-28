@@ -423,17 +423,6 @@ def checkOneFile(path, validationFormat=config.VALIDATION_FORMAT,
         characteristics.makeHumanReadable(remapTable)
         warnings.makeHumanReadable()
 
-        ## TEST
-        print(tests.tag)
-        for elt in tests:
-            print(elt)
-        print(characteristics.tag)
-        for elt in characteristics:
-            print(elt)
-        for elt in warnings:
-            print(elt)
-        ## TEST
-
     except Exception as ex:
         fileIsValid = False
         success = False

@@ -1045,12 +1045,10 @@ class BoxValidator(Validator):
         self.characteristics = resultsCodestream.characteristics
         self.warnings = resultsCodestream.warnings
 
-        ## TEST
+        ## Update root element tags
         self.tests.tag = self.boxType
         self.characteristics.tag = self.boxType
         self.warnings.tag = self.boxType
-        ## TEST
-
 
     def validate_xmlBox(self):
         """XML Box (ISO/IEC 15444-1 Section I.7.1)."""
