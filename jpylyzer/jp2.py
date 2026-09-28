@@ -28,12 +28,6 @@ class JP2Validator(Validator):
         self.warnings = ET.Element("warnings")
         self.boxType = "JP2"
         self.boxContents = boxContents
-        self.startOffset = startOffset
-        self.returnOffset = None
-        self.isValid = None
-        self.tilePartLength = None
-        self.csiz = components
-        self.bTypeString = bType
 
     def validate_JP2(self):
         """Top-level function for JP2 (and JPH) validation.

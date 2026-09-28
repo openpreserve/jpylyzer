@@ -37,11 +37,6 @@ class BoxValidator(Validator):
         self.warnings = ET.Element(self.boxType)
 
         self.boxContents = boxContents
-        self.startOffset = startOffset
-        self.returnOffset = None
-        self.isValid = None
-        self.tilePartLength = None
-        self.csiz = components
         self.bTypeString = bType
 
     # Validator functions for JP2 and JPH boxes

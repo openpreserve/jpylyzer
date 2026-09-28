@@ -32,7 +32,6 @@ class CSMarkerValidator(Validator):
         self.characteristics = ET.Element(self.boxType)
         self.tests = ET.Element(self.boxType)
         self.warnings = ET.Element(self.boxType)
-
         self.boxContents = boxContents
         self.startOffset = startOffset
         self.returnOffset = None
@@ -40,6 +39,7 @@ class CSMarkerValidator(Validator):
         self.tilePartLength = None
         self.csiz = components
         self.bTypeString = bType
+
 
     # Validator functions for codestream markers and marker segments
 

@@ -32,11 +32,6 @@ class IccValidator(Validator):
         self.warnings = ET.Element(self.boxType)
 
         self.boxContents = boxContents
-        self.startOffset = startOffset
-        self.returnOffset = None
-        self.isValid = None
-        self.tilePartLength = None
-        self.csiz = components
         self.bTypeString = bType
 
     # Validator function for ICC profiles
