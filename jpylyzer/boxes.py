@@ -26,20 +26,21 @@ class BoxValidator(Validator):
         self.packetmarkersFlag = self.options['packetmarkersFlag']
         if bType in self.boxTypeMap:
             self.boxType = self.boxTypeMap[bType]
+        else:
+            self.boxType = 'unknownBox'
+            self.characteristics = ET.Element("properties")
+            self.warnings = ET.Element("warnings")
+        """
         elif bType == "contiguousCodestreamBox":
             self.characteristics = ET.Element("properties")
             self.tests = ET.Element("tests")
             self.warnings = ET.Element("warnings")
             self.boxType = 'contiguousCodestreamBox'
-        else:
-            self.boxType = 'unknownBox'
-            self.characteristics = ET.Element("properties")
-            self.warnings = ET.Element("warnings")
+        """
 
-        if bType not in ["JP2", "contiguousCodestreamBox"]:
-            self.characteristics = ET.Element(self.boxType)
-            self.tests = ET.Element(self.boxType)
-            self.warnings = ET.Element(self.boxType)
+        self.characteristics = ET.Element(self.boxType)
+        self.tests = ET.Element(self.boxType)
+        self.warnings = ET.Element(self.boxType)
 
         self.boxContents = boxContents
         self.startOffset = startOffset
@@ -1043,6 +1044,12 @@ class BoxValidator(Validator):
         self.tests = resultsCodestream.tests
         self.characteristics = resultsCodestream.characteristics
         self.warnings = resultsCodestream.warnings
+
+        ## TEST
+        self.tests.tag = self.boxType
+        self.characteristics.tag = self.boxType
+        self.warnings.tag = self.boxType
+        ## TEST
 
 
     def validate_xmlBox(self):

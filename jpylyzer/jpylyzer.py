@@ -44,7 +44,7 @@ from xml.dom import minidom
 from . import config
 from . import etpatch as ET
 from .jp2 import JP2Validator
-from .boxes import BoxValidator
+from .codestream import CSValidator
 from . import mix
 from . import shared
 try:
@@ -400,8 +400,8 @@ def checkOneFile(path, validationFormat=config.VALIDATION_FORMAT,
             boxType = 'JP2'
             resultsJP2 = JP2Validator(vOptions, boxType, fileData).validate()
         elif validationFormat in ['j2c', 'jhc']:
-            boxType = 'contiguousCodestreamBox'
-            resultsJP2 = BoxValidator(vOptions, boxType, fileData).validate()
+            boxType = 'codestream'
+            resultsJP2 = CSValidator(vOptions, boxType, fileData).validate()
 
         fileIsValid = resultsJP2.isValid
         tests = resultsJP2.tests

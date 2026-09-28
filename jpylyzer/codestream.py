@@ -16,7 +16,7 @@ class CSValidator(Validator):
 
     def __init__(self, options, bType, boxContents,
                  startOffset=None, components=None):
-        """Initialise a BoxValidator."""
+        """Initialise a codestream validator."""
         Validator.__init__(self, options, bType, boxContents,
                            startOffset=None, components=None)
         self.options = options
@@ -25,9 +25,9 @@ class CSValidator(Validator):
         self.nullxmlFlag = self.options['nullxmlFlag']
         self.packetmarkersFlag = self.options['packetmarkersFlag']
         self.boxType = "codestream"
-        self.characteristics = ET.Element("properties")
-        self.tests = ET.Element("tests")
-        self.warnings = ET.Element("warnings")
+        self.characteristics = ET.Element(self.boxType)
+        self.tests = ET.Element(self.boxType)
+        self.warnings = ET.Element(self.boxType)
         self.boxContents = boxContents
         self.startOffset = startOffset
         self.returnOffset = None
