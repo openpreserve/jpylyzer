@@ -76,7 +76,7 @@ class Validator:
             'startOfTile': 'sot'
         }
 
-        # Reverse access of boxTypemap and .markerTypeMap for quick lookup
+        # Reverse access of boxTypemap and markerTypeMap for quick lookup
         self.boxTagMap = {v: k for k, v in self.boxTypeMap.items()}
         self.markerTagMap = {v: k for k, v in self.markerTypeMap.items()}
 
