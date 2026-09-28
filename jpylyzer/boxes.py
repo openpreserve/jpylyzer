@@ -7,7 +7,7 @@ from . import etpatch as ET
 from . import byteconv as bc
 from . import shared
 from .validator import Validator
-from .codestreamvalidator import CSValidator
+from .csmarkers import CSMarkerValidator
 
 
 class BoxValidator(Validator):
@@ -1061,7 +1061,7 @@ class BoxValidator(Validator):
 
         if foundSIZMarker:
             # Validate SIZ segment
-            resultsSIZ = CSValidator(
+            resultsSIZ = CSMarkerValidator(
                 self.options,
                 marker,
                 segContents).validate()
@@ -1096,7 +1096,7 @@ class BoxValidator(Validator):
                     # COD is required
                     foundCODMarker = True
                     # Validate COD segment
-                    resultsCOD = CSValidator(
+                    resultsCOD = CSMarkerValidator(
                         self.options,
                         marker,
                         segContents).validate()
@@ -1112,7 +1112,7 @@ class BoxValidator(Validator):
                     # COC (coding style component) marker segment
                     # COC is optional
                     # Validate COC segment
-                    resultsCOC = CSValidator(
+                    resultsCOC = CSMarkerValidator(
                         self.options,
                         marker,
                         segContents,
@@ -1130,7 +1130,7 @@ class BoxValidator(Validator):
                     # QCD is required
                     foundQCDMarker = True
                     # Validate QCD segment
-                    resultsQCD = CSValidator(
+                    resultsQCD = CSMarkerValidator(
                         self.options,
                         marker,
                         segContents).validate()
@@ -1146,7 +1146,7 @@ class BoxValidator(Validator):
                     # QCC (quantization component) marker segment
                     # QCC is optional
                     # Validate QCC segment
-                    resultsQCC = CSValidator(
+                    resultsQCC = CSMarkerValidator(
                         self.options,
                         marker,
                         segContents,
@@ -1163,7 +1163,7 @@ class BoxValidator(Validator):
                     # RGN (region of interest) marker segment
                     # RGN is optional
                     # Validate RGN segment
-                    resultsRGN = CSValidator(
+                    resultsRGN = CSMarkerValidator(
                         self.options,
                         marker,
                         segContents,
@@ -1180,7 +1180,7 @@ class BoxValidator(Validator):
                     # POC (progression order change) marker segment
                     # POC is optional
                     # Validate QCC segment
-                    resultsPOC = CSValidator(
+                    resultsPOC = CSMarkerValidator(
                         self.options,
                         marker,
                         segContents,
@@ -1196,7 +1196,7 @@ class BoxValidator(Validator):
                 elif marker == b'\xff\x63':
                     # CRG (component registration) marker segment
                     # Validate CRG segment
-                    resultsCRG = CSValidator(
+                    resultsCRG = CSMarkerValidator(
                         self.options,
                         marker,
                         segContents,
@@ -1212,7 +1212,7 @@ class BoxValidator(Validator):
                 elif marker == b'\xff\x64':
                     # COM (codestream comment) marker segment
                     # Validate COM segment
-                    resultsCOM = CSValidator(
+                    resultsCOM = CSMarkerValidator(
                         self.options,
                         marker,
                         segContents).validate()
@@ -1227,7 +1227,7 @@ class BoxValidator(Validator):
                 elif marker == b'\xff\x50':
                     # CAP marker
                     foundCAPMarker = True
-                    resultsCAP = CSValidator(
+                    resultsCAP = CSMarkerValidator(
                         self.options,
                         marker,
                         segContents).validate()
@@ -1242,7 +1242,7 @@ class BoxValidator(Validator):
                 elif marker == b'\xff\x56':
                     # PRF marker
                     foundPRFMarker = True
-                    resultsPRF = CSValidator(
+                    resultsPRF = CSMarkerValidator(
                         self.options,
                         marker,
                         segContents).validate()
@@ -1257,7 +1257,7 @@ class BoxValidator(Validator):
                 elif marker == b'\xff\x59':
                     # CPF marker
                     foundCPFMarker = True
-                    resultsCPF = CSValidator(
+                    resultsCPF = CSMarkerValidator(
                         self.options,
                         marker,
                         segContents).validate()
@@ -1277,7 +1277,7 @@ class BoxValidator(Validator):
 
                 elif marker == b'\xff\x55':
                     # TLM marker
-                    resultsTLM = CSValidator(
+                    resultsTLM = CSMarkerValidator(
                         self.options,
                         marker,
                         segContents).validate()
@@ -1292,7 +1292,7 @@ class BoxValidator(Validator):
                 elif marker == b'\xff\x57':
                     # PLM marker
                     plmCount += 1
-                    resultsPLM = CSValidator(
+                    resultsPLM = CSMarkerValidator(
                         self.options,
                         marker,
                         segContents).validate()
@@ -1308,7 +1308,7 @@ class BoxValidator(Validator):
                 elif marker == b'\xff\x60':
                     # PPM marker
                     ppmCount += 1
-                    resultsPPM = CSValidator(
+                    resultsPPM = CSMarkerValidator(
                         self.options,
                         marker,
                         segContents).validate()
@@ -1382,7 +1382,7 @@ class BoxValidator(Validator):
                 marker = self.boxContents[offset:offset + 2]
 
                 if marker == b'\xff\x90':
-                    resultsTilePart = CSValidator(
+                    resultsTilePart = CSMarkerValidator(
                         self.options,
                         marker,
                         self.boxContents,

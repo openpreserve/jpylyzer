@@ -4,7 +4,7 @@ from __future__ import division
 from . import etpatch as ET
 from . import shared
 from .validator import Validator
-from .boxvalidator import BoxValidator
+from .boxes import BoxValidator
 
 
 class JP2Validator(Validator):

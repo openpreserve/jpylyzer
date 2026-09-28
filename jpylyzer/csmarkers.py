@@ -8,13 +8,13 @@ from . import shared
 from .validator import Validator
 
 
-class CSValidator(Validator):
+class CSMarkerValidator(Validator):
     """Validator class for codestream marker segments
     """
 
     def __init__(self, options, bType, boxContents,
                  startOffset=None, components=None):
-        """Initialise a CSValidator."""
+        """Initialise a CSMarkerValidator."""
         Validator.__init__(self, options, bType, boxContents,
                            startOffset=None, components=None)
         self.options = options
@@ -1380,7 +1380,7 @@ class CSValidator(Validator):
         # Validate start of tile (SOT) marker segment
         # tilePartLength is value of psot, which is the total length of this tile
         # including the SOT marker. Note that psot may be 0 for last tile!
-        resultsSOT = CSValidator(
+        resultsSOT = CSMarkerValidator(
             self.options,
             'startOfTile',
             segContents).validate()
@@ -1411,7 +1411,7 @@ class CSValidator(Validator):
             if marker == b'\xff\x52':
                 # COD (coding style default) marker segment
                 # Validate COD segment
-                resultsCOD = CSValidator(
+                resultsCOD = CSMarkerValidator(
                     self.options,
                     marker,
                     segContents).validate()
@@ -1427,7 +1427,7 @@ class CSValidator(Validator):
                 # COC (coding style component) marker segment
                 # COC is optional
                 # Validate COC segment
-                resultsCOC = CSValidator(
+                resultsCOC = CSMarkerValidator(
                     self.options,
                     marker,
                     segContents,
@@ -1443,7 +1443,7 @@ class CSValidator(Validator):
             elif marker == b'\xff\x5c':
                 # QCD (quantization default) marker segment
                 # Validate QCD segment
-                resultsQCD = CSValidator(
+                resultsQCD = CSMarkerValidator(
                     self.options,
                     marker,
                     segContents).validate()
@@ -1459,7 +1459,7 @@ class CSValidator(Validator):
                 # QCC (quantization component) marker segment
                 # QCC is optional
                 # Validate QCC segment
-                resultsQCC = CSValidator(
+                resultsQCC = CSMarkerValidator(
                     self.options,
                     marker,
                     segContents,
@@ -1476,7 +1476,7 @@ class CSValidator(Validator):
                 # RGN (region of interest) marker segment
                 # RGN is optional
                 # Validate RGN segment
-                resultsRGN = CSValidator(
+                resultsRGN = CSMarkerValidator(
                     self.options,
                     marker,
                     segContents,
@@ -1493,7 +1493,7 @@ class CSValidator(Validator):
                 # POC (progression order change) marker segment
                 # POC is optional
                 # Validate QCC segment
-                resultsPOC = CSValidator(
+                resultsPOC = CSMarkerValidator(
                     self.options,
                     marker,
                     segContents,
@@ -1509,7 +1509,7 @@ class CSValidator(Validator):
             elif marker == b'\xff\x64':
                 # COM (codestream comment) marker segment
                 # Validate COM segment
-                resultsCOM = CSValidator(
+                resultsCOM = CSMarkerValidator(
                     self.options,
                     marker,
                     segContents).validate()
@@ -1524,7 +1524,7 @@ class CSValidator(Validator):
             elif marker == b'\xff\x58':
                 # PLT marker
                 pltCount += 1
-                resultsPLT = CSValidator(
+                resultsPLT = CSMarkerValidator(
                     self.options,
                     marker,
                     segContents).validate()
@@ -1540,7 +1540,7 @@ class CSValidator(Validator):
             elif marker == b'\xff\x61':
                 # PPT marker
                 pptCount += 1
-                resultsPPT = CSValidator(
+                resultsPPT = CSMarkerValidator(
                     self.options,
                     marker,
                     segContents).validate()

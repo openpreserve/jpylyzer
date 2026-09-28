@@ -43,8 +43,8 @@ import codecs
 from xml.dom import minidom
 from . import config
 from . import etpatch as ET
-from .jp2validator import JP2Validator
-from .boxvalidator import BoxValidator
+from .jp2 import JP2Validator
+from .boxes import BoxValidator
 from . import mix
 from . import shared
 try:
