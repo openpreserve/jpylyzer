@@ -44,7 +44,8 @@ class Validator:
             b'\x72\x65\x73\x64': "displayResolutionBox",
             b'\x75\x6c\x73\x74': "uuidListBox",
             b'\x75\x72\x6c\x20': "urlBox",
-            'icc': 'icc'
+            'icc': "icc",
+            'codestream': "codestream"
         }
 
         # Codestream marker segments. These correspond to values in  Table A.2
