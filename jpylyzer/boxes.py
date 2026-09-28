@@ -28,8 +28,6 @@ class BoxValidator(Validator):
             self.boxType = self.boxTypeMap[bType]
         else:
             self.boxType = 'unknownBox'
-            self.characteristics = ET.Element("properties")
-            self.warnings = ET.Element("warnings")
 
         self.characteristics = ET.Element(self.boxType)
         self.tests = ET.Element(self.boxType)
