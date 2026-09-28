@@ -25,9 +25,14 @@ class CSValidator(Validator):
         self.nullxmlFlag = self.options['nullxmlFlag']
         self.packetmarkersFlag = self.options['packetmarkersFlag']
         self.boxType = "codestream"
-        self.characteristics = ET.Element(self.boxType)
-        self.tests = ET.Element(self.boxType)
-        self.warnings = ET.Element(self.boxType)
+        if self.format in ['j2c', 'jhc']:
+            self.characteristics = ET.Element("properties")
+            self.tests = ET.Element("tests")
+            self.warnings = ET.Element("warnings")
+        else:
+            self.characteristics = ET.Element(self.boxType)
+            self.tests = ET.Element(self.boxType)
+            self.warnings = ET.Element(self.boxType)
         self.boxContents = boxContents
         self.startOffset = startOffset
         self.returnOffset = None
