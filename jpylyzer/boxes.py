@@ -30,13 +30,6 @@ class BoxValidator(Validator):
             self.boxType = 'unknownBox'
             self.characteristics = ET.Element("properties")
             self.warnings = ET.Element("warnings")
-        """
-        elif bType == "contiguousCodestreamBox":
-            self.characteristics = ET.Element("properties")
-            self.tests = ET.Element("tests")
-            self.warnings = ET.Element("warnings")
-            self.boxType = 'contiguousCodestreamBox'
-        """
 
         self.characteristics = ET.Element(self.boxType)
         self.tests = ET.Element(self.boxType)
