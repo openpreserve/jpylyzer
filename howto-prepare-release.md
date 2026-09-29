@@ -21,7 +21,6 @@ Some steps in the jpylyzer release process use Docker. In order to run Docker as
     ```
     docker run hello-world
     ```
-
     
 ### Before you start: tests setup
 
