@@ -36,7 +36,6 @@ In order to run the automated tests you need to install a couple of Python modul
    pip install lxml
    ```
 
-
 **TODO:** the *TEST_DEPS* variable in [setup.py](./setup.py) also lists pre-commit, pylint and
 pytest-coverage as test dependencies, but these are not used in any of the tests. It's not
 entirely clear to me how *TEST_DEPS* works in the context of testing (since you typically
@@ -120,8 +119,10 @@ to date:
     ```
 1. Build Debian packages for Linux by running:
     ```
-    ./docker-package.sh debian:bullseye
+    ./docker-package.sh debian:$release
     ```
+    Here, replace `$release` with the name of the current stable Debian release. See the [Debian release list](https://www.debian.org/releases/).
+ 
 1. Go to [*Releases*](https://github.com/openpreserve/jpylyzer/releases) and click on the *Draft a new release* button.
 
 1. Click the *Choose a tag* button, and select the latest tag.
