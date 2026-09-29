@@ -41,6 +41,8 @@ RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
         tar \
         libxml2-dev
 
+RUN python3 -m venv .venv
+RUN source .venv/bin/activate
 RUN pip3 install pytest
 RUN pip3 install lxml
 
