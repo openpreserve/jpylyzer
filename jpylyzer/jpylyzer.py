@@ -60,7 +60,7 @@ SCRIPT_PATH, SCRIPT_NAME = os.path.split(sys.argv[0])
 if not SCRIPT_NAME:
     SCRIPT_NAME = 'jpylyzer'
 
-__version__ = "2.3.0"
+__version__ = "2.3.0b1"
 
 # Create PARSER
 PARSER = argparse.ArgumentParser(
