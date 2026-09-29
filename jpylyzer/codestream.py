@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 """
-Validation of JPEG 2000 codestreams
+JPEG 2000 codestream validation
 """
 
 from __future__ import division

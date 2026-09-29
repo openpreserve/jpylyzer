@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 """
-Validation of ICC profiles
+Feature extraction from an ICC profile
 """
 
 from __future__ import division
@@ -10,7 +10,7 @@ from .validator import Validator
 
 
 class IccValidator(Validator):
-    """Validator class for ICC profiles
+    """Feature extraction class for ICC profiles
        Currently this class is only used to report ICC profile properties,
        without any actual validation (which is out of Jpylyzer's scope)
     """

@@ -151,6 +151,18 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')
 
 <!-- End of text to be copied to usage.md of jpylyzer website -->
 
+## Validator modules and classes
+
+As of Jpylyzer 2.3, the validator functions are spread across 6 modules, each of which contains a validator class.
+These validator classes are all child classes of the "Validator" base class that is defined in [validator.py](./jpylyzer/validator.py):
+
+- [jp2.py](./jpylyzer/jp2.py) - Top-level JP2 / JPH validation
+- [boxes.py](./jpylyzer/boxes.py) - Validation of all defined boxes for JP2 and JPH
+- [codestream.py](./jpylyzer/codestream.py) - JPEG 2000 codestream validation
+- [tilepart.py](./jpylyzer/tilepart.py) - Validation of one tile part of a JPEG 2000 codestream
+- [csmarkers.py](./jpylyzer/csmarkers.py) - Validation of JPEG 2000 codestream marker segments
+- [icc.py](./jpylyzer/icc.py) - Feature extraction from an ICC profile
+
 ## Steps in preparing a jpylyzer release
 
 [See instructions here](./howto-prepare-release.md)
