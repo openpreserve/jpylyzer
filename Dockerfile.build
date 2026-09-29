@@ -39,7 +39,8 @@ RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
         python3-setuptools \
         dh-python \
         tar \
-        libxml2-dev
+        libxml2-dev \
+        python3-venv
 
 RUN python3 -m venv .venv
 RUN source .venv/bin/activate
