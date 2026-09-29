@@ -21,7 +21,15 @@ Some steps in the jpylyzer release process use Docker. In order to run Docker as
     ```
     docker run hello-world
     ```
-    
+
+### Before you start: packages setup
+
+The Docker build scripts for Linux and Windows packages also require setuptools. Install using:
+
+```
+pip install setuptools
+```
+
 ### Before you start: tests setup
 
 In order to run the automated tests you need to install a couple of Python modules:
