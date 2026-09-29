@@ -32,8 +32,8 @@ RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
         gzip \
         lintian \
         lsb-release \
+        python3-full \
         python3-all \
-        python3-dev \
         python3-pip \
         python3-pkg-resources \
         python3-setuptools \
@@ -44,8 +44,8 @@ RUN env LANG=C apt-get update -qq -o Acquire::Languages=none \
 
 RUN python3 -m venv ~/venv
 RUN . ~/venv/bin/activate
-RUN pip3 install pytest
-RUN pip3 install lxml
+RUN ~/venv/bin/pip install pytest
+RUN ~/venv/bin/pip install lxml
 
 WORKDIR /dpkg-build
 COPY ./ ./
