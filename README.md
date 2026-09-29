@@ -156,12 +156,23 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')
 As of Jpylyzer 2.3, the validator functions are spread across 6 modules, each of which contains a validator class.
 These validator classes are all child classes of the "Validator" base class that is defined in [validator.py](./jpylyzer/validator.py):
 
-- [jp2.py](./jpylyzer/jp2.py) - Top-level JP2 / JPH validation
-- [boxes.py](./jpylyzer/boxes.py) - Validation of all defined boxes for JP2 and JPH
-- [codestream.py](./jpylyzer/codestream.py) - JPEG 2000 codestream validation
-- [tilepart.py](./jpylyzer/tilepart.py) - Validation of one tile part of a JPEG 2000 codestream
-- [csmarkers.py](./jpylyzer/csmarkers.py) - Validation of JPEG 2000 codestream marker segments
-- [icc.py](./jpylyzer/icc.py) - Feature extraction from an ICC profile
+- [jp2.py](./jpylyzer/jp2.py) - Top-level JP2 / JPH validation (class *JP2Validator*)
+- [boxes.py](./jpylyzer/boxes.py) - Validation of all defined boxes for JP2 and JPH (class *BoxValidator*)
+- [codestream.py](./jpylyzer/codestream.py) - JPEG 2000 codestream validation (class *CSValidator*)
+- [tilepart.py](./jpylyzer/tilepart.py) - Validation of one tile part of a JPEG 2000 codestream (class *TilePartValidator*)
+- [csmarkers.py](./jpylyzer/csmarkers.py) - Validation of JPEG 2000 codestream marker segments (class *CSMarkerValidator*)
+- [icc.py](./jpylyzer/icc.py) - Feature extraction from an ICC profile (class *IccValidator*)
+
+The table below shows how each higher-level classe imports all classes that are needed for validation at the underlying level:
+
+|Validator class|Imported validator classes|
+|:--|:--|
+|JP2Validator|BoxValidator|
+|BoxValidator|CSValidator, IccValidator|
+|CSValidator|TilePartValidator, CSMarkerValidator|
+|TilePartValidator|CSMarkerValidator|
+|CSMarkerValidator|-|
+|IccValidator|-|
 
 ## Steps in preparing a jpylyzer release
 
