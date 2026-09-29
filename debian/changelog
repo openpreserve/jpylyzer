@@ -1,3 +1,9 @@
+jpylyzer (2.3.0b1) UNRELEASED; urgency=medium
+
+  * TEST
+
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Tue, 29 Sep 2026 19:28:00 +0200
+
 jpylyzer (2.2.1) UNRELEASED; urgency=medium
 
   * Excluded tests from package and removed remaining six references
