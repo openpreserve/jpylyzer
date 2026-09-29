@@ -16,11 +16,13 @@ Some steps in the jpylyzer release process use Docker. In order to run Docker as
     ```
     newgrp docker
     ```
+1. Follow installation instructions [here](https://docs.docker.com/engine/install/ubuntu/) (added + checked September 2026)
 1. Verify that everything works by running the following test:
     ```
     docker run hello-world
     ```
 
+    
 ### Before you start: tests setup
 
 In order to run the automated tests you need to install a couple of Python modules:
