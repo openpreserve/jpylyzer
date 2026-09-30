@@ -33,12 +33,12 @@ function getDebianVersionString {
     done
 
     # Insert tilde in debug string if needed
-    if  [ $fixVDebugFlag = "True" ] ; then
-        vDebugDebian=${vDebug:0:$splitpos}"~"${vDebug:$splitpos:$lDebug}
-    else
-        vDebugDebian=$vDebug
-    fi
-
+    #if  [ $fixVDebugFlag = "True" ] ; then
+    #    vDebugDebian=${vDebug:0:$splitpos}"~"${vDebug:$splitpos:$lDebug}
+    #else
+    #    vDebugDebian=$vDebug
+    #fi
+    vDebugDebian=$vDebug
     # Construct Debian version string
     deb_version="$vMajor.$vMinor.$vDebugDebian"
     }
