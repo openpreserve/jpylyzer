@@ -39,5 +39,5 @@ function buildAndPackage(){
     [ -d ${WIN_DIST_DIR} ] && rm -rf ${WIN_DIST_DIR}
 }
 
-buildAndPackage python3-32bit win32
+# buildAndPackage python3-32bit win32
 buildAndPackage python3 win64
