@@ -32,22 +32,12 @@ pip install setuptools
 
 ### Before you start: tests setup
 
-In order to run the automated tests you need to install a couple of Python modules:
+In order to run the automated tests you need to install a couple of Python modules. These are defined in [./tests/requirements.txt](./tests/requirements.txt). To install, use the following command :
 
-1. pytest:
-   ```
-   pip install pytest
-   ```
+```
+pip install -r tests/requirements.txt
 
-1. lxml:
-   ```
-   pip install lxml
-   ```
-
-**TODO:** the *TEST_DEPS* variable in [setup.py](./setup.py) also lists pre-commit, pylint and
-pytest-coverage as test dependencies, but these are not used in any of the tests. It's not
-entirely clear to me how *TEST_DEPS* works in the context of testing (since you typically
-do this *before* installing any packages).
+```
 
 You also need the [jpylyzer-test-files](https://github.com/openpreserve/jpylyzer-test-files) corpus. 
 The test script expects that the root directory of this Git repo is a sibling directory to the jpylyzer 
