@@ -25,17 +25,6 @@ INSTALL_REQUIRES = [
 
 PYTHON_REQUIRES = '>=3.2, <4'
 
-TEST_DEPS = [
-    'pre-commit',
-    'pytest',
-    'pylint',
-    'pytest-coverage',
-    'lxml'
-]
-EXTRAS = {
-    'testing': TEST_DEPS,
-}
-
 README = open('README.md', 'r')
 README_TEXT = README.read()
 README.close()
@@ -45,7 +34,6 @@ setup(name='jpylyzer',
       version=find_version('jpylyzer', 'jpylyzer.py'),
       license='LGPL',
       install_requires=INSTALL_REQUIRES,
-      extras_require=EXTRAS,
       python_requires=PYTHON_REQUIRES,
       platforms=['POSIX', 'Windows'],
       description='JP2 (JPEG 2000 Part 1) image validator and properties extractor',
