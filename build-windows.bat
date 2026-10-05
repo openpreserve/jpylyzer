@@ -7,5 +7,5 @@ setlocal
 set scriptBaseName=jpylyzer
 
 :: Build
-pyi-makespec --onefile --paths=%scriptBaseName% --name=%scriptBaseName% --specpath=pyi-build ./cli.py
+pyi-makespec --paths=%scriptBaseName% --name=%scriptBaseName% --specpath=pyi-build ./cli.py
 pyinstaller --clean --distpath=pyi-build/dist --workpath=pyi-build/build ./pyi-build/%scriptBaseName%.spec
