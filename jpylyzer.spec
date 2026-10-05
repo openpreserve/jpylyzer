@@ -2,11 +2,7 @@
 a = Analysis(['.\cli.py'],
              pathex=['.\jpylyzer'],
              hiddenimports=[],
-             datas = [
-                      ('./license/LICENSE.txt', 'license'),
-                      (''./doc/jpylyzerUserManual.html', 'doc'),
-                      ('./example_files/*', 'example_files')
-                     ]
+             data = datas
              hookspath=None)
 pyz = PYZ(a.pure)
 exe = EXE(pyz,
@@ -17,3 +13,9 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           console=True)
+
+datas = [
+         ('./license/LICENSE.txt', 'license'),
+         (''./doc/jpylyzerUserManual.html', 'doc'),
+         ('./example_files/*', 'example_files')]
+                     ]
