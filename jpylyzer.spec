@@ -8,6 +8,7 @@ a = Analysis(['.\cli.py'],
                     ('./example_files/*', 'example_files')]
             hookspath=None)
 pyz = PYZ(a.pure)
+
 exe = EXE(pyz,
             a.scripts,
             exclude_binaries=True,
@@ -16,3 +17,8 @@ exe = EXE(pyz,
             strip=False,
             upx=True,
             console=True)
+
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.datas)
