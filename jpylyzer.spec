@@ -1,6 +1,6 @@
 # -*- mode: python -*-
 data_files = [
-             ('license/LICENSE.txt', 'license'),
+             ('LICENSE', 'license/LICENSE.txt'),
              ('doc/jpylyzerUserManual.html', 'doc'),
              ('example_files/*', 'example_files')]
 
