@@ -1,12 +1,15 @@
 # -*- mode: python -*-
+data_files = [
+             ('license/LICENSE.txt', 'license'),
+             ('doc/jpylyzerUserManual.html', 'doc'),
+             ('example_files/*', 'example_files')]
+
 a = Analysis(['.\cli.py'],
             pathex=['.\jpylyzer'],
             hiddenimports=[],
-            datas = [
-                    ('license/LICENSE.txt', 'license'),
-                    ('doc/jpylyzerUserManual.html', 'doc'),
-                    ('example_files/*', 'example_files')]
+            datas = data_files,
             hookspath=None)
+
 pyz = PYZ(a.pure)
 
 exe = EXE(pyz,
