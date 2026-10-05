@@ -6,12 +6,12 @@ a = Analysis(['.\cli.py'],
 pyz = PYZ(a.pure)
 exe = EXE(pyz,
           a.scripts,
-          exclude_binaries=1,
+          exclude_binaries=True,
           name='jpylyzer.exe',
           debug=False,
           strip=None,
           upx=True,
-          console=True )
+          console=True)
 coll = COLLECT(exe,
                a.binaries +
                [('./license/LICENSE.txt','LICENSE','DATA')],
