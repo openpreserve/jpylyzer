@@ -4,6 +4,7 @@ function buildAndPackage($DIST_DIR, $WIN_DIST_DIR, $pkgname, $pkgversion, $build
     # Set zip name and path
     $file_name = $pkgname + "_" + $pkgversion + "_" + $suffix + ".zip"
     $zip_name = Join-Path -Path $DIST_DIR -ChildPath $file_name
+    $file_spec = $pkgname + ".spec"
     # Remove the windows dist directory if it exists 
     if (Test-Path -Path $WIN_DIST_DIR -PathType Container) {
         Remove-Item -path $WIN_DIST_DIR -recurse -force
@@ -12,6 +13,8 @@ function buildAndPackage($DIST_DIR, $WIN_DIST_DIR, $pkgname, $pkgversion, $build
     if (Test-Path -Path $zip_name -PathType leaf) {
         Remove-Item -path $zip_name -force
     }
+    # Build
+    pyinstaller --clean -y --distpath $WIN_DIST_DIR $file_spec
 }
 
 $SCRIPT_DIR = $PSScriptRoot
