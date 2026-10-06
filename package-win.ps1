@@ -12,7 +12,7 @@ function buildAndPackage($pkgname, $pkgversion, $buildtag, $suffix) {
     if (Test-Path -Path $WIN_DIST_DIR -PathType Container) {
         Remove-Item -path $WIN_DIST_DIR -recurse -force
     }
-    # Remove any existing zip files
+    # Remove any old instances of this zipped package
     if (Test-Path -Path $zip_name -PathType leaf) {
         Remove-Item -path $zip_name -force
     }
