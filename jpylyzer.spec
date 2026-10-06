@@ -12,6 +12,7 @@ exe = EXE(pyz,
           strip=None,
           upx=True,
           console=True )
+"""
 coll = COLLECT(exe,
                a.binaries +
                [('./license/LICENSE.txt','LICENSE','DATA')],
@@ -21,6 +22,14 @@ coll = COLLECT(exe,
                [('./example_files/balloon_trunc2.jp2','./example_files/balloon_trunc2.jp2','DATA')],
                [('./example_files/balloon_trunc3.jp2','./example_files/balloon_trunc3.jp2','DATA')],
                [('./example_files/readme.txt','./example_files/readme.txt','DATA')],
+               a.zipfiles,
+               a.datas,
+               strip=None,
+               upx=True,
+               name='jpylyzer')
+"""
+coll = COLLECT(exe,
+               a.binaries +
                a.zipfiles,
                a.datas,
                strip=None,
