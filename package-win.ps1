@@ -1,6 +1,6 @@
 # Build Jpylyzer Windows packages 
 
-function buildAndPackage($pkgname, $pkgversion, $buildtag, $suffix) {
+function buildAndPackage($pkgname, $pkgversion, $suffix, $pyinstaller) {
     # Define directory paths
     $DIST_DIR = Join-Path -Path $PSScriptRoot -ChildPath "dist"
     $WIN_DIST_DIR = Join-Path -Path $DIST_DIR -ChildPath "windows"
@@ -17,7 +17,7 @@ function buildAndPackage($pkgname, $pkgversion, $buildtag, $suffix) {
         Remove-Item -path $zip_name -force
     }
     # Build
-    pyinstaller --clean -y --distpath $WIN_DIST_DIR $file_spec
+    & $pyinstaller --clean -y --distpath $WIN_DIST_DIR $file_spec
 
     # Zip up the package and clean up
     cd $WIN_DIST_DIR
@@ -28,8 +28,18 @@ function buildAndPackage($pkgname, $pkgversion, $buildtag, $suffix) {
     }
 }
 
-# Get package name and version
-$pkgname = "$(python .\setup.py --name)"
-$pkgversion = "$(python .\setup.py --version)"
+# Python (only used to infer package name and version, so only
+# 64 bit is needed)
+$python =  "C:\Python314\python.exe"
 
-buildAndPackage $pkgname $pkgversion "python3" "win64"
+# 64 and 32 bit Pyinstaller locations
+$pyinstaller64 = "C:\Python314\Scripts\pyinstaller.exe"
+$pyinstaller32 = "C:\Python314-32\Scripts\pyinstaller.exe"
+
+# Get package name and version
+$pkgname = "$(& $python .\setup.py --name)"
+$pkgversion = "$(& $python .\setup.py --version)"
+
+# Build 64 and 32 bit packages
+buildAndPackage $pkgname $pkgversion "win64" $pyinstaller64
+buildAndPackage $pkgname $pkgversion "win32" $pyinstaller32
