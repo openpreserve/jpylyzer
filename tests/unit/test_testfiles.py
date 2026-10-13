@@ -122,7 +122,9 @@ validityLookupJP2 = {
 "erdas-nullinput-uint8-rgb-null-2tileparts.jp2": "True",
 "erdas-sandiego1m_null.jp2": "True",
 "erdas-sandiego3i_5.2.jp2": "True",
-"erdas-sandiego3i_5.5.jp2": "True"
+"erdas-sandiego3i_5.5.jp2": "True",
+"icc_v4_preference.jp2": "False",
+"icc_v4_appearance.jp2": "False"
 }
 
 # Dictionary with names of all test files and validity against codestream
