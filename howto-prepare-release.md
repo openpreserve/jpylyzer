@@ -113,7 +113,7 @@ to date:
     ```
 1. Create and upload PyPi packages by running:
     ```
-    ./docker-package-pypi.sh
+    ./package-pypi.sh
     ```
     You'll need a `.pypirc` in your home directory with suitable credentials to upload to the package via twine.
 1. Build Windows binaries by running the following PowerShell script in the dedicated Windows (virtual) machine:
