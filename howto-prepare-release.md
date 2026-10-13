@@ -1,43 +1,8 @@
 ## Steps in preparing a jpylyzer release
 
-### Before you start: Docker setup
-
-Some steps in the jpylyzer release process use Docker. In order to run Docker as a non-root user, it is helpful to create a Unix *docker* group. Steps (see also the more detailed discussion [here](https://docs.docker.com/install/linux/linux-postinstall/)):
-
-1. Create the *docker* group:
-    ```
-    sudo groupadd docker
-    ```
-1. Add the current user to the group:
-    ```
-    sudo usermod -aG docker $USER
-    ```
-1. Then log out and then log back in for the changes to take effect, or run the following command:
-    ```
-    newgrp docker
-    ```
-1. Follow installation instructions [here](https://docs.docker.com/engine/install/ubuntu/) (added + checked September 2026)
-1. Verify that everything works by running the following test:
-    ```
-    docker run hello-world
-    ```
-### Before you start: Windows packages environment
-
-As of 2026, the Windows packages require an actual Windows machine (previously we used a Docker container running Linux + Wine, but this doesn't work anymore with modern Python versions). Alternatively, a virtual machine can be used. E.g. Windows 11 IoT LTSC ([ISO image available from Microsoft](https://www.microsoft.com/en-us/evalcenter/download-windows-11-iot-enterprise-ltsc-eval)) can be [run as a VM in QEMU](https://computernewb.com/wiki/QEMU/Guests/Windows_11).
-
-The environment (as a VM) is described in [windows-vm-build-setup.md](./windows-vm-build-setup.md).
-
-### Before you start: Debian packages setup
-
-The Docker build script for Debian packages also require setuptools. Install using:
-
-```
-pip install setuptools
-```
-
 ### Before you start: tests setup
 
-In order to run the automated tests you need to install a couple of Python modules. These are defined in [./tests/requirements.txt](./tests/requirements.txt). To install, use the following command :
+In order to run the automated tests you need to install a couple of Python modules (it's best to do this in a dedicated Jpylyzer development virtual environment). These are defined in [./tests/requirements.txt](./tests/requirements.txt). To install, use the following command :
 
 ```
 pip install -r tests/requirements.txt
@@ -78,6 +43,52 @@ to date:
    git pull
    ```
 
+### Before you start: Docker setup
+
+Some steps in the jpylyzer release process use Docker. In order to run Docker as a non-root user, it is helpful to create a Unix *docker* group. Steps (see also the more detailed discussion [here](https://docs.docker.com/install/linux/linux-postinstall/)):
+
+1. Create the *docker* group:
+    ```
+    sudo groupadd docker
+    ```
+1. Add the current user to the group:
+    ```
+    sudo usermod -aG docker $USER
+    ```
+1. Then log out and then log back in for the changes to take effect, or run the following command:
+    ```
+    newgrp docker
+    ```
+1. Follow installation instructions [here](https://docs.docker.com/engine/install/ubuntu/) (added + checked September 2026)
+1. Verify that everything works by running the following test:
+    ```
+    docker run hello-world
+    ```
+### Before you start: Windows packages environment
+
+As of 2026, the Windows packages require an actual Windows machine (previously we used a Docker container running Linux + Wine, but this doesn't work anymore with modern Python versions). Alternatively, a virtual machine can be used. E.g. Windows 11 IoT LTSC ([ISO image available from Microsoft](https://www.microsoft.com/en-us/evalcenter/download-windows-11-iot-enterprise-ltsc-eval)) can be [run as a VM in QEMU](https://computernewb.com/wiki/QEMU/Guests/Windows_11).
+
+The environment (as a VM) is described in [windows-vm-build-setup.md](./windows-vm-build-setup.md).
+
+### Before you start: Debian packages setup
+
+The Docker build script for Debian packages also require setuptools. Install (in the dedicated Jpylyzer development virtual environment) using:
+
+```
+pip install setuptools
+```
+
+### Before you start: pypi packages setup
+
+The [package-pypi.sh](.\package-pypi.sh) script has two dependencies, which can be installed (in the dedicated Jpylyzer development virtual environment) using:
+
+```
+pip install build
+pip install twine
+```
+
+You'll also need a `.pypirc` file in your home directory with suitable credentials to upload to the package via twine.
+
 ### Jpylyzer release steps
 
 1. Make necessary changes to the code.
@@ -115,7 +126,6 @@ to date:
     ```
     ./package-pypi.sh
     ```
-    You'll need a `.pypirc` in your home directory with suitable credentials to upload to the package via twine.
 1. Build Windows binaries by running the following PowerShell script in the dedicated Windows (virtual) machine:
     ```
     .\package-win.ps1
