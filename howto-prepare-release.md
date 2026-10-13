@@ -21,10 +21,49 @@ Some steps in the jpylyzer release process use Docker. In order to run Docker as
     ```
     docker run hello-world
     ```
+### Before you start: Windows packages environment
 
-### Before you start: packages setup
+As of 2026, the Windows packages require an actual Windows machine (previously we used a Docker container running Linux + Wine, but this doesn't work anymore with modern Python versions). Alternatively, a virtual machine can be used. E.g. Windows 11 IoT LTSC ([ISO image available from Microsoft](https://www.microsoft.com/en-us/evalcenter/download-windows-11-iot-enterprise-ltsc-eval)) can be [run as a VM in QEMU](https://computernewb.com/wiki/QEMU/Guests/Windows_11).
 
-The Docker build scripts for Linux and Windows packages also require setuptools. Install using:
+Either way, this machine should contain the following components: 
+
+#### Python
+
+Separately install 64 and 32 bit versions( use the .exe installer, as the recommended MSIX installer doesn't support parallel installation of 64 and 32 bit versions). Use the following custom locations:
+
+- `C:\Python314`
+- `C:\Python314-32`
+
+There's no need to set any environment variables during or after installation, as the build script explicitly uses the full paths.
+
+#### pyinstaller
+
+This needs to be installed for both 64 and 32 bit versions:
+
+```
+C:\Python314\python -m pip install pyinstaller
+C:\Python314-32\python -m pip install pyinstaller
+```
+
+#### Git
+
+Download from [website](https://git-scm.com/).
+
+#### 7-zip
+
+Install from [7-zip website](https://www.7-zip.org/).
+
+#### ExecutionPolicy
+
+In order to run PowerShell scripts, enter the following command in PowerShell: 
+
+```
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser
+```
+
+### Before you start: Debian packages setup
+
+The Docker build script for Debian packages also require setuptools. Install using:
 
 ```
 pip install setuptools
@@ -111,9 +150,9 @@ to date:
     ./docker-package-pypi.sh
     ```
     You'll need a `.pypirc` in your home directory with suitable credentials to upload to the package via twine.
-1. Build Windows binaries by running:
+1. Build Windows binaries by running the following PowerShell script in the dedicated Windows (virtual) machine:
     ```
-    ./docker-package-win.sh
+    .\package-win.ps1
     ```
 1. Build Debian packages for Linux by running:
     ```
