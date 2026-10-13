@@ -156,7 +156,7 @@ to date:
     ```
 1. Build Debian packages for Linux by running:
     ```
-    ./docker-package.sh debian:$release
+    ./docker-package-debian debian:$release
     ```
     Here, replace `$release` with the name of the current stable Debian release. See the [Debian release list](https://www.debian.org/releases/).
  
