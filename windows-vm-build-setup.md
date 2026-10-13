@@ -48,14 +48,6 @@ C:\Python314\python -m pip install pyinstaller
 C:\Python314-32\python -m pip install pyinstaller
 ```
 
-## Set ExecutionPolicy
-
-In order to run PowerShell scripts, enter the command: 
-
-```
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser
-```
-
 ## Install Git
 
 Download from [website](https://git-scm.com/).
@@ -65,6 +57,14 @@ Download from [website](https://git-scm.com/).
 Install from [7-zip website](https://www.7-zip.org/)
 
 Why this is needed - PowerShell's built-in ZIP function produces ZIP files that don't extract correctly on a Linux system.
+
+## Set ExecutionPolicy
+
+In order to run PowerShell scripts, enter the command: 
+
+```
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser
+```
 
 ## Set up shared folder with host (requires Samba running on host)
 
