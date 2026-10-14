@@ -34,6 +34,29 @@ class IccValidator(Validator):
         self.boxContents = boxContents
         self.bTypeString = bType
 
+    def readmultiLocalizedUnicodeType(self, tag):
+        """
+        Read multiLocalizedUnicodeType structure from ICC.1:2022-05
+        and return first string, ignoring everything else
+        """
+        noRecords = bc.bytesToUInt(tag[8:12])
+        recordSize = bc.bytesToUInt(tag[12:16])
+        # Set up list to store string offsets
+        stringOffsets = []
+        offset = 16
+        for record in range(noRecords):
+            stringOffset = bc.bytesToUInt(tag[offset + 8:offset + 12])
+            stringOffsets.append(stringOffset)
+            offset += 12
+
+        # Only read string from first record, and ignore any subsequent strings
+        if len(stringOffsets) > 1:
+            string = tag[stringOffsets[0]:stringOffsets[1]]
+        else:
+            string = tag[stringOffsets[0]:len(tag)]
+
+        return string
+
     # Validator function for ICC profiles
 
     def validate_icc(self):
@@ -238,22 +261,9 @@ class IccValidator(Validator):
                 description = descTag[12:12 + descriptionLength - 1]
             else:
                 # multiLocalizedUnicodeType structure from ICC.1:2022-05 (v 4 profiles)
-                noRecords = bc.bytesToUInt(descTag[8:12])
-                recordSize = bc.bytesToUInt(descTag[12:16])
-                # Set up list to store string offsets
-                stringOffsets = []
-                offset = 16
-                for record in range(noRecords):
-                    stringOffset = bc.bytesToUInt(descTag[offset + 8:offset + 12])
-                    stringOffsets.append(stringOffset)
-                    offset += 12
-
-                # Only read string from first record, and ignore any subsequent strings
-                if len(stringOffsets) > 1:
-                    description = descTag[stringOffsets[0]:stringOffsets[1]]
-                else:
-                    description = descTag[stringOffsets[0]:len(descTag)]
+                description = self.readmultiLocalizedUnicodeType(descTag)
 
         except Exception:
+            raise
             description = ""
         self.addCharacteristic("description", description)
