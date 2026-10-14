@@ -1132,7 +1132,7 @@ profile is allowed in JP2)!
 |connectionSpaceIlluminantX|Profile connection space illuminant X|
 |connectionSpaceIlluminantY|Profile connection space illuminant Y|
 |connectionSpaceIlluminantZ|Profile connection space illuminant Z|
-|profileCreator|Identifies creator of profile|
+|profileCreator|Signature that identifies creator of profile|
 |profileID|Profile checksum (as hexadecimal string)|
 |tag<sup>\*</sup>|Signature of profile tag (repeated for all tags in the profile)|
 |description|Profile description (extracted from ‘desc’ tag)|
