@@ -183,4 +183,4 @@ The table below shows how each higher-level classe imports all classes that are 
 
 ## Steps in preparing a jpylyzer release
 
-[See instructions here](./howto-prepare-release.md)
+[See instructions here](./readme-how-prepare-release.md)
