@@ -1,15 +1,16 @@
 ## Steps in preparing a jpylyzer release
 
+### Before you start: install developer requirenments
+
+In order to run the automated tests and packaging scripts, you need to install a couple of Python modules (it's best to do this in a dedicated Jpylyzer development virtual environment). These are defined in [requirements-dev.txt](./requirements-dev.txt). To install, use the following command :
+
+```
+pip install -r requirements-dev.txt
+```
+
 ### Before you start: tests setup
 
-In order to run the automated tests you need to install a couple of Python modules (it's best to do this in a dedicated Jpylyzer development virtual environment). These are defined in [./tests/requirements.txt](./tests/requirements.txt). To install, use the following command :
-
-```
-pip install -r tests/requirements.txt
-
-```
-
-You also need the [jpylyzer-test-files](https://github.com/openpreserve/jpylyzer-test-files) corpus. 
+The automated tests also depend on the [jpylyzer-test-files](https://github.com/openpreserve/jpylyzer-test-files) corpus. 
 The test script expects that the root directory of this Git repo is a sibling directory to the jpylyzer 
 Git repo, e.g.:
 
@@ -70,24 +71,9 @@ As of 2026, the Windows packages require an actual Windows machine (previously w
 
 The environment (as a VM) is described in [windows-vm-build-setup.md](./windows-vm-build-setup.md).
 
-### Before you start: Debian packages setup
-
-The Docker build script for Debian packages also require setuptools. Install (in the dedicated Jpylyzer development virtual environment) using:
-
-```
-pip install setuptools
-```
-
 ### Before you start: pypi packages setup
 
-The [package-pypi.sh](.\package-pypi.sh) script has two dependencies, which can be installed (in the dedicated Jpylyzer development virtual environment) using:
-
-```
-pip install build
-pip install twine
-```
-
-You'll also need a `.pypirc` file in your home directory with suitable credentials to upload to the package via twine.
+The [package-pypi.sh](.\package-pypi.sh) script expects a `.pypirc` file in your home directory with suitable credentials to upload to the package via twine.
 
 ### Jpylyzer release steps
 

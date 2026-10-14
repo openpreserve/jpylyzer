@@ -39,7 +39,7 @@ Separately install 64 and 32 bit versions of 3.14.8 (.exe installer, as MSIX ins
 
 No need to update any environment variables here, in the build script we'll explicitly point to the full paths.
 
-## Install pyinstaller
+## Install PyInstaller
 
 Install for both 64 and 32 bit versions:
 
