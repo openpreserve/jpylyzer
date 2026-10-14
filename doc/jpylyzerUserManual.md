@@ -138,7 +138,7 @@ links at the *jpylyzer* homepage:
 
 You have three options:
 
-1. Install the software with the *Pip* package manager. This works on
+1. Install the software from the Python Package Index (PyPi). This works on
 all platforms (Windows, Linux, Mac, etc.), but you need to have
 the Python interpreter available on your system. Jpylyzer is compatible with
 Python 3.2 and more recent.
@@ -153,53 +153,55 @@ don’t want to) install software on their system.
 
 These options are described in the following sub-sections.
 
-Installation with Pip (Linux/Unix, Windows, Mac OS X) {#installation-pip}
+Installation from Python Package Index (Linux/Unix, Windows, Mac OS X) {#installation-pypi}
 -----------------------------------------------------------------
 
-### General installation procedure
+As of 2026, [uv](https://docs.astral.sh/uv/) appears to be the most straightforward tool
+for installing Python applications from the Python Package Index.
 
-First make sure you have a recent version of *pip*. Then install *jpylyzer*
-with the following command:
+### uv installation
 
-```
-pip install jpylyzer
-```
-
-### Single user installation (Linux)
-
-On most Linux systems the above command needs to be run as super user (see below).
-If you don't want this use the below command for a single-user install:
+First, check if uv is installed on your system by typing the uv command in a terminal:
 
 ```
-pip install jpylyzer --user
+uv
 ```
 
-This will install the software to the `.local` folder (hidden by default!) in your
-home directory (`~/.local`). Next try to run *jpylyzer* by entering:
+If this results in a help message, uv is installed, and you can skip to the
+"Jpylyzer installation" section. If not, you have to install uv first.
+On Linux and MacOS, use the following command:
 
 ```
-jpylyzer
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-Most likely this will result in:
+Alternatively, you can use wget if your system doesn't have curl installed:
 
 ```
-jpylyzer: command not found
+wget -qO- https://astral.sh/uv/install.sh | sh
 ```
 
-If this happens, add the directory `~/.local/bin` (which is where the jpylyzer command-line
-tool is installed) to the `PATH` environment variable (you only need to do this once).
-To do this, locate the (hidden) file `.profile` in you home directory (`~/`), and open it in
-a text editor. Then add the following lines at the end of the file:
+On Windows, open a Powershell terminal, and run the following command:
 
 ```
-# set PATH so it includes the user's .local bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-Save the file, log out of your session and then log in again. Open a command terminal and type:
+Regardless of the operating system, in some cases the installation script will update
+your system's configuration to make the location of the uv executable globally accessible.
+If this happens, just close your current terminal, and open a new one for these changes
+to take effect. Pay attention to the screen output of the installation script for any details
+on this.
+
+### Jpylyzer installation
+
+Use the following command to install Jpylyzer (all platforms):
+
+```
+uv tool install jpylyzer
+```
+
+To test the installation, type this in the terminal:
 
 ```
 jpylyzer
@@ -214,24 +216,15 @@ usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
 jpylyzer: error: the following arguments are required: jp2In
 ```
     
-Which means that the installation was successful!
+Which means the installation was successful!
 
-### Global installation (Linux)
+### Installing pre-releases
 
-Simply enter:
-
-```
-sudo -H pip install jpylyzer
-```
-
-No further configuration is needed in this case.
-
-### Note on pre-releases
-
-The above command lines will only install stable versions of jpylyzer. In order to install the latest pre-release, add the `--pre` switch. For example:
+By default uv installs the current stable version of jpylyzer. Use the
+`--prerelease allow` option to install the latest pre-release:
 
 ```
-sudo -H pip install jpylyzer --pre
+uv tool install --prerelease allow jpylyzer
 ```
 
 Installation of Windows binaries (Windows only) {#installation-windows}
@@ -256,7 +249,7 @@ In the above command, replace *%jpylyzerPath%* with the full path to the
 the files to directory `c:\tools\jpylyzer`, the command would become:
 
 ```
-c:\tools\jpylyzer\jpylyzer
+C:\tools\jpylyzer\jpylyzer
 ```
 
 Executing this command should result in the following screen output:
@@ -299,8 +292,8 @@ For *Ubuntu* and *Debian* alternative packages are available in the
 official release channels. To install simply run the following commands:
 
 ```
-  sudo apt-get update
-  sudo apt-get install python-jpylyzer
+sudo apt-get update
+sudo apt-get install python-jpylyzer
 ```
 
 Using *jpylyzer* {#using-jpylyzer}
@@ -564,7 +557,13 @@ Using *jpylyzer* as a Python module {#using-as-python-module}
 
 Instead of using *jpylyzer* from the command-line, you can also import
 it as a module in your own Python programs. To do so, install jpylyzer
-with *pip*. Then import *jpylyzer* into your code by adding:
+with *pip* in a virtual environment:
+
+```
+pip install jpylyzer
+```
+
+Then import *jpylyzer* into your code by adding:
 
 ```
 from jpylyzer import jpylyzer
