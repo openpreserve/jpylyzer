@@ -121,8 +121,9 @@ this program. If not, see:
 On Debian systems, the complete text of the GNU Lesser General Public
 License version 3 can be found in:
 
-    /usr/share/common-licenses/LGPL-3
-
+```
+/usr/share/common-licenses/LGPL-3
+```
 
 Installation and set-up {#installation}
 =========================
@@ -160,52 +161,68 @@ Installation with Pip (Linux/Unix, Windows, Mac OS X) {#installation-pip}
 First make sure you have a recent version of *pip*. Then install *jpylyzer*
 with the following command:
 
-    pip install jpylyzer
+```
+pip install jpylyzer
+```
 
 ### Single user installation (Linux)
 
 On most Linux systems the above command needs to be run as super user (see below).
 If you don't want this use the below command for a single-user install:
 
-    pip install jpylyzer --user
+```
+pip install jpylyzer --user
+```
 
 This will install the software to the `.local` folder (hidden by default!) in your
 home directory (`~/.local`). Next try to run *jpylyzer* by entering:
 
-    jpylyzer
+```
+jpylyzer
+```
 
 Most likely this will result in:
 
-    jpylyzer: command not found
+```
+jpylyzer: command not found
+```
 
 If this happens, add the directory `~/.local/bin` (which is where the jpylyzer command-line
 tool is installed) to the `PATH` environment variable (you only need to do this once).
 To do this, locate the (hidden) file `.profile` in you home directory (`~/`), and open it in
 a text editor. Then add the following lines at the end of the file:
 
-    # set PATH so it includes the user's .local bin if it exists
-    if [ -d "$HOME/.local/bin" ] ; then
-        PATH="$HOME/.local/bin:$PATH"
-    fi
+```
+  # set PATH so it includes the user's .local bin if it exists
+  if [ -d "$HOME/.local/bin" ] ; then
+      PATH="$HOME/.local/bin:$PATH"
+  fi
+```
 
 Save the file, log out of your session and then log in again. Open a command terminal and type:
 
-    jpylyzer
+```
+jpylyzer
+```
 
 If all went well you now see this:
 
-    usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
-              [--nullxml] [--recurse] [--packetmarkers] [--verbose]
-              [--version] jp2In [jp2In ...]
-    jpylyzer: error: the following arguments are required: jp2In
-
+```
+usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
+          [--nullxml] [--recurse] [--packetmarkers] [--verbose]
+          [--version] jp2In [jp2In ...]
+jpylyzer: error: the following arguments are required: jp2In
+```
+    
 Which means that the installation was successful!
 
 ### Global installation (Linux)
 
 Simply enter:
 
-    sudo -H pip install jpylyzer
+```
+sudo -H pip install jpylyzer
+```
 
 No further configuration is needed in this case.
 
@@ -213,8 +230,9 @@ No further configuration is needed in this case.
 
 The above command lines will only install stable versions of jpylyzer. In order to install the latest pre-release, add the `--pre` switch. For example:
 
-    sudo -H pip install jpylyzer --pre
-
+```
+sudo -H pip install jpylyzer --pre
+```
 
 Installation of Windows binaries (Windows only) {#installation-windows}
 ---------------------------------------------------
@@ -225,25 +243,31 @@ now be ready for use.
 
 ### Testing the installation
 
-To test your installation, open a Command Prompt (‘DOS prompt’) and
-type:
+To test your installation, open a Command Prompt (‘DOS prompt’) or 
+PowerShell console and type:
 
-    %jpylyzerPath%\jpylyzer
+```
+%jpylyzerPath%\jpylyzer
+```
 
 In the above command, replace *%jpylyzerPath%* with the full path to the
 *jpylyzer* installation directory (i.e. the directory that contains
 ‘jpylyzer.exe’ and its associated files). For example, if you extracted
 the files to directory `c:\tools\jpylyzer`, the command would become:
 
-    c:\tools\jpylyzer\jpylyzer
+```
+c:\tools\jpylyzer\jpylyzer
+```
 
 Executing this command should result in the following screen output:
 
-    usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
-              [--nullxml] [--recurse] [--packetmarkers] [--verbose]
-              [--version] jp2In [jp2In ...]
-    jpylyzer: error: the following arguments are required: jp2In
-
+```
+usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
+          [--nullxml] [--recurse] [--packetmarkers] [--verbose]
+          [--version] jp2In [jp2In ...]
+jpylyzer: error: the following arguments are required: jp2In
+```
+    
 ### Running jpylyzer without typing the full path
 
 Optionally, you may also want to add the full path of the *jpylyzer*
@@ -265,16 +289,19 @@ To install, simply download the *.deb* file, double-click on it and
 select *Install Package*. Alternatively you can also do this in the
 command terminal by typing:
 
-    sudo dpkg -i opf-jpylyzer_2.2.0_all.deb
+```
+sudo dpkg -i opf-jpylyzer_2.2.0_all.deb
+```
 
 In both cases you need to have administrative privileges.
 
 For *Ubuntu* and *Debian* alternative packages are available in the
 official release channels. To install simply run the following commands:
 
-    sudo apt-get update
-    sudo apt-get install python-jpylyzer
-
+```
+  sudo apt-get update
+  sudo apt-get install python-jpylyzer
+```
 
 Using *jpylyzer* {#using-jpylyzer}
 ==================
@@ -308,10 +335,12 @@ brackets (example: `[-h]`) are optional.
 
 *Jpylyzer* can be invoked using the following command-line arguments:
 
-    usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
-              [--nullxml] [--recurse] [--packetmarkers] [--verbose]
-              [--version] jp2In [jp2In ...]
-
+```
+usage: jpylyzer [-h] [--format FMT] [--mix {1,2}] [--nopretty]
+          [--nullxml] [--recurse] [--packetmarkers] [--verbose]
+          [--version] jp2In [jp2In ...]
+```
+              
 #### Positional arguments
 
 |Argument|Description|
@@ -337,17 +366,23 @@ sequence of images, a pathname expression that includes multiple images,
 or any combination of the above. For example, the following command will
 process one single image:
 
-    jpylyzer rubbish.jp2
-
+```
+jpylyzer rubbish.jp2
+```
+    
 The next example shows how to process all files with a ‘jp2’ extension
 in the current directory:
 
-    jpylyzer *.jp2
+```
+jpylyzer *.jp2
+```
 
 Note that on Unix/Linux based systems pathname expressions may not work
 properly unless you wrap them in quotation marks:
 
-    jpylyzer "*.jp2"
+```
+jpylyzer "*.jp2"
+```
 
 ### Output redirection
 
@@ -358,12 +393,16 @@ output to a file. The most common situation will be to redirect the
 output of one invocation of *jpylyzer* to an XML file, which can be done
 with the ‘\>’ operator (both under Windows and Linux):
 
-    jpylyzer jp2In > outputFile
+```
+jpylyzer jp2In > outputFile
+```
 
 E.g. the following command will run *jpylyzer* on image ‘rubbish.jp2’ and
 redirects the output to file ‘rubbish.xml’:
 
-    jpylyzer rubbish.jp2 > rubbish.xml
+```
+jpylyzer rubbish.jp2 > rubbish.xml
+```
 
 The format of the XML output is described [here](#output-format).
 
@@ -374,17 +413,23 @@ with version 2.0, *jpylyzer* can also validate raw JPEG 2000 codestreams that ar
 not wrapped inside a *JP2* container. For codestream validation, use the `--format`
 option with value `j2c`, e.g.:
 
-    jpylyzer --format j2c rubbish.j2c > rubbish.xml
+```
+jpylyzer --format j2c rubbish.j2c > rubbish.xml
+```
 
 Starting with version 2.2, *jpylyzer* also supports JPEG 2000 Part 15 (High Throughput 
 JPEG 2000) and its *JPH* container format. To validate a *JPH* file, use the `--format`
 option with value `jph`:
 
-    jpylyzer --format jph rubbish.jph > rubbish.xml
+```
+jpylyzer --format jph rubbish.jph > rubbish.xml
+```
 
 And use `--format` with value `jhc` to validate a raw High Throughput codestream:
 
-    jpylyzer --format jhc rubbish.jhc > rubbish.xml
+```
+jpylyzer --format jhc rubbish.jhc > rubbish.xml
+```
 
 ### ‘mix’ option
 
@@ -393,7 +438,9 @@ When this option is used, *jpylyzer* reports additional output in
 that defines whether *MIX* 1.0 or *MIX* 2.0 is used. For example, the following command
 will result in *MIX* 2.0 output:
 
-    jpylyzer --mix 2 rubbish.jp2 > rubbish.xml
+```
+jpylyzer --mix 2 rubbish.jp2 > rubbish.xml
+```
 
 The *MIX* output is wrapped inside a *file/propertiesExtension* element. Note that *MIX*
 output is *only* written for files that are valid JP2 or JPH (files that are not valid result in
@@ -405,7 +452,9 @@ is set to `j2c`.
 If the `--recurse` option is used, *jpylyzer* will recursively traverse all
 subdirectories of a filepath expression. E.g:
 
-    jpylyzer /home/myJP2s/*.jp2 > rubbish.xml
+```
+jpylyzer /home/myJP2s/*.jp2 > rubbish.xml
+```
 
 In this case *jpylyzer* analyses all files that have a *.jp2* extension in 
 directory */home/myJP2s* and all its subdirectories.
@@ -440,12 +489,16 @@ If there are no input images to check (typically because the value of
 jp2In refers to a non-existent file), the following warning message is
 shown:
 
-    User warning: no images to check!
+```
+User warning: no images to check!
+```
 
 #### Unsupported box
 In some cases you will see the following warning message:
 
-    User warning: ignoring 'boxName' (validator function not yet implemented)
+```
+User warning: ignoring 'boxName' (validator function not yet implemented)
+```
 
 The reason for this: a JP2 file is made up of units that are called
 ‘boxes’. This is explained in more detail [here](#structure-jp2). Each ‘box’ has
@@ -458,23 +511,31 @@ remainder of the file will be analyzed (and validated) normally.
 #### Error while processing a file
 In rare cases you may come across one of the following messages:
 
-    User warning: memory error (file size too large)
- 
+```
+User warning: memory error (file size too large)
+```
+
 Memory errors may occur for (very) large images. If you get this warning, try using 
 a machine with more RAM. Also, a machine's chip architecture and the operating system
 may put constraints on the amount of memory that can be allocated.
 
 The following warning indicates an input error:
 
-    User warning: I/O error (cannot open file)
+```
+User warning: I/O error (cannot open file)
+```
 
 Finally, the following messages most likely indicate a jpylyzer bug:  
-   
-    User warning:runtime error (please report to developers)
+
+```
+User warning:runtime error (please report to developers)
+```
 
 and:
 
-    User warning: unknown error (please report to developers)
+```
+User warning: unknown error (please report to developers)
+```
 
 If you ever run into either of these two errors, please get in touch with the jpylyzer
 developers. The easiest way to do this is to create a new issue at:
@@ -484,7 +545,9 @@ developers. The easiest way to do this is to create a new issue at:
 #### Unknown box
 Occasionally, you may see this warning message:
 
-    User warning: ignoring unknown box
+```
+User warning: ignoring unknown box
+```
 
 This happens if *jpylyzer* encounters a box that is not defined by JPEG
 2000 Part 1. It should be noted that, to a large extent, JPEG 2000 Part
@@ -503,25 +566,29 @@ Instead of using *jpylyzer* from the command-line, you can also import
 it as a module in your own Python programs. To do so, install jpylyzer
 with *pip*. Then import *jpylyzer* into your code by adding:
 
-    from jpylyzer import jpylyzer
+```
+from jpylyzer import jpylyzer
+```
 
 Subsequently you can call any function that is defined in *jpylyzer.py*.
 In practice you will most likely only need the *checkOneFile* function. 
 The following minimal script shows how this works:
 
-    #! /usr/bin/env python3
-    
-    from jpylyzer import jpylyzer
-    
-    # Define JP2
-    myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
-    
-    # Analyse with jpylyzer, result to Element object
-    myResult = jpylyzer.checkOneFile(myFile)
-    
-    # Return image height value
-    imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
-    print(imageHeight)
+```python
+#! /usr/bin/env python3
+
+from jpylyzer import jpylyzer
+
+# Define JP2
+myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
+
+# Analyse with jpylyzer, result to Element object
+myResult = jpylyzer.checkOneFile(myFile)
+
+# Return image height value
+imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
+print(imageHeight)
+```
 
 Here, *myResult* is an *Element* object that can either be used directly, 
 or converted to XML using the *ElementTree* module[^3]. The structure of the
@@ -538,12 +605,13 @@ You may use the following optional arguments (which correspond to the command-li
 As an example, for validating a raw JPEG 2000 codestream, call the *checkOneFile* function with the additional
 *validationFormat* argument, and set it to `j2c`:
 
-    # Define Codestream
-    myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
-    
-    # Analyse with jpylyzer, result to Element object
-    myResult = jpylyzer.checkOneFile(myFile, 'j2c')
+```python
+# Define Codestream
+myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
 
+# Analyse with jpylyzer, result to Element object
+myResult = jpylyzer.checkOneFile(myFile, 'j2c')
+```
 
 Java integration {#java-integration}
 ---------------------------------------
