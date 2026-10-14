@@ -268,7 +268,6 @@ class IccValidator(Validator):
         self.addCharacteristic("description", description)
 
         # Get copyright info from copyright tag
-
         try:
             i = tagSignatures.index(b'cprt')
             cprtStartOffset = tagOffsets[i]
@@ -286,3 +285,20 @@ class IccValidator(Validator):
         except Exception:
             copyright = ""
         self.addCharacteristic("copyright", copyright)
+
+        # Get info from mediaWhitePointTag
+        try:
+            i = tagSignatures.index(b'wtpt')
+            wtptStartOffset = tagOffsets[i]
+            wtptSize = tagSizes[i]
+            wtptTag = self.boxContents[
+                wtptStartOffset:wtptStartOffset + wtptSize]
+            wtptX = bc.bytesToUInt(wtptTag[8:12])
+            wtptY = bc.bytesToUInt(wtptTag[12:16])
+            wtptZ = bc.bytesToUInt(wtptTag[16:20])
+            mediaWhitePoint = "{} {} {}".format(wtptX, wtptY, wtptZ)
+
+        except Exception:
+            raise
+            mediaWhitePoint = ""
+        self.addCharacteristic("mediaWhitePoint", mediaWhitePoint)
