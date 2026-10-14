@@ -15,8 +15,8 @@ Please visit the jpylyzer homepage for links to the most recent package download
 - [![Build Status](https://app.travis-ci.com/openpreserve/jpylyzer.svg?branch=master)](https://app.travis-ci.com/github/openpreserve/jpylyzer "Jpylyzer Travis-CI integration build") Travis-CI
 
 - [![Build Status](https://jenkins.openpreservation.org/buildStatus/icon?job=jpylyzer%2Fjpylyzer)](https://jenkins.openpreservation.org/job/jpylyzer/job/jpylyzer/) OPF Jenkins
-<!-- Start of text to be copied to usage.md of jpylyzer website -->
 
+<!-- Start of text to be copied to usage.md of jpylyzer website -->
 ## Using jpylyzer from the command line
 
 Calling *jpylyzer* in a command window without any arguments results in the following helper message:
@@ -110,11 +110,18 @@ validation process (organised by box)
 
 Instead of using *jpylyzer* from the command-line, you can also import
 it as a module in your own Python programs. To do so, install jpylyzer
-with *pip*. Then import *jpylyzer* into your code by adding:
+with *pip* in a virtual environment:
+
+```
+pip install jpylyzer
+```
+
+Then import *jpylyzer* into your code by adding:
 
 ```python
 from jpylyzer import jpylyzer
 ```
+
 Subsequently you can call any function that is defined in *jpylyzer.py*.
 In practice you will most likely only need the *checkOneFile* function.
 The following minimal script shows how this works:

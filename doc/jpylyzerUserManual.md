@@ -565,7 +565,7 @@ pip install jpylyzer
 
 Then import *jpylyzer* into your code by adding:
 
-```
+``` python
 from jpylyzer import jpylyzer
 ```
 
