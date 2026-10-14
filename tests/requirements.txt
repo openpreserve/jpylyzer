@@ -1,7 +1,0 @@
-# Requirements for running Jpylyzer tests
-pre-commit
-pytest
-pylint
-pytest-coverage
-lxml
-

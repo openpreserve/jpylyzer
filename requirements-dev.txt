@@ -1,0 +1,10 @@
+# Requirements for running Jpylyzer tests and packaging scripts
+pre-commit
+pytest
+pylint
+pytest-coverage
+lxml
+setuptools
+build
+twine
+pyinstaller
