@@ -92,7 +92,18 @@ git checkout 2-3-dev
 git pull
 ```
 
-# Further resources
+## Build binaries
+
+Run:
+
+```
+.\package-pypi.sh
+```
+
+This creates two ZIP files under `./dist`. Copy these to the shared folder to make them available from the host machine.
+
+
+## Further resources
 
 - [How to install Windows 11 in QEMU](https://computernewb.com/wiki/QEMU/Guests/Windows_11)
 
