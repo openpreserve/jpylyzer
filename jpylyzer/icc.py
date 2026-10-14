@@ -227,14 +227,25 @@ class IccValidator(Validator):
             descTag = self.boxContents[
                 descStartOffset:descStartOffset + descSize]
 
-            # Note that description of this tag is missing from recent versions of
-            # standard; following code based on older version:
-            # ICC.1:2001-04 File Format for Color Profiles [REVISION of ICC.1:1998-09]
-            # Length of description (including terminating null character)
-            descriptionLength = bc.bytesToUInt(descTag[8:12])
+            if profileMajorRevision < 4:
+                # textDescriptionType structure from ICC.1:2001-04
+                # Length of description (including terminating null character)
+                descriptionLength = bc.bytesToUInt(descTag[8:12])
 
-            # Description as binary string (excluding terminating null char)
-            description = descTag[12:12 + descriptionLength - 1]
+                # Description as binary string (excluding terminating null char)
+                description = descTag[12:12 + descriptionLength - 1]
+            else:
+                # multiLocalizedUnicodeType structure from ICC.1:2022-05
+                noRecords = bc.bytesToUInt(descTag[8:12])
+                recordSize = bc.bytesToUInt(descTag[12:16])
+                firstStringOffset = bc.bytesToUInt(descTag[24:28])
+                description = descTag[firstStringOffset:firstStringOffset + 24]
+                ## TEST
+                self.addCharacteristic("noRecords", noRecords)
+                self.addCharacteristic("recordSize", recordSize)
+                self.addCharacteristic("firstStringOffset", firstStringOffset)
+                ## TEST
+
         except Exception:
             description = ""
         self.addCharacteristic("description", description)
