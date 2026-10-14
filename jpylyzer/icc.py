@@ -264,6 +264,25 @@ class IccValidator(Validator):
                 description = self.readmultiLocalizedUnicodeType(descTag)
 
         except Exception:
-            raise
             description = ""
         self.addCharacteristic("description", description)
+
+        # Get copyright info from copyright tag
+
+        try:
+            i = tagSignatures.index(b'cprt')
+            cprtStartOffset = tagOffsets[i]
+            cprtSize = tagSizes[i]
+            cprtTag = self.boxContents[
+                cprtStartOffset:cprtStartOffset + cprtSize]
+
+            if profileMajorRevision < 4:
+                # textType structure from ICC.1:2001-04
+                copyright = cprtTag[8:cprtSize]
+            else:
+                # multiLocalizedUnicodeType structure from ICC.1:2022-05 (v 4 profiles)
+                copyright = self.readmultiLocalizedUnicodeType(cprtTag)
+
+        except Exception:
+            copyright = ""
+        self.addCharacteristic("copyright", copyright)
