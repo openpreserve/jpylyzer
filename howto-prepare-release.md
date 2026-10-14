@@ -118,7 +118,7 @@ The [package-pypi.sh](.\package-pypi.sh) script expects a `.pypirc` file in your
     ```
 1. Build Debian packages for Linux by running:
     ```
-    ./docker-package-debian debian:$release
+    ./package-debian-docker.sh debian:$release
     ```
     Here, replace `$release` with the name of the current stable Debian release. See the [Debian release list](https://www.debian.org/releases/).
  

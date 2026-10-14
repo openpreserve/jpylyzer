@@ -193,10 +193,10 @@ To do this, locate the (hidden) file `.profile` in you home directory (`~/`), an
 a text editor. Then add the following lines at the end of the file:
 
 ```
-  # set PATH so it includes the user's .local bin if it exists
-  if [ -d "$HOME/.local/bin" ] ; then
-      PATH="$HOME/.local/bin:$PATH"
-  fi
+# set PATH so it includes the user's .local bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
 ```
 
 Save the file, log out of your session and then log in again. Open a command terminal and type:
