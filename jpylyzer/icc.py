@@ -216,6 +216,8 @@ class IccValidator(Validator):
             tagStart += 12
 
         # Get profile description from profile description tag
+        # Version 4 profiles use a data structure for this that is
+        # different from earlier versions, so we need to support both.
         # The following code could go wrong in case tagSignatures doesn't
         # contain description fields (e.g. if profile is corrupted); try block
         # will capture any such errors.
@@ -235,16 +237,22 @@ class IccValidator(Validator):
                 # Description as binary string (excluding terminating null char)
                 description = descTag[12:12 + descriptionLength - 1]
             else:
-                # multiLocalizedUnicodeType structure from ICC.1:2022-05
+                # multiLocalizedUnicodeType structure from ICC.1:2022-05 (v 4 profiles)
                 noRecords = bc.bytesToUInt(descTag[8:12])
                 recordSize = bc.bytesToUInt(descTag[12:16])
-                firstStringOffset = bc.bytesToUInt(descTag[24:28])
-                description = descTag[firstStringOffset:firstStringOffset + 24]
-                ## TEST
-                self.addCharacteristic("noRecords", noRecords)
-                self.addCharacteristic("recordSize", recordSize)
-                self.addCharacteristic("firstStringOffset", firstStringOffset)
-                ## TEST
+                # Set up list to store string offsets
+                stringOffsets = []
+                offset = 16
+                for record in range(noRecords):
+                    stringOffset = bc.bytesToUInt(descTag[offset + 8:offset + 12])
+                    stringOffsets.append(stringOffset)
+                    offset += 12
+
+                # Only read string from first record, and ignore any subsequent strings
+                if len(stringOffsets) > 1:
+                    description = descTag[stringOffsets[0]:stringOffsets[1]]
+                else:
+                    description = descTag[stringOffsets[0]:len(descTag)]
 
         except Exception:
             description = ""
