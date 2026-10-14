@@ -14,8 +14,7 @@ exe = EXE(pyz,
           debug=False,
           strip=None,
           upx=True,
-          console=True,
-          contents_directory=".")
+          console=True)
 
 coll = COLLECT(exe,
                a.binaries +
