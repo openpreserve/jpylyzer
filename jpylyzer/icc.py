@@ -110,8 +110,8 @@ class IccValidator(Validator):
 
         # Profile connection space
         profileConnectionSpace = self.boxContents[20:24]
-        self.addCharacteristic(
-            "profileConnectionSpace", profileConnectionSpace)
+        self.addCharacteristic("profileConnectionSpace",
+                               profileConnectionSpace)
 
         # Date and time fields
         year = bc.bytesToUShortInt(self.boxContents[24:26])
@@ -144,9 +144,8 @@ class IccValidator(Validator):
         # Profile cannot be used independently from embedded colour data
         # (1 if true, 0 if false)
         profileCannotBeUsedIndependently = bc.getBitValue(profileFlags, 2)
-        self.addCharacteristic(
-            "profileCannotBeUsedIndependently",
-            profileCannotBeUsedIndependently)
+        self.addCharacteristic("profileCannotBeUsedIndependently",
+                               profileCannotBeUsedIndependently)
 
         # Device manufacturer
         deviceManufacturer = self.boxContents[48:52]
@@ -183,18 +182,18 @@ class IccValidator(Validator):
         # Profile connection space illuminants (X, Y, Z)
         connectionSpaceIlluminantX = round(
             bc.bytesToUInt(self.boxContents[68:72]) / 65536, 4)
-        self.addCharacteristic(
-            "connectionSpaceIlluminantX", connectionSpaceIlluminantX)
+        self.addCharacteristic("connectionSpaceIlluminantX",
+                               connectionSpaceIlluminantX)
 
         connectionSpaceIlluminantY = round(
             bc.bytesToUInt(self.boxContents[72:76]) / 65536, 4)
-        self.addCharacteristic(
-            "connectionSpaceIlluminantY", connectionSpaceIlluminantY)
+        self.addCharacteristic("connectionSpaceIlluminantY",
+                               connectionSpaceIlluminantY)
 
         connectionSpaceIlluminantZ = round(
             bc.bytesToUInt(self.boxContents[76:80]) / 65536, 4)
-        self.addCharacteristic(
-            "connectionSpaceIlluminantZ", connectionSpaceIlluminantZ)
+        self.addCharacteristic("connectionSpaceIlluminantZ",
+                               connectionSpaceIlluminantZ)
 
         # Profile creator
         profileCreator = self.boxContents[80:84]
@@ -212,93 +211,91 @@ class IccValidator(Validator):
         # spec)
         tagCount = min(tagCount, 4096)
 
-        # List of tag signatures, offsets and sizes
-        # All local to this function; all property exports through "characteristics"
-        # element object!
-        tagSignatures = []
-        tagOffsets = []
-        tagSizes = []
-
         # Offset of start of first tag
         tagStart = 132
+
+        # Iterate over all tags
         for i in range(tagCount):
-            # Extract tag signature (as binary string) for each entry
             tagSignature = self.boxContents[tagStart:tagStart + 4]
             tagOffset = bc.bytesToUInt(
                 self.boxContents[tagStart + 4:tagStart + 8])
-            tagSize = bc.bytesToUInt(
-                self.boxContents[tagStart + 8:tagStart + 12])
+            tagSize = bc.bytesToUInt(self.boxContents[tagStart + 8:tagStart + 12])
+
+            # Report tag signature for each tag
             self.addCharacteristic("tag", tagSignature)
 
-            # Add to list
-            tagSignatures.append(tagSignature)
-            tagOffsets.append(tagOffset)
-            tagSizes.append(tagSize)
+            # Only parse and report the following required tags:
+            # - profileDescriptionTag
+            # - copyrightTag
+            # - mediaWhitePointTag
+            # - chromaticAdaptationTag
+
+            if tagSignature == b'desc':
+                # profileDescriptionTag
+                descTag = self.boxContents[tagOffset:tagOffset + tagSize]
+
+                if profileMajorRevision < 4:
+                    # textDescriptionType structure from ICC.1:2001-04
+                    # Length of description (including terminating null character)
+                    descriptionLength = bc.bytesToUInt(descTag[8:12])
+                    # Description as binary string (excluding terminating null char)
+                    description = descTag[12:12 + descriptionLength - 1]
+                else:
+                    # multiLocalizedUnicodeType structure from ICC.1:2022-05 (v 4 profiles)
+                    description = self.readmultiLocalizedUnicodeType(descTag)
+
+                self.addCharacteristic("description", description)
+
+            elif tagSignature == b'cprt':
+                # copyrightTag
+                cprtTag = self.boxContents[tagOffset:tagOffset + tagSize]
+
+                if profileMajorRevision < 4:
+                    # textType structure from ICC.1:2001-04
+                    copyright = cprtTag[8:tagSize]
+                else:
+                    # multiLocalizedUnicodeType structure from ICC.1:2022-05 (v 4 profiles)
+                    copyright = self.readmultiLocalizedUnicodeType(cprtTag)
+
+                self.addCharacteristic("copyright", copyright)
+
+            elif tagSignature == b'wtpt':
+                # mediaWhitePointTag
+                wtptTag = self.boxContents[tagOffset:tagOffset + tagSize]
+
+                wtptX = bc.bytesToUInt(wtptTag[8:12])
+                wtptY = bc.bytesToUInt(wtptTag[12:16])
+                wtptZ = bc.bytesToUInt(wtptTag[16:20])
+
+                self.addCharacteristic("mediaWhitePointX", wtptX)
+                self.addCharacteristic("mediaWhitePointY", wtptY)
+                self.addCharacteristic("mediaWhitePointZ", wtptZ)
+
+            elif tagSignature == b'chad':
+                # chromaticAdaptationTag
+                chadTag = self.boxContents[tagOffset:tagOffset + tagSize]
+
+                # Tag contains an array of 9 of s15Fixed16Number numbers
+                chadA0 = bc.s15Fixed16NumberToFloat(chadTag[8:12])
+                chadA1 = bc.s15Fixed16NumberToFloat(chadTag[12:16])
+                chadA2 = bc.s15Fixed16NumberToFloat(chadTag[16:20])
+                chadA3 = bc.s15Fixed16NumberToFloat(chadTag[20:24])
+                chadA4 = bc.s15Fixed16NumberToFloat(chadTag[24:28])
+                chadA5 = bc.s15Fixed16NumberToFloat(chadTag[28:32])
+                chadA6 = bc.s15Fixed16NumberToFloat(chadTag[32:36])
+                chadA7 = bc.s15Fixed16NumberToFloat(chadTag[36:40])
+                chadA8 = bc.s15Fixed16NumberToFloat(chadTag[40:44])
+
+                self.addCharacteristic("chromaticAdaptationA0", round(chadA0, 5))
+                self.addCharacteristic("chromaticAdaptationA1", round(chadA1, 5))
+                self.addCharacteristic("chromaticAdaptationA2", round(chadA2, 5))
+                self.addCharacteristic("chromaticAdaptationA3", round(chadA3, 5))
+                self.addCharacteristic("chromaticAdaptationA4", round(chadA4, 5))
+                self.addCharacteristic("chromaticAdaptationA5", round(chadA5, 5))
+                self.addCharacteristic("chromaticAdaptationA6", round(chadA6, 5))
+                self.addCharacteristic("chromaticAdaptationA7", round(chadA7, 5))
+                self.addCharacteristic("chromaticAdaptationA8", round(chadA8, 5))
 
             # Start offset of next tag
             tagStart += 12
 
-        # Get profile description from profile description tag
-        # Version 4 profiles use a data structure for this that is
-        # different from earlier versions, so we need to support both.
-        # The following code could go wrong in case tagSignatures doesn't
-        # contain description fields (e.g. if profile is corrupted); try block
-        # will capture any such errors.
-
-        try:
-            i = tagSignatures.index(b'desc')
-            descStartOffset = tagOffsets[i]
-            descSize = tagSizes[i]
-            descTag = self.boxContents[
-                descStartOffset:descStartOffset + descSize]
-
-            if profileMajorRevision < 4:
-                # textDescriptionType structure from ICC.1:2001-04
-                # Length of description (including terminating null character)
-                descriptionLength = bc.bytesToUInt(descTag[8:12])
-
-                # Description as binary string (excluding terminating null char)
-                description = descTag[12:12 + descriptionLength - 1]
-            else:
-                # multiLocalizedUnicodeType structure from ICC.1:2022-05 (v 4 profiles)
-                description = self.readmultiLocalizedUnicodeType(descTag)
-
-        except Exception:
-            description = ""
-        self.addCharacteristic("description", description)
-
-        # Get copyright info from copyright tag
-        try:
-            i = tagSignatures.index(b'cprt')
-            cprtStartOffset = tagOffsets[i]
-            cprtSize = tagSizes[i]
-            cprtTag = self.boxContents[
-                cprtStartOffset:cprtStartOffset + cprtSize]
-
-            if profileMajorRevision < 4:
-                # textType structure from ICC.1:2001-04
-                copyright = cprtTag[8:cprtSize]
-            else:
-                # multiLocalizedUnicodeType structure from ICC.1:2022-05 (v 4 profiles)
-                copyright = self.readmultiLocalizedUnicodeType(cprtTag)
-
-        except Exception:
-            copyright = ""
-        self.addCharacteristic("copyright", copyright)
-
-        # Get info from mediaWhitePointTag
-        try:
-            i = tagSignatures.index(b'wtpt')
-            wtptStartOffset = tagOffsets[i]
-            wtptSize = tagSizes[i]
-            wtptTag = self.boxContents[
-                wtptStartOffset:wtptStartOffset + wtptSize]
-            wtptX = bc.bytesToUInt(wtptTag[8:12])
-            wtptY = bc.bytesToUInt(wtptTag[12:16])
-            wtptZ = bc.bytesToUInt(wtptTag[16:20])
-            mediaWhitePoint = "{} {} {}".format(wtptX, wtptY, wtptZ)
-
-        except Exception:
-            raise
-            mediaWhitePoint = ""
-        self.addCharacteristic("mediaWhitePoint", mediaWhitePoint)

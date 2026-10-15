@@ -83,6 +83,21 @@ def bytesToInteger(bytestring):
     return result
 
 
+def s15Fixed16NumberToFloat(bytestring):
+    """ Unpack s15Fixed16Number to float.
+
+    Adapted from Maciej Żuk:
+
+    https://github.com/maciej-zuk/icc/blob/master/tags/types/primitive.py
+    """
+    try:
+        integerPart, fractionPart = struct.unpack(">hH", bytestring)
+        result = integerPart + fractionPart/65536.0
+    except Exception:
+        result = -9999
+
+    return result
+
 def isctrl(c):
     """Return True if byte corresponds to device control character.
 
