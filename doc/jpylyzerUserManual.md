@@ -2493,19 +2493,15 @@ ppt
 References {#references}
 ============
 
-ICC. Specification ICC.1:1998-09 – File Format for Color Profiles.
-International Color Consortium, 1998. [https://www.color.org/ICC-1\_1998-09.pdf](https://www.color.org/ICC-1_1998-09.pdf).
+ISO/IEC 15444-1 / ITU-T T.800 (V3) (06/2019) - Information technology – JPEG 2000 image coding system: Core coding system. <https://handle.itu.int/11.1002/1000/13911>
 
-ISO/IEC. Information technology — JPEG 2000 image coding system: Core
-coding system. ISO/IEC 15444-1, Second edition. Geneva: ISO/IEC, 2004a.
-[https://www.jpeg.org/public/15444-1annexi.pdf](https://www.jpeg.org/public/15444-1annexi.pdf) (“Annex I: JP2 file format syntax” only).
+ISO/IEC 15444-2 / ITU-T T.801  (V2) (06/2021) - Information technology – JPEG 2000 image coding system: Extensions. <https://handle.itu.int/11.1002/1000/14666>
 
-ISO/IEC. Information technology — JPEG 2000 image coding system:
-Extensions. ISO/IEC 15444-2, First edition. Geneva: ISO/IEC, 2004b. [https://www.jpeg.org/public/15444-2annexm.pdf](https://www.jpeg.org/public/15444-2annexm.pdf)
-(“Annex M: JPX extended file format syntax” only).
+ISO/IEC 15444-15 / ITU-T T.814 (V3) (06/2019) - Information technology – JPEG 2000 image coding system: High-throughput JPEG 2000. <https://www.itu.int/ITU-T/recommendations/rec.aspx?id=13912>
 
-Leach, P., Mealling, M. & Salz, R. A Universally Unique IDentifier
-(UUID) URN namespace. Memo, IETF. [https://tools.ietf.org/html/rfc4122.html](https://tools.ietf.org/html/rfc4122.html).
+ICC. Specification ICC.1:2022 (Profile version 4.4.0.0) Image technology colour management - Architecture, profile format, and data structure. <https://archive.color.org/specification/ICC.1-2022-05.pdf>
+
+Leach, P., Mealling, M. & Salz, R. A Universally Unique IDentifier (UUID) URN namespace. Memo, IETF. <https://tools.ietf.org/html/rfc4122.html>
 
 
 [^1]: The *jpylyzer* binaries were created using the
