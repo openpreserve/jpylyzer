@@ -211,6 +211,9 @@ class IccValidator(Validator):
         # spec)
         tagCount = min(tagCount, 4096)
 
+        # List with all tag signatures
+        tagSignatures = []
+
         # Offset of start of first tag
         tagStart = 132
 
@@ -221,8 +224,8 @@ class IccValidator(Validator):
                 self.boxContents[tagStart + 4:tagStart + 8])
             tagSize = bc.bytesToUInt(self.boxContents[tagStart + 8:tagStart + 12])
 
-            # Report tag signature for each tag
-            self.addCharacteristic("tag", tagSignature)
+            # Add tag signature to list
+            tagSignatures.append(tagSignature)
 
             # Only parse and report the following required tags:
             # - profileDescriptionTag
@@ -299,3 +302,6 @@ class IccValidator(Validator):
             # Start offset of next tag
             tagStart += 12
 
+        # Report all tag signatures
+        for tagSignature in tagSignatures:
+            self.addCharacteristic("tag", tagSignature)

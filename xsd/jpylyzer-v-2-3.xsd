@@ -302,7 +302,6 @@
         <xs:element ref="connectionSpaceIlluminantZ"/>
         <xs:element ref="profileCreator"/>
         <xs:element ref="profileID"/>
-        <xs:element ref="tag" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="description"/>
         <xs:element ref="copyright"/>
         <xs:element ref="mediaWhitePointX"/>
@@ -317,7 +316,8 @@
         <xs:element ref="chromaticAdaptationA6"/>
         <xs:element ref="chromaticAdaptationA7"/>
         <xs:element ref="chromaticAdaptationA8"/>
-      </xs:sequence>
+        <xs:element ref="tag" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
     </xs:complexType>
   </xs:element>
 
@@ -344,7 +344,6 @@
   <xs:element name="connectionSpaceIlluminantZ" type="xs:decimal"/>
   <xs:element name="profileCreator" type="xs:string"/>
   <xs:element name="profileID" type="xs:string"/>
-  <xs:element name="tag" type="xs:string"/>
   <xs:element name="description" type="xs:string"/>
   <xs:element name="copyright" type="xs:string"/>
   <xs:element name="mediaWhitePointX" type="xs:decimal"/>
@@ -359,6 +358,7 @@
   <xs:element name="chromaticAdaptationA6" type="xs:decimal"/>
   <xs:element name="chromaticAdaptationA7" type="xs:decimal"/>
   <xs:element name="chromaticAdaptationA8" type="xs:decimal"/>
+  <xs:element name="tag" type="xs:string"/>
 
   <xs:element name="paletteBox">
     <xs:complexType>
