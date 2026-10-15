@@ -304,6 +304,19 @@
         <xs:element ref="profileID"/>
         <xs:element ref="tag" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="description"/>
+        <xs:element ref="copyright"/>
+        <xs:element ref="mediaWhitePointX"/>
+        <xs:element ref="mediaWhitePointY"/>
+        <xs:element ref="mediaWhitePointZ"/>
+        <xs:element ref="chromaticAdaptationA0"/>
+        <xs:element ref="chromaticAdaptationA1"/>
+        <xs:element ref="chromaticAdaptationA2"/>
+        <xs:element ref="chromaticAdaptationA3"/>
+        <xs:element ref="chromaticAdaptationA4"/>
+        <xs:element ref="chromaticAdaptationA5"/>
+        <xs:element ref="chromaticAdaptationA6"/>
+        <xs:element ref="chromaticAdaptationA7"/>
+        <xs:element ref="chromaticAdaptationA8"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -333,6 +346,19 @@
   <xs:element name="profileID" type="xs:string"/>
   <xs:element name="tag" type="xs:string"/>
   <xs:element name="description" type="xs:string"/>
+  <xs:element name="copyright" type="xs:string"/>
+  <xs:element name="mediaWhitePointX" type="xs:decimal"/>
+  <xs:element name="mediaWhitePointY" type="xs:decimal"/>
+  <xs:element name="mediaWhitePointZ" type="xs:decimal"/>
+  <xs:element name="chromaticAdaptationA0" type="xs:decimal"/>
+  <xs:element name="chromaticAdaptationA1" type="xs:decimal"/>
+  <xs:element name="chromaticAdaptationA2" type="xs:decimal"/>
+  <xs:element name="chromaticAdaptationA3" type="xs:decimal"/>
+  <xs:element name="chromaticAdaptationA4" type="xs:decimal"/>
+  <xs:element name="chromaticAdaptationA5" type="xs:decimal"/>
+  <xs:element name="chromaticAdaptationA6" type="xs:decimal"/>
+  <xs:element name="chromaticAdaptationA7" type="xs:decimal"/>
+  <xs:element name="chromaticAdaptationA8" type="xs:decimal"/>
 
   <xs:element name="paletteBox">
     <xs:complexType>
