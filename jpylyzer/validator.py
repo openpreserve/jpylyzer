@@ -22,10 +22,12 @@ class Validator:
         self.characteristics = None
         self.tests = None
         self.warnings = None
-        # The following two dictionaries map the hexadecimal strings that identify boxes and and marker
-        # segments to corresponding hexadecimal strings
 
-        # Boxes, sub-boxes. These correspond to values in  Table I.4 (Defined boxes) of ISO/IEC 15444-1
+        # The following two dictionaries map the hexadecimal strings that identify boxes
+        # and marker segments to corresponding hexadecimal strings
+
+        # Boxes, sub-boxes. These correspond to values in  Table I.4 (Defined boxes) of
+        # ISO/IEC 15444-1
 
         self.boxTypeMap = {
             b'\x6a\x70\x32\x69': "intellectualPropertyBox",

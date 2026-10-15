@@ -40,11 +40,10 @@ class IccValidator(Validator):
         and return first string, ignoring everything else
         """
         noRecords = bc.bytesToUInt(tag[8:12])
-        recordSize = bc.bytesToUInt(tag[12:16])
         # Set up list to store string offsets
         stringOffsets = []
         offset = 16
-        for record in range(noRecords):
+        for _ in range(noRecords):
             stringOffset = bc.bytesToUInt(tag[offset + 8:offset + 12])
             stringOffsets.append(stringOffset)
             offset += 12
@@ -218,7 +217,7 @@ class IccValidator(Validator):
         tagStart = 132
 
         # Iterate over all tags
-        for i in range(tagCount):
+        for _ in range(tagCount):
             tagSignature = self.boxContents[tagStart:tagStart + 4]
             tagOffset = bc.bytesToUInt(
                 self.boxContents[tagStart + 4:tagStart + 8])
@@ -255,12 +254,12 @@ class IccValidator(Validator):
 
                 if profileMajorRevision < 4:
                     # textType structure from ICC.1:2001-04
-                    copyright = cprtTag[8:tagSize]
+                    copyrightStr = cprtTag[8:tagSize]
                 else:
                     # multiLocalizedUnicodeType structure from ICC.1:2022-05 (v 4 profiles)
-                    copyright = self.readmultiLocalizedUnicodeType(cprtTag)
+                    copyrightStr = self.readmultiLocalizedUnicodeType(cprtTag)
 
-                self.addCharacteristic("copyright", copyright)
+                self.addCharacteristic("copyright", copyrightStr)
 
             elif tagSignature == b'wtpt':
                 # mediaWhitePointTag
