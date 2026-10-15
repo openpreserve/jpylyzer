@@ -157,43 +157,8 @@ Installation from Python Package Index (Linux/Unix, Windows, Mac OS X) {#install
 -----------------------------------------------------------------
 
 As of 2026, [uv](https://docs.astral.sh/uv/) appears to be the most straightforward tool
-for installing Python applications from the Python Package Index.
-
-### uv installation
-
-First, check if uv is installed on your system by typing the uv command in a terminal:
-
-```
-uv
-```
-
-If this results in a help message, uv is installed, and you can skip to the
-"Jpylyzer installation" section. If not, you have to install uv first.
-On Linux and MacOS, use the following command:
-
-```
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-Alternatively, you can use wget if your system doesn't have curl installed:
-
-```
-wget -qO- https://astral.sh/uv/install.sh | sh
-```
-
-On Windows, open a Powershell terminal, and run the following command:
-
-```
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
-
-Regardless of the operating system, in some cases the installation script will update
-your system's configuration to make the location of the uv executable globally accessible.
-If this happens, just close your current terminal, and open a new one for these changes
-to take effect. Pay attention to the screen output of the installation script for any details
-on this.
-
-### Jpylyzer installation
+for installing Python applications from the Python Package Index. Instructions on how to
+install uv are available [here](https://docs.astral.sh/uv/getting-started/installation/).
 
 Use the following command to install Jpylyzer (all platforms):
 
@@ -2502,7 +2467,6 @@ ISO/IEC 15444-15 / ITU-T T.814 (V3) (06/2019) - Information technology – JPEG 
 ICC. Specification ICC.1:2022 (Profile version 4.4.0.0) Image technology colour management - Architecture, profile format, and data structure. <https://archive.color.org/specification/ICC.1-2022-05.pdf>
 
 Leach, P., Mealling, M. & Salz, R. A Universally Unique IDentifier (UUID) URN namespace. Memo, IETF. <https://tools.ietf.org/html/rfc4122.html>
-
 
 [^1]: The *jpylyzer* binaries were created using the
 *PyInstaller* package:
