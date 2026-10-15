@@ -98,6 +98,7 @@ def s15Fixed16NumberToFloat(bytestring):
 
     return result
 
+
 def isctrl(c):
     """Return True if byte corresponds to device control character.
 
