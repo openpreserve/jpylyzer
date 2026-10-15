@@ -1104,8 +1104,8 @@ colourSpecificationBox
 If the colour specification box contains an embedded ICC profile,
 *jpylyzer* will also report the following properties (which are all
 grouped in an “icc” sub-element in the properties tree). An exhaustive
-explanation of these properties is given in the ICC specification (ISO
-15076-1 / ICC.1:2004-10). Note that *jpylyzer* does *not* validate
+explanation of these properties is given in the ICC specification (ICC.1:2022,
+and the earlier ICC.1:2004-10). Note that *jpylyzer* does *not* validate
 embedded ICC profiles (even though it does check if a specific ICC
 profile is allowed in JP2)!
 
@@ -1134,8 +1134,21 @@ profile is allowed in JP2)!
 |connectionSpaceIlluminantZ|Profile connection space illuminant Z|
 |profileCreator|Signature that identifies creator of profile|
 |profileID|Profile checksum (as hexadecimal string)|
+|description|Profile description (extracted from profileDescriptionTag)|
+|copyright|Profile copyright information (extracted from copyrightTag)|
+|mediaWhitePointX|Chromatically adapted nCIEX tristimulus value of the media white point (extracted from mediaWhitePointTag)|
+|mediaWhitePointY|Chromatically adapted nCIEY tristimulus value of the media white point (extracted from mediaWhitePointTag)|
+|mediaWhitePointZ|Chromatically adapted nCIEZ tristimulus value of the media white point (extracted from mediaWhitePointTag)|
+|chromaticAdaptationA0|Chromatic adaptation matrix coefficient a<sub>0</sub> (extracted from chromaticAdaptationTag)|
+|chromaticAdaptationA1|Chromatic adaptation matrix coefficient a<sub>1</sub> (extracted from chromaticAdaptationTag)|
+|chromaticAdaptationA2|Chromatic adaptation matrix coefficient a<sub>2</sub> (extracted from chromaticAdaptationTag)|
+|chromaticAdaptationA3|Chromatic adaptation matrix coefficient a<sub>3</sub> (extracted from chromaticAdaptationTag)|
+|chromaticAdaptationA4|Chromatic adaptation matrix coefficient a<sub>4</sub> (extracted from chromaticAdaptationTag)|
+|chromaticAdaptationA5|Chromatic adaptation matrix coefficient a<sub>5</sub> (extracted from chromaticAdaptationTag)|
+|chromaticAdaptationA6|Chromatic adaptation matrix coefficient a<sub>6</sub> (extracted from chromaticAdaptationTag)|
+|chromaticAdaptationA7|Chromatic adaptation matrix coefficient a<sub>7</sub> (extracted from chromaticAdaptationTag)|
+|chromaticAdaptationA8|Chromatic adaptation matrix coefficient a<sub>8</sub> (extracted from chromaticAdaptationTag)|
 |tag<sup>\*</sup>|Signature of profile tag (repeated for all tags in the profile)|
-|description|Profile description (extracted from ‘desc’ tag)|
 
 ### Tests
 
