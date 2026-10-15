@@ -13,100 +13,100 @@ title: User Manual
 
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#introduction">Introduction</a>
+<li><a href="#introduction" id="toc-introduction">Introduction</a>
 <ul>
-<li><a href="#about-jpylyzer">About jpylyzer</a></li>
-<li><a href="#validation-scope-and-restrictions">Validation: scope and restrictions</a></li>
-<li><a href="#outline">Outline of this User Manual</a></li>
-<li><a href="#funding">Funding</a></li>
-<li><a href="#license">License</a></li>
+<li><a href="#about-jpylyzer" id="toc-about-jpylyzer">About jpylyzer</a></li>
+<li><a href="#validation-scope-and-restrictions" id="toc-validation-scope-and-restrictions">Validation: scope and restrictions</a></li>
+<li><a href="#outline" id="toc-outline">Outline of this User Manual</a></li>
+<li><a href="#funding" id="toc-funding">Funding</a></li>
+<li><a href="#license" id="toc-license">License</a></li>
 </ul></li>
-<li><a href="#installation">Installation and set-up</a>
+<li><a href="#installation" id="toc-installation">Installation and set-up</a>
 <ul>
-<li><a href="#obtaining-the-software">Obtaining the software</a></li>
-<li><a href="#installation-pip">Installation with Pip (Linux/Unix, Windows, Mac OS X)</a></li>
-<li><a href="#installation-windows">Installation of Windows binaries (Windows only)</a></li>
-<li><a href="#installation-debian">Installation of Debian packages (Ubuntu/Linux)</a></li>
+<li><a href="#obtaining-the-software" id="toc-obtaining-the-software">Obtaining the software</a></li>
+<li><a href="#installation-pypi" id="toc-installation-pypi">Installation from Python Package Index (Linux/Unix, Windows, Mac OS X)</a></li>
+<li><a href="#installation-windows" id="toc-installation-windows">Installation of Windows binaries (Windows only)</a></li>
+<li><a href="#installation-debian" id="toc-installation-debian">Installation of Debian packages (Ubuntu/Linux)</a></li>
 </ul></li>
-<li><a href="#using-jpylyzer">Using <em>jpylyzer</em></a>
+<li><a href="#using-jpylyzer" id="toc-using-jpylyzer">Using <em>jpylyzer</em></a>
 <ul>
-<li><a href="#using-overview">Overview</a></li>
-<li><a href="#command-line-usage">Command-line usage</a></li>
-<li><a href="#using-as-python-module">Using <em>jpylyzer</em> as a Python module</a></li>
-<li><a href="#java-integration">Java integration</a></li>
+<li><a href="#using-overview" id="toc-using-overview">Overview</a></li>
+<li><a href="#command-line-usage" id="toc-command-line-usage">Command-line usage</a></li>
+<li><a href="#using-as-python-module" id="toc-using-as-python-module">Using <em>jpylyzer</em> as a Python module</a></li>
+<li><a href="#java-integration" id="toc-java-integration">Java integration</a></li>
 </ul></li>
-<li><a href="#structure-jp2">Structure of a JP2 file</a>
+<li><a href="#structure-jp2" id="toc-structure-jp2">Structure of a JP2 file</a>
 <ul>
-<li><a href="#structure-scope">Scope of this section</a></li>
-<li><a href="#general-format-structure">General format structure</a></li>
-<li><a href="#general-box-structure">General structure of a box</a></li>
-<li><a href="#defined-boxes">Defined boxes in JP2</a></li>
+<li><a href="#structure-scope" id="toc-structure-scope">Scope of this section</a></li>
+<li><a href="#general-format-structure" id="toc-general-format-structure">General format structure</a></li>
+<li><a href="#general-box-structure" id="toc-general-box-structure">General structure of a box</a></li>
+<li><a href="#defined-boxes" id="toc-defined-boxes">Defined boxes in JP2</a></li>
 </ul></li>
-<li><a href="#output-format">Output format</a>
+<li><a href="#output-format" id="toc-output-format">Output format</a>
 <ul>
-<li><a href="#output-format-overview">Overview</a></li>
-<li><a href="#toolinfo-element">toolInfo element</a></li>
-<li><a href="#file-element">file element</a></li>
-<li><a href="#fileinfo-element">fileInfo element</a></li>
-<li><a href="#statusinfo-element">statusInfo element</a></li>
-<li><a href="#isvalid-element">isValid element</a></li>
-<li><a href="#tests-element">tests element</a></li>
-<li><a href="#properties-element">properties element</a></li>
-<li><a href="#propertiesExtension-element">propertiesExtension element</a></li>
-<li><a href="#warnings-element">warnings element</a></li>
+<li><a href="#output-format-overview" id="toc-output-format-overview">Overview</a></li>
+<li><a href="#toolinfo-element" id="toc-toolinfo-element">toolInfo element</a></li>
+<li><a href="#file-element" id="toc-file-element">file element</a></li>
+<li><a href="#fileinfo-element" id="toc-fileinfo-element">fileInfo element</a></li>
+<li><a href="#statusinfo-element" id="toc-statusinfo-element">statusInfo element</a></li>
+<li><a href="#isvalid-element" id="toc-isvalid-element">isValid element</a></li>
+<li><a href="#tests-element" id="toc-tests-element">tests element</a></li>
+<li><a href="#properties-element" id="toc-properties-element">properties element</a></li>
+<li><a href="#propertiesExtension-element" id="toc-propertiesExtension-element">propertiesExtension element</a></li>
+<li><a href="#warnings-element" id="toc-warnings-element">warnings element</a></li>
 </ul></li>
-<li><a href="#jp2-box-by-box">JP2: box by box</a>
+<li><a href="#jp2-box-by-box" id="toc-jp2-box-by-box">JP2: box by box</a>
 <ul>
-<li><a href="#about-properties-tests-trees">About the properties and tests trees</a></li>
-<li><a href="#jpeg2000-signature-box">JPEG 2000 Signature box</a></li>
-<li><a href="#file-type-box">File Type box</a></li>
-<li><a href="#jp2-header-box">JP2 Header box (superbox)</a></li>
-<li><a href="#image-header-box">Image Header box (child of JP2 Header box)</a></li>
-<li><a href="#bits-per-component-box">Bits Per Component box (child of JP2 Header box)</a></li>
-<li><a href="#colour-specification-box">Colour Specification box (child of JP2 Header box)</a></li>
-<li><a href="#palette-box">Palette box (child of JP2 Header box)</a></li>
-<li><a href="#component-mapping-box">Component Mapping box (child of JP2 Header box)</a></li>
-<li><a href="#channel-definition-box">Channel Definition box (child of JP2 Header box)</a></li>
-<li><a href="#resolution-box">Resolution box (child of JP2 Header box, superbox)</a></li>
-<li><a href="#capture-resolution-box">Capture Resolution box (child of Resolution box)</a></li>
-<li><a href="#display-resolution-box">Default Display Resolution box (child of Resolution box)</a></li>
-<li><a href="#codestream-box">Contiguous Codestream box</a></li>
-<li><a href="#intellectual-property-box">Intellectual Property box</a></li>
-<li><a href="#xml-box">XML box</a></li>
-<li><a href="#uuid-box">UUID box</a></li>
-<li><a href="#uuid-info-box">UUID Info box (superbox)</a></li>
-<li><a href="#uuid-list-box">UUID List box (child of UUID Info box)</a></li>
-<li><a href="#data-entry-url-box">Data Entry URL box (child of UUID Info box)</a></li>
-<li><a href="#unknown-box-section">Unknown box</a></li>
-<li><a href="#top-level-tests-properties">Top-level tests and properties</a></li>
+<li><a href="#about-properties-tests-trees" id="toc-about-properties-tests-trees">About the properties and tests trees</a></li>
+<li><a href="#jpeg2000-signature-box" id="toc-jpeg2000-signature-box">JPEG 2000 Signature box</a></li>
+<li><a href="#file-type-box" id="toc-file-type-box">File Type box</a></li>
+<li><a href="#jp2-header-box" id="toc-jp2-header-box">JP2 Header box (superbox)</a></li>
+<li><a href="#image-header-box" id="toc-image-header-box">Image Header box (child of JP2 Header box)</a></li>
+<li><a href="#bits-per-component-box" id="toc-bits-per-component-box">Bits Per Component box (child of JP2 Header box)</a></li>
+<li><a href="#colour-specification-box" id="toc-colour-specification-box">Colour Specification box (child of JP2 Header box)</a></li>
+<li><a href="#palette-box" id="toc-palette-box">Palette box (child of JP2 Header box)</a></li>
+<li><a href="#component-mapping-box" id="toc-component-mapping-box">Component Mapping box (child of JP2 Header box)</a></li>
+<li><a href="#channel-definition-box" id="toc-channel-definition-box">Channel Definition box (child of JP2 Header box)</a></li>
+<li><a href="#resolution-box" id="toc-resolution-box">Resolution box (child of JP2 Header box, superbox)</a></li>
+<li><a href="#capture-resolution-box" id="toc-capture-resolution-box">Capture Resolution box (child of Resolution box)</a></li>
+<li><a href="#display-resolution-box" id="toc-display-resolution-box">Default Display Resolution box (child of Resolution box)</a></li>
+<li><a href="#codestream-box" id="toc-codestream-box">Contiguous Codestream box</a></li>
+<li><a href="#intellectual-property-box" id="toc-intellectual-property-box">Intellectual Property box</a></li>
+<li><a href="#xml-box" id="toc-xml-box">XML box</a></li>
+<li><a href="#uuid-box" id="toc-uuid-box">UUID box</a></li>
+<li><a href="#uuid-info-box" id="toc-uuid-info-box">UUID Info box (superbox)</a></li>
+<li><a href="#uuid-list-box" id="toc-uuid-list-box">UUID List box (child of UUID Info box)</a></li>
+<li><a href="#data-entry-url-box" id="toc-data-entry-url-box">Data Entry URL box (child of UUID Info box)</a></li>
+<li><a href="#unknown-box-section" id="toc-unknown-box-section">Unknown box</a></li>
+<li><a href="#top-level-tests-properties" id="toc-top-level-tests-properties">Top-level tests and properties</a></li>
 </ul></li>
-<li><a href="#contiguous-codestream-box-chapter">Contiguous Codestream box</a>
+<li><a href="#contiguous-codestream-box-chapter" id="toc-contiguous-codestream-box-chapter">Contiguous Codestream box</a>
 <ul>
-<li><a href="#codestream-structure">General codestream structure</a></li>
-<li><a href="#limitations-codestream-validation">Limitations of codestream validation</a></li>
-<li><a href="#structure-reported-output">Structure of reported output</a></li>
-<li><a href="#contiguous-codestream-box">Contiguous Codestream box</a></li>
-<li><a href="#siz-marker">Image and tile size (SIZ) marker segment (child of Contiguous Codestream box)</a></li>
-<li><a href="#cod-marker">Coding style default (COD) marker segment</a></li>
-<li><a href="#coc-marker">Coding style component (COC) marker segment</a></li>
-<li><a href="#rgn-marker">Region-of-interest (RGN) marker segment</a></li>
-<li><a href="#qcd-marker">Quantization default (QCD) marker segment</a></li>
-<li><a href="#qcc-marker">Quantization component (QCC) marker segment</a></li>
-<li><a href="#poc-marker">Progression order change (POC) marker segment</a></li>
-<li><a href="#crg-marker">Component registration (CRG) marker segment</a></li>
-<li><a href="#com-marker">Comment (COM) marker segment</a></li>
-<li><a href="#cap-marker">Extended capabilities (CAP) marker segment</a></li>
-<li><a href="#prf-marker">Profile (PRF) marker segment</a></li>
-<li><a href="#cpf-marker">Corresponding profile (CPF) marker segment</a></li>
-<li><a href="#tile-part">Tile part (child of Contiguous Codestream box)</a></li>
-<li><a href="#sot-marker">Start of tile part (SOT) marker segment (child of tile part)</a></li>
-<li><a href="#tlm-marker">Tile-part lengths (TLM) marker segment</a></li>
-<li><a href="#plm-marker">Packet length, main header (PLM) marker segment</a></li>
-<li><a href="#ppm-marker">Packed packet headers, main header (PPM) marker segment</a></li>
-<li><a href="#plt-marker">Packet length, tile-part header (PLT) marker segment</a></li>
-<li><a href="#ppt-marker">Packed packet headers, tile-part header (PPT) marker segment</a></li>
+<li><a href="#codestream-structure" id="toc-codestream-structure">General codestream structure</a></li>
+<li><a href="#limitations-codestream-validation" id="toc-limitations-codestream-validation">Limitations of codestream validation</a></li>
+<li><a href="#structure-reported-output" id="toc-structure-reported-output">Structure of reported output</a></li>
+<li><a href="#contiguous-codestream-box" id="toc-contiguous-codestream-box">Contiguous Codestream box</a></li>
+<li><a href="#siz-marker" id="toc-siz-marker">Image and tile size (SIZ) marker segment (child of Contiguous Codestream box)</a></li>
+<li><a href="#cod-marker" id="toc-cod-marker">Coding style default (COD) marker segment</a></li>
+<li><a href="#coc-marker" id="toc-coc-marker">Coding style component (COC) marker segment</a></li>
+<li><a href="#rgn-marker" id="toc-rgn-marker">Region-of-interest (RGN) marker segment</a></li>
+<li><a href="#qcd-marker" id="toc-qcd-marker">Quantization default (QCD) marker segment</a></li>
+<li><a href="#qcc-marker" id="toc-qcc-marker">Quantization component (QCC) marker segment</a></li>
+<li><a href="#poc-marker" id="toc-poc-marker">Progression order change (POC) marker segment</a></li>
+<li><a href="#crg-marker" id="toc-crg-marker">Component registration (CRG) marker segment</a></li>
+<li><a href="#com-marker" id="toc-com-marker">Comment (COM) marker segment</a></li>
+<li><a href="#cap-marker" id="toc-cap-marker">Extended capabilities (CAP) marker segment</a></li>
+<li><a href="#prf-marker" id="toc-prf-marker">Profile (PRF) marker segment</a></li>
+<li><a href="#cpf-marker" id="toc-cpf-marker">Corresponding profile (CPF) marker segment</a></li>
+<li><a href="#tile-part" id="toc-tile-part">Tile part (child of Contiguous Codestream box)</a></li>
+<li><a href="#sot-marker" id="toc-sot-marker">Start of tile part (SOT) marker segment (child of tile part)</a></li>
+<li><a href="#tlm-marker" id="toc-tlm-marker">Tile-part lengths (TLM) marker segment</a></li>
+<li><a href="#plm-marker" id="toc-plm-marker">Packet length, main header (PLM) marker segment</a></li>
+<li><a href="#ppm-marker" id="toc-ppm-marker">Packed packet headers, main header (PPM) marker segment</a></li>
+<li><a href="#plt-marker" id="toc-plt-marker">Packet length, tile-part header (PLT) marker segment</a></li>
+<li><a href="#ppt-marker" id="toc-ppt-marker">Packed packet headers, tile-part header (PPT) marker segment</a></li>
 </ul></li>
-<li><a href="#references">References</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
 </ul>
 </nav>
 
@@ -214,8 +214,8 @@ title: User Manual
 
 
 <ol type="1">
-<li><p>Install the software with the <em>Pip</em> package manager. This works on all platforms (Windows, Linux, Mac, etc.), but you need to have the Python interpreter available on your system. Jpylyzer is compatible with Python 3.2 and more recent.</p></li>
-<li><p>Alternatively, for Windows users there is also a set of stand-alone binaries<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. These allow you to run <em>jpylyzer</em> as an executable Windows application, without any need for installing Python. This option is particularly useful for Windows users who cannot (or don’t want to) install software on their system.</p></li>
+<li><p>Install the software from the Python Package Index (PyPi). This works on all platforms (Windows, Linux, Mac, etc.), but you need to have the Python interpreter available on your system. Jpylyzer is compatible with Python 3.2 and more recent<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p></li>
+<li><p>Alternatively, for Windows users there is also a set of stand-alone binaries<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. These allow you to run <em>jpylyzer</em> as an executable Windows application, without any need for installing Python. This option is particularly useful for Windows users who cannot (or don’t want to) install software on their system.</p></li>
 <li><p>For Linux users Debian packages are available.</p></li>
 </ol>
 
@@ -223,49 +223,52 @@ title: User Manual
 <p>These options are described in the following sub-sections.</p>
 
 
-<h2 id="installation-pip">Installation with Pip (Linux/Unix, Windows, Mac OS X)</h2>
+<h2 id="installation-pypi">Installation from Python Package Index (Linux/Unix, Windows, Mac OS X)</h2>
 
 
-<h3 id="general-installation-procedure">General installation procedure</h3>
+<p>As of 2026, <a href="https://docs.astral.sh/uv/">uv</a> appears to be the most straightforward tool for installing Python applications from the Python Package Index.</p>
 
 
-<p>First make sure you have a recent version of <em>pip</em>. Then install <em>jpylyzer</em> with the following command:</p>
+<h3 id="uv-installation">uv installation</h3>
 
 
-<pre><code>pip install jpylyzer</code></pre>
+<p>First, check if uv is installed on your system by typing the uv command in a terminal:</p>
 
 
-<h3 id="single-user-installation-linux">Single user installation (Linux)</h3>
+<pre><code>uv</code></pre>
 
 
-<p>On most Linux systems the above command needs to be run as super user (see below). If you don’t want this use the below command for a single-user install:</p>
+<p>If this results in a help message, uv is installed, and you can skip to the “Jpylyzer installation” section. If not, you have to install uv first. On Linux and MacOS, use the following command:</p>
 
 
-<pre><code>pip install jpylyzer --user</code></pre>
+<pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre>
 
 
-<p>This will install the software to the <code>.local</code> folder (hidden by default!) in your home directory (<code>~/.local</code>). Next try to run <em>jpylyzer</em> by entering:</p>
+<p>Alternatively, you can use wget if your system doesn’t have curl installed:</p>
 
 
-<pre><code>jpylyzer</code></pre>
+<pre><code>wget -qO- https://astral.sh/uv/install.sh | sh</code></pre>
 
 
-<p>Most likely this will result in:</p>
+<p>On Windows, open a Powershell terminal, and run the following command:</p>
 
 
-<pre><code>jpylyzer: command not found</code></pre>
+<pre><code>powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre>
 
 
-<p>If this happens, add the directory <code>~/.local/bin</code> (which is where the jpylyzer command-line tool is installed) to the <code>PATH</code> environment variable (you only need to do this once). To do this, locate the (hidden) file <code>.profile</code> in you home directory (<code>~/</code>), and open it in a text editor. Then add the following lines at the end of the file:</p>
+<p>Regardless of the operating system, in some cases the installation script will update your system’s configuration to make the location of the uv executable globally accessible. If this happens, just close your current terminal, and open a new one for these changes to take effect. Pay attention to the screen output of the installation script for any details on this.</p>
 
 
-<pre><code># set PATH so it includes the user's .local bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi</code></pre>
+<h3 id="jpylyzer-installation">Jpylyzer installation</h3>
 
 
-<p>Save the file, log out of your session and then log in again. Open a command terminal and type:</p>
+<p>Use the following command to install Jpylyzer (all platforms):</p>
+
+
+<pre><code>uv tool install jpylyzer</code></pre>
+
+
+<p>To test the installation, type this in the terminal:</p>
 
 
 <pre><code>jpylyzer</code></pre>
@@ -280,28 +283,16 @@ fi</code></pre>
 jpylyzer: error: the following arguments are required: jp2In</code></pre>
 
 
-<p>Which means that the installation was successful!</p>
+<p>Which means the installation was successful!</p>
 
 
-<h3 id="global-installation-linux">Global installation (Linux)</h3>
+<h3 id="installing-pre-releases">Installing pre-releases</h3>
 
 
-<p>Simply enter:</p>
+<p>By default uv installs the current stable version of jpylyzer. Use the <code>--prerelease allow</code> option to install the latest pre-release:</p>
 
 
-<pre><code>sudo -H pip install jpylyzer</code></pre>
-
-
-<p>No further configuration is needed in this case.</p>
-
-
-<h3 id="note-on-pre-releases">Note on pre-releases</h3>
-
-
-<p>The above command lines will only install stable versions of jpylyzer. In order to install the latest pre-release, add the <code>--pre</code> switch. For example:</p>
-
-
-<pre><code>sudo -H pip install jpylyzer --pre</code></pre>
+<pre><code>uv tool install --prerelease allow jpylyzer</code></pre>
 
 
 <h2 id="installation-windows">Installation of Windows binaries (Windows only)</h2>
@@ -313,7 +304,7 @@ jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <h3 id="testing-the-installation">Testing the installation</h3>
 
 
-<p>To test your installation, open a Command Prompt (‘DOS prompt’) and type:</p>
+<p>To test your installation, open a Command Prompt (‘DOS prompt’) or PowerShell console and type:</p>
 
 
 <pre><code>%jpylyzerPath%\jpylyzer</code></pre>
@@ -322,7 +313,7 @@ jpylyzer: error: the following arguments are required: jp2In</code></pre>
 <p>In the above command, replace <em>%jpylyzerPath%</em> with the full path to the <em>jpylyzer</em> installation directory (i.e. the directory that contains ‘jpylyzer.exe’ and its associated files). For example, if you extracted the files to directory <code>c:\tools\jpylyzer</code>, the command would become:</p>
 
 
-<pre><code>c:\tools\jpylyzer\jpylyzer</code></pre>
+<pre><code>C:\tools\jpylyzer\jpylyzer</code></pre>
 
 
 <p>Executing this command should result in the following screen output:</p>
@@ -663,31 +654,37 @@ sudo apt-get install python-jpylyzer</code></pre>
 <h2 id="using-as-python-module">Using <em>jpylyzer</em> as a Python module</h2>
 
 
-<p>Instead of using <em>jpylyzer</em> from the command-line, you can also import it as a module in your own Python programs. To do so, install jpylyzer with <em>pip</em>. Then import <em>jpylyzer</em> into your code by adding:</p>
+<p>Instead of using <em>jpylyzer</em> from the command-line, you can also import it as a module in your own Python programs. To do so, install jpylyzer with <em>pip</em> in a virtual environment:</p>
 
 
-<pre><code>from jpylyzer import jpylyzer</code></pre>
+<pre><code>pip install jpylyzer</code></pre>
+
+
+<p>Then import <em>jpylyzer</em> into your code by adding:</p>
+
+
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"/><span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</span></code></pre></div>
 
 
 <p>Subsequently you can call any function that is defined in <em>jpylyzer.py</em>. In practice you will most likely only need the <em>checkOneFile</em> function. The following minimal script shows how this works:</p>
 
 
-<pre><code>#! /usr/bin/env python3
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"/><span class="co">#! /usr/bin/env python3</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"/></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"/><span class="im">from</span> jpylyzer <span class="im">import</span> jpylyzer</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"/></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"/><span class="co"># Define JP2</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"/>myFile <span class="op">=</span> <span class="st">"/home/johan/jpylyzer-test-files/aware.jp2"</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"/></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"/><span class="co"># Analyse with jpylyzer, result to Element object</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"/>myResult <span class="op">=</span> jpylyzer.checkOneFile(myFile)</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"/></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"/><span class="co"># Return image height value</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"/>imageHeight <span class="op">=</span> myResult.findtext(<span class="st">'./properties/jp2HeaderBox/imageHeaderBox/height'</span>)</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"/><span class="bu">print</span>(imageHeight)</span></code></pre></div>
 
-from jpylyzer import jpylyzer
 
-# Define JP2
-myFile = "/home/johan/jpylyzer-test-files/aware.jp2"
-
-# Analyse with jpylyzer, result to Element object
-myResult = jpylyzer.checkOneFile(myFile)
-
-# Return image height value
-imageHeight = myResult.findtext('./properties/jp2HeaderBox/imageHeaderBox/height')
-print(imageHeight)</code></pre>
-
-
-<p>Here, <em>myResult</em> is an <em>Element</em> object that can either be used directly, or converted to XML using the <em>ElementTree</em> module<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The structure of the element object follows the XML output that described <a href="#output-format">here</a>.</p>
+<p>Here, <em>myResult</em> is an <em>Element</em> object that can either be used directly, or converted to XML using the <em>ElementTree</em> module<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. The structure of the element object follows the XML output that described <a href="#output-format">here</a>.</p>
 
 
 <p>You may use the following optional arguments (which correspond to the command-line options explained above):</p>
@@ -705,17 +702,17 @@ print(imageHeight)</code></pre>
 <p>As an example, for validating a raw JPEG 2000 codestream, call the <em>checkOneFile</em> function with the additional <em>validationFormat</em> argument, and set it to <code>j2c</code>:</p>
 
 
-<pre><code># Define Codestream
-myFile = "/home/johan/jpylyzer-test-files/rubbish.j2c"
-
-# Analyse with jpylyzer, result to Element object
-myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"/><span class="co"># Define Codestream</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"/>myFile <span class="op">=</span> <span class="st">"/home/johan/jpylyzer-test-files/rubbish.j2c"</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"/></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"/><span class="co"># Analyse with jpylyzer, result to Element object</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"/>myResult <span class="op">=</span> jpylyzer.checkOneFile(myFile, <span class="st">'j2c'</span>)</span></code></pre></div>
 
 
 <h2 id="java-integration">Java integration</h2>
 
 
-<p>It is possible to integrate <em>jpylyzer</em> into Java applications<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. A test class that shows how this works is included in the source repo <a href="https://github.com/openpreserve/jpylyzer/tree/master/jpylyzer/java_demo/CallJpylyzer.java">here</a>. This requires <a href="https://www.jython.org/">Jython</a>. Note that you may run into performance issues with (very) large images in this case, as Jython does not support <a href="https://docs.python.org/3/library/mmap.html">memory mapping</a>, so make sure you’ve got plenty of RAM available.</p>
+<p>It is possible to integrate <em>jpylyzer</em> into Java applications<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. A test class that shows how this works is included in the source repo <a href="https://github.com/openpreserve/jpylyzer/tree/master/jpylyzer/java_demo/CallJpylyzer.java">here</a>. This requires <a href="https://www.jython.org/">Jython</a>. Note that you may run into performance issues with (very) large images in this case, as Jython does not support <a href="https://docs.python.org/3/library/mmap.html">memory mapping</a>, so make sure you’ve got plenty of RAM available.</p>
 
 
 <h1 id="structure-jp2">Structure of a JP2 file</h1>
@@ -737,7 +734,8 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 
 
 <figure>
-<img src="images/jp2FormatStructure.png" alt="Top-level overview of a JP2 file. Boxes with dashed borders are optional."/><figcaption aria-hidden="true">Top-level overview of a JP2 file. Boxes with dashed borders are optional.</figcaption>
+<img src="images/jp2FormatStructure.png" alt="Top-level overview of a JP2 file. Boxes with dashed borders are optional."/>
+<figcaption aria-hidden="true">Top-level overview of a JP2 file. Boxes with dashed borders are optional.</figcaption>
 </figure>
 
 
@@ -761,7 +759,8 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 
 
 <figure>
-<img src="images/boxStructure.png" alt="General structure of a box."/><figcaption aria-hidden="true">General structure of a box.</figcaption>
+<img src="images/boxStructure.png" alt="General structure of a box."/>
+<figcaption aria-hidden="true">General structure of a box.</figcaption>
 </figure>
 
 
@@ -928,7 +927,8 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 
 
 <figure>
-<img src="images/outputStructure.png" alt="Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements."/><figcaption aria-hidden="true">Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements.</figcaption>
+<img src="images/outputStructure.png" alt="Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements."/>
+<figcaption aria-hidden="true">Jpylyzer’s XML output structure. ‘box’ elements under ‘tests’ and ‘properties’ contain further sub-elements.</figcaption>
 </figure>
 
 
@@ -1034,7 +1034,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <h3 id="default-and-verbose-reporting-of-test-results">Default and verbose reporting of test results</h3>
 
 
-<p>By default, <em>jpylyzer</em> only reports any tests that failed (i.e. returned “False”), including the corresponding part of the box structure. For a valid JP2 the tests element will be empty. If the –verbose flag is used, the results of <em>all</em> tests are included (including those that returned “True”)<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
+<p>By default, <em>jpylyzer</em> only reports any tests that failed (i.e. returned “False”), including the corresponding part of the box structure. For a valid JP2 the tests element will be empty. If the –verbose flag is used, the results of <em>all</em> tests are included (including those that returned “True”)<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
 
 
 <h2 id="properties-element">properties element</h2>
@@ -1079,7 +1079,8 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <h2 id="about-properties-tests-trees">About the properties and tests trees</h2>
 
 
-<p>The ‘properties’ element in <em>jpylyzer</em>’s output holds a hierarchical tree structure that contains all extracted properties. The ‘tests’ tree follows the same structure. The hierarchy reflects JP2’s box structure (explained <a href="#structure-jp2">here</a>): each box is represented by a corresponding output element that contains the corresponding property entries. If a box is a superbox, the output element will contain child elements for each child box. For some boxes, the output contains further sub-elements. This applies in particular to the Contiguous Codestream box, since its contents are more complex than any of the other boxes. Also, if a Colour Specification box contains an embedded ICC profile, the properties of the ICC profile are stored in a separate sub-element. In addition to this, one ‘property’ that is reported by <em>jpylyzer</em> (the compression ratio) is not actually extracted from any particular box. Instead, it is calculated from the file size and some properties from the Header boxes. As a result, it is reported separately in the root of the properties tree.</p>
+<p>The ‘properties’ element in <em>jpylyzer</em>’s output holds a hierarchical tree structure that contains all extracted properties. The ‘tests’ tree follows the same structure. The hierarchy reflects JP2’s box structure (explained <a href="#structure-jp2">here</a>): each box is represented by a corresponding output element that contains the corresponding property entries. If a box is a superbox, the output element will contain child elements for each child box. For some boxes, the output contains further sub-elements. This applies in particular to the Contiguous Codestream box, since its contents are more complex than any of the other boxes. Also, if a Colour Specification box contains an embedded ICC profile, the properties of the ICC profile are stored in a separate sub-element. In addition to this, one ‘property’ that is reported by <em>jpylyzer</em> (the compression ratio) is not actually extracted from any particular box. Instead, it is calculated from the file size and some
+properties from the Header boxes. As a result, it is reported separately in the root of the properties tree.</p>
 
 
 <h3 id="naming-of-properties">Naming of properties</h3>
@@ -1529,19 +1530,19 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">colPrims (if meth equals “Parameterized Colourspace”)</td>
-<td style="text-align: left;">ColourPrimaries value (JPH)<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</td>
+<td style="text-align: left;">ColourPrimaries value (JPH)<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">transfC (if meth equals “Parameterized Colourspace”)</td>
-<td style="text-align: left;">TransferCharacteristics value (JPH)<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></td>
+<td style="text-align: left;">TransferCharacteristics value (JPH)<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">matCoeffs (if meth equals “Parameterized Colourspace”)</td>
-<td style="text-align: left;">MatrixCoefficients value (JPH)<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></td>
+<td style="text-align: left;">MatrixCoefficients value (JPH)<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vidFRng (if meth equals “Parameterized Colourspace”)</td>
-<td style="text-align: left;">VideoFullRangeFlag (“yes”/”no”) (JPH)<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></td>
+<td style="text-align: left;">VideoFullRangeFlag (“yes”/”no”) (JPH)<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></td>
 </tr>
 </tbody>
 </table>
@@ -1550,7 +1551,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <h3 id="reported-properties-of-icc-profiles">Reported properties of ICC profiles</h3>
 
 
-<p>If the colour specification box contains an embedded ICC profile, <em>jpylyzer</em> will also report the following properties (which are all grouped in an “icc” sub-element in the properties tree). An exhaustive explanation of these properties is given in the ICC specification (ISO 15076-1 / ICC.1:2004-10). Note that <em>jpylyzer</em> does <em>not</em> validate embedded ICC profiles (even though it does check if a specific ICC profile is allowed in JP2)!</p>
+<p>If the colour specification box contains an embedded ICC profile, <em>jpylyzer</em> will also report the following properties (which are all grouped in an “icc” sub-element in the properties tree). An exhaustive explanation of these properties is given in the ICC specification (ICC.1:2022, and the earlier ICC.1:2004-10). Note that <em>jpylyzer</em> does <em>not</em> validate embedded ICC profiles (even though it does check if a specific ICC profile is allowed in JP2)!</p>
 
 
 <table>
@@ -1647,19 +1648,71 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">profileCreator</td>
-<td style="text-align: left;">Identifies creator of profile</td>
+<td style="text-align: left;">Signature that identifies creator of profile</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">profileID</td>
 <td style="text-align: left;">Profile checksum (as hexadecimal string)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">tag<sup>*</sup></td>
-<td style="text-align: left;">Signature of profile tag (repeated for all tags in the profile)</td>
+<td style="text-align: left;">description</td>
+<td style="text-align: left;">Profile description (extracted from profileDescriptionTag)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">description</td>
-<td style="text-align: left;">Profile description (extracted from ‘desc’ tag)</td>
+<td style="text-align: left;">copyright</td>
+<td style="text-align: left;">Profile copyright information (extracted from copyrightTag)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mediaWhitePointX</td>
+<td style="text-align: left;">Chromatically adapted nCIEX tristimulus value of the media white point (extracted from mediaWhitePointTag)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mediaWhitePointY</td>
+<td style="text-align: left;">Chromatically adapted nCIEY tristimulus value of the media white point (extracted from mediaWhitePointTag)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mediaWhitePointZ</td>
+<td style="text-align: left;">Chromatically adapted nCIEZ tristimulus value of the media white point (extracted from mediaWhitePointTag)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chromaticAdaptationA0</td>
+<td style="text-align: left;">Chromatic adaptation matrix coefficient a<sub>0</sub> (extracted from chromaticAdaptationTag)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chromaticAdaptationA1</td>
+<td style="text-align: left;">Chromatic adaptation matrix coefficient a<sub>1</sub> (extracted from chromaticAdaptationTag)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chromaticAdaptationA2</td>
+<td style="text-align: left;">Chromatic adaptation matrix coefficient a<sub>2</sub> (extracted from chromaticAdaptationTag)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chromaticAdaptationA3</td>
+<td style="text-align: left;">Chromatic adaptation matrix coefficient a<sub>3</sub> (extracted from chromaticAdaptationTag)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chromaticAdaptationA4</td>
+<td style="text-align: left;">Chromatic adaptation matrix coefficient a<sub>4</sub> (extracted from chromaticAdaptationTag)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chromaticAdaptationA5</td>
+<td style="text-align: left;">Chromatic adaptation matrix coefficient a<sub>5</sub> (extracted from chromaticAdaptationTag)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chromaticAdaptationA6</td>
+<td style="text-align: left;">Chromatic adaptation matrix coefficient a<sub>6</sub> (extracted from chromaticAdaptationTag)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chromaticAdaptationA7</td>
+<td style="text-align: left;">Chromatic adaptation matrix coefficient a<sub>7</sub> (extracted from chromaticAdaptationTag)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chromaticAdaptationA8</td>
+<td style="text-align: left;">Chromatic adaptation matrix coefficient a<sub>8</sub> (extracted from chromaticAdaptationTag)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tag<sup>*</sup></td>
+<td style="text-align: left;">Signature of profile tag (repeated for all tags in the profile)</td>
 </tr>
 </tbody>
 </table>
@@ -1698,7 +1751,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">iccPermittedProfileClass (if meth equals “Restricted ICC”)</td>
-<td style="text-align: left;">ICC profile class is “input device” or “display device”<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></td>
+<td style="text-align: left;">ICC profile class is “input device” or “display device”<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">iccNoLUTBasedProfile (if meth equals “Restricted ICC”)</td>
@@ -1928,7 +1981,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">cTypIsValid<sup>*</sup></td>
-<td style="text-align: left;"><em>cType</em> is one of the values defined in Table I.16 (repeated for all channels)<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></td>
+<td style="text-align: left;"><em>cType</em> is one of the values defined in Table I.16 (repeated for all channels)<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">cAssocIsValid<sup>*</sup></td>
@@ -2063,19 +2116,19 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vRescInPixelsPerMeter</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hRescInPixelsPerMeter</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vRescInPixelsPerInch</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hRescInPixelsPerInch</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></td>
 </tr>
 </tbody>
 </table>
@@ -2176,19 +2229,19 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vResdInPixelsPerMeter</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per meter<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hResdInPixelsPerMeter</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per meter<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vResdInPixelsPerInch</td>
-<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a></td>
+<td style="text-align: left;">Vertical grid resolution, expressed in pixels per inch<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hResdInPixelsPerInch</td>
-<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a></td>
+<td style="text-align: left;">Horizontal grid resolution, expressed in pixels per inch<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a></td>
 </tr>
 </tbody>
 </table>
@@ -2292,7 +2345,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <h2 id="uuid-box">UUID box</h2>
 
 
-<p>This (optional) box contains additional (binary) information, which may be vendor-specific. Some applications (e.g. Kakadu and ExifTool) also use this box for storing XMP metadata (see Section 1.1.4 in Part 3 of the XMP specification<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a>).</p>
+<p>This (optional) box contains additional (binary) information, which may be vendor-specific. Some applications (e.g. Kakadu and ExifTool) also use this box for storing XMP metadata (see Section 1.1.4 in Part 3 of the XMP specification<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a>).</p>
 
 
 <h3 id="element-name-13">Element name</h3>
@@ -2612,19 +2665,24 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 
 <dl>
 <dt>nC</dt>
-<dd>number of image components (from Image Header box)
+<dd>
+number of image components (from Image Header box)
 </dd>
 <dt>i</dt>
-<dd>component index
+<dd>
+component index
 </dd>
 <dt>bPCDepth<sub>i</sub></dt>
-<dd>bits per component for component <em>i</em> (from Image Header box or Bits Per Component box)
+<dd>
+bits per component for component <em>i</em> (from Image Header box or Bits Per Component box)
 </dd>
 <dt>height</dt>
-<dd>image height (from Image Header box)
+<dd>
+image height (from Image Header box)
 </dd>
 <dt>width</dt>
-<dd>image width (from Image Header box)
+<dd>
+image width (from Image Header box)
 </dd>
 </dl>
 
@@ -2786,7 +2844,8 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 
 
 <figure>
-<img src="images/codestreamStructure.png" alt="General structure of a JPEG 2000 codestream."/><figcaption aria-hidden="true">General structure of a JPEG 2000 codestream.</figcaption>
+<img src="images/codestreamStructure.png" alt="General structure of a JPEG 2000 codestream."/>
+<figcaption aria-hidden="true">General structure of a JPEG 2000 codestream.</figcaption>
 </figure>
 
 
@@ -2880,7 +2939,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <h3 id="bit-streams">Bit streams</h3>
 
 
-<p>In addition to the above limitations, <em>jpylyzer</em> can <em>not</em> be used to establish whether the data in the bitstream are correct (this would require decoding the compressed image data, which is completely out of <em>jpylyzer</em>’s scope)<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a>. As a result, if <em>jpylyzer</em> is used as part of a quality assurance workflow, it is recommended to also include an additional check on the image contents<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a>. Also, <em>jpylyzer</em> does not perform any checks on marker segments within the bit-stream: start-of packet (SOP) and end-of-packet (EPH) markers.</p>
+<p>In addition to the above limitations, <em>jpylyzer</em> can <em>not</em> be used to establish whether the data in the bitstream are correct (this would require decoding the compressed image data, which is completely out of <em>jpylyzer</em>’s scope)<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a>. As a result, if <em>jpylyzer</em> is used as part of a quality assurance workflow, it is recommended to also include an additional check on the image contents<a href="#fn22" class="footnote-ref" id="fnref22" role="doc-noteref"><sup>22</sup></a>. Also, <em>jpylyzer</em> does not perform any checks on marker segments within the bit-stream: start-of packet (SOP) and end-of-packet (EPH) markers.</p>
 
 
 <h3 id="detection-of-incomplete-or-truncated-codestreams">Detection of incomplete or truncated codestreams</h3>
@@ -2902,7 +2961,8 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 
 
 <figure>
-<img src="images/codestreamOutput.png" alt="Structure of codestream-level XML output."/><figcaption aria-hidden="true">Structure of codestream-level XML output.</figcaption>
+<img src="images/codestreamOutput.png" alt="Structure of codestream-level XML output."/>
+<figcaption aria-hidden="true">Structure of codestream-level XML output.</figcaption>
 </figure>
 
 
@@ -3055,6 +3115,22 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <td style="text-align: left;">No more than one <em>cqcc</em> value for each component in main header (only reported if codestream contains any QCC marker segments)</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">ccocValuesConsecutive</td>
+<td style="text-align: left;"><em>ccoc</em> values are consecutive numbers (e.g. 0, 1, 2, etc.)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cqccValuesConsecutive</td>
+<td style="text-align: left;"><em>cqcc</em> values are consecutive numbers (e.g. 0, 1, 2, etc.)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tilePartsTLMConsistencyCheck</td>
+<td style="text-align: left;">Number of tile parts indicated by TLM markers equals actual number of tile parts found (only reported if codestream contains any TLM marker segments)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tilePartLengthsConsistencyCheck</td>
+<td style="text-align: left;">Tile part lengths defined by ptlm values in TLM marker segments correspond to psot values in SOT marker segments (only reported if codestream contains any TLM marker segments)</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">foundEOCMarker</td>
 <td style="text-align: left;">Last 2 bytes in codestream constitute an end of codestream (EOC) marker segment</td>
 </tr>
@@ -3128,7 +3204,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">numberOfTiles</td>
-<td style="text-align: left;">Number of tiles<a href="#fn22" class="footnote-ref" id="fnref22" role="doc-noteref"><sup>22</sup></a></td>
+<td style="text-align: left;">Number of tiles<a href="#fn23" class="footnote-ref" id="fnref23" role="doc-noteref"><sup>23</sup></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">csiz</td>
@@ -4282,6 +4358,14 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <td style="text-align: left;">No more than one <em>cqcc</em> value for each component in tile-part header (only reported if codestream contains any QCC marker segments)</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">ccocValuesConsecutive</td>
+<td style="text-align: left;"><em>ccoc</em> values are consecutive numbers (e.g. 0, 1, 2, etc.)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cqccValuesConsecutive</td>
+<td style="text-align: left;"><em>cqcc</em> values are consecutive numbers (e.g. 0, 1, 2, etc.)</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">foundNextTilePartOrEOC</td>
 <td style="text-align: left;">Tile part start offset + <em>tilePartLength</em> points to either start of new tile or EOC marker (useful for detecting within-codestream byte corruption)</td>
 </tr>
@@ -4395,11 +4479,35 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;">ltlm</td>
+<td style="text-align: left;">Length of TLM marker segment in bytes</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"/>
+<td style="text-align: left;">ztlm</td>
+<td style="text-align: left;">Index of this marker segment relative to all other TLM marker segments present in the current header</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">st</td>
+<td style="text-align: left;">Parameter that defines size of <em>ttlm</em> parameter</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sp</td>
+<td style="text-align: left;">Parameter that defines size of <em>ptlm</em> parameter</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tpCount</td>
+<td style="text-align: left;">Number of tile-parts in this marker segment according to Eq A-7 in ISO/IEC 15444-1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ttlm<sup>*</sup></td>
+<td style="text-align: left;">Tile index of the ith tile-part</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ptlm<sup>*</sup></td>
+<td style="text-align: left;">Length in bytes, from the beginning of the SOT marker of the ith tile-part to the end of the bit stream</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">data for that tile-part</td>
 <td style="text-align: left;"/>
 </tr>
 </tbody>
@@ -4418,15 +4526,29 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;">tlmStIsValid</td>
+<td style="text-align: left;">Value of <em>st</em> equals 0, 1 or 2</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"/>
-<td style="text-align: left;"/>
+<td style="text-align: left;">tlmSpIsValid</td>
+<td style="text-align: left;">Value of <em>sp</em> equals 0 or 1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ltlmIsValid</td>
+<td style="text-align: left;">Values of <em>ltml</em>, <em>st</em> and <em>sp</em> are consistent with whole number of tile parts following Eq A-7 in ISO/IEC 15444-1</td>
 </tr>
 </tbody>
 </table>
+
+
+<!--
+
+|lsotIsValid|*lsot* equals 10|
+|isotIsValid|*isot* is within range [0,65534]|
+|psotIsValid|*psot* is **not** within range [1,13]|
+|tpsotIsValid|*tpsot* is within range [0,254]|
+
+-->
 
 
 <h2 id="plm-marker">Packet length, main header (PLM) marker segment</h2>
@@ -4438,7 +4560,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <p>plm</p>
 
 
-<h3 id="reported-properties20">Reported properties<a href="#fn23" class="footnote-ref" id="fnref23" role="doc-noteref"><sup>23</sup></a></h3>
+<h3 id="reported-properties20">Reported properties<a href="#fn24" class="footnote-ref" id="fnref24" role="doc-noteref"><sup>24</sup></a></h3>
 
 
 <table>
@@ -4501,7 +4623,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <p>ppm</p>
 
 
-<h3 id="reported-properties20-1">Reported properties<a href="#fn24" class="footnote-ref" id="fnref24" role="doc-noteref"><sup>24</sup></a></h3>
+<h3 id="reported-properties20-1">Reported properties<a href="#fn25" class="footnote-ref" id="fnref25" role="doc-noteref"><sup>25</sup></a></h3>
 
 
 <table>
@@ -4556,7 +4678,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <p>plt</p>
 
 
-<h3 id="reported-properties20-2">Reported properties<a href="#fn25" class="footnote-ref" id="fnref25" role="doc-noteref"><sup>25</sup></a></h3>
+<h3 id="reported-properties20-2">Reported properties<a href="#fn26" class="footnote-ref" id="fnref26" role="doc-noteref"><sup>26</sup></a></h3>
 
 
 <table>
@@ -4619,7 +4741,7 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <p>ppt</p>
 
 
-<h3 id="reported-properties20-3">Reported properties<a href="#fn26" class="footnote-ref" id="fnref26" role="doc-noteref"><sup>26</sup></a></h3>
+<h3 id="reported-properties20-3">Reported properties<a href="#fn27" class="footnote-ref" id="fnref27" role="doc-noteref"><sup>27</sup></a></h3>
 
 
 <table>
@@ -4680,36 +4802,37 @@ myResult = jpylyzer.checkOneFile(myFile, 'j2c')</code></pre>
 <p>Leach, P., Mealling, M. &amp; Salz, R. A Universally Unique IDentifier (UUID) URN namespace. Memo, IETF. <a href="https://tools.ietf.org/html/rfc4122.html">https://tools.ietf.org/html/rfc4122.html</a>.</p>
 
 
-<section class="footnotes" role="doc-endnotes">
+<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr/>
 <ol>
-<li id="fn1" role="doc-endnote"><p>The <em>jpylyzer</em> binaries were created using the <em>PyInstaller</em> package: <a href="https://www.pyinstaller.org/">https://www.pyinstaller.org/</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>Note that <em>jpylyzer</em> versions 1.8 and earlier returned a formatted XML string instead of an element object!<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>Jpylyzer 2.2 and more recent only work with Python &gt; 3.2. Since Jython still hasn’t been upgraded to support Python 3, Java integration with Jython currently doesn’t work.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>Note that <em>jpylyzer</em> versions 1.4 and earlier used the verbose output format by default. This behaviour has changed in version 1.5 onwards, as the lengthy output turned out to be slightly confusing to some users.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>Meaning of values defined in Table 2 of Rec. ITU-T H.273 / ISO/IEC 23001-8 <a href="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-H.273-202107-I!!PDF-E&amp;type=items">“Coding-independent code points for video signal type identification”</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>Meaning of values defined in Table 3 of Rec. ITU-T H.273 / ISO/IEC 23001-8 <a href="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-H.273-202107-I!!PDF-E&amp;type=items">“Coding-independent code points for video signal type identification”</a><a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>Meaning of values defined in Table 4 of Rec. ITU-T H.273 / ISO/IEC 23001-8 <a href="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-H.273-202107-I!!PDF-E&amp;type=items">“Coding-independent code points for video signal type identification”</a><a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8" role="doc-endnote"><p>Meaning defined in Rec. ITU-T H.273 / ISO/IEC 23001-8 <a href="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-H.273-202107-I!!PDF-E&amp;type=items">“Coding-independent code points for video signal type identification”</a><a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9" role="doc-endnote"><p>Originally ISO/IEC 15444-1 only allowed “input device” profiles. Support of “display device” profiles was added through an <a href="http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard in 2013. The behaviour of <em>jpylyzer</em> is consistent with this amendment.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10" role="doc-endnote"><p>For JPH, an addition “application-defined” value is allowed (ISO/IEC 15444-15, Table D.4)<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRcN</mi> </mrow> <mrow> <mi>vRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRcE</mi> </msup> </mrow> </math><a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn12" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRcN</mi> </mrow> <mrow> <mi>hRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRcE</mi> </msup> </mrow> </math><a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn13" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn14" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn15" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRdN</mi> </mrow> <mrow> <mi>vRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRdE</mi> </msup> </mrow> </math><a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn16" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRdN</mi> </mrow> <mrow> <mi>hRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRdE</mi> </msup> </mrow> </math><a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn17" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn18" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn19" role="doc-endnote"><p>Link: <a href="https://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf">https://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf</a><a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn20" role="doc-endnote"><p>However, support for start of packet (SOP) and end of packet (EPH) markers may be included in future versions.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn21" role="doc-endnote"><p>For example, in a TIFF to JP2 conversion workflow one could include a pixel-by-pixel comparison of the values in the TIFF and the JP2.<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn22" role="doc-endnote"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>numberOfTiles</mi> <mo>=</mo> <mo>[</mo> <mfrac> <mrow> <mi>xsiz</mi> <mo>-</mo> <mi>xOsiz</mi> </mrow> <mrow> <mi>xTsiz</mi> </mrow> </mfrac> <mo>]</mo> <mo>•</mo> <mo>[</mo> <mfrac> <mrow> <mi>ysiz</mi> <mo>-</mo> <mi>yOsiz</mi> </mrow> <mrow> <mi>yTsiz</mi> </mrow> </mfrac> <mo>]</mo> </mrow> </math><a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn23" role="doc-endnote"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn24" role="doc-endnote"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref24" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn25" role="doc-endnote"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref25" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn26" role="doc-endnote"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref26" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Note that <em>jpylyzer</em> will not work under Python versions 3.0-3.1!<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>The <em>jpylyzer</em> binaries were created using the <em>PyInstaller</em> package: <a href="https://www.pyinstaller.org/">https://www.pyinstaller.org/</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Note that <em>jpylyzer</em> versions 1.8 and earlier returned a formatted XML string instead of an element object!<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Jpylyzer 2.2 and more recent only work with Python &gt; 3.2. Since Jython still hasn’t been upgraded to support Python 3, Java integration with Jython currently doesn’t work.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Note that <em>jpylyzer</em> versions 1.4 and earlier used the verbose output format by default. This behaviour has changed in version 1.5 onwards, as the lengthy output turned out to be slightly confusing to some users.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Meaning of values defined in Table 2 of Rec. ITU-T H.273 / ISO/IEC 23001-8 <a href="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-H.273-202107-I!!PDF-E&amp;type=items">“Coding-independent code points for video signal type identification”</a><a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Meaning of values defined in Table 3 of Rec. ITU-T H.273 / ISO/IEC 23001-8 <a href="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-H.273-202107-I!!PDF-E&amp;type=items">“Coding-independent code points for video signal type identification”</a><a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>Meaning of values defined in Table 4 of Rec. ITU-T H.273 / ISO/IEC 23001-8 <a href="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-H.273-202107-I!!PDF-E&amp;type=items">“Coding-independent code points for video signal type identification”</a><a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Meaning defined in Rec. ITU-T H.273 / ISO/IEC 23001-8 <a href="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-H.273-202107-I!!PDF-E&amp;type=items">“Coding-independent code points for video signal type identification”</a><a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>Originally ISO/IEC 15444-1 only allowed “input device” profiles. Support of “display device” profiles was added through an <a href="http://www.itu.int/rec/T-REC-T.800-201303-P!Amd6/en">amendment</a> to the standard in 2013. The behaviour of <em>jpylyzer</em> is consistent with this amendment.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>For JPH, an addition “application-defined” value is allowed (ISO/IEC 15444-15, Table D.4)<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRcN</mi> </mrow> <mrow> <mi>vRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRcE</mi> </msup> </mrow> </math><a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRcN</mi> </mrow> <mrow> <mi>hRcD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRcE</mi> </msup> </mrow> </math><a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hRescInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>vRdN</mi> </mrow> <mrow> <mi>vRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>vRdE</mi> </msup> </mrow> </math><a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mfrac> <mrow> <mi>hRdN</mi> </mrow> <mrow> <mi>hRdD</mi> </mrow> </mfrac> <mo>•</mo> <msup> <mn>10</mn> <mi>hRdE</mi> </msup> </mrow> </math><a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>vResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>hResdInPixelsPerMeter</mi> <mo>•</mo> <mn>25.4</mn> <mo>•</mo> <msup> <mn>10</mn> <mi>-3</mi> </msup> </mrow> </math><a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20"><p>Link: <a href="https://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf">https://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/cs6/XMPSpecificationPart3.pdf</a><a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn21"><p>However, support for start of packet (SOP) and end of packet (EPH) markers may be included in future versions.<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn22"><p>For example, in a TIFF to JP2 conversion workflow one could include a pixel-by-pixel comparison of the values in the TIFF and the JP2.<a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn23"><p>Calculated as: <math xmlns="http://www.w3.org/1998/Math/MathML"> <mrow> <mi>numberOfTiles</mi> <mo>=</mo> <mo>[</mo> <mfrac> <mrow> <mi>xsiz</mi> <mo>-</mo> <mi>xOsiz</mi> </mrow> <mrow> <mi>xTsiz</mi> </mrow> </mfrac> <mo>]</mo> <mo>•</mo> <mo>[</mo> <mfrac> <mrow> <mi>ysiz</mi> <mo>-</mo> <mi>yOsiz</mi> </mrow> <mrow> <mi>yTsiz</mi> </mrow> </mfrac> <mo>]</mo> </mrow> </math><a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn24"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref24" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn25"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref25" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn26"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref26" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn27"><p>Only reported if the <code>--packetmarkers</code> option is used.<a href="#fnref27" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section>
+</aside>
 
 

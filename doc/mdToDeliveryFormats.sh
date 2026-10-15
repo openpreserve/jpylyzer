@@ -42,7 +42,7 @@ echo "{% include JB/setup %}" >> $outWeb
 xmllint --html --htmlout --xpath "//body/node()" tmp.html >> $outWeb
 
 # Create self-contained HTML file (mainly useful for offline use; replaces PDF)
-pandoc -s --columns 1000 --toc --toc-depth=2 --ascii -c $styleSheet -w html5 --self-contained -o $outHtmlSC $mdSource
+pandoc -s --columns 1000 --toc --toc-depth=2 --ascii -c $styleSheet -w html5 --embed-resources --standalone -o $outHtmlSC $mdSource
 
 # Clean-up
 rm tmp.html
