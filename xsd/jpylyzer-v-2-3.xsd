@@ -304,7 +304,7 @@
           <xs:element ref="profileCreator"/>
           <xs:element ref="profileID"/>
         </xs:sequence>
-        <xs:choice>
+        <xs:choice maxOccurs="unbounded" >
           <xs:element ref="description" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element ref="copyright" minOccurs="0" maxOccurs="unbounded"/>
           <xs:sequence minOccurs="0" maxOccurs="unbounded">
