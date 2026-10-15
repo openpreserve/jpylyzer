@@ -279,45 +279,55 @@
   <xs:element name="icc">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="profileSize"/>
-        <xs:element ref="preferredCMMType"/>
-        <xs:element ref="profileVersion"/>
-        <xs:element ref="profileClass"/>
-        <xs:element ref="colourSpace"/>
-        <xs:element ref="profileConnectionSpace"/>
-        <xs:element ref="dateTimeString"/>
-        <xs:element ref="profileSignature"/>
-        <xs:element ref="primaryPlatform"/>
-        <xs:element ref="embeddedProfile"/>
-        <xs:element ref="profileCannotBeUsedIndependently"/>
-        <xs:element ref="deviceManufacturer"/>
-        <xs:element ref="deviceModel"/>
-        <xs:element ref="transparency"/>
-        <xs:element ref="glossiness"/>
-        <xs:element ref="polarity"/>
-        <xs:element ref="colour"/>
-        <xs:element ref="renderingIntent"/>
-        <xs:element ref="connectionSpaceIlluminantX"/>
-        <xs:element ref="connectionSpaceIlluminantY"/>
-        <xs:element ref="connectionSpaceIlluminantZ"/>
-        <xs:element ref="profileCreator"/>
-        <xs:element ref="profileID"/>
-        <xs:element ref="description"/>
-        <xs:element ref="copyright"/>
-        <xs:element ref="mediaWhitePointX"/>
-        <xs:element ref="mediaWhitePointY"/>
-        <xs:element ref="mediaWhitePointZ"/>
-        <xs:element ref="chromaticAdaptationA0"/>
-        <xs:element ref="chromaticAdaptationA1"/>
-        <xs:element ref="chromaticAdaptationA2"/>
-        <xs:element ref="chromaticAdaptationA3"/>
-        <xs:element ref="chromaticAdaptationA4"/>
-        <xs:element ref="chromaticAdaptationA5"/>
-        <xs:element ref="chromaticAdaptationA6"/>
-        <xs:element ref="chromaticAdaptationA7"/>
-        <xs:element ref="chromaticAdaptationA8"/>
-        <xs:element ref="tag" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:sequence>
+          <xs:element ref="profileSize"/>
+          <xs:element ref="preferredCMMType"/>
+          <xs:element ref="profileVersion"/>
+          <xs:element ref="profileClass"/>
+          <xs:element ref="colourSpace"/>
+          <xs:element ref="profileConnectionSpace"/>
+          <xs:element ref="dateTimeString"/>
+          <xs:element ref="profileSignature"/>
+          <xs:element ref="primaryPlatform"/>
+          <xs:element ref="embeddedProfile"/>
+          <xs:element ref="profileCannotBeUsedIndependently"/>
+          <xs:element ref="deviceManufacturer"/>
+          <xs:element ref="deviceModel"/>
+          <xs:element ref="transparency"/>
+          <xs:element ref="glossiness"/>
+          <xs:element ref="polarity"/>
+          <xs:element ref="colour"/>
+          <xs:element ref="renderingIntent"/>
+          <xs:element ref="connectionSpaceIlluminantX"/>
+          <xs:element ref="connectionSpaceIlluminantY"/>
+          <xs:element ref="connectionSpaceIlluminantZ"/>
+          <xs:element ref="profileCreator"/>
+          <xs:element ref="profileID"/>
         </xs:sequence>
+        <xs:choice>
+          <xs:element ref="description" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="copyright" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="mediaWhitePointX"/>
+            <xs:element ref="mediaWhitePointY"/>
+            <xs:element ref="mediaWhitePointZ"/>
+          </xs:sequence>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="chromaticAdaptationA0"/>
+            <xs:element ref="chromaticAdaptationA1"/>
+            <xs:element ref="chromaticAdaptationA2"/>
+            <xs:element ref="chromaticAdaptationA3"/>
+            <xs:element ref="chromaticAdaptationA4"/>
+            <xs:element ref="chromaticAdaptationA5"/>
+            <xs:element ref="chromaticAdaptationA6"/>
+            <xs:element ref="chromaticAdaptationA7"/>
+            <xs:element ref="chromaticAdaptationA8"/>
+          </xs:sequence>
+        </xs:choice>
+        <xs:sequence>
+          <xs:element ref="tag" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
 
