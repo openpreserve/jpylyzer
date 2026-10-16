@@ -179,20 +179,16 @@ class IccValidator(Validator):
         self.addCharacteristic("renderingIntent", renderingIntent)
 
         # Profile connection space illuminants (X, Y, Z)
-        connectionSpaceIlluminantX = round(
-            bc.bytesToUInt(self.boxContents[68:72]) / 65536, 4)
+        connectionSpaceIlluminantX = bc.s15Fixed16NumberToFloat(self.boxContents[68:72])
+        connectionSpaceIlluminantY = bc.s15Fixed16NumberToFloat(self.boxContents[72:76])
+        connectionSpaceIlluminantZ = bc.s15Fixed16NumberToFloat(self.boxContents[76:80])
+
         self.addCharacteristic("connectionSpaceIlluminantX",
-                               connectionSpaceIlluminantX)
-
-        connectionSpaceIlluminantY = round(
-            bc.bytesToUInt(self.boxContents[72:76]) / 65536, 4)
+                               round(connectionSpaceIlluminantX, 5)
         self.addCharacteristic("connectionSpaceIlluminantY",
-                               connectionSpaceIlluminantY)
-
-        connectionSpaceIlluminantZ = round(
-            bc.bytesToUInt(self.boxContents[76:80]) / 65536, 4)
+                               round(connectionSpaceIlluminantY, 5)
         self.addCharacteristic("connectionSpaceIlluminantZ",
-                               connectionSpaceIlluminantZ)
+                               round(connectionSpaceIlluminantZ, 5)
 
         # Profile creator
         profileCreator = self.boxContents[80:84]
