@@ -1,8 +1,14 @@
-jpylyzer (2.3.0b1) UNRELEASED; urgency=medium
+jpylyzer (2.3.0rc1) UNRELEASED; urgency=medium
 
-  * TEST
+  * Added support for Tile-part lengths marker segment
+  * Added support for profile description tag in ICC v4 profiles
+  * Added reporting of copyrightTag, mediaWhitePointTag and chromaticAdaptationTag
+  * Fixed deprecation warnings for MIX module
+  * Refactured BoxValidator into six separate modules + classes, based on parent class
+  * Added new XSD schema
+  * Fixed various issues in package build scripts
 
- -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Tue, 29 Sep 2026 19:28:00 +0200
+ -- Johan van der Knijff <johan.vanderknijff@kb.nl>  Fri, 16 Oct 2026 13:01:00 +0200
 
 jpylyzer (2.2.1) UNRELEASED; urgency=medium
 
