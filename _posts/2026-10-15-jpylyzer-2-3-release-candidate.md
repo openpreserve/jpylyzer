@@ -20,20 +20,20 @@ that all tags that are mandatory for all profiles are now covered..
 ## Code organisation
 
 Previously, all code for parsing and validating JP2/JPH/JP2C/JHC files was stored in one massive 3700-line "BoxValidator" class. This was getting increasingly
-impractical, and it made maintaining the code unnecessarily hard. Starting with this release, the validator functions are spread across 6 modules, each of which contains a validator class:
+impractical, and it made maintaining the code unnecessarily hard. Starting with this release, the validator functions are spread across six smaller modules, each of which contains a validator class:
 
-- `jp2.py` - Top-level JP2 / JPH validation (class *JP2Validator*)
-- `boxes.py` - Validation of all defined boxes for JP2 and JPH (class *BoxValidator*)
-- `codestream.py` - JPEG 2000 codestream validation (class *CSValidator*)
-- `tilepart.py` - Validation of one tile part of a JPEG 2000 codestream (class *TilePartValidator*)
-- `csmarkers.py` - Validation of JPEG 2000 codestream marker segments (class *CSMarkerValidator*)
-- `icc.py` - Feature extraction from an ICC profile (class *IccValidator*)
+- *jp2.py* - Top-level JP2 / JPH validation (class *JP2Validator*)
+- *boxes.py* - Validation of all defined boxes for JP2 and JPH (class *BoxValidator*)
+- *codestream.py* - JPEG 2000 codestream validation (class *CSValidator*)
+- *tilepart.py* - Validation of one tile part of a JPEG 2000 codestream (class *TilePartValidator*)
+- *csmarkers.py* - Validation of JPEG 2000 codestream marker segments (class *CSMarkerValidator*)
+- *icc.py* - Feature extraction from an ICC profile (class *IccValidator*)
 
-These validator classes are all child classes of a generic *Validator* parent class (which is defined in the new `validator.py` module).
+These validator classes are all child classes of a generic *Validator* parent class (which is defined in the new *validator.py* module).
 
 ## Packaging improvements
 
-Thhis release also fixes some issues with the packaging processes: 
+This release also introduces some changes to the packaging processes: 
 
 - Previously the Windows executables were built in a Dockerized Linux container, which used [Wine](https://www.winehq.org/) to run a Windows version of Python. This build process used an ancient (3.7) Python version. Since more recent Python versions don't work well with Wine, the build process has been replaced by one that runs on an actual Windows 11 (virtual) machine, using a modern (3.14) version of Python instead.
 - The Docker-based build process for Debian packages has been adapted to address some compatibility issues with current Docker versions.
