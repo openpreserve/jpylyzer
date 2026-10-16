@@ -265,13 +265,13 @@ class IccValidator(Validator):
                 # mediaWhitePointTag
                 wtptTag = self.boxContents[tagOffset:tagOffset + tagSize]
 
-                wtptX = bc.bytesToUInt(wtptTag[8:12])
-                wtptY = bc.bytesToUInt(wtptTag[12:16])
-                wtptZ = bc.bytesToUInt(wtptTag[16:20])
+                wtptX = bc.s15Fixed16NumberToFloat(wtptTag[8:12])
+                wtptY = bc.s15Fixed16NumberToFloat(wtptTag[12:16])
+                wtptZ = bc.s15Fixed16NumberToFloat(wtptTag[16:20])
 
-                self.addCharacteristic("mediaWhitePointX", wtptX)
-                self.addCharacteristic("mediaWhitePointY", wtptY)
-                self.addCharacteristic("mediaWhitePointZ", wtptZ)
+                self.addCharacteristic("mediaWhitePointX", round(wtptX, 5))
+                self.addCharacteristic("mediaWhitePointY", round(wtptY, 5))
+                self.addCharacteristic("mediaWhitePointZ", round(wtptZ, 5))
 
             elif tagSignature == b'chad':
                 # chromaticAdaptationTag
