@@ -10,8 +10,8 @@
 # Repository: this is usually pypi; for testing use testpypi
 # The corresponding repository URLS are defined in config file ~/.pypirc
 #
-repository=testpypi
-#repository=pypi
+#repository=testpypi
+repository=pypi
 
 # Working directory
 workDir=$PWD
