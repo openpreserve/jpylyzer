@@ -184,11 +184,11 @@ class IccValidator(Validator):
         connectionSpaceIlluminantZ = bc.s15Fixed16NumberToFloat(self.boxContents[76:80])
 
         self.addCharacteristic("connectionSpaceIlluminantX",
-                               round(connectionSpaceIlluminantX, 5)
+                               round(connectionSpaceIlluminantX, 5))
         self.addCharacteristic("connectionSpaceIlluminantY",
-                               round(connectionSpaceIlluminantY, 5)
+                               round(connectionSpaceIlluminantY, 5))
         self.addCharacteristic("connectionSpaceIlluminantZ",
-                               round(connectionSpaceIlluminantZ, 5)
+                               round(connectionSpaceIlluminantZ, 5))
 
         # Profile creator
         profileCreator = self.boxContents[80:84]
