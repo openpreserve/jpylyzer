@@ -60,7 +60,7 @@ SCRIPT_PATH, SCRIPT_NAME = os.path.split(sys.argv[0])
 if not SCRIPT_NAME:
     SCRIPT_NAME = 'jpylyzer'
 
-__version__ = "2.3.0b2"
+__version__ = "2.3.0rc1"
 
 # Create PARSER
 PARSER = argparse.ArgumentParser(
@@ -439,9 +439,6 @@ def checkOneFile(path, validationFormat=config.VALIDATION_FORMAT,
         else:
             failureMessage = "unknown error, please report to developers by creating " + \
                              "an issue at https://github.com/openpreserve/jpylyzer/issues"
-            ## TEST
-            raise
-            ## TEST
 
         tests = ET.Element("tests")
         characteristics = ET.Element("properties")
