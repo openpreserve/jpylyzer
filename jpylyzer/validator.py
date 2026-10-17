@@ -152,17 +152,36 @@ class Validator:
 
         # Contents of this box as a byte object (i.e. 'DBox' in ISO/IEC 15444-1
         # Section I.4)
-        boxContents = self.boxContents[byteStart + contentsStartOffset:byteEnd]
+        if boxType == b'\x6a\x70\x32\x63':
+            # The contiguous codestream box is usually nearly the whole file.
+            # Slicing a memory map copies, so view the codestream in place
+            # instead: only its marker segments are ever read. The caller
+            # releases the view once the box is validated.
+            boxContents = memoryview(self.boxContents)[
+                byteStart + contentsStartOffset:byteEnd]
+        else:
+            boxContents = self.boxContents[byteStart + contentsStartOffset:byteEnd]
 
         return (boxLengthValue, boxType, byteEnd, boxContents)
+
+    @staticmethod
+    def _detach(data):
+        """Return a slice of the codestream view (see _getBox) as bytes, so
+        that it does not keep the view's memory map open; any other slice
+        is returned as it is."""
+        if isinstance(data, memoryview):
+            return data.tobytes()
+        return data
 
     def _getMarkerSegment(self, offset):
         """Read marker segment that starts at offset.
 
         Return marker, size, contents and start offset of next marker.
         """
-        # First 2 bytes: 16 bit marker
-        marker = self.boxContents[offset:offset + 2]
+        # First 2 bytes: 16 bit marker. The contents are copied to bytes (even
+        # when boxContents is a memoryview of the codestream) so that no view
+        # outlives the codestream validation.
+        marker = self._detach(self.boxContents[offset:offset + 2])
 
         # Check if this is a delimiting marker segment
         if marker in [b'\xff\x4f', b'\xff\x93', b'\xff\xd9', b'\xff\x92']:
@@ -174,7 +193,7 @@ class Validator:
                 self.boxContents[offset + 2:offset + 4])
 
         # Contents of marker segment (excluding marker) to binary string
-        contents = self.boxContents[offset + 2:offset + 2 + length]
+        contents = self._detach(self.boxContents[offset + 2:offset + 2 + length])
 
         if length == -9999:
             # If length couldn't be determined because of decode error,
