@@ -389,7 +389,7 @@ class CSValidator(Validator):
             tilePartWarnings = ET.Element('tileParts')
 
             while marker == b'\xff\x90':
-                marker = self.boxContents[offset:offset + 2]
+                marker = self._detach(self.boxContents[offset:offset + 2])
 
                 if marker == b'\xff\x90':
                     resultsTilePart = TilePartValidator(

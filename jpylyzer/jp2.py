@@ -60,10 +60,16 @@ class JP2Validator(Validator):
             boxLengthValue, boxType, byteEnd, boxContents = self._getBox(byteStart, noBytes)
 
             # Validate current top level box
-            resultsBox = BoxValidator(
-                self.options,
-                boxType,
-                boxContents).validate()
+            try:
+                resultsBox = BoxValidator(
+                    self.options,
+                    boxType,
+                    boxContents).validate()
+            finally:
+                if isinstance(boxContents, memoryview):
+                    # The codestream view (see _getBox): release it so the
+                    # memory map it looks into can be closed.
+                    boxContents.release()
             testsBox = resultsBox.tests
             characteristicsBox = resultsBox.characteristics
             warningsBox = resultsBox.warnings

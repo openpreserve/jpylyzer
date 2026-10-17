@@ -295,8 +295,8 @@ class TilePartValidator(Validator):
         if tilePartLength != 0:
             # This will skip this test if tilePartLength equals 0, but that doesn't
             # matter since check for EOC is included elsewhere
-            markerNextTilePart = self.boxContents[
-                offsetNextTilePart:offsetNextTilePart + 2]
+            markerNextTilePart = self._detach(self.boxContents[
+                offsetNextTilePart:offsetNextTilePart + 2])
             foundNextTilePartOrEOC = markerNextTilePart in [
                 b'\xff\x90', b'\xff\xd9']
             self.testFor("foundNextTilePartOrEOC", foundNextTilePartOrEOC)
