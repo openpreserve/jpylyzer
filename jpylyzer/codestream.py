@@ -516,7 +516,7 @@ class CSValidator(Validator):
                 # Calculate compression ratio
                 ssizDepthValues = characteristicsSIZ.findAllText('ssizDepth')
                 ysiz = characteristicsSIZ.findElementText('ysiz')
-                yOsiz = characteristicsSIZ.findElementText('xOsiz')
+                yOsiz = characteristicsSIZ.findElementText('yOsiz')
                 xsiz = characteristicsSIZ.findElementText('xsiz')
                 xOsiz = characteristicsSIZ.findElementText('xOsiz')
 
