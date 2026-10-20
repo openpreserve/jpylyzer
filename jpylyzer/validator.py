@@ -7,6 +7,35 @@ from . import byteconv as bc
 from . import shared
 
 
+class ByteRange:
+    """Read-only window on data[start:stop] that copies only the bytes asked for.
+
+    Slicing an mmap copies, so slicing the contiguous codestream box out of the
+    memory-mapped file copies nearly the whole file. The codestream validators
+    only take small slices and len(), which this class serves straight from the
+    underlying data. Slices are plain bytes, so no buffer export of the memory
+    map is ever created and closing it cannot fail.
+    """
+
+    def __init__(self, data, start, stop):
+        self.data = data
+        self.start, stop, _ = slice(start, stop).indices(len(data))
+        self.length = max(stop - self.start, 0)
+
+    def __len__(self):
+        return self.length
+
+    def __getitem__(self, index):
+        if isinstance(index, slice):
+            start, stop, step = index.indices(self.length)
+            if step != 1:
+                raise ValueError("ByteRange only supports contiguous slices")
+            return self.data[self.start + start:self.start + max(stop, start)]
+        if not -self.length <= index < self.length:
+            raise IndexError("ByteRange index out of range")
+        return self.data[self.start + index % self.length]
+
+
 class Validator:
     """Generic validator class
     """
@@ -151,8 +180,13 @@ class Validator:
         byteEnd = byteStart + boxLengthValue
 
         # Contents of this box as a byte object (i.e. 'DBox' in ISO/IEC 15444-1
-        # Section I.4)
-        boxContents = self.boxContents[byteStart + contentsStartOffset:byteEnd]
+        # Section I.4). The contiguous codestream box is usually nearly the
+        # whole file, so it is read in place rather than copied
+        if boxType == self.boxTagMap['contiguousCodestreamBox']:
+            boxContents = ByteRange(
+                self.boxContents, byteStart + contentsStartOffset, byteEnd)
+        else:
+            boxContents = self.boxContents[byteStart + contentsStartOffset:byteEnd]
 
         return (boxLengthValue, boxType, byteEnd, boxContents)
 
