@@ -17,6 +17,14 @@ Previously, Jpylyzer was unable to parse the "profileDescriptionTag" of v.4 ICC 
 in this release. In addition, Jpylyzer now also reports the information from the "copyrightTag", "mediaWhitePointTag" and "chromaticAdaptationTag". This means
 that all tags that are mandatory for all profiles are now covered.
 
+## Calculation of compression ratio for codestreams
+
+This release also fixes a bug that resulted in erroneous compression ratio values for j2c and jhc codestreams
+
+## Improved memory management
+
+For JP2 and JPH files, Jpylyzer now reads the contents of the codestream in-place, instead of copying it to a new bytes object. This results in a significant reduction of the memory usage. 
+
 ## Code organisation
 
 Previously, all code for parsing and validating JP2/JPH/JP2C/JHC files was stored in one massive 3700-line "BoxValidator" class. This was getting increasingly
@@ -26,7 +34,7 @@ impractical, and it made maintaining the code unnecessarily hard. Starting with 
 
 This release also introduces some changes to the packaging processes: 
 
-- Previously, the Windows executables were built in a Dockerized Linux container, which used [Wine](https://www.winehq.org/) to run a Windows version of Python. This build process used an ancient (3.7) Python version. Since more recent Python versions don't work well with Wine, the build process has been replaced by one that runs on an actual Windows 11 (virtual) machine, using a modern (3.14) version of Python instead.
+- Previously, the Windows executables were built in a Dockerized Linux container, which used [Wine](https://www.winehq.org/) to run a Windows version of Python. This build process used an ancient (3.7) Python version, which introduced security risks. Since more recent Python versions don't work well with Wine, the build process has been replaced by one that runs on an actual Windows 11 (virtual) machine, using a modern (3.14) version of Python instead.
 - The Docker-based build process for Debian packages has been adapted to address some compatibility issues with current Docker versions.
 - The Docker-based script for creating and uploading packages to the Python Package Index has been replaced by a simpler one that does not use Docker at all.
 
@@ -48,7 +56,7 @@ uv tool install --prerelease allow jpylyzer
 
 Alternatively, you can use the binaries that are available here: 
 
-<https://github.com/openpreserve/jpylyzer/releases/tag/2.3.0rc1>
+<https://github.com/openpreserve/jpylyzer/releases/tag/2.3.0rc2>
 
 As always, the Windows binaries are completely stand-alone, and don’t require Python on your machine. Linux users can use the Debian package (which does require Python).
 
