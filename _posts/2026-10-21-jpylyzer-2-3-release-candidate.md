@@ -19,7 +19,7 @@ that all tags that are mandatory for all profiles are now covered.
 
 ## Calculation of compression ratio for codestreams
 
-This release also fixes a bug that resulted in erroneous compression ratio values for j2c and jhc codestreams
+This release also fixes a bug that resulted in erroneous compression ratio values for j2c and jhc codestreams.
 
 ## Improved memory management
 
