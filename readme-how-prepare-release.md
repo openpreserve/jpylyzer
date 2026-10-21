@@ -110,7 +110,7 @@ The [package-pypi.sh](.\package-pypi.sh) script expects a `.pypirc` file in your
     ```
 1. Create and upload PyPi packages by running:
     ```
-    .\package-pypi.sh
+    ./package-pypi.sh
     ```
 1. Build Windows binaries by running the following PowerShell script in the dedicated Windows (virtual) machine:
     ```
